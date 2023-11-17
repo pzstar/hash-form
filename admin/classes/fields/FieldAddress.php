@@ -1,0 +1,168 @@
+<?php
+defined('ABSPATH') || die();
+
+class FieldAddress extends FieldType {
+
+    protected $type = 'address';
+
+    protected function field_settings_for_type() {
+        return array(
+            'default' => false
+        );
+    }
+
+    protected function sub_fields() {
+        return array(
+            'line1' => array(
+                'type' => 'text',
+                'label' => __('Line 1', 'hash-form')
+            ),
+            'line2' => array(
+                'type' => 'text',
+                'label' => __('Line 2', 'hash-form')
+            ),
+            'city' => array(
+                'type' => 'text',
+                'label' => __('City', 'hash-form')
+            ),
+            'state' => array(
+                'type' => 'text',
+                'label' => __('State/Province', 'hash-form')
+            ),
+            'zip' => array(
+                'type' => 'number',
+                'label' => __('Zip/Postal', 'hash-form')
+            ),
+            'country' => array(
+                'type' => 'select',
+                'label' => __('Country', 'hash-form')
+        ));
+    }
+
+    protected function show_after_default() {
+        $sub_fields = $this->sub_fields();
+        foreach ($sub_fields as $name => $sub_field) {
+            $this->single_field($name, $sub_field);
+        }
+    }
+
+    protected function single_field($name, $sub_field) {
+        $field = $this->get_field();
+        $field_id = $field['id'];
+        $field_key = $field['field_key'];
+        $label = $sub_field['label'];
+        $type = $sub_field['type'];
+        $desc = $field['desc'][$name];
+        $placeholder = isset($field['placeholder'][$name]) ? $field['placeholder'][$name] : '';
+        $value = isset($field['default_value'][$name]) ? $field['default_value'][$name] : '';
+        $disable = isset($field['disable'][$name]) ? $field['disable'][$name] : 'on';
+        $country_grid_class = $name !== 'country' ? ' hf-grid-2' : '';
+        ?>
+        <div class="hf-form-row hf-sub-field-<?php echo esc_attr($name); ?>" data-sub-field-name="<?php echo esc_attr($name); ?>" data-field-id="<?php echo esc_attr($field_id); ?>">
+            <div class="hf-sub-field-label">
+                <?php echo esc_html($label); ?>
+                <label class="hf-field-show-hide">
+                    <input type="hidden" name="field_options[disable_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" value="on">
+                    <input type="checkbox" name="field_options[disable_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" id="hf-disable-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" data-changeme="hf-subfield-disable-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" value="off" data-disablefield="hf-subfield-container-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" <?php echo ($disable == 'off' ? 'checked="checked"' : '') ?>>
+                    <label for="hf-disable-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>"></label>
+                </label>
+            </div>
+
+            <div class="hf-grid-container">
+                <?php if ($name !== 'country') { ?>
+                    <div class="hf-form-row hf-grid-2">
+                        <input type="text" name="default_value_<?php echo esc_attr($field_id); ?>[<?php echo esc_attr($name); ?>]" value="<?php echo esc_attr($value); ?>" data-changeme="hf-field-<?php echo esc_attr($field_key); ?>-<?php echo esc_attr($name); ?>" data-changeatt="value">
+                        <label class="hf-field-desc"><?php echo esc_html__('Default Value', 'hash-form'); ?></label>
+                    </div>
+                    <div class="hf-form-row hf-grid-2">
+                        <input type="text" name="field_options[placeholder_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" value="<?php echo esc_attr($placeholder); ?>" data-changeme="hf-field-<?php echo esc_attr($field_key); ?>-<?php echo esc_attr($name); ?>" data-changeatt="placeholder">
+                        <label class="hf-field-desc"><?php echo esc_html__('Placeholder', 'hash-form'); ?></label>
+                    </div>
+                <?php } ?>
+                <div class="hf-form-row<?php echo esc_attr($country_grid_class); ?>">
+                    <input type="text" name="field_options[desc_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" value="<?php echo esc_html($desc); ?>" data-changeme="hf-subfield-desc-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>">
+                    <label class="hf-field-desc"><?php echo esc_html__('Description', 'hash-form'); ?></label>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+
+    protected function extra_field_default_opts() {
+        $sub_fields = $this->sub_fields();
+        $field_options = array();
+        foreach ($sub_fields as $name => $fields) {
+            $field_options['desc'][$name] = $fields['label'];
+        }
+        return $field_options;
+    }
+
+    public function validate($args) {
+        $errors = isset($args['errors']) ? $args['errors'] : array();
+        $field = $this->get_field();
+
+        if ($field->required == '1') {
+            $sub_fields = $this->sub_fields();
+            unset($sub_fields['line2']);
+
+            foreach ($sub_fields as $name => $sub_field) {
+                if (isset($args['value'][$name]) && empty($args['value'][$name])) {
+                    $errors['field' . $args['id']] = HashFields::get_error_msg($this->field, 'blank');
+                }
+            }
+        }
+        return $errors;
+    }
+
+    public function sanitize_value(&$value) {
+        $value = maybe_unserialize($value);
+        $value = HashHelper::sanitize_value('sanitize_text_field', $value);
+        $value = maybe_serialize($value);
+        return $value;
+    }
+
+    protected function input_html() {
+        $field = $this->get_field();
+        $field_id = $field['id'];
+        $field_key = $field['field_key'];
+
+        $html = '<div class="hf-grouped-field" id="hf-grouped-field-' . esc_attr($field_id) . '">';
+        $sub_fields = $this->sub_fields();
+        foreach ($sub_fields as $name => $sub_field) {
+            $value = isset($field['default_value'][$name]) ? $field['default_value'][$name] : '';
+            $placeholder = isset($field['placeholder'][$name]) ? $field['placeholder'][$name] : '';
+            $disable = isset($field['disable'][$name]) ? $field['disable'][$name] : 'on';
+            $class = $disable == 'off' ? ' hf-hidden' : ' ';
+
+            $label = isset($field['desc'][$name]) ? $field['desc'][$name] : '';
+            $type = $sub_field['type'];
+
+            if (is_admin() || $disable == 'on') {
+                $html .= '<div id="hf-subfield-container-' . esc_attr($name) . '-' . esc_attr($field_id) . '" class="hf-subfield-element hf-subfield-element-' . esc_attr($name) . ' hf-grid-6' . esc_attr($class) . '" data-sub-field-name="' . esc_attr($name) . '">';
+                if ($type !== 'select') {
+                    $html .= '<input type="' . esc_attr($type) . '" id="hf-field-' . esc_attr($field_key) . '-' . esc_attr($name) . '" value="' . esc_attr($value) . '" name="' . $this->html_name() . '[' . esc_attr($name) . ']" placeholder="' . esc_attr($placeholder) . '" >';
+                } else {
+                    $html .= $this->get_country_select(HashHelper::get_countries());
+                }
+                $html .= '<div class="hf-field-desc" id="hf-subfield-desc-' . esc_attr($name) . '-' . esc_attr($field_id) . '">' . esc_attr($label) . '</div>';
+                $html .= '</div>';
+            }
+        }
+        $html .= '</div>';
+
+        return $html;
+    }
+
+    protected function get_country_select($args) {
+        $field = $this->get_field();
+        $field_key = $field['field_key'];
+        $html = '<select id="hf-field-' . esc_attr($field_key) . '-country" name="' . $this->html_name() . '[country]">';
+        foreach ($args as $arg) {
+            $html .= '<option value="' . esc_html($arg) . '">' . esc_html($arg) . '</option>';
+        }
+        $html .= '</select>';
+
+        return $html;
+    }
+
+}
