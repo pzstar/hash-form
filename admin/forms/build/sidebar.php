@@ -13,7 +13,7 @@ defined('ABSPATH') || die();
         <div class="hf-fields-panels">
             <div id="hf-add-fields-panel" class="ht-fields-panel">
                 <?php
-                HashHelper::show_search_box(array(
+                HashFormHelper::show_search_box(array(
                     'input_id' => 'field-list',
                     'placeholder' => __('Search Fields', 'hash-form'),
                     'tosearch' => 'hf-field-box',
@@ -21,14 +21,13 @@ defined('ABSPATH') || die();
                 ?>
                 <ul class="hf-fields-list">
                     <?php
-                    $registered_fields = HashFields::field_selection();
+                    $registered_fields = HashFormFields::field_selection();
                     foreach ($registered_fields as $field_key => $field_type) {
-                        $field_label = $field_type['name'];
                         ?>
-                        <li class="hf-field-box <?php echo esc_attr('hashform_' . $field_key); ?>" id="<?php echo esc_attr($field_key); ?>">
-                            <a href="#" class="hf-add-field" title="<?php echo esc_html($field_label); ?>">
+                        <li class="hf-field-box <?php echo 'hashform_' . esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>">
+                            <a href="#" class="hf-add-field" title="<?php echo esc_html($field_type['name']); ?>">
                                 <i class="<?php echo esc_attr($field_type['icon']); ?>"></i>
-                                <span><?php echo esc_html($field_label); ?></span>
+                                <span><?php echo esc_html($field_type['name']); ?></span>
                             </a>
                         </li>
                         <?php

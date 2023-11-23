@@ -263,7 +263,7 @@ defined('ABSPATH') || die();
                                 <label for="hf-field-yqvhx-0">
                                     <input type="radio" name="item_meta[434]" id="hf-field-yqvhx-0" value="Option 1">
                                     <div class="hf-field-is-container hf-field-is-has-label">
-                                        <div class="hf-field-is-image"><span class="hf-field-is-checked mdi-check-circle"></span><img src="<?php echo HASH_FORM_URL . '/img/placeholder.jpg' ?>" alt="Option 1"></div>
+                                        <div class="hf-field-is-image"><span class="hf-field-is-checked mdi-check-circle"></span><img src="<?php echo HASHFORM_URL . '/img/placeholder.jpg' ?>" alt="Option 1"></div>
                                         <div class="hf-field-is-label">Option 1</div>
                                     </div>
                                 </label>
@@ -272,7 +272,7 @@ defined('ABSPATH') || die();
                                 <label for="hf-field-yqvhx-1">
                                     <input type="radio" name="item_meta[434]" id="hf-field-yqvhx-1" value="Option 2">
                                     <div class="hf-field-is-container hf-field-is-has-label">
-                                        <div class="hf-field-is-image"><span class="hf-field-is-checked mdi-check-circle"></span><img src="<?php echo HASH_FORM_URL . '/img/placeholder.jpg' ?>" alt="Option 2"></div>
+                                        <div class="hf-field-is-image"><span class="hf-field-is-checked mdi-check-circle"></span><img src="<?php echo HASHFORM_URL . '/img/placeholder.jpg' ?>" alt="Option 2"></div>
                                         <div class="hf-field-is-label">Option 2</div>
                                     </div>
                                 </label>
@@ -281,7 +281,7 @@ defined('ABSPATH') || die();
                                 <label for="hf-field-yqvhx-2">
                                     <input type="radio" name="item_meta[434]" id="hf-field-yqvhx-2" value="Option 3">
                                     <div class="hf-field-is-container hf-field-is-has-label">
-                                        <div class="hf-field-is-image"><span class="hf-field-is-checked mdi-check-circle"></span><img src="<?php echo HASH_FORM_URL . '/img/placeholder.jpg' ?>" alt="Option 3"></div>
+                                        <div class="hf-field-is-image"><span class="hf-field-is-checked mdi-check-circle"></span><img src="<?php echo HASHFORM_URL . '/img/placeholder.jpg' ?>" alt="Option 3"></div>
                                         <div class="hf-field-is-label">Option 3</div>
                                     </div>
                                 </label>

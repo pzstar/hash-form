@@ -21,7 +21,7 @@ class HashFormListing extends \WP_List_Table {
                     'ajax' => false,
                 )
         );
-        $this->status = isset($_GET['status']) ? wp_unslash($_GET['status']) : 'published';
+        $this->status = htmlspecialchars_decode(HashFormHelper::get_var('status', 'sanitize_text_field', 'published'));
     }
 
     public function no_items() {
@@ -58,7 +58,7 @@ class HashFormListing extends \WP_List_Table {
         if (trim($form_name) == '') {
             $form_name = __('(no title)', 'hash-form');
         }
-        $edit_url = admin_url('admin.php?page=hashform&hashform_action=edit&id=' . $form_id);
+        $edit_url = admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($form_id));
 
         $output = '<strong>';
         if ('trash' == $this->status) {
@@ -107,7 +107,7 @@ class HashFormListing extends \WP_List_Table {
                     'id' => $id,
                     'form_key' => $item['form_key'],
                     'shortcode' => '[hashform id=' . $id . ']',
-                    'created_at' => HashHelper::convert_date_format($item['created_at'])
+                    'created_at' => HashFormHelper::convert_date_format($item['created_at'])
                 );
             }
 
@@ -132,10 +132,10 @@ class HashFormListing extends \WP_List_Table {
 
     private function usort_reorder($a, $b) {
         // If no sort, default to user_login
-        $orderby = (!empty($_GET['orderby'])) ? wp_unslash($_GET['orderby']) : 'created_at';
+        $orderby = HashFormHelper::get_var('orderby', 'sanitize_text_field', 'created_at');
 
         // If no order, default to asc
-        $order = (!empty($_GET['order'])) ? wp_unslash($_GET['order']) : 'DESC';
+        $order = HashFormHelper::get_var('order', 'sanitize_text_field', 'DESC');
 
         // Determine sort order
         $result = strcmp($a[$orderby], $b[$orderby]);
@@ -148,9 +148,9 @@ class HashFormListing extends \WP_List_Table {
         global $wpdb;
         $table = $wpdb->prefix . 'hashform_forms';
         $status = $this->status;
+        $search = htmlspecialchars_decode(HashFormHelper::get_var('s'));
 
-        if (isset($_GET['s'])) {
-            $search = wp_unslash($_GET['s']);
+        if ($search) {
             return $wpdb->get_results("SELECT * from {$table} WHERE status='{$status}' AND name Like '%{$search}%'", ARRAY_A);
         } else {
             return $wpdb->get_results("SELECT * from {$table} WHERE status='{$status}'", ARRAY_A);
@@ -249,7 +249,7 @@ class HashFormListing extends \WP_List_Table {
     }
 
     public function get_entry_link($id) {
-        $count = HashEntry::get_entry_count($id);
+        $count = HashFormEntry::get_entry_count($id);
         return '<a href="' . esc_url(admin_url('admin.php?page=hashform-entries&form_id=' . $id)) . '">' . $count . '</a>';
     }
 

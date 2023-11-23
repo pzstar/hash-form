@@ -52,6 +52,7 @@ jQuery(function ($) {
                         window.location.replace(response.message);
                     } else if (response.status == "success") {
                         form.trigger("reset");
+                        form.find('.hf-star-rating').removeClass('hf-star-checked');
                         form.find('.hashform-range-input-selector').each(function () {
                             var newSlider = $(this);
                             var sliderValue = newSlider.val();

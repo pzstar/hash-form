@@ -1,29 +1,31 @@
 <?php
 defined('ABSPATH') || die();
 
-$id = isset($_GET['id']) ? htmlspecialchars_decode(wp_unslash($_GET['id'])) : '';
-$form = HashBuilder::get_form_vars($id);
+$id = htmlspecialchars_decode(HashFormHelper::get_var('id', 'absint'));
+$form = HashFormBuilder::get_form_vars($id);
 
 if (!$form) {
     echo '<h3>' . esc_html__('You are trying to edit a form that does not exist.', 'hash-form') . '</h3>';
     return;
 }
 
-$fields = HashFields::get_form_fields($id);
+$fields = HashFormFields::get_form_fields($id);
 $styles = $form->styles ? $form->styles : array();
-$form_style = isset($styles['form_style']) ? $styles['form_style'] : 'default-style';
+$form_style = isset($styles['form_style']) ? esc_attr($styles['form_style']) : 'default-style';
 ?>
 <div id="hf-wrap" class="hf-content hf-form-style-template">
     <?php
-    self::get_admin_header(array(
-        'form' => $form,
-        'class' => 'hf-header-nav',
-    ));
+    self::get_admin_header(
+        array(
+            'form' => $form,
+            'class' => 'hf-header-nav',
+        )
+    );
     ?>
     <div class="hf-body">
         <div class="hf-fields-sidebar">
             <form class="ht-fields-panel" method="post" id="hf-style-form">
-                <input type="hidden" name="id" id="hf-form-id" value="<?php echo (int) $id; ?>" />
+                <input type="hidden" name="id" id="hf-form-id" value="<?php echo absint($id); ?>" />
                 <div class="hf-form-container hf-grid-container">
                     <div class="hf-form-row">
                         <label><?php esc_html_e('Form Style', 'hash-form'); ?></label>
@@ -66,13 +68,13 @@ $form_style = isset($styles['form_style']) ? $styles['form_style'] : 'default-st
                                 $hashform_styles = get_post_meta($post->ID, 'hashform_styles', true);
 
                                 if (!$hashform_styles) {
-                                    $hashform_styles = HashStyles::default_styles();
+                                    $hashform_styles = HashFormStyles::default_styles();
                                 } else {
-                                    $hashform_styles = HashHelper::recursive_parse_args($hashform_styles, HashStyles::default_styles());
+                                    $hashform_styles = HashFormHelper::recursive_parse_args($hashform_styles, HashFormStyles::default_styles());
                                 }
                                 ob_start();
-                                echo '#hf-container-' . $id . '{';
-                                HashStyles::get_style_vars($hashform_styles, '');
+                                echo '#hf-container-' . absint($id) . '{';
+                                HashFormStyles::get_style_vars($hashform_styles, '');
                                 echo '}';
                                 $tmpl_css_style = ob_get_clean();
                                 ?>
@@ -89,7 +91,7 @@ $form_style = isset($styles['form_style']) ? $styles['form_style'] : 'default-st
 
         <div id="hf-form-panel">
             <div class="hf-form-wrap">
-                <?php echo HashFormPreview::show_form($form->id); ?>
+                <?php HashFormPreview::show_form($form->id); ?>
             </div>
         </div>
     </div>

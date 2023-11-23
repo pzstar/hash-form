@@ -6,7 +6,7 @@ defined('ABSPATH') || die();
     <label class="hf-setting-label"><?php esc_html_e('Choose Form to Preview', 'hash-form'); ?></label>
     <select id="hf-template-preview-form-id">
         <?php
-        $forms = HashBuilder::get_all_forms();
+        $forms = HashFormBuilder::get_all_forms();
         ?>
         <option value=""><?php esc_html_e('Default Demo Form', 'hash-form'); ?></option>
         <?php

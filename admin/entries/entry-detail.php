@@ -7,7 +7,7 @@ defined('ABSPATH') || die();
         <h3>
             <span><?php esc_html_e('Entry', 'hash-form'); ?></span>
             <span class="hf-sub-label">
-                <?php printf(esc_html__('(ID %d)', 'hash-form'), esc_attr($entry->id)); ?>
+                <?php printf(esc_html__('(ID %d)', 'hash-form'), absint($entry->id)); ?>
             </span>
         </h3>
     </div>
@@ -27,8 +27,8 @@ defined('ABSPATH') || die();
                     }
                 }
                 echo '<tr>';
-                echo '<th>' . $title . '</th>';
-                echo '<td>' . $entry_value . '</td>';
+                echo '<th>' . esc_html($title) . '</th>';
+                echo '<td>' . wp_kses_post($entry_value) . '</td>';
                 echo '</tr>';
             }
             ?>

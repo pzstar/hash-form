@@ -5,7 +5,7 @@ defined('ABSPATH') || die();
     <div class="hf-form-row">
         <div class="hf-condition-repeater-blocks">
             <?php
-            $conditional_logics = HashBuilder::get_show_hide_conditions($id);
+            $conditional_logics = HashFormBuilder::get_show_hide_conditions($id);
             foreach($conditional_logics as $key=>$row) {
                 ?>
                 <div class="hf-condition-repeater-block">

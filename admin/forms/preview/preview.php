@@ -11,7 +11,9 @@ defined('ABSPATH') || die();
         <?php wp_head(); ?>
     </head>
     <body class="hashform_preview_page">
-        <?php echo HashFormPreview::show_form($form->id); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-        <?php wp_footer(); ?>
+        <?php
+        HashFormPreview::show_form($form->id);
+        wp_footer();
+        ?>
     </body>
 </html>

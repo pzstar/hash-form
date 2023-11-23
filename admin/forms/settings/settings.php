@@ -1,19 +1,23 @@
 <?php
 defined('ABSPATH') || die();
 
-$id = HashHelper::get_var('id', 'absint', 0);
-$form = HashBuilder::get_form_vars($id);
-$fields = HashFields::get_form_fields($id);
+$id = HashFormHelper::get_var('id', 'absint', 0);
+$form = HashFormBuilder::get_form_vars($id);
+$fields = HashFormFields::get_form_fields($id);
 
 $settings = $form->settings ? $form->settings : array();
-$settings = HashHelper::recursive_parse_args($settings, self::default_form_values());
+$settings = HashFormHelper::recursive_parse_args($settings, HashFormHelper::get_form_settings_default());
+$settings = HashFormHelper::recursive_parse_args($settings, HashFormHelper::get_form_settings_checkbox_settings());
+$settings = HashFormHelper::sanitize_array($settings, HashFormHelper::get_form_settings_sanitize_rules());
 ?>
 <div id="hf-wrap" class="hf-content">
     <?php
-    self::get_admin_header(array(
-        'form' => $form,
-        'class' => 'hf-header-nav',
-    ));
+    self::get_admin_header(
+        array(
+            'form' => $form,
+            'class' => 'hf-header-nav',
+        )
+    );
 
     $sections = array(
         'email-settings' => array(
@@ -43,7 +47,7 @@ $settings = HashHelper::recursive_parse_args($settings, self::default_form_value
         <div class="hf-fields-sidebar">
             <ul class="hf-settings-tab">
                 <?php foreach ($sections as $key => $section) { ?>
-                    <li class="<?php echo esc_attr($current === $key ? 'hf-active' : '' ); ?>">
+                    <li class="<?php echo ($current === $key ? 'hf-active' : ''); ?>">
                         <a href="#hf-<?php echo esc_attr($key); ?>">
                             <i class="<?php echo esc_attr($section['icon']) ?>"></i>
                             <?php echo esc_html($section['name']); ?>
@@ -54,7 +58,7 @@ $settings = HashHelper::recursive_parse_args($settings, self::default_form_value
         </div>
 
         <div id="hf-form-panel">
-            <?php HashHelper::print_message(); ?>
+            <?php HashFormHelper::print_message(); ?>
             <div class="hf-form-wrap">
                 <form method="post" id="hf-settings-form">
                     <input type="hidden" name="id" id="form_id" value="<?php echo esc_attr($id); ?>" />
@@ -62,9 +66,9 @@ $settings = HashHelper::recursive_parse_args($settings, self::default_form_value
                     wp_nonce_field('hashform_process_form_nonce', 'process_form');
                     foreach ($sections as $key => $section) {
                         ?>
-                        <div id="hf-<?php echo esc_attr($key); ?>" class="<?php echo ($current === $key) ? '' : ' hf-hidden'; ?>">
+                        <div id="hf-<?php echo esc_attr($key); ?>" class="<?php echo (($current === $key) ? '' : ' hf-hidden'); ?>">
                             <h2><?php echo esc_html($section['name']); ?></h2>
-                            <?php require HASH_FORM_PATH . 'admin/forms/settings/' . $key . '.php'; ?>
+                            <?php require HASHFORM_PATH . 'admin/forms/settings/' . esc_attr($key) . '.php'; ?>
                         </div>
                     <?php } ?>
                 </form>

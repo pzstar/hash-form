@@ -15,31 +15,31 @@
 
 defined('ABSPATH') || die();
 
-define('HASH_FORM_VERSION', '1.0.0');
-define('HASH_FORM_PATH', plugin_dir_path(__FILE__));
-define('HASH_FORM_URL', plugin_dir_url(__FILE__));
+define('HASHFORM_VERSION', '1.0.0');
+define('HASHFORM_PATH', plugin_dir_path(__FILE__));
+define('HASHFORM_URL', plugin_dir_url(__FILE__));
 
-require HASH_FORM_PATH . 'admin/classes/HashCreateTable.php';
-require HASH_FORM_PATH . 'admin/classes/HashBuilder.php';
-require HASH_FORM_PATH . 'admin/classes/HashHelper.php';
-require HASH_FORM_PATH . 'admin/classes/HashFields.php';
-require HASH_FORM_PATH . 'admin/classes/HashLoader.php';
-require HASH_FORM_PATH . 'admin/classes/HashSmtp.php';
-require HASH_FORM_PATH . 'admin/classes/HashEntry.php';
-require HASH_FORM_PATH . 'admin/classes/HashImportExport.php';
-require HASH_FORM_PATH . 'admin/classes/HashFormListing.php';
-require HASH_FORM_PATH . 'admin/classes/HashEntryListing.php';
-require HASH_FORM_PATH . 'admin/classes/HashValidate.php';
-require HASH_FORM_PATH . 'admin/classes/HashFormPreview.php';
-require HASH_FORM_PATH . 'admin/classes/HashShortcode.php';
-require HASH_FORM_PATH . 'admin/classes/HashSettings.php';
-require HASH_FORM_PATH . 'admin/classes/HashStyles.php';
-require HASH_FORM_PATH . 'admin/classes/HashGridHelper.php';
-require HASH_FORM_PATH . 'admin/classes/HashEmail.php';
+require HASHFORM_PATH . 'admin/classes/HashFormCreateTable.php';
+require HASHFORM_PATH . 'admin/classes/HashFormBuilder.php';
+require HASHFORM_PATH . 'admin/classes/HashFormHelper.php';
+require HASHFORM_PATH . 'admin/classes/HashFormFields.php';
+require HASHFORM_PATH . 'admin/classes/HashFormLoader.php';
+require HASHFORM_PATH . 'admin/classes/HashFormSmtp.php';
+require HASHFORM_PATH . 'admin/classes/HashFormEntry.php';
+require HASHFORM_PATH . 'admin/classes/HashFormImportExport.php';
+require HASHFORM_PATH . 'admin/classes/HashFormListing.php';
+require HASHFORM_PATH . 'admin/classes/HashFormEntryListing.php';
+require HASHFORM_PATH . 'admin/classes/HashFormValidate.php';
+require HASHFORM_PATH . 'admin/classes/HashFormPreview.php';
+require HASHFORM_PATH . 'admin/classes/HashFormShortcode.php';
+require HASHFORM_PATH . 'admin/classes/HashFormSettings.php';
+require HASHFORM_PATH . 'admin/classes/HashFormStyles.php';
+require HASHFORM_PATH . 'admin/classes/HashFormGridHelper.php';
+require HASHFORM_PATH . 'admin/classes/HashFormEmail.php';
 
 register_activation_hook(__FILE__, 'hashform_create_table');
 
 function hashform_create_table() {
-    $db = new HashCreateTable();
+    $db = new HashFormCreateTable();
     $db->upgrade();
 }

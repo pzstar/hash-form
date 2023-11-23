@@ -1402,7 +1402,7 @@ var hfBuilder = hfBuilder || {};
         },
 
         getChecked: function (id) {
-            var field = $('#' + id);
+            var field = $('data-id["' + id + '"]');
 
             if (field.length === 0) {
                 return false;

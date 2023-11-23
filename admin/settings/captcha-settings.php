@@ -13,7 +13,7 @@ $captcha_lang = array('en' => 'English', 'af' => 'Afrikaans', 'am' => 'Amharic',
 <div class="hf-form-container hf-grid-container">
     <div class="hf-settings-row">
         <label class="hf-setting-label"><?php esc_html_e('reCAPTCHA Type', 'hash-form'); ?></label>
-        <select name="re_type" id="hf-re-type" data-condition="toggle">
+        <select name="hashform_settings[re_type]" id="hf-re-type" data-condition="toggle">
             <option value="v2" <?php selected($settings['re_type'], 'v2'); ?>><?php esc_html_e('Checkbox (V2)', 'hash-form'); ?></option>
             <option value="v3" <?php selected($settings['re_type'], 'v3'); ?>><?php esc_html_e('v3', 'hash-form'); ?></option>
         </select>
@@ -21,27 +21,27 @@ $captcha_lang = array('en' => 'English', 'af' => 'Afrikaans', 'am' => 'Amharic',
 
     <div class="hf-settings-row" data-condition-toggle="hf-re-type" data-condition-val="v2">
         <label class="hf-setting-label"><?php esc_html_e('v2 Site Key', 'hash-form'); ?></label>
-        <input type="text" name="pubkey_v2" value="<?php echo esc_attr($settings['pubkey_v2']); ?>" />
+        <input type="text" name="hashform_settings[pubkey_v2]" value="<?php echo esc_attr($settings['pubkey_v2']); ?>" />
     </div>
 
     <div class="hf-settings-row" data-condition-toggle="hf-re-type" data-condition-val="v2">
         <label class="hf-setting-label"><?php esc_html_e('v2 Secret Key', 'hash-form'); ?></label>
-        <input type="text" name="privkey_v2" value="<?php echo esc_attr($settings['privkey_v2']); ?>" />
+        <input type="text" name="hashform_settings[privkey_v2]" value="<?php echo esc_attr($settings['privkey_v2']); ?>" />
     </div>
 
     <div class="hf-settings-row" data-condition-toggle="hf-re-type" data-condition-val="v3">
         <label class="hf-setting-label"><?php esc_html_e('v3 Site Key', 'hash-form'); ?></label>
-        <input type="text" name="pubkey_v3" value="<?php echo esc_attr($settings['pubkey_v3']); ?>" />
+        <input type="text" name="hashform_settings[pubkey_v3]" value="<?php echo esc_attr($settings['pubkey_v3']); ?>" />
     </div>
 
     <div class="hf-settings-row" data-condition-toggle="hf-re-type" data-condition-val="v3">
         <label class="hf-setting-label"><?php esc_html_e('v3 Secret Key', 'hash-form'); ?></label>
-        <input type="text" name="privkey_v3" value="<?php echo esc_attr($settings['privkey_v3']); ?>" />
+        <input type="text" name="hashform_settings[privkey_v3]" value="<?php echo esc_attr($settings['privkey_v3']); ?>" />
     </div>
 
     <div class="hf-settings-row">
         <label class="hf-setting-label"><?php esc_html_e('reCAPTCHA Language', 'hash-form'); ?></label>
-        <select name="re_lang">
+        <select name="hashform_settings[re_lang]">
             <option value="" <?php selected($settings['re_lang'], ''); ?>><?php esc_html_e('Browser Default', 'hash-form'); ?></option>
             <?php foreach ($captcha_lang as $lang => $lang_name) { ?>
                 <option value="<?php echo esc_attr($lang); ?>" <?php selected($settings['re_lang'], $lang); ?>><?php echo esc_html($lang_name); ?></option>
@@ -55,7 +55,7 @@ $captcha_lang = array('en' => 'English', 'af' => 'Afrikaans', 'am' => 'Amharic',
         <div class="hf-grid-container">
             <div class="hf-setting-fields hashform-range-slider-wrap hf-grid-3">
                 <div class="hashform-range-slider"></div>
-                <input id="hf-re-threshold" class="hashform-range-input-selector" type="number" name="re_threshold" value="<?php echo esc_attr($settings['re_threshold']); ?>" min="0" max="1" step="0.1">
+                <input id="hf-re-threshold" class="hashform-range-input-selector" type="number" name="hashform_settings[re_threshold]" value="<?php echo esc_attr($settings['re_threshold']); ?>" min="0" max="1" step="0.1">
             </div>
         </div>
     </div>

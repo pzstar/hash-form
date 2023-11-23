@@ -52,6 +52,6 @@ defined('ABSPATH') || die();
 
     <div class="hf-form-row">
         <label><?php esc_html_e('Message', 'hash-form'); ?></label>
-        <textarea name="email_message_ar" cols="50" rows="5"><?php echo $settings['email_message_ar'] ? esc_textarea($settings['email_message_ar']) : ''; ?></textarea>
+        <textarea name="email_message_ar" cols="50" rows="5"><?php echo ($settings['email_message_ar'] ? esc_textarea($settings['email_message_ar']) : ''); ?></textarea>
     </div>
 </div>

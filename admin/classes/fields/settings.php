@@ -3,9 +3,9 @@ defined('ABSPATH') || die();
 ?>
 
 <div class="hf-fields-settings hf-hidden hf-fields-type-<?php echo esc_attr($field_type); ?>" id="hf-fields-settings-<?php echo esc_attr($field_id); ?>" data-fid="<?php echo esc_attr($field_id); ?>">
-    <input type="hidden" name="hf-form-submitted[]" value="<?php echo esc_attr($field_id); ?>" />
-    <input type="hidden" name="field_options[field_order_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($field['field_order']); ?>"/>
-    <input type="hidden" name="field_options[grid_id_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($field['grid_id']); ?>" id="hf-grid-class-<?php echo esc_attr($field_id); ?>" />
+    <input type="hidden" name="hf-form-submitted[]" value="<?php echo absint($field_id); ?>" />
+    <input type="hidden" name="field_options[field_order_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['field_order']); ?>"/>
+    <input type="hidden" name="field_options[grid_id_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['grid_id']); ?>" id="hf-grid-class-<?php echo esc_attr($field_id); ?>" />
 
     <div class="hf-field-panel-header">
         <h3><?php printf(esc_html__('%s Field', 'hash-form'), esc_html($type_name)); ?></h3>
@@ -13,7 +13,7 @@ defined('ABSPATH') || die();
     </div>
 
     <div class="hf-form-container hf-grid-container">
-        <?php if ($field_type === 'captcha' && !FieldCaptcha::should_show_captcha()) { ?>
+        <?php if ($field_type === 'captcha' && !HashFormFieldCaptcha::should_show_captcha()) { ?>
             <div class="hf-form-row">
                 <?php printf(esc_html__('Captchas will not be used until the Site and Secret Keys are %1$sset up%2$s.', 'hash-form'), '<a href="?page=hashform-settings" target="_blank">', '</a>'); ?>
             </div>
@@ -22,12 +22,12 @@ defined('ABSPATH') || die();
         <?php if ($display['label']) { ?>
             <div class="hf-form-row">
                 <label><?php echo esc_html__('Field Label', 'hash-form'); ?></label>
-                <input type="text" name="field_options[name_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($field['name']); ?>" data-changeme="hf-editor-field-label-text-<?php echo esc_attr($field_id); ?>" />
+                <input type="text" name="field_options[name_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['name']); ?>" data-changeme="hf-editor-field-label-text-<?php echo esc_attr($field_id); ?>" />
             </div>
 
             <div class="hf-form-row hf-grid-3">
                 <label><?php esc_html_e('Label Position', 'hash-form'); ?></label>
-                <select name="field_options[label_position_<?php echo esc_attr($field_id); ?>]">
+                <select name="field_options[label_position_<?php echo absint($field_id); ?>]">
                     <option value="top" <?php isset($field['label_position']) ? selected($field['label_position'], 'top') : ''; ?>>
                         <?php esc_html_e('Top', 'hash-form'); ?>
                     </option>
@@ -45,7 +45,7 @@ defined('ABSPATH') || die();
 
             <div class="hf-form-row hf-grid-3">
                 <label><?php esc_html_e('Label Alignment', 'hash-form'); ?></label>
-                <select name="field_options[label_alignment_<?php echo esc_attr($field_id); ?>]">
+                <select name="field_options[label_alignment_<?php echo absint($field_id); ?>]">
                     <option value="left" <?php selected($field['label_alignment'], 'left'); ?>>
                         <?php esc_html_e('Left', 'hash-form'); ?>
                     </option>
@@ -153,17 +153,17 @@ defined('ABSPATH') || die();
             <div class="hf-form-row">
                 <label><?php esc_html_e('Select Image', 'hash-form'); ?></label>
                 <div class="hf-image-preview">
-                    <input type="hidden" class="hf-image-id" name="field_options[image_<?php echo esc_attr($field_id); ?>]" id="hf-field-image-<?php echo esc_attr($field_id); ?>" value="<?php echo esc_attr($image_id); ?>"/>
-                    <div class="hf-image-preview-wrap<?php echo $image ? '' : ' hf-hidden'; ?>">
+                    <input type="hidden" class="hf-image-id" name="field_options[image_<?php echo esc_attr($field_id); ?>]" id="hf-field-image-<?php echo absint($field_id); ?>" value="<?php echo esc_attr($image_id); ?>"/>
+                    <div class="hf-image-preview-wrap<?php echo ($image ? '' : ' hf-hidden'); ?>">
                         <div class="hf-image-preview-box">
-                            <img id="hf-image-preview-<?php echo esc_attr($field_id); ?>" src="<?php echo esc_attr($image); ?>" />
+                            <img id="hf-image-preview-<?php echo absint($field_id); ?>" src="<?php echo esc_attr($image); ?>" />
                         </div>
                         <button type="button" class="button hf-remove-image">
                             <span class="mdi mdi-trash-can-outline"></span>
                             <?php esc_html_e('Delete', 'hash-form'); ?>
                         </button>
                     </div>
-                    <button type="button" class="button hf-choose-image<?php echo $image ? ' hf-hidden' : ''; ?>">
+                    <button type="button" class="button hf-choose-image<?php echo ($image ? ' hf-hidden' : ''); ?>">
                         <span class="mdi mdi-tray-arrow-up"></span>
                         <?php esc_attr_e('Upload image', 'hash-form'); ?>
                     </button>
@@ -174,22 +174,22 @@ defined('ABSPATH') || die();
         <?php if ($field_type === 'spacer') { ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Height (px)', 'hash-form'); ?></label>
-                <input type="number" name="field_options[spacer_height_<?php echo esc_attr($field_id); ?>]" value="<?php echo isset($field['spacer_height']) ? esc_attr($field['spacer_height']) : ''; ?>" data-changeheight="field_change_height_<?php echo esc_attr($field_id) ?>"/>
+                <input type="number" name="field_options[spacer_height_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['spacer_height']) ? esc_attr($field['spacer_height']) : ''; ?>" data-changeheight="field_change_height_<?php echo absint($field_id) ?>"/>
             </div>
         <?php } ?>
 
         <?php if ($field_type === 'time') { ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Step', 'hash-form'); ?></label>
-                <input type="number" name="field_options[step_<?php echo esc_attr($field_id); ?>]" value="<?php echo isset($field['step']) ? esc_attr($field['step']) : ''; ?>" min="1"/>
+                <input type="number" name="field_options[step_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['step']) ? esc_attr($field['step']) : ''; ?>" min="1"/>
             </div>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Min Time', 'hash-form'); ?></label>
-                <input type="text" class="min-value-field" name="field_options[min_time_<?php echo esc_attr($field_id); ?>]" value="<?php echo isset($field['min_time']) ? esc_attr($field['min_time']) : ''; ?>"/>
+                <input type="text" class="min-value-field" name="field_options[min_time_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['min_time']) ? esc_attr($field['min_time']) : ''; ?>"/>
             </div>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Max Time', 'hash-form'); ?></label>
-                <input type="text" class="max-value-field" name="field_options[max_time_<?php echo esc_attr($field_id); ?>]" value="<?php echo isset($field['max_time']) ? esc_attr($field['max_time']) : ''; ?>"/>
+                <input type="text" class="max-value-field" name="field_options[max_time_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['max_time']) ? esc_attr($field['max_time']) : ''; ?>"/>
             </div>
         <?php } ?>
 
@@ -216,7 +216,7 @@ defined('ABSPATH') || die();
         <?php if ($field_type === 'textarea') { ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Rows', 'hash-form'); ?></label>
-                <input type="number" name="field_options[rows_<?php echo esc_attr($field_id); ?>]" value="<?php echo isset($field['rows']) ? esc_attr($field['rows']) : ''; ?>" data-changerows="field_change_rows_<?php echo esc_attr($field_id) ?>"/>
+                <input type="number" name="field_options[rows_<?php echo absint($field_id); ?>]" value="<?php echo (isset($field['rows']) ? esc_attr($field['rows']) : ''); ?>" data-changerows="field_change_rows_<?php echo absint($field_id) ?>"/>
             </div>
         <?php } ?>
 
@@ -247,14 +247,14 @@ defined('ABSPATH') || die();
 
             <div class="hf-form-row">
                 <label><?php esc_html_e('Divider Height (px)', 'hash-form'); ?></label>
-                <input type="number" name="field_options[border_width_<?php echo esc_attr($field_id); ?>]" value="<?php echo isset($field['border_width']) ? esc_attr($field['border_width']) : ''; ?>" data-changeborderwidth="field_change_style_<?php echo esc_attr($field_id) ?>"/>
+                <input type="number" name="field_options[border_width_<?php echo absint($field_id); ?>]" value="<?php echo (isset($field['border_width']) ? esc_attr($field['border_width']) : ''); ?>" data-changeborderwidth="field_change_style_<?php echo absint($field_id) ?>"/>
             </div>
         <?php } ?>
 
         <?php if ($display['required']) { ?>
             <div class="hf-form-row">
-                <label for="hf-req-field-<?php echo esc_attr($field_id); ?>">
-                    <input type="checkbox" class="hf-form-field-required" id="hf-req-field-<?php echo esc_attr($field_id); ?>" name="field_options[required_<?php echo esc_attr($field_id); ?>]" value="1" <?php checked($field['required'], 1); ?> />
+                <label for="hf-req-field-<?php echo absint($field_id); ?>">
+                    <input type="checkbox" class="hf-form-field-required" id="hf-req-field-<?php echo absint($field_id); ?>" name="field_options[required_<?php echo absint($field_id); ?>]" value="1" <?php checked($field['required'], 1); ?> />
                     <?php esc_html_e('Required', 'hash-form'); ?>
                 </label>
             </div>
@@ -266,12 +266,12 @@ defined('ABSPATH') || die();
                 <div class="hf-grid-container">
                     <div class="hf-form-row hf-grid-2">
                         <label><?php esc_html_e('From', 'hash-form'); ?></label>
-                        <input type="number" name="field_options[minnum_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['minnum']); ?>" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="min" <?php echo $field_type === 'range_slider' ? 'data-changemin="field_change_min_' . $field['field_key'] . '"' : ''; ?>/>
+                        <input type="number" name="field_options[minnum_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['minnum']); ?>" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="min" <?php echo ($field_type === 'range_slider' ? 'data-changemin="field_change_min_' . esc_attr($field['field_key']) . '"' : ''); ?>/>
                     </div>
 
                     <div class="hf-form-row hf-grid-2">
                         <label><?php esc_html_e('To', 'hash-form'); ?></label>
-                        <input type="number" name="field_options[maxnum_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['maxnum']); ?>" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="max" <?php echo $field_type === 'range_slider' ? 'data-changemax="field_change_max_' . $field['field_key'] . '"' : ''; ?>/>
+                        <input type="number" name="field_options[maxnum_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['maxnum']); ?>" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="max" <?php echo ($field_type === 'range_slider' ? 'data-changemax="field_change_max_' . esc_attr($field['field_key']) . '"' : ''); ?>/>
                     </div>
 
                     <div class="hf-form-row hf-grid-2">
@@ -287,7 +287,7 @@ defined('ABSPATH') || die();
         <?php if ($display['css']) { ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('CSS Classes', 'hash-form'); ?></label>
-                <input type="text" name="field_options[classes_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($field['classes']); ?>"/>
+                <input type="text" name="field_options[classes_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['classes']); ?>"/>
             </div>
         <?php } ?>
 
@@ -298,9 +298,9 @@ defined('ABSPATH') || die();
         ?>
 
         <?php if ($display['auto_width']) { ?>
-            <label for="auto_width_field_<?php echo esc_attr($field_id); ?>" class="hashform_inline_label hashform_help" title="<?php esc_attr_e('Read Only: Show this field but do not allow the field value to be edited from the front-end.', 'hash-form'); ?>" >
-                <input type="checkbox" id="auto_width_field_<?php echo esc_attr($field_id); ?>" name="field_options[auto_width_<?php echo esc_attr($field_id); ?>]" value="on" <?php checked($field['auto_width'], 'on'); ?>/>
-                <input type="hidden" name="field_options[auto_width_<?php echo esc_attr($field_id); ?>]" value="off" />
+            <label for="auto_width_field_<?php echo absint($field_id); ?>" class="hashform_inline_label hashform_help" title="<?php esc_attr_e('Read Only: Show this field but do not allow the field value to be edited from the front-end.', 'hash-form'); ?>" >
+                <input type="checkbox" id="auto_width_field_<?php echo absint($field_id); ?>" name="field_options[auto_width_<?php echo absint($field_id); ?>]" value="on" <?php checked($field['auto_width'], 'on'); ?>/>
+                <input type="hidden" name="field_options[auto_width_<?php echo absint($field_id); ?>]" value="off" />
                 <?php esc_html_e('Automatic Width', 'hash-form'); ?>
             </label>
         <?php } ?>
@@ -308,11 +308,7 @@ defined('ABSPATH') || die();
         <?php if ($display['default']) { ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Default Value', 'hash-form'); ?></label>
-                <?php
-                $default_name = 'default_value_' . $field_id;
-                $default_value = $field['default_value'];
-                ?>
-                <input type="<?php echo ($field_type == 'range_slider' || $field_type == 'number' || $field_type == 'spinner') ? 'number' : 'text'; ?>" name="<?php echo esc_attr($default_name); ?>" value="<?php echo esc_attr($default_value); ?>" class="default-value-field" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="value"/>
+                <input type="<?php echo (($field_type == 'range_slider' || $field_type == 'number' || $field_type == 'spinner') ? 'number' : 'text'); ?>" name="<?php echo 'default_value_' . absint($field_id); ?>" value="<?php echo esc_attr($field['default_value']); ?>" class="default-value-field" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="value"/>
             </div>
         <?php } ?>
 
@@ -322,9 +318,9 @@ defined('ABSPATH') || die();
             <div class="hf-form-row">
                 <label><?php esc_html_e('Placeholder', 'hash-form'); ?></label>
                 <?php if ($field_type === 'textarea' || $field_type === 'rte') { ?>
-                    <textarea id="hf-placeholder-<?php echo esc_attr($field_id); ?>" name="field_options[placeholder_<?php echo esc_attr($field_id); ?>]" rows="3" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="placeholder"><?php echo esc_textarea($field['placeholder']); ?></textarea>
+                    <textarea id="hf-placeholder-<?php echo absint($field_id); ?>" name="field_options[placeholder_<?php echo absint($field_id); ?>]" rows="3" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="placeholder"><?php echo esc_textarea($field['placeholder']); ?></textarea>
                 <?php } else { ?>
-                    <input id="hf-placeholder-<?php echo esc_attr($field_id); ?>" type="<?php echo ($field_type == 'number' || $field_type == 'spinner') ? 'number' : 'text'; ?>" name="field_options[placeholder_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($field['placeholder']); ?>" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="placeholder" />
+                    <input id="hf-placeholder-<?php echo absint($field_id); ?>" type="<?php echo ($field_type == 'number' || $field_type == 'spinner') ? 'number' : 'text'; ?>" name="field_options[placeholder_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['placeholder']); ?>" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="placeholder" />
                 <?php } ?>
             </div>
         <?php } ?>
@@ -332,29 +328,29 @@ defined('ABSPATH') || die();
         <?php if ($display['description']) { ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Field Description', 'hash-form'); ?></label>
-                <textarea name="field_options[description_<?php echo esc_attr($field_id); ?>]" data-changeme="hf-field-desc-<?php echo esc_attr($field_id); ?>"><?php echo esc_textarea($field['description']); ?></textarea>
+                <textarea name="field_options[description_<?php echo absint($field_id); ?>]" data-changeme="hf-field-desc-<?php echo absint($field_id); ?>"><?php echo esc_textarea($field['description']); ?></textarea>
             </div>
         <?php } ?>
 
         <?php if ($display['format']) { ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Format', 'hash-form'); ?></label>
-                <input type="text" value="<?php echo esc_attr($field['format']); ?>" name="field_options[format_<?php echo absint($field_id); ?>]" data-fid="<?php echo intval($field_id); ?>" />
+                <input type="text" value="<?php echo esc_attr($field['format']); ?>" name="field_options[format_<?php echo absint($field_id); ?>]" data-fid="<?php echo absint($field_id); ?>" />
                 <p class="description"><?php esc_html_e('Enter a Regex Format to validate.', 'hash-form'); ?> <a href="https://www.phpliveregex.com" target="_blank"><?php esc_html_e('Generate Regex', 'hash-form'); ?></a></p>
             </div>
         <?php } ?>
 
         <?php if ($display['required']) { ?>
-            <div class="hf-form-row hf-grid-3 hf-required-detail-<?php echo esc_attr($field_id . ( $field['required'] ? '' : ' hf-hidden' )); ?>">
+            <div class="hf-form-row hf-grid-3 hf-required-detail-<?php echo esc_attr($field_id) . ($field['required'] ? '' : ' hf-hidden'); ?>">
                 <label><?php esc_html_e('Required Field Indicator', 'hash-form'); ?></label>
-                <input type="text" name="field_options[required_indicator_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($field['required_indicator']); ?>" data-changeme="hf-editor-field-required-<?php echo esc_attr($field_id); ?>" />
+                <input type="text" name="field_options[required_indicator_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['required_indicator']); ?>" data-changeme="hf-editor-field-required-<?php echo absint($field_id); ?>" />
             </div>
         <?php } ?>
 
         <?php if ($field_type === 'radio' || $field_type === 'checkbox' || $field_type === 'image_select') { ?>
             <div class="hf-form-row hf-grid-3">
                 <label><?php esc_html_e('Options Layout', 'hash-form'); ?></label>
-                <select name="field_options[options_layout_<?php echo esc_attr($field_id); ?>]">
+                <select name="field_options[options_layout_<?php echo absint($field_id); ?>]">
                     <option value="inline" <?php selected($field['options_layout'], 'inline'); ?>>
                         <?php esc_html_e('Inline', 'hash-form'); ?>
                     </option>
@@ -383,18 +379,17 @@ defined('ABSPATH') || die();
         <?php if ($display['max']) { ?>
             <div class="hf-form-row hf-grid-3">
                 <label><?php esc_html_e('Max Characters', 'hash-form'); ?></label>
-                <input type="number" name="field_options[max_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($field['max']); ?>" size="5" data-fid="<?php echo intval($field_id); ?>" />
+                <input type="number" name="field_options[max_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($field['max']); ?>" size="5" data-fid="<?php echo absint($field_id); ?>" />
             </div>
         <?php } ?>
 
         <?php
         if ($display['max_width']) {
-            $max_width = isset($field['field_max_width']) ? $field['field_max_width'] : ''
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Field Max Width', 'hash-form'); ?></label>
                 <div class="hf-form-input-unit">
-                    <input type="number" name="field_options[field_max_width_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($max_width); ?>" />
+                    <input type="number" name="field_options[field_max_width_<?php echo esc_attr($field_id); ?>]" value="<?php echo (isset($field['field_max_width']) ? esc_attr($field['field_max_width']) : ''); ?>" />
 
                     <select name="field_options[field_max_width_unit_<?php echo esc_attr($field_id); ?>]">
                         <option value="%" <?php isset($field['field_max_width_unit']) ? selected($field['field_max_width_unit'], '%') : ''; ?>>
@@ -410,12 +405,11 @@ defined('ABSPATH') || die();
 
         <?php
         if ($display['image_max_width']) {
-            $max_width = isset($field['image_max_width']) ? $field['image_max_width'] : '';
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Image Max Width', 'hash-form'); ?></label>
                 <div class="hf-form-input-unit">
-                    <input type="number" name="field_options[image_max_width_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($max_width); ?>" />
+                    <input type="number" name="field_options[image_max_width_<?php echo esc_attr($field_id); ?>]" value="<?php echo (isset($field['image_max_width']) ? esc_attr($field['image_max_width']) : ''); ?>" />
 
                     <select name="field_options[image_max_width_unit_<?php echo esc_attr($field_id); ?>]">
                         <option value="%" <?php isset($field['image_max_width_unit']) ? selected($field['image_max_width_unit'], '%') : ''; ?>>
@@ -431,7 +425,7 @@ defined('ABSPATH') || die();
 
         <?php
         if ($display['field_alignment']) {
-            $field_alignment = isset($field['field_alignment']) ? $field['field_alignment'] : '';
+            $field_alignment = isset($field['field_alignment']) ? esc_attr($field['field_alignment']) : '';
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Field Alignment', 'hash-form'); ?></label>
@@ -451,16 +445,16 @@ defined('ABSPATH') || die();
         <?php } ?>
 
         <?php
-        $has_validation = ( $display['invalid'] || $display['required']);
+        $has_validation = ($display['invalid'] || $display['required']);
         $has_invalid = $display['invalid'];
 
         if ($has_validation) {
             ?>
-            <h4 class="hf-validation-header <?php echo $has_invalid ? 'hf-alway-show' : ( $field['required'] ? '' : ' hf-hidden' ); ?>"> <?php esc_html_e('Validation Messages', 'hash-form'); ?></h4>
+            <h4 class="hf-validation-header <?php echo ($has_invalid ? 'hf-alway-show' : ($field['required'] ? '' : ' hf-hidden')); ?>"> <?php esc_html_e('Validation Messages', 'hash-form'); ?></h4>
         <?php } ?>
 
         <?php if ($display['required']) { ?>
-            <div class="hf-form-row hf-required-detail-<?php echo esc_attr($field_id . ( $field['required'] ? '' : ' hf-hidden' )); ?>">
+            <div class="hf-form-row hf-required-detail-<?php echo esc_attr($field_id) . ($field['required'] ? '' : ' hf-hidden'); ?>">
                 <label><?php esc_html_e('Required', 'hash-form'); ?></label>
                 <input type="text" name="field_options[blank_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($field['blank']); ?>"/>
             </div>

@@ -6,13 +6,13 @@ defined('ABSPATH') || die();
     <ul id="hf-editor-fields" class="hf-editor-sorting inside">
         <?php
         if (!empty($vars['fields'])) {
-            $grid_helper = new HashGridHelper();
+            $grid_helper = new HashFormGridHelper();
             $vars['count'] = 0;
             foreach ($vars['fields'] as $field) {
                 $vars['count'] ++;
                 $grid_helper->set_field($field);
                 $grid_helper->maybe_begin_field_wrapper();
-                $field_obj = HashFields::get_field_class($field['type'], $field);
+                $field_obj = HashFormFields::get_field_class($field['type'], $field);
                 $field_obj->load_single_field();
                 $grid_helper->sync_list_size();
                 unset($field);
@@ -23,9 +23,9 @@ defined('ABSPATH') || die();
         ?>
     </ul>
 
-    <div class="hf-editor-submit-button-wrap <?php echo esc_attr(isset($form->options['submit_btn_alignment']) ? 'hf-submit-btn-align-' . $form->options['submit_btn_alignment'] : 'hf-submit-btn-align-left'); ?>">
+    <div class="hf-editor-submit-button-wrap <?php echo (isset($form->options['submit_btn_alignment']) ? 'hf-submit-btn-align-' . esc_attr($form->options['submit_btn_alignment']) : 'hf-submit-btn-align-left'); ?>">
         <button id="hf-editor-submit-button" class="hf-editor-submit-button" disabled="disabled">
-            <?php echo esc_attr(isset($form->options['submit_value']) ? $form->options['submit_value'] : __('Submit', 'hash-form')); ?>
+            <?php echo (isset($form->options['submit_value']) ? esc_html($form->options['submit_value']) : esc_html__('Submit', 'hash-form')); ?>
         </button>
     </div>
 
@@ -61,7 +61,7 @@ defined('ABSPATH') || die();
                 </h3>
                 <ul class="hf-default-opts">
                     <?php
-                    $preset_options = HashHelper::get_options_presets();
+                    $preset_options = HashFormHelper::get_options_presets();
                     foreach ($preset_options as $class => $option) {
                         ?>
                         <li class="<?php echo esc_attr($class); ?>">

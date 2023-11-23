@@ -1,5 +1,5 @@
 ===Hash Form===
-Contributors: HashThemes
+Contributors: hashthemes
 Tags: form, form builder, drag and drop, contact form
 Requires at least: 5.0
 Tested up to: 6.4
@@ -22,9 +22,17 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 <li>Activate Plugin from "Plugins" menu in WordPress.</li>
 </ol>
 
-== Third Part API ==
-https://fonts.googleapis.com for Google Fonts
-https://www.google.com/recaptcha/api.js for Google Captcha
+== Third Part Service ==
+https://www.google.com/recaptcha/api.js
+----
+It is the endpoint for the reCAPTCHA JavaScript library hosted by Google. 
+This library is used to integrate and display reCAPTCHA challenges on websites. 
+The reCAPTCHA service helps to protect websites from spam and abuse by determining whether the user is a human or a potentially malicious bot.
+
+https://www.google.com/recaptcha/api/siteverify
+----
+Its a reCAPTCHA API site verify endpoint. 
+This endpoint is used to verify whether the user's response to the reCAPTCHA challenge is valid.
 
 == Changelog ==
 

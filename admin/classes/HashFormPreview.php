@@ -10,40 +10,36 @@ class HashFormPreview {
 
     public static function preview() {
         header('Content-Type: text/html; charset=' . get_option('blog_charset'));
-        $id = isset($_GET['form']) ? wp_unslash($_GET['form']) : '';
-        $form = HashBuilder::get_form_vars($id);
-        require( HASH_FORM_PATH . 'admin/forms/preview/preview.php' );
+        $id = htmlspecialchars_decode(HashFormHelper::get_var('form', 'absint'));
+        $form = HashFormBuilder::get_form_vars($id);
+        require( HASHFORM_PATH . 'admin/forms/preview/preview.php' );
         wp_die();
     }
 
     public static function show_form($id) {
-        $form = HashBuilder::get_form_vars($id);
+        $form = HashFormBuilder::get_form_vars($id);
         if (!$form || $form->status === 'trash')
             return __('Please select a valid form', 'hash-form');
 
-        ob_start();
         self::get_form_contents($id);
-        $contents = ob_get_contents();
-        ob_end_clean();
-        return $contents;
     }
 
     public static function get_form_contents($id) {
-        $form = HashBuilder::get_form_vars($id);
-        $values = HashHelper::get_fields_array($id);
+        $form = HashFormBuilder::get_form_vars($id);
+        $values = HashFormHelper::get_fields_array($id);
 
         $styles = $form->styles ? $form->styles : null;
 
         $form_class = array('hashform-form');
         $form_class[] = isset($form->options['form_css_class']) ? $form->options['form_css_class'] : '';
-        $form_class[] = $styles && isset($styles['form_style']) ? 'hf-form-' . $styles['form_style'] : 'hf-form-default-style';
+        $form_class[] = $styles && isset($styles['form_style']) ? 'hf-form-' . esc_attr($styles['form_style']) : 'hf-form-default-style';
         $form_class = apply_filters('hashform_form_classes', $form_class);
         ?>
 
         <div class="hf-form-tempate">
             <form enctype="multipart/form-data" method="post" class="<?php echo esc_attr(implode(' ', array_filter($form_class))); ?>" id="hf-form-id-<?php echo esc_attr($form->form_key); ?>" novalidate>
                 <?php
-                require HASH_FORM_PATH . '/admin/forms/style/form.php';
+                require HASHFORM_PATH . '/admin/forms/style/form.php';
                 ?>
             </form>
         </div>
