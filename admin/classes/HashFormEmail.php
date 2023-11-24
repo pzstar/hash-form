@@ -157,7 +157,7 @@ class HashFormEmail {
 
         return wp_send_json(array(
             'status' => 'success',
-            'message' => sanitize_text_field($form_settings['confirmation_message'])
+            'message' => esc_html($form_settings['confirmation_message'])
         ));
     }
 

@@ -362,7 +362,7 @@ class HashFormEntry {
                 $wpdb->update($wpdb->prefix . 'hashform_entries', array('delivery_status' => false), array('id' => $entry_id));
                 return wp_send_json(array(
                     'status' => 'failed',
-                    'message' => $form_settings['error_message']
+                    'message' => esc_html($form_settings['error_message'])
                 ));
             }
         }
