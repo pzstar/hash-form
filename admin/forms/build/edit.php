@@ -25,10 +25,10 @@ if (defined('DOING_AJAX')) {
     <div id="hf-wrap" class="hf-content">
         <?php
         self::get_admin_header(
-            array(
-                'form' => $form,
-                'class' => 'hf-header-nav',
-            )
+                array(
+                    'form' => $form,
+                    'class' => 'hf-header-nav',
+                )
         );
         ?>
         <div class="hf-body">

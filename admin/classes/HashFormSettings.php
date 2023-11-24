@@ -189,7 +189,7 @@ class HashFormSettings {
     public static function default_values() {
         return array(
             're_type' => 'v2',
-            'pubkey_v2'  => '',
+            'pubkey_v2' => '',
             'privkey_v2' => '',
             'pubkey_v3' => '',
             'privkey_v3' => '',
@@ -203,7 +203,7 @@ class HashFormSettings {
     public static function sanitize_rules() {
         return array(
             're_type' => 'sanitize_text_field',
-            'pubkey_v2'  => 'sanitize_text_field',
+            'pubkey_v2' => 'sanitize_text_field',
             'privkey_v2' => 'sanitize_text_field',
             'pubkey_v3' => 'sanitize_text_field',
             'privkey_v3' => 'sanitize_text_field',

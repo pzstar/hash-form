@@ -1,5 +1,4 @@
 <?php
-
 defined('ABSPATH') || die();
 
 class HashFormFieldHeading extends HashFormFieldType {
@@ -31,7 +30,7 @@ class HashFormFieldHeading extends HashFormFieldType {
         $field = $this->get_field();
         ?>
         <<?php echo (isset($field['heading_type']) ? esc_attr($field['heading_type']) : 'h1'); ?> class="hf-heading-field" id="hf-field-<?php echo esc_attr($field['id']); ?>">
-            <?php echo isset($field['content']) ? esc_html($field['content']) : ''; ?>
+        <?php echo isset($field['content']) ? esc_html($field['content']) : ''; ?>
         </<?php echo (isset($field['heading_type']) ? esc_attr($field['heading_type']) : 'h1'); ?>>
         <?php
     }

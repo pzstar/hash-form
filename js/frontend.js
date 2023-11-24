@@ -191,17 +191,17 @@ jQuery(function ($) {
         });
     })
 
-    $('.hashform-form-conditions').each(function() {
+    $('.hashform-form-conditions').each(function () {
         const $this = $(this);
         const parentForm = $this.closest('form');
         const conditions = JSON.parse($this.val());
-        $.each(conditions, function(index, val) {
+        $.each(conditions, function (index, val) {
             const conditionTrigger = parentForm.find('[name="item_meta[' + val.compare_to + ']');
             const actionField = parentForm.find('#hf-field-container-' + val.compare_from);
             const compareCondition = val.compare_condition;
             const compareValue = val.compare_value;
             const conditionAction = val.condition_action;
-            conditionTrigger.on('change', function() {
+            conditionTrigger.on('change', function () {
                 var value = $(this).val();
                 var selector = $(this);
                 if ($(this).attr('type') && $(this).attr('type') == 'checkbox') {

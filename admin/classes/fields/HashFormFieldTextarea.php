@@ -1,5 +1,4 @@
 <?php
-
 defined('ABSPATH') || die();
 
 class HashFormFieldTextarea extends HashFormFieldType {

@@ -123,7 +123,7 @@ var hashFormAdmin = hashFormAdmin || {};
                 this.initFormSettings();
             } else if ($styleSettings.length > 0) {
                 this.initStyleSettings();
-            } else if($buildForm.length > 0) {
+            } else if ($buildForm.length > 0) {
                 $('.hashform-ajax-udpate-button').on('click', hashFormAdmin.submitBuild);
             } else {
                 this.initOtherSettings();
@@ -1229,18 +1229,18 @@ var hashFormAdmin = hashFormAdmin || {};
 
         addTimeDefaultValue: function () {
             const that = $(this);
-            if(that.val() && !that.val().match(/^(2[0-3]|[01][0-9]):[0-5][0-9]$/)) {
+            if (that.val() && !that.val().match(/^(2[0-3]|[01][0-9]):[0-5][0-9]$/)) {
                 that.val('00:00');
             }
             const fieldId = that.closest('.hf-fields-settings').data('fid');
             const [hourString, minute] = that.val().split(":");
             const hour = +hourString % 24;
-            $('#hf-editor-field-container-'+fieldId+' .hf-timepicker').val(minute && (hour % 12 || 12) + ':' + minute +(hour < 12 ? "am" : "pm"));
+            $('#hf-editor-field-container-' + fieldId + ' .hf-timepicker').val(minute && (hour % 12 || 12) + ':' + minute + (hour < 12 ? "am" : "pm"));
         },
 
         validateTimeValue: function () {
             const that = $(this);
-            if(that.val() && !that.val().match(/^(2[0-3]|[01][0-9]):[0-5][0-9]$/)) {
+            if (that.val() && !that.val().match(/^(2[0-3]|[01][0-9]):[0-5][0-9]$/)) {
                 that.val('00:00');
             }
         },

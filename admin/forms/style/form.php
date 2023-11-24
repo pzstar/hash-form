@@ -58,7 +58,6 @@ if (!$hashform_styles) {
         if ($values['fields']) {
             HashFormFields::show_fields($values['fields']);
         }
-
         ?>
         <div class="hf-submit-wrap <?php echo esc_attr($submit_class); ?>">
             <button class="<?php echo esc_attr(implode(' ', $button_class)) ?>" type="submit" <?php disabled($hashform_action, 'hashform_preview'); ?>><?php echo esc_html($submit); ?></button>

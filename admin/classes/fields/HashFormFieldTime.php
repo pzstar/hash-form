@@ -1,5 +1,4 @@
 <?php
-
 defined('ABSPATH') || die();
 
 class HashFormFieldTime extends HashFormFieldType {
@@ -40,7 +39,7 @@ class HashFormFieldTime extends HashFormFieldType {
         if (strpos($value, '&lt;') !== false)
             $value = htmlentities($value);
 
-        if(!$value)
+        if (!$value)
             return $value;
 
         $time_value = explode(":", $value);

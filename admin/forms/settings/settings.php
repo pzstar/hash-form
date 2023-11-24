@@ -13,10 +13,10 @@ $settings = HashFormHelper::sanitize_array($settings, HashFormHelper::get_form_s
 <div id="hf-wrap" class="hf-content">
     <?php
     self::get_admin_header(
-        array(
-            'form' => $form,
-            'class' => 'hf-header-nav',
-        )
+            array(
+                'form' => $form,
+                'class' => 'hf-header-nav',
+            )
     );
 
     $sections = array(

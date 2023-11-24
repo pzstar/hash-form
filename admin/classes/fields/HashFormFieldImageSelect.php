@@ -1,5 +1,4 @@
 <?php
-
 defined('ABSPATH') || die();
 
 class HashFormFieldImageSelect extends HashFormFieldType {
@@ -67,7 +66,7 @@ class HashFormFieldImageSelect extends HashFormFieldType {
                 <?php
             }
             ?>
-        
+
         </div>
         <?php
     }

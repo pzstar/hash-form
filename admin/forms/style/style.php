@@ -16,10 +16,10 @@ $form_style = isset($styles['form_style']) ? esc_attr($styles['form_style']) : '
 <div id="hf-wrap" class="hf-content hf-form-style-template">
     <?php
     self::get_admin_header(
-        array(
-            'form' => $form,
-            'class' => 'hf-header-nav',
-        )
+            array(
+                'form' => $form,
+                'class' => 'hf-header-nav',
+            )
     );
     ?>
     <div class="hf-body">

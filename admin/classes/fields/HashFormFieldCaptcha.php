@@ -1,5 +1,4 @@
 <?php
-
 defined('ABSPATH') || die();
 
 class HashFormFieldCaptcha extends HashFormFieldType {
@@ -47,7 +46,7 @@ class HashFormFieldCaptcha extends HashFormFieldType {
             return '';
         ?>
 
-        <div id="<?php echo esc_attr($this->html_id()); ?>" class="g-recaptcha" data-sitekey="<?php echo ($settings['re_type'] == 'v3' ? esc_attr($settings['pubkey_v3']) : esc_attr($settings['pubkey_v2'])); ?>" data-size="<?php echo esc_attr($this->captcha_size($settings)); ?>" data-theme="<?php echo esc_attr($this->field['captcha_theme']) ; ?>"></div>
+        <div id="<?php echo esc_attr($this->html_id()); ?>" class="g-recaptcha" data-sitekey="<?php echo ($settings['re_type'] == 'v3' ? esc_attr($settings['pubkey_v3']) : esc_attr($settings['pubkey_v2'])); ?>" data-size="<?php echo esc_attr($this->captcha_size($settings)); ?>" data-theme="<?php echo esc_attr($this->field['captcha_theme']); ?>"></div>
         <?php
     }
 
