@@ -11,7 +11,7 @@ if (!$form) {
 $fields = HashFormFields::get_form_fields($form->id);
 $values = HashFormHelper::process_form_array($form);
 
-$edit_message = '<span class="mdi mdi-check-circle"></span>' . __('Form was successfully updated.', 'hash-form');
+$edit_message = '<span class="mdi mdi-check-circle"></span>' . esc_html__('Form was successfully updated.', 'hash-form');
 $has_fields = isset($fields) && !empty($fields);
 
 if (!empty($fields)) {

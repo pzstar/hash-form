@@ -9,12 +9,12 @@ class HashFormValidate {
         self::sanitize_entries($values);
 
         if (!isset($values['form_id']) || !isset($values['item_meta'])) {
-            $errors['form'] = __('There was a problem with your submission. Please try again.', 'hash-form');
+            $errors['form'] = esc_html__('There was a problem with your submission. Please try again.', 'hash-form');
             return $errors;
         }
 
         if (HashFormHelper::is_admin_page() && is_user_logged_in() && (!isset($values['hashform_submit_entry_' . $values['form_id']]) || !wp_verify_nonce($values['hashform_submit_entry_' . $values['form_id']], 'hashform_submit_entry_nonce') )) {
-            $errors['form'] = __('Nounce Error', 'hash-form');
+            $errors['form'] = esc_html__('Nounce Error', 'hash-form');
         }
 
         $fields = HashFormFields::get_form_fields($values['form_id']);

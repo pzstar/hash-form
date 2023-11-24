@@ -21,23 +21,23 @@ $settings = HashFormHelper::sanitize_array($settings, HashFormHelper::get_form_s
 
     $sections = array(
         'email-settings' => array(
-            'name' => __('Email Settings', 'hash-form'),
+            'name' => esc_html__('Email Settings', 'hash-form'),
             'icon' => 'mdi mdi-email-outline'
         ),
         'auto-responder' => array(
-            'name' => __('Auto Responder', 'hash-form'),
+            'name' => esc_html__('Auto Responder', 'hash-form'),
             'icon' => 'mdi mdi-email-arrow-left-outline'
         ),
         'form-confirmation' => array(
-            'name' => __('Confirmation', 'hash-form'),
+            'name' => esc_html__('Confirmation', 'hash-form'),
             'icon' => 'mdi mdi-send-check'
         ),
         'conditional-logic' => array(
-            'name' => __('Conditional Logic', 'hash-form'),
+            'name' => esc_html__('Conditional Logic', 'hash-form'),
             'icon' => 'mdi mdi-checkbox-multiple-marked-outline'
         ),
         'import-export' => array(
-            'name' => __('Import/Export', 'hash-form'),
+            'name' => esc_html__('Import/Export', 'hash-form'),
             'icon' => 'mdi mdi-swap-horizontal'
         ),
     );

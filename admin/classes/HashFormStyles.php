@@ -41,7 +41,6 @@ class HashFormStyles {
             'capability_type' => 'post',
             'has_archive' => false,
             'hierarchical' => false,
-            'menu_position' => null,
             'supports' => array('title')
         );
 
@@ -276,8 +275,8 @@ class HashFormStyles {
         if (!current_user_can('manage_options'))
             return;
 
-        if (isset($_REQUEST['wp_nonce']) && wp_verify_nonce($_REQUEST['wp_nonce'], 'hashform-ajax-nonce')) {
-            $font_family = sanitize_text_field(wp_unslash($_REQUEST['font_family']));
+        if (wp_verify_nonce(HashFormHelper::get_var('wp_nonce'), 'hashform-ajax-nonce')) {
+            $font_family = HashFormHelper::get_var('font_family');
             $all_font = self::font_array();
             $options = '';
 

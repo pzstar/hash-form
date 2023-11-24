@@ -46,12 +46,12 @@ class HashFormEntryListing extends \WP_List_Table {
     public function get_columns() {
         return array(
             'cb' => '<input type="checkbox" />',
-            'name' => __('ID', 'hash-form'),
-            'form_id' => __('Form', 'hash-form'),
-            'user_id' => __('Created By', 'hash-form'),
-            'delivery_status' => __('Status', 'hash-form'),
-            'ip' => __('IP', 'hash-form'),
-            'created_at' => __('Created At', 'hash-form')
+            'name' => esc_html__('ID', 'hash-form'),
+            'form_id' => esc_html__('Form', 'hash-form'),
+            'user_id' => esc_html__('Created By', 'hash-form'),
+            'delivery_status' => esc_html__('Status', 'hash-form'),
+            'ip' => esc_html__('IP', 'hash-form'),
+            'created_at' => esc_html__('Created At', 'hash-form')
         );
     }
 
@@ -112,7 +112,7 @@ class HashFormEntryListing extends \WP_List_Table {
         if ('trash' == $this->status) {
             $output .= esc_html($entry_id);
         } else {
-            $output .= '<a class="row-title" href="' . esc_url($edit_url) . '" aria-label="' . sprintf(__('%s (Edit)', 'hash-form'), $entry_id) . '">' . esc_html($entry_id) . '</a>';
+            $output .= '<a class="row-title" href="' . esc_url($edit_url) . '" aria-label="' . sprintf(esc_html__('%s (Edit)', 'hash-form'), $entry_id) . '">' . esc_html($entry_id) . '</a>';
         }
         $output .= '</strong>';
 
@@ -161,12 +161,12 @@ class HashFormEntryListing extends \WP_List_Table {
     public function get_bulk_actions() {
         if ($this->status == 'published') {
             return array(
-                'bulk_trash' => __('Move to Trash', 'hash-form'),
+                'bulk_trash' => esc_html__('Move to Trash', 'hash-form'),
             );
         } else {
             return array(
-                'bulk_untrash' => __('Restore', 'hash-form'),
-                'bulk_delete' => __('Delete Permanently', 'hash-form')
+                'bulk_untrash' => esc_html__('Restore', 'hash-form'),
+                'bulk_delete' => esc_html__('Delete Permanently', 'hash-form')
             );
         }
     }
@@ -194,7 +194,7 @@ class HashFormEntryListing extends \WP_List_Table {
         if ($this->has_items()) {
             if ('trash' == $this->status) {
                 ?>
-                <div class="alignleft actions"><?php submit_button(__('Empty Trash', 'hash-form'), 'apply', 'delete_all', false); ?></div>
+                <div class="alignleft actions"><?php submit_button(esc_html__('Empty Trash', 'hash-form'), 'apply', 'delete_all', false); ?></div>
                 <?php
             }
         }
@@ -203,7 +203,7 @@ class HashFormEntryListing extends \WP_List_Table {
             $form_id = HashFormHelper::get_var('form_id', 'absint', 0);
             echo '<div class="alignleft actions">';
             self::forms_dropdown('form_id', $form_id);
-            submit_button(__('Filter', 'hash-form'), 'filter_action', '', false, array('id' => 'post-query-submit'));
+            submit_button(esc_html__('Filter', 'hash-form'), 'filter_action', '', false, array('id' => 'post-query-submit'));
             echo '</div>';
         }
     }
@@ -212,10 +212,10 @@ class HashFormEntryListing extends \WP_List_Table {
         $forms = HashFormBuilder::get_all_forms();
         ?>
         <select name="<?php echo esc_attr($field_name); ?>">
-            <option value=""><?php echo esc_html('All', 'hash-form'); ?></option>
+            <option value=""><?php echo esc_html__('All', 'hash-form'); ?></option>
             <?php foreach ($forms as $form) { ?>
                 <option value="<?php echo esc_attr($form->id); ?>" <?php selected($field_value, $form->id); ?>>
-                    <?php echo esc_html('' === $form->name ? __('(no title)', 'hash-form') : $form->name); ?>
+                    <?php echo esc_html('' === $form->name ? esc_html__('(no title)', 'hash-form') : $form->name); ?>
                 </option>
             <?php } ?>
         </select>
@@ -243,7 +243,7 @@ class HashFormEntryListing extends \WP_List_Table {
             $actions['delete'] = $trash_links['delete'];
         } else {
             $actions['view'] = array(
-                'label' => __('View', 'hash-form'),
+                'label' => esc_html__('View', 'hash-form'),
                 'url' => admin_url('admin.php?page=hashform-entries&hashform_action=view&id=' . $entry_id)
             );
             $actions['trash'] = $trash_links['trash'];
@@ -255,15 +255,15 @@ class HashFormEntryListing extends \WP_List_Table {
         $base_url = '?page=hashform-entries&id=' . $id;
         return array(
             'restore' => array(
-                'label' => __('Restore', 'hash-form'),
+                'label' => esc_html__('Restore', 'hash-form'),
                 'url' => wp_nonce_url($base_url . '&hashform_action=untrash', 'untrash_entry_' . absint($id)),
             ),
             'delete' => array(
-                'label' => __('Delete Permanently', 'hash-form'),
+                'label' => esc_html__('Delete Permanently', 'hash-form'),
                 'url' => wp_nonce_url($base_url . '&hashform_action=destroy', 'destroy_entry_' . absint($id)),
             ),
             'trash' => array(
-                'label' => __('Trash', 'hash-form'),
+                'label' => esc_html__('Trash', 'hash-form'),
                 'url' => wp_nonce_url($base_url . '&hashform_action=trash', 'trash_entry_' . absint($id)),
             )
         );
@@ -271,8 +271,8 @@ class HashFormEntryListing extends \WP_List_Table {
 
     public function get_views() {
         $statuses = array(
-            'published' => __('All', 'hash-form'),
-            'trash' => __('Trash', 'hash-form'),
+            'published' => esc_html__('All', 'hash-form'),
+            'trash' => esc_html__('Trash', 'hash-form'),
         );
 
         $links = array();

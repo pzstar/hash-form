@@ -53,6 +53,6 @@ defined('ABSPATH') || die();
                 </div>
             <?php } ?>
         </div>
-        <button class="hf-add-more-condition"><span class="mdi mdi-plus"></span><?php echo esc_html('Add Condition', 'hash-form'); ?></button>
+        <button class="hf-add-more-condition"><span class="mdi mdi-plus"></span><?php echo esc_html__('Add Condition', 'hash-form'); ?></button>
     </div>
 </div>

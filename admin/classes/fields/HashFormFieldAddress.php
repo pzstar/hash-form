@@ -15,27 +15,27 @@ class HashFormFieldAddress extends HashFormFieldType {
         return array(
             'line1' => array(
                 'type' => 'text',
-                'label' => __('Line 1', 'hash-form')
+                'label' => esc_html__('Line 1', 'hash-form')
             ),
             'line2' => array(
                 'type' => 'text',
-                'label' => __('Line 2', 'hash-form')
+                'label' => esc_html__('Line 2', 'hash-form')
             ),
             'city' => array(
                 'type' => 'text',
-                'label' => __('City', 'hash-form')
+                'label' => esc_html__('City', 'hash-form')
             ),
             'state' => array(
                 'type' => 'text',
-                'label' => __('State/Province', 'hash-form')
+                'label' => esc_html__('State/Province', 'hash-form')
             ),
             'zip' => array(
                 'type' => 'number',
-                'label' => __('Zip/Postal', 'hash-form')
+                'label' => esc_html__('Zip/Postal', 'hash-form')
             ),
             'country' => array(
                 'type' => 'select',
-                'label' => __('Country', 'hash-form')
+                'label' => esc_html__('Country', 'hash-form')
         ));
     }
 

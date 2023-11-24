@@ -83,13 +83,13 @@ class HashFormFieldCaptcha extends HashFormFieldType {
 
         if (is_wp_error($resp)) {
             $error_string = $resp->get_error_message();
-            $errors['field' . $args['id']] = __('There was a problem verifying your captcha', 'hash-form');
+            $errors['field' . $args['id']] = esc_html__('There was a problem verifying your captcha', 'hash-form');
             $errors['field' . $args['id']] .= ' ' . $error_string;
             return $errors;
         }
 
         if (!is_array($response)) {
-            $errors['field' . $args['id']] = __('There was a problem verifying your captcha', 'hash-form');
+            $errors['field' . $args['id']] = esc_html__('There was a problem verifying your captcha', 'hash-form');
             return $errors;
         }
 
@@ -103,7 +103,7 @@ class HashFormFieldCaptcha extends HashFormFieldType {
 
         if (isset($response['success']) && !$response['success']) {
             $invalid_message = HashFormFields::get_option($this->field, 'invalid');
-            if ($invalid_message === __('The reCAPTCHA was not entered correctly', 'hash-form')) {
+            if ($invalid_message === esc_html__('The reCAPTCHA was not entered correctly', 'hash-form')) {
                 $invalid_message = '';
             }
             $errors['field' . $args['id']] = ( $invalid_message === '' ? $settings['re_msg '] : $invalid_message );
@@ -115,7 +115,7 @@ class HashFormFieldCaptcha extends HashFormFieldType {
     public function validate($args) {
         $errors = array();
         if (!self::should_show_captcha()) {
-            $errors['field' . $args['id']] = __('The reCAPTCHA keys are not entered.', 'hash-form');
+            $errors['field' . $args['id']] = esc_html__('The reCAPTCHA keys are not entered.', 'hash-form');
             return $errors;
         } else {
             return $this->validate_against_api($args);

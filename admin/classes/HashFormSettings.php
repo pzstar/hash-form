@@ -10,7 +10,7 @@ class HashFormSettings {
     }
 
     public function menu() {
-        add_submenu_page('hashform', 'Hash Form | ' . __('Settings', 'hash-form'), __('Settings', 'hash-form'), 'manage_options', 'hashform-settings', array($this, 'route'));
+        add_submenu_page('hashform', 'Hash Form | ' . esc_html__('Settings', 'hash-form'), esc_html__('Settings', 'hash-form'), 'manage_options', 'hashform-settings', array($this, 'route'));
     }
 
     public function route() {
@@ -26,11 +26,11 @@ class HashFormSettings {
         $settings = self::get_settings();
         $sections = array(
             'captcha-settings' => array(
-                'name' => __('Captcha', 'hash-form'),
+                'name' => esc_html__('Captcha', 'hash-form'),
                 'icon' => 'mdi mdi-security',
             ),
             'email-settings' => array(
-                'name' => __('Email Settings', 'hash-form'),
+                'name' => esc_html__('Email Settings', 'hash-form'),
                 'icon' => 'mdi mdi-email-multiple-outline'
             ),
         );
@@ -85,9 +85,9 @@ class HashFormSettings {
     }
 
     public static function process_form() {
-        $process_form = HashFormHelper::get_post('process_form', 'sanitize_text_field');
+        $process_form = HashFormHelper::get_post('process_form');
         if (!wp_verify_nonce($process_form, 'hashform_process_form_nonce')) {
-            wp_die(esc_html('Permission Denied', 'hash-form'));
+            wp_die(esc_html__('Permission Denied', 'hash-form'));
         }
 
         $settings = HashFormHelper::recursive_parse_args(HashFormHelper::get_post('hashform_settings', 'esc_html'), self::checkbox_settings());
@@ -120,10 +120,10 @@ class HashFormSettings {
 
         $email_template = HashFormHelper::get_post('email_template');
         $test_email = HashFormHelper::get_post('test_email');
-        $email_subject = __('Test Email', 'hash-form');
+        $email_subject = esc_html__('Test Email', 'hash-form');
 
         $email_message = '<p style="margin-bottom:20px">';
-        $email_message .= __('Hello, this is a test email.', 'hash-form');
+        $email_message .= esc_html__('Hello, this is a test email.', 'hash-form');
         $email_message .= '</p>';
         $email_message .= '<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
             <tbody>
@@ -170,14 +170,14 @@ class HashFormSettings {
             die(wp_json_encode(
                             array(
                                 'success' => true,
-                                'message' => __('Email Sent Successfully', 'hash-form')
+                                'message' => esc_html__('Email Sent Successfully', 'hash-form')
                             )
             ));
         }
         die(wp_json_encode(
                         array(
                             'success' => false,
-                            'message' => __('Failed to Send Email', 'hash-form')
+                            'message' => esc_html__('Failed to Send Email', 'hash-form')
                         )
         ));
     }

@@ -42,7 +42,7 @@ defined('ABSPATH') || die();
     <div class="hf-form-row hf-grid-container">
         <div class="hf-grid-3">
             <label><?php esc_html_e('Error Message', 'hash-form'); ?></label>
-            <textarea name="error_message"><?php echo esc_html($settings['error_message']) ?></textarea>
+            <textarea name="error_message"><?php echo esc_textarea($settings['error_message']) ?></textarea>
         </div>
     </div>
 </div>

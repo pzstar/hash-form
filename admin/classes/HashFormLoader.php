@@ -74,7 +74,7 @@ class HashFormLoader {
 
         // Load Fonts if necessary.
         if ($fonts_url) {
-            wp_enqueue_style('hashform-fonts', $fonts_url, array(), NULL);
+            wp_enqueue_style('hashform-fonts', $fonts_url, array(), false);
         }
     }
 
@@ -86,7 +86,7 @@ class HashFormLoader {
         $fonts_url = HashFormStyles::fonts_url();
 
         if ($fonts_url) {
-            wp_enqueue_style('hashform-fonts', $fonts_url, array(), NULL);
+            wp_enqueue_style('hashform-fonts', $fonts_url, array(), false);
         }
     }
 

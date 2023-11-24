@@ -79,13 +79,13 @@ class HashFormImportExport {
         $extension = end($extension);
 
         if ($extension != 'json') {
-            wp_die(__('Please upload a valid .json file'));
+            wp_die(esc_html__('Please upload a valid .json file'));
         }
 
         $hashform_import_file = $_FILES['hashform_import_file']['tmp_name'];
 
         if (empty($hashform_import_file)) {
-            wp_die(__('Please upload a file to import'));
+            wp_die(esc_html__('Please upload a file to import'));
         }
 
         // Retrieve the settings from the file and convert the json object to an array.
@@ -121,7 +121,7 @@ class HashFormImportExport {
             ));
         }
 
-        $_SESSION['hashform_message'] = __('Settings Imported Successfully', 'hash-form');
+        $_SESSION['hashform_message'] = esc_html__('Settings Imported Successfully', 'hash-form');
     }
 
 }

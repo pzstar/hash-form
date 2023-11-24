@@ -123,10 +123,10 @@ defined('ABSPATH') || die();
             </div>
             <?php
             $columns = array(
-                'small' => __('Small', 'hash-form'),
-                'medium' => __('Medium', 'hash-form'),
-                'large' => __('Large', 'hash-form'),
-                'xlarge' => __('Extra Large', 'hash-form'),
+                'small' => esc_html__('Small', 'hash-form'),
+                'medium' => esc_html__('Medium', 'hash-form'),
+                'large' => esc_html__('Large', 'hash-form'),
+                'xlarge' => esc_html__('Extra Large', 'hash-form'),
             );
             ?>
             <div class="hf-form-row">

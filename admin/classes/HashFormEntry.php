@@ -102,7 +102,7 @@ class HashFormEntry {
             return;
 
         $args = array(
-            'label' => __('Entries per page', 'hash-form'),
+            'label' => esc_html__('Entries per page', 'hash-form'),
             'default' => 10,
             'option' => 'entries_per_page'
         );
@@ -233,7 +233,7 @@ class HashFormEntry {
         $ids = HashFormHelper::get_var('entry_id', 'sanitize_text_field');
 
         if (empty($ids)) {
-            $error = __('No Entries were specified', 'hash-form');
+            $error = esc_html__('No Entries were specified', 'hash-form');
             return $error;
         }
 

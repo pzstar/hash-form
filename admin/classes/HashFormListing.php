@@ -44,11 +44,11 @@ class HashFormListing extends \WP_List_Table {
     public function get_columns() {
         return array(
             'cb' => '<input type="checkbox" />',
-            'name' => __('Form Title', 'hash-form'),
-            'entries' => __('Entries', 'hash-form'),
+            'name' => esc_html__('Form Title', 'hash-form'),
+            'entries' => esc_html__('Entries', 'hash-form'),
             'id' => 'ID',
-            'shortcode' => __('Shortcode', 'hash-form'),
-            'created_at' => __('Date', 'hash-form')
+            'shortcode' => esc_html__('Shortcode', 'hash-form'),
+            'created_at' => esc_html__('Date', 'hash-form')
         );
     }
 
@@ -56,7 +56,7 @@ class HashFormListing extends \WP_List_Table {
         $form_name = $item['name'];
         $form_id = $item['id'];
         if (trim($form_name) == '') {
-            $form_name = __('(no title)', 'hash-form');
+            $form_name = esc_html__('(no title)', 'hash-form');
         }
         $edit_url = admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($form_id));
 
@@ -64,7 +64,7 @@ class HashFormListing extends \WP_List_Table {
         if ('trash' == $this->status) {
             $output .= esc_html($form_name);
         } else {
-            $output .= '<a class="row-title" href="' . esc_url($edit_url) . '" aria-label="' . sprintf(__('%s (Edit)', 'hash-form'), $form_name) . '">' . esc_html($form_name) . '</a>';
+            $output .= '<a class="row-title" href="' . esc_url($edit_url) . '" aria-label="' . sprintf(esc_html__('%s (Edit)', 'hash-form'), $form_name) . '">' . esc_html($form_name) . '</a>';
         }
         $output .= '</strong>';
 
@@ -160,12 +160,12 @@ class HashFormListing extends \WP_List_Table {
     public function get_bulk_actions() {
         if ($this->status == 'published') {
             return array(
-                'bulk_trash' => __('Move to Trash', 'hash-form'),
+                'bulk_trash' => esc_html__('Move to Trash', 'hash-form'),
             );
         } else {
             return array(
-                'bulk_untrash' => __('Restore', 'hash-form'),
-                'bulk_delete' => __('Delete Permanently', 'hash-form')
+                'bulk_untrash' => esc_html__('Restore', 'hash-form'),
+                'bulk_delete' => esc_html__('Delete Permanently', 'hash-form')
             );
         }
     }
@@ -191,7 +191,7 @@ class HashFormListing extends \WP_List_Table {
     public function extra_tablenav($which) {
         if ('trash' == $this->status) {
             ?>
-            <div class="alignleft actions"><?php submit_button(__('Empty Trash', 'hash-form'), 'apply', 'delete_all', false); ?></div>
+            <div class="alignleft actions"><?php submit_button(esc_html__('Empty Trash', 'hash-form'), 'apply', 'delete_all', false); ?></div>
             <?php
         }
     }
@@ -214,15 +214,15 @@ class HashFormListing extends \WP_List_Table {
             $actions['delete'] = $trash_links['delete'];
         } else {
             $actions['duplicate'] = array(
-                'label' => __('Duplicate', 'hash-form'),
+                'label' => esc_html__('Duplicate', 'hash-form'),
                 'url' => wp_nonce_url('?page=hashform&hashform_action=duplicate&id=' . $form_id)
             );
             $actions['edit'] = array(
-                'label' => __('Edit', 'hash-form'),
+                'label' => esc_html__('Edit', 'hash-form'),
                 'url' => admin_url('admin.php?page=hashform&hashform_action=edit&id=' . $form_id)
             );
             $actions['view'] = array(
-                'label' => __('Preview', 'hash-form'),
+                'label' => esc_html__('Preview', 'hash-form'),
                 'url' => admin_url('admin-ajax.php?action=hashform_preview&form=' . $form_id)
             );
             $actions['trash'] = $trash_links['trash'];
@@ -234,15 +234,15 @@ class HashFormListing extends \WP_List_Table {
         $base_url = '?page=hashform&id=' . $id;
         return array(
             'restore' => array(
-                'label' => __('Restore', 'hash-form'),
+                'label' => esc_html__('Restore', 'hash-form'),
                 'url' => wp_nonce_url($base_url . '&hashform_action=untrash', 'untrash_form_' . absint($id)),
             ),
             'delete' => array(
-                'label' => __('Delete Permanently', 'hash-form'),
+                'label' => esc_html__('Delete Permanently', 'hash-form'),
                 'url' => wp_nonce_url($base_url . '&hashform_action=destroy', 'destroy_form_' . absint($id)),
             ),
             'trash' => array(
-                'label' => __('Trash', 'hash-form'),
+                'label' => esc_html__('Trash', 'hash-form'),
                 'url' => wp_nonce_url($base_url . '&hashform_action=trash', 'trash_form_' . absint($id)),
             )
         );
@@ -255,8 +255,8 @@ class HashFormListing extends \WP_List_Table {
 
     public function get_views() {
         $statuses = array(
-            'published' => __('All', 'hash-form'),
-            'trash' => __('Trash', 'hash-form'),
+            'published' => esc_html__('All', 'hash-form'),
+            'trash' => esc_html__('Trash', 'hash-form'),
         );
 
         $links = array();

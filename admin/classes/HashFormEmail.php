@@ -128,7 +128,7 @@ class HashFormEmail {
 
         $email_message = str_replace('#form_title', $form_title, $email_message);
         $email_message = str_replace('#form_details', $email_table, $email_message);
-        $email_message = empty($email_message) ? 'NULL' : wpautop($email_message);
+        $email_message = empty($email_message) ? '' : wpautop($email_message);
 
         ob_start();
         include(HASHFORM_PATH . 'admin/settings/email-templates/' . $email_template . '.php');

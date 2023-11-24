@@ -33,7 +33,7 @@ class HashFormBuilder {
 
     public function add_menu() {
         global $hashform_listing_page;
-        add_menu_page('Hash Form', 'Hash Form', 'manage_options', 'hashform', array($this, 'route'), 'dashicons-format-aside', 29);
+        add_menu_page(esc_html__('Hash Form', 'hash-form'), esc_html__('Hash Form', 'hash-form'), 'manage_options', 'hashform', array($this, 'route'), 'dashicons-format-aside', 29);
         $hashform_listing_page = add_submenu_page('hashform', esc_html__('Forms', 'hash-form'), esc_html__('Forms', 'hash-form'), 'manage_options', 'hashform', array($this, 'route'));
         add_action("load-$hashform_listing_page", array($this, 'listing_page_screen_options'));
     }
@@ -113,9 +113,9 @@ class HashFormBuilder {
 
         $name = HashFormHelper::get_post('name');
         $new_values = array(
-            'name' => $name,
+            'name' => esc_html($name),
             'description' => '',
-            'form_key' => $name,
+            'form_key' => sanitize_text_field($name),
             'options' => array(
                 'submit_value' => esc_html__('Submit', 'hash-form'),
                 'show_description' => 'on',
@@ -131,23 +131,23 @@ class HashFormBuilder {
 
     public static function create($values) {
         global $wpdb;
-        $options = isset($values['options']) && is_array($values['options']) ? $values['options'] : null;
+        $options = isset($values['options']) && is_array($values['options']) ? $values['options'] : array();
         $options = HashFormHelper::recursive_parse_args($options, HashFormHelper::get_form_options_checkbox_settings());
         $options = HashFormHelper::sanitize_array($options, HashFormHelper::get_form_options_sanitize_rules());
 
-        $settings = isset($values['settings']) && is_array($values['settings']) ? $values['settings'] : null;
+        $settings = isset($values['settings']) && is_array($values['settings']) ? $values['settings'] : array();
         $settings = HashFormHelper::recursive_parse_args($settings, HashFormHelper::get_form_settings_checkbox_settings());
         $settings = HashFormHelper::sanitize_array($settings, HashFormHelper::get_form_settings_sanitize_rules());
 
-        $styles = isset($values['styles']) && is_array($values['styles']) ? $values['styles'] : null;
+        $styles = isset($values['styles']) && is_array($values['styles']) ? $values['styles'] : array();
         $styles = HashFormHelper::sanitize_array($styles, HashFormHelper::get_form_styles_sanitize_rules());
 
         $new_values = array(
             'form_key' => HashFormHelper::get_unique_key('hashform_forms', 'form_key'),
             'name' => esc_html($values['name']),
             'description' => esc_html($values['description']),
-            'status' => isset($values['status']) ? esc_html($values['status']) : 'published',
-            'created_at' => isset($values['created_at']) ? esc_html($values['created_at']) : current_time('mysql'),
+            'status' => isset($values['status']) ? sanitize_text_field($values['status']) : 'published',
+            'created_at' => isset($values['created_at']) ? sanitize_text_field($values['created_at']) : current_time('mysql'),
             'options' => serialize($options),
             'settings' => serialize($settings),
             'styles' => $styles
@@ -206,8 +206,6 @@ class HashFormBuilder {
 
     public static function update_form_fields($id, $values) {
         global $wpdb;
-        $id = absint($id);
-        $values = HashFormHelper::sanitize_array($values);
         $all_fields = HashFormFields::get_form_fields($id);
 
         foreach ($all_fields as $fid) {
@@ -244,7 +242,7 @@ class HashFormBuilder {
 
                 foreach ($default_field_cols as $col => $default) {
                     $default = ( $default === '' ) ? $field->{$col} : $default;
-                    $new_field[$col] = isset($values['field_options'][$col . '_' . $field->id]) ? $values['field_options'][$col . '_' . $field->id] : $default;
+                    $new_field[$col] = isset($values['field_options'][$col . '_' . absint($field->id)]) ? $values['field_options'][$col . '_' . absint($field->id)] : $default;
                 }
 
                 if (is_array($new_field['options']) && isset($new_field['options']['000'])) {
@@ -258,7 +256,6 @@ class HashFormBuilder {
 
     public static function update_fields($id, $values) {
         global $wpdb;
-        $id = absint($id);
 
         if (isset($values['required'])) {
             $values['required'] = absint($values['required']);
@@ -328,7 +325,7 @@ class HashFormBuilder {
         }
 
         $id = HashFormHelper::get_var('id', 'absint');
-        check_admin_referer($status . '_form_' . absint($id));
+        check_admin_referer($status . '_form_' . $id);
 
         $count = 0;
         if (self::set_status($id, $available_status[$status]['new_status'])) {
@@ -382,7 +379,7 @@ class HashFormBuilder {
 
     public static function destroy() {
         $id = HashFormHelper::get_var('id', 'absint');
-        check_admin_referer('destroy_form_' . absint($id));
+        check_admin_referer('destroy_form_' . $id);
         $count = 0;
         if (self::destroy_form($id)) {
             $count ++;
@@ -414,7 +411,7 @@ class HashFormBuilder {
         $ids = HashFormHelper::get_var('form_id', 'sanitize_text_field');
 
         if (empty($ids)) {
-            $error = __('No forms were specified', 'hash-form');
+            $error = esc_html__('No forms were specified', 'hash-form');
             return $error;
         }
 
@@ -507,10 +504,10 @@ class HashFormBuilder {
 
         $new_values = array(
             'form_key' => HashFormHelper::get_unique_key('hashform_forms', 'form_key'),
-            'name' => esc_html($values->name) . ' - Copy',
+            'name' => esc_html($values->name) . ' - ' . esc_html__('Copy', 'hash-form'),
             'description' => esc_html($values->description),
-            'status' => $values->status ? esc_html($values->status) : 'published',
-            'created_at' => current_time('mysql'),
+            'status' => $values->status ? sanitize_text_field($values->status) : 'published',
+            'created_at' => sanitize_text_field(current_time('mysql')),
             'options' => serialize($hashform_options),
             'settings' => serialize($hashform_settings)
         );
@@ -523,10 +520,10 @@ class HashFormBuilder {
         }
 
         if ($form_id) {
-            $message = __('Form was Successfully Copied', 'hash-form');
+            $message = esc_html__('Form was Successfully Copied', 'hash-form');
             $class = 'updated';
         } else {
-            $message = __('Error! Form Can not be Copied', 'hash-form');
+            $message = esc_html__('Error! Form Can not be Copied', 'hash-form');
             $class = 'error';
         }
 
@@ -581,25 +578,25 @@ class HashFormBuilder {
         $nav_items = array(
             array(
                 'link' => admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($id)),
-                'label' => __('Build', 'hash-form'),
+                'label' => esc_html__('Build', 'hash-form'),
                 'current' => array('edit', 'new', 'duplicate'),
                 'page' => 'hashform'
             ),
             array(
                 'link' => admin_url('admin.php?page=hashform&hashform_action=settings&id=' . absint($id)),
-                'label' => __('Settings', 'hash-form'),
+                'label' => esc_html__('Settings', 'hash-form'),
                 'current' => array('settings'),
                 'page' => 'hashform'
             ),
             array(
                 'link' => admin_url('admin.php?page=hashform&hashform_action=style&id=' . absint($id)),
-                'label' => __('Style', 'hash-form'),
+                'label' => esc_html__('Style', 'hash-form'),
                 'current' => array('style'),
                 'page' => 'hashform'
             ),
             array(
                 'link' => admin_url('admin.php?page=hashform-entries&form_id=' . absint($id)),
-                'label' => __('Entries', 'hash-form'),
+                'label' => esc_html__('Entries', 'hash-form'),
                 'current' => array(),
                 'page' => 'hashform-entries'
             ),
@@ -666,7 +663,7 @@ class HashFormBuilder {
         unset($vars['id'], $vars['process_form'], $vars['_wp_http_referer']);
 
         self::update_settings($id, $vars);
-        $message = '<span class="mdi mdi-check-circle"></span>' . __('Form was successfully updated.', 'hash-form');
+        $message = '<span class="mdi mdi-check-circle"></span>' . esc_html__('Form was successfully updated.', 'hash-form');
         wp_die(wp_kses_post($message));
     }
 
@@ -679,7 +676,7 @@ class HashFormBuilder {
         $id = isset($vars['id']) ? absint($vars['id']) : HashFormHelper::get_var('id', 'absint');
 
         self::update_style($id, $vars);
-        $message = '<span class="mdi mdi-check-circle"></span>' . __('Form was successfully updated.', 'hash-form');
+        $message = '<span class="mdi mdi-check-circle"></span>' . esc_html__('Form was successfully updated.', 'hash-form');
         wp_die(wp_kses_post($message));
     }
 
@@ -706,7 +703,6 @@ class HashFormBuilder {
         return $query_results;
     }
 
-
     public function add_more_condition_block() {
         $form_id = HashFormHelper::get_post('form_id', 'absint', 0);
         $fields = HashFormFields::get_form_fields($form_id);
@@ -728,14 +724,14 @@ class HashFormBuilder {
                 }
                 ?>
             </select>
-            <span class="hf-condition-seperator">if</span>
+            <span class="hf-condition-seperator"><?php echo esc_html__('if', 'hash-form'); ?></span>
             <select name="compare_to[]" required>
-                <option value="">Select Field</option>
+                <option value=""><?php echo esc_html__('Select Field', 'hash-form'); ?></option>
                 <?php
                 foreach ($fields as $field) {
                     if (!($field->type == 'heading' || $field->type == 'paragraph' || $field->type == 'separator' || $field->type == 'spacer' || $field->type == 'image' || $field->type == 'captcha' || $field->type == 'name' || $field->type == 'address')) {
                         ?>
-                        <option value="<?php echo esc_attr($field->id); ?>"><?php echo esc_html($field->name) . ' (ID: ' . esc_attr($field->id) . ')'; ?></option>
+                        <option value="<?php echo esc_attr($field->id); ?>"><?php echo esc_html($field->name . ' (ID: ' . $field->id . ')'); ?></option>
                         <?php
                     }
                 }
@@ -745,11 +741,11 @@ class HashFormBuilder {
                 <option value="equal"><?php echo esc_html__('Equals to', 'hash-form'); ?></option>
                 <option value="not_equal"><?php echo esc_html__('Not Equals to', 'hash-form'); ?></option>
                 <option value="greater_than"><?php echo esc_html__('Greater Than', 'hash-form'); ?></option>
-                <option value="greater_than_or_equal"><?php echo esc_html('Greater Than Or Equals to', 'hash-form'); ?></option>
-                <option value="less_than"><?php echo esc_html('Less Than', 'hash-form'); ?></option>
-                <option value="less_than_or_equal"><?php echo esc_html('Less Than Or Equals to', 'hash-form'); ?></option>
-                <option value="is_like"><?php echo esc_html('Is Like', 'hash-form'); ?></option>
-                <option value="is_not_like"><?php echo esc_html('Is Not Like', 'hash-form'); ?></option>
+                <option value="greater_than_or_equal"><?php echo esc_html__('Greater Than Or Equals to', 'hash-form'); ?></option>
+                <option value="less_than"><?php echo esc_html__('Less Than', 'hash-form'); ?></option>
+                <option value="less_than_or_equal"><?php echo esc_html__('Less Than Or Equals to', 'hash-form'); ?></option>
+                <option value="is_like"><?php echo esc_html__('Is Like', 'hash-form'); ?></option>
+                <option value="is_not_like"><?php echo esc_html__('Is Not Like', 'hash-form'); ?></option>
             </select>
             <input type="text" name="compare_value[]" required/>
             <span class="hf-condition-remove mdi mdi-close"></span>
@@ -762,8 +758,8 @@ class HashFormBuilder {
         $form = HashFormBuilder::get_form_vars($id);
         $settings = $form->settings ? $form->settings : array();
         $conditions = array();
-        if(isset($settings['condition_action']) && $settings['condition_action']) {
-            foreach($settings['condition_action'] as $key=>$row) {
+        if (isset($settings['condition_action']) && $settings['condition_action']) {
+            foreach ($settings['condition_action'] as $key => $row) {
                 $condition = array(
                     'condition_action' => $settings['condition_action'][$key],
                     'compare_from' => $settings['compare_from'][$key],

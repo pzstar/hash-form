@@ -373,10 +373,10 @@ abstract class HashFormFieldType {
         if ($ajax_action === 'hashform_import_options')
             return;
         $opt_key = '000';
-        $opt = __('New Option', 'hash-form');
+        $opt = esc_html__('New Option', 'hash-form');
 
         $html_id = $this->html_id();
-        $field_val = $opt = __('New Option', 'hash-form');
+        $field_val = $opt = esc_html__('New Option', 'hash-form');
 
         $checked = false;
 
@@ -405,9 +405,9 @@ abstract class HashFormFieldType {
             'size' => '',
             'max' => '',
             'label' => '',
-            'blank' => __('This field is required.', 'hash-form'),
+            'blank' => esc_html__('This field is required.', 'hash-form'),
             'required_indicator' => '*',
-            'invalid' => __('This field is invalid.', 'hash-form'),
+            'invalid' => esc_html__('This field is invalid.', 'hash-form'),
             'clear_on_focus' => 0,
             'classes' => '',
             'grid_id' => '',
@@ -514,20 +514,20 @@ abstract class HashFormFieldType {
             'field_options' => $this->get_default_field_options(),
             'options' => array(
                 array(
-                    'label' => __('Option 1', 'hash-form'),
+                    'label' => esc_html__('Option 1', 'hash-form'),
                 ),
                 array(
-                    'label' => __('Option 2', 'hash-form'),
+                    'label' => esc_html__('Option 2', 'hash-form'),
                 ),
                 array(
-                    'label' => __('Option 3', 'hash-form'),
+                    'label' => esc_html__('Option 3', 'hash-form'),
                 )
             ),
         );
     }
 
     protected function get_new_field_name() {
-        $name = __('Untitled', 'hash-form');
+        $name = esc_html__('Untitled', 'hash-form');
         $fields = HashFormFields::field_selection();
         if (isset($fields[$this->type])) {
             $name = is_array($fields[$this->type]) ? $fields[$this->type]['name'] : $fields[$this->type];

@@ -17,22 +17,22 @@ class HashFormFieldName extends HashFormFieldType {
         return array(
             'full' => array(
                 'type' => 'text',
-                'label' => __('Full', 'hash-form'),
+                'label' => esc_html__('Full', 'hash-form'),
                 'optional' => $name_layout !== 'full',
             ),
             'first' => array(
                 'type' => 'text',
-                'label' => __('First', 'hash-form'),
+                'label' => esc_html__('First', 'hash-form'),
                 'optional' => $name_layout === 'full',
             ),
             'middle' => array(
                 'type' => 'text',
-                'label' => __('Middle', 'hash-form'),
+                'label' => esc_html__('Middle', 'hash-form'),
                 'optional' => true,
             ),
             'last' => array(
                 'type' => 'text',
-                'label' => __('Last', 'hash-form'),
+                'label' => esc_html__('Last', 'hash-form'),
                 'optional' => $name_layout === 'full',
             ),
         );
@@ -70,7 +70,7 @@ class HashFormFieldName extends HashFormFieldType {
                     <label class="hf-field-desc"><?php echo esc_html__('Placeholder', 'hash-form'); ?></label>
                 </div>
                 <div class="hf-form-row hf-grid-2">
-                    <input type="text" name="field_options[desc_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" value="<?php echo esc_html($desc); ?>" data-changeme="hf-subfield-desc-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>">
+                    <input type="text" name="field_options[desc_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" value="<?php echo esc_attr($desc); ?>" data-changeme="<?php echo esc_attr('hf-subfield-desc-' . $name . '-' . $field_id); ?>">
                     <label class="hf-field-desc"><?php echo esc_html__('Description', 'hash-form'); ?></label>
                 </div>
             </div>
@@ -135,7 +135,6 @@ class HashFormFieldName extends HashFormFieldType {
         $field_key = $field['field_key'];
         $name_layout = $field['name_layout'];
         $display = explode('_', $name_layout);
-
         ?>
 
         <div class="hf-grouped-field" id="hf-grouped-field-<?php echo esc_attr($field_id); ?>" data-name-layout="<?php echo esc_attr($name_layout); ?>">

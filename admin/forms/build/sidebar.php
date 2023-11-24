@@ -15,7 +15,7 @@ defined('ABSPATH') || die();
                 <?php
                 HashFormHelper::show_search_box(array(
                     'input_id' => 'field-list',
-                    'placeholder' => __('Search Fields', 'hash-form'),
+                    'placeholder' => esc_html__('Search Fields', 'hash-form'),
                     'tosearch' => 'hf-field-box',
                 ));
                 ?>

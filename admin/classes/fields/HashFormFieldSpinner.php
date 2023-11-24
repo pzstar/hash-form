@@ -35,9 +35,9 @@ class HashFormFieldSpinner extends HashFormFieldType {
             if ($maxnum !== '' && $minnum !== '') {
                 $value = (float) $args['value'];
                 if ($value < $minnum) {
-                    $errors['field' . $args['id']] = __('Please select a higher number', 'hash-form');
+                    $errors['field' . $args['id']] = esc_html__('Please select a higher number', 'hash-form');
                 } elseif ($value > $maxnum) {
-                    $errors['field' . $args['id']] = __('Please select a lower number', 'hash-form');
+                    $errors['field' . $args['id']] = esc_html__('Please select a lower number', 'hash-form');
                 }
             }
             $this->validate_step($errors, $args);

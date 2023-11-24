@@ -112,107 +112,107 @@ class HashFormFields {
     public static function field_selection() {
         return array(
             'name' => array(
-                'name' => __('Name', 'hash-form'),
+                'name' => esc_html__('Name', 'hash-form'),
                 'icon' => 'hfi hfi-name',
             ),
             'email' => array(
-                'name' => __('Email', 'hash-form'),
+                'name' => esc_html__('Email', 'hash-form'),
                 'icon' => 'hfi hfi-email',
             ),
             'phone' => array(
-                'name' => __('Phone', 'hash-form'),
+                'name' => esc_html__('Phone', 'hash-form'),
                 'icon' => 'hfi hfi-phone',
             ),
             'url' => array(
-                'name' => __('Website/URL', 'hash-form'),
+                'name' => esc_html__('Website/URL', 'hash-form'),
                 'icon' => 'hfi hfi-url',
             ),
             'address' => array(
-                'name' => __('Address', 'hash-form'),
+                'name' => esc_html__('Address', 'hash-form'),
                 'icon' => 'hfi hfi-address',
             ),
             'text' => array(
-                'name' => __('Text', 'hash-form'),
+                'name' => esc_html__('Text', 'hash-form'),
                 'icon' => 'hfi hfi-text',
             ),
             'textarea' => array(
-                'name' => __('Text Area', 'hash-form'),
+                'name' => esc_html__('Text Area', 'hash-form'),
                 'icon' => 'hfi hfi-textarea',
             ),
             'select' => array(
-                'name' => __('Dropdown', 'hash-form'),
+                'name' => esc_html__('Dropdown', 'hash-form'),
                 'icon' => 'hfi hfi-select',
             ),
             'checkbox' => array(
-                'name' => __('Checkboxes', 'hash-form'),
+                'name' => esc_html__('Checkboxes', 'hash-form'),
                 'icon' => 'hfi hfi-check',
             ),
             'radio' => array(
-                'name' => __('Radio Buttons', 'hash-form'),
+                'name' => esc_html__('Radio Buttons', 'hash-form'),
                 'icon' => 'hfi hfi-radio',
             ),
             'image_select' => array(
-                'name' => __('Image Selector', 'hash-form'),
+                'name' => esc_html__('Image Selector', 'hash-form'),
                 'icon' => 'hfi hfi-image-select',
             ),
             'number' => array(
-                'name' => __('Number', 'hash-form'),
+                'name' => esc_html__('Number', 'hash-form'),
                 'icon' => 'hfi hfi-number',
             ),
             'range_slider' => array(
-                'name' => __('Range Slider', 'hash-form'),
+                'name' => esc_html__('Range Slider', 'hash-form'),
                 'icon' => 'hfi hfi-range-slider',
             ),
             'star' => array(
-                'name' => __('Star', 'hash-form'),
+                'name' => esc_html__('Star', 'hash-form'),
                 'icon' => 'hfi hfi-stars',
             ),
             'spinner' => array(
-                'name' => __('Spinner', 'hash-form'),
+                'name' => esc_html__('Spinner', 'hash-form'),
                 'icon' => 'hfi hfi-quantity',
             ),
             'date' => array(
-                'name' => __('Date', 'hash-form'),
+                'name' => esc_html__('Date', 'hash-form'),
                 'icon' => 'hfi hfi-date',
             ),
             'time' => array(
-                'name' => __('Time', 'hash-form'),
+                'name' => esc_html__('Time', 'hash-form'),
                 'icon' => 'hfi hfi-time',
             ),
             'user_id' => array(
-                'name' => __('User ID', 'hash-form'),
+                'name' => esc_html__('User ID', 'hash-form'),
                 'icon' => 'hfi hfi-user-id',
             ),
             'hidden' => array(
-                'name' => __('Hidden', 'hash-form'),
+                'name' => esc_html__('Hidden', 'hash-form'),
                 'icon' => 'hfi hfi-hidden',
             ),
             'heading' => array(
-                'name' => __('Heading', 'hash-form'),
+                'name' => esc_html__('Heading', 'hash-form'),
                 'icon' => 'hfi hfi-heading',
             ),
             'paragraph' => array(
-                'name' => __('Paragraph', 'hash-form'),
+                'name' => esc_html__('Paragraph', 'hash-form'),
                 'icon' => 'hfi hfi-paragraph',
             ),
             'separator' => array(
-                'name' => __('Separator', 'hash-form'),
+                'name' => esc_html__('Separator', 'hash-form'),
                 'icon' => 'hfi hfi-divider-dash',
             ),
             'spacer' => array(
-                'name' => __('Spacer', 'hash-form'),
+                'name' => esc_html__('Spacer', 'hash-form'),
                 'icon' => 'hfi hfi-spacer',
             ),
             'image' => array(
-                'name' => __('Image', 'hash-form'),
+                'name' => esc_html__('Image', 'hash-form'),
                 'icon' => 'hfi hfi-image',
             ),
             'html' => array(
-                'name' => __('HTML', 'hash-form'),
+                'name' => esc_html__('HTML', 'hash-form'),
                 'icon' => 'hfi hfi-html',
             ),
             'captcha' => array(
-                'name' => __('reCAPTCHA', 'hash-form'),
+                'name' => esc_html__('reCAPTCHA', 'hash-form'),
                 'icon' => 'hfi hfi-recaptcha',
             ),
         );
@@ -227,9 +227,9 @@ class HashFormFields {
         foreach (array('name', 'description', 'type', 'default_value') as $col)
             $new_values[$col] = $values[$col];
         $new_values['options'] = $values['options'];
-        $new_values['field_order'] = isset($values['field_order']) ? (int) $values['field_order'] : null;
+        $new_values['field_order'] = isset($values['field_order']) ? (int) $values['field_order'] : '';
         $new_values['required'] = isset($values['required']) ? (int) $values['required'] : 0;
-        $new_values['form_id'] = isset($values['form_id']) ? (int) $values['form_id'] : null;
+        $new_values['form_id'] = isset($values['form_id']) ? (int) $values['form_id'] : '';
         $new_values['field_options'] = $values['field_options'];
         $new_values['created_at'] = current_time('mysql');
 
@@ -315,7 +315,7 @@ class HashFormFields {
 
     public static function get_field_vars($field_id) {
         if (empty($field_id))
-            return null;
+            return;
         global $wpdb;
         $query = $wpdb->prepare('SELECT * FROM ' . $wpdb->prefix . 'hashform_fields WHERE id=%d', absint($field_id)); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         $results = $wpdb->get_row($query);
@@ -357,9 +357,9 @@ class HashFormFields {
         $max_length = intval(HashFormFields::get_option($field, 'max'));
 
         $defaults = array(
-            'invalid' => sprintf(__('%s is invalid.', 'hash-form'), $field_name),
-            'blank' => sprintf(__('%s is required.', 'hash-form'), $field_name),
-            'max_char' => sprintf(__('%s characters only allowed.', 'hash-form'), $max_length),
+            'invalid' => sprintf(esc_html__('%s is invalid.', 'hash-form'), $field_name),
+            'blank' => sprintf(esc_html__('%s is required.', 'hash-form'), $field_name),
+            'max_char' => sprintf(esc_html__('%s characters only allowed.', 'hash-form'), $max_length),
         );
         $msg = HashFormFields::get_option($field, $error);
         $msg = empty($msg) ? $defaults[$error] : $msg;

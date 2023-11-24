@@ -19,7 +19,7 @@ class HashFormPreview {
     public static function show_form($id) {
         $form = HashFormBuilder::get_form_vars($id);
         if (!$form || $form->status === 'trash')
-            return __('Please select a valid form', 'hash-form');
+            return esc_html__('Please select a valid form', 'hash-form');
 
         self::get_form_contents($id);
     }
@@ -28,7 +28,7 @@ class HashFormPreview {
         $form = HashFormBuilder::get_form_vars($id);
         $values = HashFormHelper::get_fields_array($id);
 
-        $styles = $form->styles ? $form->styles : null;
+        $styles = $form->styles ? $form->styles : '';
 
         $form_class = array('hashform-form');
         $form_class[] = isset($form->options['form_css_class']) ? $form->options['form_css_class'] : '';
