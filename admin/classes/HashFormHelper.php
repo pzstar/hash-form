@@ -145,7 +145,7 @@ class HashFormHelper {
         <div class="hf-search-fields">
             <span class="mdi mdi-magnify"></span>
             <input type="search" id="<?php echo esc_attr($input_id); ?>" name="s" value="<?php _admin_search_query(); ?>" placeholder="<?php echo esc_attr($atts['placeholder']); ?>" class="<?php echo esc_attr($class); ?>" data-tosearch="<?php echo esc_attr($atts['tosearch']); ?>" <?php if (!empty($atts['tosearch'])) { ?> autocomplete="off"<?php } ?> />
-        <?php if (empty($atts['tosearch'])) submit_button($atts['text'], 'button-secondary', '', false, array('id' => 'search-submit')); ?>
+            <?php if (empty($atts['tosearch'])) submit_button($atts['text'], 'button-secondary', '', false, array('id' => 'search-submit')); ?>
         </div>
         <?php
     }
