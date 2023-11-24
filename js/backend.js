@@ -1,4 +1,4 @@
-var hashFormBuilder = hashFormBuilder || {};
+var hashFormAdmin = hashFormAdmin || {};
 
 (function ($) {
     'use strict';
@@ -117,52 +117,52 @@ var hashFormBuilder = hashFormBuilder || {};
         }
     };
 
-    hashFormBuilder = {
+    hashFormAdmin = {
         init: function () {
             if ($formSettings.length > 0) {
                 this.initFormSettings();
             } else if ($styleSettings.length > 0) {
                 this.initStyleSettings();
             } else if($buildForm.length > 0) {
-                $('.hashform-ajax-udpate-button').on('click', hashFormBuilder.submitBuild);
+                $('.hashform-ajax-udpate-button').on('click', hashFormAdmin.submitBuild);
             } else {
                 this.initOtherSettings();
             }
 
-            hashFormBuilder.liveChanges();
+            hashFormAdmin.liveChanges();
 
-            hashFormBuilder.setupFieldOptionSorting($('.hf-option-list'));
+            hashFormAdmin.setupFieldOptionSorting($('.hf-option-list'));
 
-            hashFormBuilder.initBulkOptionsOverlay();
+            hashFormAdmin.initBulkOptionsOverlay();
 
-            hashFormBuilder.initNewFormModal();
+            hashFormAdmin.initNewFormModal();
 
             /*($('#hf-editor-fields > li, .hf-editor-grid-container li').each(function(){
              $(this).on('click', function(){
              let fieldId = $(this).attr('data-fid');
-             hashFormBuilder.maybeAddSaveAndDragIcons(fieldId);
+             hashFormAdmin.maybeAddSaveAndDragIcons(fieldId);
              });
              });
              
              document.querySelectorAll('#hf-editor-fields > li, .hf-editor-grid-container li').forEach((el, _key) => {
              el.addEventListener('click', function () {
              let fieldId = this.dataset.fid;
-             hashFormBuilder.maybeAddSaveAndDragIcons(fieldId);
+             hashFormAdmin.maybeAddSaveAndDragIcons(fieldId);
              });
              });*/
 
             $(document).find('.hf-color-picker').wpColorPicker();
 
-            $(document).on('click', '#hf-fields-tabs a', hashFormBuilder.clickNewTab);
-            $(document).on('input', '.hf-search-fields-input', hashFormBuilder.searchContent);
-            $(document).on('click', '.hf-settings-tab a', hashFormBuilder.clickNewTabSettings);
+            $(document).on('click', '#hf-fields-tabs a', hashFormAdmin.clickNewTab);
+            $(document).on('input', '.hf-search-fields-input', hashFormAdmin.searchContent);
+            $(document).on('click', '.hf-settings-tab a', hashFormAdmin.clickNewTabSettings);
 
             /* Image */
-            $(document).on('click', '.hf-image-preview .hf-choose-image', hashFormBuilder.addImage);
-            $(document).on('click', '.hf-image-preview .hf-remove-image', hashFormBuilder.removeImage);
+            $(document).on('click', '.hf-image-preview .hf-choose-image', hashFormAdmin.addImage);
+            $(document).on('click', '.hf-image-preview .hf-remove-image', hashFormAdmin.removeImage);
 
             /* Add field attr to form in Settings page */
-            $(document).on('click', '.hf-add-field-attr-to-form li', hashFormBuilder.addFieldAttrToForm);
+            $(document).on('click', '.hf-add-field-attr-to-form li', hashFormAdmin.addFieldAttrToForm);
 
             /* Open/Close embed popup */
             $(document).on('click', '.hf-embed-button', function () {
@@ -173,11 +173,11 @@ var hashFormBuilder = hashFormBuilder || {};
                 $('#hf-shortcode-form-modal').removeClass('hf-open');
             });
 
-            $('.hf-add-more-condition').on('click', hashFormBuilder.addConditionRepeaterBlock);
-            $(document).on('click', '.hf-condition-remove', hashFormBuilder.removeConditionRepeaterBlock);
+            $('.hf-add-more-condition').on('click', hashFormAdmin.addConditionRepeaterBlock);
+            $(document).on('click', '.hf-condition-remove', hashFormAdmin.removeConditionRepeaterBlock);
 
-            $(document).on('change', '.hf-fields-type-time .default-value-field', hashFormBuilder.addTimeDefaultValue);
-            $(document).on('change', '.hf-fields-type-time .min-value-field, .hf-fields-type-time .max-value-field', hashFormBuilder.validateTimeValue);
+            $(document).on('change', '.hf-fields-type-time .default-value-field', hashFormAdmin.addTimeDefaultValue);
+            $(document).on('change', '.hf-fields-type-time .min-value-field, .hf-fields-type-time .max-value-field', hashFormAdmin.validateTimeValue);
         },
 
         clickNewTab: function () {
@@ -272,7 +272,7 @@ var hashFormBuilder = hashFormBuilder || {};
         submitBuild: function (e) {
             e.preventDefault();
             var $thisEle = this;
-            hashFormBuilder.preFormSave(this);
+            hashFormAdmin.preFormSave(this);
             var hashform_fields = JSON.stringify($buildForm.serializeArray());
             var hashform_settings = JSON.stringify($formMeta.serializeArray());
             jQuery.ajax({
@@ -285,7 +285,7 @@ var hashFormBuilder = hashFormBuilder || {};
                     nonce: hashform_backend_js.nonce
                 },
                 success: function (msg) {
-                    hashFormBuilder.afterFormSave($thisEle);
+                    hashFormAdmin.afterFormSave($thisEle);
                     var $postStuff = document.getElementById('hf-form-panel');
                     var $html = document.createElement('div');
                     $html.setAttribute('class', 'hf-updated-info');
@@ -312,7 +312,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
                 $imagePreview.find('input.hf-image-id').val(attachment.id).trigger('change');
                 var fieldId = $imagePreview.closest('.hf-fields-settings').data('fid');
-                hashFormBuilder.resetDisplayedOpts(fieldId);
+                hashFormAdmin.resetDisplayedOpts(fieldId);
             });
             fileFrame.open();
         },
@@ -326,54 +326,54 @@ var hashFormBuilder = hashFormBuilder || {};
             previewWrapper.find('.hf-is-image-preview-box').removeClass('hf-image-added');
             previewWrapper.find('input.hf-image-id').val('').trigger('change');
             var fieldId = previewWrapper.closest('.hf-fields-settings').data('fid');
-            hashFormBuilder.resetDisplayedOpts(fieldId);
+            hashFormAdmin.resetDisplayedOpts(fieldId);
         },
 
         liveChanges: function () {
-            $('#hf-meta-panel').on('input', '[data-changeme]', hashFormBuilder.liveChangesInput);
-            $('#hf-meta-panel').on('change', 'select[name="submit_btn_alignment"]', hashFormBuilder.liveChangeButtonPosition);
+            $('#hf-meta-panel').on('input', '[data-changeme]', hashFormAdmin.liveChangesInput);
+            $('#hf-meta-panel').on('change', 'select[name="submit_btn_alignment"]', hashFormAdmin.liveChangeButtonPosition);
 
-            $buildForm.on('input', '[data-changeme]', hashFormBuilder.liveChangesInput);
+            $buildForm.on('input', '[data-changeme]', hashFormAdmin.liveChangesInput);
 
-            $buildForm.on('click', 'input.hf-form-field-required', hashFormBuilder.markRequired);
+            $buildForm.on('click', 'input.hf-form-field-required', hashFormAdmin.markRequired);
 
-            $buildForm.on('click', '.hf-add-option', hashFormBuilder.addFieldOption);
-            $buildForm.on('input', '.hf-single-option input[type="text"]', hashFormBuilder.resetOptOnChange);
-            $buildForm.on('mousedown', '.hf-single-option input[type=radio]', hashFormBuilder.maybeUncheckRadio);
-            $buildForm.on('click', '.hf-single-option .hf-choice-input', hashFormBuilder.resetOptOnChange);
-            $buildForm.on('change', '.hf-image-id', hashFormBuilder.resetOptOnChange);
+            $buildForm.on('click', '.hf-add-option', hashFormAdmin.addFieldOption);
+            $buildForm.on('input', '.hf-single-option input[type="text"]', hashFormAdmin.resetOptOnChange);
+            $buildForm.on('mousedown', '.hf-single-option input[type=radio]', hashFormAdmin.maybeUncheckRadio);
+            $buildForm.on('click', '.hf-single-option .hf-choice-input', hashFormAdmin.resetOptOnChange);
+            $buildForm.on('change', '.hf-image-id', hashFormAdmin.resetOptOnChange);
 
-            $buildForm.on('click', '.hf-single-option a[data-removeid]', hashFormBuilder.deleteFieldOption);
+            $buildForm.on('click', '.hf-single-option a[data-removeid]', hashFormAdmin.deleteFieldOption);
 
-            $buildForm.on('click', '.hf-is-image-preview-box', hashFormBuilder.addImageToOption);
-            $buildForm.on('click', '.hf-is-remove-image', hashFormBuilder.removeImageFromOption);
+            $buildForm.on('click', '.hf-is-image-preview-box', hashFormAdmin.addImageToOption);
+            $buildForm.on('click', '.hf-is-remove-image', hashFormAdmin.removeImageFromOption);
 
-            $buildForm.on('input', '[data-changeheight]', hashFormBuilder.liveChangeHeight);
-            $buildForm.on('input', '[data-changerows]', hashFormBuilder.liveChangeRows);
-            $buildForm.on('input', '[data-changestars]', hashFormBuilder.liveChangeStars);
+            $buildForm.on('input', '[data-changeheight]', hashFormAdmin.liveChangeHeight);
+            $buildForm.on('input', '[data-changerows]', hashFormAdmin.liveChangeRows);
+            $buildForm.on('input', '[data-changestars]', hashFormAdmin.liveChangeStars);
 
-            $buildForm.on('change', 'select[name^="field_options[label_position"]', hashFormBuilder.liveChangeLabelPosition);
-            $buildForm.on('change', 'select[name^="field_options[label_alignment"]', hashFormBuilder.liveChangeLabelAlignment);
+            $buildForm.on('change', 'select[name^="field_options[label_position"]', hashFormAdmin.liveChangeLabelPosition);
+            $buildForm.on('change', 'select[name^="field_options[label_alignment"]', hashFormAdmin.liveChangeLabelAlignment);
 
-            $buildForm.on('change', 'select[name^="field_options[options_layout"]', hashFormBuilder.liveChangeOptionsLayout);
-            $buildForm.on('change', 'select[name^="field_options[heading_type"]', hashFormBuilder.liveChangeHeadingType);
-            $buildForm.on('change', 'select[name^="field_options[text_alignment"]', hashFormBuilder.liveChangeTextAlignment);
-            $buildForm.on('change', 'select.hf-select-image-type', hashFormBuilder.liveChangeSelectImageType);
+            $buildForm.on('change', 'select[name^="field_options[options_layout"]', hashFormAdmin.liveChangeOptionsLayout);
+            $buildForm.on('change', 'select[name^="field_options[heading_type"]', hashFormAdmin.liveChangeHeadingType);
+            $buildForm.on('change', 'select[name^="field_options[text_alignment"]', hashFormAdmin.liveChangeTextAlignment);
+            $buildForm.on('change', 'select.hf-select-image-type', hashFormAdmin.liveChangeSelectImageType);
 
-            $buildForm.on('change', '[data-changebordertype]', hashFormBuilder.liveChangeBorderType);
-            $buildForm.on('input', '[data-changeborderwidth]', hashFormBuilder.liveChangeBorderWidth);
+            $buildForm.on('change', '[data-changebordertype]', hashFormAdmin.liveChangeBorderType);
+            $buildForm.on('input', '[data-changeborderwidth]', hashFormAdmin.liveChangeBorderWidth);
 
-            $buildForm.on('input', 'input[name^="field_options[field_max_width"]', hashFormBuilder.liveChangeFieldMaxWidth);
-            $buildForm.on('change', 'select[name^="field_options[field_max_width_unit"]', hashFormBuilder.liveChangeFieldMaxWidth);
+            $buildForm.on('input', 'input[name^="field_options[field_max_width"]', hashFormAdmin.liveChangeFieldMaxWidth);
+            $buildForm.on('change', 'select[name^="field_options[field_max_width_unit"]', hashFormAdmin.liveChangeFieldMaxWidth);
 
-            $buildForm.on('input', 'input[name^="field_options[image_max_width"]', hashFormBuilder.liveChangeImageMaxWidth);
-            $buildForm.on('change', 'select[name^="field_options[image_max_width_unit"]', hashFormBuilder.liveChangeImageMaxWidth);
+            $buildForm.on('input', 'input[name^="field_options[image_max_width"]', hashFormAdmin.liveChangeImageMaxWidth);
+            $buildForm.on('change', 'select[name^="field_options[image_max_width_unit"]', hashFormAdmin.liveChangeImageMaxWidth);
 
-            $buildForm.on('change click', '[data-disablefield]', hashFormBuilder.liveChangeAddressFields);
+            $buildForm.on('change click', '[data-disablefield]', hashFormAdmin.liveChangeAddressFields);
 
-            $buildForm.on('change click', 'input[name^="field_options[auto_width"]', hashFormBuilder.liveChangeAutoWidth);
+            $buildForm.on('change click', 'input[name^="field_options[auto_width"]', hashFormAdmin.liveChangeAutoWidth);
 
-            $buildForm.on('change', 'select[name^="field_options[field_alignment"]', hashFormBuilder.liveChangeFieldAlignment);
+            $buildForm.on('change', 'select[name^="field_options[field_alignment"]', hashFormAdmin.liveChangeFieldAlignment);
         },
 
         liveChangesInput: function () {
@@ -411,10 +411,10 @@ var hashFormBuilder = hashFormBuilder || {};
                         option.innerHTML = newValue;
                     } else {
                         // Create a placeholder option if there are no blank values.
-                        hashFormBuilder.addBlankSelectOption(changes, newValue);
+                        hashFormAdmin.addBlankSelectOption(changes, newValue);
                     }
                 } else if (att === 'class') {
-                    hashFormBuilder.changeFieldClass(changes, this);
+                    hashFormAdmin.changeFieldClass(changes, this);
                 } else {
                     if ('TEXTAREA' === changes.nodeName && att == 'value') {
                         changes.innerHTML = newValue;
@@ -449,7 +449,7 @@ var hashFormBuilder = hashFormBuilder || {};
                     checked = this.checked,
                     label = $('#hf-editor-field-required-' + fieldId);
 
-            hashFormBuilder.toggleValidationBox(checked, '.hf-required-detail-' + fieldId);
+            hashFormAdmin.toggleValidationBox(checked, '.hf-required-detail-' + fieldId);
 
             if (checked) {
                 var $reqBox = $('input[name="field_options[required_indicator_' + fieldId + ']"]');
@@ -470,7 +470,7 @@ var hashFormBuilder = hashFormBuilder || {};
                     optType = $(this).data('opttype'),
                     optKey = 0,
                     oldKey = '000',
-                    lastKey = hashFormBuilder.getHighestOptKey(fieldId);
+                    lastKey = hashFormAdmin.getHighestOptKey(fieldId);
 
             if (lastKey !== oldKey) {
                 optKey = lastKey + 1;
@@ -495,7 +495,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 };
                 jQuery.post(ajaxurl, data, function (msg) {
                     $('#hf-field-options-' + fieldId).append(msg);
-                    hashFormBuilder.resetDisplayedOpts(fieldId);
+                    hashFormAdmin.resetDisplayedOpts(fieldId);
                 });
             } else {
                 newOption = newOption.replace(new RegExp('optkey="' + oldKey + '"', 'g'), 'optkey="' + optKey + '"');
@@ -505,7 +505,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 newOption = newOption.replace('hf-hidden hf-option-template', '');
                 newOption = {newOption};
                 $('#hf-field-options-' + fieldId).append(newOption.newOption);
-                hashFormBuilder.resetDisplayedOpts(fieldId);
+                hashFormAdmin.resetDisplayedOpts(fieldId);
             }
         },
 
@@ -513,13 +513,13 @@ var hashFormBuilder = hashFormBuilder || {};
             var field, thisOpt;
             var check = $(this);
 
-            field = hashFormBuilder.getFieldKeyFromOpt(this);
+            field = hashFormAdmin.getFieldKeyFromOpt(this);
             if (!field) {
                 return;
             }
 
             thisOpt = $(this).closest('li');
-            hashFormBuilder.resetSingleOpt(field.fieldId, field.fieldKey, thisOpt);
+            hashFormAdmin.resetSingleOpt(field.fieldId, field.fieldKey, thisOpt);
 
             setTimeout(function () {
                 check.next('input').trigger('change');
@@ -566,7 +566,7 @@ var hashFormBuilder = hashFormBuilder || {};
                     }
                     $('#other_button_' + fieldId).fadeIn('slow');
                 }
-                hashFormBuilder.resetDisplayedOpts(fieldId);
+                hashFormAdmin.resetDisplayedOpts(fieldId);
             });
         },
 
@@ -695,7 +695,7 @@ var hashFormBuilder = hashFormBuilder || {};
         },
 
         initFormSettings: function () {
-            $('.hashform-ajax-udpate-button').on('click', hashFormBuilder.submitSettingsBuild);
+            $('.hashform-ajax-udpate-button').on('click', hashFormAdmin.submitSettingsBuild);
             $('.hf-multiple-rows').on('click', '.hf-add-email', function () {
                 $(this).closest('.hf-multiple-rows').find('.hf-multiple-email').append('<div class="hf-email-row"><input type="email" name="email_to[]" value=""/><span class="mdi mdi-trash-can-outline hf-delete-email-row"></span></div>');
             })
@@ -729,7 +729,7 @@ var hashFormBuilder = hashFormBuilder || {};
         submitSettingsBuild: function (e) {
             e.preventDefault();
             var $thisEle = this;
-            hashFormBuilder.preFormSave(this);
+            hashFormAdmin.preFormSave(this);
             var v = JSON.stringify($formSettings.serializeArray());
             $('#hashform_compact_fields').val(v);
             $.ajax({
@@ -741,7 +741,7 @@ var hashFormBuilder = hashFormBuilder || {};
                     nonce: hashform_backend_js.nonce
                 },
                 success: function (msg) {
-                    hashFormBuilder.afterFormSave($thisEle);
+                    hashFormAdmin.afterFormSave($thisEle);
                     var $postStuff = document.getElementById('hf-form-panel');
                     var $html = document.createElement('div');
                     $html.setAttribute('class', 'hf-updated-info');
@@ -752,7 +752,7 @@ var hashFormBuilder = hashFormBuilder || {};
         },
 
         initStyleSettings: function () {
-            $('.hashform-ajax-udpate-button').on('click', hashFormBuilder.submitStylesBuild);
+            $('.hashform-ajax-udpate-button').on('click', hashFormAdmin.submitStylesBuild);
             $('#form_style_template').on('change', function (e) {
                 e.preventDefault();
                 const templateID = $(this).val();
@@ -769,7 +769,7 @@ var hashFormBuilder = hashFormBuilder || {};
         submitStylesBuild: function (e) {
             e.preventDefault();
             var $thisEle = this;
-            hashFormBuilder.preFormSave(this);
+            hashFormAdmin.preFormSave(this);
             var v = JSON.stringify($styleSettings.serializeArray());
             $('#hashform_compact_fields').val(v);
             jQuery.ajax({
@@ -781,7 +781,7 @@ var hashFormBuilder = hashFormBuilder || {};
                     nonce: hashform_backend_js.nonce
                 },
                 success: function (msg) {
-                    hashFormBuilder.afterFormSave($thisEle);
+                    hashFormAdmin.afterFormSave($thisEle);
                     var $postStuff = document.getElementById('hf-form-panel');
                     var $html = document.createElement('div');
                     $html.setAttribute('class', 'hf-updated-info');
@@ -797,7 +797,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 const testEmailButton = $(this);
                 const testEmail = $(document).find('#hf-test-email').val();
                 $(document).find('.hf-error').remove();
-                if (!hashFormBuilder.isEmail(testEmail)) {
+                if (!hashFormAdmin.isEmail(testEmail)) {
                     testEmailButton.closest('.hf-grid-3').append('<div class="hf-error">Invalid Email</div>');
                     return;
                 }
@@ -845,7 +845,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 stop: function (e, ui) {
                     copyHelper && copyHelper.remove();
                     var fieldId = ui.item.attr('id').replace('hf-option-list-', '').replace('-' + ui.item.data('optkey'), '');
-                    hashFormBuilder.resetDisplayedOpts(fieldId);
+                    hashFormAdmin.resetDisplayedOpts(fieldId);
                 }
             };
             $(sort).sortable(opts);
@@ -880,13 +880,13 @@ var hashFormBuilder = hashFormBuilder || {};
         resetSingleOpt: function (fieldId, fieldKey, thisOpt) {
             var saved, text, defaultVal, previewInput,
                     optKey = thisOpt.data('optkey'),
-                    separateValues = hashFormBuilder.usingSeparateValues(fieldId),
+                    separateValues = hashFormAdmin.usingSeparateValues(fieldId),
                     single = $('label[for="field_' + fieldKey + '-' + optKey + '"]'),
                     baseName = 'field_options[options_' + fieldId + '][' + optKey + ']',
                     label = $('input[name="' + baseName + '[label]"]');
 
             if (single.length < 1) {
-                hashFormBuilder.resetDisplayedOpts(fieldId);
+                hashFormAdmin.resetDisplayedOpts(fieldId);
 
                 // Set the default value.
                 defaultVal = thisOpt.find('input[name^="default_value_"]');
@@ -936,27 +936,27 @@ var hashFormBuilder = hashFormBuilder || {};
             if (input.is('select')) {
                 placeholder = document.getElementById('hf-placeholder-' + fieldId);
                 if (placeholder !== null && placeholder.value === '') {
-                    hashFormBuilder.fillDropdownOpts(input[0], {sourceID: fieldId});
+                    hashFormAdmin.fillDropdownOpts(input[0], {sourceID: fieldId});
                 } else {
-                    hashFormBuilder.fillDropdownOpts(input[0], {
+                    hashFormAdmin.fillDropdownOpts(input[0], {
                         sourceID: fieldId,
                         placeholder: placeholder.value
                     });
                 }
             } else {
-                opts = hashFormBuilder.getMultipleOpts(fieldId);
+                opts = hashFormAdmin.getMultipleOpts(fieldId);
                 type = input.attr('type');
                 $('#hf-editor-field-container-' + fieldId + ' .hf-choice-container').html('');
-                fieldInfo = hashFormBuilder.getFieldKeyFromOpt($('#hf-option-list-' + fieldId + '-000'));
+                fieldInfo = hashFormAdmin.getFieldKeyFromOpt($('#hf-option-list-' + fieldId + '-000'));
 
                 var container = $('#hf-editor-field-container-' + fieldId + ' .hf-choice-container');
 
                 for (i = 0; i < opts.length; i++) {
-                    container.append(hashFormBuilder.addRadioCheckboxOpt(type, opts[ i ], fieldId, fieldInfo.fieldKey));
+                    container.append(hashFormAdmin.addRadioCheckboxOpt(type, opts[ i ], fieldId, fieldInfo.fieldKey));
                 }
             }
 
-            hashFormBuilder.adjustConditionalLogicOptionOrders(fieldId);
+            hashFormAdmin.adjustConditionalLogicOptionOrders(fieldId);
         },
 
         fillDropdownOpts: function (field, atts) {
@@ -967,8 +967,8 @@ var hashFormBuilder = hashFormBuilder || {};
                     placeholder = atts.placeholder,
                     showOther = atts.other;
 
-            hashFormBuilder.removeDropdownOpts(field);
-            var opts = hashFormBuilder.getMultipleOpts(sourceID),
+            hashFormAdmin.removeDropdownOpts(field);
+            var opts = hashFormAdmin.getMultipleOpts(sourceID),
                     hasPlaceholder = (typeof placeholder !== 'undefined');
 
             for (var i = 0; i < opts.length; i++) {
@@ -976,7 +976,7 @@ var hashFormBuilder = hashFormBuilder || {};
                         isOther = opts[ i ].key.indexOf('other') !== -1;
 
                 if (hasPlaceholder && label !== '') {
-                    hashFormBuilder.addBlankSelectOption(field, placeholder);
+                    hashFormAdmin.addBlankSelectOption(field, placeholder);
                 } else if (hasPlaceholder) {
                     label = placeholder;
                 }
@@ -1008,7 +1008,7 @@ var hashFormBuilder = hashFormBuilder || {};
             var row, rowIndex, opts, logicId, valueSelect, rowOptions, expectedOrder, optionLength, optionIndex, expectedOption, optionMatch,
                     rows = document.getElementById('hf-wrap').querySelectorAll('.hashform_logic_row'),
                     rowLength = rows.length,
-                    fieldOptions = hashFormBuilder.getFieldOptions(fieldId),
+                    fieldOptions = hashFormAdmin.getFieldOptions(fieldId),
                     optionLength = fieldOptions.length;
 
             for (rowIndex = 0; rowIndex < rowLength; rowIndex++) {
@@ -1043,7 +1043,7 @@ var hashFormBuilder = hashFormBuilder || {};
         },
 
         initBulkOptionsOverlay: function () {
-            var $info = hashFormBuilder.initModal('#hf-bulk-edit-modal', '700px');
+            var $info = hashFormAdmin.initModal('#hf-bulk-edit-modal', '700px');
             if ($info === false)
                 return;
             $('.hf-insert-preset').on('click', function (event) {
@@ -1060,7 +1060,7 @@ var hashFormBuilder = hashFormBuilder || {};
                         optList,
                         opts,
                         fieldId = $(this).closest('[data-fid]').data('fid'),
-                        separate = hashFormBuilder.usingSeparateValues(fieldId);
+                        separate = hashFormAdmin.usingSeparateValues(fieldId);
 
                 optList = document.getElementById('hf-field-options-' + fieldId);
                 if (!optList)
@@ -1096,7 +1096,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 if (optionType)
                     return;
                 this.classList.add('hf-loading-button');
-                var separate = hashFormBuilder.usingSeparateValues(fieldId),
+                var separate = hashFormAdmin.usingSeparateValues(fieldId),
                         action = 'hashform_import_options';
                 jQuery.ajax({
                     type: 'POST',
@@ -1110,7 +1110,7 @@ var hashFormBuilder = hashFormBuilder || {};
                     },
                     success: function (html) {
                         document.getElementById('hf-field-options-' + fieldId).innerHTML = html;
-                        hashFormBuilder.resetDisplayedOpts(fieldId);
+                        hashFormAdmin.resetDisplayedOpts(fieldId);
                         if (typeof $info !== 'undefined') {
                             $info.dialog('close');
                             document.getElementById('hf-update-bulk-options').classList.remove('hf-loading-button');
@@ -1139,7 +1139,7 @@ var hashFormBuilder = hashFormBuilder || {};
                     $('#wpwrap').addClass('hashform_overlay');
                     $('.hf-dialog').removeClass('ui-widget ui-widget-content ui-corner-all');
                     $info.removeClass('ui-dialog-content ui-widget-content');
-                    hashFormBuilder.bindClickForDialogClose($info);
+                    hashFormAdmin.bindClickForDialogClose($info);
                 },
                 close: function () {
                     $('#wpwrap').removeClass('hashform_overlay');
@@ -1189,7 +1189,7 @@ var hashFormBuilder = hashFormBuilder || {};
         },
 
         preFormSave: function (b) {
-            hfBuilder.removeWPUnload();
+            hashFormBuilder.removeWPUnload();
             if ($('form.inplace_form').length) {
                 $('.inplace_save, .postbox').trigger('click');
             }
@@ -1205,7 +1205,7 @@ var hashFormBuilder = hashFormBuilder || {};
         afterFormSave: function (button) {
             button.classList.remove('hashform-updating');
             button.classList.remove('hashform_loading_button');
-            hfBuilder.resetOptionTextDetails();
+            hashFormBuilder.resetOptionTextDetails();
             fieldsUpdated = 0;
             button.setAttribute('aria-busy', 'false');
 
@@ -1264,7 +1264,7 @@ var hashFormBuilder = hashFormBuilder || {};
                     imageUrl = '',
                     hasImageOptions = document.getElementsByName('field_options[select_option_type_' + fieldId + ']').length > 0,
                     optVals = $('input[name^="field_options[options_' + fieldId + ']"]'),
-                    separateValues = hashFormBuilder.usingSeparateValues(fieldId);
+                    separateValues = hashFormAdmin.usingSeparateValues(fieldId);
 
             for (i = 0; i < optVals.length; i++) {
                 if (optVals[ i ].name.indexOf('[000]') > 0 || optVals[ i ].name.indexOf('[value]') > 0 || optVals[ i ].name.indexOf('[image]') > 0 || optVals[ i ].name.indexOf('[price]') > 0) {
@@ -1279,12 +1279,12 @@ var hashFormBuilder = hashFormBuilder || {};
                     saved = $('input[name="' + labelName + '"]').val();
                 }
 
-                checked = hfBuilder.getChecked(optVals[ i ].getAttribute('data-id'));
+                checked = hashFormBuilder.getChecked(optVals[ i ].getAttribute('id'));
 
                 if (hasImageOptions) {
-                    imageUrl = hfBuilder.getImageUrlFromInput(optVals[i]);
+                    imageUrl = hashFormBuilder.getImageUrlFromInput(optVals[i]);
                     fieldType = document.getElementsByName('field_options[select_option_type_' + fieldId + ']').value;
-                    label = hfBuilder.getImageLabel(label, false, imageUrl, fieldType);
+                    label = hashFormBuilder.getImageLabel(label, false, imageUrl, fieldType);
                 }
 
                 optObj = {
@@ -1342,6 +1342,6 @@ var hashFormBuilder = hashFormBuilder || {};
     };
 
     $(function () {
-        hashFormBuilder.init();
+        hashFormAdmin.init();
     });
 })(jQuery);

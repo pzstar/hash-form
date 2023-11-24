@@ -1,4 +1,4 @@
-var hfBuilder = hfBuilder || {};
+var hashFormBuilder = hashFormBuilder || {};
 
 (function ($) {
     'use strict';
@@ -12,32 +12,32 @@ var hfBuilder = hfBuilder || {};
             fieldsUpdated = 0,
             autoId = 0;
 
-    hfBuilder = {
+    hashFormBuilder = {
         init: function () {
-            hfBuilder.initBuild();
+            hashFormBuilder.initBuild();
 
         },
 
         initBuild: function () {
             $('ul.hf-fields-list, .hf-fields-list li').disableSelection();
 
-            hfBuilder.setupSortable('ul.hf-editor-sorting');
-            document.querySelectorAll('.hf-fields-list > li').forEach(hfBuilder.makeDraggable);
+            hashFormBuilder.setupSortable('ul.hf-editor-sorting');
+            document.querySelectorAll('.hf-fields-list > li').forEach(hashFormBuilder.makeDraggable);
 
-            $editorFieldsWrap.on('click', 'li.hf-editor-field-box.ui-state-default', hfBuilder.clickField);
-            $editorFieldsWrap.on('click', '.hf-editor-delete-action', hfBuilder.clickDeleteField);
-            $editorFieldsWrap.on('mousedown', 'input, textarea, select', hfBuilder.stopFieldFocus);
-            $editorFieldsWrap.on('click', 'input[type=radio], input[type=checkbox]', hfBuilder.stopFieldFocus);
+            $editorFieldsWrap.on('click', 'li.hf-editor-field-box.ui-state-default', hashFormBuilder.clickField);
+            $editorFieldsWrap.on('click', '.hf-editor-delete-action', hashFormBuilder.clickDeleteField);
+            $editorFieldsWrap.on('mousedown', 'input, textarea, select', hashFormBuilder.stopFieldFocus);
+            $editorFieldsWrap.on('click', 'input[type=radio], input[type=checkbox]', hashFormBuilder.stopFieldFocus);
 
-            $('#hf-add-fields-panel').on('click', '.hf-add-field', hfBuilder.addFieldClick);
+            $('#hf-add-fields-panel').on('click', '.hf-add-field', hashFormBuilder.addFieldClick);
         },
 
         setupSortable: function (sortableSelector) {
             document.querySelectorAll(sortableSelector).forEach(
                     list => {
-                        hfBuilder.makeDroppable(list);
+                        hashFormBuilder.makeDroppable(list);
                         Array.from(list.children).forEach(
-                                child => hfBuilder.makeDraggable(child, '.hf-editor-move-action')
+                                child => hashFormBuilder.makeDraggable(child, '.hf-editor-move-action')
                         );
                     }
             );
@@ -47,9 +47,9 @@ var hfBuilder = hfBuilder || {};
         makeDroppable: function (list) {
             $(list).droppable({
                 accept: '.hf-field-box, .hf-editor-field-box',
-                deactivate: hfBuilder.handleFieldDrop,
-                over: hfBuilder.onDragOverDroppable,
-                out: hfBuilder.onDraggableLeavesDroppable,
+                deactivate: hashFormBuilder.handleFieldDrop,
+                over: hashFormBuilder.onDragOverDroppable,
+                out: hashFormBuilder.onDraggableLeavesDroppable,
                 tolerance: 'pointer'
             });
         },
@@ -89,7 +89,7 @@ var hfBuilder = hfBuilder || {};
                         }
                     }
 
-                    return hfBuilder.div({className: 'hf-field-box'});
+                    return hashFormBuilder.div({className: 'hf-field-box'});
                 },
                 revert: 'invalid',
                 delay: 10,
@@ -99,9 +99,9 @@ var hfBuilder = hfBuilder || {};
 
                     event.target.classList.add('hf-drag-fade');
 
-                    hfBuilder.unselectFieldGroups();
-                    hfBuilder.deleteEmptyDividerWrappers();
-                    hfBuilder.maybeRemoveGroupHoverTarget();
+                    hashFormBuilder.unselectFieldGroups();
+                    hashFormBuilder.deleteEmptyDividerWrappers();
+                    hashFormBuilder.maybeRemoveGroupHoverTarget();
                 },
                 stop: function () {
                     document.body.classList.remove('hf-dragging');
@@ -114,11 +114,11 @@ var hfBuilder = hfBuilder || {};
                 drag: function (event, ui) {
                     // maybeScrollBuilder( event );
                     const draggable = event.target;
-                    const droppable = hfBuilder.getDroppableTarget();
+                    const droppable = hashFormBuilder.getDroppableTarget();
 
                     let placeholder = document.getElementById('hf-placeholder');
 
-                    if (!hfBuilder.allowDrop(draggable, droppable)) {
+                    if (!hashFormBuilder.allowDrop(draggable, droppable)) {
                         if (placeholder) {
                             placeholder.remove();
                         }
@@ -126,7 +126,7 @@ var hfBuilder = hfBuilder || {};
                     }
 
                     if (!placeholder) {
-                        placeholder = hfBuilder.tag('li', {
+                        placeholder = hashFormBuilder.tag('li', {
                             id: 'hf-placeholder',
                             className: 'sortable-placeholder'
                         });
@@ -135,12 +135,12 @@ var hfBuilder = hfBuilder || {};
 
                     if ('hf-editor-fields' === droppable.id || droppable.classList.contains('start_divider')) {
                         placeholder.style.left = 0;
-                        hfBuilder.handleDragOverYAxis({droppable, y: event.clientY, placeholder});
+                        hashFormBuilder.handleDragOverYAxis({droppable, y: event.clientY, placeholder});
                         return;
                     }
 
                     placeholder.style.top = '';
-                    hfBuilder.handleDragOverFieldGroup({droppable, x: event.clientX, placeholder});
+                    hashFormBuilder.handleDragOverFieldGroup({droppable, x: event.clientX, placeholder});
                 },
                 cursor: 'grabbing',
                 refreshPositions: true,
@@ -156,7 +156,7 @@ var hfBuilder = hfBuilder || {};
         },
 
         div: function (args) {
-            return hfBuilder.tag('div', args);
+            return hashFormBuilder.tag('div', args);
         },
 
         tag: function (type, args = {}) {
@@ -223,7 +223,7 @@ var hfBuilder = hfBuilder || {};
                 return false;
             }
 
-            $('#wpbody-content').off('mousemove', hfBuilder.maybeRemoveHoverTargetOnMouseMove);
+            $('#wpbody-content').off('mousemove', hashFormBuilder.maybeRemoveHoverTargetOnMouseMove);
             previousHoverTarget.classList.remove('hf-field-group-hover-target');
             return previousHoverTarget;
         },
@@ -248,7 +248,7 @@ var hfBuilder = hfBuilder || {};
                 $list.prepend(placeholder);
                 top = 0;
             } else {
-                const insertAtIndex = hfBuilder.determineIndexBasedOffOfMousePositionInList($list, y);
+                const insertAtIndex = hashFormBuilder.determineIndexBasedOffOfMousePositionInList($list, y);
                 if (insertAtIndex === $children.length) {
                     const $lastChild = $($children.get(insertAtIndex - 1));
                     top = $lastChild.offset().top + $lastChild.outerHeight();
@@ -270,12 +270,12 @@ var hfBuilder = hfBuilder || {};
 
         handleDragOverFieldGroup: function ( {droppable, x, placeholder}) {
             const $row = $(droppable);
-            const $children = hfBuilder.getFieldsInRow($row);
+            const $children = hashFormBuilder.getFieldsInRow($row);
             if (!$children.length) {
                 return;
             }
             let left;
-            const insertAtIndex = hfBuilder.determineIndexBasedOffOfMousePositionInRow($row, x);
+            const insertAtIndex = hashFormBuilder.determineIndexBasedOffOfMousePositionInRow($row, x);
 
             if (insertAtIndex === $children.length) {
                 const $lastChild = $($children.get(insertAtIndex - 1));
@@ -293,7 +293,7 @@ var hfBuilder = hfBuilder || {};
         },
 
         determineIndexBasedOffOfMousePositionInRow: function ($row, x) {
-            var $inputs = hfBuilder.getFieldsInRow($row),
+            var $inputs = hashFormBuilder.getFieldsInRow($row),
                     length = $inputs.length,
                     index, input, inputLeft, returnIndex;
             returnIndex = 0;
@@ -347,8 +347,8 @@ var hfBuilder = hfBuilder || {};
             }
 
             if (!droppable.classList.contains('start_divider')) {
-                const $fieldsInRow = hfBuilder.getFieldsInRow($(droppable));
-                if (!hfBuilder.groupCanFitAnotherField($fieldsInRow, $(draggable))) {
+                const $fieldsInRow = hashFormBuilder.getFieldsInRow($(droppable));
+                if (!hashFormBuilder.groupCanFitAnotherField($fieldsInRow, $(draggable))) {
                     // Field group is full and cannot accept another field.
                     return false;
                 }
@@ -356,9 +356,9 @@ var hfBuilder = hfBuilder || {};
 
             const isNewField = draggable.classList.contains('hf-added-field');
             if (isNewField) {
-                return hfBuilder.allowNewFieldDrop(draggable, droppable);
+                return hashFormBuilder.allowNewFieldDrop(draggable, droppable);
             }
-            return hfBuilder.allowMoveField(draggable, droppable);
+            return hashFormBuilder.allowMoveField(draggable, droppable);
         },
 
         groupCanFitAnotherField: function (fieldsInRow, $field) {
@@ -383,7 +383,7 @@ var hfBuilder = hfBuilder || {};
 
             const newFieldWillBeAddedToAGroup = !('hf-editor-fields' === droppable.id || droppable.classList.contains('start_divider'));
             if (newFieldWillBeAddedToAGroup) {
-                if (hfBuilder.groupIncludesBreakOrHidden(droppable)) {
+                if (hashFormBuilder.groupIncludesBreakOrHidden(droppable)) {
                     return false;
                 }
                 return !newHiddenField && !newPageBreakField;
@@ -404,7 +404,7 @@ var hfBuilder = hfBuilder || {};
 
         allowMoveField: function (draggable, droppable) {
             if (draggable.classList.contains('hf-editor-field-box') && !draggable.classList.contains('hf-editor-form-field')) {
-                return hfBuilder.allowMoveFieldGroup(draggable, droppable);
+                return hashFormBuilder.allowMoveFieldGroup(draggable, droppable);
             }
 
             const isPageBreak = draggable.classList.contains('hf-editor-field-type-break');
@@ -413,14 +413,14 @@ var hfBuilder = hfBuilder || {};
             }
 
             if (droppable.classList.contains('start_divider')) {
-                return hfBuilder.allowMoveFieldToSection(draggable);
+                return hashFormBuilder.allowMoveFieldToSection(draggable);
             }
 
             const isHiddenField = draggable.classList.contains('hf-editor-field-type-hidden');
             if (isHiddenField) {
                 return false;
             }
-            return hfBuilder.allowMoveFieldToGroup(draggable, droppable);
+            return hashFormBuilder.allowMoveFieldToGroup(draggable, droppable);
         },
 
         allowMoveFieldGroup: function (fieldGroup, droppable) {
@@ -448,7 +448,7 @@ var hfBuilder = hfBuilder || {};
         },
 
         allowMoveFieldToGroup: function (draggable, group) {
-            if (hfBuilder.groupIncludesBreakOrHidden(group)) {
+            if (hashFormBuilder.groupIncludesBreakOrHidden(group)) {
                 // Never allow any field beside a page break or a hidden field.
                 return false;
             }
@@ -493,7 +493,7 @@ var hfBuilder = hfBuilder || {};
                 }
             }
             $('.hf-selected-field-group').removeClass('hf-selected-field-group');
-            $(document).off('click', hfBuilder.unselectFieldGroups);
+            $(document).off('click', hashFormBuilder.unselectFieldGroups);
         },
 
         clickField: function (e) {
@@ -520,7 +520,7 @@ var hfBuilder = hfBuilder || {};
                 }
             }
 
-            hfBuilder.clickAction(this);
+            hashFormBuilder.clickAction(this);
         },
 
         clickAction: function (obj) {
@@ -529,9 +529,9 @@ var hfBuilder = hfBuilder || {};
                 return;
             if (obj.className.indexOf('hf-editor-field-type-end_divider') !== -1 && $thisobj.closest('.hf-editor-field-type-divider').hasClass('no_repeat_section'))
                 return;
-            hfBuilder.deselectFields();
+            hashFormBuilder.deselectFields();
             $thisobj.addClass('selected');
-            hfBuilder.showFieldOptions(obj);
+            hashFormBuilder.showFieldOptions(obj);
         },
 
         showFieldOptions: function (obj) {
@@ -545,20 +545,20 @@ var hfBuilder = hfBuilder || {};
             }
 
             singleField = document.getElementById('hf-fields-settings-' + fieldId);
-            hfBuilder.moveFieldSettings(singleField);
+            hashFormBuilder.moveFieldSettings(singleField);
 
             singleField.classList.remove('hf-hidden');
             document.getElementById('hf-options-tab').click();
 
             const editor = singleField.querySelector('.wp-editor-area');
             if (editor) {
-                wysiwyg.init(editor, {setupCallback: hfBuilder.setupTinyMceEventHandlers});
+                wysiwyg.init(editor, {setupCallback: hashFormBuilder.setupTinyMceEventHandlers});
             }
         },
 
         clickDeleteField: function () {
             if (confirm("Are you sure?")) {
-                hfBuilder.deleteFields($(this).attr('data-deletefield'))
+                hashFormBuilder.deleteFields($(this).attr('data-deletefield'))
             }
             return false;
         },
@@ -566,13 +566,13 @@ var hfBuilder = hfBuilder || {};
         deleteFields: function (fieldId) {
             var field = $('#hf-editor-field-id-' + fieldId);
 
-            hfBuilder.deleteField(fieldId);
+            hashFormBuilder.deleteField(fieldId);
             if (field.hasClass('hf-editor-field-type-divider')) {
                 field.find('li.hf-editor-field-box').each(function () {
-                    hfBuilder.deleteField(this.getAttribute('data-fid'));
+                    hashFormBuilder.deleteField(this.getAttribute('data-fid'));
                 });
             }
-            hfBuilder.toggleSectionHolder();
+            hashFormBuilder.toggleSectionHolder();
         },
 
         deleteField: function (fieldId) {
@@ -612,10 +612,10 @@ var hfBuilder = hfBuilder || {};
                         if ($('#hf-editor-fields li').length === 0) {
                             document.getElementById('hf-editor-wrap').classList.remove('hf-editor-has-fields');
                         } else if ($section.length) {
-                            hfBuilder.toggleOneSectionHolder($section);
+                            hashFormBuilder.toggleOneSectionHolder($section);
                         }
                         if ($adjacentFields.length) {
-                            hfBuilder.syncLayoutClasses($adjacentFields.first());
+                            hashFormBuilder.syncLayoutClasses($adjacentFields.first());
                         } else {
                             $liWrapper.remove();
                         }
@@ -627,7 +627,7 @@ var hfBuilder = hfBuilder || {};
         toggleSectionHolder: function () {
             document.querySelectorAll('.start_divider').forEach(
                     function (divider) {
-                        hfBuilder.toggleOneSectionHolder($(divider));
+                        hashFormBuilder.toggleOneSectionHolder($(divider));
                     }
             );
         },
@@ -660,19 +660,19 @@ var hfBuilder = hfBuilder || {};
                 },
                 success: function (msg) {
                     document.getElementById('hf-editor-wrap').classList.add('hf-editor-has-fields');
-                    const replaceWith = hfBuilder.wrapFieldLi(msg);
+                    const replaceWith = hashFormBuilder.wrapFieldLi(msg);
                     $editorFieldsWrap.append(replaceWith);
-                    hfBuilder.afterAddField(msg, true);
+                    hashFormBuilder.afterAddField(msg, true);
 
                     replaceWith.each(
                             function () {
-                                hfBuilder.makeDroppable(this.querySelector('ul.hf-editor-sorting'));
-                                hfBuilder.makeDraggable(this.querySelector('.hf-editor-form-field'), '.hf-editor-move-action');
+                                hashFormBuilder.makeDroppable(this.querySelector('ul.hf-editor-sorting'));
+                                hashFormBuilder.makeDraggable(this.querySelector('.hf-editor-form-field'), '.hf-editor-move-action');
                             }
                     );
-                    hfBuilder.maybeFixRangeSlider();
+                    hashFormBuilder.maybeFixRangeSlider();
                 },
-                error: hfBuilder.handleInsertFieldError
+                error: hashFormBuilder.handleInsertFieldError
             });
             return false;
         },
@@ -684,7 +684,7 @@ var hfBuilder = hfBuilder || {};
         deselectFields: function (preventFieldGroups) {
             $('li.ui-state-default.selected').removeClass('selected');
             if (!preventFieldGroups) {
-                hfBuilder.unselectFieldGroups();
+                hashFormBuilder.unselectFieldGroups();
             }
         },
 
@@ -710,7 +710,7 @@ var hfBuilder = hfBuilder || {};
         },
 
         infoModal: function (msg) {
-            var $info = hfBuilder.initModal('#hashform_info_modal', '400px');
+            var $info = hashFormBuilder.initModal('#hashform_info_modal', '400px');
             if ($info === false) {
                 return false;
             }
@@ -725,7 +725,7 @@ var hfBuilder = hfBuilder || {};
 
             if (!placeholder) {
                 ui.helper.remove();
-                hfBuilder.syncAfterDragAndDrop();
+                hashFormBuilder.syncAfterDragAndDrop();
                 return;
             }
             const $previousFieldContainer = ui.helper.parent();
@@ -733,9 +733,9 @@ var hfBuilder = hfBuilder || {};
             const newSection = placeholder.closest('ul.hf-editor-sorting');
 
             if (draggable.classList.contains('hf-added-field')) {
-                hfBuilder.insertNewFieldByDragging(draggable.id);
+                hashFormBuilder.insertNewFieldByDragging(draggable.id);
             } else {
-                hfBuilder.moveFieldThatAlreadyExists(draggable, placeholder);
+                hashFormBuilder.moveFieldThatAlreadyExists(draggable, placeholder);
             }
 
             const previousSectionId = previousSection ? parseInt(previousSection.closest('.hf-editor-field-type-divider').getAttribute('data-fid')) : 0;
@@ -744,26 +744,26 @@ var hfBuilder = hfBuilder || {};
             placeholder.remove();
             ui.helper.remove();
 
-            const $previousContainerFields = $previousFieldContainer.length ? hfBuilder.getFieldsInRow($previousFieldContainer) : [];
-            hfBuilder.maybeUpdatePreviousFieldContainerAfterDrop($previousFieldContainer, $previousContainerFields);
-            hfBuilder.maybeUpdateDraggableClassAfterDrop(draggable, $previousContainerFields);
+            const $previousContainerFields = $previousFieldContainer.length ? hashFormBuilder.getFieldsInRow($previousFieldContainer) : [];
+            hashFormBuilder.maybeUpdatePreviousFieldContainerAfterDrop($previousFieldContainer, $previousContainerFields);
+            hashFormBuilder.maybeUpdateDraggableClassAfterDrop(draggable, $previousContainerFields);
 
             if (previousSectionId !== newSectionId) {
-                hfBuilder.updateFieldAfterMovingBetweenSections($(draggable), previousSection);
+                hashFormBuilder.updateFieldAfterMovingBetweenSections($(draggable), previousSection);
             }
-            hfBuilder.syncAfterDragAndDrop();
+            hashFormBuilder.syncAfterDragAndDrop();
         },
 
         syncAfterDragAndDrop: function () {
-            hfBuilder.fixUnwrappedListItems();
-            hfBuilder.toggleSectionHolder();
-            hfBuilder.maybeFixEndDividers();
-            hfBuilder.maybeDeleteEmptyFieldGroups();
-            hfBuilder.updateFieldOrder();
+            hashFormBuilder.fixUnwrappedListItems();
+            hashFormBuilder.toggleSectionHolder();
+            hashFormBuilder.maybeFixEndDividers();
+            hashFormBuilder.maybeDeleteEmptyFieldGroups();
+            hashFormBuilder.updateFieldOrder();
 
             const event = new Event('hashform_sync_after_drag_and_drop', {bubbles: false});
             document.dispatchEvent(event);
-            hfBuilder.maybeFixRangeSlider();
+            hashFormBuilder.maybeFixRangeSlider();
         },
 
         fixUnwrappedListItems: function () {
@@ -782,7 +782,7 @@ var hfBuilder = hfBuilder || {};
                                     }
 
                                     if ('undefined' !== typeof child.classList && child.classList.contains('hf-editor-form-field')) {
-                                        hfBuilder.wrapFieldLiInPlace(child);
+                                        hashFormBuilder.wrapFieldLiInPlace(child);
                                     }
                                 }
                         );
@@ -800,7 +800,7 @@ var hfBuilder = hfBuilder || {};
             sectionHasFields = false;
             length = $rows.length;
             for (index = 0; index < length; ++index) {
-                if (0 !== hfBuilder.getFieldsInRow($($rows.get(index))).length) {
+                if (0 !== hashFormBuilder.getFieldsInRow($($rows.get(index))).length) {
                     sectionHasFields = true;
                     break;
                 }
@@ -835,8 +835,8 @@ var hfBuilder = hfBuilder || {};
                     if (currentOrder != newOrder) {
                         field.val(newOrder);
                         var singleField = document.getElementById('hf-fields-settings-' + fieldId);
-                        hfBuilder.moveFieldSettings(singleField);
-                        hfBuilder.fieldUpdated();
+                        hashFormBuilder.moveFieldSettings(singleField);
+                        hashFormBuilder.fieldUpdated();
                     }
                 }
             });
@@ -844,12 +844,12 @@ var hfBuilder = hfBuilder || {};
 
         setupTinyMceEventHandlers: function (editor) {
             editor.on('Change', function () {
-                hfBuilder.handleTinyMceChange(editor);
+                hashFormBuilder.handleTinyMceChange(editor);
             });
         },
 
         handleTinyMceChange: function (editor) {
-            if (!hfBuilder.isTinyMceActive() || tinyMCE.activeEditor.isHidden()) {
+            if (!hashFormBuilder.isTinyMceActive() || tinyMCE.activeEditor.isHidden()) {
                 return;
             }
 
@@ -872,7 +872,7 @@ var hfBuilder = hfBuilder || {};
         fieldUpdated: function () {
             if (!fieldsUpdated) {
                 fieldsUpdated = 1;
-                window.addEventListener('beforeunload', hfBuilder.confirmExit);
+                window.addEventListener('beforeunload', hashFormBuilder.confirmExit);
             }
         },
 
@@ -906,10 +906,10 @@ var hfBuilder = hfBuilder || {};
         },
 
         wrapFieldLiInPlace: function (li) {
-            const ul = hfBuilder.tag('ul', {
+            const ul = hashFormBuilder.tag('ul', {
                 className: 'hf-editor-grid-container hf-editor-sorting'
             });
-            const wrapper = hfBuilder.tag('li', {
+            const wrapper = hashFormBuilder.tag('li', {
                 className: 'hf-editor-field-box',
                 child: ul
             });
@@ -917,8 +917,8 @@ var hfBuilder = hfBuilder || {};
             li.replaceWith(wrapper);
             ul.appendChild(li);
 
-            hfBuilder.makeDroppable(ul);
-            hfBuilder.makeDraggable(wrapper, '.hf-editor-move-action');
+            hashFormBuilder.makeDroppable(ul);
+            hashFormBuilder.makeDraggable(wrapper, '.hf-editor-move-action');
         },
 
         maybeUpdatePreviousFieldContainerAfterDrop: function ($previousFieldContainer, $previousContainerFields) {
@@ -927,15 +927,15 @@ var hfBuilder = hfBuilder || {};
             }
 
             if ($previousContainerFields.length) {
-                hfBuilder.syncLayoutClasses($previousContainerFields.first());
+                hashFormBuilder.syncLayoutClasses($previousContainerFields.first());
             } else {
-                hfBuilder.maybeDeleteAnEmptyFieldGroup($previousFieldContainer.get(0));
+                hashFormBuilder.maybeDeleteAnEmptyFieldGroup($previousFieldContainer.get(0));
             }
         },
 
         maybeUpdateDraggableClassAfterDrop: function (draggable, $previousContainerFields) {
-            if (0 !== $previousContainerFields.length || 1 !== hfBuilder.getFieldsInRow($(draggable.parentNode)).length) {
-                hfBuilder.syncLayoutClasses($(draggable));
+            if (0 !== $previousContainerFields.length || 1 !== hashFormBuilder.getFieldsInRow($(draggable.parentNode)).length) {
+                hashFormBuilder.syncLayoutClasses($(draggable));
             }
         },
 
@@ -968,7 +968,7 @@ var hfBuilder = hfBuilder || {};
         onDragOverDroppable: function (event, ui) {
             const droppable = event.target;
             const draggable = ui.draggable[0];
-            if (!hfBuilder.allowDrop(draggable, droppable)) {
+            if (!hashFormBuilder.allowDrop(draggable, droppable)) {
                 droppable.classList.remove('hf-dropabble');
                 $(droppable).parents('ul.hf-editor-sorting').addClass('hf-dropabble');
                 return;
@@ -990,24 +990,24 @@ var hfBuilder = hfBuilder || {};
             }
             $fields = $item.parent().children('li.hf-editor-form-field, li.hf-field-loading').not('.hf-editor-field-type-end_divider');
             size = $fields.length;
-            layoutClasses = hfBuilder.getLayoutClasses();
+            layoutClasses = hashFormBuilder.getLayoutClasses();
 
             if ('even' === type && 5 !== size) {
-                $fields.each(hfBuilder.getSyncLayoutClass(layoutClasses, hfBuilder.getEvenClassForSize(size)));
+                $fields.each(hashFormBuilder.getSyncLayoutClass(layoutClasses, hashFormBuilder.getEvenClassForSize(size)));
             } else if ('clear' === type) {
-                $fields.each(hfBuilder.getSyncLayoutClass(layoutClasses, ''));
+                $fields.each(hashFormBuilder.getSyncLayoutClass(layoutClasses, ''));
             } else {
                 if (-1 !== ['left', 'right', 'middle', 'even'].indexOf(type)) {
                     classToAddFunction = function (index) {
-                        return hfBuilder.getClassForBlock(size, type, index);
+                        return hashFormBuilder.getClassForBlock(size, type, index);
                     };
                 } else {
                     classToAddFunction = function (index) {
                         var size = type[ index ];
-                        return hfBuilder.getLayoutClassForSize(size);
+                        return hashFormBuilder.getLayoutClassForSize(size);
                     };
                 }
-                $fields.each(hfBuilder.getSyncLayoutClass(layoutClasses, classToAddFunction));
+                $fields.each(hashFormBuilder.getSyncLayoutClass(layoutClasses, classToAddFunction));
             }
         },
 
@@ -1033,7 +1033,7 @@ var hfBuilder = hfBuilder || {};
                     return;
                 }
 
-                hfBuilder.moveFieldSettings(document.getElementById('hf-fields-settings-' + fieldId));
+                hashFormBuilder.moveFieldSettings(document.getElementById('hf-fields-settings-' + fieldId));
                 var gridClassInput = document.getElementById('hf-grid-class-' + fieldId);
 
                 if (null === gridClassInput) {
@@ -1042,7 +1042,7 @@ var hfBuilder = hfBuilder || {};
                 }
 
                 gridClassInput.value = currentClassToAdd;
-                hfBuilder.changeFieldClass(document.getElementById('hf-editor-field-id-' + fieldId), currentClassToAdd);
+                hashFormBuilder.changeFieldClass(document.getElementById('hf-editor-field-id-' + fieldId), currentClassToAdd);
             };
         },
 
@@ -1085,18 +1085,18 @@ var hfBuilder = hfBuilder || {};
 
         updateFieldAfterMovingBetweenSections: function (currentItem, previousSection) {
             if (!currentItem.hasClass('hf-editor-form-field')) {
-                hfBuilder.getFieldsInRow($(currentItem.get(0).firstChild)).each(
+                hashFormBuilder.getFieldsInRow($(currentItem.get(0).firstChild)).each(
                         function () {
-                            hfBuilder.updateFieldAfterMovingBetweenSections($(this), previousSection);
+                            hashFormBuilder.updateFieldAfterMovingBetweenSections($(this), previousSection);
                         }
                 );
                 return;
             }
             const fieldId = currentItem.attr('id').replace('hf-editor-field-id-', '');
-            const section = hfBuilder.getSectionForFieldPlacement(currentItem);
-            const formId = hfBuilder.getFormIdForFieldPlacement(section);
-            const sectionId = hfBuilder.getSectionIdForFieldPlacement(section);
-            const previousFormId = previousSection ? hfBuilder.getFormIdForFieldPlacement($(previousSection.parentNode)) : 0;
+            const section = hashFormBuilder.getSectionForFieldPlacement(currentItem);
+            const formId = hashFormBuilder.getFormIdForFieldPlacement(section);
+            const sectionId = hashFormBuilder.getSectionIdForFieldPlacement(section);
+            const previousFormId = previousSection ? hashFormBuilder.getFormIdForFieldPlacement($(previousSection.parentNode)) : 0;
 
             jQuery.ajax({
                 type: 'POST',
@@ -1110,27 +1110,27 @@ var hfBuilder = hfBuilder || {};
                     nonce: hashform_backend_js.nonce
                 },
                 success: function () {
-                    hfBuilder.toggleSectionHolder();
-                    hfBuilder.updateInSectionValue(fieldId, sectionId);
+                    hashFormBuilder.toggleSectionHolder();
+                    hashFormBuilder.updateInSectionValue(fieldId, sectionId);
                 }
             });
         },
 
         insertNewFieldByDragging: function (fieldType) {
             const placeholder = document.getElementById('hf-placeholder');
-            const loadingID = fieldType.replace('|', '-') + '_' + hfBuilder.getAutoId();
-            const loading = hfBuilder.tag('li', {
+            const loadingID = fieldType.replace('|', '-') + '_' + hashFormBuilder.getAutoId();
+            const loading = hashFormBuilder.tag('li', {
                 id: loadingID,
                 className: 'hf-wait hf-field-loading'
             });
             const $placeholder = $(loading);
             const currentItem = $(placeholder);
-            const section = hfBuilder.getSectionForFieldPlacement(currentItem);
-            const formId = hfBuilder.getFormIdForFieldPlacement(section);
-            const sectionId = hfBuilder.getSectionIdForFieldPlacement(section);
+            const section = hashFormBuilder.getSectionForFieldPlacement(currentItem);
+            const formId = hashFormBuilder.getFormIdForFieldPlacement(section);
+            const sectionId = hashFormBuilder.getSectionIdForFieldPlacement(section);
             placeholder.parentNode.insertBefore(loading, placeholder);
             placeholder.remove();
-            hfBuilder.syncLayoutClasses($placeholder);
+            hashFormBuilder.syncLayoutClasses($placeholder);
             let hasBreak = 0;
             if ('summary' === fieldType) {
                 hasBreak = $('.hf-field-loading#' + loadingID).prevAll('li[data-type="break"]').length ? 1 : 0;
@@ -1148,28 +1148,28 @@ var hfBuilder = hfBuilder || {};
                     document.getElementById('hf-editor-wrap').classList.add('hf-editor-has-fields');
                     const $siblings = $placeholder.siblings('li.hf-editor-form-field').not('.hf-editor-field-type-end_divider');
                     if (!$siblings.length) {
-                        replaceWith = hfBuilder.wrapFieldLi(msg);
+                        replaceWith = hashFormBuilder.wrapFieldLi(msg);
                     } else {
-                        replaceWith = hfBuilder.msgAsObject(msg);
+                        replaceWith = hashFormBuilder.msgAsObject(msg);
                         if (!$placeholder.get(0).parentNode.parentNode.classList.contains('ui-draggable')) {
-                            hfBuilder.makeDraggable($placeholder.get(0).parentNode.parentNode, '.hf-editor-move-action');
+                            hashFormBuilder.makeDraggable($placeholder.get(0).parentNode.parentNode, '.hf-editor-move-action');
                         }
                     }
                     $placeholder.replaceWith(replaceWith);
-                    hfBuilder.updateFieldOrder();
-                    hfBuilder.afterAddField(msg, false);
+                    hashFormBuilder.updateFieldOrder();
+                    hashFormBuilder.afterAddField(msg, false);
                     if ($siblings.length) {
-                        hfBuilder.syncLayoutClasses($siblings.first());
+                        hashFormBuilder.syncLayoutClasses($siblings.first());
                     }
-                    hfBuilder.toggleSectionHolder();
+                    hashFormBuilder.toggleSectionHolder();
                     if (!$siblings.length) {
-                        hfBuilder.makeDroppable(replaceWith.get(0).querySelector('ul.hf-editor-sorting'));
-                        hfBuilder.makeDraggable(replaceWith.get(0).querySelector('li.hf-editor-form-field'), '.hf-editor-move-action');
+                        hashFormBuilder.makeDroppable(replaceWith.get(0).querySelector('ul.hf-editor-sorting'));
+                        hashFormBuilder.makeDraggable(replaceWith.get(0).querySelector('li.hf-editor-form-field'), '.hf-editor-move-action');
                     } else {
-                        hfBuilder.makeDraggable(replaceWith.get(0), '.hf-editor-move-action');
+                        hashFormBuilder.makeDraggable(replaceWith.get(0), '.hf-editor-move-action');
                     }
                 },
-                error: hfBuilder.handleInsertFieldError
+                error: hashFormBuilder.handleInsertFieldError
             });
         },
 
@@ -1178,18 +1178,18 @@ var hfBuilder = hfBuilder || {};
         },
 
         msgAsObject: function (msg) {
-            const element = hfBuilder.div();
+            const element = hashFormBuilder.div();
             element.innerHTML = msg;
             return $(element.innerHTML);
         },
 
         handleInsertFieldError: function (jqXHR, _, errorThrown) {
-            hfBuilder.maybeShowInsertFieldError(errorThrown, jqXHR);
+            hashFormBuilder.maybeShowInsertFieldError(errorThrown, jqXHR);
         },
 
         maybeShowInsertFieldError: function (errorThrown, jqXHR) {
             if (!jqXHRAborted(jqXHR)) {
-                hfBuilder.infoModal(errorThrown + '. Please try again.');
+                hashFormBuilder.infoModal(errorThrown + '. Please try again.');
             }
         },
 
@@ -1206,11 +1206,11 @@ var hfBuilder = hfBuilder || {};
             if (null !== elementFromPoint && null !== elementFromPoint.closest('#hf-editor-fields')) {
                 return;
             }
-            hfBuilder.maybeRemoveGroupHoverTarget();
+            hashFormBuilder.maybeRemoveGroupHoverTarget();
         },
 
         wrapFieldLi: function (field) {
-            const wrapper = hfBuilder.div();
+            const wrapper = hashFormBuilder.div();
             if ('string' === typeof field) {
                 wrapper.innerHTML = field;
             } else {
@@ -1240,13 +1240,13 @@ var hfBuilder = hfBuilder || {};
                     $parentSection;
             var type = field.getAttribute('data-type');
 
-            hfBuilder.setupSortable(section);
+            hashFormBuilder.setupSortable(section);
             if ($thisSection.length) {
                 $thisSection.parent('.hf-editor-field-box').children('.hashform_no_section_fields').addClass('hashform_block');
             } else {
                 $parentSection = $(field).closest('ul.hf-editor-sorting.start_divider');
                 if ($parentSection.length) {
-                    hfBuilder.toggleOneSectionHolder($parentSection);
+                    hashFormBuilder.toggleOneSectionHolder($parentSection);
                     toggled = true;
                 }
             }
@@ -1274,11 +1274,11 @@ var hfBuilder = hfBuilder || {};
                 }
 
                 if (toggled === false) {
-                    hfBuilder.toggleOneSectionHolder($thisSection);
+                    hashFormBuilder.toggleOneSectionHolder($thisSection);
                 }
             }
 
-            hfBuilder.deselectFields();
+            hashFormBuilder.deselectFields();
 
             const addedEvent = new Event('hashform_added_field', {bubbles: false});
             addedEvent.hfField = field;
@@ -1290,7 +1290,7 @@ var hfBuilder = hfBuilder || {};
 
         getClassForBlock: function (size, type, index) {
             if ('even' === type) {
-                return hfBuilder.getEvenClassForSize(size, index);
+                return hashFormBuilder.getEvenClassForSize(size, index);
             } else if ('middle' === type) {
                 if (3 === size) {
                     return 1 === index ? 'hf-grid-6' : 'hf-grid-3';
@@ -1299,16 +1299,16 @@ var hfBuilder = hfBuilder || {};
                     return 2 === index ? 'hf-grid-4' : 'hf-grid-2';
                 }
             } else if ('left' === type) {
-                return 0 === index ? hfBuilder.getLargeClassForSize(size) : hfBuilder.getSmallClassForSize(size);
+                return 0 === index ? hashFormBuilder.getLargeClassForSize(size) : hashFormBuilder.getSmallClassForSize(size);
             } else if ('right' === type) {
-                return index === size - 1 ? hfBuilder.getLargeClassForSize(size) : hfBuilder.getSmallClassForSize(size);
+                return index === size - 1 ? hashFormBuilder.getLargeClassForSize(size) : hashFormBuilder.getSmallClassForSize(size);
             }
             return 'hf-grid-12';
         },
 
         getEvenClassForSize: function (size, index) {
             if (-1 !== [2, 3, 4, 6].indexOf(size)) {
-                return hfBuilder.getLayoutClassForSize(12 / size);
+                return hashFormBuilder.getLayoutClassForSize(12 / size);
             }
             if (5 === size && 'undefined' !== typeof index) {
                 return 0 === index ? 'hf-grid-4' : 'hf-grid-2';
@@ -1402,7 +1402,7 @@ var hfBuilder = hfBuilder || {};
         },
 
         getChecked: function (id) {
-            var field = $('data-id["' + id + '"]');
+            var field = $('#' + id );
 
             if (field.length === 0) {
                 return false;
@@ -1455,7 +1455,7 @@ var hfBuilder = hfBuilder || {};
     }
 
     $(function () {
-        hfBuilder.init();
+        hashFormBuilder.init();
     });
 
 })(jQuery);
