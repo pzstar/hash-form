@@ -151,13 +151,13 @@ class HashFormEmail {
         if (!empty($redirect_url)) {
             return wp_send_json(array(
                 'status' => 'redirect',
-                'message' => $redirect_url
+                'message' => esc_url($redirect_url)
             ));
         }
 
         return wp_send_json(array(
             'status' => 'success',
-            'message' => $form_settings['confirmation_message']
+            'message' => sanitize_text_field($form_settings['confirmation_message'])
         ));
     }
 
