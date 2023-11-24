@@ -419,9 +419,9 @@ class HashFormEntry {
             return 0;
         $new_values = array(
             'meta_value' => is_array($meta_value) ? serialize($meta_value) : trim($meta_value),
-            'item_id' => $entry_id,
-            'field_id' => $field_id,
-            'created_at' => current_time('mysql'),
+            'item_id' => abs_int($entry_id),
+            'field_id' => abs_int($field_id),
+            'created_at' => sanitize_text_field(current_time('mysql')),
         );
         self::set_value_before_save($new_values);
         $query_results = $wpdb->insert($wpdb->prefix . 'hashform_entry_meta', $new_values);

@@ -224,14 +224,15 @@ class HashFormFields {
         $new_values = array();
         $key = isset($values['field_key']) ? $values['field_key'] : $values['name'];
         $new_values['field_key'] = HashFormHelper::get_unique_key('hashform_fields', 'field_key');
-        foreach (array('name', 'description', 'type', 'default_value') as $col)
+        foreach (array('name', 'description', 'type', 'default_value') as $col) {
             $new_values[$col] = $values[$col];
+        }
         $new_values['options'] = $values['options'];
         $new_values['field_order'] = isset($values['field_order']) ? (int) $values['field_order'] : '';
         $new_values['required'] = isset($values['required']) ? (int) $values['required'] : 0;
         $new_values['form_id'] = isset($values['form_id']) ? (int) $values['form_id'] : '';
         $new_values['field_options'] = $values['field_options'];
-        $new_values['created_at'] = current_time('mysql');
+        $new_values['created_at'] = sanitize_text_field(current_time('mysql'));
 
         self::preserve_format_option_backslashes($new_values);
         foreach ($new_values as $key => $val) {
