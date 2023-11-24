@@ -111,17 +111,17 @@
     margin: 0 0 5px;
 }
 
-.hf-settings-fields p.hf-desc{
+.hf-setting-fields p.hf-desc{
     margin: 8px 0 0;
     font-size: 13px;
     font-style: italic;
 }
 
-.hf-settings-fields select[multiple]{
+.hf-setting-fields select[multiple]{
     width: 400px;
 }
 
-.hf-settings-fields input[type="number"]{
+.hf-setting-fields input[type="number"]{
     width: 80px;
 }
 
@@ -594,7 +594,7 @@ ul.hf-shadow-fields {
 
 .hf-shadow-settings-field .hf-color-input-field{
     position: relative;
-    top: -13px;
+    top: -18px;
 }
 
 
@@ -700,7 +700,7 @@ ul.hf-shadow-fields {
 }
 
 /* Multiple Select */
-.hf-settings-fields .select2-container--default .select2-selection--multiple .select2-selection__clear{
+.hf-setting-fields .select2-container--default .select2-selection--multiple .select2-selection__clear{
     position: absolute;
     right: 0;
     top: 0;
@@ -710,15 +710,15 @@ ul.hf-shadow-fields {
     line-height: 1;
 }
 
-.hf-settings-fields .select2-container--default .select2-selection--multiple .select2-selection__rendered{
+.hf-setting-fields .select2-container--default .select2-selection--multiple .select2-selection__rendered{
     padding-right: 20px;
 }
 
-.hf-settings-fields .select2-container--default .select2-selection--multiple .select2-selection__rendered li{
+.hf-setting-fields .select2-container--default .select2-selection--multiple .select2-selection__rendered li{
     margin: 0;
 }
 
-.hf-settings-fields .select2-container--default .select2-selection--multiple li.select2-selection__choice{
+.hf-setting-fields .select2-container--default .select2-selection--multiple li.select2-selection__choice{
     background: #333;
     color: #FFF;
     border-radius: 2px;
@@ -727,7 +727,7 @@ ul.hf-shadow-fields {
     margin: 5px 5px 0 0;
 }
 
-.hf-settings-fields .select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
+.hf-setting-fields .select2-container--default .select2-selection--multiple .select2-selection__choice__remove{
     color: #333;
     background: #FFF;
     border-radius: 10px;
@@ -738,7 +738,7 @@ ul.hf-shadow-fields {
     margin-right: 6px;
 }
 
-.hf-settings-fields .select2-container--default .select2-search--inline .select2-search__field{
+.hf-setting-fields .select2-container--default .select2-search--inline .select2-search__field{
     min-height: 0;
 }
 
@@ -751,21 +751,22 @@ ul.hf-shadow-fields {
 .hf-color-input-field{
     display: flex;
     justify-content: flex-end;
-    margin-top: -34px;
+    margin-top: -30px;
+    margin-bottom: 25px;
 }
 
-.hf-settings-fields .hf-color-input-label{
+.hf-setting-fields .hf-color-input-label{
     margin: 0 !important;
     padding: 10px 0 !important;
 }
 
-.hf-settings-fields .wp-picker-container{
+.hf-setting-fields .wp-picker-container{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
 }
 
-.hf-settings-fields .wp-picker-container .wp-color-result.button{
+.hf-setting-fields .wp-picker-container .wp-color-result.button{
     border-radius: 50%;
     margin: 0;
     padding: 0;
@@ -774,22 +775,22 @@ ul.hf-shadow-fields {
     overflow: hidden;
 }
 
-.hf-settings-fields .wp-picker-open+.wp-picker-input-wrap{
+.hf-setting-fields .wp-picker-open+.wp-picker-input-wrap{
     display: flex;
     clear: both;
     width: 255px;
     margin-top: 15px;
 }
 
-.hf-settings-fields .wp-picker-input-wrap label{
+.hf-setting-fields .wp-picker-input-wrap label{
     flex-grow: 1;
 }
 
-.hf-settings-fields .wp-picker-container input[type=text].wp-color-picker{
+.hf-setting-fields .wp-picker-container input[type=text].wp-color-picker{
     width: 100% !important;
 }
 
-.hf-settings-fields .wp-color-result-text{
+.hf-setting-fields .wp-color-result-text{
     display: none;
 }
 

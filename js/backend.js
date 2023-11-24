@@ -597,7 +597,7 @@ var hashFormAdmin = hashFormAdmin || {};
 
             if (changes === null)
                 return;
-            for (i = 0; i < newValue; i++) {
+            for (var i = 0; i < newValue; i++) {
                 stars = stars + '<label class="hf-star-rating"><input type="radio"><span class="mdi mdi-star-outline"></span></label>';
             }
             $(changes).html(stars);
@@ -1279,7 +1279,7 @@ var hashFormAdmin = hashFormAdmin || {};
                     saved = $('input[name="' + labelName + '"]').val();
                 }
 
-                checked = hashFormBuilder.getChecked(optVals[ i ].getAttribute('id'));
+                checked = hashFormBuilder.getChecked(optVals[ i ].getAttribute('class'));
 
                 if (hasImageOptions) {
                     imageUrl = hashFormBuilder.getImageUrlFromInput(optVals[i]);

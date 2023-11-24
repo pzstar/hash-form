@@ -171,9 +171,13 @@ class HashFormFields {
                 'name' => __('Spinner', 'hash-form'),
                 'icon' => 'hfi hfi-quantity',
             ),
-            'captcha' => array(
-                'name' => __('reCAPTCHA', 'hash-form'),
-                'icon' => 'hfi hfi-recaptcha',
+            'date' => array(
+                'name' => __('Date', 'hash-form'),
+                'icon' => 'hfi hfi-date',
+            ),
+            'time' => array(
+                'name' => __('Time', 'hash-form'),
+                'icon' => 'hfi hfi-time',
             ),
             'user_id' => array(
                 'name' => __('User ID', 'hash-form'),
@@ -207,13 +211,9 @@ class HashFormFields {
                 'name' => __('HTML', 'hash-form'),
                 'icon' => 'hfi hfi-html',
             ),
-            'date' => array(
-                'name' => __('Date', 'hash-form'),
-                'icon' => 'hfi hfi-date',
-            ),
-            'time' => array(
-                'name' => __('Time', 'hash-form'),
-                'icon' => 'hfi hfi-time',
+            'captcha' => array(
+                'name' => __('reCAPTCHA', 'hash-form'),
+                'icon' => 'hfi hfi-recaptcha',
             ),
         );
     }

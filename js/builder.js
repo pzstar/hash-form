@@ -1402,7 +1402,7 @@ var hashFormBuilder = hashFormBuilder || {};
         },
 
         getChecked: function (id) {
-            var field = $('#' + id );
+            var field = $('.' + id );
 
             if (field.length === 0) {
                 return false;

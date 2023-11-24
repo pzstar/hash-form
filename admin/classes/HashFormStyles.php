@@ -370,7 +370,7 @@ class HashFormStyles {
         $text_decorations = self::get_text_decoration_choices();
         $label_id = str_replace('_', "-", $label);
         ?>
-        <div class="hf-settings-fields">
+        <div class="hf-setting-fields">
             <ul class="hf-typography-fields">
                 <?php if (!in_array('family', $exclude)) { ?>
                     <li class="hf-typography-font-family-field">

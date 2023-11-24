@@ -6,7 +6,7 @@ defined('ABSPATH') || die();
     <div class="hf-form-row hf-grid-container">
         <div class="hf-grid-3">
             <label><?php esc_html_e('Enable Auto Responder', 'hash-form'); ?></label>
-            <div class="hf-settings-fields hf-toggle-input-field">
+            <div class="hf-setting-fields hf-toggle-input-field">
                 <input type="hidden" name="enable_ar" value="off">
                 <input type="checkbox" name="enable_ar" value="on" <?php checked($settings['enable_ar'], 'on', true); ?>>
             </div>
