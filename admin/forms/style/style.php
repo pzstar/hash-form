@@ -54,7 +54,7 @@ $form_style = isset($styles['form_style']) ? esc_attr($styles['form_style']) : '
 
                     <div class="hf-form-row" data-condition-toggle="hf-form-style-select" data-condition-val="custom-style">
                         <label><?php esc_html_e('Choose Template Style', 'hash-form'); ?></label>
-                        <select name="form_style_template" id="form_style_template">
+                        <select name="form_style_template" id="hf-form-style-template">
                             <option value=""><?php esc_html_e('--Select Style--', 'hash-form'); ?></option>
                             <?php
                             $args = array(

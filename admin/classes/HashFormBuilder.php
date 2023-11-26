@@ -682,6 +682,9 @@ class HashFormBuilder {
 
     public static function update_settings($id, $values) {
         global $wpdb;
+        $values = HashFormHelper::recursive_parse_args($values, HashFormHelper::get_form_settings_checkbox_settings());
+        $values = HashFormHelper::sanitize_array($values, HashFormHelper::get_form_settings_sanitize_rules());
+        
         $new_values = array('settings' => serialize($values));
         if (!empty($new_values)) {
             $query_results = $wpdb->update($wpdb->prefix . 'hashform_forms', $new_values, array('id' => $id));

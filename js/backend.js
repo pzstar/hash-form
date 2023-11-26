@@ -753,10 +753,13 @@ var hashFormAdmin = hashFormAdmin || {};
 
         initStyleSettings: function () {
             $('.hashform-ajax-udpate-button').on('click', hashFormAdmin.submitStylesBuild);
-            $('#form_style_template').on('change', function (e) {
+            $('#hf-form-style-template').on('change', function (e) {
                 e.preventDefault();
                 const templateID = $(this).val();
-                const style = $(document).find('option[value="' + templateID + '"]').attr('data-style');
+                var style = '';
+                if (templateID) {
+                    style = $(document).find('option[value="' + templateID + '"]').attr('data-style');
+                }
                 $('style.hf-style-content').text(style);
             });
             $('#hf-form-style-select').on('change', function (e) {

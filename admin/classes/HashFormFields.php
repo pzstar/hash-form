@@ -223,10 +223,12 @@ class HashFormFields {
 
         $new_values = array();
         $key = isset($values['field_key']) ? $values['field_key'] : $values['name'];
-        $new_values['field_key'] = HashFormHelper::get_unique_key('hashform_fields', 'field_key');
-        foreach (array('name', 'description', 'type', 'default_value') as $col) {
-            $new_values[$col] = $values[$col];
-        }
+        $new_values['field_key'] = sanitize_text_field(HashFormHelper::get_unique_key('hashform_fields', 'field_key'));
+
+        $new_values['name'] = sanitize_text_field($values['name']);
+        $new_values['description'] = sanitize_text_field($values['description']);
+        $new_values['type'] = sanitize_text_field($values['type']);
+        $new_values['default_value'] = $values['default_value'];
         $new_values['options'] = $values['options'];
         $new_values['field_order'] = isset($values['field_order']) ? (int) $values['field_order'] : '';
         $new_values['required'] = isset($values['required']) ? (int) $values['required'] : 0;

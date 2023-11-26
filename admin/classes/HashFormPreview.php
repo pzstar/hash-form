@@ -30,7 +30,7 @@ class HashFormPreview {
 
         $styles = $form->styles ? $form->styles : '';
 
-        $form_class = array('hashform-form');
+        $form_class = array('hf-form');
         $form_class[] = isset($form->options['form_css_class']) ? $form->options['form_css_class'] : '';
         $form_class[] = $styles && isset($styles['form_style']) ? 'hf-form-' . esc_attr($styles['form_style']) : 'hf-form-default-style';
         $form_class = apply_filters('hashform_form_classes', $form_class);

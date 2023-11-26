@@ -312,6 +312,21 @@ class HashFormHelper {
             'error_message' => 'sanitize_text_field',
             'show_page_id' => 'sanitize_text_field',
             'redirect_url_page' => 'sanitize_text_field',
+            'condition_action' => array(
+                'sanitize_text_field'
+            ),
+            'compare_from' => array(
+                'sanitize_text_field'
+            ), 
+            'compare_to' => array(
+                'sanitize_text_field'
+            ),
+            'compare_condition' => array(
+                'sanitize_text_field'
+            ),
+            'compare_value' => array(
+                'sanitize_text_field'
+            )
         );
     }
 
