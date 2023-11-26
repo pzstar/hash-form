@@ -783,4 +783,45 @@ class HashFormHelper {
         return $new_args;
     }
 
+
+    public static function get_fleld_options_sanitize_rules() {
+        return array(
+            'size' => 'hashform_sanitize_number',
+            'max' => 'hashform_sanitize_number',
+            'label' => 'sanitize_text_field',
+            'blank' => 'sanitize_text_field',
+            'required_indicator' => 'sanitize_text_field',
+            'invalid' => 'sanitize_text_field',
+            'clear_on_focus' => 'hashform_sanitize_checkbox_boolean',
+            'classes' => 'sanitize_text_field',
+            'grid_id' => 'sanitize_text_field',
+            'minnum' => 'hashform_sanitize_number',
+            'maxnum' => 'hashform_sanitize_number',
+            'step' => 'hashform_sanitize_number',
+            'format' => 'sanitize_text_field',
+            'placeholder' => 'sanitize_text_field',
+            'disable' => 'hashform_sanitize_checkbox_boolean',
+            'label_position' => 'sanitize_text_field',
+            'label_alignment' => 'sanitize_text_field',
+            'field_max_width' => 'hashform_sanitize_number',
+            'field_max_width_unit' => 'sanitize_text_field',
+            'image' => 'hashform_sanitize_number',
+            'image_max_width' => 'hashform_sanitize_number',
+            'image_max_width_unit' => 'sanitize_text_field',
+            'image' => 'hashform_sanitize_number',
+            'image_max_width' => 'hashform_sanitize_number',
+            'image_max_width_unit' => 'sanitize_text_field',
+            'field_alignment' => 'sanitize_text_field',
+            'select_option_type' => 'sanitize_text_field',
+            'options_layout' => 'sanitize_text_field',
+            'border_width' => 'hashform_sanitize_number',
+            'border_style' => 'sanitize_text_field',
+            'spacer_height' => 'hashform_sanitize_number',
+            'rows' => 'hashform_sanitize_number',
+            'min_time' => 'sanitize_text_field',
+            'max_time' => 'sanitize_text_field',
+            'date_format' => 'sanitize_text_field',
+        );
+    }
+
 }

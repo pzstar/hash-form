@@ -222,18 +222,18 @@ class HashFormFields {
         global $wpdb, $hashform_duplicate_ids;
 
         $new_values = array();
-        $key = isset($values['field_key']) ? $values['field_key'] : $values['name'];
+        $key = isset($values['field_key']) ? sanitize_text_field($values['field_key']) : sanitize_text_field($values['name']);
         $new_values['field_key'] = sanitize_text_field(HashFormHelper::get_unique_key('hashform_fields', 'field_key'));
 
         $new_values['name'] = sanitize_text_field($values['name']);
         $new_values['description'] = sanitize_text_field($values['description']);
         $new_values['type'] = sanitize_text_field($values['type']);
-        $new_values['default_value'] = $values['default_value'];
-        $new_values['options'] = $values['options'];
-        $new_values['field_order'] = isset($values['field_order']) ? (int) $values['field_order'] : '';
-        $new_values['required'] = isset($values['required']) ? (int) $values['required'] : 0;
-        $new_values['form_id'] = isset($values['form_id']) ? (int) $values['form_id'] : '';
-        $new_values['field_options'] = $values['field_options'];
+        $new_values['default_value'] = is_array($values['default_value']) ? HashFormHelper::sanitize_array($values['default_value']) : sanitize_text_field($values['default_value']);
+        $new_values['options'] = is_array($values['options']) ? HashFormHelper::sanitize_array($values['options']) : sanitize_text_field($values['options']);
+        $new_values['field_order'] = isset($values['field_order']) ? absint($values['field_order']) : '';
+        $new_values['required'] = isset($values['required']) ? absint($values['required']) : 0;
+        $new_values['form_id'] = isset($values['form_id']) ? absint($values['form_id']) : '';
+        $new_values['field_options'] = is_array($values['field_options']) ? HashFormHelper::sanitize_array($values['field_options']) : sanitize_text_field($values['field_options'], HashFormHelper::get_fleld_options_sanitize_rules());
         $new_values['created_at'] = sanitize_text_field(current_time('mysql'));
 
         self::preserve_format_option_backslashes($new_values);

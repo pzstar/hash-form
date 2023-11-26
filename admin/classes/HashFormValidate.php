@@ -58,11 +58,6 @@ class HashFormValidate {
         }
     }
 
-    public static function before_insert_entry_in_database($values) {
-        $new_values = self::get_entry_data($values);
-        $values = self::sanitize_entries($values);
-        return $new_values;
-    }
 
     public static function sanitize_entries($values) {
         $sanitize_method = array(
@@ -88,33 +83,6 @@ class HashFormValidate {
         }
 
         return $values;
-    }
-
-    public static function get_entry_data($values) {
-        global $wpdb;
-        $new_values = array(
-            'ip' => HashFormHelper::get_ip(),
-            'delivery_status' => 1,
-            'form_id' => isset($values['form_id']) ? $values['form_id'] : '',
-            'created_at' => current_time('mysql'),
-            'user_id' => self::get_entry_user_id($values),
-            'status' => 'published'
-        );
-        return $new_values;
-    }
-
-    private static function get_entry_user_id($values) {
-        $current_user_id = get_current_user_id();
-        $user_id = $current_user_id ? $current_user_id : 0;
-        return $user_id;
-    }
-
-    public function sanitize_status($value) {
-        $status = array('published', 'trash');
-        if (in_array($value, $status)) {
-            return $value;
-        }
-        return 'published';
     }
 
 }

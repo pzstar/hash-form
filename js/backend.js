@@ -765,7 +765,7 @@ var hashFormAdmin = hashFormAdmin || {};
             $('#hf-form-style-select').on('change', function (e) {
                 e.preventDefault();
                 const styleClass = $(this).find(":selected").val();
-                $(document).find('form.hf-form').removeClass('hf-form-no-style').removeClass('hf-form-default-style').removeClass('hf-form-custom-style').addClass('hf-form-' + styleClass);
+                $(document).find('form.hashform-form').removeClass('hf-form-no-style').removeClass('hf-form-default-style').removeClass('hf-form-custom-style').addClass('hf-form-' + styleClass);
             });
         },
 

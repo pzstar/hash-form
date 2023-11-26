@@ -374,63 +374,48 @@ class HashFormEntry {
     }
 
     public static function create($values) {
-        $entry_id = self::create_entry($values);
-        return $entry_id;
-    }
-
-    private static function create_entry($values) {
-        $new_values = HashFormValidate::before_insert_entry_in_database($values);
-        $entry_id = self::insert_entry_into_database($new_values);
-        if (!$entry_id)
-            return false;
-
-        self::after_insert_entry_in_database($values, $entry_id);
-        return $entry_id;
-    }
-
-    private static function insert_entry_into_database($new_values) {
         global $wpdb;
+        $current_user_id = get_current_user_id();
+        $user_id = $current_user_id ? $current_user_id : 0;
+        $new_values = array(
+            'ip' => sanitize_text_field(HashFormHelper::get_ip()),
+            'delivery_status' => 1,
+            'form_id' => isset($values['form_id']) ? absint($values['form_id']) : '',
+            'created_at' => sanitize_text_field(current_time('mysql')),
+            'user_id' => absint($user_id),
+            'status' => 'published'
+        );
+
         $query_results = $wpdb->insert($wpdb->prefix . 'hashform_entries', $new_values);
         if (!$query_results) {
-            $entry_id = false;
+            return false;
         } else {
             $entry_id = $wpdb->insert_id;
         }
-        return $entry_id;
-    }
 
-    private static function after_insert_entry_in_database($values, $entry_id) {
         if (isset($values['item_meta'])) {
-            self::update_entry_metas($entry_id, $values['item_meta']);
-        }
-    }
+            foreach ($values['item_meta'] as $field_id => $meta_value) {
+                if (!empty($meta_value)) {
+                    if (is_array($meta_value)) {
+                        $meta_value = HashFormHelper::sanitize_array($meta_value);
+                        $meta_value = serialize($meta_value);
+                    } else {
+                        $meta_value = sanitize_text_field(trim($meta_value));
+                    }
 
-    public static function update_entry_metas($entry_id, $values) {
-        global $wpdb;
+                    $meta_values = array(
+                        'meta_value' => $meta_value,
+                        'item_id' => absint($entry_id),
+                        'field_id' => absint($field_id),
+                        'created_at' => sanitize_text_field(current_time('mysql')),
+                    );
 
-        foreach ($values as $field_id => $meta_value) {
-            self::add_entry_meta($entry_id, $field_id, $meta_value);
+                    self::set_value_before_save($meta_values);
+                    $query_results = $wpdb->insert($wpdb->prefix . 'hashform_entry_meta', $meta_values);
+                }
+            }
         }
-    }
-
-    public static function add_entry_meta($entry_id, $field_id, $meta_value) {
-        global $wpdb;
-        if (empty($meta_value))
-            return 0;
-        $new_values = array(
-            'meta_value' => is_array($meta_value) ? serialize($meta_value) : trim($meta_value),
-            'item_id' => abs_int($entry_id),
-            'field_id' => abs_int($field_id),
-            'created_at' => sanitize_text_field(current_time('mysql')),
-        );
-        self::set_value_before_save($new_values);
-        $query_results = $wpdb->insert($wpdb->prefix . 'hashform_entry_meta', $new_values);
-        if ($query_results) {
-            $id = $wpdb->insert_id;
-        } else {
-            $id = 0;
-        }
-        return $id;
+        return $entry_id;
     }
 
     private static function set_value_before_save(&$values) {
