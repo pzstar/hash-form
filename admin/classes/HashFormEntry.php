@@ -400,7 +400,7 @@ class HashFormEntry {
                         $meta_value = HashFormHelper::sanitize_array($meta_value);
                         $meta_value = serialize($meta_value);
                     } else {
-                        $meta_value = sanitize_text_field(trim($meta_value));
+                        $meta_value = wp_kses_post(trim($meta_value));
                     }
 
                     $meta_values = array(
