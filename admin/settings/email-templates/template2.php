@@ -1,4 +1,4 @@
-htmlspecialchars_decode(<?php
+<?php
 defined('ABSPATH') || die();
 ?>
 
