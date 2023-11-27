@@ -105,9 +105,9 @@ class HashFormEmail {
     public function get_email_content() {
         $form_settings = $this->get_form_settings();
         $settings = HashFormSettings::get_settings();
-        $email_template = $settings['email_template'] ? $settings['email_template'] : 'template1';
-        $header_image = $settings['header_image'];
-        $email_message = isset($form_settings['email_message']) ? $form_settings['email_message'] : '';
+        $email_template = $settings['email_template'] ? sanitize_text_field($settings['email_template']) : 'template1';
+        $header_image = sanitize_text_field($settings['header_image']);
+        $email_message = isset($form_settings['email_message']) ? sanitize_text_field($form_settings['email_message']) : '';
         $entry = HashFormEntry::get_entry_vars($this->entry_id);
         $metas = $entry->metas;
         $email_table = $this->get_entry_rows();

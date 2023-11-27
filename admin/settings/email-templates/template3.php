@@ -126,7 +126,7 @@ defined('ABSPATH') || die();
                 <tr>
                     <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box;" valign="top">
                         <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 600px; line-height: 1.6">
-                            <?php echo wp_kses_post($email_message); ?>
+                            <?php echo wp_kses_post(htmlspecialchars_decode($email_message)); ?>
                         </div>
                     </td>
                 </tr>
