@@ -132,7 +132,7 @@ class HashFormListing extends \WP_List_Table {
 
     private function usort_reorder($a, $b) {
         // If no sort, default to user_login
-        $orderby = HashFormHelper::get_var('orderby', 'sanitize_text_field', 'id');
+        $orderby = HashFormHelper::get_var('orderby', 'sanitize_text_field', 'created_at');
 
         // If no order, default to asc
         $order = HashFormHelper::get_var('order', 'sanitize_text_field', 'DESC');
