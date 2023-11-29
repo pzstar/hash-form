@@ -230,10 +230,10 @@ class HashFormFields {
         $new_values['type'] = sanitize_text_field($values['type']);
         $new_values['default_value'] = is_array($values['default_value']) ? HashFormHelper::sanitize_array($values['default_value']) : sanitize_text_field($values['default_value']);
         $new_values['options'] = is_array($values['options']) ? HashFormHelper::sanitize_array($values['options']) : sanitize_text_field($values['options']);
+        $new_values['field_options'] = is_array($values['field_options']) ? HashFormHelper::sanitize_array($values['field_options']) : sanitize_text_field($values['field_options'], HashFormHelper::get_fleld_options_sanitize_rules());
         $new_values['field_order'] = isset($values['field_order']) ? absint($values['field_order']) : '';
         $new_values['required'] = isset($values['required']) ? absint($values['required']) : 0;
         $new_values['form_id'] = isset($values['form_id']) ? absint($values['form_id']) : '';
-        $new_values['field_options'] = is_array($values['field_options']) ? HashFormHelper::sanitize_array($values['field_options']) : sanitize_text_field($values['field_options'], HashFormHelper::get_fleld_options_sanitize_rules());
         $new_values['created_at'] = sanitize_text_field(current_time('mysql'));
 
         self::preserve_format_option_backslashes($new_values);

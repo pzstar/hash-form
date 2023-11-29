@@ -247,6 +247,8 @@ class HashFormHelper {
         return array(
             'show_title' => 'on',
             'show_description' => 'on',
+            'title' => '',
+            'description' => '',
             'submit_value' => esc_html__('Submit', 'hash-form'),
             'form_css_class' => '',
             'submit_btn_css_class' => '',
@@ -286,6 +288,8 @@ class HashFormHelper {
         return array(
             'show_title' => 'hashform_sanitize_checkbox',
             'show_description' => 'hashform_sanitize_checkbox',
+            'title' => 'sanitize_text_field',
+            'description' => 'sanitize_text_field',
             'submit_value' => 'sanitize_text_field',
             'form_css_class' => 'sanitize_text_field',
             'submit_btn_css_class' => 'sanitize_text_field',
@@ -311,7 +315,7 @@ class HashFormHelper {
             'confirmation_message' => 'sanitize_text_field',
             'error_message' => 'sanitize_text_field',
             'show_page_id' => 'sanitize_text_field',
-            'redirect_url_page' => 'sanitize_text_field',
+            'redirect_url_page' => 'sanitize_url',
             'condition_action' => array(
                 'sanitize_text_field'
             ),
@@ -769,13 +773,15 @@ class HashFormHelper {
 
         foreach ($array as $key => $value) {
             if (is_array($value)) {
-                $new_args[$key] = self::sanitize_array($value, isset($sanitize_rule[$key]) ? $sanitize_rule[$key] : 'sanitize_text_field');
+                $new_args[$key] = self::sanitize_array($value, $sanitize_rule[$key]);
             } else {
-                if (isset($sanitize_rule[$key]) && !empty($sanitize_rule[$key]) && function_exists($sanitize_rule[$key])) {
+                if (isset($sanitize_rule[$key]) && !empty($sanitize_rule[$key])) {
                     $sanitize_type = $sanitize_rule[$key];
                     $new_args[$key] = $sanitize_type($value);
+                    echo 'aaa - '. $key .' - '. $sanitize_type .'<br/>';
                 } else {
-                    $new_args[$key] = $value;
+                    $new_args[$key] = sanitize_text_field($value);
+                    echo 'bbb - '. $key . '<br/>';
                 }
             }
         }

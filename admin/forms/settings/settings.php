@@ -5,10 +5,7 @@ $id = HashFormHelper::get_var('id', 'absint', 0);
 $form = HashFormBuilder::get_form_vars($id);
 $fields = HashFormFields::get_form_fields($id);
 
-$settings = $form->settings ? $form->settings : array();
-$settings = HashFormHelper::recursive_parse_args($settings, HashFormHelper::get_form_settings_default());
-$settings = HashFormHelper::recursive_parse_args($settings, HashFormHelper::get_form_settings_checkbox_settings());
-$settings = HashFormHelper::sanitize_array($settings, HashFormHelper::get_form_settings_sanitize_rules());
+$settings = $form->settings ? $form->settings : HashFormHelper::get_form_settings_default();
 ?>
 <div id="hf-wrap" class="hf-content">
     <?php

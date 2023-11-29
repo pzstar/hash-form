@@ -397,7 +397,6 @@ class HashFormEntry {
             foreach ($values['item_meta'] as $field_id => $meta_value) {
                 if (!empty($meta_value)) {
                     if (is_array($meta_value)) {
-                        $meta_value = HashFormHelper::sanitize_array($meta_value);
                         $meta_value = serialize($meta_value);
                     } else {
                         $meta_value = sanitize_text_field(trim($meta_value));
