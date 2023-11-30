@@ -7,8 +7,6 @@ class HashFormFieldRangeSlider extends HashFormFieldType {
 
     public function field_settings_for_type() {
         return array(
-            'description' => false,
-            'label_position' => false,
             'range' => true
         );
     }

@@ -1,7 +1,8 @@
 <?php
 defined('ABSPATH') || die();
 
-$style_id = absint($form->template_id);
+$styles = $form->styles ? $form->styles : array();
+$style_id = isset($styles['form_style_template']) ? $styles['form_style_template'] : '';
 $hashform_styles = get_post_meta($style_id, 'hashform_styles', true);
 $submit_class = isset($form->options['submit_btn_alignment']) ? 'hf-submit-btn-align-' . esc_html($form->options['submit_btn_alignment']) : 'hf-submit-btn-align-left';
 $submit = isset($form->options['submit_value']) ? esc_html($form->options['submit_value']) : esc_html__('Submit', 'hash-form');

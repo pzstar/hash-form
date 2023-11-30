@@ -8,7 +8,6 @@ class HashFormFieldTextarea extends HashFormFieldType {
     protected function field_settings_for_type() {
         return array(
             'value' => false,
-            'size' => true,
             'clear_on_focus' => true
         );
     }

@@ -140,7 +140,7 @@ class HashFormBuilder {
         $settings = HashFormHelper::sanitize_array($settings, HashFormHelper::get_form_settings_sanitize_rules());
 
         $styles = isset($values['styles']) && is_array($values['styles']) ? $values['styles'] : array();
-        $styles = HashFormHelper::recursive_parse_args($settings, array('form_style', 'default-style'));
+        $styles = HashFormHelper::recursive_parse_args($styles, array('form_style' => 'default-style', 'form_style_template' => ''));
         $styles = HashFormHelper::sanitize_array($styles, HashFormHelper::get_form_styles_sanitize_rules());
 
         $new_values = array(
@@ -151,8 +151,7 @@ class HashFormBuilder {
             'created_at' => isset($values['created_at']) ? sanitize_text_field($values['created_at']) : current_time('mysql'),
             'options' => serialize($options),
             'settings' => serialize($settings),
-            'styles' => $styles,
-            'template_id' => ''
+            'styles' => serialize($styles),
         );
         $wpdb->insert($wpdb->prefix . 'hashform_forms', $new_values);
         $id = $wpdb->insert_id;
@@ -183,8 +182,8 @@ class HashFormBuilder {
     public static function update($fields_values, $settings_values) {
         $id = isset($fields_values['id']) ? absint($fields_values['id']) : '';
 
-        self::update_form_settings($id, $settings_values);
-        self::update_form_fields($id, $fields_values);
+        self::update_form_options($id, $settings_values);
+        HashFormFields::update_form_fields($id, $fields_values);
 
         $message = '<span class="mdi mdi-check-circle"></span>' . esc_html__('Form was successfully updated.', 'hash-form');
 
@@ -193,7 +192,7 @@ class HashFormBuilder {
         }
     }
 
-    public static function update_form_settings($id, $args) {
+    public static function update_form_options($id, $args) {
         global $wpdb;
         $options = HashFormHelper::recursive_parse_args($args, HashFormHelper::get_form_options_checkbox_settings());
         $options = HashFormHelper::sanitize_array($options, HashFormHelper::get_form_options_sanitize_rules());
@@ -203,71 +202,6 @@ class HashFormBuilder {
             'description' => esc_html($args['description']),
             'options' => maybe_serialize($options)
                 ), array('id' => $id));
-        return $query_results;
-    }
-
-    public static function update_form_fields($id, $values) {
-        global $wpdb;
-        $all_fields = HashFormFields::get_form_fields($id);
-
-        foreach ($all_fields as $fid) {
-            $field_id = absint($fid->id);
-            if ($field_id && (isset($values['hf-form-submitted']) && in_array($field_id, $values['hf-form-submitted']))) {
-                $values['edited'][] = $field_id;
-            }
-            $field_array[$field_id] = $fid;
-        }
-
-        if (isset($values['edited'])) {
-            foreach ($values['edited'] as $field_id) {
-                $default_field_cols = HashFormHelper::get_form_fields_default();
-
-                if (isset($field_array[$field_id])) {
-                    $field = $field_array[$field_id];
-                } else {
-                    $field = HashFormFields::get_field_vars($field_id);
-                }
-                if (!$field)
-                    continue;
-
-                //updating the fields
-                $field_obj = HashFormFields::get_field_object($field);
-                $update_options = $field_obj->get_default_field_options();
-                foreach ($update_options as $opt => $default) {
-                    $field->field_options[$opt] = isset($values['field_options'][$opt . '_' . absint($field_id)]) ? $values['field_options'][$opt . '_' . absint($field_id)] : $default;
-                }
-
-                $new_field = array(
-                    'field_options' => $field->field_options,
-                    'default_value' => isset($values['default_value_' . absint($field_id)]) ? $values['default_value_' . absint($field_id)] : '',
-                );
-
-                foreach ($default_field_cols as $col => $default) {
-                    $default = ( $default === '' ) ? $field->{$col} : $default;
-                    $new_field[$col] = isset($values['field_options'][$col . '_' . absint($field->id)]) ? $values['field_options'][$col . '_' . absint($field->id)] : $default;
-                }
-
-                if (is_array($new_field['options']) && isset($new_field['options']['000'])) {
-                    unset($new_field['options']['000']);
-                }
-
-                self::update_fields($field_id, $new_field);
-            }
-        }
-    }
-
-    public static function update_fields($id, $values) {
-        global $wpdb;
-
-        if (isset($values['required'])) {
-            $values['required'] = absint($values['required']);
-        }
-
-        $values['field_options'] = serialize(HashFormHelper::sanitize_array($values['field_options']));
-        $values['options'] = serialize(HashFormHelper::sanitize_array($values['options']));
-        $values['default_value'] = serialize(is_array($values['default_value']) ? HashFormHelper::sanitize_array($values['default_value']) : esc_html($values['default_value']));
-
-        $query_results = $wpdb->update($wpdb->prefix . 'hashform_fields', $values, array('id' => $id));
         return $query_results;
     }
 
@@ -498,11 +432,14 @@ class HashFormBuilder {
         if (!$values)
             return false;
 
-        $hashform_options = HashFormHelper::recursive_parse_args($values->options, HashFormHelper::get_form_options_default());
-        $hashform_options = HashFormHelper::sanitize_array($hashform_options, HashFormHelper::get_form_options_sanitize_rules());
+        $options = HashFormHelper::recursive_parse_args($values->options, HashFormHelper::get_form_options_default());
+        $options = HashFormHelper::sanitize_array($options, HashFormHelper::get_form_options_sanitize_rules());
 
-        $hashform_settings = HashFormHelper::recursive_parse_args($values->settings, HashFormHelper::get_form_settings_default());
-        $hashform_settings = HashFormHelper::sanitize_array($hashform_settings, HashFormHelper::get_form_settings_sanitize_rules());
+        $settings = HashFormHelper::recursive_parse_args($values->settings, HashFormHelper::get_form_settings_default());
+        $settings = HashFormHelper::sanitize_array($settings, HashFormHelper::get_form_settings_sanitize_rules());
+
+        $styles = HashFormHelper::recursive_parse_args($values->styles, array('form_style' => 'default-style', 'form_style_template' => ''));
+        $styles = HashFormHelper::sanitize_array($styles, HashFormHelper::get_form_styles_sanitize_rules());
 
         $new_values = array(
             'form_key' => HashFormHelper::get_unique_key('hashform_forms', 'form_key'),
@@ -510,10 +447,9 @@ class HashFormBuilder {
             'description' => esc_html($values->description),
             'status' => $values->status ? sanitize_text_field($values->status) : 'published',
             'created_at' => sanitize_text_field(current_time('mysql')),
-            'options' => serialize($hashform_options),
-            'settings' => serialize($hashform_settings),
-            'styles' => '',
-            'template_id' => ''
+            'options' => serialize($options),
+            'settings' => serialize($settings),
+            'styles' => serialize($styles),
         );
 
         $query_results = $wpdb->insert($wpdb->prefix . 'hashform_forms', $new_values);
@@ -698,10 +634,7 @@ class HashFormBuilder {
 
     public static function update_style($id, $value) {
         global $wpdb;
-        $form_template = $value['form_style_template'];
-        unset($value['id'], $value['form_style_template']);
         $new_values = array(
-            'template_id' => absint($form_template),
             'styles' => serialize(HashFormHelper::sanitize_array($value))
         );
         if (!empty($new_values)) {

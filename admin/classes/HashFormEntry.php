@@ -409,7 +409,7 @@ class HashFormEntry {
                         'created_at' => sanitize_text_field(current_time('mysql')),
                     );
 
-                    self::set_value_before_save($meta_values);
+                    self::sanitize_meta_value($meta_values);
                     $query_results = $wpdb->insert($wpdb->prefix . 'hashform_entry_meta', $meta_values);
                 }
             }
@@ -417,12 +417,12 @@ class HashFormEntry {
         return $entry_id;
     }
 
-    private static function set_value_before_save(&$values) {
+    private static function sanitize_meta_value(&$values) {
         $field = HashFormFields::get_field_vars($values['field_id']);
         if ($field) {
             $field_obj = HashFormFields::get_field_object($field);
-            $values['meta_value'] = $field_obj->sanitize_value($values['meta_value']);
             $values['meta_value'] = $field_obj->set_value_before_save($values['meta_value']);
+            $values['meta_value'] = $field_obj->sanitize_value($values['meta_value']);
         }
     }
 

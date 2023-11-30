@@ -11,7 +11,8 @@ if (!$form) {
 
 $fields = HashFormFields::get_form_fields($id);
 $styles = $form->styles ? $form->styles : array();
-$form_style = isset($styles['form_style']) ? esc_attr($styles['form_style']) : 'default-style';
+$form_style = isset($styles['form_style']) ? $styles['form_style'] : 'default-style';
+$form_style_template = isset($styles['form_style_template']) ? $styles['form_style_template'] : '';
 ?>
 <div id="hf-wrap" class="hf-content hf-form-style-template">
     <?php
@@ -78,7 +79,7 @@ $form_style = isset($styles['form_style']) ? esc_attr($styles['form_style']) : '
                                 echo '}';
                                 $tmpl_css_style = ob_get_clean();
                                 ?>
-                                <option value="<?php echo esc_attr($post->ID); ?>" data-style="<?php echo esc_attr($tmpl_css_style); ?>" <?php selected($post->ID, $form->template_id); ?>><?php echo esc_html($post->post_title); ?></option>
+                                <option value="<?php echo esc_attr($post->ID); ?>" data-style="<?php echo esc_attr($tmpl_css_style); ?>" <?php selected($post->ID, $form_style_template); ?>><?php echo esc_html($post->post_title); ?></option>
                                 <?php
                             }
                             wp_reset_postdata();

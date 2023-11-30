@@ -60,7 +60,6 @@ class HashFormCreateTable {
                 options longtext default NULL,
                 settings longtext default NULL,
                 styles longtext default NULL,
-                template_id int(11) default NULL,
                 created_at datetime NOT NULL,
                 PRIMARY KEY  (id),
                 UNIQUE KEY form_key (form_key)

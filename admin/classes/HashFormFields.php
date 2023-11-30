@@ -223,20 +223,27 @@ class HashFormFields {
 
         $new_values = array();
         $key = isset($values['field_key']) ? sanitize_text_field($values['field_key']) : sanitize_text_field($values['name']);
-        $new_values['field_key'] = sanitize_text_field(HashFormHelper::get_unique_key('hashform_fields', 'field_key'));
 
+        $new_values['field_key'] = sanitize_text_field(HashFormHelper::get_unique_key('hashform_fields', 'field_key'));
         $new_values['name'] = sanitize_text_field($values['name']);
         $new_values['description'] = sanitize_text_field($values['description']);
         $new_values['type'] = sanitize_text_field($values['type']);
-        $new_values['default_value'] = is_array($values['default_value']) ? HashFormHelper::sanitize_array($values['default_value']) : sanitize_text_field($values['default_value']);
-        $new_values['options'] = is_array($values['options']) ? HashFormHelper::sanitize_array($values['options']) : sanitize_text_field($values['options']);
-        $new_values['field_options'] = is_array($values['field_options']) ? HashFormHelper::sanitize_array($values['field_options']) : sanitize_text_field($values['field_options'], HashFormHelper::get_fleld_options_sanitize_rules());
         $new_values['field_order'] = isset($values['field_order']) ? absint($values['field_order']) : '';
         $new_values['required'] = isset($values['required']) ? absint($values['required']) : 0;
         $new_values['form_id'] = isset($values['form_id']) ? absint($values['form_id']) : '';
         $new_values['created_at'] = sanitize_text_field(current_time('mysql'));
 
+        $new_values['options'] = is_array($values['options']) ? HashFormHelper::sanitize_array($values['options']) : sanitize_text_field($values['options']);
+
+        $new_values['field_options'] = HashFormHelper::sanitize_array($values['field_options'], HashFormHelper::get_fleld_options_sanitize_rules());
+
+        if (isset($values['default_value'])) {
+            $field_obj = HashFormFields::get_field_class($new_values['type']);
+            $new_values['default_value'] = $field_obj->sanitize_value($new_values['default_value']);
+        }
+
         self::preserve_format_option_backslashes($new_values);
+
         foreach ($new_values as $key => $val) {
             if (is_array($val)) {
                 if ($key === 'default_value') {
@@ -262,6 +269,74 @@ class HashFormFields {
         } else {
             return false;
         }
+    }
+
+    public static function update_form_fields($id, $values) {
+        global $wpdb;
+        $all_fields = self::get_form_fields($id);
+
+        foreach ($all_fields as $fid) {
+            $field_id = absint($fid->id);
+            if ($field_id && (isset($values['hf-form-submitted']) && in_array($field_id, $values['hf-form-submitted']))) {
+                $values['edited'][] = $field_id;
+            }
+            $field_array[$field_id] = $fid;
+        }
+
+        if (isset($values['edited'])) {
+            foreach ($values['edited'] as $field_id) {
+                $default_field_cols = HashFormHelper::get_form_fields_default();
+
+                if (isset($field_array[$field_id])) {
+                    $field = $field_array[$field_id];
+                } else {
+                    $field = self::get_field_vars($field_id);
+                }
+                if (!$field)
+                    continue;
+
+                //updating the fields
+                $field_obj = self::get_field_object($field);
+                $update_options = $field_obj->get_default_field_options();
+                foreach ($update_options as $opt => $default) {
+                    $field->field_options[$opt] = isset($values['field_options'][$opt . '_' . absint($field_id)]) ? $values['field_options'][$opt . '_' . absint($field_id)] : $default;
+                }
+
+                $new_field = array(
+                    'field_options' => $field->field_options,
+                    'default_value' => isset($values['default_value_' . absint($field_id)]) ? $values['default_value_' . absint($field_id)] : '',
+                );
+
+                foreach ($default_field_cols as $col => $default) {
+                    $default = ( $default === '' ) ? $field->{$col} : $default;
+                    $new_field[$col] = isset($values['field_options'][$col . '_' . absint($field->id)]) ? $values['field_options'][$col . '_' . absint($field->id)] : $default;
+                }
+
+                if (is_array($new_field['options']) && isset($new_field['options']['000'])) {
+                    unset($new_field['options']['000']);
+                }
+
+                self::update_fields($field_id, $new_field);
+            }
+        }
+    }
+
+    public static function update_fields($id, $values) {
+        global $wpdb;
+
+        $values['required'] = isset($values['required']) ? 1 : 0;
+
+        $values['options'] = serialize(is_array($values['options']) ? HashFormHelper::sanitize_array($values['options']) : sanitize_text_field($values['options']));
+
+        $values['field_options'] = serialize(HashFormHelper::sanitize_array($values['field_options'], HashFormHelper::get_fleld_options_sanitize_rules()));
+
+        if (isset($values['default_value'])) {
+            $field_obj = HashFormFields::get_field_class($values['type']);
+            $values['default_value'] = serialize($field_obj->sanitize_value($values['default_value']));
+        }
+
+        $query_results = $wpdb->update($wpdb->prefix . 'hashform_fields', $values, array('id' => $id));
+        return $query_results;
     }
 
     public static function duplicate_fields($old_form_id, $form_id) {

@@ -8,7 +8,6 @@ class HashFormFieldImageSelect extends HashFormFieldType {
     protected function field_settings_for_type() {
         return array(
             'default' => false,
-            'image_max_width' => false,
         );
     }
 
