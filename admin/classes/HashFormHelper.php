@@ -815,7 +815,7 @@ class HashFormHelper {
             'required' => 'hashform_sanitize_checkbox_boolean',
             'minnum' => 'hashform_sanitize_number',
             'maxnum' => 'hashform_sanitize_number',
-            'field_key' => 'hashform_sanitize_number',
+            'field_key' => 'sanitize_text_field',
             'classes' => 'sanitize_text_field',
             'auto_width' => 'hashform_sanitize_checkbox_boolean',
             'default_value' => 'sanitize_text_field',
