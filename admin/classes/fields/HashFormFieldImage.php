@@ -18,15 +18,16 @@ class HashFormFieldImage extends HashFormFieldType {
 
     protected function extra_field_default_opts() {
         return array(
-            'image' => 0,
+            'image_id' => '',
             'field_alignment' => 'left',
         );
     }
 
     protected function input_html() {
         $field = $this->get_field();
-        if (isset($field['image'])) {
-            $image = wp_get_attachment_image_src($field['image'], 'full');
+        $image = '';
+        if (isset($field['image_id'])) {
+            $image = wp_get_attachment_image_src($field['image_id'], 'full');
             $image = isset($image[0]) ? $image[0] : '';
         }
         $image_class = $image ? 'hf-hidden' : '';
@@ -39,7 +40,7 @@ class HashFormFieldImage extends HashFormFieldType {
             <?php
             if ($image) {
                 ?>
-                <img src="<?php echo esc_attr($image); ?>"/>
+                <img src="<?php echo esc_url($image); ?>"/>
                 <?php
             }
             ?>

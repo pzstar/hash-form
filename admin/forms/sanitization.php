@@ -16,6 +16,14 @@ function hashform_sanitize_number($input) {
     }
 }
 
+function hashform_sanitize_float($input) {
+    if (is_numeric($input)) {
+        return (float) $input;
+    } else {
+        return '';
+    }
+}
+
 function hashform_sanitize_color($color) {
     // Is this an rgba color or a hex?
     $mode = ( false === strpos($color, 'rgba') ) ? 'hex' : 'rgba';

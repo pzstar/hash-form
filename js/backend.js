@@ -1270,7 +1270,7 @@ var hashFormAdmin = hashFormAdmin || {};
                     separateValues = hashFormAdmin.usingSeparateValues(fieldId);
 
             for (i = 0; i < optVals.length; i++) {
-                if (optVals[ i ].name.indexOf('[000]') > 0 || optVals[ i ].name.indexOf('[value]') > 0 || optVals[ i ].name.indexOf('[image]') > 0 || optVals[ i ].name.indexOf('[price]') > 0) {
+                if (optVals[ i ].name.indexOf('[000]') > 0 || optVals[ i ].name.indexOf('[value]') > 0 || optVals[ i ].name.indexOf('[image_id]') > 0 || optVals[ i ].name.indexOf('[price]') > 0) {
                     continue;
                 }
                 saved = optVals[ i ].value;

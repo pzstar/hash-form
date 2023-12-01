@@ -639,6 +639,8 @@ var hashFormBuilder = hashFormBuilder || {};
             if ($thisObj.hasClass('disabled')) {
                 return false;
             }
+            
+            $thisObj.parent('.hf-field-box').addClass('hf-added-field');
 
             const $button = $thisObj.closest('.hf-field-box');
             const fieldType = $button.attr('id');

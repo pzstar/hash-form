@@ -26,7 +26,7 @@ if ($field['type'] == 'image_select') {
     <?php
     if ($field['type'] == 'image_select') {
         $opt = isset($field['options'][$opt_key]) ? $field['options'][$opt_key] : '';
-        $image_id = isset($opt['image']) ? absint($opt['image']) : 0;
+        $image_id = isset($opt['image_id']) ? absint($opt['image_id']) : 0;
         $src = wp_get_attachment_image_src($image_id, 'full');
         $url = is_array($src) ? $src[0] : '';
         if (!$url) {
@@ -38,7 +38,7 @@ if ($field['type'] == 'image_select') {
         );
         ?>
         <div class="hf-is-image-preview field_<?php echo esc_attr($field['id']); ?>_image_id">
-            <input type="hidden" class="hf-image-id" name="field_options[options_<?php echo esc_attr($field['id']); ?>][<?php echo esc_attr($opt_key); ?>][image]" id="hf-field-image-<?php echo absint($field['id']) . '-' . esc_attr($opt_key); ?>" value="<?php echo (empty($image['id']) ? '0' : absint($image['id'])); ?>" />
+            <input type="hidden" class="hf-image-id" name="field_options[options_<?php echo esc_attr($field['id']); ?>][<?php echo esc_attr($opt_key); ?>][image_id]" id="hf-field-image-<?php echo absint($field['id']) . '-' . esc_attr($opt_key); ?>" value="<?php echo (empty($image['id']) ? '' : absint($image['id'])); ?>" />
             <div class="hf-is-image-preview-box<?php echo (empty($image['url']) ? '' : ' hf-image-added'); ?>">
                 <span class="hf-is-image-holder">
                     <?php

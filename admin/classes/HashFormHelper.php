@@ -321,7 +321,7 @@ class HashFormHelper {
             ),
             'compare_from' => array(
                 'sanitize_text_field'
-            ), 
+            ),
             'compare_to' => array(
                 'sanitize_text_field'
             ),
@@ -776,13 +776,11 @@ class HashFormHelper {
             if (is_array($value)) {
                 $new_args[$key] = self::sanitize_array($value, $sanitize_rule[$key]);
             } else {
-                if (isset($sanitize_rule[$key]) && !empty($sanitize_rule[$key])) {
+                if (isset($sanitize_rule[$key]) && !empty($sanitize_rule[$key]) && function_exists($sanitize_rule[$key])) {
                     $sanitize_type = $sanitize_rule[$key];
                     $new_args[$key] = $sanitize_type($value);
-                    //echo 'aaa - '. $key .' - '. $sanitize_type .'<br/>';
                 } else {
                     $new_args[$key] = sanitize_text_field($value);
-                    //echo 'bbb - '. $key . '<br/>';
                 }
             }
         }
@@ -790,10 +788,8 @@ class HashFormHelper {
         return $new_args;
     }
 
-
-    public static function get_fleld_options_sanitize_rules() {
+    public static function get_field_options_sanitize_rules() {
         return array(
-            'field_order' => 'hashform_sanitize_number',
             'grid_id' => 'sanitize_text_field',
             'name' => 'sanitize_text_field',
             'label' => 'sanitize_text_field',
@@ -803,27 +799,23 @@ class HashFormHelper {
             'text_alignment' => 'sanitize_text_field',
             'content' => 'sanitize_text_field',
             'select_option_type' => 'sanitize_text_field',
-            'image_size' => 'hashform_sanitize_number',
-            'image' => 'sanitize_url',
+            'image_size' => 'sanitize_text_field',
+            'image_id' => 'hashform_sanitize_number',
             'spacer_height' => 'hashform_sanitize_number',
-            'step' => 'hashform_sanitize_number',
+            'step' => 'hashform_sanitize_float',
             'min_time' => 'sanitize_text_field',
             'max_time' => 'sanitize_text_field',
             'date_format' => 'sanitize_text_field',
             'border_style' => 'sanitize_text_field',
             'border_width' => 'hashform_sanitize_number',
-            'required' => 'hashform_sanitize_checkbox_boolean',
-            'minnum' => 'hashform_sanitize_number',
-            'maxnum' => 'hashform_sanitize_number',
-            'field_key' => 'sanitize_text_field',
+            'minnum' => 'hashform_sanitize_float',
+            'maxnum' => 'hashform_sanitize_float',
             'classes' => 'sanitize_text_field',
             'auto_width' => 'hashform_sanitize_checkbox_boolean',
-            'default_value' => 'sanitize_text_field',
             'placeholder' => 'sanitize_text_field',
-            'description' => 'sanitize_text_field',
             'format' => 'sanitize_text_field',
             'required_indicator' => 'sanitize_text_field',
-            'options_layout' => 'hashform_sanitize_number',
+            'options_layout' => 'sanitize_text_field',
             'field_max_width' => 'hashform_sanitize_number',
             'field_max_width_unit' => 'sanitize_text_field',
             'image_max_width' => 'hashform_sanitize_number',
@@ -838,10 +830,10 @@ class HashFormHelper {
                 'line2' => 'sanitize_text_field',
                 'city' => 'sanitize_text_field',
                 'state' => 'sanitize_text_field',
-                'zip' => 'absint',
+                'zip' => 'hashform_sanitize_number',
                 'country' => 'sanitize_text_field'
             )
-         );
+        );
     }
 
 }

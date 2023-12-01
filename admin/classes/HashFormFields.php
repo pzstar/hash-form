@@ -229,13 +229,13 @@ class HashFormFields {
         $new_values['description'] = sanitize_text_field($values['description']);
         $new_values['type'] = sanitize_text_field($values['type']);
         $new_values['field_order'] = isset($values['field_order']) ? absint($values['field_order']) : '';
-        $new_values['required'] = isset($values['required']) ? absint($values['required']) : 0;
+        $new_values['required'] = $values['required'] ? true : false;
         $new_values['form_id'] = isset($values['form_id']) ? absint($values['form_id']) : '';
         $new_values['created_at'] = sanitize_text_field(current_time('mysql'));
 
         $new_values['options'] = is_array($values['options']) ? HashFormHelper::sanitize_array($values['options']) : sanitize_text_field($values['options']);
 
-        $new_values['field_options'] = HashFormHelper::sanitize_array($values['field_options'], HashFormHelper::get_fleld_options_sanitize_rules());
+        $new_values['field_options'] = HashFormHelper::sanitize_array($values['field_options'], HashFormHelper::get_field_options_sanitize_rules());
 
         if (isset($values['default_value'])) {
             $field_obj = HashFormFields::get_field_class($new_values['type']);
@@ -246,11 +246,7 @@ class HashFormFields {
 
         foreach ($new_values as $key => $val) {
             if (is_array($val)) {
-                if ($key === 'default_value') {
-                    $new_values[$key] = wp_json_encode($val);
-                } else {
-                    $new_values[$key] = serialize($val);
-                }
+                $new_values[$key] = serialize($val);
             }
         }
 
@@ -324,11 +320,11 @@ class HashFormFields {
     public static function update_fields($id, $values) {
         global $wpdb;
 
-        $values['required'] = isset($values['required']) ? 1 : 0;
+        $values['required'] = $values['required'] ? true : false;
 
         $values['options'] = serialize(is_array($values['options']) ? HashFormHelper::sanitize_array($values['options']) : sanitize_text_field($values['options']));
 
-        $values['field_options'] = serialize(HashFormHelper::sanitize_array($values['field_options'], HashFormHelper::get_fleld_options_sanitize_rules()));
+        $values['field_options'] = serialize(HashFormHelper::sanitize_array($values['field_options'], HashFormHelper::get_field_options_sanitize_rules()));
 
         if (isset($values['default_value'])) {
             $field_obj = HashFormFields::get_field_class($values['type']);

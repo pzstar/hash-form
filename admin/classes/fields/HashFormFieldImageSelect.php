@@ -8,12 +8,13 @@ class HashFormFieldImageSelect extends HashFormFieldType {
     protected function field_settings_for_type() {
         return array(
             'default' => false,
+            'image_max_width' => true
         );
     }
 
     protected function extra_field_default_opts() {
         return array(
-            'image_options' => 0,
+            'image_id' => '',
             'image_size' => '',
             'select_option_type' => 'radio',
             'options_layout' => 'inline',
@@ -51,9 +52,9 @@ class HashFormFieldImageSelect extends HashFormFieldType {
                             <div class="hf-field-is-image">
                                 <span class="hf-field-is-checked mdi-check-circle"></span>
                                 <?php
-                                if (isset($option['image']) && $option['image']) {
+                                if (isset($option['image_id']) && $option['image_id']) {
                                     ?>
-                                    <img src="<?php echo esc_url($this->get_url($option['image'])); ?>" alt="<?php echo esc_attr($option['label']); ?>">
+                                    <img src="<?php echo esc_url($this->get_url($option['image_id'])); ?>" alt="<?php echo esc_attr($option['label']); ?>">
                                     <?php
                                 }
                                 ?>

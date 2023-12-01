@@ -143,20 +143,20 @@ defined('ABSPATH') || die();
 
         <?php
         if ($field_type === 'image') {
-            $image_id = '';
-            if (isset($field['image'])) {
-                $image_id = $field['image'];
-                $image = wp_get_attachment_image_src($field['image'], 'full');
+            $image_id = $image = '';
+            if (isset($field['image_id'])) {
+                $image_id = $field['image_id'];
+                $image = wp_get_attachment_image_src($field['image_id'], 'full');
                 $image = isset($image[0]) ? $image[0] : '';
             }
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Select Image', 'hash-form'); ?></label>
                 <div class="hf-image-preview">
-                    <input type="hidden" class="hf-image-id" name="field_options[image_<?php echo esc_attr($field_id); ?>]" id="hf-field-image-<?php echo absint($field_id); ?>" value="<?php echo esc_attr($image_id); ?>"/>
+                    <input type="hidden" class="hf-image-id" name="field_options[image_id_<?php echo esc_attr($field_id); ?>]" id="hf-field-image-<?php echo absint($field_id); ?>" value="<?php echo esc_attr($image_id); ?>"/>
                     <div class="hf-image-preview-wrap<?php echo ($image ? '' : ' hf-hidden'); ?>">
                         <div class="hf-image-preview-box">
-                            <img id="hf-image-preview-<?php echo absint($field_id); ?>" src="<?php echo esc_attr($image); ?>" />
+                            <img id="hf-image-preview-<?php echo absint($field_id); ?>" src="<?php echo esc_url($image); ?>" />
                         </div>
                         <button type="button" class="button hf-remove-image">
                             <span class="mdi mdi-trash-can-outline"></span>
@@ -308,7 +308,7 @@ defined('ABSPATH') || die();
         <?php if ($display['default']) { ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Default Value', 'hash-form'); ?></label>
-                <input type="<?php echo (($field_type == 'range_slider' || $field_type == 'number' || $field_type == 'spinner') ? 'number' : 'text'); ?>" name="<?php echo 'default_value_' . absint($field_id); ?>" value="<?php echo esc_attr($field['default_value']); ?>" class="default-value-field" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="value"/>
+                <input type="<?php echo (($field_type == 'range_slider' || $field_type == 'number' || $field_type == 'spinner') ? 'number' : 'text'); ?>" name="<?php echo 'default_value_' . absint($field_id); ?>" value="<?php echo esc_attr($field['default_value']); ?>" class="hf-default-value-field" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="value"/>
             </div>
         <?php } ?>
 

@@ -106,9 +106,7 @@ class HashFormFieldName extends HashFormFieldType {
     }
 
     public function sanitize_value(&$value) {
-        $value = maybe_unserialize($value);
         $value = HashFormHelper::sanitize_value('sanitize_text_field', $value);
-        $value = maybe_serialize($value);
         return $value;
     }
 

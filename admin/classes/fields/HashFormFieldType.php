@@ -51,14 +51,6 @@ abstract class HashFormFieldType {
         return $field_val;
     }
 
-    public function set_field_column($column, $value) {
-        if (is_object($this->field)) {
-            $this->field->{$column} = $value;
-        } elseif (is_array($this->field)) {
-            $this->field[$column] = $value;
-        }
-    }
-
     /* Form builder FrontEnd each elements */
 
     public function get_frontend_html() {
@@ -289,6 +281,10 @@ abstract class HashFormFieldType {
             $default_attrs['max'] = is_numeric($this->get_field_column('maxnum')) ? $this->get_field_column('maxnum') : 9999999;
             $default_attrs['step'] = is_numeric($this->get_field_column('step')) ? $this->get_field_column('step') : 1;
         }
+        
+        if (isset($display['max']) && $display['max']) {
+            $default_attrs['maxlength'] = is_numeric($this->get_field_column('max')) ? $this->get_field_column('max') : '';
+        }
 
         $default_attrs = array_merge($default_attrs, $this->extra_field_attrs());
 
@@ -412,7 +408,7 @@ abstract class HashFormFieldType {
             'content' => '',
             'select_option_type' => 'radio',
             'image_size' => '',
-            'image' => '',
+            'image_id' => '',
             'spacer_height' => '50',
             'step' => '1',
             'min_time' => '00:00',
@@ -420,15 +416,11 @@ abstract class HashFormFieldType {
             'date_format' => 'MM dd, yy',
             'border_style' => 'solid',
             'border_width' => '2',
-            'required' => '',
             'minnum' => '1',
             'maxnum' => '10',
-            'field_key' => '',
             'classes' => '',
             'auto_width' => '',
-            'default_value' => '',
             'placeholder' => '',
-            'description' => '',
             'format' => '',
             'required_indicator' => '*',
             'options_layout' => 'inline',
