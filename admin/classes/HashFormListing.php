@@ -151,9 +151,11 @@ class HashFormListing extends \WP_List_Table {
         $search = htmlspecialchars_decode(HashFormHelper::get_var('s'));
 
         if ($search) {
-            return $wpdb->get_results("SELECT * from {$table} WHERE status='{$status}' AND name Like '%{$search}%'", ARRAY_A);
+            $query = $wpdb->prepare("SELECT * from {$table} WHERE status=%s AND name Like %s", $status, '%' . $wpdb->esc_like($search) . '%');
+            return $wpdb->get_results($query, ARRAY_A);
         } else {
-            return $wpdb->get_results("SELECT * from {$table} WHERE status='{$status}'", ARRAY_A);
+            $query = $wpdb->prepare("SELECT * from {$table} WHERE status=%s", $status);
+            return $wpdb->get_results($query, ARRAY_A);
         }
     }
 

@@ -15,7 +15,8 @@ class HashFormFields {
     public static function get_form_fields($form_id) {
         global $wpdb;
         $form_id = absint($form_id);
-        $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}hashform_fields WHERE form_id=$form_id ORDER BY field_order");
+        $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_fields WHERE form_id=%d ORDER BY field_order", $form_id);
+        $results = $wpdb->get_results($query);
         foreach ($results as $value) {
             foreach ($value as $key => $val) {
                 $value->$key = maybe_unserialize($val);
