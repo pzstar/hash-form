@@ -247,7 +247,7 @@ class HashFormEntryListing extends \WP_List_Table {
         } else {
             $actions['view'] = array(
                 'label' => esc_html__('View', 'hash-form'),
-                'url' => admin_url('admin.php?page=hashform-entries&hashform_action=view&id=' . $entry_id)
+                'url' => esc_url(admin_url('admin.php?page=hashform-entries&hashform_action=view&id=' . $entry_id))
             );
             $actions['trash'] = $trash_links['trash'];
         }

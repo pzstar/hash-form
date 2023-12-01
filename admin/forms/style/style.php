@@ -50,7 +50,7 @@ $form_style_template = isset($styles['form_style_template']) ? $styles['form_sty
                     <div class="hf-form-row" data-condition-toggle="hf-form-style-select" data-condition-val="custom-style">
                         <?php esc_html_e('Choose "Custom Style" when you want to implement your own styles', 'hash-form'); ?>
                         <br><br>
-                        <?php printf(esc_html__('To create new Custom Style, go to %1sStyle Template%2s page.', 'hash-form'), '<a href="' . admin_url('edit.php?post_type=hashform-styles') . '" target="_blank">', '</a>'); ?>
+                        <?php printf(esc_html__('To create new Custom Style, go to %1sStyle Template%2s page.', 'hash-form'), '<a href="' . esc_url(admin_url('edit.php?post_type=hashform-styles')) . '" target="_blank">', '</a>'); ?>
                     </div>
 
                     <div class="hf-form-row" data-condition-toggle="hf-form-style-select" data-condition-val="custom-style">

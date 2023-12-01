@@ -74,7 +74,7 @@ class HashFormImportExport {
 
         global $wpdb;
 
-        $filename = $_FILES['hashform_import_file']['name'];
+        $filename = wp_unslash($_FILES['hashform_import_file']['name']);
         $extension = explode('.', $filename);
         $extension = end($extension);
 
@@ -82,7 +82,7 @@ class HashFormImportExport {
             wp_die(esc_html__('Please upload a valid .json file'));
         }
 
-        $hashform_import_file = $_FILES['hashform_import_file']['tmp_name'];
+        $hashform_import_file = wp_unslash($_FILES['hashform_import_file']['tmp_name']);
 
         if (empty($hashform_import_file)) {
             wp_die(esc_html__('Please upload a file to import'));

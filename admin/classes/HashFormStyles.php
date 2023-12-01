@@ -375,12 +375,12 @@ class HashFormStyles {
                     <li class="hf-typography-font-family-field">
                         <label><?php esc_html_e('Font Family', 'hash-form'); ?></label>
                         <div class="hf-typography-input-field">
-                            <select id="<?php echo 'hf-' . $label_id . '-typo-font-family'; ?>" name="<?php echo esc_attr($name) . '[' . esc_attr($label) . '][typo][font_family]'; ?>" class="hf-typography-font-family">
+                            <select id="<?php echo esc_attr('hf-' . $label_id . '-typo-font-family'); ?>" name="<?php echo esc_attr($name[$label][typo][font_family]); ?>" class="hf-typography-font-family">
                                 <option value="inherit" <?php selected($settings[$label]['typo']['font_family'], 'inherit'); ?>><?php echo esc_html('Default', 'hash-form'); ?></option>
                                 <?php
                                 if ($standard_fonts) {
                                     ?>
-                                    <optgroup label="Standard Fonts">
+                                    <optgroup label="<?php esc_html_e('Standard Fonts', 'hash-form'); ?>">
                                         <?php foreach ($standard_fonts as $standard_font) { ?>
                                             <option value="<?php echo esc_attr($standard_font); ?>" <?php selected($settings[$label]['typo']['font_family'], $standard_font); ?>><?php echo esc_html($standard_font); ?></option>
                                         <?php } ?>
@@ -390,7 +390,7 @@ class HashFormStyles {
                                 <?php
                                 if ($google_fonts) {
                                     ?>
-                                    <optgroup label="Google Fonts">
+                                    <optgroup label="<?php esc_html_e('Google Fonts', 'hash-form'); ?>">
                                         <?php foreach ($google_fonts as $google_font) { ?>
                                             <option value="<?php echo esc_attr($google_font); ?>" <?php selected($settings[$label]['typo']['font_family'], $google_font); ?>><?php echo esc_html($google_font); ?></option>
                                         <?php } ?>
@@ -409,7 +409,7 @@ class HashFormStyles {
                         if ($font_weights) {
                             ?>
                             <div class="hf-typography-input-field">
-                                <select data-style="true" id="<?php echo 'hf-' . $label_id . '-typo-font-style'; ?>" name="<?php echo esc_attr($name) . '[' . esc_attr($label) . '][typo][font_style]'; ?>" class="hf-typography-font-style">
+                                <select data-style="true" id="<?php echo esc_attr('hf-' . $label_id . '-typo-font-style'); ?>" name="<?php echo esc_attr($name[$label][typo][font_style]); ?>" class="hf-typography-font-style">
                                     <?php foreach ($font_weights as $font_weight => $font_weight_label) { ?>
                                         <option value="<?php echo esc_attr($font_weight); ?>" <?php selected($settings[$label]['typo']['font_style'], $font_weight); ?>><?php echo esc_html($font_weight_label); ?></option>
                                     <?php } ?>
@@ -425,7 +425,7 @@ class HashFormStyles {
                         if ($text_transforms) {
                             ?>
                             <div class="hf-typography-input-field">
-                                <select id="<?php echo 'hf-' . $label_id . '-typo-text-transform'; ?>" name="<?php echo esc_attr($name) . '[' . esc_attr($label) . '][typo][text_transform]'; ?>" class="hf-typography-text-transform">
+                                <select id="<?php echo esc_attr('hf-' . $label_id . '-typo-text-transform'); ?>" name="<?php echo esc_attr($name[$label][typo][text_transform]); ?>" class="hf-typography-text-transform">
                                     <?php foreach ($text_transforms as $key => $value) { ?>
                                         <option value="<?php echo esc_attr($key) ?>" <?php selected($settings[$label]['typo']['text_transform'], $key); ?>><?php echo esc_html($value); ?></option>
                                     <?php } ?>
@@ -441,7 +441,7 @@ class HashFormStyles {
                         if ($text_decorations) {
                             ?>
                             <div class="hf-typography-input-field">
-                                <select id="<?php echo 'hf-' . $label_id . '-typo-text-decoration'; ?>" name="<?php echo esc_attr($name) . '[' . esc_attr($label) . '][typo][text_decoration]'; ?>" class="hf-typography-text-decoration">
+                                <select id="<?php echo esc_attr('hf-' . $label_id . '-typo-text-decoration'); ?>" name="<?php echo esc_attr($name[$label][typo][text_decoration]); ?>" class="hf-typography-text-decoration">
                                     <?php foreach ($text_decorations as $key => $value) { ?>
                                         <option value="<?php echo esc_attr($key) ?>" <?php selected($settings[$label]['typo']['text_decoration'], $key); ?>><?php echo esc_html($value); ?></option>
                                     <?php } ?>
@@ -456,7 +456,7 @@ class HashFormStyles {
 
                         <div class="hf-typography-input-field hashform-range-slider-wrap">
                             <div class="hashform-range-slider"></div>
-                            <input data-unit="px" id="<?php echo 'hf-' . $label_id . '-typo-font-size'; ?>" class="hashform-range-input-selector" type="number" min="0" max="100" step="1" value="<?php echo esc_attr($settings[$label]['typo']['font_size']); ?>" name="<?php echo esc_attr($name) . '[' . esc_attr($label) . '][typo][font_size]'; ?>"/> px
+                            <input data-unit="px" id="<?php echo esc_attr('hf-' . $label_id . '-typo-font-size'); ?>" class="hashform-range-input-selector" type="number" min="0" max="100" step="1" value="<?php echo esc_attr($settings[$label]['typo']['font_size']); ?>" name="<?php echo esc_attr($name[$label][typo][font_size]); ?>"/> px
                         </div>
                     </li>
                 <?php } ?>
@@ -466,7 +466,7 @@ class HashFormStyles {
 
                         <div class="hf-typography-input-field hashform-range-slider-wrap">
                             <div class="hashform-range-slider"></div>
-                            <input data-unit="px" id="<?php echo 'hf-' . $label_id . '-typo-letter-spacing'; ?>" class="hashform-range-input-selector" type="number" min="-5" max="5" step="0.1" value="<?php echo esc_attr($settings[$label]['typo']['letter_spacing']); ?>" name="<?php echo esc_attr($name) . '[' . esc_attr($label) . '][typo][letter_spacing]'; ?>"/>  px
+                            <input data-unit="px" id="<?php echo esc_attr('hf-' . $label_id . '-typo-letter-spacing'); ?>" class="hashform-range-input-selector" type="number" min="-5" max="5" step="0.1" value="<?php echo esc_attr($settings[$label]['typo']['letter_spacing']); ?>" name="<?php echo esc_attr($name[$label][typo][letter_spacing]); ?>"/>  px
                         </div>           
                     </li>
                 <?php } ?>
@@ -476,7 +476,7 @@ class HashFormStyles {
 
                         <div class="hf-typography-input-field hashform-range-slider-wrap">
                             <div class="hashform-range-slider"></div>
-                            <input id="<?php echo 'hf-' . $label_id . '-typo-line-height'; ?>" class="hashform-range-input-selector" type="number" min="0.5" max="5" step="0.1" value="<?php echo esc_attr($settings[$label]['typo']['line_height']); ?>" name="<?php echo esc_attr($name) . '[' . esc_attr($label) . '][typo][line_height]'; ?>"/>
+                            <input id="<?php echo esc_attr('hf-' . $label_id . '-typo-line-height'); ?>" class="hashform-range-input-selector" type="number" min="0.5" max="5" step="0.1" value="<?php echo esc_attr($settings[$label]['typo']['line_height']); ?>" name="<?php echo esc_attr($name[$label][typo][line_height]); ?>"/>
                         </div>         
                     </li>
                 <?php } ?>
@@ -484,7 +484,7 @@ class HashFormStyles {
                     <li class="hf-typography-color-field">
                         <label class="hf-color-input-label"><?php esc_html_e('Text Color', 'hash-form'); ?></label>
                         <div class="hf-typography-input-field">
-                            <input id="<?php echo 'hf-' . $label_id . '-typo-font-color'; ?>" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="<?php echo esc_attr($name) . '[' . esc_attr($label) . '][typo][font_color]'; ?>" value="<?php echo esc_attr($settings[$label]['typo']['font_color']); ?>">
+                            <input id="<?php echo esc_attr('hf-' . $label_id . '-typo-font-color'); ?>" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="<?php echo esc_attr($name[$label][typo][font_color]); ?>" value="<?php echo esc_attr($settings[$label]['typo']['font_color']); ?>">
                         </div>
                     </li>
                 <?php } ?>

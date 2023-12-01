@@ -67,7 +67,7 @@ defined('ABSPATH') || die();
 
                         <div class="hf-form-row">
                             <label><?php echo esc_html_e('Form Description', 'hash-form'); ?></label>
-                            <textarea name="description"><?php echo wp_strip_all_tags($values['description']); ?></textarea>
+                            <textarea name="description"><?php echo esc_textarea($values['description']); ?></textarea>
                         </div>
 
                         <div class="hf-form-row">

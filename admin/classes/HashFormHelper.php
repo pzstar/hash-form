@@ -761,7 +761,7 @@ class HashFormHelper {
             <div class="hf-settings-updated">
                 <span class="mdi mdi-check-circle"></span>
                 <?php
-                echo esc_html($_SESSION['hashform_message']);
+                echo esc_html(sanitize_text_field($_SESSION['hashform_message']));
                 unset($_SESSION['hashform_message']);
                 ?>
             </div>
