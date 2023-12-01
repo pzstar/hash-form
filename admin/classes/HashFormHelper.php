@@ -779,10 +779,10 @@ class HashFormHelper {
                 if (isset($sanitize_rule[$key]) && !empty($sanitize_rule[$key])) {
                     $sanitize_type = $sanitize_rule[$key];
                     $new_args[$key] = $sanitize_type($value);
-                    //echo 'aaa - '. $key .' - '. $sanitize_type .'<br/>';
+                    echo 'aaa - '. $key .' - '. $sanitize_type .'<br/>';
                 } else {
                     $new_args[$key] = sanitize_text_field($value);
-                    //echo 'bbb - '. $key . '<br/>';
+                    echo 'bbb - '. $key . '<br/>';
                 }
             }
         }

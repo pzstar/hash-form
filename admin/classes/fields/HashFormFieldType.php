@@ -404,10 +404,7 @@ abstract class HashFormFieldType {
 
     public function get_default_field_options() {
         $opts = array(
-            'field_order' => '',
             'grid_id' => '',
-            'name' => '',
-            'label' => '',
             'label_position' => '',
             'label_alignment' => '',
             'heading_type' => '',
