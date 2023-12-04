@@ -150,7 +150,7 @@ class HashFormEntryListing extends \WP_List_Table {
         $status = $this->status;
 
         if ($search = htmlspecialchars_decode(HashFormHelper::get_var('s'))) {
-            $query = $wpdb->prepare("SELECT * from {$table} WHERE status=%1s AND form_id Like %2s OR user_id Like %2s OR delivery_status Like %2s OR ip Like %2s OR created_at Like %2s", $status, '%s' . $wpdb->esc_like($search) . '%s');
+            $query = $wpdb->prepare("SELECT * from {$table} WHERE status=%1s AND form_id Like %2s OR user_id Like %2s OR delivery_status Like %2s OR ip Like %2s OR created_at Like %2s", $status, '%' . $wpdb->esc_like($search) . '%');
             return $wpdb->get_results($query, ARRAY_A);
         } else if ($form_id = HashFormHelper::get_var('form_id', 'absint')) {
             $query = $wpdb->prepare("SELECT * from {$table} WHERE status=%s AND form_id=%d", $status, $form_id);
