@@ -419,7 +419,7 @@ abstract class HashFormFieldType {
             'minnum' => '1',
             'maxnum' => '10',
             'classes' => '',
-            'auto_width' => '',
+            'auto_width' => 'off',
             'placeholder' => '',
             'format' => '',
             'required_indicator' => '*',

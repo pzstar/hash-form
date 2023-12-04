@@ -298,11 +298,13 @@ defined('ABSPATH') || die();
         ?>
 
         <?php if ($display['auto_width']) { ?>
-            <label for="auto_width_field_<?php echo absint($field_id); ?>" class="hashform_inline_label hashform_help" title="<?php esc_attr_e('Read Only: Show this field but do not allow the field value to be edited from the front-end.', 'hash-form'); ?>" >
-                <input type="checkbox" id="auto_width_field_<?php echo absint($field_id); ?>" name="field_options[auto_width_<?php echo absint($field_id); ?>]" value="on" <?php checked($field['auto_width'], 'on'); ?>/>
-                <input type="hidden" name="field_options[auto_width_<?php echo absint($field_id); ?>]" value="off" />
-                <?php esc_html_e('Automatic Width', 'hash-form'); ?>
-            </label>
+            <div class="hf-form-row">
+                <label>
+                    <input type="hidden" name="field_options[auto_width_<?php echo absint($field_id); ?>]" value="off" />
+                    <input type="checkbox" name="field_options[auto_width_<?php echo absint($field_id); ?>]" value="on" <?php checked($field['auto_width'], 'on'); ?>/>
+                    <?php esc_html_e('Automatic Width', 'hash-form'); ?>
+                </label>
+            </div>
         <?php } ?>
 
         <?php if ($display['default']) { ?>
@@ -317,10 +319,10 @@ defined('ABSPATH') || die();
         <?php if ($display['clear_on_focus']) { ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Placeholder', 'hash-form'); ?></label>
-                <?php if ($field_type === 'textarea' || $field_type === 'rte') { ?>
+                <?php if ($field_type === 'textarea') { ?>
                     <textarea id="hf-placeholder-<?php echo absint($field_id); ?>" name="field_options[placeholder_<?php echo absint($field_id); ?>]" rows="3" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="placeholder"><?php echo esc_textarea($field['placeholder']); ?></textarea>
                 <?php } else { ?>
-                    <input id="hf-placeholder-<?php echo absint($field_id); ?>" type="<?php echo ($field_type == 'number' || $field_type == 'spinner') ? 'number' : 'text'; ?>" name="field_options[placeholder_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['placeholder']); ?>" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="placeholder" />
+                    <input id="hf-placeholder-<?php echo absint($field_id); ?>" type="text" name="field_options[placeholder_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['placeholder']); ?>" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="placeholder" />
                 <?php } ?>
             </div>
         <?php } ?>

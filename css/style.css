@@ -181,7 +181,7 @@
     line-height: var(--hf-button-typo-line-height, 1.2);
     color: var(--hf-button-color-normal, #666);
     background-color: var(--hf-button-bg-color-normal, transparent);
-    box-shadow: var(--hf-button-shadow-x-normal, 0) var(--hf-button-shadow-y-normal, 0) var(--hf-button-shadow-blur-normal, 0) var(--hf-button-shadow-spread-normal, 0) var(--hf-button-shadow-color-normal, transparent);
+    box-shadow: var(--hf-button-shadow-normal-x, 0) var(--hf-button-shadow-normal-y, 0) var(--hf-button-shadow-normal-blur, 0) var(--hf-button-shadow-normal-spread, 0) var(--hf-button-shadow-normal-color, transparent);
     outline: 0;
     min-height: 0;
     height: auto;
@@ -218,7 +218,7 @@
     border-left: var(--hf-button-border-left, 1px) solid var(--hf-button-border-color-hover, var(--hf-button-border-color-normal, #CCC));
     color: var(--hf-button-color-hover,var(--hf-button-color-normal, inherit));
     background-color: var(--hf-button-bg-color-hover, var(--hf-button-bg-color-normal, transparent));
-    box-shadow: var(--hf-button-shadow-x-hover, var(--hf-button-shadow-x-normal, 0)) var(--hf-button-shadow-y-hover, var(--hf-button-shadow-y-normal, 0)) var(--hf-button-shadow-blur-hover, var(--hf-button-shadow-blur-normal, 0)) var(--hf-button-shadow-spread-hover, var(--hf-button-shadow-spread-normal, 0)) var(--hf-button-shadow-color-hover, var(--hf-button-shadow-color-normal, transparent));
+    box-shadow: var(--hf-button-shadow-hover-x, var(--hf-button-shadow-normal-x, 0)) var(--hf-button-shadow-hover-y, var(--hf-button-shadow-normal-y, 0)) var(--hf-button-shadow-hover-blur, var(--hf-button-shadow-normal-blur, 0)) var(--hf-button-shadow-hover-spread, var(--hf-button-shadow-normal-spread, 0)) var(--hf-button-shadow-hover-color, var(--hf-button-shadow-normal-color, transparent));
 }
 
 .hf-container input[type="text"],

@@ -79,10 +79,7 @@ class HashFormFieldSpinner extends HashFormFieldType {
     }
 
     public function sanitize_value(&$value) {
-        if (!is_numeric($value)) {
-            $value = (float) $value;
-        }
-        return $value;
+        return hashform_sanitize_float($value);
     }
 
     protected function input_html() {

@@ -240,25 +240,25 @@ defined('ABSPATH') || die();
                     <div class="hf-setting-fields">
                         <ul class="hf-shadow-fields">
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-field-shadow-x-normal" data-unit="px" type="number" name="hashform_styles[field][shadow_normal][x]" value="<?php echo esc_attr($hashform_styles['field']['shadow_normal']['x']); ?>">
+                                <input id="hf-field-shadow-normal-x" data-unit="px" type="number" name="hashform_styles[field][shadow_normal][x]" value="<?php echo esc_attr($hashform_styles['field']['shadow_normal']['x']); ?>">
                                 <label><?php esc_html_e('H', 'hash-form') ?></label>
                             </li>
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-field-shadow-y-normal" data-unit="px" type="number" name="hashform_styles[field][shadow_normal][y]" value="<?php echo esc_attr($hashform_styles['field']['shadow_normal']['y']); ?>">
+                                <input id="hf-field-shadow-normal-y" data-unit="px" type="number" name="hashform_styles[field][shadow_normal][y]" value="<?php echo esc_attr($hashform_styles['field']['shadow_normal']['y']); ?>">
                                 <label><?php esc_html_e('V', 'hash-form') ?></label>
                             </li>
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-field-shadow-blur-normal" data-unit="px" type="number" name="hashform_styles[field][shadow_normal][blur]" value="<?php echo esc_attr($hashform_styles['field']['shadow_normal']['blur']); ?>">
+                                <input id="hf-field-shadow-normal-blur" data-unit="px" type="number" name="hashform_styles[field][shadow_normal][blur]" value="<?php echo esc_attr($hashform_styles['field']['shadow_normal']['blur']); ?>">
                                 <label><?php esc_html_e('Blur', 'hash-form') ?></label>
                             </li>
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-field-shadow-spread-normal" data-unit="px" type="number" name="hashform_styles[field][shadow_normal][spread]" value="<?php echo esc_attr($hashform_styles['field']['shadow_normal']['spread']); ?>">
+                                <input id="hf-field-shadow-normal-spread" data-unit="px" type="number" name="hashform_styles[field][shadow_normal][spread]" value="<?php echo esc_attr($hashform_styles['field']['shadow_normal']['spread']); ?>">
                                 <label><?php esc_html_e('Spread', 'hash-form') ?></label>
                             </li>
                         </ul>
                         <div class="hf-shadow-settings-field">
                             <div class="hf-color-input-field">
-                                <input id="hf-field-shadow-color-normal" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[field][shadow_normal][color]" value="<?php echo esc_attr($hashform_styles['field']['shadow_normal']['color']); ?>">
+                                <input id="hf-field-shadow-normal-color" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[field][shadow_normal][color]" value="<?php echo esc_attr($hashform_styles['field']['shadow_normal']['color']); ?>">
                             </div>
                         </div>
                     </div>
@@ -292,26 +292,26 @@ defined('ABSPATH') || die();
                     <div class="hf-setting-fields">
                         <ul class="hf-shadow-fields">
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-field-shadow-x-focus" data-unit="px" type="number" name="hashform_styles[field][shadow_focus][x]" value="<?php echo esc_attr($hashform_styles['field']['shadow_focus']['x']); ?>">
+                                <input id="hf-field-shadow-focus-x" data-unit="px" type="number" name="hashform_styles[field][shadow_focus][x]" value="<?php echo esc_attr($hashform_styles['field']['shadow_focus']['x']); ?>">
                                 <label><?php esc_html_e('H', 'hash-form') ?></label>
                             </li>
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-field-shadow-y-focus" data-unit="px" type="number" name="hashform_styles[field][shadow_focus][y]" value="<?php echo esc_attr($hashform_styles['field']['shadow_focus']['y']); ?>">
+                                <input id="hf-field-shadow-focus-y" data-unit="px" type="number" name="hashform_styles[field][shadow_focus][y]" value="<?php echo esc_attr($hashform_styles['field']['shadow_focus']['y']); ?>">
                                 <label><?php esc_html_e('V', 'hash-form') ?></label>
                             </li>
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-field-shadow-blur-focus" data-unit="px" type="number" name="hashform_styles[field][shadow_focus][blur]" value="<?php echo esc_attr($hashform_styles['field']['shadow_focus']['blur']); ?>">
+                                <input id="hf-field-shadow-focus-blur" data-unit="px" type="number" name="hashform_styles[field][shadow_focus][blur]" value="<?php echo esc_attr($hashform_styles['field']['shadow_focus']['blur']); ?>">
                                 <label><?php esc_html_e('Blur', 'hash-form') ?></label>
                             </li>
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-field-shadow-spread-focus" data-unit="px" type="number" name="hashform_styles[field][shadow_focus][spread]" value="<?php echo esc_attr($hashform_styles['field']['shadow_focus']['spread']); ?>">
+                                <input id="hf-field-shadow-focus-spread" data-unit="px" type="number" name="hashform_styles[field][shadow_focus][spread]" value="<?php echo esc_attr($hashform_styles['field']['shadow_focus']['spread']); ?>">
                                 <label><?php esc_html_e('Spread', 'hash-form') ?></label>
                             </li>
                         </ul>
 
                         <div class="hf-shadow-settings-field">
                             <div class="hf-color-input-field">
-                                <input id="hf-field-shadow-color-focus" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[field][shadow_focus][color]" value="<?php echo esc_attr($hashform_styles['field']['shadow_focus']['color']); ?>">
+                                <input id="hf-field-shadow-focus-color" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[field][shadow_focus][color]" value="<?php echo esc_attr($hashform_styles['field']['shadow_focus']['color']); ?>">
                             </div>
                         </div>
                     </div>
@@ -446,25 +446,25 @@ defined('ABSPATH') || die();
                     <div class="hf-setting-fields">
                         <ul class="hf-shadow-fields">
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-button-shadow-x-normal" data-unit="px" type="number" name="hashform_styles[button][shadow_normal][x]" value="<?php echo esc_attr($hashform_styles['button']['shadow_normal']['x']); ?>">
+                                <input id="hf-button-shadow-normal-x" data-unit="px" type="number" name="hashform_styles[button][shadow_normal][x]" value="<?php echo esc_attr($hashform_styles['button']['shadow_normal']['x']); ?>">
                                 <label><?php esc_html_e('H', 'hash-form') ?></label>
                             </li>
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-button-shadow-y-normal" data-unit="px" type="number" name="hashform_styles[button][shadow_normal][y]" value="<?php echo esc_attr($hashform_styles['button']['shadow_normal']['y']); ?>">
+                                <input id="hf-button-shadow-normal-y" data-unit="px" type="number" name="hashform_styles[button][shadow_normal][y]" value="<?php echo esc_attr($hashform_styles['button']['shadow_normal']['y']); ?>">
                                 <label><?php esc_html_e('V', 'hash-form') ?></label>
                             </li>
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-button-shadow-blur-normal" data-unit="px" type="number" name="hashform_styles[button][shadow_normal][blur]" value="<?php echo esc_attr($hashform_styles['button']['shadow_normal']['blur']); ?>">
+                                <input id="hf-button-shadow-normal-blur" data-unit="px" type="number" name="hashform_styles[button][shadow_normal][blur]" value="<?php echo esc_attr($hashform_styles['button']['shadow_normal']['blur']); ?>">
                                 <label><?php esc_html_e('Blur', 'hash-form') ?></label>
                             </li>
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-button-shadow-spread-normal" data-unit="px" type="number" name="hashform_styles[button][shadow_normal][spread]" value="<?php echo esc_attr($hashform_styles['button']['shadow_normal']['spread']); ?>">
+                                <input id="hf-button-shadow-normal-spread" data-unit="px" type="number" name="hashform_styles[button][shadow_normal][spread]" value="<?php echo esc_attr($hashform_styles['button']['shadow_normal']['spread']); ?>">
                                 <label><?php esc_html_e('Spread', 'hash-form') ?></label>
                             </li>
                         </ul>
                         <div class="hf-shadow-settings-field">
                             <div class="hf-color-input-field">
-                                <input id="hf-button-shadow-color-normal" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[button][shadow_normal][color]" value="<?php echo esc_attr($hashform_styles['button']['shadow_normal']['color']); ?>">
+                                <input id="hf-button-shadow-normal-color" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[button][shadow_normal][color]" value="<?php echo esc_attr($hashform_styles['button']['shadow_normal']['color']); ?>">
                             </div>
                         </div>
                     </div>
@@ -498,25 +498,25 @@ defined('ABSPATH') || die();
                     <div class="hf-setting-fields">
                         <ul class="hf-shadow-fields">
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-button-shadow-x-hover" data-unit="px" type="number" name="hashform_styles[button][shadow_hover][x]" value="<?php echo esc_attr($hashform_styles['button']['shadow_hover']['x']); ?>">
+                                <input id="hf-button-shadow-hover-x" data-unit="px" type="number" name="hashform_styles[button][shadow_hover][x]" value="<?php echo esc_attr($hashform_styles['button']['shadow_hover']['x']); ?>">
                                 <label><?php esc_html_e('H', 'hash-form') ?></label>
                             </li>
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-button-shadow-y-hover" data-unit="px" type="number" name="hashform_styles[button][shadow_hover][y]" value="<?php echo esc_attr($hashform_styles['button']['shadow_hover']['y']); ?>">
+                                <input id="hf-button-shadow-hover-y" data-unit="px" type="number" name="hashform_styles[button][shadow_hover][y]" value="<?php echo esc_attr($hashform_styles['button']['shadow_hover']['y']); ?>">
                                 <label><?php esc_html_e('V', 'hash-form') ?></label>
                             </li>
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-button-shadow-blur-hover" data-unit="px" type="number" name="hashform_styles[button][shadow_hover][blur]" value="<?php echo esc_attr($hashform_styles['button']['shadow_hover']['blur']); ?>">
+                                <input id="hf-button-shadow-hover-blur" data-unit="px" type="number" name="hashform_styles[button][shadow_hover][blur]" value="<?php echo esc_attr($hashform_styles['button']['shadow_hover']['blur']); ?>">
                                 <label><?php esc_html_e('Blur', 'hash-form') ?></label>
                             </li>
                             <li class="hf-shadow-settings-field">
-                                <input id="hf-button-shadow-spread-hover" data-unit="px" type="number" name="hashform_styles[button][shadow_hover][spread]" value="<?php echo esc_attr($hashform_styles['button']['shadow_hover']['spread']); ?>">
+                                <input id="hf-button-shadow-hover-spread" data-unit="px" type="number" name="hashform_styles[button][shadow_hover][spread]" value="<?php echo esc_attr($hashform_styles['button']['shadow_hover']['spread']); ?>">
                                 <label><?php esc_html_e('Spread', 'hash-form') ?></label>
                             </li>
                         </ul>
                         <div class="hf-shadow-settings-field">
                             <div class="hf-color-input-field">
-                                <input id="hf-button-shadow-color-hover" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[button][shadow_hover][color]" value="<?php echo esc_attr($hashform_styles['button']['shadow_hover']['color']); ?>">
+                                <input id="hf-button-shadow-hover-color" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[button][shadow_hover][color]" value="<?php echo esc_attr($hashform_styles['button']['shadow_hover']['color']); ?>">
                             </div>
                         </div>
                     </div>
@@ -733,32 +733,32 @@ defined('ABSPATH') || die();
         <label class="hf-setting-label"><?php esc_html_e('Height', 'hash-form'); ?></label>
         <div class="hf-setting-fields hashform-range-slider-wrap">
             <div class="hashform-range-slider"></div>
-            <input data-unit="px" id="hashform-range-height" class="hashform-range-input-selector" type="number" name="hashform_styles[range][height]" value="<?php echo is_numeric($hashform_styles['range']['height']) ? intval($hashform_styles['range']['height']) : ''; ?>" min="0" max="100" step="1"> px
+            <input data-unit="px" id="hf-range-height" class="hashform-range-input-selector" type="number" name="hashform_styles[range][height]" value="<?php echo is_numeric($hashform_styles['range']['height']) ? intval($hashform_styles['range']['height']) : ''; ?>" min="0" max="100" step="1"> px
         </div>
     </div>
     <div class="hf-settings-row">
         <label class="hf-setting-label"><?php esc_html_e('Handle Size', 'hash-form'); ?></label>
         <div class="hf-setting-fields hashform-range-slider-wrap">
             <div class="hashform-range-slider"></div>
-            <input data-unit="px" id="hashform-range-handle-size" class="hashform-range-input-selector" type="number" name="hashform_styles[range][handle_size]" value="<?php echo is_numeric($hashform_styles['range']['handle_size']) ? intval($hashform_styles['range']['handle_size']) : ''; ?>" min="0" max="100" step="1"> px
+            <input data-unit="px" id="hf-range-handle-size" class="hashform-range-input-selector" type="number" name="hashform_styles[range][handle_size]" value="<?php echo is_numeric($hashform_styles['range']['handle_size']) ? intval($hashform_styles['range']['handle_size']) : ''; ?>" min="0" max="100" step="1"> px
         </div>
     </div>
     <div class="hf-settings-row">
         <label class="hf-setting-label hf-color-input-label"><?php esc_html_e('Bar Color', 'hash-form'); ?></label>
         <div class="hf-setting-fields hf-color-input-field">
-            <input id="hashform-range-color" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[range][color]" value="<?php echo esc_attr($hashform_styles['range']['color']); ?>">
+            <input id="hf-range-color" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[range][color]" value="<?php echo esc_attr($hashform_styles['range']['color']); ?>">
         </div>
     </div>
     <div class="hf-settings-row">
         <label class="hf-setting-label hf-color-input-label"><?php esc_html_e('Bar Color (Active)', 'hash-form'); ?></label>
         <div class="hf-setting-fields hf-color-input-field">
-            <input id="hashform-range-color-active" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[range][color_active]" value="<?php echo esc_attr($hashform_styles['range']['color_active']); ?>">
+            <input id="hf-range-color-active" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[range][color_active]" value="<?php echo esc_attr($hashform_styles['range']['color_active']); ?>">
         </div>
     </div>
     <div class="hf-settings-row">
         <label class="hf-setting-label hf-color-input-label"><?php esc_html_e('Handle Color', 'hash-form'); ?></label>
         <div class="hf-setting-fields hf-color-input-field">
-            <input id="hashform-range-handle-color" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[range][handle_color]" value="<?php echo esc_attr($hashform_styles['range']['handle_color']); ?>">
+            <input id="hf-range-handle-color" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[range][handle_color]" value="<?php echo esc_attr($hashform_styles['range']['handle_color']); ?>">
         </div>
     </div>
 </div>

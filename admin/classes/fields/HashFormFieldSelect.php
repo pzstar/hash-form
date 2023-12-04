@@ -15,7 +15,7 @@ class HashFormFieldSelect extends HashFormFieldType {
 
     protected function extra_field_default_opts() {
         return array(
-            'auto_width' => 'off'
+            'auto_width' => 'on'
         );
     }
 

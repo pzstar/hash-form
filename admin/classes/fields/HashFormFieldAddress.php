@@ -71,7 +71,7 @@ class HashFormFieldAddress extends HashFormFieldType {
             <div class="hf-grid-container">
                 <?php if ($name !== 'country') { ?>
                     <div class="hf-form-row hf-grid-2">
-                        <input type="text" name="default_value_<?php echo esc_attr($field_id); ?>[<?php echo esc_attr($name); ?>]" value="<?php echo esc_attr($value); ?>" data-changeme="hf-field-<?php echo esc_attr($field_key); ?>-<?php echo esc_attr($name); ?>" data-changeatt="value">
+                        <input type="<?php echo esc_attr($type); ?>" name="default_value_<?php echo esc_attr($field_id); ?>[<?php echo esc_attr($name); ?>]" value="<?php echo esc_attr($value); ?>" data-changeme="hf-field-<?php echo esc_attr($field_key); ?>-<?php echo esc_attr($name); ?>" data-changeatt="value">
                         <label class="hf-field-desc"><?php echo esc_html__('Default Value', 'hash-form'); ?></label>
                     </div>
                     <div class="hf-form-row hf-grid-2">
