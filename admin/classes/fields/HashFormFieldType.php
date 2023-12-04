@@ -281,7 +281,7 @@ abstract class HashFormFieldType {
             $default_attrs['max'] = is_numeric($this->get_field_column('maxnum')) ? $this->get_field_column('maxnum') : 9999999;
             $default_attrs['step'] = is_numeric($this->get_field_column('step')) ? $this->get_field_column('step') : 1;
         }
-        
+
         if (isset($display['max']) && $display['max']) {
             $default_attrs['maxlength'] = is_numeric($this->get_field_column('max')) ? $this->get_field_column('max') : '';
         }

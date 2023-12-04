@@ -410,7 +410,7 @@ class HashFormEntry {
                     );
 
                     self::sanitize_meta_value($meta_values);
-                    
+
                     $query_results = $wpdb->insert($wpdb->prefix . 'hashform_entry_meta', $meta_values);
                 }
             }

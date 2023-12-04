@@ -58,7 +58,6 @@ class HashFormValidate {
         }
     }
 
-
     public static function sanitize_entries($values) {
         $sanitize_method = array(
             'hashform_action' => 'sanitize_title',
