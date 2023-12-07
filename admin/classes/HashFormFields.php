@@ -26,8 +26,9 @@ class HashFormFields {
     }
 
     public static function create() {
-        if (!current_user_can('manage_options'))
+        if (!current_user_can('manage_options')) {
             return;
+        }
 
         check_ajax_referer('hashform_ajax', 'nonce');
         $field_type = HashFormHelper::get_post('field_type', 'sanitize_text_field');
@@ -37,8 +38,9 @@ class HashFormFields {
     }
 
     public static function destroy() {
-        if (!current_user_can('manage_options'))
+        if (!current_user_can('manage_options')) {
             return;
+        }
 
         check_ajax_referer('hashform_ajax', 'nonce');
         $field_id = HashFormHelper::get_post('field_id', 'absint', 0);
@@ -82,13 +84,15 @@ class HashFormFields {
     }
 
     public static function import_options() {
-        if (!current_user_can('manage_options'))
+        if (!current_user_can('manage_options')) {
             return;
+        }
 
         $field_id = HashFormHelper::get_post('field_id', 'absint');
         $field = self::get_field_vars($field_id);
-        if (!in_array($field->type, array('radio', 'checkbox', 'select')))
+        if (!in_array($field->type, array('radio', 'checkbox', 'select'))) {
             return;
+        }
 
         $field_array = self::covert_field_obj_to_array($field);
         $field_array['type'] = $field->type;
@@ -253,11 +257,13 @@ class HashFormFields {
 
         $query_results = $wpdb->insert($wpdb->prefix . 'hashform_fields', $new_values);
         $new_id = 0;
-        if ($query_results)
+        if ($query_results) {
             $new_id = $wpdb->insert_id;
+        }
 
-        if (!$return)
+        if (!$return) {
             return false;
+        }
         if ($query_results) {
             if (isset($values['id'])) {
                 $hashform_duplicate_ids[$values['id']] = $new_id;
@@ -289,8 +295,9 @@ class HashFormFields {
                 } else {
                     $field = self::get_field_vars($field_id);
                 }
-                if (!$field)
+                if (!$field) {
                     continue;
+                }
 
                 //updating the fields
                 $field_obj = self::get_field_object($field);
@@ -339,8 +346,7 @@ class HashFormFields {
     public static function duplicate_fields($old_form_id, $form_id) {
         global $wpdb;
 
-        $query = $wpdb->prepare(
-                "SELECT hfi.*, hfm.name AS form_name 
+        $query = $wpdb->prepare("SELECT hfi.*, hfm.name AS form_name 
             FROM {$wpdb->prefix}hashform_fields hfi 
             LEFT OUTER JOIN {$wpdb->prefix}hashform_forms hfm 
             ON hfi.form_id = hfm.id 
@@ -366,8 +372,9 @@ class HashFormFields {
     }
 
     private static function preserve_format_option_backslashes(&$values) {
-        if (isset($values['field_options']['format']))
+        if (isset($values['field_options']['format'])) {
             $values['field_options']['format'] = self::preserve_backslashes($values['field_options']['format']);
+        }
     }
 
     public static function preserve_backslashes($value) {
@@ -382,10 +389,15 @@ class HashFormFields {
     public static function destroy_row($field_id) {
         global $wpdb;
         $field = self::get_field_vars($field_id);
-        if (!$field)
+        if (!$field) {
             return false;
-        $wpdb->query($wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_entry_meta WHERE field_id=%d', absint($field_id)));
-        return $wpdb->query($wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_fields WHERE id=%d', absint($field_id)));
+        }
+
+        $query = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_entry_meta WHERE field_id=%d', absint($field_id));
+        $wpdb->query($query);
+
+        $query = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_fields WHERE id=%d', absint($field_id));
+        return $wpdb->query($query);
     }
 
     public static function get_field_vars($field_id) {

@@ -519,7 +519,7 @@ class HashFormStyles {
                         echo '--hf' . esc_attr($prefix) . '-font-weight : ' . esc_attr($weight) . ';';
                     }
 
-                    echo '--hf' . esc_attr($prefix) . '-' . str_replace('_', '-', $key) . ' : ' . esc_attr($value) . esc_attr($unit) . ';';
+                    echo '--hf' . esc_attr($prefix) . '-' . str_replace('_', '-', esc_attr($key)) . ' : ' . esc_attr($value) . esc_attr($unit) . ';';
                 }
             }
         }

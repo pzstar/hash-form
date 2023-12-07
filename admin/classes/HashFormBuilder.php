@@ -124,7 +124,7 @@ class HashFormBuilder {
             'settings' => HashFormHelper::get_form_settings_default($name)
         );
         $form_id = self::create($new_values);
-        $response = array('redirect' => admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($form_id)));
+        $response = array('redirect' => esc_url(admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($form_id))));
         echo wp_json_encode($response);
         wp_die();
     }
@@ -284,7 +284,8 @@ class HashFormBuilder {
 
         if (is_array($id)) {
             $id = implode(', ', $id);
-            $query_results = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}hashform_forms SET status=%s WHERE id IN ({$id})", $status));
+            $query = $wpdb->prepare("UPDATE {$wpdb->prefix}hashform_forms SET status=%s WHERE id IN ({$id})", $status);
+            $query_results = $wpdb->query($query);
         } else {
             $query_results = $wpdb->update($wpdb->prefix . 'hashform_forms', array('status' => $status), array('id' => $id));
         }
@@ -301,7 +302,8 @@ class HashFormBuilder {
     public static function delete() {
         global $wpdb;
         $count = 0;
-        $trash_forms = $wpdb->get_results("SELECT id FROM {$wpdb->prefix}hashform_forms WHERE status='trash'");
+        $query = $wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_forms WHERE status=%s", 'trash');
+        $trash_forms = $wpdb->get_results($query);
         if (!$trash_forms) {
             return 0;
         }
@@ -406,15 +408,18 @@ class HashFormBuilder {
             return false;
         }
         $id = $form->id;
-        $entries = $wpdb->get_col($wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_entries WHERE form_id=%d", $id));
+        $query = $wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_entries WHERE form_id=%d", $id);
+        $entries = $wpdb->get_col($query);
 
         foreach ($entries as $entry_id) {
             HashFormEntry::destroy_entry($entry_id);
         }
 
-        $wpdb->query($wpdb->prepare('DELETE hfi FROM ' . $wpdb->prefix . 'hashform_fields AS hfi LEFT JOIN ' . $wpdb->prefix . 'hashform_forms hfm ON (hfi.form_id = hfm.id) WHERE hfi.form_id=%d', $id));
+        $query = $wpdb->prepare('DELETE hfi FROM ' . $wpdb->prefix . 'hashform_fields AS hfi LEFT JOIN ' . $wpdb->prefix . 'hashform_forms hfm ON (hfi.form_id = hfm.id) WHERE hfi.form_id=%d', $id);
+        $wpdb->query($query);
 
-        $results = $wpdb->query($wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_forms WHERE id=%d', $id));
+        $query = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_forms WHERE id=%d', $id);
+        $results = $wpdb->query($query);
         return $results;
     }
 
@@ -517,25 +522,25 @@ class HashFormBuilder {
     public static function get_form_nav_items($id) {
         $nav_items = array(
             array(
-                'link' => admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($id)),
+                'link' => esc_url(admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($id))),
                 'label' => esc_html__('Build', 'hash-form'),
                 'current' => array('edit', 'new', 'duplicate'),
                 'page' => 'hashform'
             ),
             array(
-                'link' => admin_url('admin.php?page=hashform&hashform_action=settings&id=' . absint($id)),
+                'link' => esc_url(admin_url('admin.php?page=hashform&hashform_action=settings&id=' . absint($id))),
                 'label' => esc_html__('Settings', 'hash-form'),
                 'current' => array('settings'),
                 'page' => 'hashform'
             ),
             array(
-                'link' => admin_url('admin.php?page=hashform&hashform_action=style&id=' . absint($id)),
+                'link' => esc_url(admin_url('admin.php?page=hashform&hashform_action=style&id=' . absint($id))),
                 'label' => esc_html__('Style', 'hash-form'),
                 'current' => array('style'),
                 'page' => 'hashform'
             ),
             array(
-                'link' => admin_url('admin.php?page=hashform-entries&form_id=' . absint($id)),
+                'link' => esc_url(admin_url('admin.php?page=hashform-entries&form_id=' . absint($id))),
                 'label' => esc_html__('Entries', 'hash-form'),
                 'current' => array(),
                 'page' => 'hashform-entries'
@@ -554,8 +559,8 @@ class HashFormBuilder {
 
     public static function get_all_forms() {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'hashform_forms';
-        $results = $wpdb->get_results("SELECT * FROM {$table_name}");
+        $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_forms WHERE id!=%d", 0);
+        $results = $wpdb->get_results($query);
         return $results;
     }
 
@@ -563,7 +568,8 @@ class HashFormBuilder {
         global $wpdb;
         $table_name = $wpdb->prefix . 'hashform_forms';
 
-        $results = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$table_name} WHERE id=%d", $id));
+        $query = $wpdb->prepare("SELECT * FROM {$table_name} WHERE id=%d", $id);
+        $results = $wpdb->get_row($query);
 
         if (!$results)
             return;

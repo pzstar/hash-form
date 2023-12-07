@@ -55,7 +55,7 @@ class HashFormLoader {
         wp_enqueue_script('hashform-admin-settings', HASHFORM_URL . '/js/admin-settings.js', array('jquery'), HASHFORM_VERSION, true);
 
         wp_localize_script('hashform-admin-settings', 'hashform_admin_js_obj', array(
-            'ajax_url' => admin_url('admin-ajax.php'),
+            'ajax_url' => esc_url(admin_url('admin-ajax.php')),
             'ajax_nonce' => wp_create_nonce('hashform-ajax-nonce'),
             'installing_text' => esc_html__('Installing WP Mail SMTP', 'hash-form'),
             'activating_text' => esc_html__('Activating WP Mail SMTP', 'hash-form'),
@@ -95,7 +95,7 @@ class HashFormLoader {
         wp_enqueue_script('jquery-timepicker', HASHFORM_URL . 'js/jquery.timepicker.min.js', array('jquery'), HASHFORM_VERSION, true);
         wp_enqueue_script('frontend', HASHFORM_URL . 'js/frontend.js', array('jquery', 'jquery-ui-datepicker', 'jquery-timepicker'), HASHFORM_VERSION, true);
         wp_localize_script('frontend', 'hashform_vars', array(
-            'ajaxurl' => admin_url('admin-ajax.php')
+            'ajaxurl' => esc_url(admin_url('admin-ajax.php'))
         ));
     }
 

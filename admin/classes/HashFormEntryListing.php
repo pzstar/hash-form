@@ -106,7 +106,7 @@ class HashFormEntryListing extends \WP_List_Table {
     public function get_column_id($item) {
         $entry_id = $item['id'];
 
-        $edit_url = admin_url('admin.php?page=hashform-entries&hashform_action=view&id=' . $entry_id);
+        $edit_url = esc_url(admin_url('admin.php?page=hashform-entries&hashform_action=view&id=' . $entry_id));
 
         $output = '<strong>';
         if ('trash' == $this->status) {
@@ -306,8 +306,9 @@ class HashFormEntryListing extends \WP_List_Table {
     private function get_form_link($form_id) {
         global $wpdb;
         $table = $wpdb->prefix . 'hashform_forms';
-        $form_name = $wpdb->get_row("SELECT name from {$table} WHERE id='{$form_id}'", ARRAY_A);
-        return '<a href="' . admin_url('admin.php?page=hashform&hashform_action=edit&id=' . $form_id) . '">' . esc_html($form_name['name']) . '</a>';
+        $query = $wpdb->prepare("SELECT name from {$table} WHERE id=%d", $form_id);
+        $form_name = $wpdb->get_row($query, ARRAY_A);
+        return '<a href="' . esc_url(admin_url('admin.php?page=hashform&hashform_action=edit&id=' . $form_id)) . '">' . esc_html($form_name['name']) . '</a>';
     }
 
     private function get_user_link($user_id) {

@@ -74,7 +74,7 @@ class HashFormImportExport {
 
         global $wpdb;
 
-        $filename = wp_unslash($_FILES['hashform_import_file']['name']);
+        $filename = sanitize_text_field(wp_unslash($_FILES['hashform_import_file']['name']));
         $extension = explode('.', $filename);
         $extension = end($extension);
 
@@ -82,7 +82,7 @@ class HashFormImportExport {
             wp_die(esc_html__('Please upload a valid .json file'));
         }
 
-        $hashform_import_file = wp_unslash($_FILES['hashform_import_file']['tmp_name']);
+        $hashform_import_file = sanitize_text_field($_FILES['hashform_import_file']['tmp_name']);
 
         if (empty($hashform_import_file)) {
             wp_die(esc_html__('Please upload a file to import'));
@@ -91,11 +91,20 @@ class HashFormImportExport {
         // Retrieve the settings from the file and convert the json object to an array.
         $imdat = json_decode(file_get_contents($hashform_import_file), true);
 
+        $options = HashFormHelper::recursive_parse_args($imdat['options'], HashFormHelper::get_form_options_default());
+        $options = HashFormHelper::sanitize_array($options, HashFormHelper::get_form_options_sanitize_rules());
+
+        $settings = HashFormHelper::recursive_parse_args($imdat['settings'], HashFormHelper::get_form_settings_default());
+        $settings = HashFormHelper::sanitize_array($settings, HashFormHelper::get_form_settings_sanitize_rules());
+
+        $styles = HashFormHelper::recursive_parse_args($imdat['styles'], array('form_style' => 'default-style', 'form_style_template' => ''));
+        $styles = HashFormHelper::sanitize_array($styles, HashFormHelper::get_form_styles_sanitize_rules());
+
         $form = array(
-            'options' => serialize($imdat['options']),
+            'options' => serialize($options),
             'status' => esc_html($imdat['status']),
-            'settings' => serialize($imdat['settings']),
-            'styles' => serialize($imdat['styles']),
+            'settings' => serialize($settings),
+            'styles' => serialize($styles),
             'created_at' => gmdate('Y-m-d H:i:s', strtotime(esc_html($imdat['created_at']))),
         );
 
@@ -104,20 +113,20 @@ class HashFormImportExport {
         }
 
         $wpdb->update($wpdb->prefix . 'hashform_forms', $form, array('id' => $form_id));
-        $wpdb->query($wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_fields WHERE form_id=%d', $form_id));
+        $query = $wpdb->prepare("DELETE FROM {$wpdb->prefix}hashform_fields WHERE form_id=%d", $form_id);
+        $wpdb->query($query);
 
         foreach ($imdat['field'] as $field) {
             HashFormFields::create_row(array(
                 'name' => esc_html($field['name']),
                 'description' => esc_html($field['description']),
                 'type' => esc_html($field['type']),
-                'default_value' => $field['default_value'],
-                'options' => serialize($field['options']),
-                'field_order' => absint($field['field_order']),
+                'default_value' => is_array($field['default_value']) ? HashFormHelper::sanitize_array($field['default_value']) : sanitize_text_field($field['default_value']),
+                'options' => is_array($field['options']) ? HashFormHelper::sanitize_array($field['options']) : sanitize_text_field($field['options']),
+                'field_order' => isset($field['field_order']) ? absint($field['field_order']) : '',
                 'form_id' => absint($form_id),
-                'required' => absint($field['required']),
-                'field_options' => serialize($field['field_options']),
-                '_nounce' => wp_create_nonce('hashform_ajax')
+                'required' => $field['required'] ? true : false,
+                'field_options' => HashFormHelper::sanitize_array($field['field_options'], HashFormHelper::get_field_options_sanitize_rules())
             ));
         }
 

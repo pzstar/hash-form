@@ -50,7 +50,7 @@ wp_nonce_field('hf-styles-nonce', 'hashform_styles_nonce');
             </div>
         </div>
         <div class="hf-preview-close">
-            <a class="button button-secondary button-large" href="<?php echo admin_url('/edit.php?post_type=hashform-styles') ?>"><?php esc_html_e('Close', 'hash-form'); ?></a>
+            <a class="button button-secondary button-large" href="<?php echo esc_url(admin_url('/edit.php?post_type=hashform-styles')); ?>"><?php esc_html_e('Close', 'hash-form'); ?></a>
         </div>
     </div>
 </div>

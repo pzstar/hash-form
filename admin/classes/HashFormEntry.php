@@ -160,7 +160,8 @@ class HashFormEntry {
 
         if (is_array($id)) {
             $id = implode(', ', $id);
-            $query_results = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}hashform_entries SET status=%s WHERE id IN ({$id})", $status));
+            $query = $wpdb->prepare("UPDATE {$wpdb->prefix}hashform_entries SET status=%s WHERE id IN ({$id})", $status);
+            $query_results = $wpdb->query($query);
         } else {
             $query_results = $wpdb->update($wpdb->prefix . 'hashform_entries', array('status' => $status), array('id' => $id));
         }
@@ -176,7 +177,8 @@ class HashFormEntry {
 
     public static function delete() {
         global $wpdb;
-        $trash_entries = $wpdb->get_results("SELECT id FROM {$wpdb->prefix}hashform_entries WHERE status='trash'");
+        $query = $wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_entries WHERE status=%s", 'trash');
+        $trash_entries = $wpdb->get_results($query);
         if (!$trash_entries) {
             return 0;
         }
@@ -205,8 +207,12 @@ class HashFormEntry {
         if (!$entry) {
             return false;
         }
-        $wpdb->query($wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_entry_meta WHERE item_id=%d', $id));
-        $result = $wpdb->query($wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_entries WHERE id=%d', $id));
+
+        $query = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_entry_meta WHERE item_id=%d', $id);
+        $wpdb->query($query);
+
+        $query = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_entries WHERE id=%d', $id);
+        $result = $wpdb->query($query);
         return $result;
     }
 
@@ -429,7 +435,8 @@ class HashFormEntry {
 
     public static function get_count() {
         global $wpdb;
-        $results = $wpdb->get_results("SELECT status FROM {$wpdb->prefix}hashform_entries");
+        $query = $wpdb->prepare("SELECT status FROM {$wpdb->prefix}hashform_entries WHERE id!=%d", 0);
+        $results = $wpdb->get_results($query);
         $statuses = array('published', 'trash');
         $counts = array_fill_keys($statuses, 0);
         foreach ($results as $row) {
