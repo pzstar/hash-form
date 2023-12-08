@@ -59,7 +59,7 @@ class HashFormSmtp {
 
     public static function redirect_to_smtp_settings() {
         if (HashFormHelper::is_admin_page('hashform-smtp') && function_exists('wp_mail_smtp') && (is_plugin_active('wp-mail-smtp/wp_mail_smtp.php'))) {
-            wp_safe_redirect(esc_url(admin_url('admin.php?page=wp-mail-smtp')));
+            wp_safe_redirect(admin_url('admin.php?page=wp-mail-smtp'));
             exit;
         }
     }

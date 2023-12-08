@@ -776,7 +776,7 @@ class HashFormHelper {
 
         foreach ($array as $key => $value) {
             if (is_array($value)) {
-                $new_args[$key] = self::sanitize_array($value, $sanitize_rule[$key]);
+                $new_args[$key] = self::sanitize_array($value, isset($sanitize_rule[$key]) ? $sanitize_rule[$key] : 'sanitize_text_field');
             } else {
                 if (isset($sanitize_rule[$key]) && !empty($sanitize_rule[$key]) && function_exists($sanitize_rule[$key])) {
                     $sanitize_type = $sanitize_rule[$key];

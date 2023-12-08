@@ -58,7 +58,7 @@ class HashFormListing extends \WP_List_Table {
         if (trim($form_name) == '') {
             $form_name = esc_html__('(no title)', 'hash-form');
         }
-        $edit_url = esc_url(admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($form_id)));
+        $edit_url = admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($form_id));
 
         $output = '<strong>';
         if ('trash' == $this->status) {
@@ -221,11 +221,11 @@ class HashFormListing extends \WP_List_Table {
             );
             $actions['edit'] = array(
                 'label' => esc_html__('Edit', 'hash-form'),
-                'url' => esc_url(admin_url('admin.php?page=hashform&hashform_action=edit&id=' . $form_id))
+                'url' => admin_url('admin.php?page=hashform&hashform_action=edit&id=' . $form_id)
             );
             $actions['view'] = array(
                 'label' => esc_html__('Preview', 'hash-form'),
-                'url' => esc_url(admin_url('admin-ajax.php?action=hashform_preview&form=' . $form_id))
+                'url' => admin_url('admin-ajax.php?action=hashform_preview&form=' . $form_id)
             );
             $actions['trash'] = $trash_links['trash'];
         }

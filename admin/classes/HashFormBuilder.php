@@ -124,7 +124,7 @@ class HashFormBuilder {
             'settings' => HashFormHelper::get_form_settings_default($name)
         );
         $form_id = self::create($new_values);
-        $response = array('redirect' => esc_url(admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($form_id))));
+        $response = array('redirect' => admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($form_id)));
         echo wp_json_encode($response);
         wp_die();
     }
@@ -522,25 +522,25 @@ class HashFormBuilder {
     public static function get_form_nav_items($id) {
         $nav_items = array(
             array(
-                'link' => esc_url(admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($id))),
+                'link' => admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($id)),
                 'label' => esc_html__('Build', 'hash-form'),
                 'current' => array('edit', 'new', 'duplicate'),
                 'page' => 'hashform'
             ),
             array(
-                'link' => esc_url(admin_url('admin.php?page=hashform&hashform_action=settings&id=' . absint($id))),
+                'link' => admin_url('admin.php?page=hashform&hashform_action=settings&id=' . absint($id)),
                 'label' => esc_html__('Settings', 'hash-form'),
                 'current' => array('settings'),
                 'page' => 'hashform'
             ),
             array(
-                'link' => esc_url(admin_url('admin.php?page=hashform&hashform_action=style&id=' . absint($id))),
+                'link' => admin_url('admin.php?page=hashform&hashform_action=style&id=' . absint($id)),
                 'label' => esc_html__('Style', 'hash-form'),
                 'current' => array('style'),
                 'page' => 'hashform'
             ),
             array(
-                'link' => esc_url(admin_url('admin.php?page=hashform-entries&form_id=' . absint($id))),
+                'link' => admin_url('admin.php?page=hashform-entries&form_id=' . absint($id)),
                 'label' => esc_html__('Entries', 'hash-form'),
                 'current' => array(),
                 'page' => 'hashform-entries'
