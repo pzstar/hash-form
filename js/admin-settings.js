@@ -264,13 +264,18 @@
     });
 
     $('.hf-remove-preview').on('click', function () {
-        var boxZone = $(this).parents('.hf-preview-zone').find('.box-body');
-        var previewZone = $(this).parents('.hf-preview-zone');
-        var dropzone = $(this).parents('.hf-setting-fields').find('.hf-dropzone');
-        boxZone.empty();
-        previewZone.addClass('hidden');
-        dropzone.wrap('<form>').closest('form').get(0).reset();
-        dropzone.unwrap();
+        try {
+            var boxZone = $(this).parents('.hf-preview-zone').find('.box-body');
+            var previewZone = $(this).parents('.hf-preview-zone');
+            var dropzone = $(this).parents('.hf-preview-zone').siblings('.hf-dropzone-wrapper').find('.hf-dropzone');
+            boxZone.empty();
+            previewZone.addClass('hidden');
+            dropzone.wrap('<form>').closest('form').get(0).reset();
+            dropzone.unwrap();
+        } catch (err) {
+            console.log(err)
+        }
+        
     });
 
     $('body').on('click', '#hf-copy-shortcode', function () {
