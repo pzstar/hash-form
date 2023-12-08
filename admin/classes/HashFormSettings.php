@@ -164,7 +164,7 @@ class HashFormSettings {
         $site_name = get_bloginfo('name');
         $headers = array();
         $headers[] = 'Content-Type: text/html; charset=UTF-8';
-        $headers[] = 'From: ' . $site_name . ' <' . $admin_email . '>';
+        $headers[] = 'From: ' . esc_attr($site_name) . ' <' . esc_attr($admin_email) . '>';
         $mail = wp_mail($test_email, $email_subject, $form_html, $headers);
         if ($mail) {
             die(wp_json_encode(

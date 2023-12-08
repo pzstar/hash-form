@@ -122,7 +122,7 @@ defined('ABSPATH') || die();
                 <tr>
                     <td style="font-family: sans-serif;font-size: 12px;vertical-align: top;box-sizing: border-box;text-align: center;padding: 20px;color: #555555;" valign="top">
                         <?php
-                        printf(esc_html__('This email is sent from %s', 'hash-form'), '<a style="color:#111111" href="' . get_bloginfo('url') . '">' . get_bloginfo('name') . '</a>');
+                        printf(esc_html__('This email is sent from %s', 'hash-form'), '<a style="color:#111111" href="' . esc_url(get_bloginfo('url')) . '">' . esc_html(get_bloginfo('name')) . '</a>');
                         ?>
                     </td>
                 </tr>
