@@ -509,7 +509,7 @@ class HashFormBuilder {
             <?php foreach ($nav_items as $nav_item) { ?>
                 <li>
                     <a href="<?php echo esc_url($nav_item['link']); ?>" class="<?php echo self::is_current_page($nav_item['page'], $nav_item['current']) ? 'hf-active-nav' : ''; ?>">
-                       <?php echo esc_html($nav_item['label']); ?>
+                        <?php echo esc_html($nav_item['label']); ?>
                     </a>
                 </li>
             <?php } ?>

@@ -275,7 +275,7 @@
         } catch (err) {
             console.log(err)
         }
-        
+
     });
 
     $('body').on('click', '#hf-copy-shortcode', function () {

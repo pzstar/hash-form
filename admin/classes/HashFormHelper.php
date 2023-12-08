@@ -22,6 +22,7 @@ class HashFormHelper {
     }
 
     /* Sanitizes value and returns param value */
+
     public static function get_var($param, $sanitize = 'sanitize_text_field', $default = '') {
         $value = (($_GET && isset($_GET[$param])) ? wp_unslash($_GET[$param]) : $default);
         return self::sanitize_value($sanitize, $value);
