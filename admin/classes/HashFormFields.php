@@ -367,9 +367,8 @@ class HashFormFields {
         $values['field_key'] = HashFormHelper::get_unique_key('hashform_fields', 'field_key');
         $values['form_id'] = $form_id;
         $cols_array = array('name', 'description', 'type', 'field_order', 'field_options', 'options', 'default_value', 'required');
-        $unserialize_cols_array = array('default_value', 'field_options', 'options');
         foreach ($cols_array as $col) {
-            $values[$col] = in_array($col, $unserialize_cols_array) ? unserialize($field->{$col}) : $field->{$col};
+            $values[$col] = maybe_unserialize($field->{$col});
         }
     }
 
