@@ -189,7 +189,7 @@ abstract class HashFormFieldType {
                 <span id="hf-editor-field-label-text-<?php echo esc_attr($id); ?>" class="hf-editor-field-label-text">
                     <?php echo esc_html($field['name']); ?>                
                 </span>
-                <span id="hf-editor-field-required-<?php echo esc_attr($id); ?>" class="hf-field-required<?php echo!$field['required'] ? ' hf-hidden' : ''; ?>">
+                <span id="hf-editor-field-required-<?php echo esc_attr($id); ?>" class="hf-field-required<?php echo (!$field['required'] ? ' hf-hidden' : ''); ?>">
                     <?php echo esc_html($field['required_indicator']); ?>                
                 </span>
             </label>

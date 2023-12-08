@@ -24,11 +24,11 @@ class HashFormFieldHidden extends HashFormFieldType {
         if (is_admin() && !HashFormHelper::is_preview_page()) {
             ?>
             <label class="hf-editor-field-label">
-                <span class="hf-editor-field-label-text"><?php echo esc_html__('Hidden', 'hash-form'); ?></span>
+                <span class="hf-editor-field-label-text"><?php esc_html_e('Hidden', 'hash-form'); ?></span>
             </label>
             <input type="text" <?php $this->field_attrs(); ?> />
             <p class="howto">
-                <?php echo esc_html__('Note: This field will not show in the form. Enter the value to be hidden.', 'hash-form'); ?>
+                <?php esc_html_e('Note: This field will not show in the form. Enter the value to be hidden.', 'hash-form'); ?>
             </p>
             <?php
         } else {

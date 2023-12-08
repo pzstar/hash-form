@@ -48,7 +48,7 @@ class HashFormFieldHTML extends HashFormFieldType {
             if (is_admin() && !HashFormHelper::is_preview_page()) {
                 ?>
                 <div class="hf-custom-html-preview">
-                    <?php echo esc_html__('Custom HTML - No Preview Available', 'hash-form'); ?>
+                    <?php esc_html_e('Custom HTML - No Preview Available', 'hash-form'); ?>
                 </div>
                 <?php
             } else {

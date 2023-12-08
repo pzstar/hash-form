@@ -30,9 +30,9 @@ class HashFormFieldUserID extends HashFormFieldType {
         if (is_admin() && !HashFormHelper::is_preview_page()) {
             ?>
             <label class="hf-editor-field-label">
-                <span class="hf-editor-field-label-text"><?php echo esc_html__('User ID', 'hash-form'); ?></span>
+                <span class="hf-editor-field-label-text"><?php esc_html_e('User ID', 'hash-form'); ?></span>
             </label>
-            <input type="text" value="<?php echo esc_attr__('User ID fields will not show in your form.', 'hash-form'); ?>" disabled />
+            <input type="text" value="<?php esc_attr_e('User ID fields will not show in your form.', 'hash-form'); ?>" disabled />
             <?php
         } else {
             ?>

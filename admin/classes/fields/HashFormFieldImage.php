@@ -35,7 +35,7 @@ class HashFormFieldImage extends HashFormFieldType {
 
         <div class="hf-image-preview-front hf-field-image-<?php echo esc_attr($field['id']); ?>">
             <div class="hf-no-image-field <?php echo esc_attr($image_class); ?>">
-                <?php echo esc_html__('Image Field - No Image', 'hash-form'); ?>
+                <?php esc_html_e('Image Field - No Image', 'hash-form'); ?>
             </div>
             <?php
             if ($image) {

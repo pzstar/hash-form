@@ -21,7 +21,7 @@ defined('ABSPATH') || die();
 
         <?php if ($display['label']) { ?>
             <div class="hf-form-row">
-                <label><?php echo esc_html__('Field Label', 'hash-form'); ?></label>
+                <label><?php esc_html_e('Field Label', 'hash-form'); ?></label>
                 <input type="text" name="field_options[name_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['name']); ?>" data-changeme="hf-editor-field-label-text-<?php echo esc_attr($field_id); ?>" />
             </div>
 
@@ -87,9 +87,9 @@ defined('ABSPATH') || die();
 
         <?php if ($display['content']) { ?>
             <div class="hf-form-row">
-                <label><?php echo esc_html__('Content', 'hash-form'); ?></label>
+                <label><?php esc_html_e('Content', 'hash-form'); ?></label>
                 <div class="hf-form-textarea">
-                    <textarea name="field_options[content_<?php echo esc_attr($field_id); ?>]" data-changeme="hf-field-<?php echo esc_attr($field_id) ?>"><?php echo isset($field['content']) ? esc_html($field['content']) : ''; ?></textarea>
+                    <textarea name="field_options[content_<?php echo esc_attr($field_id); ?>]" data-changeme="hf-field-<?php echo esc_attr($field_id) ?>"><?php echo isset($field['content']) ? esc_textarea($field['content']) : ''; ?></textarea>
                 </div>
             </div>
 
