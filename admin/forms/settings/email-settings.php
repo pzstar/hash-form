@@ -33,7 +33,9 @@ defined('ABSPATH') || die();
                         foreach ($fields as $field) {
                             if ($field->type == 'email') {
                                 ?>
-                                <li data-value="#field_id_<?php echo esc_attr($field->id); ?>"><?php echo esc_html($field->name) . '<span>#field_id_' . esc_html($field->id) . '</span>'; ?></li>
+                                <li data-value="#field_id_<?php echo esc_attr($field->id); ?>">
+                                    <?php echo esc_html($field->name); ?><span>#field_id_<?php echo esc_html($field->id); ?></span>
+                                </li>
                                 <?php
                             }
                         }
@@ -72,7 +74,9 @@ defined('ABSPATH') || die();
                     foreach ($fields as $field) {
                         if (!($field->type == 'heading' || $field->type == 'paragraph' || $field->type == 'separator' || $field->type == 'spacer' || $field->type == 'image' || $field->type == 'captcha')) {
                             ?>
-                            <li data-value="#field_id_<?php echo esc_attr($field->id); ?>"><?php echo esc_html($field->name) . '<span>#field_id_' . esc_html($field->id) . '</span>'; ?></li>
+                            <li data-value="#field_id_<?php echo esc_attr($field->id); ?>">
+                                <?php echo esc_html($field->name); ?><span>#field_id_<?php echo esc_html($field->id); ?></span>
+                            </li>
                             <?php
                         }
                     }
@@ -96,7 +100,9 @@ defined('ABSPATH') || die();
                     foreach ($fields as $field) {
                         if (!($field->type == 'heading' || $field->type == 'paragraph' || $field->type == 'separator' || $field->type == 'spacer' || $field->type == 'image' || $field->type == 'captcha')) {
                             ?>
-                            <li data-value="#field_id_<?php echo esc_attr($field->id); ?>"><?php echo esc_html($field->name) . '<span>#field_id_' . esc_html($field->id) . '</span>'; ?></li>
+                            <li data-value="#field_id_<?php echo esc_attr($field->id); ?>">
+                                <?php echo esc_html($field->name); ?><span>#field_id_<?php echo esc_html($field->id); ?></span>
+                            </li>
                             <?php
                         }
                     }

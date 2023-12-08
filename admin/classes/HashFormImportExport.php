@@ -118,15 +118,15 @@ class HashFormImportExport {
 
         foreach ($imdat['field'] as $field) {
             HashFormFields::create_row(array(
-                'name' => esc_html($field['name']),
-                'description' => esc_html($field['description']),
-                'type' => esc_html($field['type']),
-                'default_value' => is_array($field['default_value']) ? HashFormHelper::sanitize_array($field['default_value']) : sanitize_text_field($field['default_value']),
-                'options' => is_array($field['options']) ? HashFormHelper::sanitize_array($field['options']) : sanitize_text_field($field['options']),
-                'field_order' => isset($field['field_order']) ? absint($field['field_order']) : '',
+                'name' => $field['name'],
+                'description' => $field['description'],
+                'type' => $field['type'],
+                'default_value' => $field['default_value'],
+                'options' => $field['options'],
+                'field_order' => $field['field_order'],
                 'form_id' => absint($form_id),
-                'required' => $field['required'] ? true : false,
-                'field_options' => HashFormHelper::sanitize_array($field['field_options'], HashFormHelper::get_field_options_sanitize_rules())
+                'required' => $field['required'],
+                'field_options' => $field['field_options']
             ));
         }
 

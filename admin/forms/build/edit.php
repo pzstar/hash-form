@@ -5,7 +5,9 @@ $id = htmlspecialchars_decode(HashFormHelper::get_var('id', 'absint'));
 $form = HashFormBuilder::get_form_vars($id);
 
 if (!$form) {
-    echo '<h3>' . esc_html__('You are trying to edit a form that does not exist.', 'hash-form') . '</h3>';
+    ?>
+    <h3><?php esc_html_e('You are trying to edit a form that does not exist.', 'hash-form'); ?></h3>
+    <?php
     return;
 }
 $fields = HashFormFields::get_form_fields($form->id);

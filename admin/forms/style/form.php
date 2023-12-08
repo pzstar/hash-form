@@ -52,7 +52,7 @@ if (!$hashform_styles) {
         <input type="hidden" name="hashform_action" value="create" />
         <input type="hidden" name="form_id" value="<?php echo absint($form->id); ?>" />
         <input type="hidden" name="form_key" value="<?php echo esc_attr($form->form_key); ?>" />
-        <input type="hidden" class="hashform-form-conditions" value="<?php echo htmlspecialchars(wp_json_encode(HashFormBuilder::get_show_hide_conditions(absint($form->id))), ENT_QUOTES, 'UTF-8'); ?>" />
+        <input type="hidden" class="hashform-form-conditions" value="<?php echo esc_attr(htmlspecialchars(wp_json_encode(HashFormBuilder::get_show_hide_conditions(absint($form->id))), ENT_QUOTES, 'UTF-8')); ?>" />
         <?php
         wp_nonce_field('hashform_submit_entry_nonce', 'hashform_submit_entry_' . absint($form->id));
 

@@ -82,7 +82,7 @@ class HashFormBuilder {
         <div class="hf-content">
             <div class="hf-form-list-wrap wrap">
                 <div class="hf-add-new-form">
-                    <a href="#" class="button hf-trigger-modal"><?php echo esc_html__('Add New', 'hash-form'); ?></a>
+                    <a href="#" class="button hf-trigger-modal"><?php esc_html_e('Add New', 'hash-form'); ?></a>
                 </div>
 
                 <?php
@@ -508,10 +508,8 @@ class HashFormBuilder {
         <ul class="hf-main-nav">
             <?php foreach ($nav_items as $nav_item) { ?>
                 <li>
-                    <a href="<?php echo esc_url($nav_item['link']); ?>" <?php
-                    echo self::highlight_current_page($nav_item['page'], $nav_item['current']);
-                    ?>>
-                           <?php echo esc_html($nav_item['label']); ?>
+                    <a href="<?php echo esc_url($nav_item['link']); ?>" class="<?php echo self::is_current_page($nav_item['page'], $nav_item['current']) ? 'hf-active-nav' : ''; ?>">
+                       <?php echo esc_html($nav_item['label']); ?>
                     </a>
                 </li>
             <?php } ?>
@@ -549,12 +547,14 @@ class HashFormBuilder {
         return $nav_items;
     }
 
-    public static function highlight_current_page($page, $action = array()) {
+    public static function is_current_page($page, $action = array()) {
         $current_page = HashFormHelper::get_var('page');
         $hashform_action = HashFormHelper::get_var('hashform_action');
 
-        if (($page == $current_page) && (!empty($hashform_action) && in_array($hashform_action, $action)))
-            return ' class="hf-active-nav"';
+        if (($page == $current_page) && (!empty($hashform_action) && in_array($hashform_action, $action))) {
+            return true;
+        }
+        return false;
     }
 
     public static function get_all_forms() {
@@ -657,11 +657,11 @@ class HashFormBuilder {
         ?>
         <div class="hf-condition-repeater-block">
             <select name="condition_action[]" required>
-                <option value="show"><?php echo esc_html__('Show', 'hash-form'); ?></option>
-                <option value="hide"><?php echo esc_html__('Hide', 'hash-form'); ?></option>
+                <option value="show"><?php esc_html_e('Show', 'hash-form'); ?></option>
+                <option value="hide"><?php esc_html_e('Hide', 'hash-form'); ?></option>
             </select>
             <select name="compare_from[]" required>
-                <option value=""><?php echo esc_html__('Select Field', 'hash-form'); ?></option>
+                <option value=""><?php esc_html_e('Select Field', 'hash-form'); ?></option>
                 <?php
                 foreach ($fields as $field) {
                     if (!($field->type == 'heading' || $field->type == 'paragraph' || $field->type == 'separator' || $field->type == 'spacer' || $field->type == 'image' || $field->type == 'captcha')) {
@@ -672,28 +672,28 @@ class HashFormBuilder {
                 }
                 ?>
             </select>
-            <span class="hf-condition-seperator"><?php echo esc_html__('if', 'hash-form'); ?></span>
+            <span class="hf-condition-seperator"><?php esc_html_e('if', 'hash-form'); ?></span>
             <select name="compare_to[]" required>
-                <option value=""><?php echo esc_html__('Select Field', 'hash-form'); ?></option>
+                <option value=""><?php esc_html_e('Select Field', 'hash-form'); ?></option>
                 <?php
                 foreach ($fields as $field) {
                     if (!($field->type == 'heading' || $field->type == 'paragraph' || $field->type == 'separator' || $field->type == 'spacer' || $field->type == 'image' || $field->type == 'captcha' || $field->type == 'name' || $field->type == 'address')) {
                         ?>
-                        <option value="<?php echo esc_attr($field->id); ?>"><?php echo esc_html($field->name . ' (ID: ' . $field->id . ')'); ?></option>
+                        <option value="<?php echo esc_attr($field->id); ?>"><?php echo esc_html($field->name) . ' (ID: ' . esc_html($field->id) . ')'; ?></option>
                         <?php
                     }
                 }
                 ?>
             </select>
             <select name="compare_condition[]" required>
-                <option value="equal"><?php echo esc_html__('Equals to', 'hash-form'); ?></option>
-                <option value="not_equal"><?php echo esc_html__('Not Equals to', 'hash-form'); ?></option>
-                <option value="greater_than"><?php echo esc_html__('Greater Than', 'hash-form'); ?></option>
-                <option value="greater_than_or_equal"><?php echo esc_html__('Greater Than Or Equals to', 'hash-form'); ?></option>
-                <option value="less_than"><?php echo esc_html__('Less Than', 'hash-form'); ?></option>
-                <option value="less_than_or_equal"><?php echo esc_html__('Less Than Or Equals to', 'hash-form'); ?></option>
-                <option value="is_like"><?php echo esc_html__('Is Like', 'hash-form'); ?></option>
-                <option value="is_not_like"><?php echo esc_html__('Is Not Like', 'hash-form'); ?></option>
+                <option value="equal"><?php esc_html_e('Equals to', 'hash-form'); ?></option>
+                <option value="not_equal"><?php esc_html_e('Not Equals to', 'hash-form'); ?></option>
+                <option value="greater_than"><?php esc_html_e('Greater Than', 'hash-form'); ?></option>
+                <option value="greater_than_or_equal"><?php esc_html_e('Greater Than Or Equals to', 'hash-form'); ?></option>
+                <option value="less_than"><?php esc_html_e('Less Than', 'hash-form'); ?></option>
+                <option value="less_than_or_equal"><?php esc_html_e('Less Than Or Equals to', 'hash-form'); ?></option>
+                <option value="is_like"><?php esc_html_e('Is Like', 'hash-form'); ?></option>
+                <option value="is_not_like"><?php esc_html_e('Is Not Like', 'hash-form'); ?></option>
             </select>
             <input type="text" name="compare_value[]" required/>
             <span class="hf-condition-remove mdi mdi-close"></span>

@@ -51,7 +51,11 @@ class HashFormEntry {
         $entry = self::get_entry_vars($id);
 
         if (!$entry) {
-            echo '<div id="message" class="error notice is-dismissible"><p>' . esc_html__('You are trying to view an entry that does not exist.', 'hash-form') . '</p></div>';
+            ?>
+            <div id="message" class="error notice is-dismissible">
+                <p><?php esc_html_e('You are trying to view an entry that does not exist.', 'hash-form'); ?></p>
+            </div>
+            <?php
             return;
         }
 

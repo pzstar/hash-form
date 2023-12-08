@@ -24,7 +24,7 @@ defined('ABSPATH') || die();
                     $registered_fields = HashFormFields::field_selection();
                     foreach ($registered_fields as $field_key => $field_type) {
                         ?>
-                        <li class="hf-field-box <?php echo 'hashform_' . esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>">
+                        <li class="hf-field-box hashform_<?php echo esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>">
                             <a href="#" class="hf-add-field" title="<?php echo esc_html($field_type['name']); ?>">
                                 <i class="<?php echo esc_attr($field_type['icon']); ?>"></i>
                                 <span><?php echo esc_html($field_type['name']); ?></span>
@@ -54,7 +54,7 @@ defined('ABSPATH') || die();
                 <form method="post" id="hf-meta-form">
                     <div class="hf-form-container hf-grid-container">
                         <div class="hf-form-row">
-                            <label><?php echo esc_html_e('Form Title', 'hash-form'); ?></label>
+                            <label><?php esc_html_e('Form Title', 'hash-form'); ?></label>
                             <input type="text" name="title" value="<?php echo esc_attr($values['name']); ?>">
                         </div>
 
@@ -66,7 +66,7 @@ defined('ABSPATH') || die();
                         </div>
 
                         <div class="hf-form-row">
-                            <label><?php echo esc_html_e('Form Description', 'hash-form'); ?></label>
+                            <label><?php esc_html_e('Form Description', 'hash-form'); ?></label>
                             <textarea name="description"><?php echo esc_textarea($values['description']); ?></textarea>
                         </div>
 
@@ -78,17 +78,17 @@ defined('ABSPATH') || die();
                         </div>
 
                         <div class="hf-form-row">
-                            <label><?php echo esc_html_e('Submit Button Text', 'hash-form'); ?></label>
+                            <label><?php esc_html_e('Submit Button Text', 'hash-form'); ?></label>
                             <input type="text" name="submit_value" value="<?php echo isset($values['submit_value']) ? esc_attr($values['submit_value']) : ''; ?>" data-changeme="hf-editor-submit-button">
                         </div>
 
                         <div class="hf-form-row">
-                            <label><?php echo esc_html_e('Form CSS Class', 'hash-form'); ?></label>
+                            <label><?php esc_html_e('Form CSS Class', 'hash-form'); ?></label>
                             <input type="text" name="form_css_class" value="<?php echo isset($values['form_css_class']) ? esc_attr($values['form_css_class']) : ''; ?>">
                         </div>
 
                         <div class="hf-form-row">
-                            <label><?php echo esc_html_e('Submit Button CSS Class', 'hash-form'); ?></label>
+                            <label><?php esc_html_e('Submit Button CSS Class', 'hash-form'); ?></label>
                             <input type="text" name="submit_btn_css_class" value="<?php echo isset($values['submit_btn_css_class']) ? esc_attr($values['submit_btn_css_class']) : ''; ?>">
                         </div>
 

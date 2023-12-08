@@ -22,24 +22,13 @@ class HashFormHelper {
     }
 
     /* Sanitizes value and returns param value */
-
     public static function get_var($param, $sanitize = 'sanitize_text_field', $default = '') {
-        if ($_GET && isset($_GET[$param])) {
-            $value = wp_unslash($_GET[$param]);
-        } else {
-            $value = $default;
-        }
-
+        $value = (($_GET && isset($_GET[$param])) ? wp_unslash($_GET[$param]) : $default);
         return self::sanitize_value($sanitize, $value);
     }
 
     public static function get_post($param, $sanitize = 'sanitize_text_field', $default = '') {
-        if (isset($_POST[$param])) {
-            $value = wp_unslash($_POST[$param]);
-        } else {
-            $value = $default;
-        }
-
+        $value = (isset($_POST[$param]) ? wp_unslash($_POST[$param]) : $default);
         return self::sanitize_value($sanitize, $value);
     }
 
@@ -51,7 +40,7 @@ class HashFormHelper {
                     $value[$k] = self::sanitize_value($sanitize, $value[$k]);
                 }
             } else {
-                $value = call_user_func($sanitize, htmlspecialchars_decode($value));
+                $value = call_user_func($sanitize, ($value ? htmlspecialchars_decode($value) : ''));
             }
         }
 
@@ -107,8 +96,9 @@ class HashFormHelper {
     }
 
     public static function is_form_listing_page() {
-        if (!self::is_admin_page('hashform'))
+        if (!self::is_admin_page('hashform')) {
             return false;
+        }
 
         $action = self::get_var('hashform_action', 'sanitize_title');
         $builder_actions = self::get_form_builder_actions();
@@ -198,8 +188,9 @@ class HashFormHelper {
     }
 
     public static function process_form_array($form) {
-        if (!$form)
+        if (!$form) {
             return;
+        }
 
         $new_values = array(
             'id' => $form->id,
@@ -731,29 +722,33 @@ class HashFormHelper {
         $ip = '';
 
         foreach ($ip_options as $key) {
-            if (!isset($_SERVER[$key]))
+            if (!isset($_SERVER[$key])) {
                 continue;
+            }
             $key = self::get_server_value($key);
             foreach (explode(',', $key) as $ip) {
                 $ip = trim($ip); // Just to be safe.
-                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false)
+                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
                     return sanitize_text_field($ip);
+                }
             }
         }
         return sanitize_text_field($ip);
     }
 
     public static function get_server_value($value) {
-        return isset($_SERVER[$value]) ? wp_strip_all_tags(wp_unslash($_SERVER[$value])) : '';
+        return isset($_SERVER[$value]) ? esc_html(wp_strip_all_tags(wp_unslash($_SERVER[$value]))) : '';
     }
 
     public static function count_decimals($num) {
-        if (!is_numeric($num))
+        if (!is_numeric($num)) {
             return false;
+        }
         $num = (string) $num;
         $parts = explode('.', $num);
-        if (1 === count($parts))
+        if (1 === count($parts)) {
             return 0;
+        }
         return strlen($parts[count($parts) - 1]);
     }
 

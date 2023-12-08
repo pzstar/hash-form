@@ -23,7 +23,7 @@ defined('ABSPATH') || die();
         ?>
     </ul>
 
-    <div class="hf-editor-submit-button-wrap <?php echo (isset($form->options['submit_btn_alignment']) ? 'hf-submit-btn-align-' . esc_attr($form->options['submit_btn_alignment']) : 'hf-submit-btn-align-left'); ?>">
+    <div class="hf-editor-submit-button-wrap hf-submit-btn-align-<?php echo (isset($form->options['submit_btn_alignment']) ? esc_attr($form->options['submit_btn_alignment']) : 'left'); ?>">
         <button id="hf-editor-submit-button" class="hf-editor-submit-button" disabled="disabled">
             <?php echo (isset($form->options['submit_value']) ? esc_html($form->options['submit_value']) : esc_html__('Submit', 'hash-form')); ?>
         </button>

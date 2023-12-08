@@ -146,7 +146,7 @@ class HashFormFieldCaptcha extends HashFormFieldType {
             if (!HashFormFieldCaptcha::should_show_captcha()) {
                 ?>
                 <div class="howto">
-                    <?php echo esc_attr__('This field is not set up yet.', 'hash-form'); ?>
+                    <?php esc_html_e('This field is not set up yet.', 'hash-form'); ?>
                 </div>
                 <?php
             } else {

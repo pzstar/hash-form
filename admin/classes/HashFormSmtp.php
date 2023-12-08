@@ -53,7 +53,7 @@ class HashFormSmtp {
                 $success = true;
             }
         }
-        echo wp_json_encode(array('success' => $success));
+        echo wp_json_encode(array('success' => ($success ? true : false)));
         die();
     }
 

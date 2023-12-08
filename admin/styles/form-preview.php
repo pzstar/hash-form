@@ -2,7 +2,7 @@
 
 defined('ABSPATH') || die();
 
-echo HashFormPreview::show_form($form_id);
+HashFormPreview::show_form($form_id);
 
 echo '<style>';
 echo '#hf-container-00{';

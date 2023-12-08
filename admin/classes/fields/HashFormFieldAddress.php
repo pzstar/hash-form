@@ -63,7 +63,7 @@ class HashFormFieldAddress extends HashFormFieldType {
                 <?php echo esc_html($label); ?>
                 <label class="hf-field-show-hide">
                     <input type="hidden" name="field_options[disable_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" value="on">
-                    <input type="checkbox" name="field_options[disable_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" id="hf-disable-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" data-changeme="hf-subfield-disable-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" value="off" data-disablefield="hf-subfield-container-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" <?php echo ($disable == 'off' ? 'checked="checked"' : '') ?>>
+                    <input type="checkbox" name="field_options[disable_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" id="hf-disable-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" data-changeme="hf-subfield-disable-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" value="off" data-disablefield="hf-subfield-container-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" <?php checked(($disable == 'off'), true) ?>>
                     <label for="hf-disable-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>"></label>
                 </label>
             </div>
@@ -72,16 +72,16 @@ class HashFormFieldAddress extends HashFormFieldType {
                 <?php if ($name !== 'country') { ?>
                     <div class="hf-form-row hf-grid-2">
                         <input type="<?php echo esc_attr($type); ?>" name="default_value_<?php echo esc_attr($field_id); ?>[<?php echo esc_attr($name); ?>]" value="<?php echo esc_attr($value); ?>" data-changeme="hf-field-<?php echo esc_attr($field_key); ?>-<?php echo esc_attr($name); ?>" data-changeatt="value">
-                        <label class="hf-field-desc"><?php echo esc_html__('Default Value', 'hash-form'); ?></label>
+                        <label class="hf-field-desc"><?php esc_html_e('Default Value', 'hash-form'); ?></label>
                     </div>
                     <div class="hf-form-row hf-grid-2">
                         <input type="text" name="field_options[placeholder_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" value="<?php echo esc_attr($placeholder); ?>" data-changeme="hf-field-<?php echo esc_attr($field_key); ?>-<?php echo esc_attr($name); ?>" data-changeatt="placeholder">
-                        <label class="hf-field-desc"><?php echo esc_html__('Placeholder', 'hash-form'); ?></label>
+                        <label class="hf-field-desc"><?php esc_html_e('Placeholder', 'hash-form'); ?></label>
                     </div>
                 <?php } ?>
                 <div class="hf-form-row<?php echo esc_attr($country_grid_class); ?>">
                     <input type="text" name="field_options[desc_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" value="<?php echo esc_html($desc); ?>" data-changeme="hf-subfield-desc-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>">
-                    <label class="hf-field-desc"><?php echo esc_html__('Description', 'hash-form'); ?></label>
+                    <label class="hf-field-desc"><?php esc_html_e('Description', 'hash-form'); ?></label>
                 </div>
             </div>
         </div>

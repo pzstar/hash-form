@@ -204,10 +204,14 @@ class HashFormEntryListing extends \WP_List_Table {
 
         if ($which === 'top') {
             $form_id = HashFormHelper::get_var('form_id', 'absint', 0);
-            echo '<div class="alignleft actions">';
-            self::forms_dropdown('form_id', $form_id);
-            submit_button(esc_html__('Filter', 'hash-form'), 'filter_action', '', false, array('id' => 'post-query-submit'));
-            echo '</div>';
+            ?>
+            <div class="alignleft actions">
+                <?php
+                self::forms_dropdown('form_id', $form_id);
+                submit_button(esc_html__('Filter', 'hash-form'), 'filter_action', '', false, array('id' => 'post-query-submit'));
+                ?>
+            </div>
+            <?php
         }
     }
 
@@ -218,7 +222,7 @@ class HashFormEntryListing extends \WP_List_Table {
             <option value=""><?php echo esc_html__('All', 'hash-form'); ?></option>
             <?php foreach ($forms as $form) { ?>
                 <option value="<?php echo esc_attr($form->id); ?>" <?php selected($field_value, $form->id); ?>>
-                    <?php echo esc_html('' === $form->name ? esc_html__('(no title)', 'hash-form') : $form->name); ?>
+                    <?php echo ('' === $form->name ? esc_html__('(no title)', 'hash-form') : esc_html($form->name)); ?>
                 </option>
             <?php } ?>
         </select>
@@ -297,9 +301,9 @@ class HashFormEntryListing extends \WP_List_Table {
             return;
         echo "<ul class='subsubsub'>\n";
         foreach ($views as $class => $view) {
-            $views[$class] = "\t" . '<li class="' . esc_attr($class) . '">' . $view;
+            $views[$class] = "\t" . '<li class="' . esc_attr($class) . '">' . wp_kses_post($view);
         }
-        echo implode(" |</li>\n", $views) . "</li>\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo wp_kses_post(implode(" |</li>\n", $views) . "</li>\n");
         echo '</ul>';
     }
 

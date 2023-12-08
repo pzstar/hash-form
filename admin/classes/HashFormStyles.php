@@ -376,7 +376,7 @@ class HashFormStyles {
                         <label><?php esc_html_e('Font Family', 'hash-form'); ?></label>
                         <div class="hf-typography-input-field">
                             <select id="<?php echo esc_attr('hf-' . $label_id . '-typo-font-family'); ?>" name="<?php echo esc_attr($name . '[' . $label . '][typo][font_family]'); ?>" class="hf-typography-font-family">
-                                <option value="inherit" <?php selected($settings[$label]['typo']['font_family'], 'inherit'); ?>><?php echo esc_html('Default', 'hash-form'); ?></option>
+                                <option value="inherit" <?php selected($settings[$label]['typo']['font_family'], 'inherit'); ?>><?php esc_html_e('Default', 'hash-form'); ?></option>
                                 <?php
                                 if ($standard_fonts) {
                                     ?>

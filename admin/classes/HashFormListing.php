@@ -280,9 +280,9 @@ class HashFormListing extends \WP_List_Table {
             return;
         echo "<ul class='subsubsub'>\n";
         foreach ($views as $class => $view) {
-            $views[$class] = "\t" . '<li class="' . esc_attr($class) . '">' . $view;
+            $views[$class] = "\t" . '<li class="' . esc_attr($class) . '">' . wp_kses_post($view);
         }
-        echo implode(" |</li>\n", $views) . "</li>\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        echo wp_kses_post(implode(" |</li>\n", $views) . "</li>\n");
         echo '</ul>';
     }
 
