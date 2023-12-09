@@ -163,8 +163,7 @@ class HashFormEntry {
         global $wpdb;
 
         if (is_array($id)) {
-            $id = implode(', ', $id);
-            $query = $wpdb->prepare("UPDATE {$wpdb->prefix}hashform_entries SET status=%s WHERE id IN ({$id})", $status);
+            $query = $wpdb->prepare("UPDATE {$wpdb->prefix}hashform_entries SET status=%s WHERE id IN (" . implode(',', array_fill(0, count($id), '%d')) . ")", $status, ...$id);
             $query_results = $wpdb->query($query);
         } else {
             $query_results = $wpdb->update($wpdb->prefix . 'hashform_entries', array('status' => $status), array('id' => $id));

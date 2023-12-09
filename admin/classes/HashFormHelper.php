@@ -738,7 +738,7 @@ class HashFormHelper {
     }
 
     public static function get_server_value($value) {
-        return isset($_SERVER[$value]) ? esc_html(wp_strip_all_tags(wp_unslash($_SERVER[$value]))) : '';
+        return isset($_SERVER[$value]) ? sanitize_text_field(wp_strip_all_tags(wp_unslash($_SERVER[$value]))) : '';
     }
 
     public static function count_decimals($num) {
