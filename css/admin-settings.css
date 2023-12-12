@@ -2,10 +2,6 @@
     display: none;
 }
 
-.post-type-hashform-styles #poststuff #post-body.columns-2{
-    margin: 0;
-}
-
 .post-type-hashform-styles #post-body.columns-2 #postbox-container-1{
     display: none;
 }
@@ -26,6 +22,15 @@
     float: none;
 }
 
+.post-type-hashform-styles{
+    height: 100vh;
+    overflow: hidden;
+}
+
+.post-type-hashform-styles #poststuff #post-body.columns-2{
+    margin: 0;
+}
+
 .post-type-hashform-styles.post-new-php .wrap,
 .post-type-hashform-styles.post-php .wrap{
     position: fixed;
@@ -42,13 +47,19 @@
 }
 
 .post-type-hashform-styles.post-new-php .wrap .wp-heading-inline,
-.post-type-hashform-styles.post-php .wrap .wp-heading-inline{
-    margin: 0 0 10px;
+.post-type-hashform-styles.post-php .wrap .wp-heading-inline,
+.post-type-hashform-styles.post-new-php .page-title-action,
+.post-type-hashform-styles.post-php .wrap .page-title-action{
+    display: none;
+}
+
+.post-type-hashform-styles.post-new-php #poststuff,
+.post-type-hashform-styles.post-php .wrap #poststuff{
     padding: 0;
 }
 
 .post-type-hashform-styles .hf-body{
-    height: 100vh;
+    height: calc(100vh - 190px);
 }
 
 .post-type-hashform-styles .hf-footer{
@@ -57,6 +68,17 @@
     z-index: 99;
     gap: 20px;
     align-items: center;
+}
+
+.post-type-hashform-styles #message{
+    position: absolute;
+    right: 30px;
+    top: 0px;
+    width: 300px;
+    z-index: 99;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 /* Settings Metabox */

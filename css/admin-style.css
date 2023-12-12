@@ -197,27 +197,27 @@
     background: #f8fafc;
     flex: 0 0 360px;
     width: 360px;
-    overflow-y: scroll;
+    overflow: hidden auto;
     border-right: 1px solid #EEE;
 }
 
 #hf-form-panel{
-    overflow-y: scroll;
+    overflow: hidden auto;
     flex-grow: 1;
 }
 
 #hf-form-panel::-webkit-scrollbar {
-    width: 5px;
+    width: 8px;
 }
 
 /* Track */
 #hf-form-panel::-webkit-scrollbar-track {
-    background: transparent;
+    background: #CCC;
 }
 
 /* Handle */
 #hf-form-panel::-webkit-scrollbar-thumb {
-    background: #c3c4c7; 
+    background: #AAA; 
 }
 
 /* Handle on hover */
@@ -244,17 +244,17 @@
 
 /* Track */
 .hf-fields-sidebar::-webkit-scrollbar-track {
-    background: transparent;
+    background: #EEE;
 }
 
 /* Handle */
 .hf-fields-sidebar::-webkit-scrollbar-thumb {
-    background: #c3c4c7; 
+    background: #DDD; 
 }
 
 /* Handle on hover */
 .hf-fields-sidebar::-webkit-scrollbar-thumb:hover {
-    background: #999; 
+    background: #BBB; 
 }
 
 .hf-fields-tabs li {
