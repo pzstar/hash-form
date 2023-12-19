@@ -240,6 +240,7 @@
 .hf-container select{
     width: 100%;
     max-width: 100%;
+    outline: 0;
 }
 
 .hf-form-custom-style .hf-container input[type="text"],
@@ -405,12 +406,13 @@
 }
 
 .hf-container .hf-field-desc{
+    font-size: 0.82em;
     margin-top: 5px;
 }
 
 .hf-form-custom-style .hf-container .hf-field-desc{
     font-family: var(--hf-desc-typo-font-family);
-    font-size: var(--hf-desc-typo-font-size, 13px);
+    font-size: var(--hf-desc-typo-font-size, 0.82em);
     font-weight: var(--hf-desc-typo-font-weight, 400);
     font-style: var(--hf-desc-typo-font-style, italic);
     letter-spacing: var(--hf-desc-typo-letter-spacing, normal);
@@ -466,11 +468,12 @@
     color: #FF0000;
     display: block;
     background: none;
+    font-size: 0.82em;
 }
 
 .hf-form-custom-style .hf-container .hf-error-msg{
     font-family: var(--hf-validation-typo-font-family);
-    font-size: var(--hf-validation-typo-font-size, 13px);
+    font-size: var(--hf-validation-typo-font-size, 0.82em);
     font-weight: var(--hf-validation-typo-font-weight, 400);
     font-style: var(--hf-validation-typo-font-style, normal);
     letter-spacing: var(--hf-validation-typo-letter-spacing, normal);
