@@ -22,7 +22,7 @@ class HashFormImportExport {
 
         global $wpdb;
 
-        $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_forms WHERE id=%d", $id);
+        $query = $wpdb->prepare("SELECT * FROM {$wpdb->base_prefix}hashform_forms WHERE id=%d", $id);
         $forms = $wpdb->get_results($query);
 
         foreach ($forms as $form) {
@@ -112,8 +112,8 @@ class HashFormImportExport {
             $form['created_at'] = current_time('mysql');
         }
 
-        $wpdb->update($wpdb->prefix . 'hashform_forms', $form, array('id' => $form_id));
-        $query = $wpdb->prepare("DELETE FROM {$wpdb->prefix}hashform_fields WHERE form_id=%d", $form_id);
+        $wpdb->update($wpdb->base_prefix . 'hashform_forms', $form, array('id' => $form_id));
+        $query = $wpdb->prepare("DELETE FROM {$wpdb->base_prefix}hashform_fields WHERE form_id=%d", $form_id);
         $wpdb->query($query);
 
         foreach ($imdat['field'] as $field) {

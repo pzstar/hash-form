@@ -15,7 +15,7 @@ class HashFormFields {
     public static function get_form_fields($form_id) {
         global $wpdb;
         $form_id = absint($form_id);
-        $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_fields WHERE form_id=%d ORDER BY field_order", $form_id);
+        $query = $wpdb->prepare("SELECT * FROM {$wpdb->base_prefix}hashform_fields WHERE form_id=%d ORDER BY field_order", $form_id);
         $results = $wpdb->get_results($query);
         foreach ($results as $value) {
             foreach ($value as $key => $val) {
@@ -62,7 +62,7 @@ class HashFormFields {
 
     public static function setup_new_field_vars($type = '', $form_id = '') {
         global $wpdb;
-        $sql = $wpdb->prepare("SELECT field_order FROM {$wpdb->prefix}hashform_fields WHERE form_id=%d ORDER BY field_order DESC", $form_id);
+        $sql = $wpdb->prepare("SELECT field_order FROM {$wpdb->base_prefix}hashform_fields WHERE form_id=%d ORDER BY field_order DESC", $form_id);
         $field_count = $wpdb->get_var($sql);
         $values = self::get_default_field($type);
         $values['field_key'] = HashFormHelper::get_unique_key('hashform_fields', 'field_key');
@@ -255,7 +255,7 @@ class HashFormFields {
             }
         }
 
-        $query_results = $wpdb->insert($wpdb->prefix . 'hashform_fields', $new_values);
+        $query_results = $wpdb->insert($wpdb->base_prefix . 'hashform_fields', $new_values);
         $new_id = 0;
         if ($query_results) {
             $new_id = $wpdb->insert_id;
@@ -342,7 +342,7 @@ class HashFormFields {
             $values['default_value'] = serialize($field_obj->sanitize_value($values['default_value']));
         }
 
-        $query_results = $wpdb->update($wpdb->prefix . 'hashform_fields', $values, array('id' => $id));
+        $query_results = $wpdb->update($wpdb->base_prefix . 'hashform_fields', $values, array('id' => $id));
         return $query_results;
     }
 
@@ -350,8 +350,8 @@ class HashFormFields {
         global $wpdb;
 
         $query = $wpdb->prepare("SELECT hfi.*, hfm.name AS form_name 
-            FROM {$wpdb->prefix}hashform_fields hfi 
-            LEFT OUTER JOIN {$wpdb->prefix}hashform_forms hfm 
+            FROM {$wpdb->base_prefix}hashform_fields hfi 
+            LEFT OUTER JOIN {$wpdb->base_prefix}hashform_forms hfm 
             ON hfi.form_id = hfm.id 
             WHERE hfi.form_id=%d 
             ORDER BY 'field_order'", $old_form_id
@@ -397,10 +397,10 @@ class HashFormFields {
             return false;
         }
 
-        $query = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_entry_meta WHERE field_id=%d', absint($field_id));
+        $query = $wpdb->prepare('DELETE FROM ' . $wpdb->base_prefix . 'hashform_entry_meta WHERE field_id=%d', absint($field_id));
         $wpdb->query($query);
 
-        $query = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_fields WHERE id=%d', absint($field_id));
+        $query = $wpdb->prepare('DELETE FROM ' . $wpdb->base_prefix . 'hashform_fields WHERE id=%d', absint($field_id));
         return $wpdb->query($query);
     }
 
@@ -408,7 +408,7 @@ class HashFormFields {
         if (empty($field_id))
             return;
         global $wpdb;
-        $query = $wpdb->prepare('SELECT * FROM ' . $wpdb->prefix . 'hashform_fields WHERE id=%d', absint($field_id)); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        $query = $wpdb->prepare('SELECT * FROM ' . $wpdb->base_prefix . 'hashform_fields WHERE id=%d', absint($field_id)); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         $results = $wpdb->get_row($query);
         if (empty($results)) {
             return $results;
