@@ -55,7 +55,7 @@ class HashFormFieldName extends HashFormFieldType {
         $placeholder = isset($field['placeholder'][$name]) ? $field['placeholder'][$name] : '';
         $value = isset($field['default_value'][$name]) ? $field['default_value'][$name] : '';
         ?>
-        <div class="hf-form-row hf-sub-field-<?php echo esc_attr($name); ?>" data-sub-field-name="<?php echo esc_attr($name); ?>" data-field-id="<?php echo esc_attr($field_id); ?>">
+        <div class="hf-form-row hf-sub-field-<?php echo esc_attr($name); ?> hf-row-show-hide <?php echo !in_array($name, explode('_', $field['name_layout'])) ? 'hf-hide' : ''; ?>" data-sub-field-name="<?php echo esc_attr($name); ?>" data-field-id="<?php echo esc_attr($field_id); ?>">
             <div class="hf-sub-field-label">
                 <?php echo esc_html($label); ?>
             </div>
@@ -85,7 +85,7 @@ class HashFormFieldName extends HashFormFieldType {
         ?>
         <div class="hf-form-row">
             <label><?php esc_html_e('Name layout', 'hash-form'); ?></label>
-            <select name="field_options[name_layout_<?php echo esc_attr($field_id); ?>]" data-field-id="<?php echo esc_attr($field_id); ?>" data-changeme="hf-grouped-field-<?php echo esc_attr($field_id); ?>" data-changeatt="data-name-layout">
+            <select name="field_options[name_layout_<?php echo esc_attr($field_id); ?>]" data-field-id="<?php echo esc_attr($field_id); ?>" data-changeme="hf-grouped-field-<?php echo esc_attr($field_id); ?>" data-changeatt="data-name-layout" data-row-show-hide="hf-row-show-hide">
                 <option value="full" <?php selected($name_layout, 'full'); ?>><?php esc_html_e('Full Name', 'hash-form'); ?></option>
                 <option value="first_last" <?php selected($name_layout, 'first_last'); ?>><?php esc_html_e('First Last', 'hash-form'); ?></option>
                 <option value="last_first" <?php selected($name_layout, 'last_first'); ?>><?php esc_html_e('Last First', 'hash-form'); ?></option>
@@ -101,6 +101,7 @@ class HashFormFieldName extends HashFormFieldType {
         foreach ($sub_fields as $name => $fields) {
             $field_options['desc'][$name] = $fields['label'];
         }
+
         $field_options['name_layout'] = 'first_last';
         return $field_options;
     }

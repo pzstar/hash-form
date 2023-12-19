@@ -13,10 +13,13 @@ var hashFormAdmin = hashFormAdmin || {};
         init: function () {
             if ($formSettings.length > 0) {
                 this.initFormSettings();
+
             } else if ($styleSettings.length > 0) {
                 this.initStyleSettings();
+
             } else if ($buildForm.length > 0) {
                 $('.hashform-ajax-udpate-button').on('click', hashFormAdmin.submitBuild);
+
             } else {
                 this.initOtherSettings();
             }
@@ -29,19 +32,6 @@ var hashFormAdmin = hashFormAdmin || {};
 
             hashFormAdmin.initNewFormModal();
 
-            /*($('#hf-editor-fields > li, .hf-editor-grid-container li').each(function(){
-             $(this).on('click', function(){
-             let fieldId = $(this).attr('data-fid');
-             hashFormAdmin.maybeAddSaveAndDragIcons(fieldId);
-             });
-             });
-             
-             document.querySelectorAll('#hf-editor-fields > li, .hf-editor-grid-container li').forEach((el, _key) => {
-             el.addEventListener('click', function () {
-             let fieldId = this.dataset.fid;
-             hashFormAdmin.maybeAddSaveAndDragIcons(fieldId);
-             });
-             });*/
 
             $(document).find('.hf-color-picker').wpColorPicker();
 
@@ -78,6 +68,7 @@ var hashFormAdmin = hashFormAdmin || {};
             if (typeof href === 'undefined') {
                 return false;
             }
+
             $link.closest('li').addClass('hf-active-tab').siblings('li').removeClass('hf-active-tab');
             $link.closest('.hf-fields-container').find('.ht-fields-panel').hide();
             $(href).show();
@@ -153,9 +144,11 @@ var hashFormAdmin = hashFormAdmin || {};
             const fieldId = $(this).attr('data-value');
             const inputChange = $(this).closest('.hf-form-row').find('input');
             const textAreaChange = $(this).closest('.hf-form-row').find('textarea');
+
             if (fieldId && inputChange.length > 0) {
                 inputChange.val(inputChange.val() + ' ' + fieldId);
             }
+
             if (fieldId && textAreaChange.length > 0) {
                 textAreaChange.val(textAreaChange.val() + ' ' + fieldId);
             }
@@ -167,6 +160,7 @@ var hashFormAdmin = hashFormAdmin || {};
             hashFormAdmin.preFormSave(this);
             var hashform_fields = JSON.stringify($buildForm.serializeArray());
             var hashform_settings = JSON.stringify($formMeta.serializeArray());
+
             jQuery.ajax({
                 type: 'POST',
                 url: ajaxurl,
@@ -196,6 +190,7 @@ var hashFormAdmin = hashFormAdmin || {};
                     type: ['image']
                 }
             });
+
             fileFrame.on('select', function () {
                 const attachment = fileFrame.state().get('selection').first().toJSON();
                 const $imagePreview = $(imagePreview);
@@ -214,6 +209,7 @@ var hashFormAdmin = hashFormAdmin || {};
                     previewWrapper = $this.closest('li');
             e.preventDefault();
             e.stopPropagation();
+
             previewWrapper.find('.hf-is-image-holder').html('');
             previewWrapper.find('.hf-is-image-preview-box').removeClass('hf-image-added');
             previewWrapper.find('input.hf-image-id').val('').trigger('change');
@@ -266,6 +262,8 @@ var hashFormAdmin = hashFormAdmin || {};
             $buildForm.on('change click', 'input[name^="field_options[auto_width"]', hashFormAdmin.liveChangeAutoWidth);
 
             $buildForm.on('change', 'select[name^="field_options[field_alignment"]', hashFormAdmin.liveChangeFieldAlignment);
+
+            $buildForm.on('change', '[data-row-show-hide]', hashFormAdmin.liveChangeHideShowRow);
         },
 
         liveChangesInput: function () {
@@ -293,8 +291,9 @@ var hashFormAdmin = hashFormAdmin || {};
                 });
             }
 
-            if (changes === null)
+            if (changes === null) {
                 return;
+            }
 
             if (att !== null) {
                 if (changes.tagName === 'SELECT' && att === 'placeholder') {
@@ -385,10 +384,12 @@ var hashFormAdmin = hashFormAdmin || {};
                     opt_type: optType,
                     nonce: hashform_backend_js.nonce
                 };
+
                 jQuery.post(ajaxurl, data, function (msg) {
                     $('#hf-field-options-' + fieldId).append(msg);
                     hashFormAdmin.resetDisplayedOpts(fieldId);
                 });
+
             } else {
                 newOption = newOption.replace(new RegExp('optkey="' + oldKey + '"', 'g'), 'optkey="' + optKey + '"');
                 newOption = newOption.replace(new RegExp('-' + oldKey + '_', 'g'), '-' + optKey + '_');
@@ -396,6 +397,7 @@ var hashFormAdmin = hashFormAdmin || {};
                 newOption = newOption.replace(new RegExp('\\[' + oldKey + '\\]', 'g'), '[' + optKey + ']');
                 newOption = newOption.replace('hf-hidden hf-option-template', '');
                 newOption = {newOption};
+
                 $('#hf-field-options-' + fieldId).append(newOption.newOption);
                 hashFormAdmin.resetDisplayedOpts(fieldId);
             }
@@ -428,13 +430,16 @@ var hashFormAdmin = hashFormAdmin || {};
                         $self.prop('checked', false);
                     }, 0);
                 };
+
                 unbind = function () {
                     $self.off('mouseup', up);
                 };
+
                 up = function () {
                     uncheck();
                     unbind();
                 };
+
                 $self.on('mouseup', up);
                 $self.one('mouseout', unbind);
             } else {
@@ -466,8 +471,9 @@ var hashFormAdmin = hashFormAdmin || {};
             var newValue = this.value,
                     changes = document.getElementById(this.getAttribute('data-changeheight'));
 
-            if (changes === null)
+            if (changes === null) {
                 return;
+            }
 
             $(changes).css("height", newValue);
         },
@@ -476,8 +482,9 @@ var hashFormAdmin = hashFormAdmin || {};
             var newValue = this.value,
                     changes = document.getElementById(this.getAttribute('data-changerows'));
 
-            if (changes === null)
+            if (changes === null) {
                 return;
+            }
 
             $(changes).attr("rows", newValue);
         },
@@ -487,8 +494,10 @@ var hashFormAdmin = hashFormAdmin || {};
                     stars = '',
                     changes = document.getElementById(this.getAttribute('data-changestars'));
 
-            if (changes === null)
+            if (changes === null) {
                 return;
+            }
+
             for (var i = 0; i < newValue; i++) {
                 stars = stars + '<label class="hf-star-rating"><input type="radio"><span class="mdi mdi-star-outline"></span></label>';
             }
@@ -1232,6 +1241,17 @@ var hashFormAdmin = hashFormAdmin || {};
                 }
             }
             return lastKey;
+        },
+
+        liveChangeHideShowRow: function () {
+            const that = $(this),
+                parentRow = that.closest('.hf-form-container');
+            var val = that.val();
+            parentRow.find('.hf-row-show-hide').addClass('hf-hide');
+            var valArray = val.split('_');
+            $.each(valArray, function(index, value) {
+                parentRow.find('.hf-row-show-hide.hf-sub-field-' + value).removeClass('hf-hide');
+            });
         },
 
     };

@@ -60,7 +60,7 @@ class HashFormStyles {
             return;
 
         if (wp_verify_nonce(HashFormHelper::get_post('hashform_styles_nonce'), 'hf-styles-nonce')) {
-            $hashform_styles = HashFormHelper::get_post('hashform_styles');
+            $hashform_styles = HashFormHelper::get_post('hashform_styles', 'sanitize_text_field', '', self::get_styles_sanitize_array());
             update_post_meta($post_id, 'hashform_styles', $hashform_styles);
         }
     }
@@ -761,6 +761,248 @@ class HashFormStyles {
                 'color' => '',
                 'color_active' => '',
                 'handle_color' => ''
+            ]
+        ];
+        $new_settings = array_merge($settings, self::default_typography());
+        return $new_settings;
+    }
+
+    public static function get_styles_sanitize_array() {
+        $settings = [
+            'form' => [
+                'column_gap' => 'hashform_sanitize_number',
+                'row_gap' => 'hashform_sanitize_number',
+                'bg_color' => 'hashform_sanitize_color',
+                'shadow' => [
+                    'x' => 'hashform_sanitize_number',
+                    'y' => 'hashform_sanitize_number',
+                    'blur' => 'hashform_sanitize_number',
+                    'spread' => 'hashform_sanitize_number',
+                    'color' => 'hashform_sanitize_color'
+                ],
+                'border_color' => 'hashform_sanitize_color',
+                'border' => [
+                    'top' => 'hashform_sanitize_number',
+                    'right' => 'hashform_sanitize_number',
+                    'bottom' => 'hashform_sanitize_number',
+                    'left' => 'hashform_sanitize_number'
+                ],
+                'border_radius' => [
+                    'top' => 'hashform_sanitize_number',
+                    'right' => 'hashform_sanitize_number',
+                    'bottom' => 'hashform_sanitize_number',
+                    'left' => 'hashform_sanitize_number'
+                ],
+                'padding' => [
+                    'top' => 'hashform_sanitize_number',
+                    'right' => 'hashform_sanitize_number',
+                    'bottom' => 'hashform_sanitize_number',
+                    'left' => 'hashform_sanitize_number'
+                ]
+            ],
+            'desc' => [
+                'typo' => [
+                    'font_family' => 'sanitize_text_field',
+                    'font_style' => 'sanitize_text_field',
+                    'text_transform' => 'sanitize_text_field',
+                    'text_decoration' => 'sanitize_text_field',
+                    'font_size' => 'hashform_sanitize_number',
+                    'letter_spacing' => 'hashform_sanitize_float',
+                    'line_height' => 'hashform_sanitize_float',
+                    'font_color' => 'hashform_sanitize_color',
+                ],
+                'spacing' => ''
+            ],
+            'label' => [
+                'typo' => [
+                    'font_family' => 'sanitize_text_field',
+                    'font_style' => 'sanitize_text_field',
+                    'text_transform' => 'sanitize_text_field',
+                    'text_decoration' => 'sanitize_text_field',
+                    'font_size' => 'hashform_sanitize_number',
+                    'letter_spacing' => 'hashform_sanitize_float',
+                    'line_height' => 'hashform_sanitize_float',
+                    'font_color' => 'hashform_sanitize_color',
+                ],
+                'required_color' => 'hashform_sanitize_color',
+                'spacing' => ''
+            ],
+            'validation' => [
+                'typo' => [
+                    'font_family' => 'sanitize_text_field',
+                    'font_style' => 'sanitize_text_field',
+                    'text_transform' => 'sanitize_text_field',
+                    'text_decoration' => 'sanitize_text_field',
+                    'font_size' => 'hashform_sanitize_number',
+                    'letter_spacing' => 'hashform_sanitize_float',
+                    'line_height' => 'hashform_sanitize_float',
+                    'font_color' => 'hashform_sanitize_color',
+                ],
+                'spacing' => '',
+                'textalign' => ''
+            ],
+            'form_title' => [
+                'typo' => [
+                    'font_family' => 'sanitize_text_field',
+                    'font_style' => 'sanitize_text_field',
+                    'text_transform' => 'sanitize_text_field',
+                    'text_decoration' => 'sanitize_text_field',
+                    'font_size' => 'hashform_sanitize_number',
+                    'letter_spacing' => 'hashform_sanitize_float',
+                    'line_height' => 'hashform_sanitize_float',
+                    'font_color' => 'hashform_sanitize_color',
+                ],
+                'spacing' => ''
+            ],
+            'form_desc' => [
+                'typo' => [
+                    'font_family' => 'sanitize_text_field',
+                    'font_style' => 'sanitize_text_field',
+                    'text_transform' => 'sanitize_text_field',
+                    'text_decoration' => 'sanitize_text_field',
+                    'font_size' => 'hashform_sanitize_number',
+                    'letter_spacing' => 'hashform_sanitize_float',
+                    'line_height' => 'hashform_sanitize_float',
+                    'font_color' => 'hashform_sanitize_color',
+                ],
+                'spacing' => ''
+            ],
+            'heading' => [
+                'typo' => [
+                    'font_family' => 'sanitize_text_field',
+                    'font_style' => 'sanitize_text_field',
+                    'text_transform' => 'sanitize_text_field',
+                    'text_decoration' => 'sanitize_text_field',
+                    'font_size' => 'hashform_sanitize_number',
+                    'letter_spacing' => 'hashform_sanitize_float',
+                    'line_height' => 'hashform_sanitize_float',
+                    'font_color' => 'hashform_sanitize_color',
+                ],
+            ],
+            'paragraph' => [
+                'typo' => [
+                    'font_family' => 'sanitize_text_field',
+                    'font_style' => 'sanitize_text_field',
+                    'text_transform' => 'sanitize_text_field',
+                    'text_decoration' => 'sanitize_text_field',
+                    'font_size' => 'hashform_sanitize_number',
+                    'letter_spacing' => 'hashform_sanitize_float',
+                    'line_height' => 'hashform_sanitize_float',
+                    'font_color' => 'hashform_sanitize_color',
+                ],
+            ],
+            'field' => [
+                'typo' => [
+                    'font_family' => 'sanitize_text_field',
+                    'font_style' => 'sanitize_text_field',
+                    'text_transform' => 'sanitize_text_field',
+                    'text_decoration' => 'sanitize_text_field',
+                    'font_size' => 'hashform_sanitize_number',
+                    'letter_spacing' => 'hashform_sanitize_float',
+                    'line_height' => 'hashform_sanitize_float',
+                    'font_color' => 'hashform_sanitize_color',
+                ],
+                'color_normal' => 'hashform_sanitize_color',
+                'bg_color_normal' => 'hashform_sanitize_color',
+                'shadow_normal' => [
+                    'x' => 'hashform_sanitize_number',
+                    'y' => 'hashform_sanitize_number',
+                    'blur' => 'hashform_sanitize_number',
+                    'spread' => 'hashform_sanitize_number',
+                    'color' => 'hashform_sanitize_color'
+                ],
+                'border_color_normal' => 'hashform_sanitize_color',
+                'color_focus' => 'hashform_sanitize_color',
+                'bg_color_focus' => 'hashform_sanitize_color',
+                'shadow_focus' => [
+                    'x' => 'hashform_sanitize_number',
+                    'y' => 'hashform_sanitize_number',
+                    'blur' => 'hashform_sanitize_number',
+                    'spread' => 'hashform_sanitize_number',
+                    'color' => 'hashform_sanitize_color'
+                ],
+                'border_color_focus' => 'hashform_sanitize_color',
+                'border' => [
+                    'top' => 'hashform_sanitize_number',
+                    'right' => 'hashform_sanitize_number',
+                    'bottom' => 'hashform_sanitize_number',
+                    'left' => 'hashform_sanitize_number'
+                ],
+                'border_radius' => [
+                    'top' => 'hashform_sanitize_number',
+                    'right' => 'hashform_sanitize_number',
+                    'bottom' => 'hashform_sanitize_number',
+                    'left' => 'hashform_sanitize_number'
+                ],
+                'padding' => [
+                    'top' => 'hashform_sanitize_number',
+                    'right' => 'hashform_sanitize_number',
+                    'bottom' => 'hashform_sanitize_number',
+                    'left' => 'hashform_sanitize_number'
+                ]
+            ],
+            'button' => [
+                'typo' => [
+                    'font_family' => 'sanitize_text_field',
+                    'font_style' => 'sanitize_text_field',
+                    'text_transform' => 'sanitize_text_field',
+                    'text_decoration' => 'sanitize_text_field',
+                    'font_size' => 'hashform_sanitize_number',
+                    'letter_spacing' => 'hashform_sanitize_float',
+                    'line_height' => 'hashform_sanitize_float',
+                    'font_color' => 'hashform_sanitize_color',
+                ],
+                'color_normal' => 'hashform_sanitize_color',
+                'bg_color_normal' => 'hashform_sanitize_color',
+                'shadow_normal' => [
+                    'x' => 'hashform_sanitize_number',
+                    'y' => 'hashform_sanitize_number',
+                    'blur' => 'hashform_sanitize_number',
+                    'spread' => 'hashform_sanitize_number',
+                    'color' => 'hashform_sanitize_color'
+                ],
+                'border_color_normal' => 'hashform_sanitize_color',
+                'color_hover' => 'hashform_sanitize_color',
+                'bg_color_hover' => 'hashform_sanitize_color',
+                'shadow_hover' => [
+                    'x' => 'hashform_sanitize_number',
+                    'y' => 'hashform_sanitize_number',
+                    'blur' => 'hashform_sanitize_number',
+                    'spread' => 'hashform_sanitize_number',
+                    'color' => 'hashform_sanitize_color'
+                ],
+                'border_color_hover' => 'hashform_sanitize_color',
+                'border' => [
+                    'top' => 'hashform_sanitize_number',
+                    'right' => 'hashform_sanitize_number',
+                    'bottom' => 'hashform_sanitize_number',
+                    'left' => 'hashform_sanitize_number'
+                ],
+                'border_radius' => [
+                    'top' => 'hashform_sanitize_number',
+                    'right' => 'hashform_sanitize_number',
+                    'bottom' => 'hashform_sanitize_number',
+                    'left' => 'hashform_sanitize_number'
+                ],
+                'padding' => [
+                    'top' => 'hashform_sanitize_number',
+                    'right' => 'hashform_sanitize_number',
+                    'bottom' => 'hashform_sanitize_number',
+                    'left' => 'hashform_sanitize_number'
+                ]
+            ],
+            'divider_color' => 'hashform_sanitize_color',
+            'star' => [
+                'size' => 'hashform_sanitize_number',
+                'color' => 'hashform_sanitize_color',
+                'color_active' => 'hashform_sanitize_color'
+            ],
+            'range' => [
+                'height' => 'hashform_sanitize_number',
+                'handle_size' => 'hashform_sanitize_number',
+                'color' => 'hashform_sanitize_color',
+                'color_active' => 'hashform_sanitize_color',
+                'handle_color' => 'hashform_sanitize_color'
             ]
         ];
         $new_settings = array_merge($settings, self::default_typography());

@@ -28,8 +28,11 @@ class HashFormHelper {
         return self::sanitize_value($sanitize, $value);
     }
 
-    public static function get_post($param, $sanitize = 'sanitize_text_field', $default = '') {
+    public static function get_post($param, $sanitize = 'sanitize_text_field', $default = '', $sanitize_array = array()) {
         $value = (isset($_POST[$param]) ? wp_unslash($_POST[$param]) : $default);
+        if (!empty($sanitize_array) && is_array($value)) {
+            return self::sanitize_array($value, $sanitize_array);
+        }
         return self::sanitize_value($sanitize, $value);
     }
 
