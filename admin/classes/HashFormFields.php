@@ -264,6 +264,7 @@ class HashFormFields {
         if (!$return) {
             return false;
         }
+
         if ($query_results) {
             if (isset($values['id'])) {
                 $hashform_duplicate_ids[$values['id']] = $new_id;
@@ -283,6 +284,7 @@ class HashFormFields {
             if ($field_id && (isset($values['hf-form-submitted']) && in_array($field_id, $values['hf-form-submitted']))) {
                 $values['edited'][] = $field_id;
             }
+
             $field_array[$field_id] = $fid;
         }
 
@@ -295,6 +297,7 @@ class HashFormFields {
                 } else {
                     $field = self::get_field_vars($field_id);
                 }
+
                 if (!$field) {
                     continue;
                 }
