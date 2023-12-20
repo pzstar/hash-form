@@ -36,18 +36,29 @@ class HashFormFieldTime extends HashFormFieldType {
             $value = implode(', ', $value);
         }
 
-        if (strpos($value, '&lt;') !== false)
+        if (strpos($value, '&lt;') !== false) {
             $value = htmlentities($value);
+        }
 
-        if (!$value)
+        if (!$value) {
             return $value;
+        }
 
         $time_value = explode(":", $value);
-        $hour = intval($time_value[0]) % 24;
+        $hour = absint($time_value[0]);
+        $hour = $hour % 24;
         $ampm = ($hour < 12 ? "am" : "pm");
+
         $hour = $hour % 12;
         $hour = $hour ? $hour : 12;
-        $minute = $time_value[1];
+
+        $minute = isset($time_value[1]) ? absint($time_value[1]) : 0;
+        $minute = $minute % 60;
+
+        if ($minute < 10) {
+            $minute = '0' . absint($minute);
+        }
+
         return $hour . ':' . $minute . $ampm;
     }
 

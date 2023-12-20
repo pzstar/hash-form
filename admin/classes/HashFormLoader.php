@@ -40,7 +40,7 @@ class HashFormLoader {
         $page = HashFormHelper::get_var('page', 'sanitize_title');
         if (strpos($page, 'hashform') === 0) {
             wp_enqueue_script('hashform-builder', HASHFORM_URL . 'js/builder.js', array('jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-i18n', 'wp-hooks', 'jquery-ui-dialog'), time(), true);
-            wp_enqueue_script('hashform-backend', HASHFORM_URL . 'js/backend.js', array('jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-i18n', 'wp-hooks', 'jquery-ui-dialog'), time(), true);
+            wp_enqueue_script('hashform-backend', HASHFORM_URL . 'js/backend.js', array('jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-i18n', 'wp-hooks', 'jquery-ui-dialog', 'jquery-ui-datepicker'), time(), true);
             wp_enqueue_style('hashform-icons', HASHFORM_URL . 'fonts/hf-icons.css', array(), HASHFORM_VERSION);
 
             wp_localize_script('hashform-backend', 'hashform_backend_js', array(

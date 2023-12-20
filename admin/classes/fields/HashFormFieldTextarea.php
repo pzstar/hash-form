@@ -26,7 +26,7 @@ class HashFormFieldTextarea extends HashFormFieldType {
         $field = $this->get_field();
         $value = $this->prepare_esc_value();
         ?>
-        <textarea id="field_change_rows_<?php echo esc_attr($this->field_id); ?>" <?php $this->field_attrs(); ?> rows="<?php echo absint($field['rows']); ?>"><?php echo esc_textarea($value); ?></textarea>
+        <textarea <?php $this->field_attrs(); ?> rows="<?php echo absint($field['rows']); ?>"><?php echo esc_textarea($value); ?></textarea>
         <?php
     }
 

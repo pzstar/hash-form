@@ -185,12 +185,13 @@ abstract class HashFormFieldType {
 
         if ($display['label']) {
             ?>
-            <label class="hf-editor-field-label">
+            <label class="hf-editor-field-label hf-label-show-hide <?php echo !$field['name'] ? 'hf-hidden' : ''; ?> ">
                 <span id="hf-editor-field-label-text-<?php echo esc_attr($id); ?>" class="hf-editor-field-label-text">
-                    <?php echo esc_html($field['name']); ?>                
+                    <?php echo esc_html($field['name']); ?>
                 </span>
+
                 <span id="hf-editor-field-required-<?php echo esc_attr($id); ?>" class="hf-field-required<?php echo (!$field['required'] ? ' hf-hidden' : ''); ?>">
-                    <?php echo esc_html($field['required_indicator']); ?>                
+                    <?php echo esc_html($field['required_indicator']); ?>
                 </span>
             </label>
         <?php } ?>
@@ -204,9 +205,7 @@ abstract class HashFormFieldType {
             if (isset($display['description']) && $display['description']) {
                 ?>
                 <div class="hf-field-desc" id="hf-field-desc-<?php echo esc_attr($id); ?>">
-                    <?php
-                    echo esc_html($field['description']);
-                    ?>
+                    <?php echo esc_html($field['description']); ?>
                 </div>
             <?php } ?>
         </div>

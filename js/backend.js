@@ -59,7 +59,11 @@ var hashFormAdmin = hashFormAdmin || {};
             $(document).on('click', '.hf-condition-remove', hashFormAdmin.removeConditionRepeaterBlock);
 
             $(document).on('change', '.hf-fields-type-time .default-value-field', hashFormAdmin.addTimeDefaultValue);
-            $(document).on('change', '.hf-fields-type-time .min-value-field, .hf-fields-type-time .max-value-field', hashFormAdmin.validateTimeValue);
+            $(document).on('change', '.hf-fields-type-time .min-value-field, .hf-fields-type-time .max-value-field, .hf-fields-type-time .hf-default-value-field', hashFormAdmin.validateTimeValue);
+
+            $('.hf-fields-type-date .hf-default-value-field').datepicker({
+                changeMonth: true,
+            });
         },
 
         clickNewTab: function () {
@@ -264,6 +268,7 @@ var hashFormAdmin = hashFormAdmin || {};
             $buildForm.on('change', 'select[name^="field_options[field_alignment"]', hashFormAdmin.liveChangeFieldAlignment);
 
             $buildForm.on('change', '[data-row-show-hide]', hashFormAdmin.liveChangeHideShowRow);
+            $buildForm.on('input', '[data-label-show-hide]', hashFormAdmin.liveChangeHideShowLabel);
         },
 
         liveChangesInput: function () {
@@ -1071,24 +1076,27 @@ var hashFormAdmin = hashFormAdmin || {};
 
             $(document).on('submit', '#hf-add-template', function (event) {
                 event.preventDefault();
-                var template_name = $(this).closest('#hf-add-template').find('input[name=template_name]').val();
-                $(this).closest('#hf-add-template').find('button').addClass('hashform-updating');
-                jQuery.ajax({
-                    type: 'POST',
-                    url: ajaxurl,
-                    data: {
-                        action: 'hashform_create_form',
-                        name: template_name,
-                        nonce: hashform_backend_js.nonce
-                    },
-                    success: function (response) {
-                        const res = JSON.parse(response)
-                        if (typeof res.redirect !== 'undefined') {
-                            const redirect = res.redirect;
-                            window.location = redirect;
+                const addTemplateButton = $(this).closest('#hf-add-template').find('button');
+                if (!addTemplateButton.hasClass('hashform-updating')) {
+                    var template_name = $(this).closest('#hf-add-template').find('input[name=template_name]').val();
+                    addTemplateButton.addClass('hashform-updating');
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: ajaxurl,
+                        data: {
+                            action: 'hashform_create_form',
+                            name: template_name,
+                            nonce: hashform_backend_js.nonce
+                        },
+                        success: function (response) {
+                            const res = JSON.parse(response)
+                            if (typeof res.redirect !== 'undefined') {
+                                const redirect = res.redirect;
+                                window.location = redirect;
+                            }
                         }
-                    }
-                });
+                    });
+                }
             });
         },
 
@@ -1147,6 +1155,7 @@ var hashFormAdmin = hashFormAdmin || {};
             if (that.val() && !that.val().match(/^(2[0-3]|[01][0-9]):[0-5][0-9]$/)) {
                 that.val('00:00');
             }
+            that.trigger('input');
         },
 
         removeDropdownOpts: function (field) {
@@ -1247,11 +1256,24 @@ var hashFormAdmin = hashFormAdmin || {};
             const that = $(this),
                 parentRow = that.closest('.hf-form-container');
             var val = that.val();
-            parentRow.find('.hf-row-show-hide').addClass('hf-hide');
+            parentRow.find('.hf-row-show-hide').addClass('hf-hidden');
             var valArray = val.split('_');
             $.each(valArray, function(index, value) {
-                parentRow.find('.hf-row-show-hide.hf-sub-field-' + value).removeClass('hf-hide');
+                parentRow.find('.hf-row-show-hide.hf-sub-field-' + value).removeClass('hf-hidden');
             });
+        },
+
+        liveChangeHideShowLabel: function () {
+            const that = $(this);
+            var val = that.val();
+            const fieldId = $(this).closest('.hf-fields-settings').data('fid'),
+                fieldLabel = $('#hf-editor-field-id-' + fieldId).find('label.hf-label-show-hide');
+
+            if (!val) {
+                fieldLabel.addClass('hf-hidden');
+            } else {
+                fieldLabel.removeClass('hf-hidden');
+            }
         },
 
     };

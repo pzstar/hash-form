@@ -18,6 +18,8 @@ class HashFormBuilder {
         add_action('wp_ajax_hashform_save_form_style', array($this, 'save_form_style'));
         add_action('wp_ajax_hashform_add_more_condition_block', array($this, 'add_more_condition_block'));
         add_action('admin_footer', array($this, 'init_overlay_html'));
+
+        add_filter('plugin_action_links_' . plugin_basename(HASHFORM_FILE), array($this, 'add_plugin_action_link'), 10, 1);
     }
 
     public function includes() {
@@ -718,6 +720,17 @@ class HashFormBuilder {
             }
         }
         return $conditions;
+    }
+
+    public function add_plugin_action_link($links) {
+        $custom['settings'] = sprintf(
+            '<a href="%s" aria-label="%s">%s</a>',
+            esc_url(add_query_arg('page', 'hashform', admin_url('admin.php'))),
+            esc_attr__('Hash Froms', 'hash-form'),
+            esc_html__('Settings', 'hash-form')
+        );
+
+        return array_merge($custom, (array) $links);
     }
 
 }

@@ -22,7 +22,7 @@ defined('ABSPATH') || die();
         <?php if ($display['label']) { ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Field Label', 'hash-form'); ?></label>
-                <input type="text" name="field_options[name_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['name']); ?>" data-changeme="hf-editor-field-label-text-<?php echo esc_attr($field_id); ?>" />
+                <input type="text" name="field_options[name_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['name']); ?>" data-changeme="hf-editor-field-label-text-<?php echo esc_attr($field_id); ?>" data-label-show-hide="hf-label-show-hide" />
             </div>
 
             <div class="hf-form-row hf-grid-3">
@@ -216,7 +216,7 @@ defined('ABSPATH') || die();
         <?php if ($field_type === 'textarea') { ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Rows', 'hash-form'); ?></label>
-                <input type="number" name="field_options[rows_<?php echo absint($field_id); ?>]" value="<?php echo (isset($field['rows']) ? esc_attr($field['rows']) : ''); ?>" data-changerows="field_change_rows_<?php echo absint($field_id) ?>"/>
+                <input type="number" name="field_options[rows_<?php echo absint($field_id); ?>]" value="<?php echo (isset($field['rows']) ? esc_attr($field['rows']) : ''); ?>" data-changerows="<?php echo esc_attr($this->html_id()); ?>"/>
             </div>
         <?php } ?>
 

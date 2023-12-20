@@ -16,8 +16,9 @@
 defined('ABSPATH') || die();
 
 define('HASHFORM_VERSION', '1.0.0');
-define('HASHFORM_PATH', plugin_dir_path(__FILE__));
-define('HASHFORM_URL', plugin_dir_url(__FILE__));
+define('HASHFORM_FILE', __FILE__);
+define('HASHFORM_PATH', plugin_dir_path(HASHFORM_FILE));
+define('HASHFORM_URL', plugin_dir_url(HASHFORM_FILE));
 
 require HASHFORM_PATH . 'admin/classes/HashFormCreateTable.php';
 require HASHFORM_PATH . 'admin/classes/HashFormBuilder.php';
@@ -37,7 +38,7 @@ require HASHFORM_PATH . 'admin/classes/HashFormStyles.php';
 require HASHFORM_PATH . 'admin/classes/HashFormGridHelper.php';
 require HASHFORM_PATH . 'admin/classes/HashFormEmail.php';
 
-register_activation_hook(__FILE__, 'hashform_create_table');
+register_activation_hook(HASHFORM_FILE, 'hashform_create_table');
 
 function hashform_create_table() {
     $db = new HashFormCreateTable();
