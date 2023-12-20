@@ -837,4 +837,14 @@ class HashFormHelper {
         );
     }
 
+
+    public static function get_all_forms() {
+        $all_forms = array();
+        $forms = HashFormBuilder::get_all_forms();
+        foreach ($forms as $form) {
+            $all_forms[$form->id] = $form->name;
+        }
+        return $all_forms;
+    }
+
 }

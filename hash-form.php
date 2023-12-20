@@ -38,6 +38,16 @@ require HASHFORM_PATH . 'admin/classes/HashFormStyles.php';
 require HASHFORM_PATH . 'admin/classes/HashFormGridHelper.php';
 require HASHFORM_PATH . 'admin/classes/HashFormEmail.php';
 
+/**
+ * Register widget.
+ */
+add_action('elementor/widgets/register', 'hashform_elementor_widget_register');
+
+function hashform_elementor_widget_register($widgets_manager) {
+    require HASHFORM_PATH . 'admin/classes/HashFormElement.php';
+    $widgets_manager->register(new \HashFormElement());
+}
+
 register_activation_hook(HASHFORM_FILE, 'hashform_create_table');
 
 function hashform_create_table() {

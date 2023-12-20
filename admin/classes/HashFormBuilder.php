@@ -108,8 +108,9 @@ class HashFormBuilder {
     }
 
     public function create_form() {
-        if (!current_user_can('manage_options'))
+        if (!current_user_can('manage_options')) {
             return;
+        }
 
         check_ajax_referer('hashform_ajax', 'nonce');
 
@@ -161,8 +162,9 @@ class HashFormBuilder {
     }
 
     public function update_form() {
-        if (!current_user_can('manage_options'))
+        if (!current_user_can('manage_options')) {
             return;
+        }
 
         check_ajax_referer('hashform_ajax', 'nonce');
 
@@ -226,8 +228,9 @@ class HashFormBuilder {
         $screen = get_current_screen();
 
         // get out of here if we are not on our settings page
-        if (!is_object($screen) || $screen->id != $hashform_listing_page)
+        if (!is_object($screen) || $screen->id != $hashform_listing_page) {
             return;
+        }
 
         $args = array(
             'label' => esc_html__('Forms per page', 'hash-form'),
@@ -279,8 +282,9 @@ class HashFormBuilder {
 
     public static function set_status($id, $status) {
         $statuses = array('published', 'trash');
-        if (!in_array($status, $statuses))
+        if (!in_array($status, $statuses)) {
             return false;
+        }
 
         global $wpdb;
 
@@ -333,8 +337,9 @@ class HashFormBuilder {
     }
 
     public static function process_bulk_actions() {
-        if (!$_REQUEST)
+        if (!$_REQUEST) {
             return;
+        }
 
         $bulkaction = HashFormHelper::get_var('action', 'sanitize_text_field');
 
@@ -379,6 +384,7 @@ class HashFormBuilder {
         if (!$count) {
             return '';
         }
+
         return sprintf(_n('%1$s form moved to the Trash. %2$sUndo%3$s', '%1$s forms moved to the Trash. %2$sUndo%3$s', $count, 'hash-form'), $count, '<a href="' . esc_url(wp_nonce_url('?page=hashform&action=bulk_untrash&status=published&form_id=' . implode(',', $ids), 'bulk-toplevel_page_hashform')) . '">', '</a>');
     }
 
@@ -387,6 +393,7 @@ class HashFormBuilder {
         if (!$count) {
             return '';
         }
+
         return sprintf(_n('%1$s form restored from the Trash.', '%1$s forms restored from the Trash.', $count, 'hash-form'), $count);
     }
 
@@ -398,6 +405,7 @@ class HashFormBuilder {
                 $count ++;
             }
         }
+
         $message = sprintf(_n('%1$s form permanently deleted.', '%1$s forms permanently deleted.', $count, 'hash-form'), $count);
         return $message;
     }
@@ -408,6 +416,7 @@ class HashFormBuilder {
         if (!$form) {
             return false;
         }
+
         $id = $form->id;
         $query = $wpdb->prepare("SELECT id FROM {$wpdb->base_prefix}hashform_entries WHERE form_id=%d", $id);
         $entries = $wpdb->get_col($query);
@@ -432,11 +441,13 @@ class HashFormBuilder {
         if (!wp_verify_nonce($nonce)) {
             wp_die(esc_html__('Error ! Refresh the page and try again.', 'hash-form'));
         }
+
         $id = HashFormHelper::get_var('id', 'absint');
         $values = self::get_form_vars($id);
 
-        if (!$values)
+        if (!$values) {
             return false;
+        }
 
         $options = HashFormHelper::recursive_parse_args($values->options, HashFormHelper::get_form_options_default());
         $options = HashFormHelper::sanitize_array($options, HashFormHelper::get_form_options_sanitize_rules());
@@ -483,12 +494,19 @@ class HashFormBuilder {
         ?>
         <div id="hf-header" class="<?php echo esc_attr($class); ?>">
             <h4><span class="mdi mdi-form-select"></span><?php echo esc_html($form_title); ?></h4>
-            <?php
-            self::get_form_nav($form);
-            ?>
-            <button class="hashform-ajax-udpate-button" type="button" id="hf-update-button" ><span class="mdi mdi-check-circle-outline"></span><?php esc_html_e('Update', 'hash-form'); ?></button>
-            <button class="hf-embed-button" type="button"><span class="mdi mdi-code-brackets"></span><?php esc_html_e('Embed', 'hash-form'); ?></button>
-            <div class="hf-preview-button"><a href="<?php echo esc_url(admin_url('admin-ajax.php?action=hashform_preview&form=' . absint($form->id))); ?>" target="_blank"><span class="mdi mdi-eye-outline"></span><?php esc_html_e('Preview', 'hash-form'); ?></a></div>
+            <?php self::get_form_nav($form); ?>
+
+            <button class="hashform-ajax-udpate-button" type="button" id="hf-update-button" >
+                <span class="mdi mdi-check-circle-outline"></span><?php esc_html_e('Update', 'hash-form'); ?>
+            </button>
+
+            <button class="hf-embed-button" type="button">
+                <span class="mdi mdi-code-brackets"></span><?php esc_html_e('Embed', 'hash-form'); ?>
+            </button>
+
+            <div class="hf-preview-button">
+                <a href="<?php echo esc_url(admin_url('admin-ajax.php?action=hashform_preview&form=' . absint($form->id))); ?>" target="_blank"><span class="mdi mdi-eye-outline"></span><?php esc_html_e('Preview', 'hash-form'); ?></a>
+            </div>
 
             <div class="hashform-close">
                 <a href="<?php echo esc_url(admin_url('admin.php?page=hashform')); ?>" aria-label="<?php esc_attr_e('Close', 'hash-form'); ?>">
@@ -661,6 +679,7 @@ class HashFormBuilder {
                 <option value="show"><?php esc_html_e('Show', 'hash-form'); ?></option>
                 <option value="hide"><?php esc_html_e('Hide', 'hash-form'); ?></option>
             </select>
+
             <select name="compare_from[]" required>
                 <option value=""><?php esc_html_e('Select Field', 'hash-form'); ?></option>
                 <?php
@@ -673,6 +692,7 @@ class HashFormBuilder {
                 }
                 ?>
             </select>
+
             <span class="hf-condition-seperator"><?php esc_html_e('if', 'hash-form'); ?></span>
             <select name="compare_to[]" required>
                 <option value=""><?php esc_html_e('Select Field', 'hash-form'); ?></option>
@@ -686,6 +706,7 @@ class HashFormBuilder {
                 }
                 ?>
             </select>
+
             <select name="compare_condition[]" required>
                 <option value="equal"><?php esc_html_e('Equals to', 'hash-form'); ?></option>
                 <option value="not_equal"><?php esc_html_e('Not Equals to', 'hash-form'); ?></option>
@@ -696,6 +717,7 @@ class HashFormBuilder {
                 <option value="is_like"><?php esc_html_e('Is Like', 'hash-form'); ?></option>
                 <option value="is_not_like"><?php esc_html_e('Is Not Like', 'hash-form'); ?></option>
             </select>
+
             <input type="text" name="compare_value[]" required/>
             <span class="hf-condition-remove mdi mdi-close"></span>
         </div>

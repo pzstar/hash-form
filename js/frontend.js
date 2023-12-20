@@ -371,4 +371,11 @@ jQuery(function ($) {
         });
     })
 
+
+    $(".hf-field-content input, .hf-field-content select, .hf-field-content textarea").on('focus', function() {
+        $(this).parent().addClass('hf-field-focussed');
+    }).on('focusout', function() {
+        $(this).parent().removeClass('hf-field-focussed');
+    })
+
 });
