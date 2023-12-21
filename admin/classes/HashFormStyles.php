@@ -56,8 +56,9 @@ class HashFormStyles {
     }
 
     public static function save_metabox_settings($post_id) {
-        if (!current_user_can('manage_options'))
+        if (!current_user_can('manage_options')) {
             return;
+        }
 
         if (wp_verify_nonce(HashFormHelper::get_post('hashform_styles_nonce'), 'hf-styles-nonce')) {
             $hashform_styles = HashFormHelper::get_post('hashform_styles', 'sanitize_text_field', '', self::get_styles_sanitize_array());
@@ -272,8 +273,9 @@ class HashFormStyles {
     }
 
     public function get_google_font_variants() {
-        if (!current_user_can('manage_options'))
+        if (!current_user_can('manage_options')) {
             return;
+        }
 
         if (wp_verify_nonce(HashFormHelper::get_var('wp_nonce'), 'hashform-ajax-nonce')) {
             $font_family = HashFormHelper::get_var('font_family');
@@ -371,7 +373,9 @@ class HashFormStyles {
         ?>
         <div class="hf-setting-fields">
             <ul class="hf-typography-fields">
-                <?php if (!in_array('family', $exclude)) { ?>
+                <?php
+                if (!in_array('family', $exclude)) {
+                    ?>
                     <li class="hf-typography-font-family-field">
                         <label><?php esc_html_e('Font Family', 'hash-form'); ?></label>
                         <div class="hf-typography-input-field">
@@ -385,9 +389,9 @@ class HashFormStyles {
                                             <option value="<?php echo esc_attr($standard_font); ?>" <?php selected($settings[$label]['typo']['font_family'], $standard_font); ?>><?php echo esc_html($standard_font); ?></option>
                                         <?php } ?>
                                     </optgroup>
-                                <?php } ?>
+                                    <?php
+                                }
 
-                                <?php
                                 if ($google_fonts) {
                                     ?>
                                     <optgroup label="<?php esc_html_e('Google Fonts', 'hash-form'); ?>">
@@ -399,8 +403,11 @@ class HashFormStyles {
                             </select>
                         </div>
                     </li>
-                <?php } ?>
-                <?php if (!in_array('style', $exclude)) { ?>
+                    <?php
+                }
+
+                if (!in_array('style', $exclude)) {
+                    ?>
                     <li class="hf-typography-font-style-field">
                         <label><?php esc_html_e('Font Style', 'hash-form'); ?></label>
                         <?php
@@ -417,8 +424,11 @@ class HashFormStyles {
                             </div>
                         <?php } ?>
                     </li>
-                <?php } ?>
-                <?php if (!in_array('text_transform', $exclude)) { ?>
+                    <?php
+                }
+
+                if (!in_array('text_transform', $exclude)) {
+                    ?>
                     <li class="hf-typography-text-transform-field">
                         <label><?php esc_html_e('Text Transform', 'hash-form'); ?></label>
                         <?php
@@ -433,8 +443,11 @@ class HashFormStyles {
                             </div>
                         <?php } ?>
                     </li>
-                <?php } ?>
-                <?php if (!in_array('text_decoration', $exclude)) { ?>
+                    <?php
+                }
+
+                if (!in_array('text_decoration', $exclude)) {
+                    ?>
                     <li class="hf-typography-text-decoration-field">
                         <label><?php esc_html_e('Text Decoration', 'hash-form'); ?></label>
                         <?php
@@ -449,8 +462,11 @@ class HashFormStyles {
                             </div>
                         <?php } ?>
                     </li>
-                <?php } ?>
-                <?php if (!in_array('font_size', $exclude)) { ?>
+                    <?php
+                }
+
+                if (!in_array('font_size', $exclude)) {
+                    ?>
                     <li class="hf-typography-font-size-field">
                         <label><?php esc_html_e('Font Size', 'hash-form'); ?></label>
 
@@ -459,8 +475,11 @@ class HashFormStyles {
                             <input data-unit="px" id="<?php echo esc_attr('hf-' . $label_id . '-typo-font-size'); ?>" class="hashform-range-input-selector" type="number" min="0" max="100" step="1" value="<?php echo esc_attr($settings[$label]['typo']['font_size']); ?>" name="<?php echo esc_attr($name . '[' . $label . '][typo][font_size]'); ?>"/> px
                         </div>
                     </li>
-                <?php } ?>
-                <?php if (!in_array('letter_spacing', $exclude)) { ?>
+                    <?php
+                }
+
+                if (!in_array('letter_spacing', $exclude)) {
+                    ?>
                     <li class="hf-typography-letter-spacing-field">
                         <label><?php esc_html_e('Letter Spacing', 'hash-form'); ?></label>
 
@@ -469,8 +488,11 @@ class HashFormStyles {
                             <input data-unit="px" id="<?php echo esc_attr('hf-' . $label_id . '-typo-letter-spacing'); ?>" class="hashform-range-input-selector" type="number" min="-5" max="5" step="0.1" value="<?php echo esc_attr($settings[$label]['typo']['letter_spacing']); ?>" name="<?php echo esc_attr($name . '[' . $label . '][typo][letter_spacing]'); ?>"/>  px
                         </div>           
                     </li>
-                <?php } ?>
-                <?php if (!in_array('line_height', $exclude)) { ?>
+                    <?php
+                }
+
+                if (!in_array('line_height', $exclude)) {
+                    ?>
                     <li class="hf-typography-line-height-field">
                         <label><?php esc_html_e('Line Height', 'hash-form'); ?></label>
 
@@ -479,8 +501,11 @@ class HashFormStyles {
                             <input id="<?php echo esc_attr('hf-' . $label_id . '-typo-line-height'); ?>" class="hashform-range-input-selector" type="number" min="0.5" max="5" step="0.1" value="<?php echo esc_attr($settings[$label]['typo']['line_height']); ?>" name="<?php echo esc_attr($name . '[' . $label . '][typo][line_height]'); ?>"/>
                         </div>         
                     </li>
-                <?php } ?>
-                <?php if (!in_array('color', $exclude)) { ?>
+                    <?php
+                }
+
+                if (!in_array('color', $exclude)) {
+                    ?>
                     <li class="hf-typography-color-field">
                         <label class="hf-color-input-label"><?php esc_html_e('Text Color', 'hash-form'); ?></label>
                         <div class="hf-typography-input-field">

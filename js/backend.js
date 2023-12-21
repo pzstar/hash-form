@@ -269,6 +269,7 @@ var hashFormAdmin = hashFormAdmin || {};
 
             $buildForm.on('change', '[data-row-show-hide]', hashFormAdmin.liveChangeHideShowRow);
             $buildForm.on('input', '[data-label-show-hide]', hashFormAdmin.liveChangeHideShowLabel);
+            $buildForm.on('change', '[data-label-show-hide-checkbox]', hashFormAdmin.liveChangeHideShowLabelCheckbox);
         },
 
         liveChangesInput: function () {
@@ -1266,10 +1267,24 @@ var hashFormAdmin = hashFormAdmin || {};
         liveChangeHideShowLabel: function () {
             const that = $(this);
             var val = that.val();
-            const fieldId = $(this).closest('.hf-fields-settings').data('fid'),
+            const parentFieldSetting = $(this).closest('.hf-fields-settings'),
+                fieldId = parentFieldSetting.data('fid'),
                 fieldLabel = $('#hf-editor-field-id-' + fieldId).find('label.hf-label-show-hide');
 
-            if (!val) {
+            if (!val || (parentFieldSetting.find('[data-label-show-hide-checkbox]').is(':checked'))) {
+                fieldLabel.addClass('hf-hidden');
+            } else {
+                fieldLabel.removeClass('hf-hidden');
+            }
+        },
+
+        liveChangeHideShowLabelCheckbox: function () {
+            const that = $(this);
+            const parentFieldSetting = $(this).closest('.hf-fields-settings'),
+                fieldId = parentFieldSetting.data('fid'),
+                fieldLabel = $('#hf-editor-field-id-' + fieldId).find('label.hf-label-show-hide');
+
+            if (that.is(':checked') || !parentFieldSetting.find('[data-label-show-hide]').val()) {
                 fieldLabel.addClass('hf-hidden');
             } else {
                 fieldLabel.removeClass('hf-hidden');

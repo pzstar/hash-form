@@ -1514,3 +1514,7 @@ body.wp-admin:not(.rtl) .ui-datepicker {
 body.wp-admin.rtl .ui-datepicker {
     margin-right: -1px;
 }
+
+.hashform-form .hf-container .hf-hidden {
+    display: none;
+}
