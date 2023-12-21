@@ -342,6 +342,11 @@
     box-shadow: var(--hf-field-shadow-focus-x, var(--hf-field-shadow-normal-x, 0)) var(--hf-field-shadow-focus-y, var(--hf-field-shadow-normal-y, 0)) var(--hf-field-shadow-focus-blur, var(--hf-field-shadow-normal-blur, 0)) var(--hf-field-shadow-focus-spread, var(--hf-field-shadow-normal-spread, 0)) var(--hf-field-shadow-focus-color, var(--hf-field-shadow-normal-color, transparent));
 }
 
+.hf-form-custom-style .hf-form-field.hashform-field-type-spinner .hf-quantity-input.hf-field-focussed .mdi-minus,
+.hf-form-custom-style .hf-form-field.hashform-field-type-spinner .hf-quantity-input.hf-field-focussed .mdi-plus{
+    border-color: var(--hf-field-border-color-focus, var(--hf-field-border-color-normal, #CCC));
+}
+
 .hf-form-default-style .hf-container input[type="text"]:focus,
 .hf-form-default-style .hf-container input[type="email"]:focus,
 .hf-form-default-style .hf-container input[type="url"]:focus,
