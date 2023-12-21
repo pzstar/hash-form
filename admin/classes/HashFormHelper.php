@@ -796,6 +796,7 @@ class HashFormHelper {
             'label' => 'sanitize_text_field',
             'label_position' => 'sanitize_text_field',
             'label_alignment' => 'sanitize_text_field',
+            'hide_label' => 'hashform_sanitize_checkbox_boolean',
             'heading_type' => 'sanitize_text_field',
             'text_alignment' => 'sanitize_text_field',
             'content' => 'sanitize_text_field',
@@ -838,7 +839,7 @@ class HashFormHelper {
     }
 
 
-    public static function get_all_forms() {
+    public static function get_all_forms_list_options() {
         $all_forms = array();
         $forms = HashFormBuilder::get_all_forms();
         foreach ($forms as $form) {

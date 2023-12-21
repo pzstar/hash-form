@@ -1,5 +1,6 @@
 <?php
 defined('ABSPATH') || die();
+$id = get_the_ID();
 ?>
 
 <div class="hf-settings-row hf-form-row">
@@ -759,6 +760,54 @@ defined('ABSPATH') || die();
         <label class="hf-setting-label hf-color-input-label"><?php esc_html_e('Handle Color', 'hash-form'); ?></label>
         <div class="hf-setting-fields hf-color-input-field">
             <input id="hf-range-handle-color" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[range][handle_color]" value="<?php echo esc_attr($hashform_styles['range']['handle_color']); ?>">
+        </div>
+    </div>
+</div>
+
+
+<h2 class="hf-settings-heading"><?php esc_html_e('Import/Export', 'hash-form'); ?><span class="mdi mdi-triangle-small-down"></span></h2>
+<div class="hf-form-settings">
+    <div class="hf-form-row">
+        <?php esc_html_e("You can export the form styles and then import the form styles in the same or different website.", "hash-form"); ?>
+    </div>
+
+    <div class="hf-settings-row">
+        <label class="hf-setting-label"><?php esc_html_e('Export', 'hash-form'); ?></label>
+        <div class="hf-setting-fields">
+            <form method="post"></form>
+            <form method="post">
+                <input type="hidden" name="hashform_imex_action" value="export_style" />
+                <input type="hidden" name="hashform_style_id" value="<?php echo esc_attr($id); ?>" />
+                <?php wp_nonce_field("hashform_imex_export_nonce", "hashform_imex_export_nonce"); ?>
+                <button class="button button-primary" id="hashform_export" name="hashform_export"><span class="mdi mdi-tray-arrow-down"></span> <?php esc_html_e("Download Settings", "hash-form") ?></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="hf-settings-row">
+        <label class="hf-setting-label"><?php esc_html_e('Import', 'hash-form'); ?></label>
+        <div class="hf-setting-fields">
+            <form method="post" enctype="multipart/form-data">
+                <div class="hf-preview-zone hidden">
+                    <div class="hf-box hf-box-solid">
+                        <div class="hf-box-body"></div>
+                        <button type="button" class="button hf-remove-preview">
+                            <span class="mdi mdi-window-close"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="hf-dropzone-wrapper">
+                    <div class="hf-dropzone-desc">
+                        <span class="mdi mdi-file-image-plus-outline"></span>
+                        <p><?php esc_html_e("Choose an json file or drag it here", "hash-form"); ?></p>
+                    </div>
+                    <input type="file" name="hashform_import_file" class="hf-dropzone">
+                </div>
+                <button class="button button-primary" id="hashform_import" type="submit" name="hashform_import"><i class='icofont-download'></i> <?php esc_html_e("Import", "hash-form") ?></button>
+                <input type="hidden" name="hashform_imex_action" value="import_style" />
+                <input type="hidden" name="hashform_style_id" value="<?php echo esc_attr($id); ?>" />
+                <?php wp_nonce_field("hashform_imex_import_nonce", "hashform_imex_import_nonce"); ?>
+            </form>
         </div>
     </div>
 </div>

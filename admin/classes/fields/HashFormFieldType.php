@@ -61,7 +61,7 @@ abstract class HashFormFieldType {
 
         <div class="hf-field-container" style="<?php echo esc_attr($this->container_inner_style()); ?>">
             <?php if ($display['label'] && !empty(trim($field['name'])) && (!($field['type'] == 'captcha' && $settings['re_type'] === 'v3'))) { ?>
-                <label class="hf-field-label">
+                <label class="hf-field-label <?php echo (!$field['name'] || ((isset($field['hide_label']) && $field['hide_label']))) ? 'hf-hidden' : ''; ?>">
                     <?php echo esc_html($field['name']); ?>
                     <?php if (!!$field['required']) { ?>
                         <span class="hf-field-required" aria-hidden="true">
@@ -107,6 +107,7 @@ abstract class HashFormFieldType {
         if (!in_array($field['type'], array('separator', 'image', 'heading', 'paragraph', 'html'))) {
             $label_position = isset($field['label_position']) && $field['label_position'] ? $field['label_position'] : 'top';
             $label_alignment = isset($field['label_alignment']) && $field['label_alignment'] ? $field['label_alignment'] : 'left';
+            $hide_label = isset($field['hide_label']) && $field['hide_label'] ? $field['hide_label'] : '';
             $container_class[] = 'hf-label-position-' . trim($label_position);
             $container_class[] = 'hf-label-alignment-' . trim($label_alignment);
             $container_class[] = $field['classes'] ? esc_attr($field['classes']) : '';
@@ -185,7 +186,7 @@ abstract class HashFormFieldType {
 
         if ($display['label']) {
             ?>
-            <label class="hf-editor-field-label hf-label-show-hide <?php echo !$field['name'] ? 'hf-hidden' : ''; ?> ">
+            <label class="hf-editor-field-label hf-label-show-hide <?php echo (!$field['name'] || ((isset($field['hide_label']) && $field['hide_label']))) ? 'hf-hidden' : ''; ?> ">
                 <span id="hf-editor-field-label-text-<?php echo esc_attr($id); ?>" class="hf-editor-field-label-text">
                     <?php echo esc_html($field['name']); ?>
                 </span>
@@ -402,6 +403,7 @@ abstract class HashFormFieldType {
             'grid_id' => '',
             'label_position' => '',
             'label_alignment' => '',
+            'hide_label' => '',
             'heading_type' => '',
             'text_alignment' => '',
             'content' => '',

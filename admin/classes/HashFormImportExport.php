@@ -7,18 +7,24 @@ class HashFormImportExport {
     public function __construct() {
         // Process a settings export that generates a .json file of the form settings
         add_action('admin_init', array($this, 'process_settings_export'));
+        // Process a settings export that generates a .json file of the form style
+        add_action('admin_init', array($this, 'process_style_export'));
         // Process a settings import from a json file
         add_action('admin_init', array($this, 'process_settings_import'));
+        // Process a style import from a json file
+        add_action('admin_init', array($this, 'process_style_import'));
     }
 
     public function process_settings_export() {
         $id = HashFormHelper::get_post('hashform_form_id', 'absint');
 
-        if ('export_form' != HashFormHelper::get_post('hashform_imex_action') || !$id)
+        if ('export_form' != HashFormHelper::get_post('hashform_imex_action') || !$id) {
             return;
+        }
 
-        if (!wp_verify_nonce(HashFormHelper::get_post('hashform_imex_export_nonce'), 'hashform_imex_export_nonce'))
+        if (!wp_verify_nonce(HashFormHelper::get_post('hashform_imex_export_nonce'), 'hashform_imex_export_nonce')) {
             return;
+        }
 
         global $wpdb;
 
@@ -26,11 +32,12 @@ class HashFormImportExport {
         $forms = $wpdb->get_results($query);
 
         foreach ($forms as $form) {
+            $form_styles = $form->styles ? unserialize($form->styles) : [];
             $exdat['form_key'] = $form->form_key ? $form->form_key : '';
             $exdat['options'] = $form->options ? unserialize($form->options) : [];
             $exdat['status'] = $form->status ? $form->status : 'published';
             $exdat['settings'] = $form->settings ? unserialize($form->settings) : [];
-            $exdat['styles'] = $form->styles ? unserialize($form->styles) : [];
+            $exdat['styles'] = $form_styles;
             $exdat['created_at'] = $form->created_at ? $form->created_at : '';
             $fields = HashFormFields::get_form_fields($form->id);
             $exfield = array();
@@ -48,6 +55,17 @@ class HashFormImportExport {
             }
             $exdat['field'] = $exfield;
 
+            $form_style = isset($form_styles['form_style']) && $form_styles['form_style'] ? $form_styles['form_style'] : 'default-style';
+
+            if ($form_style == 'custom-style') {
+                $form_style_id = $form_styles['form_style_template'];
+                $hashform_styles = get_post_meta($form_style_id, 'hashform_styles', true);
+                $hashform_styles = HashFormHelper::sanitize_array($hashform_styles, HashFormStyles::get_styles_sanitize_array());
+                if ($hashform_styles) {
+                    $exdat['style'] = $hashform_styles;
+                }
+            }
+
             ignore_user_abort(true);
 
             nocache_headers();
@@ -60,17 +78,50 @@ class HashFormImportExport {
         }
     }
 
-    public function process_settings_import() {
-        if (!current_user_can('manage_options'))
+    public function process_style_export() {
+        $id = HashFormHelper::get_post('hashform_style_id', 'absint');
+
+        if ('export_style' != HashFormHelper::get_post('hashform_imex_action') || !$id) {
             return;
+        }
+
+        if (!wp_verify_nonce(HashFormHelper::get_post('hashform_imex_export_nonce'), 'hashform_imex_export_nonce')) {
+            return;
+        }
+
+        global $wpdb;
+
+        $hashform_styles = get_post_meta($id, 'hashform_styles', true);
+        $hashform_styles = HashFormHelper::sanitize_array($hashform_styles, HashFormStyles::get_styles_sanitize_array());
+
+        if ($hashform_styles) {
+
+            ignore_user_abort(true);
+
+            nocache_headers();
+            header('Content-Type: application/json; charset=utf-8');
+            header('Content-Disposition: attachment; filename=hf-style-' . $id . '-' . date('m-d-Y') . '.json');
+            header("Expires: 0");
+
+            echo wp_json_encode($hashform_styles);
+            exit;
+        }
+    }
+
+    public function process_settings_import() {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
 
         $form_id = HashFormHelper::get_post('hashform_form_id', 'absint');
 
-        if ('import_form' != HashFormHelper::get_post('hashform_imex_action') || !$form_id)
+        if ('import_form' != HashFormHelper::get_post('hashform_imex_action') || !$form_id) {
             return;
+        }
 
-        if (!wp_verify_nonce(HashFormHelper::get_post('hashform_imex_import_nonce'), 'hashform_imex_import_nonce'))
+        if (!wp_verify_nonce(HashFormHelper::get_post('hashform_imex_import_nonce'), 'hashform_imex_import_nonce')) {
             return;
+        }
 
         global $wpdb;
 
@@ -99,6 +150,18 @@ class HashFormImportExport {
 
         $styles = HashFormHelper::recursive_parse_args($imdat['styles'], array('form_style' => 'default-style', 'form_style_template' => ''));
         $styles = HashFormHelper::sanitize_array($styles, HashFormHelper::get_form_styles_sanitize_rules());
+
+        if (isset($imdat['style'])) {
+            $new_post = array(
+                'post_type' => 'hashform-styles',
+                'post_title' => 'hashform-style-' . $form_id,
+                'post_status' => 'publish',
+            );
+            $style_id = wp_insert_post($new_post);
+            $hashform_styles = HashFormHelper::sanitize_array($imdat['style'], HashFormStyles::get_styles_sanitize_array());
+            update_post_meta($style_id, 'hashform_styles', $hashform_styles);
+            $styles['form_style_template'] = $style_id;
+        }
 
         $form = array(
             'options' => serialize($options),
@@ -131,6 +194,45 @@ class HashFormImportExport {
         }
 
         $_SESSION['hashform_message'] = esc_html__('Settings Imported Successfully', 'hash-form');
+    }
+
+    public function process_style_import() {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+
+        $style_id = HashFormHelper::get_post('hashform_style_id', 'absint');
+
+        if ('import_style' != HashFormHelper::get_post('hashform_imex_action') || !$style_id) {
+            return;
+        }
+
+        if (!wp_verify_nonce(HashFormHelper::get_post('hashform_imex_import_nonce'), 'hashform_imex_import_nonce')) {
+            return;
+        }
+
+        global $wpdb;
+
+        $filename = sanitize_text_field(wp_unslash($_FILES['hashform_import_file']['name']));
+        $extension = explode('.', $filename);
+        $extension = end($extension);
+
+        if ($extension != 'json') {
+            wp_die(esc_html__('Please upload a valid .json file'));
+        }
+
+        $hashform_import_file = sanitize_text_field($_FILES['hashform_import_file']['tmp_name']);
+
+        if (empty($hashform_import_file)) {
+            wp_die(esc_html__('Please upload a file to import'));
+        }
+
+        // Retrieve the settings from the file and convert the json object to an array.
+        $imdat = json_decode(file_get_contents($hashform_import_file), true);
+        $hashform_styles = HashFormHelper::sanitize_array($imdat, HashFormStyles::get_styles_sanitize_array());
+        update_post_meta($style_id, 'hashform_styles', $hashform_styles);
+
+        $_SESSION['hashform_message'] = esc_html__('Form Style Imported Successfully', 'hash-form');
     }
 
 }

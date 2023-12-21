@@ -3,6 +3,7 @@ defined('ABSPATH') || die();
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
+use Elementor\Plugin;
 
 class HashFormElement extends Widget_Base {
 
@@ -35,19 +36,49 @@ class HashFormElement extends Widget_Base {
             ]
         );
 
-        $this->add_control('swpf_filter_preset', [
-            'label' => esc_html__('Select Hash Form', 'hash-form'),
-            'type' => Controls_Manager::SELECT,
-            'options' => HashFormHelper::get_all_forms()
-        ]);
+        $this->add_control(
+            'hf_form_id', [
+                'label' => esc_html__('Select Form', 'hash-form'),
+                'type' => Controls_Manager::SELECT2,
+                'options' => HashFormHelper::get_all_forms_list_options(),
+                'multiple' => false,
+            ]
+        );
+
+        $this->add_control(
+            'new_form', [
+                'type' => Controls_Manager::RAW_HTML,
+                'raw' => sprintf(
+                    wp_kses(esc_html__('Create New From?', 'hash-form') . ' <a href="%s" target="_blank">' . esc_html__('Add New Form', 'hash-form') . '</a>', [
+                        'b' => [],
+                        'br' => [],
+                        'a' => [
+                            'href' => [],
+                            'target' => [],
+                        ],
+                    ]),
+                    esc_url(add_query_arg('page', 'hashform', admin_url('admin.php')))
+                )
+            ]
+        );
 
         $this->end_controls_section();
     }
 
 
     public function render() {
-        echo '<p>';
-        echo "Hash Form";
-        echo '</p>';
+        $settings = $this->get_settings_for_display();
+
+        if (isset($settings['hf_form_id']) && !empty($settings['hf_form_id']) && (HashFormListing::get_status($settings['hf_form_id']) == 'published')) {
+            echo do_shortcode('[hashform id="' . $settings['hf_form_id'] . '"]');
+        } elseif ($this->elementor()->editor->is_edit_mode()) {
+            ?>
+            <p><?php echo esc_html__('Please select a Form', 'hash-form'); ?></p>
+            <?php
+        }
+    }
+
+    protected function elementor() {
+        return Plugin::$instance;
     }
 }

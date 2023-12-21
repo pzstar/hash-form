@@ -303,4 +303,11 @@ class HashFormListing extends \WP_List_Table {
         return $counts;
     }
 
+    public static function get_status($id = 0) {
+        global $wpdb;
+        $query = $wpdb->prepare("SELECT status FROM {$wpdb->base_prefix}hashform_forms WHERE id=%d", $id);
+        $results = $wpdb->get_results($query);
+        return isset($results[0]) ? $results[0]->status : 'unavailable';
+    }
+
 }

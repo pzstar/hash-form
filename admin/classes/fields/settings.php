@@ -57,6 +57,13 @@ defined('ABSPATH') || die();
                     </option>
                 </select>
             </div>
+
+            <div class="hf-form-row">
+                <label for="hf-hide-label-field-<?php echo absint($field_id); ?>">
+                    <input id="hf-hide-label-field-<?php echo absint($field_id); ?>" type="checkbox" name="field_options[hide_label_<?php echo absint($field_id); ?>]" value="1" <?php checked((isset($field['hide_label']) && $field['hide_label']), 1); ?> data-label-show-hide-checkbox="hf-label-show-hide" />
+                    <?php esc_html_e('Hide Label', 'hash-form'); ?>
+                </label>
+            </div>
         <?php } ?>
 
         <?php if ($field_type === 'heading') { ?>
