@@ -746,10 +746,7 @@ class HashFormBuilder {
 
     public function add_plugin_action_link($links) {
         $custom['settings'] = sprintf(
-            '<a href="%s" aria-label="%s">%s</a>',
-            esc_url(add_query_arg('page', 'hashform', admin_url('admin.php'))),
-            esc_attr__('Hash Froms', 'hash-form'),
-            esc_html__('Settings', 'hash-form')
+                '<a href="%s" aria-label="%s">%s</a>', esc_url(add_query_arg('page', 'hashform', admin_url('admin.php'))), esc_attr__('Hash Froms', 'hash-form'), esc_html__('Settings', 'hash-form')
         );
 
         return array_merge($custom, (array) $links);

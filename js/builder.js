@@ -12,7 +12,7 @@ var hashFormBuilder = hashFormBuilder || {};
             fieldsUpdated = 0,
             autoId = 0;
 
-    
+
     const wysiwyg = {
         init(editor, { setupCallback, height, addFocusEvents } = {}) {
             if (isTinyMceActive()) {

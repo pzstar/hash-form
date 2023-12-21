@@ -838,7 +838,6 @@ class HashFormHelper {
         );
     }
 
-
     public static function get_all_forms_list_options() {
         $all_forms = array();
         $forms = HashFormBuilder::get_all_forms();

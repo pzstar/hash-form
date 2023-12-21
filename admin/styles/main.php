@@ -767,9 +767,9 @@ $id = get_the_ID();
 
 <h2 class="hf-settings-heading"><?php esc_html_e('Import/Export', 'hash-form'); ?><span class="mdi mdi-triangle-small-down"></span></h2>
 <div class="hf-form-settings">
-    <div class="hf-form-row">
+    <p>
         <?php esc_html_e("You can export the form styles and then import the form styles in the same or different website.", "hash-form"); ?>
-    </div>
+    </p>
 
     <div class="hf-settings-row">
         <label class="hf-setting-label"><?php esc_html_e('Export', 'hash-form'); ?></label>

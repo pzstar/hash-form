@@ -30,41 +30,41 @@ class HashFormElement extends Widget_Base {
     protected function register_controls() {
 
         $this->start_controls_section(
-            'section_title', [
-                'label' => esc_html__('Form', 'hash-form'),
-                'tab' => Controls_Manager::TAB_CONTENT,
-            ]
+                'section_title', [
+            'label' => esc_html__('Form', 'hash-form'),
+            'tab' => Controls_Manager::TAB_CONTENT,
+                ]
         );
 
         $this->add_control(
-            'hf_form_id', [
-                'label' => esc_html__('Select Form', 'hash-form'),
-                'type' => Controls_Manager::SELECT2,
-                'options' => HashFormHelper::get_all_forms_list_options(),
-                'multiple' => false,
-            ]
+                'hf_form_id', [
+            'label' => esc_html__('Select Form', 'hash-form'),
+            'type' => Controls_Manager::SELECT2,
+            'options' => HashFormHelper::get_all_forms_list_options(),
+            'multiple' => false,
+            'label_block' => true,
+            'separator' => 'after'
+                ]
         );
 
         $this->add_control(
-            'new_form', [
-                'type' => Controls_Manager::RAW_HTML,
-                'raw' => sprintf(
-                    wp_kses(esc_html__('Create New From?', 'hash-form') . ' <a href="%s" target="_blank">' . esc_html__('Add New Form', 'hash-form') . '</a>', [
-                        'b' => [],
-                        'br' => [],
-                        'a' => [
-                            'href' => [],
-                            'target' => [],
-                        ],
-                    ]),
-                    esc_url(add_query_arg('page', 'hashform', admin_url('admin.php')))
-                )
-            ]
+                'new_form', [
+            'type' => Controls_Manager::RAW_HTML,
+            'raw' => sprintf(
+                    wp_kses(esc_html__('To Create New Form', 'hash-form') . ' <a href="%s" target="_blank">' . esc_html__('Cick Here', 'hash-form') . '</a>', [
+                'b' => [],
+                'br' => [],
+                'a' => [
+                    'href' => [],
+                    'target' => [],
+                ],
+                    ]), esc_url(add_query_arg('page', 'hashform', admin_url('admin.php')))
+            )
+                ]
         );
 
         $this->end_controls_section();
     }
-
 
     public function render() {
         $settings = $this->get_settings_for_display();
@@ -81,4 +81,5 @@ class HashFormElement extends Widget_Base {
     protected function elementor() {
         return Plugin::$instance;
     }
+
 }

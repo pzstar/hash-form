@@ -1255,11 +1255,11 @@ var hashFormAdmin = hashFormAdmin || {};
 
         liveChangeHideShowRow: function () {
             const that = $(this),
-                parentRow = that.closest('.hf-form-container');
+                    parentRow = that.closest('.hf-form-container');
             var val = that.val();
             parentRow.find('.hf-row-show-hide').addClass('hf-hidden');
             var valArray = val.split('_');
-            $.each(valArray, function(index, value) {
+            $.each(valArray, function (index, value) {
                 parentRow.find('.hf-row-show-hide.hf-sub-field-' + value).removeClass('hf-hidden');
             });
         },
@@ -1268,8 +1268,8 @@ var hashFormAdmin = hashFormAdmin || {};
             const that = $(this);
             var val = that.val();
             const parentFieldSetting = $(this).closest('.hf-fields-settings'),
-                fieldId = parentFieldSetting.data('fid'),
-                fieldLabel = $('#hf-editor-field-id-' + fieldId).find('label.hf-label-show-hide');
+                    fieldId = parentFieldSetting.data('fid'),
+                    fieldLabel = $('#hf-editor-field-id-' + fieldId).find('label.hf-label-show-hide');
 
             if (!val || (parentFieldSetting.find('[data-label-show-hide-checkbox]').is(':checked'))) {
                 fieldLabel.addClass('hf-hidden');
@@ -1281,8 +1281,8 @@ var hashFormAdmin = hashFormAdmin || {};
         liveChangeHideShowLabelCheckbox: function () {
             const that = $(this);
             const parentFieldSetting = $(this).closest('.hf-fields-settings'),
-                fieldId = parentFieldSetting.data('fid'),
-                fieldLabel = $('#hf-editor-field-id-' + fieldId).find('label.hf-label-show-hide');
+                    fieldId = parentFieldSetting.data('fid'),
+                    fieldLabel = $('#hf-editor-field-id-' + fieldId).find('label.hf-label-show-hide');
 
             if (that.is(':checked') || !parentFieldSetting.find('[data-label-show-hide]').val()) {
                 fieldLabel.addClass('hf-hidden');

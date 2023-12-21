@@ -1829,6 +1829,10 @@ form.hf-success .hf-copied{
     margin-bottom: 10px;
 }
 
+.hf-style-sidebar .hf-dropzone-wrapper {
+    height: 90px;
+}
+
 .hf-dropzone-desc {
     position: absolute;
     left: 0;
