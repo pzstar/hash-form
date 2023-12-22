@@ -146,7 +146,7 @@ class HashFormListing extends \WP_List_Table {
 
     private function get_table_data() {
         global $wpdb;
-        $table = $wpdb->base_prefix . 'hashform_forms';
+        $table = $wpdb->prefix . 'hashform_forms';
         $status = $this->status;
         $search = htmlspecialchars_decode(HashFormHelper::get_var('s'));
 
@@ -288,7 +288,7 @@ class HashFormListing extends \WP_List_Table {
 
     public static function get_count() {
         global $wpdb;
-        $query = $wpdb->prepare("SELECT status FROM {$wpdb->base_prefix}hashform_forms WHERE id!=%d", 0);
+        $query = $wpdb->prepare("SELECT status FROM {$wpdb->prefix}hashform_forms WHERE id!=%d", 0);
         $results = $wpdb->get_results($query);
         $statuses = array('published', 'draft', 'trash');
         $counts = array_fill_keys($statuses, 0);
@@ -305,7 +305,7 @@ class HashFormListing extends \WP_List_Table {
 
     public static function get_status($id = 0) {
         global $wpdb;
-        $query = $wpdb->prepare("SELECT status FROM {$wpdb->base_prefix}hashform_forms WHERE id=%d", $id);
+        $query = $wpdb->prepare("SELECT status FROM {$wpdb->prefix}hashform_forms WHERE id=%d", $id);
         $results = $wpdb->get_results($query);
         return isset($results[0]) ? $results[0]->status : 'unavailable';
     }

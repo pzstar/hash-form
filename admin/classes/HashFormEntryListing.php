@@ -146,7 +146,7 @@ class HashFormEntryListing extends \WP_List_Table {
 
     private function get_table_data() {
         global $wpdb;
-        $table = $wpdb->base_prefix . 'hashform_entries';
+        $table = $wpdb->prefix . 'hashform_entries';
         $status = $this->status;
 
         if ($search = htmlspecialchars_decode(HashFormHelper::get_var('s'))) {
@@ -309,7 +309,7 @@ class HashFormEntryListing extends \WP_List_Table {
 
     private function get_form_link($form_id) {
         global $wpdb;
-        $table = $wpdb->base_prefix . 'hashform_forms';
+        $table = $wpdb->prefix . 'hashform_forms';
         $query = $wpdb->prepare("SELECT name from {$table} WHERE id=%d", $form_id);
         $form_name = $wpdb->get_row($query, ARRAY_A);
         return '<a href="' . esc_url(admin_url('admin.php?page=hashform&hashform_action=edit&id=' . $form_id)) . '">' . esc_html($form_name['name']) . '</a>';
