@@ -14,7 +14,7 @@ defined('ABSPATH') || die();
             <input type="hidden" name="hashform_imex_action" value="export_form" />
             <input type="hidden" name="hashform_form_id" value="<?php echo esc_attr($id); ?>" />
             <?php wp_nonce_field("hashform_imex_export_nonce", "hashform_imex_export_nonce"); ?>
-            <button class="button button-primary" id="hashform_export" name="hashform_export"><span class="mdi mdi-tray-arrow-down"></span> <?php esc_html_e("Download Settings", "hash-form") ?></button>
+            <button class="button button-primary" id="hashform_export" name="hashform_export"><span class="mdi mdi-tray-arrow-down"></span> <?php esc_html_e("Export Form", "hash-form") ?></button>
         </form>
     </div>
 
