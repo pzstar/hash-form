@@ -11,10 +11,10 @@ class HashFormCreateTable {
 
     public function __construct() {
         global $wpdb;
-        $this->fields = $wpdb->base_prefix . 'hashform_fields';
-        $this->forms = $wpdb->base_prefix . 'hashform_forms';
-        $this->entries = $wpdb->base_prefix . 'hashform_entries';
-        $this->entry_metas = $wpdb->base_prefix . 'hashform_entry_meta';
+        $this->fields = $wpdb->prefix . 'hashform_fields';
+        $this->forms = $wpdb->prefix . 'hashform_forms';
+        $this->entries = $wpdb->prefix . 'hashform_entries';
+        $this->entry_metas = $wpdb->prefix . 'hashform_entry_meta';
     }
 
     public function upgrade() {

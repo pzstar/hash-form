@@ -162,7 +162,7 @@ class HashFormBuilder {
             'settings' => serialize($settings),
             'styles' => serialize($styles),
         );
-        $wpdb->insert($wpdb->base_prefix . 'hashform_forms', $new_values);
+        $wpdb->insert($wpdb->prefix . 'hashform_forms', $new_values);
         $id = $wpdb->insert_id;
         return $id;
     }
@@ -207,7 +207,7 @@ class HashFormBuilder {
         $options = HashFormHelper::recursive_parse_args($args, HashFormHelper::get_form_options_checkbox_settings());
         $options = HashFormHelper::sanitize_array($options, HashFormHelper::get_form_options_sanitize_rules());
 
-        $query_results = $wpdb->update($wpdb->base_prefix . 'hashform_forms', array(
+        $query_results = $wpdb->update($wpdb->prefix . 'hashform_forms', array(
             'name' => esc_html($args['title']),
             'description' => esc_html($args['description']),
             'options' => maybe_serialize($options)
@@ -295,10 +295,10 @@ class HashFormBuilder {
         global $wpdb;
 
         if (is_array($id)) {
-            $query = $wpdb->prepare("UPDATE {$wpdb->base_prefix}hashform_forms SET status=%s WHERE id IN (" . implode(',', array_fill(0, count($id), '%d')) . ")", $status, ...$id);
+            $query = $wpdb->prepare("UPDATE {$wpdb->prefix}hashform_forms SET status=%s WHERE id IN (" . implode(',', array_fill(0, count($id), '%d')) . ")", $status, ...$id);
             $query_results = $wpdb->query($query);
         } else {
-            $query_results = $wpdb->update($wpdb->base_prefix . 'hashform_forms', array('status' => $status), array('id' => $id));
+            $query_results = $wpdb->update($wpdb->prefix . 'hashform_forms', array('status' => $status), array('id' => $id));
         }
 
         return $query_results;
@@ -313,7 +313,7 @@ class HashFormBuilder {
     public static function delete() {
         global $wpdb;
         $count = 0;
-        $query = $wpdb->prepare("SELECT id FROM {$wpdb->base_prefix}hashform_forms WHERE status=%s", 'trash');
+        $query = $wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_forms WHERE status=%s", 'trash');
         $trash_forms = $wpdb->get_results($query);
         if (!$trash_forms) {
             return 0;
@@ -424,17 +424,17 @@ class HashFormBuilder {
         }
 
         $id = $form->id;
-        $query = $wpdb->prepare("SELECT id FROM {$wpdb->base_prefix}hashform_entries WHERE form_id=%d", $id);
+        $query = $wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_entries WHERE form_id=%d", $id);
         $entries = $wpdb->get_col($query);
 
         foreach ($entries as $entry_id) {
             HashFormEntry::destroy_entry($entry_id);
         }
 
-        $query = $wpdb->prepare('DELETE hfi FROM ' . $wpdb->base_prefix . 'hashform_fields AS hfi LEFT JOIN ' . $wpdb->base_prefix . 'hashform_forms hfm ON (hfi.form_id = hfm.id) WHERE hfi.form_id=%d', $id);
+        $query = $wpdb->prepare('DELETE hfi FROM ' . $wpdb->prefix . 'hashform_fields AS hfi LEFT JOIN ' . $wpdb->prefix . 'hashform_forms hfm ON (hfi.form_id = hfm.id) WHERE hfi.form_id=%d', $id);
         $wpdb->query($query);
 
-        $query = $wpdb->prepare('DELETE FROM ' . $wpdb->base_prefix . 'hashform_forms WHERE id=%d', $id);
+        $query = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_forms WHERE id=%d', $id);
         $results = $wpdb->query($query);
         return $results;
     }
@@ -475,7 +475,7 @@ class HashFormBuilder {
             'styles' => serialize($styles),
         );
 
-        $query_results = $wpdb->insert($wpdb->base_prefix . 'hashform_forms', $new_values);
+        $query_results = $wpdb->insert($wpdb->prefix . 'hashform_forms', $new_values);
 
         if ($query_results) {
             $form_id = $wpdb->insert_id;
@@ -584,14 +584,14 @@ class HashFormBuilder {
 
     public static function get_all_forms() {
         global $wpdb;
-        $query = $wpdb->prepare("SELECT * FROM {$wpdb->base_prefix}hashform_forms WHERE id!=%d", 0);
+        $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_forms WHERE id!=%d", 0);
         $results = $wpdb->get_results($query);
         return $results;
     }
 
     public static function get_form_vars($id) {
         global $wpdb;
-        $table_name = $wpdb->base_prefix . 'hashform_forms';
+        $table_name = $wpdb->prefix . 'hashform_forms';
 
         $query = $wpdb->prepare("SELECT * FROM {$table_name} WHERE id=%d", $id);
         $results = $wpdb->get_row($query);
@@ -660,7 +660,7 @@ class HashFormBuilder {
             'settings' => serialize($values)
         );
         if (!empty($new_values)) {
-            $query_results = $wpdb->update($wpdb->base_prefix . 'hashform_forms', $new_values, array('id' => $id));
+            $query_results = $wpdb->update($wpdb->prefix . 'hashform_forms', $new_values, array('id' => $id));
         }
         return $query_results;
     }
@@ -671,7 +671,7 @@ class HashFormBuilder {
             'styles' => serialize(HashFormHelper::sanitize_array($value))
         );
         if (!empty($new_values)) {
-            $query_results = $wpdb->update($wpdb->base_prefix . 'hashform_forms', $new_values, array('id' => $id));
+            $query_results = $wpdb->update($wpdb->prefix . 'hashform_forms', $new_values, array('id' => $id));
         }
         return $query_results;
     }

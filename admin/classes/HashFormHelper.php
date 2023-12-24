@@ -73,7 +73,7 @@ class HashFormHelper {
 
     public static function check_table_keys($table_name, $column_name) {
         global $wpdb;
-        $tbl_name = $wpdb->base_prefix . $table_name;
+        $tbl_name = $wpdb->prefix . $table_name;
         $query = $wpdb->prepare("SELECT {$column_name} FROM {$tbl_name} WHERE id!=%d", 0);
         $results = $wpdb->get_results($query, ARRAY_A);
         return array_column($results, $column_name);
