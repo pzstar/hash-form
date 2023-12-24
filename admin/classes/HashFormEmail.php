@@ -16,6 +16,7 @@ class HashFormEmail {
     }
 
     public function send_email() {
+        $attachments = array();
         $form_settings = $this->get_form_settings();
         $entry = HashFormEntry::get_entry_vars($this->entry_id);
         $metas = $entry->metas;
@@ -48,7 +49,7 @@ class HashFormEmail {
             $recipients[] = (trim($row) == '[admin_email]') ? get_option('admin_email') : $row;
         }
 
-        $mail = wp_mail($recipients, $email_subject, $email_message, $head);
+        $mail = wp_mail($recipients, $email_subject, $email_message, $head, $attachments);
 
         if ($mail) {
             $this->send_auto_responder($reply_to_ar);
@@ -61,6 +62,7 @@ class HashFormEmail {
     public function send_auto_responder($email) {
         $form_settings = $this->get_form_settings();
         if (isset($form_settings['enable_ar']) && $form_settings['enable_ar'] == 'on') {
+            $attachments = array();
             $from_ar = isset($form_settings['from_ar']) ? trim($form_settings['from_ar']) : '';
             $from_ar_name = isset($form_settings['from_ar_name']) && ($form_settings['from_ar_name'] != '') ? esc_html($form_settings['from_ar_name']) : esc_html__('No Name', 'hash-form');
             $email_subject = isset($form_settings['email_subject_ar']) && ($form_settings['email_subject_ar'] != '') ? esc_html($form_settings['email_subject_ar']) : esc_html__('New Form Submission', 'hash-form');
@@ -77,7 +79,7 @@ class HashFormEmail {
             $head = array();
             $head[] = 'Content-Type: text/html; charset=UTF-8';
             $head[] = 'From: ' . esc_html($from_ar_name) . ' <' . esc_html($from_ar) . '>';
-            wp_mail($email, $email_subject, $form_html, $head);
+            wp_mail($email, $email_subject, $form_html, $head, $attachments);
         }
     }
 

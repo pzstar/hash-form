@@ -243,7 +243,7 @@ class HashFormHelper {
     public static function get_form_options_default() {
         return array(
             'show_title' => 'on',
-            'show_description' => 'on',
+            'show_description' => 'off',
             'title' => '',
             'description' => '',
             'submit_value' => esc_html__('Submit', 'hash-form'),
@@ -811,7 +811,7 @@ class HashFormHelper {
             'max_upload_size' => 'hashform_sanitize_number',
             'extensions' => 'sanitize_text_field',
             'extensions_error_message' => 'sanitize_text_field',
-            'multiple_uploads' => 'hashform_sanitize_checkbox_boolean',
+            'multiple_uploads' => 'sanitize_text_field',
             'multiple_uploads_limit' => 'hashform_sanitize_number',
             'multiple_uploads_error_message' => 'sanitize_text_field',
             'date_format' => 'sanitize_text_field',
