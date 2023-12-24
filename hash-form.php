@@ -20,6 +20,7 @@ define('HASHFORM_FILE', __FILE__);
 define('HASHFORM_PATH', plugin_dir_path(HASHFORM_FILE));
 define('HASHFORM_URL', plugin_dir_url(HASHFORM_FILE));
 
+require HASHFORM_PATH . 'admin/classes/HashFormUploader.php';
 require HASHFORM_PATH . 'admin/classes/HashFormCreateTable.php';
 require HASHFORM_PATH . 'admin/classes/HashFormBuilder.php';
 require HASHFORM_PATH . 'admin/classes/HashFormHelper.php';

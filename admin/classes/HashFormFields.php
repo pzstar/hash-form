@@ -220,6 +220,10 @@ class HashFormFields {
                 'name' => esc_html__('reCAPTCHA', 'hash-form'),
                 'icon' => 'hfi hfi-recaptcha',
             ),
+            'upload' => array(
+                'name' => esc_html__('Upload', 'hash-form'),
+                'icon' => 'hfi hfi-recaptcha',
+            ),
         );
     }
 
@@ -498,6 +502,7 @@ class HashFormFields {
             'spinner' => 'HashFormFieldSpinner',
             'date' => 'HashFormFieldDate',
             'time' => 'HashFormFieldTime',
+            'upload' => 'HashFormFieldUpload',
         );
         if ($field_type) {
             return isset($type_classes[$field_type]) ? $type_classes[$field_type] : '';

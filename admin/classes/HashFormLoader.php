@@ -81,6 +81,7 @@ class HashFormLoader {
     public static function enqueue_styles() {
         wp_enqueue_style('dashicons');
         wp_enqueue_style('jquery-timepicker', HASHFORM_URL . 'css/jquery.timepicker.css', array(), HASHFORM_VERSION);
+        wp_enqueue_style('hashform-file-uploader', HASHFORM_URL . 'css/file-uploader.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('materialdesignicons', HASHFORM_URL . 'fonts/materialdesignicons.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-style', HASHFORM_URL . 'css/style.css', array(), HASHFORM_VERSION);
         $fonts_url = HashFormStyles::fonts_url();
@@ -93,9 +94,12 @@ class HashFormLoader {
     public static function enqueue_scripts() {
         wp_enqueue_script('jquery-ui-slider');
         wp_enqueue_script('jquery-timepicker', HASHFORM_URL . 'js/jquery.timepicker.min.js', array('jquery'), HASHFORM_VERSION, true);
-        wp_enqueue_script('frontend', HASHFORM_URL . 'js/frontend.js', array('jquery', 'jquery-ui-datepicker', 'jquery-timepicker'), HASHFORM_VERSION, true);
+        wp_enqueue_script('hashform-file-uploader', HASHFORM_URL . 'js/file-uploader.js', array(), HASHFORM_VERSION, true);
+        wp_enqueue_script('frontend', HASHFORM_URL . 'js/frontend.js', array('jquery', 'jquery-ui-datepicker', 'jquery-timepicker', 'hashform-file-uploader', 'hashform-file-uploader'), HASHFORM_VERSION, true);
         wp_localize_script('frontend', 'hashform_vars', array(
-            'ajaxurl' => admin_url('admin-ajax.php')
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'ajax_nounce' => wp_create_nonce('hashform-upload-ajax-nonce'),
+            'preview_img' => ''
         ));
     }
 

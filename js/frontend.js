@@ -19,7 +19,6 @@ jQuery(function ($) {
             grecaptcha.execute(siteKey, {action: 'hashform'}).then(function (token) {
                 form.append('<input type="hidden" id="recaptcha_token" value="' + token + '">');
             });
-            ;
         });
 
         $('.hf-error-msg').remove();
@@ -29,6 +28,7 @@ jQuery(function ($) {
 
         setTimeout(() => {
             var data = form.serializeArray();
+
             if (isV3) {
                 const reCaptchaTokenValue = $(document).find('#recaptcha_token').val();
                 $(document).find('#recaptcha_token').remove();
@@ -38,6 +38,7 @@ jQuery(function ($) {
                     }
                 });
             }
+
             jQuery.ajax({
                 type: 'POST',
                 url: hashform_vars.ajaxurl,
@@ -78,9 +79,11 @@ jQuery(function ($) {
                             const errorFieldId = key.replace("field", "");
                             $('#' + 'hf-field-container-' + errorFieldId).addClass('hashform-error-container').append('<span class="hf-error-msg">' + value + '</span>');
                         });
+
                         const firstError = Object.keys(response.message)[0];
                         const subFieldIndex = firstError.indexOf('-');
                         var firstErrorItem;
+
                         if (subFieldIndex > 0) {
                             const errorFieldId = firstError.substr(0, subFieldIndex).replace("field", "");
                             const subField = firstError.substr(subFieldIndex + 1, firstError.length);
@@ -89,6 +92,7 @@ jQuery(function ($) {
                             const errorFieldId = firstError.replace("field", "");
                             firstErrorItem = $('#' + 'hf-field-container-' + errorFieldId);
                         }
+
                         $('html, body').animate({
                             scrollTop: firstErrorItem.offset().top - 300
                         }, 300);
@@ -209,6 +213,7 @@ jQuery(function ($) {
                         value = '';
                     }
                 }
+
                 switch (compareCondition) {
                     case 'equal':
                         if (value == compareValue) {
@@ -229,6 +234,7 @@ jQuery(function ($) {
                             }
                         }
                         break;
+
                     case 'not_equal':
                         if (value != compareValue) {
                             if (actionField.length) {
@@ -248,6 +254,7 @@ jQuery(function ($) {
                             }
                         }
                         break;
+
                     case 'less_than':
                         value = (value == '') ? 0 : parseInt(value);
                         if (value < compareValue) {
@@ -268,6 +275,7 @@ jQuery(function ($) {
                             }
                         }
                         break;
+
                     case 'less_than_or_equal':
                         value = (value == '') ? 0 : parseInt(value);
                         if (value <= compareValue) {
@@ -288,6 +296,7 @@ jQuery(function ($) {
                             }
                         }
                         break;
+
                     case 'greater_than':
                         value = (value == '') ? 0 : parseInt(value);
                         if (value > compareValue) {
@@ -308,6 +317,7 @@ jQuery(function ($) {
                             }
                         }
                         break;
+
                     case 'greater_than_or_equal':
                         value = (value == '') ? 0 : parseInt(value);
                         if (value >= compareValue) {
@@ -328,6 +338,7 @@ jQuery(function ($) {
                             }
                         }
                         break;
+
                     case 'is_like':
                         if (value.indexOf(compareValue) >= 0) {
                             if (actionField.length) {
@@ -347,6 +358,7 @@ jQuery(function ($) {
                             }
                         }
                         break;
+
                     case 'is_not_like':
                         if (!(value.indexOf(compareValue) >= 0)) {
                             if (actionField.length) {
@@ -371,11 +383,159 @@ jQuery(function ($) {
         });
     })
 
-
     $(".hf-field-content input, .hf-field-content select, .hf-field-content textarea").on('focus', function () {
         $(this).parent().addClass('hf-field-focussed');
     }).on('focusout', function () {
         $(this).parent().removeClass('hf-field-focussed');
     })
+
+    var upload_counter = 0;
+    var uploader = {};
+    $('.hf-file-uploader').each(function () {
+        upload_counter++;
+        var attr_element_id = $(this).attr('id'),
+            arr_element_id = attr_element_id.split('-'),
+            element_id = arr_element_id[3],
+            size = $(this).attr('data-max-upload-size'),
+            limit_flag = 0,
+            selector = $(this),
+            uploader_label = $(this).attr('data-upload-label'),
+            multiple_upload = $(this).attr('data-multiple-uploads'),
+            upload_limit = $(this).attr('data-multiple-uploads-limit'),
+            upload_limit_message = $(this).attr('data-multiple-upload-error-message'),
+            extensions = $(this).attr('data-extensions'),
+            extensions_array = extensions.split(','),
+            extension_error_message = $(this).attr('data-extensions-error-message');
+
+        size = size ? size : 50 *1024 * 1024;
+
+        uploader['uploader' + upload_counter] = new qq.FileUploader({
+            element: document.getElementById(attr_element_id),
+            action: hashform_vars.ajaxurl,
+            params: {
+                action: 'hashform_file_upload_action',
+                file_uploader_nonce: hashform_vars.ajax_nounce,
+                allowedExtensions: extensions_array,
+                sizeLimit: size,
+                element_id: element_id
+            },
+            allowedExtensions: extensions_array,
+            sizeLimit: size,
+            minSizeLimit: 50,
+            uploadButtonText: uploader_label,
+
+            onSubmit: function (id, fileName) {
+                if (multiple_upload == true && upload_limit != -1) {
+                    var limit_counter = selector.parent().find('.hf-multiple-upload-limit').val();
+                    limit_counter++;
+                    selector.parent().find('.hf-multiple-upload-limit').val(limit_counter);
+                    if (limit_counter > upload_limit) {
+                        if (limit_flag == 0) {
+                            upload_limit_message = (upload_limit_message != '') ? upload_limit_message : 'Maximum number of files allowed is ' + upload_limit;
+                            selector.parent().find('.hf-error').html(upload_limit_message);
+                            limit_flag = 1;
+                        }
+
+                        selector.parent().find('.hf-multiple-upload-limit').val(upload_limit);
+                        return false;
+                    }
+                }
+            },
+
+            onProgress: function (id, fileName, loaded, total) {},
+
+            onComplete: function (id, fileName, responseJSON) {
+                console.log(responseJSON);
+
+                if (responseJSON.success) {
+
+                    $('#' + attr_element_id).closest('.hf-file-uploader-wrapper').find('.hf-error').html('');
+                    var extension_array = fileName.split('.');
+                    var extension = extension_array.pop();
+
+                    if (extension == 'jpg' || extension == 'jpeg' || extension == 'png' || extension == 'gif' || extension == 'JPG' || extension == 'JPEG' || extension == 'PNG' || extension == 'GIF') {
+                        var preview_img = responseJSON.url;
+                    } else {
+                        var preview_img = hashform_vars.preview_img;
+                    }
+
+                    var preview_html = '<div class="hf-prev-holder"><span class="hf-prev-name">' + fileName + '</span><img src="' + preview_img + '" /><span class="hf-preview-remove" data-path="' + responseJSON.path + '" data-url="' + responseJSON.url + '" data-id="' + element_id + '" data-attachment-id="' + responseJSON.attachment_id + '">x</span></div>';
+
+                    if (multiple_upload) {
+                        var url = responseJSON.url;
+                        var added_url = $('#' + attr_element_id).closest('.hf-file-uploader-wrapper').find('.hf-uploaded-files').val();
+                        if (added_url == '') {
+                            added_url = url;
+                        } else {
+                            var added_url_array = added_url.split(',');
+                            added_url_array.push(url);
+                            added_url = added_url_array.join();
+                        }
+
+                        $('#' + attr_element_id).closest('.hf-file-uploader-wrapper').find('.hf-uploaded-files').val(added_url);
+                        $('#' + attr_element_id).closest('.hf-file-uploader-wrapper').find('.hf-file-preview').append(preview_html);
+
+                    } else {
+                        $('#' + attr_element_id).closest('.hf-file-uploader-wrapper').find('.hf-uploaded-files').val(responseJSON.url);
+                        $('#' + attr_element_id).closest('.hf-file-uploader-wrapper').find('.hf-file-preview').html(preview_html);
+                    }
+
+                } else {
+                    console.log(responseJSON);
+                }
+            },
+
+            onCancel: function (id, fileName) {},
+            onError: function (id, fileName, xhr) {},
+
+            messages: {
+                typeError: extension_error_message,
+                sizeError: "{file} is too large, maximum file size is {sizeLimit}.",
+                minSizeError: "{file} is too small, minimum file size is {minSizeLimit}.",
+                emptyError: "{file} is empty, please select files again without it.",
+                onLeave: "The files are being uploaded, if you leave now the upload will be cancelled."
+            },
+
+            showMessage: function (message) {
+                alert(message);
+            },
+
+            multiple: multiple_upload
+        });
+
+    });
+
+
+    $('body').on('click', '.hf-preview-remove', function () {
+        var selector = $(this),
+            path = $(this).data('path'),
+            ajax_url = hashform_vars.ajaxurl,
+            url = $(this).data('url'),
+            id = $(this).data('id'),
+            attachment_id = $(this).data('attachment-id');
+
+        $.ajax({
+            url: ajax_url,
+            data: 'action=hashform_file_delete_action&path=' + path + '&_wpnonce=' + hashform_vars.ajax_nounce + '&attachment_id=' + attachment_id,
+            type: 'post',
+            success: function (res) {
+                if (res == 'success') {
+                    var prev_url = selector.closest('.hf-file-uploader-wrapper').find('.hf-uploaded-files').val();
+                    var new_url = prev_url.replace(url, '');
+                    new_url = new_url.replace(',,', ',');
+                    selector.closest('.hf-file-uploader-wrapper').find('.hf-uploaded-files').val(new_url);
+
+                    var limit_counter = selector.closest('.hf-file-uploader-wrapper').find('.hf-multiple-upload-limit').val();
+                    limit_counter--;
+                    limit_counter = (limit_counter < 0) ? 0 : limit_counter;
+                    selector.closest('.hf-file-uploader-wrapper').find('.hf-multiple-upload-limit').val(limit_counter);
+
+                    selector.parent().fadeOut('1500', function () {
+                        selector.parent().remove();
+                    });
+                }
+            }
+        });
+    });
 
 });

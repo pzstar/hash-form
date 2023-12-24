@@ -349,14 +349,16 @@ class HashFormEntry {
         global $wpdb;
         parse_str(htmlspecialchars_decode(HashFormHelper::get_post('data', 'esc_html')), $data);
 
-        if (empty($data) || empty($data['form_id']) || !isset($data['form_key']))
+        if (empty($data) || empty($data['form_id']) || !isset($data['form_key'])) {
             return;
+        }
 
         $form_id = $data['form_id'];
         $form = HashFormBuilder::get_form_vars($form_id);
 
-        if (!$form)
+        if (!$form) {
             return;
+        }
         $errors = '';
         $errors = HashFormValidate::validate(wp_unslash($data));
 

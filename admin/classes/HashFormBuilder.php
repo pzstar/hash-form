@@ -20,6 +20,12 @@ class HashFormBuilder {
         add_action('admin_footer', array($this, 'init_overlay_html'));
 
         add_filter('plugin_action_links_' . plugin_basename(HASHFORM_FILE), array($this, 'add_plugin_action_link'), 10, 1);
+
+        add_action('wp_ajax_hashform_file_upload_action', array($this, 'file_upload_action'));
+        add_action('wp_ajax_nopriv_hashform_file_upload_action', array($this, 'file_upload_action'));
+
+        add_action('wp_ajax_hashform_file_delete_action', array($this, 'file_delete_action'));
+        add_action('wp_ajax_nopriv_hashform_file_delete_action', array($this, 'file_delete_action'));
     }
 
     public function includes() {
@@ -750,6 +756,40 @@ class HashFormBuilder {
         );
 
         return array_merge($custom, (array) $links);
+    }
+
+    public function file_upload_action() {
+        if (!wp_verify_nonce(HashFormHelper::get_var('file_uploader_nonce'), 'hashform-upload-ajax-nonce')) {
+            die();
+        }
+
+        $allowedExtensions = HashFormHelper::get_var('allowedExtensions'); //array('jpg', 'jpeg', 'png', 'gif');
+        $sizeLimit = HashFormHelper::get_var('sizeLimit');
+        $uploader = new HashFormFileUploader($allowedExtensions, $sizeLimit);
+        $upload_dir = wp_upload_dir();
+        $result = $uploader->handleUpload($upload_dir['path'] . '/', $replaceOldFile = false, $upload_dir['url']);
+
+        echo json_encode($result);
+        die();
+    }
+
+    public function file_delete_action() {
+        if (wp_verify_nonce(HashFormHelper::get_post('_wpnonce'), 'hashform-upload-ajax-nonce')) {
+
+            if (HashFormHelper::get_post('attachment_id') != '') {
+                $check = wp_delete_attachment(sanitize_text_field(HashFormHelper::get_post('attachment_id')), true);
+            } else {
+                $check = unlink(HashFormHelper::get_post('path'));
+            }
+
+            if ($check) {
+                die('success');
+            } else {
+                die('error');
+            }
+
+        }
+        die();
     }
 
 }
