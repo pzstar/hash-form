@@ -316,8 +316,12 @@ class HashFormEntryListing extends \WP_List_Table {
     }
 
     private function get_user_link($user_id) {
-        $user_obj = get_user_by('id', $user_id);
-        return '<a href="' . get_edit_profile_url($user_id) . '">' . esc_html($user_obj->display_name) . '</a>';
+        if ($user_id) {
+            $user_obj = get_user_by('id', $user_id);
+            return '<a href="' . get_edit_profile_url($user_id) . '">' . esc_html($user_obj->display_name) . '</a>';
+        } else {
+            return esc_html('Guest', 'hash-from');
+        }
     }
 
 }
