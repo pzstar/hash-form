@@ -407,8 +407,6 @@ class HashFormEntry {
         if (isset($values['item_meta'])) {
             foreach ($values['item_meta'] as $field_id => $meta_value) {
                 if (!empty($meta_value)) {
-                    // $field_obj = HashFormFields::get_field_vars($field_id);
-
                     if (is_array($meta_value)) {
                         $meta_value = serialize($meta_value);
                     } else {

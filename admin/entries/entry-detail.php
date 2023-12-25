@@ -28,7 +28,7 @@ defined('ABSPATH') || die();
                 }
                 echo '<tr>';
                 echo '<th>' . esc_html($title) . '</th>';
-                echo '<td>' . wp_kses_post($entry_value) . '</td>';
+                echo '<td>' . wp_kses_post(str_replace('\n', '<br>', $entry_value)) . '</td>';
                 echo '</tr>';
             }
             ?>

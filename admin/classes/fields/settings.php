@@ -329,24 +329,14 @@ defined('ABSPATH') || die();
             </div>
 
             <div class="hf-form-row">
-                <label><?php esc_html_e('Extensions Error Message', 'hash-form'); ?></label>
-                <input type="text" name="field_options[extensions_error_message_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['extensions_error_message']); ?>"/>
-            </div>
-
-            <div class="hf-form-row">
                 <input type="hidden" name="field_options[multiple_uploads_<?php echo absint($field_id); ?>]" value="off" />
-                <input type="checkbox" name="field_options[multiple_uploads_<?php echo absint($field_id); ?>]"  value="on" <?php checked($field['multiple_uploads'], 'on'); ?>/>
+                <input type="checkbox" name="field_options[multiple_uploads_<?php echo absint($field_id); ?>]" value="on" data-condition="toggle" id="hf-multiple-uploads-<?php echo absint($field_id); ?>" <?php checked($field['multiple_uploads'], 'on'); ?>/>
                 <?php esc_html_e('Multiple Uploads', 'hash-form'); ?>
             </div>
 
-            <div class="hf-form-row">
+            <div class="hf-form-row" data-condition-toggle="hf-multiple-uploads-<?php echo absint($field_id); ?>">
                 <label><?php esc_html_e('Multiple Uploads Limit', 'hash-form'); ?></label>
                 <input type="number" name="field_options[multiple_uploads_limit_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['multiple_uploads_limit']); ?>"/>
-            </div>
-
-            <div class="hf-form-row">
-                <label><?php esc_html_e('Multiple Uploads Error Message', 'hash-form'); ?></label>
-                <input type="text" name="field_options[multiple_uploads_error_message_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['multiple_uploads_error_message']); ?>"/>
             </div>
             <?php
         }
@@ -538,6 +528,11 @@ defined('ABSPATH') || die();
         $has_validation = ($display['invalid'] || $display['required']);
         $has_invalid = $display['invalid'];
 
+        if ($field_type === 'upload') {
+            $has_validation = true;
+            $has_invalid = true;
+        }
+
         if ($has_validation) {
             ?>
             <h4 class="hf-validation-header <?php echo ($has_invalid ? 'hf-alway-show' : ($field['required'] ? '' : ' hf-hidden')); ?>"> <?php esc_html_e('Validation Messages', 'hash-form'); ?></h4>
@@ -558,6 +553,21 @@ defined('ABSPATH') || die();
             <div class="hf-form-row">
                 <label><?php esc_html_e('Invalid Format', 'hash-form'); ?></label>
                 <input type="text" name="field_options[invalid_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($field['invalid']); ?>"/>
+            </div>
+            <?php
+        }
+
+
+        if ($field_type === 'upload') {
+            ?>
+            <div class="hf-form-row">
+                <label><?php esc_html_e('Extensions', 'hash-form'); ?></label>
+                <input type="text" name="field_options[extensions_error_message_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['extensions_error_message']); ?>"/>
+            </div>
+
+            <div class="hf-form-row" data-condition-toggle="hf-multiple-uploads-<?php echo absint($field_id); ?>">
+                <label><?php esc_html_e('Multiple Uploads', 'hash-form'); ?></label>
+                <input type="text" name="field_options[multiple_uploads_error_message_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['multiple_uploads_error_message']); ?>"/>
             </div>
             <?php
         }

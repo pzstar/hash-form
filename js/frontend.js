@@ -400,14 +400,14 @@ jQuery(function ($) {
             limit_flag = 0,
             selector = $(this),
             uploader_label = $(this).attr('data-upload-label'),
-            multiple_upload = $(this).attr('data-multiple-uploads'),
+            multiple_upload = ($(this).attr('data-multiple-uploads') == 'true') ? true : false,
             upload_limit = $(this).attr('data-multiple-uploads-limit'),
-            upload_limit_message = $(this).attr('data-multiple-upload-error-message'),
+            upload_limit_message = $(this).attr('data-multiple-uploads-error-message'),
             extensions = $(this).attr('data-extensions'),
-            extensions_array = extensions.split(','),
-            extension_error_message = $(this).attr('data-extensions-error-message');
+            extension_error_message = $(this).attr('data-extensions-error-message'),
+            extensions_array = extensions.split(',');
 
-        size = size ? size : 50 *1024 * 1024;
+        upload_limit = upload_limit < 1 ? 1 : upload_limit;
 
         uploader['uploader' + upload_counter] = new qq.FileUploader({
             element: document.getElementById(attr_element_id),

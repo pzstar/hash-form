@@ -48,3 +48,16 @@ function hashform_sanitize_checkbox_boolean($input) {
         return false;
     }
 }
+
+function hashform_sanitize_allowed_file_extensions($extensions) {
+    $new_extensions = array();
+    $extensions = explode(',', );
+    $allowed_extensions = array('pdf','doc','docx','xls','xlsx','odt','ppt','pptx','pps','ppsx','jpg','jpeg','png','gif','bmp','mp3','mp4','ogg','wav','mp4','m4v','mov','wmv','avi','mpg','ogv','3gp','txt','zip','rar','7z','csv');
+    foreach($extensions as $row) {
+        $extension = trim($row);
+        if (in_array($extension, $allowed_extensions)) {
+            $new_extensions[] = $extension;
+        }
+    }
+    return implode(',', $new_extensions);
+}

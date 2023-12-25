@@ -16,7 +16,7 @@ class HashFormEmail {
     }
 
     public function send_email() {
-        $attachments = array();
+        $attachments = array(); //array(WP_CONTENT_DIR . '/uploads/2023/12/63706564967714264741.jpg');
         $form_settings = $this->get_form_settings();
         $entry = HashFormEntry::get_entry_vars($this->entry_id);
         $metas = $entry->metas;
@@ -130,6 +130,7 @@ class HashFormEmail {
 
         $email_message = str_replace('#form_title', $form_title, $email_message);
         $email_message = str_replace('#form_details', $email_table, $email_message);
+        $email_message = str_replace('\n', '<br>', $email_message);
         $email_message = empty($email_message) ? '' : wpautop($email_message);
 
         ob_start();
