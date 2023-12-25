@@ -51,7 +51,7 @@ function hashform_sanitize_checkbox_boolean($input) {
 
 function hashform_sanitize_allowed_file_extensions($extensions) {
     $new_extensions = array();
-    $extensions = explode(',', );
+    $extensions = explode(',', $extensions);
     $allowed_extensions = array('pdf','doc','docx','xls','xlsx','odt','ppt','pptx','pps','ppsx','jpg','jpeg','png','gif','bmp','mp3','mp4','ogg','wav','mp4','m4v','mov','wmv','avi','mpg','ogv','3gp','txt','zip','rar','7z','csv');
     foreach($extensions as $row) {
         $extension = trim($row);
