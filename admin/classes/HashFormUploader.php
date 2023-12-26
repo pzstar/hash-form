@@ -225,11 +225,11 @@ class HashFormFileUploader {
                 'url' => $upload_url . '/' . $filename . '.' . $ext,
                 'attachment_id' => $attachment_id
             );
-
         } else {
             return array(
                 'error' => esc_html__('Could not save uploaded file. The upload was cancelled, or server error encountered.', 'hash-form')
             );
         }
     }
+
 }

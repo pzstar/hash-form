@@ -787,7 +787,6 @@ class HashFormBuilder {
             } else {
                 die('error');
             }
-
         }
         die();
     }

@@ -30,35 +30,34 @@ class HashFormFieldUpload extends HashFormFieldType {
         $max_size = $max_size * 1024 * 1024;
         $new_extensions = hashform_sanitize_allowed_file_extensions($field['extensions']);
 
-        if (is_admin()) {
+        if (is_admin() && !HashFormHelper::is_preview_page()) {
             ?>
             <div class="hf-file-uploader-wrapper">
                 <div class="hf-file-uploader">
                     <div class="qq-uploader">
-                        <div class="qq-upload-button"><?php esc_html($field['upload_label']); ?></div>
-                        <ul class="qq-upload-list"></ul>
+                        <div id="hf-editor-upload-label-text-<?php echo absint($field['id']); ?>" class="qq-upload-button"><?php esc_html_e($field['upload_label']); ?></div>
                     </div>
                 </div>
-
-                <div class="hf-file-preview"></div>
-
-                <input type="hidden" class="hf-uploaded-files" id="hf-field-yd1cxq" value="" name="item_meta[1038]">
-                <input type="hidden" class="hf-multiple-upload-limit" value="0">
             </div>
             <?php
         } else {
             ?>
             <div class="hf-file-uploader-wrapper">
                 <div class="hf-file-uploader"
-                    id="hf-file-uploader-<?php echo mt_rand(100, 99999); ?>"
-                    data-upload-label="<?php echo esc_attr($field['upload_label']); ?>"
-                    data-extensions="<?php echo esc_attr($new_extensions); ?>"
-                    data-extensions-error-message="<?php echo esc_attr($field['extensions_error_message']); ?>"
-                    data-multiple-uploads="<?php echo $field['multiple_uploads'] == 'on' ? 'true' : 'false'; ?>"
-                    data-multiple-uploads-limit="<?php echo $field['multiple_uploads'] == 'on' ? absint($field['multiple_uploads_limit']) : '-1'; ?>"
-                    data-multiple-uploads-error-message="<?php echo esc_attr($field['multiple_uploads_error_message']); ?>"
-                    data-max-upload-size="<?php echo esc_attr($max_size); ?>"
-                    data-field-uploader-id="<?php echo esc_attr($this->html_id()); ?>">
+                     id="hf-file-uploader-<?php echo mt_rand(100, 99999); ?>"
+                     data-upload-label="<?php echo esc_attr($field['upload_label']); ?>"
+                     data-extensions="<?php echo esc_attr($new_extensions); ?>"
+                     data-extensions-error-message="<?php echo esc_attr($field['extensions_error_message']); ?>"
+                     data-multiple-uploads="<?php echo $field['multiple_uploads'] == 'on' ? 'true' : 'false'; ?>"
+                     data-multiple-uploads-limit="<?php echo $field['multiple_uploads'] == 'on' ? absint($field['multiple_uploads_limit']) : '-1'; ?>"
+                     data-multiple-uploads-error-message="<?php echo esc_attr($field['multiple_uploads_error_message']); ?>"
+                     data-max-upload-size="<?php echo esc_attr($max_size); ?>"
+                     data-field-uploader-id="<?php echo esc_attr($this->html_id()); ?>">
+                    <div class="qq-uploader qq-fake-uploader">
+                        <div class="qq-upload-button" style="position: relative; overflow: hidden; direction: ltr;">
+                            <?php echo esc_attr($field['upload_label']); ?>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="hf-file-preview"></div>

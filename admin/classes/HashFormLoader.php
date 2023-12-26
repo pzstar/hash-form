@@ -67,6 +67,7 @@ class HashFormLoader {
         wp_enqueue_style('hashform-chosen', HASHFORM_URL . '/css/chosen.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-select2', HASHFORM_URL . '/css/select2.min.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-admin', HASHFORM_URL . 'css/admin-style.css', array(), HASHFORM_VERSION);
+        wp_enqueue_style('hashform-file-uploader', HASHFORM_URL . 'css/file-uploader.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-admin-settings', HASHFORM_URL . '/css/admin-settings.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-style', HASHFORM_URL . '/css/style.css', array(), HASHFORM_VERSION);
 

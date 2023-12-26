@@ -394,18 +394,18 @@ jQuery(function ($) {
     $('.hf-file-uploader').each(function () {
         upload_counter++;
         var attr_element_id = $(this).attr('id'),
-            arr_element_id = attr_element_id.split('-'),
-            element_id = arr_element_id[3],
-            size = $(this).attr('data-max-upload-size'),
-            limit_flag = 0,
-            selector = $(this),
-            uploader_label = $(this).attr('data-upload-label'),
-            multiple_upload = ($(this).attr('data-multiple-uploads') == 'true') ? true : false,
-            upload_limit = $(this).attr('data-multiple-uploads-limit'),
-            upload_limit_message = $(this).attr('data-multiple-uploads-error-message'),
-            extensions = $(this).attr('data-extensions'),
-            extension_error_message = $(this).attr('data-extensions-error-message'),
-            extensions_array = extensions.split(',');
+                arr_element_id = attr_element_id.split('-'),
+                element_id = arr_element_id[3],
+                size = $(this).attr('data-max-upload-size'),
+                limit_flag = 0,
+                selector = $(this),
+                uploader_label = $(this).attr('data-upload-label'),
+                multiple_upload = ($(this).attr('data-multiple-uploads') == 'true') ? true : false,
+                upload_limit = $(this).attr('data-multiple-uploads-limit'),
+                upload_limit_message = $(this).attr('data-multiple-uploads-error-message'),
+                extensions = $(this).attr('data-extensions'),
+                extension_error_message = $(this).attr('data-extensions-error-message'),
+                extensions_array = extensions.split(',');
 
         upload_limit = upload_limit < 1 ? 1 : upload_limit;
 
@@ -455,11 +455,13 @@ jQuery(function ($) {
 
                     if (extension == 'jpg' || extension == 'jpeg' || extension == 'png' || extension == 'gif' || extension == 'JPG' || extension == 'JPEG' || extension == 'PNG' || extension == 'GIF') {
                         var preview_img = responseJSON.url;
-                    } else {
-                        var preview_img = hashform_vars.preview_img;
                     }
 
-                    var preview_html = '<div class="hf-prev-holder"><span class="hf-prev-name">' + fileName + '</span><img src="' + preview_img + '" /><span class="hf-preview-remove" data-path="' + responseJSON.path + '" data-url="' + responseJSON.url + '" data-id="' + element_id + '" data-attachment-id="' + responseJSON.attachment_id + '">x</span></div>';
+                    var preview_html = '<div class="hf-prev-holder">';
+                    if (preview_img) {
+                        preview_html += '<img src="' + preview_img + '" />';
+                    }
+                    preview_html += '<span class="hf-prev-name">' + fileName + '</span><span class="hf-preview-remove" data-path="' + responseJSON.path + '" data-url="' + responseJSON.url + '" data-id="' + element_id + '" data-attachment-id="' + responseJSON.attachment_id + '">Remove</span></div>';
 
                     if (multiple_upload) {
                         var url = responseJSON.url;
@@ -508,11 +510,11 @@ jQuery(function ($) {
 
     $('body').on('click', '.hf-preview-remove', function () {
         var selector = $(this),
-            path = $(this).data('path'),
-            ajax_url = hashform_vars.ajaxurl,
-            url = $(this).data('url'),
-            id = $(this).data('id'),
-            attachment_id = $(this).data('attachment-id');
+                path = $(this).data('path'),
+                ajax_url = hashform_vars.ajaxurl,
+                url = $(this).data('url'),
+                id = $(this).data('id'),
+                attachment_id = $(this).data('attachment-id');
 
         $.ajax({
             url: ajax_url,

@@ -320,7 +320,7 @@ defined('ABSPATH') || die();
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Upload Label', 'hash-form'); ?></label>
-                <input type="text" name="field_options[upload_label_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['upload_label']); ?>"/>
+                <input type="text" name="field_options[upload_label_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['upload_label']); ?>" data-changeme="hf-editor-upload-label-text-<?php echo absint($field_id); ?>"/>
             </div>
 
             <div class="hf-form-row">
@@ -329,14 +329,23 @@ defined('ABSPATH') || die();
             </div>
 
             <div class="hf-form-row">
-                <input type="hidden" name="field_options[multiple_uploads_<?php echo absint($field_id); ?>]" value="off" />
-                <input type="checkbox" name="field_options[multiple_uploads_<?php echo absint($field_id); ?>]" value="on" data-condition="toggle" id="hf-multiple-uploads-<?php echo absint($field_id); ?>" <?php checked($field['multiple_uploads'], 'on'); ?>/>
-                <?php esc_html_e('Multiple Uploads', 'hash-form'); ?>
+                <label><?php esc_html_e('Maximum File Size Allowed to Upload', 'hash-form'); ?></label>
+                <input type="number" name="field_options[max_upload_size_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['max_upload_size']); ?>"/>
+            </div>
+
+            <div class="hf-form-row">
+                <label>
+                    <input type="hidden" name="field_options[multiple_uploads_<?php echo absint($field_id); ?>]" value="off" />
+                    <input type="checkbox" name="field_options[multiple_uploads_<?php echo absint($field_id); ?>]" value="on" data-condition="toggle" id="hf-multiple-uploads-<?php echo absint($field_id); ?>" <?php checked($field['multiple_uploads'], 'on'); ?>/>
+                    <?php esc_html_e('Multiple Uploads', 'hash-form'); ?>
+                </label>
             </div>
 
             <div class="hf-form-row" data-condition-toggle="hf-multiple-uploads-<?php echo absint($field_id); ?>">
-                <label><?php esc_html_e('Multiple Uploads Limit', 'hash-form'); ?></label>
-                <input type="number" name="field_options[multiple_uploads_limit_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['multiple_uploads_limit']); ?>"/>
+                <label>
+                    <?php esc_html_e('Multiple Uploads Limit', 'hash-form'); ?>
+                    <input type="number" name="field_options[multiple_uploads_limit_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['multiple_uploads_limit']); ?>"/>
+                </label>
             </div>
             <?php
         }
