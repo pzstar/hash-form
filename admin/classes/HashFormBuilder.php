@@ -763,7 +763,7 @@ class HashFormBuilder {
             die();
         }
 
-        $allowedExtensions = HashFormHelper::get_var('allowedExtensions'); //array('jpg', 'jpeg', 'png', 'gif');
+        $allowedExtensions = HashFormHelper::get_var('allowedExtensions');
         $sizeLimit = HashFormHelper::get_var('sizeLimit');
         $uploader = new HashFormFileUploader($allowedExtensions, $sizeLimit);
         $upload_dir = wp_upload_dir();

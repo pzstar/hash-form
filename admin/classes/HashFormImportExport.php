@@ -142,6 +142,10 @@ class HashFormImportExport {
         // Retrieve the settings from the file and convert the json object to an array.
         $imdat = json_decode(file_get_contents($hashform_import_file), true);
 
+        if (!(isset($imdat['options']) && isset($imdat['settings']) && isset($imdat['styles']))) {
+            wp_die(esc_html__('Please upload a valid file to import'));
+        }
+
         $options = HashFormHelper::recursive_parse_args($imdat['options'], HashFormHelper::get_form_options_default());
         $options = HashFormHelper::sanitize_array($options, HashFormHelper::get_form_options_sanitize_rules());
 
@@ -158,7 +162,8 @@ class HashFormImportExport {
                 'post_status' => 'publish',
             );
             $style_id = wp_insert_post($new_post);
-            $hashform_styles = HashFormHelper::sanitize_array($imdat['style'], HashFormStyles::get_styles_sanitize_array());
+            $hashform_styles = HashFormHelper::recursive_parse_args($imdat['style'], HashFormStyles::default_styles());
+            $hashform_styles = HashFormHelper::sanitize_array($hashform_styles, HashFormStyles::get_styles_sanitize_array());
             update_post_meta($style_id, 'hashform_styles', $hashform_styles);
             $styles['form_style_template'] = $style_id;
         }
@@ -179,18 +184,20 @@ class HashFormImportExport {
         $query = $wpdb->prepare("DELETE FROM {$wpdb->prefix}hashform_fields WHERE form_id=%d", $form_id);
         $wpdb->query($query);
 
-        foreach ($imdat['field'] as $field) {
-            HashFormFields::create_row(array(
-                'name' => $field['name'],
-                'description' => $field['description'],
-                'type' => $field['type'],
-                'default_value' => $field['default_value'],
-                'options' => $field['options'],
-                'field_order' => $field['field_order'],
-                'form_id' => absint($form_id),
-                'required' => $field['required'],
-                'field_options' => $field['field_options']
-            ));
+        if (isset($imdat['field']) && is_array($imdat['field']) && !empty($imdat['field'])) {
+            foreach ($imdat['field'] as $field) {
+                HashFormFields::create_row(array(
+                    'name' => isset($field['name']) ? $field['name'] : '',
+                    'description' => isset($field['description']) ? $field['description'] : '',
+                    'type' => isset($field['type']) ? $field['type'] : 'text',
+                    'default_value' => isset($field['default_value']) ? $field['default_value'] : '',
+                    'options' => isset($field['options']) ? $field['options'] : '',
+                    'field_order' => isset($field['field_order']) ? $field['field_order'] : '',
+                    'form_id' => absint($form_id),
+                    'required' => isset($field['required']) ? $field['required'] : false,
+                    'field_options' => isset($field['field_options']) ? $field['field_options'] : array()
+                ));
+            }
         }
 
         $_SESSION['hashform_message'] = esc_html__('Settings Imported Successfully', 'hash-form');
@@ -229,7 +236,8 @@ class HashFormImportExport {
 
         // Retrieve the settings from the file and convert the json object to an array.
         $imdat = json_decode(file_get_contents($hashform_import_file), true);
-        $hashform_styles = HashFormHelper::sanitize_array($imdat, HashFormStyles::get_styles_sanitize_array());
+        $hashform_styles = HashFormHelper::recursive_parse_args($imdat, HashFormStyles::default_styles());
+        $hashform_styles = HashFormHelper::sanitize_array($hashform_styles, HashFormStyles::get_styles_sanitize_array());
         update_post_meta($style_id, 'hashform_styles', $hashform_styles);
 
         $_SESSION['hashform_message'] = esc_html__('Form Style Imported Successfully', 'hash-form');
