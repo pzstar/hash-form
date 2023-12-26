@@ -809,7 +809,7 @@ class HashFormHelper {
             'max_time' => 'sanitize_text_field',
             'upload_label' => 'sanitize_text_field',
             'max_upload_size' => 'hashform_sanitize_number',
-            'extensions' => 'sanitize_text_field',
+            'extensions' => 'hashform_sanitize_allowed_file_extensions',
             'extensions_error_message' => 'sanitize_text_field',
             'multiple_uploads' => 'sanitize_text_field',
             'multiple_uploads_limit' => 'hashform_sanitize_number',
