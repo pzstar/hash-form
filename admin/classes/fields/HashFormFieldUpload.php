@@ -69,8 +69,27 @@ class HashFormFieldUpload extends HashFormFieldType {
         }
     }
 
-    public function set_value_before_save($value) {
-        return str_replace(',', '\n', $value);
+    public function set_value_before_save($files) {
+        $new_files = array();
+        $files_arr = explode(',', $files);
+        HashFormBuilder::remove_old_temp_files();
+
+        foreach($files_arr as $file) {
+            $file_info = pathinfo($file);
+            $file_name = $file_info['basename'];
+            $upload_dir = wp_upload_dir();
+
+            $file_path = $upload_dir['basedir'] . HASHFORM_UPLOAD_DIR;
+            $file_url = $upload_dir['baseurl'] . HASHFORM_UPLOAD_DIR;
+            $temp_file_path = $file_path . '/temp/' . $file_name;
+            $to_path = $file_path . '/' . $file_name;
+            $to_url = $file_url . '/' . $file_name;
+
+            if (copy($temp_file_path, $to_path)) {
+                $new_files[] = $to_url;
+            }
+        }
+        return implode('\n', $new_files);
     }
 
 }

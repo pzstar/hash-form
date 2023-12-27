@@ -445,7 +445,6 @@ jQuery(function ($) {
             onProgress: function (id, fileName, loaded, total) {},
 
             onComplete: function (id, fileName, responseJSON) {
-                console.log(responseJSON);
 
                 if (responseJSON.success) {
 
@@ -461,7 +460,7 @@ jQuery(function ($) {
                     if (preview_img) {
                         preview_html += '<img src="' + preview_img + '" />';
                     }
-                    preview_html += '<span class="hf-prev-name">' + fileName + '</span><span class="hf-preview-remove" data-path="' + responseJSON.path + '" data-url="' + responseJSON.url + '" data-id="' + element_id + '" data-attachment-id="' + responseJSON.attachment_id + '">Remove</span></div>';
+                    preview_html += '<span class="hf-prev-name">' + fileName + '</span><span class="hf-preview-remove" data-path="' + responseJSON.path + '">' + hashform_vars.remove_txt + '</span></div>';
 
                     if (multiple_upload) {
                         var url = responseJSON.url;
@@ -509,21 +508,15 @@ jQuery(function ($) {
 
 
     $('body').on('click', '.hf-preview-remove', function () {
-        var selector = $(this),
-                path = $(this).data('path'),
-                ajax_url = hashform_vars.ajaxurl,
-                url = $(this).data('url'),
-                id = $(this).data('id'),
-                attachment_id = $(this).data('attachment-id');
-
+        const selector = $(this);
         $.ajax({
-            url: ajax_url,
-            data: 'action=hashform_file_delete_action&path=' + path + '&_wpnonce=' + hashform_vars.ajax_nounce + '&attachment_id=' + attachment_id,
+            url: hashform_vars.ajaxurl,
+            data: 'action=hashform_file_delete_action&path=' + selector.data('path') + '&_wpnonce=' + hashform_vars.ajax_nounce,
             type: 'post',
             success: function (res) {
                 if (res == 'success') {
                     var prev_url = selector.closest('.hf-file-uploader-wrapper').find('.hf-uploaded-files').val();
-                    var new_url = prev_url.replace(url, '');
+                    var new_url = prev_url.replace(selector.data('url'), '');
                     new_url = new_url.replace(',,', ',');
                     selector.closest('.hf-file-uploader-wrapper').find('.hf-uploaded-files').val(new_url);
 

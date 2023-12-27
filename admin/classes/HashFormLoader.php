@@ -100,7 +100,8 @@ class HashFormLoader {
         wp_localize_script('frontend', 'hashform_vars', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'ajax_nounce' => wp_create_nonce('hashform-upload-ajax-nonce'),
-            'preview_img' => ''
+            'preview_img' => '',
+            'remove_txt' => esc_html('Remove', 'hash-form')
         ));
     }
 

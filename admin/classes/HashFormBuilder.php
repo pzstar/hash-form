@@ -767,7 +767,7 @@ class HashFormBuilder {
         $sizeLimit = HashFormHelper::get_var('sizeLimit');
         $uploader = new HashFormFileUploader($allowedExtensions, $sizeLimit);
         $upload_dir = wp_upload_dir();
-        $result = $uploader->handleUpload($upload_dir['path'] . '/', $replaceOldFile = false, $upload_dir['url']);
+        $result = $uploader->handleUpload($upload_dir['basedir'] . HASHFORM_UPLOAD_DIR, $replaceOldFile = false, $upload_dir['baseurl'] . HASHFORM_UPLOAD_DIR);
 
         echo json_encode($result);
         die();
@@ -775,20 +775,31 @@ class HashFormBuilder {
 
     public function file_delete_action() {
         if (wp_verify_nonce(HashFormHelper::get_post('_wpnonce'), 'hashform-upload-ajax-nonce')) {
-
-            if (HashFormHelper::get_post('attachment_id') != '') {
-                $check = wp_delete_attachment(sanitize_text_field(HashFormHelper::get_post('attachment_id')), true);
-            } else {
-                $check = unlink(HashFormHelper::get_post('path'));
-            }
+            $path = str_replace(' ', '+', HashFormHelper::get_post('path', 'wp_kses_post'));
+            $check = @unlink(HashFormHelper::decrypt($path));
 
             if ($check) {
                 die('success');
-            } else {
-                die('error');
             }
         }
-        die();
+        die('error');
+    }
+
+    public static function remove_old_temp_files() {
+        $max_file_age = apply_filters('hashform_temp_file_delete_time', 2 * 3600);
+        $upload_dir = wp_upload_dir();
+        $temp_dir = $upload_dir['basedir'] . HASHFORM_UPLOAD_DIR . '/temp/';
+
+        // Remove old temp files
+        if (is_dir($temp_dir) and ($dir = opendir($temp_dir))) {
+            while (($file = readdir($dir)) !== false) {
+                $temp_file_path = $temp_dir . DIRECTORY_SEPARATOR . $file;
+                if ((filemtime($temp_file_path) < time() - $max_file_age)) {
+                    @unlink($temp_file_path);
+                }
+            }
+            closedir($dir);
+        }
     }
 
 }

@@ -1,25 +1,5 @@
 <?php
 
-/* * **************************************
-  Example of how to use this uploader class...
-  You can uncomment the following lines (minus the require) to use these as your defaults.
-
-  // list of valid extensions, ex. array("jpeg", "xml", "bmp")
-  $allowedExtensions = array();
-  // max file size in bytes
-  $sizeLimit = 10 * 1024 * 1024;
-
-  require('valums-file-uploader/server/php.php');
-  $uploader = new HashFormFileUploader($allowedExtensions, $sizeLimit);
-
-  // Call handleUpload() with the name of the folder, relative to PHP's getcwd()
-  $result = $uploader->handleUpload('uploads/');
-
-  // to pass data through iframe you will need to encode all html tags
-  echo htmlspecialchars(json_encode($result), ENT_NOQUOTES);
-
-  /***************************************** */
-
 /**
  * Handle file uploads via XMLHttpRequest
  */
@@ -161,10 +141,11 @@ class HashFormFileUploader {
         return $val;
     }
 
-    /**
-     * Returns array('success'=>true) or array('error'=>'error message')
-     */
     function handleUpload($uploadDirectory, $replaceOldFile = FALSE, $upload_url = '') {
+        $this->ensureUploadDirectory($uploadDirectory);
+        $uploadDirectory = trailingslashit($uploadDirectory . '/temp');
+        $upload_url = $upload_url . '/temp';
+
         if (!is_writable($uploadDirectory)) {
             return array('error' => esc_html__('Server error. Upload directory isn\'t writable.', 'hash-form'));
         }
@@ -201,35 +182,36 @@ class HashFormFileUploader {
 
         if ($this->file->save($uploadDirectory . $filename . '.' . $ext)) {
             $filetype = wp_check_filetype($filename . '.' . $ext);
-            $mime_type = $filetype['type'];
-            $file_url = $upload_url . '/' . $filename . '.' . $ext;
-            $file_path = $uploadDirectory . $filename . '.' . $ext;
-            $attachment = array(
-                'post_mime_type' => $mime_type,
-                'post_title' => preg_replace('/\.[^.]+$/', '', basename($filename . '.' . $ext)),
-                'post_content' => '',
-                'post_status' => 'inherit',
-                'guid' => $file_url
-            );
-
-            require_once(ABSPATH . 'wp-admin/includes/admin.php');
-            $attachment_id = wp_insert_attachment($attachment, $file_url);
-
-            require_once(ABSPATH . 'wp-admin/includes/image.php');
-            $attachment_data = wp_generate_attachment_metadata($attachment_id, $file_path);
-            $check = wp_update_attachment_metadata($attachment_id, $attachment_data);
-
             return array(
                 'success' => true,
-                'path' => $uploadDirectory . $filename . '.' . $ext,
                 'url' => $upload_url . '/' . $filename . '.' . $ext,
-                'attachment_id' => $attachment_id
+                'path' => HashFormHelper::encrypt($uploadDirectory . $filename . '.' . $ext)
             );
 
         } else {
             return array(
                 'error' => esc_html__('Could not save uploaded file. The upload was cancelled, or server error encountered.', 'hash-form')
             );
+        }
+    }
+
+    protected function ensureUploadDirectory($path) {
+        if (!is_dir($path)) {
+            mkdir($path, 0755);
+            file_put_contents($path . '/.htaccess', file_get_contents(HASHFORM_PATH . '/admin/src/stubs/htaccess.stub'));
+        }
+
+        if (!is_dir($path . '/temp')) {
+            mkdir($path . '/temp', 0755);
+            file_put_contents($path . '/temp/.htaccess', file_get_contents(HASHFORM_PATH . '/admin/src/stubs/htaccess.stub'));
+        }
+
+        if (!file_exists($path . '/index.php')) {
+            file_put_contents($path . '/index.php', file_get_contents(HASHFORM_PATH . '/admin/src/stubs/index.stub'));
+        }
+
+        if (!file_exists($path . '/temp/index.php')) {
+            file_put_contents($path . '/temp/index.php', file_get_contents(HASHFORM_PATH . '/admin/src/stubs/index.stub'));
         }
     }
 }
