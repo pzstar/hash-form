@@ -185,7 +185,7 @@ class HashFormFileUploader {
             return array(
                 'success' => true,
                 'url' => $upload_url . '/' . $filename . '.' . $ext,
-                'path' => HashFormHelper::encrypt($uploadDirectory . $filename . '.' . $ext)
+                'path' => HashFormHelper::encrypt($filename . '.' . $ext)
             );
 
         } else {

@@ -776,7 +776,9 @@ class HashFormBuilder {
     public function file_delete_action() {
         if (wp_verify_nonce(HashFormHelper::get_post('_wpnonce'), 'hashform-upload-ajax-nonce')) {
             $path = str_replace(' ', '+', HashFormHelper::get_post('path', 'wp_kses_post'));
-            $check = @unlink(HashFormHelper::decrypt($path));
+            $upload_dir = wp_upload_dir();
+            $temp_dir = $upload_dir['basedir'] . HASHFORM_UPLOAD_DIR . '/temp/';
+            $check = @unlink($temp_dir . HashFormHelper::decrypt($path));
 
             if ($check) {
                 die('success');
