@@ -49,6 +49,7 @@ jQuery(function ($) {
                 },
                 success: function (response) {
                     form.find('button.hf-submit-button').removeClass('hf-button-loading');
+                    $('body').find('.hf-preview-remove').trigger('click');
                     if (response.status == "redirect") {
                         window.location.replace(response.message);
                     } else if (response.status == "success") {
@@ -394,8 +395,6 @@ jQuery(function ($) {
     $('.hf-file-uploader').each(function () {
         upload_counter++;
         var attr_element_id = $(this).attr('id'),
-                arr_element_id = attr_element_id.split('-'),
-                element_id = arr_element_id[3],
                 size = $(this).attr('data-max-upload-size'),
                 limit_flag = 0,
                 selector = $(this),
@@ -417,7 +416,6 @@ jQuery(function ($) {
                 file_uploader_nonce: hashform_vars.ajax_nounce,
                 allowedExtensions: extensions_array,
                 sizeLimit: size,
-                element_id: element_id
             },
             allowedExtensions: extensions_array,
             sizeLimit: size,

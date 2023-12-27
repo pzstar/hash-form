@@ -14,10 +14,12 @@ defined('ABSPATH') || die();
     <table>
         <tbody>
             <?php
+            $file_img_placeholder = HASHFORM_URL . '/img/attachment.png';
             foreach ($entry->metas as $id => $value) {
                 $title = $value['name'];
                 $entry_value = maybe_unserialize($value['value']);
                 $entry_type = $value['type'];
+
                 if (is_array($entry_value)) {
                     $entry_value = array_filter($entry_value);
                     if ($entry_type == 'name') {
@@ -26,9 +28,27 @@ defined('ABSPATH') || die();
                         $entry_value = implode(',<br>', $entry_value);
                     }
                 }
+
+                if ($entry_type == 'upload' && $entry_value) {
+                    $files_arr = explode(',', $entry_value);
+                    $upload_value = '';
+                    foreach($files_arr as $file) {
+                        $file_info = pathinfo($file);
+                        $file_name = $file_info['basename'];
+                        $file_label = $file_info['filename'];
+                        $file_extension = $file_info['extension'];
+                        $upload_dir = wp_upload_dir();
+
+                        $upload_value .= '<a href="' . esc_url($file) . '">';
+                        $upload_value .= '<img src="' . esc_url(in_array($file_extension, array('jpg', 'jpeg', 'png', 'gif', 'bmp')) ? $file : $file_img_placeholder) . '">';
+                        $upload_value .= '<label>' . esc_html($file_label) . '</label>';
+                        $upload_value .= '</a>';
+                    }
+                    $entry_value = $upload_value;
+                }
                 echo '<tr>';
                 echo '<th>' . esc_html($title) . '</th>';
-                echo '<td>' . wp_kses_post(str_replace('\n', '<br>', $entry_value)) . '</td>';
+                echo '<td>' . wp_kses_post($entry_value) . '</td>';
                 echo '</tr>';
             }
             ?>

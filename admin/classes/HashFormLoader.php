@@ -96,12 +96,14 @@ class HashFormLoader {
         wp_enqueue_script('jquery-ui-slider');
         wp_enqueue_script('jquery-timepicker', HASHFORM_URL . 'js/jquery.timepicker.min.js', array('jquery'), HASHFORM_VERSION, true);
         wp_enqueue_script('hashform-file-uploader', HASHFORM_URL . 'js/file-uploader.js', array(), HASHFORM_VERSION, true);
+        wp_localize_script('hashform-file-uploader', 'hashform_file_vars', array(
+            'remove_txt' => esc_html('Remove', 'hash-form')
+        ));
         wp_enqueue_script('frontend', HASHFORM_URL . 'js/frontend.js', array('jquery', 'jquery-ui-datepicker', 'jquery-timepicker', 'hashform-file-uploader', 'hashform-file-uploader'), HASHFORM_VERSION, true);
         wp_localize_script('frontend', 'hashform_vars', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'ajax_nounce' => wp_create_nonce('hashform-upload-ajax-nonce'),
             'preview_img' => '',
-            'remove_txt' => esc_html('Remove', 'hash-form')
         ));
     }
 

@@ -16,6 +16,7 @@ class HashFormEmail {
     }
 
     public function send_email() {
+        $attachments = array();
         $form_settings = $this->get_form_settings();
         $entry = HashFormEntry::get_entry_vars($this->entry_id);
         $metas = $entry->metas;
@@ -27,14 +28,55 @@ class HashFormEmail {
         $reply_to_email = isset($form_settings['reply_to_email']) ? $form_settings['reply_to_email'] : '';
         $reply_to_ar = isset($form_settings['reply_to_ar']) ? $form_settings['reply_to_ar'] : '';
 
+        $settings = HashFormSettings::get_settings();
+        $email_template = $settings['email_template'] ? sanitize_text_field($settings['email_template']) : 'template1';
+        $header_image = sanitize_text_field($settings['header_image']);
+        $email_msg = isset($form_settings['email_message']) ? sanitize_text_field($form_settings['email_message']) : '';
+        $email_table = $this->get_entry_rows();
+        $form_title = $this->form->name;
+        $file_img_placeholder = HASHFORM_URL . '/img/attachment.png';
+
         foreach ($metas as $item => $value) {
             $reply_to_email = str_replace('#field_id_' . absint($item), $value['value'], $reply_to_email);
             $email_subject = str_replace('#field_id_' . absint($item), $value['value'], $email_subject);
             $reply_to_ar = str_replace(absint($item), $value['value'], $reply_to_ar);
+            $entry_value = maybe_unserialize($value['value']);
+            $entry_type = maybe_unserialize($value['type']);
+            if (is_array($entry_value)) {
+                if ($entry_type == 'name') {
+                    $entry_value = implode(' ', array_filter($entry_value));
+                } else {
+                    $entry_value = implode(',<br>', array_filter($entry_value));
+                }
+            }
+            if ($entry_type == 'upload' && trim($entry_value)) {
+                $files_arr = explode(',', $entry_value);
+                $upload_value = '';
+                foreach($files_arr as $file) {
+                    $file_info = pathinfo($file);
+                    $file_name = $file_info['basename'];
+                    $file_label = $file_info['filename'];
+                    $file_extension = $file_info['extension'];
+                    $upload_dir = wp_upload_dir();
+                    $attachments[] = $upload_dir['basedir'] . HASHFORM_UPLOAD_DIR . '/' . $file_name;
+
+                    $upload_value .= '<a href="' . esc_url($file) . '">';
+                    $upload_value .= '<img src="' . esc_url(in_array($file_extension, array('jpg', 'jpeg', 'png', 'gif', 'bmp')) ? $file : $file_img_placeholder) . '">';
+                    $upload_value .= '<label>' . esc_html($file_label) . '</label>';
+                    $upload_value .= '</a>';
+                }
+                $entry_value = $upload_value;
+            }
+            $email_msg = str_replace('#field_id_' . $item, $entry_value, $email_msg);
         }
 
-        $email_message = $this->get_email_content();
-        $attachments = $this->get_email_attachment();
+        $email_msg = str_replace('#form_title', $form_title, $email_msg);
+        $email_msg = str_replace('#form_details', $email_table, $email_msg);
+        $email_message = empty($email_msg) ? '' : wpautop($email_msg);
+
+        ob_start();
+        include(HASHFORM_PATH . 'admin/settings/email-templates/' . $email_template . '.php');
+        $email_message = ob_get_clean();
 
         $head = array();
         $head[] = 'Content-Type: text/html; charset=UTF-8';
@@ -56,42 +98,57 @@ class HashFormEmail {
         }
 
         if ($mail) {
-            $this->send_auto_responder($reply_to_ar);
-            $this->do_success_process();
+            if (isset($form_settings['enable_ar']) && $form_settings['enable_ar'] == 'on') {
+                $attachments = isset($attachments) ? $attachments : array();
+                $from_ar = isset($form_settings['from_ar']) ? trim($form_settings['from_ar']) : '';
+                $from_ar_name = isset($form_settings['from_ar_name']) && ($form_settings['from_ar_name'] != '') ? esc_html($form_settings['from_ar_name']) : esc_html__('No Name', 'hash-form');
+                $email_subject = isset($form_settings['email_subject_ar']) && ($form_settings['email_subject_ar'] != '') ? esc_html($form_settings['email_subject_ar']) : esc_html__('New Form Submission', 'hash-form');
+                $email_message = wpautop(isset($form_settings['email_message_ar']) ? esc_html($form_settings['email_message_ar']) : '');
+                $settings = HashFormSettings::get_settings();
+                $header_image = $settings['header_image'];
+
+                ob_start();
+                include(HASHFORM_PATH . 'admin/settings/email-templates/template1.php');
+                $form_html = ob_get_clean();
+
+                $from_ar = ($from_ar == '[admin_email]') ? get_option('admin_email') : esc_attr($from_ar);
+
+                $head = array();
+                $head[] = 'Content-Type: text/html; charset=UTF-8';
+                $head[] = 'From: ' . esc_html($from_ar_name) . ' <' . esc_html($from_ar) . '>';
+                wp_mail($reply_to_ar, $email_subject, $form_html, $head, $attachments);
+            }
+            $redirect_url = '';
+
+            if ($form_settings['confirmation_type'] == 'show_page') {
+                $redirect_url = get_permalink($form_settings['show_page_id']);
+            } else if ($form_settings['confirmation_type'] == 'redirect_url') {
+                $redirect_url = $form_settings['redirect_url_page'];
+            }
+
+            if (!empty($redirect_url)) {
+                return wp_send_json(array(
+                    'status' => 'redirect',
+                    'message' => esc_url($redirect_url)
+                ));
+            }
+
+            return wp_send_json(array(
+                'status' => 'success',
+                'message' => esc_html($form_settings['confirmation_message'])
+            ));
         } else {
             return false;
         }
     }
 
-    public function send_auto_responder($email) {
-        $form_settings = $this->get_form_settings();
-        if (isset($form_settings['enable_ar']) && $form_settings['enable_ar'] == 'on') {
-            $attachments = array();
-            $from_ar = isset($form_settings['from_ar']) ? trim($form_settings['from_ar']) : '';
-            $from_ar_name = isset($form_settings['from_ar_name']) && ($form_settings['from_ar_name'] != '') ? esc_html($form_settings['from_ar_name']) : esc_html__('No Name', 'hash-form');
-            $email_subject = isset($form_settings['email_subject_ar']) && ($form_settings['email_subject_ar'] != '') ? esc_html($form_settings['email_subject_ar']) : esc_html__('New Form Submission', 'hash-form');
-            $email_message = wpautop(isset($form_settings['email_message_ar']) ? esc_html($form_settings['email_message_ar']) : '');
-            $settings = HashFormSettings::get_settings();
-            $header_image = $settings['header_image'];
-
-            ob_start();
-            include(HASHFORM_PATH . 'admin/settings/email-templates/template1.php');
-            $form_html = ob_get_clean();
-
-            $from_ar = ($from_ar == '[admin_email]') ? get_option('admin_email') : esc_attr($from_ar);
-
-            $head = array();
-            $head[] = 'Content-Type: text/html; charset=UTF-8';
-            $head[] = 'From: ' . esc_html($from_ar_name) . ' <' . esc_html($from_ar) . '>';
-            wp_mail($email, $email_subject, $form_html, $head, $attachments);
-        }
-    }
 
     public function get_entry_rows() {
         $settings = HashFormSettings::get_settings();
         $email_template = 'template';
         $entry = HashFormEntry::get_entry_vars($this->entry_id);
         $entry_rows = '';
+        $file_img_placeholder = HASHFORM_URL . '/img/attachment.png';
         foreach ($entry->metas as $id => $value) {
             $title = $value['name'];
             $entry_value = maybe_unserialize($value['value']);
@@ -103,85 +160,29 @@ class HashFormEmail {
                     $entry_value = implode(',<br>', array_filter($entry_value));
                 }
             }
+
+            if ($entry_type == 'upload' && $entry_value) {
+                $files_arr = explode(',', $entry_value);
+                $upload_value = '';
+                foreach($files_arr as $file) {
+                    $file_info = pathinfo($file);
+                    $file_name = $file_info['basename'];
+                    $file_label = $file_info['filename'];
+                    $file_extension = $file_info['extension'];
+                    $upload_dir = wp_upload_dir();
+
+                    $upload_value .= '<a href="' . esc_url($file) . '">';
+                    $upload_value .= '<img src="' . esc_url(in_array($file_extension, array('jpg', 'jpeg', 'png', 'gif', 'bmp')) ? $file : $file_img_placeholder) . '">';
+                    $upload_value .= '<label>' . esc_html($file_label) . '</label>';
+                    $upload_value .= '</a>';
+                }
+                $entry_value = $upload_value;
+            }
             $entry_rows .= call_user_func(array($this, $email_template), $title, $entry_value);
         }
         return $entry_rows;
     }
 
-    public function get_email_content() {
-        $form_settings = $this->get_form_settings();
-        $settings = HashFormSettings::get_settings();
-        $email_template = $settings['email_template'] ? sanitize_text_field($settings['email_template']) : 'template1';
-        $header_image = sanitize_text_field($settings['header_image']);
-        $email_message = isset($form_settings['email_message']) ? sanitize_text_field($form_settings['email_message']) : '';
-        $entry = HashFormEntry::get_entry_vars($this->entry_id);
-        $metas = $entry->metas;
-        $email_table = $this->get_entry_rows();
-        $form_title = $this->form->name;
-
-        foreach ($metas as $item => $value) {
-            $entry_value = maybe_unserialize($value['value']);
-            $entry_type = maybe_unserialize($value['type']);
-            if (is_array($entry_value)) {
-                if ($entry_type == 'name') {
-                    $entry_value = implode(' ', array_filter($entry_value));
-                } else {
-                    $entry_value = implode(',<br>', array_filter($entry_value));
-                }
-            }
-            $email_message = str_replace('#field_id_' . $item, $entry_value, $email_message);
-        }
-
-        $email_message = str_replace('#form_title', $form_title, $email_message);
-        $email_message = str_replace('#form_details', $email_table, $email_message);
-        $email_message = str_replace('\n', '<br>', $email_message);
-        $email_message = empty($email_message) ? '' : wpautop($email_message);
-
-        ob_start();
-        include(HASHFORM_PATH . 'admin/settings/email-templates/' . $email_template . '.php');
-        $form_html = ob_get_clean();
-
-        return $form_html;
-    }
-
-    public function get_email_attachment() {
-        $entry = HashFormEntry::get_entry_vars($this->entry_id);
-        $metas = $entry->metas;
-        $attachment = array();
-        foreach ($metas as $meta) {
-            if ($meta['type'] == 'upload') {
-                if (trim($meta['value'])) {
-                    $attachment[] = str_replace(WP_CONTENT_URL, WP_CONTENT_DIR, $meta['value']);
-                }
-            }
-        }
-
-        return $attachment;
-    }
-
-    public function do_success_process() {
-        $form_settings = $this->get_form_settings();
-
-        $redirect_url = '';
-
-        if ($form_settings['confirmation_type'] == 'show_page') {
-            $redirect_url = get_permalink($form_settings['show_page_id']);
-        } else if ($form_settings['confirmation_type'] == 'redirect_url') {
-            $redirect_url = $form_settings['redirect_url_page'];
-        }
-
-        if (!empty($redirect_url)) {
-            return wp_send_json(array(
-                'status' => 'redirect',
-                'message' => esc_url($redirect_url)
-            ));
-        }
-
-        return wp_send_json(array(
-            'status' => 'success',
-            'message' => esc_html($form_settings['confirmation_message'])
-        ));
-    }
 
     public function template($title, $entry_value) {
         ob_start();

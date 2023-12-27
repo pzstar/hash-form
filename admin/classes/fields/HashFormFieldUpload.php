@@ -89,7 +89,7 @@ class HashFormFieldUpload extends HashFormFieldType {
                 $new_files[] = $to_url;
             }
         }
-        return implode('\n', $new_files);
+        return implode(',', $new_files);
     }
 
 }
