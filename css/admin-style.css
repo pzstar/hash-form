@@ -1814,6 +1814,14 @@ form.hf-success .hf-copied{
     background: #f8fafc;
 }
 
+#hf-form-entry-details img{
+    max-width: 300px;
+}
+
+.hf-form-entry-preview-link{
+    text-decoration: none;
+}
+
 .hf-empty-row {
     display: none;
 }

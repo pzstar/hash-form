@@ -326,6 +326,7 @@ defined('ABSPATH') || die();
             <div class="hf-form-row">
                 <label><?php esc_html_e('Extensions', 'hash-form'); ?></label>
                 <input type="text" name="field_options[extensions_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['extensions']); ?>"/>
+                <label class="hf-field-desc"><?php esc_html_e('The allowed extensions are pdf, doc, docx, xls, xlsx, odt, ppt, pptx, pps, ppsx, jpg, jpeg, png, gif, bmp, mp3, mp4, ogg, wav, mp4, m4v, mov, wmv, avi, mpg, ogv, 3gp, txt, zip, rar, 7z, csv', 'hash-form'); ?></label>
             </div>
 
             <div class="hf-form-row">
