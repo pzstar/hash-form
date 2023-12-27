@@ -16,7 +16,6 @@ class HashFormEmail {
     }
 
     public function send_email() {
-        $attachments = array(); //array(WP_CONTENT_DIR . '/uploads/2023/12/63706564967714264741.jpg');
         $form_settings = $this->get_form_settings();
         $entry = HashFormEntry::get_entry_vars($this->entry_id);
         $metas = $entry->metas;
@@ -35,6 +34,7 @@ class HashFormEmail {
         }
 
         $email_message = $this->get_email_content();
+        $attachments = $this->get_email_attachment();
 
         $head = array();
         $head[] = 'Content-Type: text/html; charset=UTF-8';
@@ -49,7 +49,11 @@ class HashFormEmail {
             $recipients[] = (trim($row) == '[admin_email]') ? get_option('admin_email') : $row;
         }
 
-        $mail = wp_mail($recipients, $email_subject, $email_message, $head, $attachments);
+        if (!empty($attachments)) {
+            $mail = wp_mail($recipients, $email_subject, $email_message, $head, $attachments);
+        } else {
+            $mail = wp_mail($recipients, $email_subject, $email_message, $head);
+        }
 
         if ($mail) {
             $this->send_auto_responder($reply_to_ar);
@@ -138,6 +142,21 @@ class HashFormEmail {
         $form_html = ob_get_clean();
 
         return $form_html;
+    }
+
+    public function get_email_attachment() {
+        $entry = HashFormEntry::get_entry_vars($this->entry_id);
+        $metas = $entry->metas;
+        $attachment = array();
+        foreach ($metas as $meta) {
+            if ($meta['type'] == 'upload') {
+                if (trim($meta['value'])) {
+                    $attachment[] = str_replace(WP_CONTENT_URL, WP_CONTENT_DIR, $meta['value']);
+                }
+            }
+        }
+
+        return $attachment;
     }
 
     public function do_success_process() {
