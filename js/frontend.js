@@ -456,11 +456,11 @@ jQuery(function ($) {
                         var preview_img = responseJSON.url;
                     }
 
-                    var preview_html = '<div class="hf-prev-holder">';
+                    var preview_html = '<div class="hf-prev-holder" id="hf-uploaded-' + id + '">';
                     if (preview_img) {
                         preview_html += '<img src="' + preview_img + '" />';
                     }
-                    preview_html += '<span class="hf-prev-name">' + fileName + '</span><span class="hf-preview-remove" data-path="' + responseJSON.path + '">' + hashform_vars.remove_txt + '</span></div>';
+                    preview_html += '<span class="hf-prev-name">' + fileName + '</span></div>';
 
                     if (multiple_upload) {
                         var url = responseJSON.url;
@@ -515,18 +515,20 @@ jQuery(function ($) {
             type: 'post',
             success: function (res) {
                 if (res == 'success') {
-                    var prev_url = selector.closest('.hf-file-uploader-wrapper').find('.hf-uploaded-files').val();
+                    var parent_wrapper = selector.closest('.hf-file-uploader-wrapper')
+                    var prev_url = parent_wrapper.find('.hf-uploaded-files').val();
                     var new_url = prev_url.replace(selector.data('url'), '');
                     new_url = new_url.replace(',,', ',');
-                    selector.closest('.hf-file-uploader-wrapper').find('.hf-uploaded-files').val(new_url);
+                    parent_wrapper.find('.hf-uploaded-files').val(new_url);
 
-                    var limit_counter = selector.closest('.hf-file-uploader-wrapper').find('.hf-multiple-upload-limit').val();
+                    var limit_counter = parent_wrapper.find('.hf-multiple-upload-limit').val();
                     limit_counter--;
                     limit_counter = (limit_counter < 0) ? 0 : limit_counter;
-                    selector.closest('.hf-file-uploader-wrapper').find('.hf-multiple-upload-limit').val(limit_counter);
+                    parent_wrapper.find('.hf-multiple-upload-limit').val(limit_counter);
 
                     selector.parent().fadeOut('1500', function () {
                         selector.parent().remove();
+                        parent_wrapper.find('#' + selector.attr('data-remove-id')).remove();
                     });
                 }
             }
