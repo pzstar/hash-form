@@ -724,6 +724,46 @@ class HashFormStyles {
                     'left' => ''
                 ]
             ],
+            'upload' => [
+                'color_normal' => '',
+                'bg_color_normal' => '',
+                'shadow_normal' => [
+                    'x' => '',
+                    'y' => '',
+                    'blur' => '',
+                    'spread' => '',
+                    'color' => ''
+                ],
+                'border_color_normal' => '',
+                'color_hover' => '',
+                'bg_color_hover' => '',
+                'shadow_hover' => [
+                    'x' => '',
+                    'y' => '',
+                    'blur' => '',
+                    'spread' => '',
+                    'color' => ''
+                ],
+                'border_color_hover' => '',
+                'border' => [
+                    'top' => '',
+                    'right' => '',
+                    'bottom' => '',
+                    'left' => ''
+                ],
+                'border_radius' => [
+                    'top' => '',
+                    'right' => '',
+                    'bottom' => '',
+                    'left' => ''
+                ],
+                'padding' => [
+                    'top' => '',
+                    'right' => '',
+                    'bottom' => '',
+                    'left' => ''
+                ]
+            ],
             'button' => [
                 'typo' => [
                     'font_family' => 'inherit',
@@ -947,6 +987,46 @@ class HashFormStyles {
                     'color' => 'hashform_sanitize_color'
                 ],
                 'border_color_focus' => 'hashform_sanitize_color',
+                'border' => [
+                    'top' => 'hashform_sanitize_number',
+                    'right' => 'hashform_sanitize_number',
+                    'bottom' => 'hashform_sanitize_number',
+                    'left' => 'hashform_sanitize_number'
+                ],
+                'border_radius' => [
+                    'top' => 'hashform_sanitize_number',
+                    'right' => 'hashform_sanitize_number',
+                    'bottom' => 'hashform_sanitize_number',
+                    'left' => 'hashform_sanitize_number'
+                ],
+                'padding' => [
+                    'top' => 'hashform_sanitize_number',
+                    'right' => 'hashform_sanitize_number',
+                    'bottom' => 'hashform_sanitize_number',
+                    'left' => 'hashform_sanitize_number'
+                ]
+            ],
+            'upload' => [
+                'color_normal' => 'hashform_sanitize_color',
+                'bg_color_normal' => 'hashform_sanitize_color',
+                'shadow_normal' => [
+                    'x' => 'hashform_sanitize_number',
+                    'y' => 'hashform_sanitize_number',
+                    'blur' => 'hashform_sanitize_number',
+                    'spread' => 'hashform_sanitize_number',
+                    'color' => 'hashform_sanitize_color'
+                ],
+                'border_color_normal' => 'hashform_sanitize_color',
+                'color_hover' => 'hashform_sanitize_color',
+                'bg_color_hover' => 'hashform_sanitize_color',
+                'shadow_hover' => [
+                    'x' => 'hashform_sanitize_number',
+                    'y' => 'hashform_sanitize_number',
+                    'blur' => 'hashform_sanitize_number',
+                    'spread' => 'hashform_sanitize_number',
+                    'color' => 'hashform_sanitize_color'
+                ],
+                'border_color_hover' => 'hashform_sanitize_color',
                 'border' => [
                     'top' => 'hashform_sanitize_number',
                     'right' => 'hashform_sanitize_number',

@@ -2,6 +2,7 @@
     position: relative;
     width: 100%;
 }
+
 .hf-file-uploader .qq-upload-button {
     display: inline-block;
     padding: 10px 20px;
@@ -11,8 +12,27 @@
     font-size: 14px;
 }
 
-.hf-file-uploader .qq-upload-button-hover {
-    background: #CCC;
+.hf-form-custom-style .hf-file-uploader .qq-upload-button {
+    border-top: var(--hf-upload-border-top, 1px) solid var(--hf-upload-border-color-normal, #CCC);
+    border-right: var(--hf-upload-border-right, 1px) solid var(--hf-upload-border-color-normal, #CCC);
+    border-bottom: var(--hf-upload-border-bottom, 1px) solid var(--hf-upload-border-color-normal, #CCC);
+    border-left: var(--hf-upload-border-left, 1px) solid var(--hf-upload-border-color-normal, #CCC);
+    border-radius: var(--hf-upload-border-radius-top, 3px) var(--hf-upload-border-radius-right, 3px) var(--hf-upload-border-radius-bottom, 3px) var(--hf-upload-border-radius-left, 3px);
+    padding: var(--hf-upload-padding-top, 10px) var(--hf-upload-padding-right, 20px) var(--hf-upload-padding-bottom, 10px) var(--hf-upload-padding-left, 20px);  
+    color: var(--hf-upload-color-normal, #666);
+    background-color: var(--hf-upload-bg-color-normal, #EEE);
+    box-shadow: var(--hf-upload-shadow-normal-x, 0) var(--hf-upload-shadow-normal-y, 0) var(--hf-upload-shadow-normal-blur, 0) var(--hf-upload-shadow-normal-spread, 0) var(--hf-upload-shadow-normal-color, transparent);
+}
+
+.hf-form-custom-style .hf-file-uploader .qq-upload-button-hover,
+.hf-form-custom-style .hf-file-uploader .qq-upload-button:hover {
+    border-top: var(--hf-upload-border-top, 1px) solid var(--hf-upload-border-color-hover, var(--hf-upload-border-color-normal, #CCC));
+    border-right: var(--hf-upload-border-right, 1px) solid var(--hf-upload-border-color-hover, var(--hf-upload-border-color-normal, #CCC));
+    border-bottom: var(--hf-upload-border-bottom, 1px) solid var(--hf-upload-border-color-hover, var(--hf-upload-border-color-normal, #CCC));
+    border-left: var(--hf-upload-border-left, 1px) solid var(--hf-upload-border-color-hover, var(--hf-upload-border-color-normal, #CCC));
+    color: var(--hf-upload-color-hover,var(--hf-upload-color-normal, inherit));
+    background-color: var(--hf-upload-bg-color-hover, var(--hf-upload-bg-color-normal, #EEE));
+    box-shadow: var(--hf-upload-shadow-hover-x, var(--hf-upload-shadow-normal-x, 0)) var(--hf-upload-shadow-hover-y, var(--hf-upload-shadow-normal-y, 0)) var(--hf-upload-shadow-hover-blur, var(--hf-upload-shadow-normal-blur, 0)) var(--hf-upload-shadow-hover-spread, var(--hf-upload-shadow-normal-spread, 0)) var(--hf-upload-shadow-hover-color, var(--hf-upload-shadow-normal-color, transparent));
 }
 
 .hf-file-uploader .qq-upload-button input{

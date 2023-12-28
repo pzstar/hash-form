@@ -187,7 +187,6 @@ class HashFormFileUploader {
                 'url' => $upload_url . '/' . $filename . '.' . $ext,
                 'path' => HashFormHelper::encrypt($filename . '.' . $ext)
             );
-
         } else {
             return array(
                 'error' => esc_html__('Could not save uploaded file. The upload was cancelled, or server error encountered.', 'hash-form')
@@ -214,4 +213,5 @@ class HashFormFileUploader {
             file_put_contents($path . '/temp/index.php', file_get_contents(HASHFORM_PATH . '/admin/src/stubs/index.stub'));
         }
     }
+
 }

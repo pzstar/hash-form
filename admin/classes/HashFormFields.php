@@ -184,6 +184,10 @@ class HashFormFields {
                 'name' => esc_html__('Time', 'hash-form'),
                 'icon' => 'hfi hfi-time',
             ),
+            'upload' => array(
+                'name' => esc_html__('Upload', 'hash-form'),
+                'icon' => 'hfi hfi-upload',
+            ),
             'user_id' => array(
                 'name' => esc_html__('User ID', 'hash-form'),
                 'icon' => 'hfi hfi-user-id',
@@ -219,11 +223,7 @@ class HashFormFields {
             'captcha' => array(
                 'name' => esc_html__('reCAPTCHA', 'hash-form'),
                 'icon' => 'hfi hfi-recaptcha',
-            ),
-            'upload' => array(
-                'name' => esc_html__('Upload', 'hash-form'),
-                'icon' => 'hfi hfi-recaptcha',
-            ),
+            )
         );
     }
 

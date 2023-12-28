@@ -106,3 +106,6 @@
 .hfi.hfi-date:before {
     content: "\e91a";
 }
+.hfi.hfi-upload:before {
+    content: "\e91b";
+}

@@ -290,6 +290,29 @@ defined('ABSPATH') || die();
                     </div>
                 </div>
             </div>
+            <div id="hf-field-container-446" class="hashform-field-type-upload hf-label-position-top hf-label-alignment-left hf-form-field">
+
+                <div class="hf-field-container">
+                    <label class="hf-field-label ">
+                        Upload                                    
+                    </label>
+                    <div class="hf-field-content">
+                        <div class="hf-file-uploader-wrapper">
+                            <div class="hf-file-uploader" id="hf-file-uploader-29336" data-upload-label="Upload File" data-extensions="jpg,jpeg,gif,png" data-extensions-error-message="Invalid Extension" data-multiple-uploads="true" data-multiple-uploads-limit="5" data-multiple-uploads-error-message="Maximum file upload limit exceeded" data-max-upload-size="5242880" data-field-uploader-id="hf-field-4rrmi8">
+                                <div class="qq-uploader">
+                                    <div class="qq-upload-drop-area" style="display: none;">
+                                        <span>Drop files here to upload</span>
+                                    </div>
+                                    <div class="qq-upload-button" style="position: relative; overflow: hidden; direction: ltr;">
+                                        Upload File
+                                        <input multiple="multiple" type="file" name="file" style="position: absolute; right: 0px; top: 0px; font-family: Arial; margin: 0px; padding: 0px; cursor: pointer; opacity: 0;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="hf-field-container-435" class="hf-form-field hashform-field-type-number hf-label-position-top hf-label-alignment-left ">
                 <div class="hf-field-container">
                     <label class="hf-field-label">Number

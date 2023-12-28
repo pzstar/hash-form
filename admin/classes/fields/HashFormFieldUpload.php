@@ -74,7 +74,7 @@ class HashFormFieldUpload extends HashFormFieldType {
         $files_arr = explode(',', $files);
         HashFormBuilder::remove_old_temp_files();
 
-        foreach($files_arr as $file) {
+        foreach ($files_arr as $file) {
             $file_info = pathinfo($file);
             $file_name = $file_info['basename'];
             $upload_dir = wp_upload_dir();

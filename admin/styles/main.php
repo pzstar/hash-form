@@ -413,7 +413,207 @@ $id = get_the_ID();
     </div>
 </div>
 
-<h2 class="hf-settings-heading"><?php esc_html_e('Button', 'hash-form'); ?><span class="mdi mdi-triangle-small-down"></span></h2>
+<h2 class="hf-settings-heading"><?php esc_html_e('Upload Button', 'hash-form'); ?><span class="mdi mdi-triangle-small-down"></span></h2>
+<div class="hf-form-settings">
+    <div class="hf-tab-container">
+        <ul class="hf-setting-tab">
+            <li data-tab="hf-tab-normal" class="hf-tab-active"><?php esc_html_e('Normal', 'hash-form'); ?></li>
+            <li data-tab="hf-tab-hover"><?php esc_html_e('Hover', 'hash-form'); ?></li>
+        </ul>
+
+        <div class="hf-setting-tab-panel">
+            <div class="hf-tab-normal hf-tab-content">
+                <div class="hf-settings-row">
+                    <label class="hf-setting-label hf-color-input-label"><?php esc_html_e('Color', 'hash-form'); ?></label>
+                    <div class="hf-setting-fields hf-color-input-field">
+                        <input id="hf-upload-color-normal" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[upload][color_normal]" value="<?php echo esc_attr($hashform_styles['upload']['color_normal']); ?>">
+                    </div>
+                </div>
+
+                <div class="hf-settings-row">
+                    <label class="hf-setting-label hf-color-input-label"><?php esc_html_e('Background Color', 'hash-form'); ?></label>
+                    <div class="hf-setting-fields hf-color-input-field">
+                        <input id="hf-upload-bg-color-normal" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[upload][bg_color_normal]" value="<?php echo esc_attr($hashform_styles['upload']['bg_color_normal']); ?>">
+                    </div>
+                </div>
+
+                <div class="hf-settings-row">
+                    <label class="hf-setting-label"><?php esc_html_e('Box Shadow', 'hash-form') ?></label>
+                    <div class="hf-setting-fields">
+                        <ul class="hf-shadow-fields">
+                            <li class="hf-shadow-settings-field">
+                                <input id="hf-upload-shadow-normal-x" data-unit="px" type="number" name="hashform_styles[upload][shadow_normal][x]" value="<?php echo esc_attr($hashform_styles['upload']['shadow_normal']['x']); ?>">
+                                <label><?php esc_html_e('H', 'hash-form') ?></label>
+                            </li>
+                            <li class="hf-shadow-settings-field">
+                                <input id="hf-upload-shadow-normal-y" data-unit="px" type="number" name="hashform_styles[upload][shadow_normal][y]" value="<?php echo esc_attr($hashform_styles['upload']['shadow_normal']['y']); ?>">
+                                <label><?php esc_html_e('V', 'hash-form') ?></label>
+                            </li>
+                            <li class="hf-shadow-settings-field">
+                                <input id="hf-upload-shadow-normal-blur" data-unit="px" type="number" name="hashform_styles[upload][shadow_normal][blur]" value="<?php echo esc_attr($hashform_styles['upload']['shadow_normal']['blur']); ?>">
+                                <label><?php esc_html_e('Blur', 'hash-form') ?></label>
+                            </li>
+                            <li class="hf-shadow-settings-field">
+                                <input id="hf-upload-shadow-normal-spread" data-unit="px" type="number" name="hashform_styles[upload][shadow_normal][spread]" value="<?php echo esc_attr($hashform_styles['upload']['shadow_normal']['spread']); ?>">
+                                <label><?php esc_html_e('Spread', 'hash-form') ?></label>
+                            </li>
+                        </ul>
+                        <div class="hf-shadow-settings-field">
+                            <div class="hf-color-input-field">
+                                <input id="hf-upload-shadow-normal-color" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[upload][shadow_normal][color]" value="<?php echo esc_attr($hashform_styles['upload']['shadow_normal']['color']); ?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hf-settings-row">
+                    <label class="hf-setting-label hf-color-input-label"><?php esc_html_e('Border Color', 'hash-form'); ?></label>
+                    <div class="hf-setting-fields hf-color-input-field">
+                        <input id="hf-upload-border-color-normal" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[upload][border_color_normal]" value="<?php echo esc_attr($hashform_styles['upload']['border_color_normal']); ?>">
+                    </div>
+                </div>
+            </div>
+
+            <div class="hf-tab-hover hf-tab-content" style="display: none;">
+                <div class="hf-settings-row">
+                    <label class="hf-setting-label hf-color-input-label"><?php esc_html_e('Color (Hover)', 'hash-form'); ?></label>
+                    <div class="hf-setting-fields hf-color-input-field">
+                        <input id="hf-upload-color-hover" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[upload][color_hover]" value="<?php echo esc_attr($hashform_styles['upload']['color_hover']); ?>">
+                    </div>
+                </div>
+
+                <div class="hf-settings-row">
+                    <label class="hf-setting-label hf-color-input-label"><?php esc_html_e('Background Color (Hover)', 'hash-form'); ?></label>
+                    <div class="hf-setting-fields hf-color-input-field">
+                        <input id="hf-upload-bg-color-hover" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[upload][bg_color_hover]" value="<?php echo esc_attr($hashform_styles['upload']['bg_color_hover']); ?>">
+                    </div>
+                </div>
+
+                <div class="hf-settings-row">
+                    <label class="hf-setting-label"><?php esc_html_e('Box Shadow (Hover)', 'hash-form') ?></label>
+                    <div class="hf-setting-fields">
+                        <ul class="hf-shadow-fields">
+                            <li class="hf-shadow-settings-field">
+                                <input id="hf-upload-shadow-hover-x" data-unit="px" type="number" name="hashform_styles[upload][shadow_hover][x]" value="<?php echo esc_attr($hashform_styles['upload']['shadow_hover']['x']); ?>">
+                                <label><?php esc_html_e('H', 'hash-form') ?></label>
+                            </li>
+                            <li class="hf-shadow-settings-field">
+                                <input id="hf-upload-shadow-hover-y" data-unit="px" type="number" name="hashform_styles[upload][shadow_hover][y]" value="<?php echo esc_attr($hashform_styles['upload']['shadow_hover']['y']); ?>">
+                                <label><?php esc_html_e('V', 'hash-form') ?></label>
+                            </li>
+                            <li class="hf-shadow-settings-field">
+                                <input id="hf-upload-shadow-hover-blur" data-unit="px" type="number" name="hashform_styles[upload][shadow_hover][blur]" value="<?php echo esc_attr($hashform_styles['upload']['shadow_hover']['blur']); ?>">
+                                <label><?php esc_html_e('Blur', 'hash-form') ?></label>
+                            </li>
+                            <li class="hf-shadow-settings-field">
+                                <input id="hf-upload-shadow-hover-spread" data-unit="px" type="number" name="hashform_styles[upload][shadow_hover][spread]" value="<?php echo esc_attr($hashform_styles['upload']['shadow_hover']['spread']); ?>">
+                                <label><?php esc_html_e('Spread', 'hash-form') ?></label>
+                            </li>
+                        </ul>
+                        <div class="hf-shadow-settings-field">
+                            <div class="hf-color-input-field">
+                                <input id="hf-upload-shadow-hover-color" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[upload][shadow_hover][color]" value="<?php echo esc_attr($hashform_styles['upload']['shadow_hover']['color']); ?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hf-settings-row">
+                    <label class="hf-setting-label hf-color-input-label"><?php esc_html_e('Border Color (Hover)', 'hash-form'); ?></label>
+                    <div class="hf-setting-fields hf-color-input-field">
+                        <input id="hf-upload-border-color-hover" type="text" class="color-picker hf-color-picker" data-alpha-enabled="true" data-alpha-custom-width="30px" data-alpha-color-type="hex" name="hashform_styles[upload][border_color_hover]" value="<?php echo esc_attr($hashform_styles['upload']['border_color_hover']); ?>">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hf-settings-row">
+        <label class="hf-setting-label"><?php esc_html_e('Border Width', 'hash-form') ?></label>
+        <ul class="hf-unit-fields">
+            <li class="hf-unit-settings-field">
+                <input id="hf-upload-border-top" data-unit="px" type="number" name="hashform_styles[upload][border][top]" value="<?php echo esc_attr($hashform_styles['upload']['border']['top']); ?>" min="0">
+                <label><?php esc_html_e('Top', 'hash-form') ?></label>
+            </li>
+            <li class="hf-unit-settings-field">
+                <input id="hf-upload-border-right" data-unit="px" type="number" name="hashform_styles[upload][border][right]" value="<?php echo esc_attr($hashform_styles['upload']['border']['right']); ?>" min="0">
+                <label><?php esc_html_e('Right', 'hash-form') ?></label>
+            </li>
+            <li class="hf-unit-settings-field">
+                <input id="hf-upload-border-bottom" data-unit="px" type="number" name="hashform_styles[upload][border][bottom]" value="<?php echo esc_attr($hashform_styles['upload']['border']['bottom']); ?>" min="0">
+                <label><?php esc_html_e('Bottom', 'hash-form') ?></label>
+            </li>
+            <li class="hf-unit-settings-field">
+                <input id="hf-upload-border-left" data-unit="px" type="number" name="hashform_styles[upload][border][left]" value="<?php echo esc_attr($hashform_styles['upload']['border']['left']); ?>" min="0">
+                <label><?php esc_html_e('Left', 'hash-form') ?></label>
+            </li>
+            <li class="hf-unit-settings-field">
+                <div class="hf-link-button">
+                    <span class="dashicons dashicons-admin-links hf-linked"></span>
+                    <span class="dashicons dashicons-editor-unlink hf-unlinked"></span>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="hf-settings-row">
+        <label class="hf-setting-label"><?php esc_html_e('Border Radius', 'hash-form') ?></label>
+        <ul class="hf-unit-fields">
+            <li class="hf-unit-settings-field">
+                <input id="hf-upload-border-radius-top" data-unit="px" type="number" name="hashform_styles[upload][border_radius][top]" value="<?php echo esc_attr($hashform_styles['upload']['border_radius']['top']); ?>" min="0">
+                <label><?php esc_html_e('Top', 'hash-form') ?></label>
+            </li>
+            <li class="hf-unit-settings-field">
+                <input id="hf-upload-border-radius-right" data-unit="px" type="number" name="hashform_styles[upload][border_radius][right]" value="<?php echo esc_attr($hashform_styles['upload']['border_radius']['right']); ?>" min="0">
+                <label><?php esc_html_e('Right', 'hash-form') ?></label>
+            </li>
+            <li class="hf-unit-settings-field">
+                <input id="hf-upload-border-radius-bottom" data-unit="px" type="number" name="hashform_styles[upload][border_radius][bottom]" value="<?php echo esc_attr($hashform_styles['upload']['border_radius']['bottom']); ?>" min="0">
+                <label><?php esc_html_e('Bottom', 'hash-form') ?></label>
+            </li>
+            <li class="hf-unit-settings-field">
+                <input id="hf-upload-border-radius-left" data-unit="px" type="number" name="hashform_styles[upload][border_radius][left]" value="<?php echo esc_attr($hashform_styles['upload']['border_radius']['left']); ?>" min="0">
+                <label><?php esc_html_e('Left', 'hash-form') ?></label>
+            </li>
+            <li class="hf-unit-settings-field">
+                <div class="hf-link-button">
+                    <span class="dashicons dashicons-admin-links hf-linked"></span>
+                    <span class="dashicons dashicons-editor-unlink hf-unlinked"></span>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="hf-settings-row">
+        <label class="hf-setting-label"><?php esc_html_e('Padding', 'hash-form') ?></label>
+        <ul class="hf-unit-fields">
+            <li class="hf-unit-settings-field">
+                <input id="hf-upload-padding-top" data-unit="px" type="number" name="hashform_styles[upload][padding][top]" value="<?php echo esc_attr($hashform_styles['upload']['padding']['top']); ?>" min="0">
+                <label><?php esc_html_e('Top', 'hash-form') ?></label>
+            </li>
+            <li class="hf-unit-settings-field">
+                <input id="hf-upload-padding-right" data-unit="px" type="number" name="hashform_styles[upload][padding][right]" value="<?php echo esc_attr($hashform_styles['upload']['padding']['right']); ?>" min="0">
+                <label><?php esc_html_e('Right', 'hash-form') ?></label>
+            </li>
+            <li class="hf-unit-settings-field">
+                <input id="hf-upload-padding-bottom" data-unit="px" type="number" name="hashform_styles[upload][padding][bottom]" value="<?php echo esc_attr($hashform_styles['upload']['padding']['bottom']); ?>" min="0">
+                <label><?php esc_html_e('Bottom', 'hash-form') ?></label>
+            </li>
+            <li class="hf-unit-settings-field">
+                <input id="hf-upload-padding-left" data-unit="px" type="number" name="hashform_styles[upload][padding][left]" value="<?php echo esc_attr($hashform_styles['upload']['padding']['left']); ?>" min="0">
+                <label><?php esc_html_e('Left', 'hash-form') ?></label>
+            </li>
+            <li class="hf-unit-settings-field">
+                <div class="hf-link-button">
+                    <span class="dashicons dashicons-admin-links hf-linked"></span>
+                    <span class="dashicons dashicons-editor-unlink hf-unlinked"></span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<h2 class="hf-settings-heading"><?php esc_html_e('Submit Button', 'hash-form'); ?><span class="mdi mdi-triangle-small-down"></span></h2>
 <div class="hf-form-settings">
     <div class="hf-settings-row">
         <label class="hf-setting-label"><?php esc_html_e('Typography', 'hash-form'); ?></label>

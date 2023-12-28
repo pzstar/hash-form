@@ -793,7 +793,7 @@ class HashFormBuilder {
         $temp_dir = $upload_dir['basedir'] . HASHFORM_UPLOAD_DIR . '/temp/';
 
         // Remove old temp files
-        if (is_dir($temp_dir) and ($dir = opendir($temp_dir))) {
+        if (is_dir($temp_dir) and ( $dir = opendir($temp_dir))) {
             while (($file = readdir($dir)) !== false) {
                 $temp_file_path = $temp_dir . DIRECTORY_SEPARATOR . $file;
                 if ((filemtime($temp_file_path) < time() - $max_file_age)) {

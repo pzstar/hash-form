@@ -168,17 +168,15 @@ class HashFormEmail {
                     $file_extension = $file_info['extension'];
 
                     $upload_value .= '<div style="margin-bottom: 10px;padding-bottom: 10px;border-bottom: 1px solid #EEE;">';
-                    $upload_value .= '<div class="hf-form-entry-preview-image">';
-                    $upload_value .= '<a href="' . esc_url($file) . '" target="_blank">';
+                    $upload_value .= '<div><a href="' . esc_url($file) . '" target="_blank">';
                     if (in_array($file_extension, array('jpg', 'jpeg', 'png', 'gif', 'bmp'))) {
                         $upload_value .= '<img style="width:150px" src="' . esc_url($file) . '">';
                     } else {
                         $upload_value .= '<img style="width: 40px;border: 1px solid #666;border-radius: 6px;padding: 4px;" src="' . esc_url($file_img_placeholder) . '">';
                     }
-                    $upload_value .= '</a>';
-                    $upload_value .= '</div>';
+                    $upload_value .= '</a></div>';
                     $upload_value .= '<label><a href="' . esc_url($file) . '" target="_blank">';
-                    $upload_value .= '</a>' . esc_html($file_name) . '</label>';
+                    $upload_value .= esc_html($file_name) . '</a></label>';
                     $upload_value .= '</div>';
                 }
                 $entry_value = $upload_value;
