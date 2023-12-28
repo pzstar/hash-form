@@ -81,16 +81,6 @@ defined('ABSPATH') || die();
             .content table:last-child{
                 margin-bottom: 0;
             }
-            .content p{
-                padding: 0 25px;
-                margin: 0 0 20px;
-            }
-            .content p:first-child{
-                padding-top: 25px;
-            }
-            .content p:last-child{
-                padding-bottom: 25px;
-            }
         </style>
     </head>
     <body style="background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
@@ -113,7 +103,7 @@ defined('ABSPATH') || die();
                 ?>
                 <tr>
                     <td class="container" style="font-family: sans-serif; font-size: 14px; vertical-align: top; box-sizing: border-box;" valign="top">
-                        <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 600px; background: #FFFFFF;border-top: 5px solid #4183D7; line-height:1.6">
+                        <div class="content" style="box-sizing: border-box; display: block; margin: 0 auto; max-width: 600px; line-height:1.6">
                             <?php echo wp_kses_post(htmlspecialchars_decode($email_message)); ?>
                         </div>
                     </td>
