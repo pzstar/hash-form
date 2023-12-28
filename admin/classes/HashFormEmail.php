@@ -176,7 +176,7 @@ class HashFormEmail {
                 }
                 $entry_value = $upload_value;
             }
-            $entry_rows .= call_user_func($email_template, $title, $entry_value, $id);
+            $entry_rows .= call_user_func(array($this, $email_template), $title, $entry_value, $id);
         }
         return $entry_rows;
     }
