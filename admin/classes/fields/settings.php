@@ -377,10 +377,18 @@ defined('ABSPATH') || die();
         }
 
         if ($display['default']) {
+            $field_type_attr_val = 'text';
+            if ($field_type == 'range_slider' || $field_type == 'number' || $field_type == 'spinner') {
+                $field_type_attr_val = 'number';
+            }
+
+            if ($field_type == 'email') {
+                $field_type_attr_val = 'email';
+            }
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Default Value', 'hash-form'); ?></label>
-                <input type="<?php echo (($field_type == 'range_slider' || $field_type == 'number' || $field_type == 'spinner') ? 'number' : 'text'); ?>" name="<?php echo 'default_value_' . absint($field_id); ?>" value="<?php echo esc_attr($field['default_value']); ?>" class="hf-default-value-field" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="value"/>
+                <input type="<?php echo esc_attr($field_type_attr_val); ?>" name="<?php echo 'default_value_' . absint($field_id); ?>" value="<?php echo esc_attr($field['default_value']); ?>" class="hf-default-value-field" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="value"/>
             </div>
             <?php
         }

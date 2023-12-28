@@ -277,7 +277,15 @@ var hashFormAdmin = hashFormAdmin || {};
                     newValue = this.value,
                     changes = document.getElementById(this.getAttribute('data-changeme')),
                     att = this.getAttribute('data-changeatt'),
+                    fieldAttrType = this.getAttribute('type'),
                     parentField = $(changes).closest('.hf-editor-form-field');
+
+            if (att == 'value' && fieldAttrType == "email") {
+                $(this).closest('div').find('.hf-error').remove();
+                if (newValue && !hashFormAdmin.isEmail(newValue)) {
+                    $(this).closest('div').append('<p class="hf-error">Invalid Email Value</p>');
+                }
+            }
 
             if (parentField.attr('data-type') == 'range_slider') {
                 var newSlider = parentField.find('.hashform-range-input-selector');
