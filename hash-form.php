@@ -50,9 +50,54 @@ function hashform_elementor_widget_register($widgets_manager) {
     $widgets_manager->register(new \HashFormElement());
 }
 
+/**
+ * Plugin Activation.
+ */
 register_activation_hook(HASHFORM_FILE, 'hashform_create_table');
 
-function hashform_create_table() {
-    $db = new HashFormCreateTable();
-    $db->upgrade();
+function hashform_create_table($network_wide) {
+    global $wpdb;
+
+    if (is_multisite() && $network_wide) {
+        // Get all blogs in the network and activate plugin on each one
+        $blog_ids = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
+        foreach ($blog_ids as $blog_id) {
+            switch_to_blog($blog_id);
+            $db = new HashFormCreateTable();
+            $db->upgrade();
+            restore_current_blog();
+        }
+    } else {
+        $db = new HashFormCreateTable();
+        $db->upgrade();
+    }
+}
+
+/**
+ * Create form tables on multisite creation.
+ */
+add_action('wp_insert_site', 'hashform_on_create_blog');
+
+function hashform_on_create_blog($data) {
+    if (is_plugin_active_for_network('hash-form/hash-form.php')) {
+        switch_to_blog($data->blog_id);
+        $db = new HashFormCreateTable();
+        $db->upgrade();
+        restore_current_blog();
+    }
+}
+
+/**
+ * Drop form tables on multisite deletion.
+ */
+add_filter('wpmu_drop_tables', 'hashform_on_delete_blog');
+
+function hashform_on_delete_blog($tables) {
+    global $wpdb;
+    $id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
+    $tables[] = $wpdb->get_blog_prefix($id) . 'hashform_fields';
+    $tables[] = $wpdb->get_blog_prefix($id) . 'hashform_forms';
+    $tables[] = $wpdb->get_blog_prefix($id) . 'hashform_entries';
+    $tables[] = $wpdb->get_blog_prefix($id) . 'hashform_entry_meta';
+    return $tables;
 }

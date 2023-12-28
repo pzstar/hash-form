@@ -86,6 +86,10 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 
 == Changelog ==
 
+= 1.0.2 =
+* Added Upload field
+* Compatibility with multisite
+
 = 1.0.1 =
 * Bug Fixes
 

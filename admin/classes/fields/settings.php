@@ -26,13 +26,13 @@ defined('ABSPATH') || die();
         if ($display['label']) {
             ?>
             <div class="hf-form-row">
-                <label><?php esc_html_e('Field Label', 'hash-form'); ?></label>
+                <label><?php esc_html_e('Field Label', 'hash-form'); ?> </label>
                 <input type="text" name="field_options[name_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['name']); ?>" data-changeme="hf-editor-field-label-text-<?php echo esc_attr($field_id); ?>" data-label-show-hide="hf-label-show-hide" />
             </div>
 
             <div class="hf-form-row hf-grid-3">
                 <label><?php esc_html_e('Label Position', 'hash-form'); ?></label>
-                <select name="field_options[label_position_<?php echo absint($field_id); ?>]">
+                <select name="field_options[label_position_ <?php echo absint($field_id); ?>]">
                     <option value="top" <?php isset($field['label_position']) ? selected($field['label_position'], 'top') : ''; ?>>
                         <?php esc_html_e('Top', 'hash-form'); ?>
                     </option>
@@ -83,7 +83,7 @@ defined('ABSPATH') || die();
                     <option value="h2" <?php isset($field['heading_type']) ? selected($field['heading_type'], 'h2') : ''; ?>>
                         <?php esc_html_e('H2', 'hash-form'); ?>
                     </option>
-                    <option value="h3" <?php isset($field['heading_type']) ? selected($field['heading_type'], 'h3') : ''; ?>>
+                    <option value="h3" <?php isset($field['heading_type']) ? selected($field['heading_type'], 'h3') : ''; ?> >
                         <?php esc_html_e('H3', 'hash-form'); ?>
                     </option>
                     <option value="h4" <?php isset($field['heading_type']) ? selected($field['heading_type'], 'h4') : ''; ?>>
@@ -181,7 +181,7 @@ defined('ABSPATH') || die();
                             <?php esc_html_e('Delete', 'hash-form'); ?>
                         </button>
                     </div>
-                    <button type="button" class="button hf-choose-image<?php echo ($image ? ' hf-hidden' : ''); ?>">
+                    <button type="button" class="button hf-choose-image<?php echo($image ? ' hf-hidden' : ''); ?>">
                         <span class="mdi mdi-tray-arrow-up"></span>
                         <?php esc_attr_e('Upload image', 'hash-form'); ?>
                     </button>
@@ -590,6 +590,6 @@ defined('ABSPATH') || die();
             </div>
             <?php
         }
-        ?>
+        ?>                     
     </div>
 </div>
