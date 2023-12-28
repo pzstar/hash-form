@@ -32,7 +32,7 @@ class HashFormEmail {
         $email_template = $settings['email_template'] ? sanitize_text_field($settings['email_template']) : 'template1';
         $header_image = sanitize_text_field($settings['header_image']);
         $email_msg = isset($form_settings['email_message']) ? sanitize_text_field($form_settings['email_message']) : '';
-        $email_table = $this->get_entry_rows();
+        $email_table = $this->get_entry_rows($email_template);
         $form_title = $this->form->name;
         $file_img_placeholder = HASHFORM_URL . '/img/attachment.png';
 
@@ -52,7 +52,7 @@ class HashFormEmail {
             if ($entry_type == 'upload' && trim($entry_value)) {
                 $files_arr = explode(',', $entry_value);
                 $upload_value = '';
-                foreach($files_arr as $file) {
+                foreach ($files_arr as $file) {
                     $file_info = pathinfo($file);
                     $file_name = $file_info['basename'];
                     $file_label = $file_info['filename'];
@@ -142,10 +142,8 @@ class HashFormEmail {
         }
     }
 
-
-    public function get_entry_rows() {
+    public function get_entry_rows($email_template) {
         $settings = HashFormSettings::get_settings();
-        $email_template = 'template';
         $entry = HashFormEntry::get_entry_vars($this->entry_id);
         $entry_rows = '';
         $file_img_placeholder = HASHFORM_URL . '/img/attachment.png';
@@ -164,7 +162,7 @@ class HashFormEmail {
             if ($entry_type == 'upload' && $entry_value) {
                 $files_arr = explode(',', $entry_value);
                 $upload_value = '';
-                foreach($files_arr as $file) {
+                foreach ($files_arr as $file) {
                     $file_info = pathinfo($file);
                     $file_name = $file_info['basename'];
                     $file_label = $file_info['filename'];
@@ -178,22 +176,57 @@ class HashFormEmail {
                 }
                 $entry_value = $upload_value;
             }
-            $entry_rows .= call_user_func(array($this, $email_template), $title, $entry_value);
+            $entry_rows .= call_user_func($email_template, $title, $entry_value, $id);
         }
         return $entry_rows;
     }
 
+    public function template1($title, $entry_value, $id) {
+        ob_start();
+        ?>
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; margin-bottom: 25px">
+            <tbody>
+                <tr>
+                    <th style="font-family: sans-serif; font-size: 14px; vertical-align: top;text-align:left; line-height: 18px;" valign="top"><?php echo esc_html($title); ?></th>
+                </tr>
+                <tr>
+                    <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding: 10px 0 0 0; line-height: 18px;" valign="top"><?php echo esc_html($entry_value); ?></td>
+                </tr>
+            </tbody>
+        </table>
+        <?php
+        $form_html = ob_get_clean();
+        return $form_html;
+    }
 
-    public function template($title, $entry_value) {
+    public function template2($title, $entry_value, $id) {
+        ob_start();
+        ?>
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;padding: 25px; <?php echo $id % 2 == 0 ? 'background: #4239ff08' : ''; ?>">
+            <tbody>
+                <tr>
+                    <th style="font-family: sans-serif; font-size: 14px; vertical-align: top;text-align:left; line-height: 18px;" valign="top"><?php echo esc_html($title); ?></th>
+                </tr>
+                <tr>
+                    <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding: 10px 0 0 0; line-height: 18px;" valign="top"><?php echo esc_html($entry_value); ?></td>
+                </tr>
+            </tbody>
+        </table>
+        <?php
+        $form_html = ob_get_clean();
+        return $form_html;
+    }
+
+    public function template3($title, $entry_value) {
         ob_start();
         ?>
         <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
             <tbody>
                 <tr>
-                    <th style="font-family: sans-serif; font-size: 14px; vertical-align: top;text-align:left;" valign="top"><?php echo esc_html($title); ?></th>
+                    <th style="font-family: sans-serif; font-size: 14px; vertical-align: top;text-align:left; line-height: 18px;background: #000;color: #FFF;text-transform: uppercase;padding: 10px 20px;" valign="top"><?php echo esc_html($title); ?></th>
                 </tr>
                 <tr>
-                    <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding: 10px 0 0 0" valign="top"><?php echo esc_html($entry_value); ?></td>
+                    <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding: 10px 0 0 0; line-height: 18px;padding: 20px !important;" valign="top"><?php echo esc_html($entry_value); ?></td>
                 </tr>
             </tbody>
         </table>

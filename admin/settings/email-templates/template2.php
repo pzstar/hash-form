@@ -78,20 +78,9 @@ defined('ABSPATH') || die();
             a {
                 color: #000;
             }
-            .content table{
-                padding: 25px;
-            }
             .content table:last-child{
                 margin-bottom: 0;
             }
-            .content table:nth-child(odd){
-                background: #4239ff08;
-            }
-            table th,
-            table td{
-                line-height: 1.6;
-            }
-
             .content p{
                 padding: 0 25px;
                 margin: 0 0 20px;

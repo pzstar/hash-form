@@ -85,21 +85,6 @@ defined('ABSPATH') || die();
             .content table:last-child{
                 margin-bottom: 0;
             }
-            table th,
-            table td{
-                line-height: 1.6;
-            }
-            .content table th{
-                background: #000;
-                color: #FFF;
-                text-transform: uppercase;
-                padding: 10px 20px;
-            }
-
-            .content table td{
-                padding: 20px !important;
-            }
-
             .content p{
                 margin: 0 0 20px 0;
             }

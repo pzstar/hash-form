@@ -1815,17 +1815,37 @@ form.hf-success .hf-copied{
 }
 
 #hf-form-entry-details img{
-    max-width: 300px;
+    max-width: 150px;
 }
 
-.hf-form-entry-preview-link{
+.hf-form-entry-preview{
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #EEE;
+}
+
+.hf-form-entry-preview:last-child{
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.hf-form-entry-preview a{
     text-decoration: none;
+    outline: 0;
+    box-shadow: none;
+}
+
+.hf-form-entry-preview .hf-attachment-icon{
+    width: 40px;
+    border: 1px solid #666;
+    border-radius: 6px;
+    padding: 4px;
 }
 
 .hf-empty-row {
     display: none;
 }
-
 
 /* Dropzone */
 .hf-dropzone-wrapper {
