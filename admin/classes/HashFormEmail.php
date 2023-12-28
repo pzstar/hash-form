@@ -165,23 +165,30 @@ class HashFormEmail {
                 foreach ($files_arr as $file) {
                     $file_info = pathinfo($file);
                     $file_name = $file_info['basename'];
-                    $file_label = $file_info['filename'];
                     $file_extension = $file_info['extension'];
-                    $upload_dir = wp_upload_dir();
 
-                    $upload_value .= '<a href="' . esc_url($file) . '">';
-                    $upload_value .= '<img src="' . esc_url(in_array($file_extension, array('jpg', 'jpeg', 'png', 'gif', 'bmp')) ? $file : $file_img_placeholder) . '">';
-                    $upload_value .= '<label>' . esc_html($file_label) . '</label>';
+                    $upload_value .= '<div style="margin-bottom: 10px;padding-bottom: 10px;border-bottom: 1px solid #EEE;">';
+                    $upload_value .= '<div class="hf-form-entry-preview-image">';
+                    $upload_value .= '<a href="' . esc_url($file) . '" target="_blank">';
+                    if (in_array($file_extension, array('jpg', 'jpeg', 'png', 'gif', 'bmp'))) {
+                        $upload_value .= '<img style="width:150px" src="' . esc_url($file) . '">';
+                    } else {
+                        $upload_value .= '<img style="width: 40px;border: 1px solid #666;border-radius: 6px;padding: 4px;" src="' . esc_url($file_img_placeholder) . '">';
+                    }
                     $upload_value .= '</a>';
+                    $upload_value .= '</div>';
+                    $upload_value .= '<label><a href="' . esc_url($file) . '" target="_blank">';
+                    $upload_value .= '</a>' . esc_html($file_name) . '</label>';
+                    $upload_value .= '</div>';
                 }
                 $entry_value = $upload_value;
             }
-            $entry_rows .= call_user_func(array($this, $email_template), $title, $entry_value, $id);
+            $entry_rows .= call_user_func('HashFormEmail::' . $email_template, $title, $entry_value, $id);
         }
         return $entry_rows;
     }
 
-    public function template1($title, $entry_value, $id) {
+    public static function template1($title, $entry_value, $count) {
         ob_start();
         ?>
         <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; margin-bottom: 25px">
@@ -199,10 +206,21 @@ class HashFormEmail {
         return $form_html;
     }
 
-    public function template2($title, $entry_value, $id) {
+    public static function template2($title, $entry_value, $count) {
         ob_start();
+        $border_style = '';
+
+        if ($count == 1) {
+            $border_style = 'border-top: 5px solid #4183D7;';
+        }
+
+        if ($count % 2 == 0) {
+            $style = 'background: #f9f9ff;';
+        } else {
+            $style = 'background: #FFFFFF;';
+        }
         ?>
-        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;padding: 25px; <?php echo $id % 2 == 0 ? 'background: #4239ff08' : ''; ?>">
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;padding: 25px; <?php echo $border_style . $style; ?>">
             <tbody>
                 <tr>
                     <th style="font-family: sans-serif; font-size: 14px; vertical-align: top;text-align:left; line-height: 18px;" valign="top"><?php echo esc_html($title); ?></th>
@@ -217,10 +235,10 @@ class HashFormEmail {
         return $form_html;
     }
 
-    public function template3($title, $entry_value) {
+    public static function template3($title, $entry_value, $count) {
         ob_start();
         ?>
-        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
+        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background:#FFF; margin-bottom: 25px">
             <tbody>
                 <tr>
                     <th style="font-family: sans-serif; font-size: 14px; vertical-align: top;text-align:left; line-height: 18px;background: #000;color: #FFF;text-transform: uppercase;padding: 10px 20px;" valign="top"><?php echo esc_html($title); ?></th>

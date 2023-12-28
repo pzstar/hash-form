@@ -121,41 +121,34 @@ class HashFormSettings {
         $email_template = HashFormHelper::get_post('email_template');
         $test_email = HashFormHelper::get_post('test_email');
         $email_subject = esc_html__('Test Email', 'hash-form');
+        $count = 0;
+
+        $contents = array(
+            0 => array(
+                'title' => 'Name',
+                'value' => 'John Doe'
+            ),
+            1 => array(
+                'title' => 'Email',
+                'value' => 'noreply@gmail.com'
+            ),
+            2 => array(
+                'title' => 'Subject',
+                'value' => 'Exciting Updates and Important Information Inside!'
+            ),
+            3 => array(
+                'title' => 'Message',
+                'value' => '<p>I hope this email finds you well. We are thrilled to share some exciting updates and important information that we believe you will find valuable.</p><p>Your satisfaction is our priority, and we are committed to delivering the best possible experience.</p>'
+            )
+        );
 
         $email_message = '<p style="margin-bottom:20px">';
         $email_message .= esc_html__('Hello, this is a test email.', 'hash-form');
         $email_message .= '</p>';
-        $email_message .= '<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
-            <tbody>
-                <tr>
-                    <th style="font-family: sans-serif; font-size: 14px; vertical-align: top;text-align:left;" valign="top">Name</th>
-                </tr>
-                <tr>
-                    <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding: 10px 0 0 0" valign="top">John Doe</td>
-                </tr>
-            </tbody>
-        </table>';
-        $email_message .= '<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
-            <tbody>
-                <tr>
-                    <th style="font-family: sans-serif; font-size: 14px; vertical-align: top;text-align:left;" valign="top">Email</th>
-                </tr>
-                <tr>
-                    <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding: 10px 0 0 0" valign="top">noreply@gmail.com</td>
-                </tr>
-            </tbody>
-        </table>';
-        $email_message .= '<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%;">
-            <tbody>
-                <tr>
-                    <th style="font-family: sans-serif; font-size: 14px; vertical-align: top;text-align:left;" valign="top">Phone Number</th>
-                </tr>
-                <tr>
-                    <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding: 10px 0 0 0" valign="top">+1 879879879</td>
-                </tr>
-            </tbody>
-        </table>';
-
+        foreach ($contents as $content) {
+            $count++;
+            $email_message .= call_user_func('HashFormEmail::' . $email_template, $content['title'], $content['value'], $count);
+        }
         ob_start();
         include(HASHFORM_PATH . 'admin/settings/email-templates/' . $email_template . '.php');
         $form_html = ob_get_clean();

@@ -712,7 +712,7 @@ var hashFormAdmin = hashFormAdmin || {};
                     return;
                 }
                 testEmailButton.addClass('hf-loading-button');
-                const emailTemplate = $('select[name="email_template"]').val();
+                var emailTemplate = $('#hf-settings-email-template').val();
                 $('.hf-test-email-notice').html('');
                 jQuery.ajax({
                     type: 'POST',

@@ -37,7 +37,7 @@ if (isset($settings['header_image'])) {
     <div class="hf-settings-row hf-grid-container">
         <div class="hf-grid-3">
             <label class="hf-setting-label"><?php esc_html_e('Email Template', 'hash-form'); ?></label>
-            <select name="hashform_settings[email_template]">
+            <select id="hf-settings-email-template" name="hashform_settings[email_template]">
                 <option value="template1" <?php selected($settings['email_template'], 'template1'); ?>><?php esc_html_e('Template 1', 'hash-form'); ?></option>
                 <option value="template2" <?php selected($settings['email_template'], 'template2'); ?>><?php esc_html_e('Template 2', 'hash-form'); ?></option>
                 <option value="template3" <?php selected($settings['email_template'], 'template3'); ?>><?php esc_html_e('Template 3', 'hash-form'); ?></option>

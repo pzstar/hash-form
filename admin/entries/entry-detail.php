@@ -35,9 +35,7 @@ defined('ABSPATH') || die();
                     foreach ($files_arr as $file) {
                         $file_info = pathinfo($file);
                         $file_name = $file_info['basename'];
-                        $file_label = $file_info['filename'];
                         $file_extension = $file_info['extension'];
-                        $upload_dir = wp_upload_dir();
 
                         $upload_value .= '<div class="hf-form-entry-preview">';
                         $upload_value .= '<div class="hf-form-entry-preview-image">';
@@ -49,10 +47,8 @@ defined('ABSPATH') || die();
                         }
                         $upload_value .= '</a>';
                         $upload_value .= '</div>';
-                        $upload_value .= '<label>';
-                        $upload_value .= '<a href="' . esc_url($file) . '" target="_blank">';
-                        $upload_value .= '</a>';
-                        $upload_value .= esc_html($file_name) . '</label>';
+                        $upload_value .= '<label><a href="' . esc_url($file) . '" target="_blank">';
+                        $upload_value .= '</a>' . esc_html($file_name) . '</label>';
                         $upload_value .= '</div>';
                     }
                     $entry_value = $upload_value;
