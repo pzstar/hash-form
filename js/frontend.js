@@ -49,7 +49,6 @@ jQuery(function ($) {
                 },
                 success: function (response) {
                     form.find('button.hf-submit-button').removeClass('hf-button-loading');
-                    $('body').find('.hf-preview-remove').trigger('click');
                     if (response.status == "redirect") {
                         window.location.replace(response.message);
                     } else if (response.status == "success") {
@@ -72,6 +71,7 @@ jQuery(function ($) {
                                 }
                             });
                         });
+                        $('body').find('.hf-preview-remove').trigger('click');
                         form.append('<span class="hf-success-msg">' + response.message + '</span>');
                     } else if (response.status == "failed") {
                         form.append('<span class="hf-failed-msg">' + response.message + '</span>');
