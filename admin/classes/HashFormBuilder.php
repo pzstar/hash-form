@@ -176,7 +176,7 @@ class HashFormBuilder {
 
         $fields_array = $settings_array = array();
 
-        $fields = htmlspecialchars_decode(nl2br(str_replace('&quot;', '"', HashFormHelper::get_post('hashform_fields'))));
+        $fields = htmlspecialchars_decode(nl2br(str_replace('&quot;', '"', HashFormHelper::get_post('hashform_fields', 'wp_kses_post'))));
         if ($fields) {
             $fields_array = HashFormHelper::parse_json_array($fields);
         }

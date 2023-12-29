@@ -126,7 +126,7 @@ jQuery(function ($) {
         var sliderMinValue = parseFloat(newSlider.attr('min'));
         var sliderMaxValue = parseFloat(newSlider.attr('max'));
         var sliderStepValue = parseFloat(newSlider.attr('step'));
-        console.log(sliderStepValue);
+
         newSlider.prev('.hashform-range-slider').slider({
             value: sliderValue,
             min: sliderMinValue,

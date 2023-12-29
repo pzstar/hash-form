@@ -77,9 +77,7 @@ abstract class HashFormFieldType {
                 if (isset($display['description']) && $display['description'] && !empty(trim($field['description']))) {
                     ?>
                     <div class="hf-field-desc">
-                        <?php
-                        echo esc_html($field['description']);
-                        ?>
+                        <?php echo esc_html($field['description']); ?>
                     </div>
                 <?php } ?>
             </div>
@@ -117,10 +115,12 @@ abstract class HashFormFieldType {
                 $options_layout = isset($field['options_layout']) && $field['options_layout'] ? $field['options_layout'] : 'inline';
                 $container_class[] = 'hf-options-layout-' . trim($options_layout);
             }
+
             if ($field['type'] === 'select') {
                 $container_class[] = isset($field['auto_width']) && $field['auto_width'] == 'on' ? 'hf-auto-width' : '';
             }
         }
+
         if (isset($field['grid_id']) && $field['grid_id']) {
             $container_class[] = trim($field['grid_id']);
         }

@@ -52,7 +52,7 @@ class HashFormFieldHTML extends HashFormFieldType {
                 </div>
                 <?php
             } else {
-                echo wp_kses_post(wpautop(esc_textarea($field['description'])));
+                echo wp_kses_post($field['description']);
             }
             ?>
         </div>
