@@ -39,8 +39,8 @@ class HashFormLoader {
     public static function admin_init() {
         $page = HashFormHelper::get_var('page', 'sanitize_title');
         if (strpos($page, 'hashform') === 0) {
-            wp_enqueue_script('hashform-builder', HASHFORM_URL . 'js/builder.js', array('jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-i18n', 'wp-hooks', 'jquery-ui-dialog', 'hashform-select2'), time(), true);
-            wp_enqueue_script('hashform-backend', HASHFORM_URL . 'js/backend.js', array('jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-i18n', 'wp-hooks', 'jquery-ui-dialog', 'jquery-ui-datepicker'), time(), true);
+            wp_enqueue_script('hashform-builder', HASHFORM_URL . 'js/builder.js', array('jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-i18n', 'wp-hooks', 'jquery-ui-dialog', 'hashform-select2'), HASHFORM_VERSION, true);
+            wp_enqueue_script('hashform-backend', HASHFORM_URL . 'js/backend.js', array('jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-i18n', 'wp-hooks', 'jquery-ui-dialog', 'jquery-ui-datepicker'), HASHFORM_VERSION, true);
             wp_enqueue_style('hashform-icons', HASHFORM_URL . 'fonts/hf-icons.css', array(), HASHFORM_VERSION);
 
             wp_localize_script('hashform-backend', 'hashform_backend_js', array(
@@ -52,7 +52,7 @@ class HashFormLoader {
         wp_enqueue_script('hashform-select2', HASHFORM_URL . '/js/select2.min.js', array('jquery'), HASHFORM_VERSION, true);
         wp_enqueue_script('jquery-condition', HASHFORM_URL . '/js/jquery-condition.js', array('jquery'), HASHFORM_VERSION, true);
         wp_enqueue_script('wp-color-picker-alpha', HASHFORM_URL . '/js/wp-color-picker-alpha.js', array('wp-color-picker'), HASHFORM_VERSION, true);
-        wp_enqueue_script('hashform-admin-settings', HASHFORM_URL . '/js/admin-settings.js', array('jquery'), HASHFORM_VERSION, true);
+        wp_enqueue_script('hashform-admin-settings', HASHFORM_URL . '/js/admin-settings.js', array('jquery', 'plugin-install', 'updates'), HASHFORM_VERSION, true);
 
         wp_localize_script('hashform-admin-settings', 'hashform_admin_js_obj', array(
             'ajax_url' => admin_url('admin-ajax.php'),
