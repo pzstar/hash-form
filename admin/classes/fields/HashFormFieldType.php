@@ -91,7 +91,7 @@ abstract class HashFormFieldType {
         $container_class = array();
         $container_class[] = ($field['required'] != '0') ? 'hf-form-field-required' : '';
         $container_class[] = 'hashform-field-type-' . esc_attr($field['type']);
-        $container_class[] = ($field['type'] == 'captcha' && $global_settings['re_type'] == 'v3') ? 'hf-recaptcha-v3 hf-hidden' : '';
+        $container_class[] = ($field['type'] == 'captcha' && $global_settings['re_type'] == 'v3' && !is_admin()) ? 'hf-recaptcha-v3 hf-hidden' : '';
 
         if (in_array($field['type'], array('heading', 'paragraph'))) {
             $text_alignment = isset($field['text_alignment']) && $field['text_alignment'] ? $field['text_alignment'] : 'inline';

@@ -8,6 +8,7 @@ var hashFormAdmin = hashFormAdmin || {};
             $styleSettings = $('#hf-style-form'),
             copyHelper = false,
             fieldsUpdated = 0;
+    var isCheckedField = false;
 
     hashFormAdmin = {
         init: function () {
@@ -287,22 +288,35 @@ var hashFormAdmin = hashFormAdmin || {};
                 }
             }
 
+            if (att == 'value' && parentField.attr('data-type') == 'url') {
+                $(this).closest('div').find('.hf-error').remove();
+                if (newValue && !hashFormAdmin.isUrl(newValue)) {
+                    $(this).closest('div').append('<p class="hf-error">Invalid Website/URL Value. Please add full URL value</p>');
+                }
+            }
+
             if (parentField.attr('data-type') == 'range_slider') {
-                var newSlider = parentField.find('.hashform-range-input-selector');
-                var sliderValue = newSlider.val();
-                var sliderMinValue = parseFloat(newSlider.attr('min'));
-                var sliderMaxValue = parseFloat(newSlider.attr('max'));
-                var sliderStepValue = parseFloat(newSlider.attr('step'));
-                newSlider.prev('.hashform-range-slider').slider({
-                    value: sliderValue,
-                    min: sliderMinValue,
-                    max: sliderMaxValue,
-                    step: sliderStepValue,
-                    range: 'min',
-                    slide: function (e, ui) {
-                        $(this).next().val(ui.value).trigger('change');
-                    }
-                });
+                setTimeout(function () {
+                    var newSlider = parentField.find('.hashform-range-input-selector');
+                    var sliderValue = newSlider.val();
+                    var sliderMinValue = parseFloat(newSlider.attr('min'));
+                    var sliderMaxValue = parseFloat(newSlider.attr('max'));
+                    var sliderStepValue = parseFloat(newSlider.attr('step'));
+                    sliderValue = sliderValue < sliderMinValue ? sliderMinValue : sliderValue;
+                    sliderValue = sliderValue > sliderMaxValue ? sliderMaxValue : sliderValue;
+                    var remainder = sliderValue % sliderStepValue;
+                    sliderValue = sliderValue - remainder;
+                    newSlider.prev('.hashform-range-slider').slider({
+                        value: sliderValue,
+                        min: sliderMinValue,
+                        max: sliderMaxValue,
+                        step: sliderStepValue,
+                        range: 'min',
+                        slide: function (e, ui) {
+                            $(this).next().val(ui.value).trigger('change');
+                        }
+                    });
+                }, 100)
             }
 
             if (changes === null) {
@@ -749,6 +763,11 @@ var hashFormAdmin = hashFormAdmin || {};
             return regex.test(email);
         },
 
+        isUrl: function (url) {
+            var regex = /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
+            return regex.test(url);
+        },
+
         setupFieldOptionSorting: function (sort) {
             var opts = {
                 items: 'li',
@@ -757,6 +776,9 @@ var hashFormAdmin = hashFormAdmin || {};
                 forcePlaceholderSize: false,
                 handle: '.hf-drag',
                 helper: function (e, li) {
+                    if (li.find('input[type="radio"]:checked, input[type="checkbox"]:checked').length > 0) {
+                        isCheckedField = true;
+                    }
                     copyHelper = li.clone().insertAfter(li);
                     return li.clone();
                 },
@@ -764,6 +786,13 @@ var hashFormAdmin = hashFormAdmin || {};
                     copyHelper && copyHelper.remove();
                     var fieldId = ui.item.attr('id').replace('hf-option-list-', '').replace('-' + ui.item.data('optkey'), '');
                     hashFormAdmin.resetDisplayedOpts(fieldId);
+                    var uiSortField = ui.item.find('input[type="radio"], input[type="checkbox"]');
+
+                    if (isCheckedField) {
+                        uiSortField.prop('checked', true);
+                        ui.item.find('input[type="radio"]').trigger('click');
+                        isCheckedField = false;
+                    }
                 }
             };
             $(sort).sortable(opts);
@@ -852,7 +881,9 @@ var hashFormAdmin = hashFormAdmin || {};
             }
 
             if (input.is('select')) {
+                const selectedValDefault = input.val();
                 placeholder = document.getElementById('hf-placeholder-' + fieldId);
+
                 if (placeholder !== null && placeholder.value === '') {
                     hashFormAdmin.fillDropdownOpts(input[0], {sourceID: fieldId});
                 } else {
@@ -860,6 +891,10 @@ var hashFormAdmin = hashFormAdmin || {};
                         sourceID: fieldId,
                         placeholder: placeholder.value
                     });
+                }
+
+                if ($('[name^="item_meta[' + fieldId + ']"]').length > 0 && $('[name^="item_meta[' + fieldId + ']"]')[0].contains(selectedValDefault)) {
+                    $('[name^="item_meta[' + fieldId + ']"]').val(selectedValDefault);
                 }
             } else {
                 opts = hashFormAdmin.getMultipleOpts(fieldId);
@@ -1305,3 +1340,13 @@ var hashFormAdmin = hashFormAdmin || {};
         hashFormAdmin.init();
     });
 })(jQuery);
+
+
+HTMLSelectElement.prototype.contains = function(value) {
+    for (var i = 0, l = this.options.length; i < l; i++) {
+        if (this.options[i].value == value) {
+            return true;
+        }
+    }
+    return false;
+}
