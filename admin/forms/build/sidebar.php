@@ -108,6 +108,10 @@ defined('ABSPATH') || die();
                         </div>
                     </div>
                 </form>
+
+                <div class="hf-hidden">
+                    <?php wp_editor('', 'hf-init-tinymce'); ?>
+                </div>
             </div>
         </div>
     </div>

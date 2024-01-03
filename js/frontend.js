@@ -181,6 +181,11 @@ jQuery(function ($) {
     $('.hashform-field-type-date input').each(function () {
         const $this = $(this);
         const dtFormat = $this.attr('data-format');
+        const dtVal = $this.val();
+        if(dtVal) {
+            var date = new Date(dtVal);
+            $this.val(date == 'Invalid Date' ? '' : moment(date).format(dtFormat.replace("dd", "DD").replace("MM", "MMMM").replace("mm", "MM")));
+        }
         $this.datepicker({
             changeMonth: true,
             dateFormat: dtFormat,

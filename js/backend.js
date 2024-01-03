@@ -65,6 +65,16 @@ var hashFormAdmin = hashFormAdmin || {};
             $('.hf-fields-type-date .hf-default-value-field').datepicker({
                 changeMonth: true,
             });
+
+            document.addEventListener(
+                "hashform_added_field", (e) => {
+                    if (e.hfType == 'date') {
+                        $(document).find('.hf-fields-type-date .hf-default-value-field').datepicker({
+                            changeMonth: true,
+                        });
+                    }
+                }, false,
+            );
         },
 
         clickNewTab: function () {
@@ -226,7 +236,7 @@ var hashFormAdmin = hashFormAdmin || {};
             $('#hf-meta-panel').on('input', '[data-changeme]', hashFormAdmin.liveChangesInput);
             $('#hf-meta-panel').on('change', 'select[name="submit_btn_alignment"]', hashFormAdmin.liveChangeButtonPosition);
 
-            $buildForm.on('input', '[data-changeme]', hashFormAdmin.liveChangesInput);
+            $buildForm.on('input, change', '[data-changeme]', hashFormAdmin.liveChangesInput);
 
             $buildForm.on('click', 'input.hf-form-field-required', hashFormAdmin.markRequired);
 
