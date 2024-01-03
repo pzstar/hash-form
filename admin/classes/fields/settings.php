@@ -18,7 +18,7 @@ defined('ABSPATH') || die();
             ?>
             <div class="hf-form-row">
                 <?php printf(esc_html__('Captchas will not work untill the Site and Secret Keys are set up. Add Keys %1$shere%2$s.', 'hash-form'), '<a href="?page=hashform-settings" target="_blank">', '</a>'); ?>
-                <label class="hf-field-desc"><?php printf(esc_html__('Tutorial to %1$sgenerate Site and Secret Keys%2$s', 'hash-form'), '<a href="https://hashthemes.com/articles/generate-site-key-and-secret-key-from-google-recaptcha/" target="_blank">', '</a>'); ?></label>
+                <label class="hf-field-desc"><?php printf(esc_html__('Tutorial to %1$sGenerate Site and Secret Keys%2$s', 'hash-form'), '<a href="https://hashthemes.com/articles/generate-site-key-and-secret-key-from-google-recaptcha/" target="_blank">', '</a>'); ?></label>
             </div>
             <?php
         }
