@@ -147,7 +147,9 @@ class HashFormEmail {
         $entry = HashFormEntry::get_entry_vars($this->entry_id);
         $entry_rows = '';
         $file_img_placeholder = HASHFORM_URL . '/img/attachment.png';
+        $count = 0;
         foreach ($entry->metas as $id => $value) {
+            $count++;
             $title = $value['name'];
             $entry_value = maybe_unserialize($value['value']);
             $entry_type = $value['type'];
@@ -181,7 +183,7 @@ class HashFormEmail {
                 }
                 $entry_value = $upload_value;
             }
-            $entry_rows .= call_user_func('HashFormEmail::' . $email_template, $title, $entry_value, $id);
+            $entry_rows .= call_user_func('HashFormEmail::' . $email_template, $title, $entry_value, $count);
         }
         return $entry_rows;
     }
