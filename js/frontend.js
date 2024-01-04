@@ -201,19 +201,95 @@ jQuery(function ($) {
         });
     })
 
+    function arrayValsCompare(compareValue, arrayVals, condition) {
+        var retCase = false;
+        switch (condition) {
+            case 'equal':
+                if($.inArray(compareValue, arrayVals) !== -1) {
+                    retCase = true;
+                }
+                break;
+
+            case 'less_than':
+                retCase = arrayVals.length > 0 ? true : false;
+                $.each(arrayVals, function(index, val) {
+                    if (compareValue <= val) {
+                        retCase = false;
+                        return false;
+                    }
+                })
+                break;
+
+            case 'less_than_or_equal':
+                retCase = arrayVals.length > 0 ? true : false;
+                $.each(arrayVals, function(index, val) {
+                    if (compareValue < val) {
+                        retCase = false;
+                        return false;
+                    }
+                })
+                break;
+
+            case 'greater_than':
+                retCase = arrayVals.length > 0 ? true : false;
+                $.each(arrayVals, function(index, val) {
+                    if (compareValue >= val) {
+                        retCase = false;
+                        return false;
+                    }
+                })
+                break;
+
+            case 'greater_than_or_equal':
+                console.log(arrayVals);
+                console.log(arrayVals.length);
+                retCase = arrayVals.length > 0 ? true : false;
+                $.each(arrayVals, function(index, val) {
+                    if (compareValue > val) {
+                        retCase = false;
+                        return false;
+                    }
+                })
+                break;
+
+            case 'is_like':
+                $.each(arrayVals, function(index, val) {
+                    if (val.indexOf(compareValue) >= 0) {
+                        retCase = true;
+                    }
+                })
+                break;
+        }
+        return retCase;
+    }
+
     $('.hashform-form-conditions').each(function () {
         const $this = $(this);
         const parentForm = $this.closest('form');
         const conditions = JSON.parse($this.val());
         $.each(conditions, function (index, val) {
-            const conditionTrigger = parentForm.find('[name="item_meta[' + val.compare_to + ']');
+            var conditionTrigger = parentForm.find('[name="item_meta[' + val.compare_to + ']');
+            var isArrayVals = false;
             const actionField = parentForm.find('#hf-field-container-' + val.compare_from);
             const compareCondition = val.compare_condition;
             const compareValue = val.compare_value;
             const conditionAction = val.condition_action;
+
+            if (!(conditionTrigger.length > 0)) {
+                conditionTrigger = parentForm.find('[name="item_meta[' + val.compare_to + '][]');
+                isArrayVals = true;
+            }
+
             conditionTrigger.on('change', function () {
                 var value = $(this).val();
                 var selector = $(this);
+                var arrayVals = [];
+                if (isArrayVals) {
+                    arrayVals = conditionTrigger.map(function () {
+                        return $(this).is(':checked') ? $(this).val() : null;
+                    }).toArray();
+                }
+
                 if ($(this).attr('type') && $(this).attr('type') == 'checkbox') {
                     if (!$(this).is(':checked')) {
                         value = '';
@@ -222,7 +298,7 @@ jQuery(function ($) {
 
                 switch (compareCondition) {
                     case 'equal':
-                        if (value == compareValue) {
+                        if (isArrayVals ? arrayValsCompare(compareValue, arrayVals, 'equal') : (value == compareValue)) {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {
                                     actionField.show();
@@ -230,6 +306,7 @@ jQuery(function ($) {
                                     actionField.hide();
                                 }
                             }
+
                         } else {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {
@@ -242,7 +319,7 @@ jQuery(function ($) {
                         break;
 
                     case 'not_equal':
-                        if (value != compareValue) {
+                        if (!(isArrayVals ? arrayValsCompare(compareValue, arrayVals, 'equal') : (value == compareValue))) {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {
                                     actionField.show();
@@ -250,6 +327,7 @@ jQuery(function ($) {
                                     actionField.hide();
                                 }
                             }
+
                         } else {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {
@@ -263,7 +341,7 @@ jQuery(function ($) {
 
                     case 'less_than':
                         value = (value == '') ? 0 : parseInt(value);
-                        if (value < compareValue) {
+                        if (isArrayVals ? arrayValsCompare(compareValue, arrayVals, 'less_than') : (value < compareValue)) {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {
                                     actionField.show();
@@ -271,6 +349,7 @@ jQuery(function ($) {
                                     actionField.hide();
                                 }
                             }
+
                         } else {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {
@@ -284,7 +363,7 @@ jQuery(function ($) {
 
                     case 'less_than_or_equal':
                         value = (value == '') ? 0 : parseInt(value);
-                        if (value <= compareValue) {
+                        if (isArrayVals ? arrayValsCompare(compareValue, arrayVals, 'less_than_or_equal') : (value <= compareValue)) {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {
                                     actionField.show();
@@ -292,6 +371,7 @@ jQuery(function ($) {
                                     actionField.hide();
                                 }
                             }
+
                         } else {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {
@@ -305,7 +385,7 @@ jQuery(function ($) {
 
                     case 'greater_than':
                         value = (value == '') ? 0 : parseInt(value);
-                        if (value > compareValue) {
+                        if (isArrayVals ? arrayValsCompare(compareValue, arrayVals, 'greater_than') : (value > compareValue)) {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {
                                     actionField.show();
@@ -313,6 +393,7 @@ jQuery(function ($) {
                                     actionField.hide();
                                 }
                             }
+
                         } else {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {
@@ -326,7 +407,7 @@ jQuery(function ($) {
 
                     case 'greater_than_or_equal':
                         value = (value == '') ? 0 : parseInt(value);
-                        if (value >= compareValue) {
+                        if (isArrayVals ? arrayValsCompare(compareValue, arrayVals, 'greater_than_or_equal') : (value >= compareValue)) {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {
                                     actionField.show();
@@ -334,6 +415,7 @@ jQuery(function ($) {
                                     actionField.hide();
                                 }
                             }
+
                         } else {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {
@@ -346,7 +428,7 @@ jQuery(function ($) {
                         break;
 
                     case 'is_like':
-                        if (value.indexOf(compareValue) >= 0) {
+                        if (isArrayVals ? arrayValsCompare(compareValue, arrayVals, 'is_like') : (value.indexOf(compareValue) >= 0)) {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {
                                     actionField.show();
@@ -354,6 +436,7 @@ jQuery(function ($) {
                                     actionField.hide();
                                 }
                             }
+
                         } else {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {
@@ -366,7 +449,7 @@ jQuery(function ($) {
                         break;
 
                     case 'is_not_like':
-                        if (!(value.indexOf(compareValue) >= 0)) {
+                        if (!(isArrayVals ? arrayValsCompare(compareValue, arrayVals, 'is_like') : (value.indexOf(compareValue) >= 0))) {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {
                                     actionField.show();
@@ -374,6 +457,7 @@ jQuery(function ($) {
                                     actionField.hide();
                                 }
                             }
+
                         } else {
                             if (actionField.length) {
                                 if (conditionAction == 'show') {

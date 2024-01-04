@@ -9,7 +9,7 @@ var hashFormBuilder = hashFormBuilder || {};
             $formSettings = $('#hf-settings-form'),
             currentFormId = $('#hf-form-id').val(),
             copyHelper = false,
-            fieldsUpdated = 0,
+            // fieldsUpdated = 0,
             autoId = 0;
 
 
@@ -947,7 +947,7 @@ var hashFormBuilder = hashFormBuilder || {};
                         field.val(newOrder);
                         var singleField = document.getElementById('hf-fields-settings-' + fieldId);
                         hashFormBuilder.moveFieldSettings(singleField);
-                        hashFormBuilder.fieldUpdated();
+                        // hashFormBuilder.fieldUpdated();
                     }
                 }
             });
@@ -980,19 +980,19 @@ var hashFormBuilder = hashFormBuilder || {};
             return null !== wrapper && wrapper.classList.contains('tmce-active');
         },
 
-        fieldUpdated: function () {
-            if (!fieldsUpdated) {
-                fieldsUpdated = 1;
-                window.addEventListener('beforeunload', hashFormBuilder.confirmExit);
-            }
-        },
+        // fieldUpdated: function () {
+        //     if (!fieldsUpdated) {
+        //         fieldsUpdated = 1;
+        //         window.addEventListener('beforeunload', hashFormBuilder.confirmExit);
+        //     }
+        // },
 
-        confirmExit: function (event) {
-            if (fieldsUpdated) {
-                event.preventDefault();
-                event.returnValue = '';
-            }
-        },
+        // confirmExit: function (event) {
+        //     if (fieldsUpdated) {
+        //         event.preventDefault();
+        //         event.returnValue = '';
+        //     }
+        // },
 
         maybeFixRangeSlider: function () {
             setTimeout(() => {
