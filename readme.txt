@@ -3,7 +3,7 @@ Contributors: hashthemes
 Tags: form, form builder, drag and drop, contact form
 Requires at least: 5.0
 Tested up to: 6.4
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -45,6 +45,7 @@ Customize your contact forms effortlessly with our drag and drop field types. Le
 <li><strong>Image: </strong>The Image section in your contact form enables you to incorporate pictures, providing users with visual context about the content or purpose of the form.</li>
 <li><strong>Spinner: </strong>The Spinner element provides users with an intuitive interface to easily select numeric values by spinning a control mechanism.</li>
 <li><strong>Number: </strong>The Number Field is employed to gather numeric values, encompassing integers, decimals, or percentages. Users are restricted to inputting only numerical data into this field.</li>
+<li><strong>Upload: </strong>This feature allows respondents to effortlessly submit diverse files, enriching data collection with images, documents, or other relevant attachments. Seamlessly integrated into the form, the upload field ensures an intuitive experience, and submitted files can be securely managed for further analysis or processing.</li>
 </ul>
 
 
@@ -85,6 +86,8 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 </ol>
 
 == Changelog ==
+= 1.0.4, 4 Jan, 2024 = 
+* Bug fixes
 
 = 1.0.3, 2 Jan, 2024 = 
 * Plugin installer not working issue fixed
