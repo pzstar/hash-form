@@ -3,7 +3,7 @@
 /*
  * Plugin Name: Hash Form - Drag & Drop Form Builder
  * Description: Design, Embed, Connect: Your Ultimate Form Companion for WordPress
- * Version: 1.0.4
+ * Version: 1.0.5
  * Author: HashThemes
  * Author URI: https://hashthemes.com/
  * Author: HashThemes
@@ -15,7 +15,7 @@
 
 defined('ABSPATH') || die();
 
-define('HASHFORM_VERSION', '1.0.4');
+define('HASHFORM_VERSION', '1.0.5');
 define('HASHFORM_FILE', __FILE__);
 define('HASHFORM_PATH', plugin_dir_path(HASHFORM_FILE));
 define('HASHFORM_URL', plugin_dir_url(HASHFORM_FILE));
@@ -53,9 +53,9 @@ function hashform_elementor_widget_register($widgets_manager) {
 /**
  * Plugin Activation.
  */
-register_activation_hook(HASHFORM_FILE, 'hashform_create_table');
+register_activation_hook(HASHFORM_FILE, 'hashform_network_create_table');
 
-function hashform_create_table($network_wide) {
+function hashform_network_create_table($network_wide) {
     global $wpdb;
 
     if (is_multisite() && $network_wide) {
@@ -71,6 +71,14 @@ function hashform_create_table($network_wide) {
         $db = new HashFormCreateTable();
         $db->upgrade();
     }
+}
+
+/**
+ * Create form tables on single site.
+ */
+function hashform_create_table() {
+    $db = new HashFormCreateTable();
+    $db->upgrade();
 }
 
 /**

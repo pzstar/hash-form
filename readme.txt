@@ -3,7 +3,7 @@ Contributors: hashthemes
 Tags: form, form builder, drag and drop, contact form
 Requires at least: 5.0
 Tested up to: 6.4
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -86,6 +86,11 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 </ol>
 
 == Changelog ==
+= 1.0.5, 5 Jan, 2024 = 
+* Demo Importer issue fixed
+* Bug in Conditional Display fixed
+
+* Bug fixes
 = 1.0.4, 4 Jan, 2024 = 
 * Bug fixes
 
