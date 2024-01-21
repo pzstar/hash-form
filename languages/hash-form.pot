@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Hash Form\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-28 09:38+0000\n"
+"POT-Creation-Date: 2024-01-21 07:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Loco-Version: 2.6.4; wp-6.3\n"
 "X-Domain: hash-form"
 
-#: admin/classes/fields/settings.php:487 admin/classes/fields/settings.php:507
+#: admin/classes/fields/settings.php:495 admin/classes/fields/settings.php:515
 msgid "%"
 msgstr ""
 
@@ -64,11 +64,10 @@ msgid_plural "%1$s forms restored from the Trash."
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin/settings/captcha-settings.php:10
+#: admin/settings/captcha-settings.php:6
 #, php-format
 msgid ""
-"%1$s requires a Site and Private API key. Sign up for a %2$sfree %1$s "
-"key%3$s."
+"%1$s requires a Site and Secret keys. Sign up for a %2$sfree %1$s key%3$s."
 msgstr ""
 
 #: admin/classes/HashFormListing.php:67
@@ -97,7 +96,7 @@ msgstr ""
 msgid "%s is required."
 msgstr ""
 
-#: admin/classes/fields/HashFormFieldType.php:389
+#: admin/classes/fields/HashFormFieldType.php:390
 #, php-format
 msgid "%s Options"
 msgstr ""
@@ -119,7 +118,7 @@ msgstr ""
 msgid "09/19/2023"
 msgstr ""
 
-#: admin/classes/fields/settings.php:447
+#: admin/classes/fields/settings.php:455
 msgid "1 Column"
 msgstr ""
 
@@ -131,7 +130,7 @@ msgstr ""
 msgid "19/09/2023"
 msgstr ""
 
-#: admin/classes/fields/settings.php:450
+#: admin/classes/fields/settings.php:458
 msgid "2 Columns"
 msgstr ""
 
@@ -143,7 +142,7 @@ msgstr ""
 msgid "25-34"
 msgstr ""
 
-#: admin/classes/fields/settings.php:453
+#: admin/classes/fields/settings.php:461
 msgid "3 Columns"
 msgstr ""
 
@@ -151,7 +150,7 @@ msgstr ""
 msgid "35-44"
 msgstr ""
 
-#: admin/classes/fields/settings.php:456
+#: admin/classes/fields/settings.php:464
 msgid "4 Columns"
 msgstr ""
 
@@ -159,7 +158,7 @@ msgstr ""
 msgid "45-54"
 msgstr ""
 
-#: admin/classes/fields/settings.php:459
+#: admin/classes/fields/settings.php:467
 msgid "5 Columns"
 msgstr ""
 
@@ -167,7 +166,7 @@ msgstr ""
 msgid "55-64"
 msgstr ""
 
-#: admin/classes/fields/settings.php:462
+#: admin/classes/fields/settings.php:470
 msgid "6 Columns"
 msgstr ""
 
@@ -175,7 +174,7 @@ msgstr ""
 msgid "65 or Above"
 msgstr ""
 
-#: admin/settings/captcha-settings.php:54
+#: admin/settings/captcha-settings.php:50
 msgid ""
 "A score of 0 is likely to be a bot and a score of 1 is likely not a bot. "
 "Setting a lower threshold will allow more bots, but it will also stop fewer "
@@ -219,7 +218,7 @@ msgstr ""
 msgid "Add New Style Template"
 msgstr ""
 
-#: admin/classes/fields/HashFormFieldType.php:347
+#: admin/classes/fields/HashFormFieldType.php:348
 msgid "Add Option"
 msgstr ""
 
@@ -471,7 +470,7 @@ msgstr ""
 msgid "British Indian Ocean Territory"
 msgstr ""
 
-#: admin/settings/captcha-settings.php:45
+#: admin/settings/captcha-settings.php:41
 msgid "Browser Default"
 msgstr ""
 
@@ -488,7 +487,7 @@ msgid "Bulgaria"
 msgstr ""
 
 #: admin/forms/build/builder.php:44
-#: admin/classes/fields/HashFormFieldType.php:333
+#: admin/classes/fields/HashFormFieldType.php:334
 msgid "Bulk Edit Options"
 msgstr ""
 
@@ -545,7 +544,7 @@ msgstr ""
 
 #: admin/styles/main.php:841 admin/forms/build/sidebar.php:105
 #: admin/classes/fields/settings.php:61 admin/classes/fields/settings.php:122
-#: admin/classes/fields/settings.php:531
+#: admin/classes/fields/settings.php:539
 msgid "Center"
 msgstr ""
 
@@ -557,13 +556,7 @@ msgstr ""
 msgid "Chad"
 msgstr ""
 
-#: admin/settings/captcha-settings.php:7
-msgid ""
-"Changing the captcha type here will replace it in all any forms where it is "
-"used."
-msgstr ""
-
-#: admin/settings/captcha-settings.php:17
+#: admin/settings/captcha-settings.php:13
 msgid "Checkbox (V2)"
 msgstr ""
 
@@ -609,6 +602,10 @@ msgstr ""
 
 #: admin/forms/style/style.php:57
 msgid "Choose Template Style"
+msgstr ""
+
+#: admin/forms/settings/email-settings.php:58
+msgid "Choose the email field by click on the TAGS above."
 msgstr ""
 
 #: admin/classes/HashFormHelper.php:401
@@ -791,14 +788,14 @@ msgid "Default Style"
 msgstr ""
 
 #: admin/classes/fields/HashFormFieldName.php:67
-#: admin/classes/fields/settings.php:383
+#: admin/classes/fields/settings.php:391
 #: admin/classes/fields/HashFormFieldAddress.php:75
 msgid "Default Value"
 msgstr ""
 
 #: admin/settings/email-settings.php:25 admin/classes/fields/settings.php:181
-#: admin/classes/fields/HashFormFieldType.php:169
-#: admin/classes/fields/HashFormFieldType.php:169
+#: admin/classes/fields/HashFormFieldType.php:170
+#: admin/classes/fields/HashFormFieldType.php:170
 msgid "Delete"
 msgstr ""
 
@@ -922,7 +919,7 @@ msgstr ""
 msgid "Enable Auto Responder"
 msgstr ""
 
-#: admin/classes/fields/settings.php:424
+#: admin/classes/fields/settings.php:432
 msgid "Enter a Regex Format to validate."
 msgstr ""
 
@@ -991,7 +988,7 @@ msgstr ""
 msgid "Export Style"
 msgstr ""
 
-#: admin/classes/fields/settings.php:328 admin/classes/fields/settings.php:575
+#: admin/classes/fields/settings.php:328 admin/classes/fields/settings.php:583
 msgid "Extensions"
 msgstr ""
 
@@ -1023,11 +1020,11 @@ msgstr ""
 msgid "Faroe Islands"
 msgstr ""
 
-#: admin/classes/fields/settings.php:522
+#: admin/classes/fields/settings.php:530
 msgid "Field Alignment"
 msgstr ""
 
-#: admin/classes/fields/settings.php:413
+#: admin/classes/fields/settings.php:421
 msgid "Field Description"
 msgstr ""
 
@@ -1035,7 +1032,7 @@ msgstr ""
 msgid "Field Label"
 msgstr ""
 
-#: admin/classes/fields/settings.php:481
+#: admin/classes/fields/settings.php:489
 msgid "Field Max Width"
 msgstr ""
 
@@ -1142,7 +1139,7 @@ msgstr ""
 msgid "Form was successfully updated."
 msgstr ""
 
-#: admin/classes/fields/settings.php:422
+#: admin/classes/fields/settings.php:430
 msgid "Format"
 msgstr ""
 
@@ -1175,12 +1172,12 @@ msgid "From"
 msgstr ""
 
 #: admin/forms/settings/auto-responder.php:18
-#: admin/forms/settings/email-settings.php:52
+#: admin/forms/settings/email-settings.php:56
 msgid "From Email"
 msgstr ""
 
 #: admin/forms/settings/auto-responder.php:25
-#: admin/forms/settings/email-settings.php:60
+#: admin/forms/settings/email-settings.php:64
 msgid "From Name"
 msgstr ""
 
@@ -1196,7 +1193,7 @@ msgstr ""
 msgid "Gambia"
 msgstr ""
 
-#: admin/classes/fields/settings.php:424
+#: admin/classes/fields/settings.php:432
 msgid "Generate Regex"
 msgstr ""
 
@@ -1423,7 +1420,7 @@ msgstr ""
 msgid "Image Field - No Image"
 msgstr ""
 
-#: admin/classes/fields/settings.php:501
+#: admin/classes/fields/settings.php:509
 msgid "Image Max Width"
 msgstr ""
 
@@ -1453,6 +1450,12 @@ msgstr ""
 msgid "Important"
 msgstr ""
 
+#: admin/forms/settings/email-settings.php:50
+msgid ""
+"IMPORTANT: The email address should match with your domain name for proper "
+"delivery. eg. admin@yourwebsite.com"
+msgstr ""
+
 #: admin/classes/HashFormHelper.php:457
 msgid "India"
 msgstr ""
@@ -1461,7 +1464,7 @@ msgstr ""
 msgid "Indonesia"
 msgstr ""
 
-#: admin/classes/fields/settings.php:444
+#: admin/classes/fields/settings.php:452
 msgid "Inline"
 msgstr ""
 
@@ -1481,7 +1484,7 @@ msgstr ""
 msgid "Invalid Extension"
 msgstr ""
 
-#: admin/classes/fields/settings.php:565
+#: admin/classes/fields/settings.php:573
 msgid "Invalid Format"
 msgstr ""
 
@@ -1605,7 +1608,7 @@ msgstr ""
 #: admin/styles/main.php:781 admin/styles/main.php:809
 #: admin/styles/main.php:840 admin/forms/build/sidebar.php:99
 #: admin/classes/fields/settings.php:40 admin/classes/fields/settings.php:55
-#: admin/classes/fields/settings.php:116 admin/classes/fields/settings.php:525
+#: admin/classes/fields/settings.php:116 admin/classes/fields/settings.php:533
 msgid "Left"
 msgstr ""
 
@@ -1717,7 +1720,7 @@ msgstr ""
 msgid "Mauritius"
 msgstr ""
 
-#: admin/classes/fields/settings.php:472
+#: admin/classes/fields/settings.php:480
 msgid "Max Characters"
 msgstr ""
 
@@ -1748,7 +1751,7 @@ msgstr ""
 #: admin/forms/settings/auto-responder.php:54
 #: admin/forms/settings/form-confirmation.php:10
 #: admin/forms/settings/form-confirmation.php:19
-#: admin/forms/settings/email-settings.php:93
+#: admin/forms/settings/email-settings.php:97
 msgid "Message"
 msgstr ""
 
@@ -1792,7 +1795,7 @@ msgstr ""
 msgid "Morocco"
 msgstr ""
 
-#: admin/classes/fields/HashFormFieldType.php:168
+#: admin/classes/fields/HashFormFieldType.php:169
 msgid "Move Field"
 msgstr ""
 
@@ -1809,7 +1812,7 @@ msgstr ""
 msgid "Multiple"
 msgstr ""
 
-#: admin/classes/fields/settings.php:342 admin/classes/fields/settings.php:580
+#: admin/classes/fields/settings.php:342 admin/classes/fields/settings.php:588
 msgid "Multiple Uploads"
 msgstr ""
 
@@ -1867,8 +1870,8 @@ msgstr ""
 msgid "New Form Submission"
 msgstr ""
 
-#: admin/classes/fields/HashFormFieldType.php:374
-#: admin/classes/fields/HashFormFieldType.php:377
+#: admin/classes/fields/HashFormFieldType.php:375
+#: admin/classes/fields/HashFormFieldType.php:378
 msgid "New Option"
 msgstr ""
 
@@ -1990,19 +1993,19 @@ msgstr ""
 msgid "Oops!"
 msgstr ""
 
-#: admin/classes/fields/HashFormFieldType.php:525
+#: admin/classes/fields/HashFormFieldType.php:526
 msgid "Option 1"
 msgstr ""
 
-#: admin/classes/fields/HashFormFieldType.php:528
+#: admin/classes/fields/HashFormFieldType.php:529
 msgid "Option 2"
 msgstr ""
 
-#: admin/classes/fields/HashFormFieldType.php:531
+#: admin/classes/fields/HashFormFieldType.php:532
 msgid "Option 3"
 msgstr ""
 
-#: admin/classes/fields/settings.php:441
+#: admin/classes/fields/settings.php:449
 msgid "Options Layout"
 msgstr ""
 
@@ -2068,7 +2071,7 @@ msgid "Pitcairn"
 msgstr ""
 
 #: admin/classes/fields/HashFormFieldName.php:71
-#: admin/classes/fields/settings.php:394
+#: admin/classes/fields/settings.php:402
 #: admin/classes/fields/HashFormFieldAddress.php:79
 msgid "Placeholder"
 msgstr ""
@@ -2134,7 +2137,7 @@ msgstr ""
 msgid "Puerto Rico"
 msgstr ""
 
-#: admin/classes/fields/settings.php:490 admin/classes/fields/settings.php:510
+#: admin/classes/fields/settings.php:498 admin/classes/fields/settings.php:518
 msgid "px"
 msgstr ""
 
@@ -2154,15 +2157,15 @@ msgstr ""
 msgid "reCAPTCHA"
 msgstr ""
 
-#: admin/settings/captcha-settings.php:43
+#: admin/settings/captcha-settings.php:39
 msgid "reCAPTCHA Language"
 msgstr ""
 
-#: admin/settings/captcha-settings.php:53
+#: admin/settings/captcha-settings.php:49
 msgid "reCAPTCHA Threshold"
 msgstr ""
 
-#: admin/settings/captcha-settings.php:15
+#: admin/settings/captcha-settings.php:11
 msgid "reCAPTCHA Type"
 msgstr ""
 
@@ -2171,7 +2174,7 @@ msgstr ""
 msgid "Redirect URL"
 msgstr ""
 
-#: admin/forms/settings/email-settings.php:26
+#: admin/forms/settings/email-settings.php:28
 msgid "Reply To"
 msgstr ""
 
@@ -2179,11 +2182,11 @@ msgstr ""
 msgid "Reply To Email"
 msgstr ""
 
-#: admin/classes/fields/settings.php:288 admin/classes/fields/settings.php:556
+#: admin/classes/fields/settings.php:288 admin/classes/fields/settings.php:564
 msgid "Required"
 msgstr ""
 
-#: admin/classes/fields/settings.php:432
+#: admin/classes/fields/settings.php:440
 msgid "Required Field Indicator"
 msgstr ""
 
@@ -2213,7 +2216,7 @@ msgstr ""
 #: admin/styles/main.php:801 admin/styles/main.php:842
 #: admin/forms/build/sidebar.php:102 admin/classes/fields/settings.php:43
 #: admin/classes/fields/settings.php:58 admin/classes/fields/settings.php:119
-#: admin/classes/fields/settings.php:528
+#: admin/classes/fields/settings.php:536
 msgid "Right"
 msgstr ""
 
@@ -2533,7 +2536,7 @@ msgid "Styles"
 msgstr ""
 
 #: admin/forms/settings/auto-responder.php:49
-#: admin/forms/settings/email-settings.php:67
+#: admin/forms/settings/email-settings.php:71
 msgid "Subject"
 msgstr ""
 
@@ -2700,7 +2703,7 @@ msgstr ""
 msgid "This email is sent from %s"
 msgstr ""
 
-#: admin/classes/fields/HashFormFieldType.php:434
+#: admin/classes/fields/HashFormFieldType.php:435
 msgid "This field is invalid."
 msgstr ""
 
@@ -2708,11 +2711,11 @@ msgstr ""
 msgid "This field is not set up yet."
 msgstr ""
 
-#: admin/classes/fields/HashFormFieldType.php:433
+#: admin/classes/fields/HashFormFieldType.php:434
 msgid "This field is required."
 msgstr ""
 
-#: admin/classes/fields/settings.php:534
+#: admin/classes/fields/settings.php:542
 msgid ""
 "This option will only work if the Field Max Width is set and width is "
 "smaller than container."
@@ -2794,9 +2797,9 @@ msgstr ""
 msgid "Turks and Caicos Islands"
 msgstr ""
 
-#: admin/classes/fields/settings.php:21
+#: admin/settings/captcha-settings.php:7 admin/classes/fields/settings.php:21
 #, php-format
-msgid "Tutorial to %1$sgenerate Site and Secret Keys%2$s"
+msgid "Tutorial to %1$sGenerate Site and Secret Keys%2$s"
 msgstr ""
 
 #: admin/classes/HashFormHelper.php:586
@@ -2851,7 +2854,7 @@ msgstr ""
 msgid "Unsatisfied"
 msgstr ""
 
-#: admin/classes/fields/HashFormFieldType.php:538
+#: admin/classes/fields/HashFormFieldType.php:539
 msgid "Untitled"
 msgstr ""
 
@@ -2892,11 +2895,12 @@ msgstr ""
 msgid "Uruguay"
 msgstr ""
 
-#: admin/forms/settings/email-settings.php:114
+#: admin/forms/settings/email-settings.php:118
 msgid "Use #form_title for form title, #form_details for form inputs"
 msgstr ""
 
-#: admin/forms/settings/email-settings.php:54
+#: admin/forms/settings/email-settings.php:21
+#: admin/forms/settings/email-settings.php:49
 msgid "Use [admin_email] for admin email"
 msgstr ""
 
@@ -2923,23 +2927,23 @@ msgstr ""
 msgid "V"
 msgstr ""
 
-#: admin/settings/captcha-settings.php:28
+#: admin/settings/captcha-settings.php:24
 msgid "v2 Secret Key"
 msgstr ""
 
-#: admin/settings/captcha-settings.php:23
+#: admin/settings/captcha-settings.php:19
 msgid "v2 Site Key"
 msgstr ""
 
-#: admin/settings/captcha-settings.php:18
+#: admin/settings/captcha-settings.php:14
 msgid "v3"
 msgstr ""
 
-#: admin/settings/captcha-settings.php:38
+#: admin/settings/captcha-settings.php:34
 msgid "v3 Secret Key"
 msgstr ""
 
-#: admin/settings/captcha-settings.php:33
+#: admin/settings/captcha-settings.php:29
 msgid "v3 Site Key"
 msgstr ""
 
@@ -2947,7 +2951,7 @@ msgstr ""
 msgid "Validation"
 msgstr ""
 
-#: admin/classes/fields/settings.php:549
+#: admin/classes/fields/settings.php:557
 msgid "Validation Messages"
 msgstr ""
 

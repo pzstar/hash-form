@@ -17,6 +17,8 @@ defined('ABSPATH') || die();
                 <?php } ?>
             </div>
             <button type="button" class="button button-primary hf-add-email"><?php esc_html_e('Add More Email', 'hash-form'); ?></button>
+            <p></p>
+            <p class="description"><?php esc_html_e('Use [admin_email] for admin email', 'hash-form'); ?></p>
         </div>
     </div>
 
@@ -44,6 +46,8 @@ defined('ABSPATH') || die();
                 </div>
             </label>
             <input type="text" name="reply_to_email" value="<?php echo esc_attr($settings['reply_to_email']); ?>"/>
+            <p class="description"><?php esc_html_e('Use [admin_email] for admin email', 'hash-form'); ?></p>
+            <p class="description" style="color:red;"><?php esc_html_e('IMPORTANT: The email address should match with your domain name for proper delivery. eg. admin@yourwebsite.com', 'hash-form'); ?></p>
         </div>
     </div>
 
@@ -51,7 +55,7 @@ defined('ABSPATH') || die();
         <div class="hf-grid-3">
             <label><?php esc_html_e('From Email', 'hash-form'); ?></label>
             <input type="text" name="email_from" value="<?php echo esc_attr($settings['email_from']); ?>"/>
-            <p class="description"><?php esc_html_e('Use [admin_email] for admin email', 'hash-form'); ?></p>
+            <p class="description"><?php esc_html_e('Choose the email field by click on the TAGS above.', 'hash-form'); ?></p>
         </div>
     </div>
 
