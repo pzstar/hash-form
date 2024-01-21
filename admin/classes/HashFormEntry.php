@@ -317,7 +317,9 @@ class HashFormEntry {
         $query = "SELECT m.*, f.type AS field_type, f.field_key, f.name ";
         $query .= "FROM {$wpdb->prefix}hashform_entry_meta AS m ";
         $query .= "LEFT JOIN {$wpdb->prefix}hashform_fields AS f ON m.field_id = f.id ";
-        $query .= "WHERE m.item_id = %d AND m.field_id != %d";
+        $query .= "WHERE m.item_id = %d AND m.field_id != %d ";
+        $query .= "ORDER BY m.id ASC";
+
         $query = $wpdb->prepare($query, $entry->id, 0);
 
         $metas = $wpdb->get_results($query);
