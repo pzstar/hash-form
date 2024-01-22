@@ -1589,14 +1589,18 @@ h4.hf-field-heading{
     color: #FFF;
     display: flex;
     gap: 10px;
+    align-items: center;
 }
+
 .hf-add-form-footer button.hashform-updating:after{
-    font-family: "Material Design Icons";
-    content: "\F006A";
-    animation-name: hf-spin;
-    animation-duration: 1000ms;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear; 
+    content:"";
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    border:2px solid;
+    border-color: #FFF;
+    border-right-color: transparent;
+    animation:hf-spin 0.4s infinite linear;
 }
 
 #hf-add-template .hf-form-row{
@@ -1665,22 +1669,20 @@ form.hf-success .hf-copied{
 
 .hashform-ajax-udpate-button.hashform-updating:after,
 .hf-loading-button:after{
-    font-family: "Material Design Icons";
-    content: "\F006A";
-    animation-name: hf-spin;
-    animation-duration: 1000ms;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear; 
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid;
+    border-color: inherit;
+    border-right-color: transparent;
+    animation: hf-spin 0.4s infinite linear;
 }
 
 @keyframes hf-spin {
-    from {
-        transform:rotate(0deg);
-    }
-    to {
-        transform:rotate(360deg);
-    }
+    to{transform: rotate(1turn)}
 }
+
 
 /* =========== Settings Page =========== */
 .hf-multiple-email{

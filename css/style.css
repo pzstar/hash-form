@@ -1168,23 +1168,18 @@
 }
 
 .hf-submit-button.hf-button-loading:after{
-    content: '\F0772';
-    font-family: 'Material Design Icons' !important;
-    font-size: 1.1em;
-    -webkit-animation: hf-spin 0.4s infinite linear;
+    content: "";
+    width:1em;
+    height:1em;
+    border-radius:50%;
+    border:2px solid;
+    border-color: inherit;
+    border-right-color: transparent;
+    animation:hf-spin 0.4s infinite linear;
 }
 
-@-moz-keyframes hf-spin {
-    from { -moz-transform: rotate(0deg); }
-    to { -moz-transform: rotate(360deg); }
-}
-@-webkit-keyframes hf-spin {
-    from { -webkit-transform: rotate(0deg); }
-    to { -webkit-transform: rotate(360deg); }
-}
 @keyframes hf-spin {
-    from {transform:rotate(0deg);}
-    to {transform:rotate(360deg);}
+    to{transform: rotate(1turn)}
 }
 
 /* Form Success Message */

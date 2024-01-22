@@ -391,7 +391,7 @@ defined('ABSPATH') || die();
                 </div>
             </div>
             <div class="hf-submit-wrap">
-                <button class="hf-submit-button " type="submit">Submit</button>
+                <button class="hf-submit-button">Submit</button>
             </div>
         </div>
         <?php
