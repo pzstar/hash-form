@@ -3,7 +3,7 @@ Contributors: hashthemes
 Tags: form, form builder, drag and drop, contact form
 Requires at least: 5.0
 Tested up to: 6.4
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -15,6 +15,8 @@ Unleash the power of creativity and interaction with Hash Form. With its user-fr
 This plugin is built with beginners in mind. Even if you're not a tech wizard, you can effortlessly create fantastic forms without dealing with complicated code!
 
 But wait, there's more – once your form is set, the power is in your hands to customize every detail. Adjust the font size, letter spacing, and line height. Choose the color scheme that suits your taste, and set the spacing for rows and columns with ease. Our customization options allow you to make your form uniquely yours in a breeze! No need for generic designs, tailor your form to your liking effortlessly.
+
+Want to test the dashboard settings without installing on your website? <a href="https://tastewp.com/plugins/hash-form/" target="_blank">Test Dashboard Settings Here</a>
 
 <h3>Available Fields Types</h3>
 
@@ -85,7 +87,24 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 <li>Activate Plugin from "Plugins" menu in WordPress.</li>
 </ol>
 
+== Screenshots ==
+1. Form Builder Screen
+2. Form Builder Screen With Fields
+3. Email Settings Page
+4. Auto Responder Page
+5. Confirmation Page
+6. Conditional Logic Page
+7. Import/Export Page
+8. Form Style Selector Page
+9. Form Designer Page
+10. ReCaptcha v2 & v3 Integration Page
+11. Global Email Settings Page
+
 == Changelog ==
+= 1.0.7, 26 Jan, 2024 =
+* Loader updated
+* Entry order - Fixed
+
 = 1.0.6, 21 Jan, 2024 = 
 * User profile url error on entry listing - Fixed
 * Other minor fixes
