@@ -16,7 +16,15 @@ This plugin is built with beginners in mind. Even if you're not a tech wizard, y
 
 But wait, there's more – once your form is set, the power is in your hands to customize every detail. Adjust the font size, letter spacing, and line height. Choose the color scheme that suits your taste, and set the spacing for rows and columns with ease. Our customization options allow you to make your form uniquely yours in a breeze! No need for generic designs, tailor your form to your liking effortlessly.
 
-Want to test the dashboard settings without installing on your website? <a href="https://tastewp.com/plugins/hash-form/" target="_blank">Test Dashboard Settings Here</a>
+<h3>Test Dashboard</h3>
+Explore a test dashboard to get a hands-on experience with our features and functionalities. Visit <a href="https://tastewp.com/plugins/hash-form/" target="_blank">Test Dashboard</a> to access the test environment.
+
+Feel free to experiment, and if you have any feedback or encounter issues, please let us know through our support tickets.
+
+<h3>Documentation</h3>
+For detailed information and instructions, please refer to our official documentation at <a href="https://hashthemes.com/documentation/hash-form-drag-and-drop-form-builder-documentation/">Hash Form Documentation</a>.
+
+If you have any questions or need further assistance, feel free to reach out to our support team through support tickets.
 
 <h3>Available Fields Types</h3>
 
