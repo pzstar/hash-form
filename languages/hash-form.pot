@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Hash Form\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-21 07:06+0000\n"
+"POT-Creation-Date: 2024-01-31 04:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -604,8 +604,8 @@ msgstr ""
 msgid "Choose Template Style"
 msgstr ""
 
-#: admin/forms/settings/email-settings.php:58
-msgid "Choose the email field by click on the TAGS above."
+#: admin/forms/settings/email-settings.php:49
+msgid "Choose the email field by clicking on the TAGS above."
 msgstr ""
 
 #: admin/classes/HashFormHelper.php:401
@@ -1172,7 +1172,7 @@ msgid "From"
 msgstr ""
 
 #: admin/forms/settings/auto-responder.php:18
-#: admin/forms/settings/email-settings.php:56
+#: admin/forms/settings/email-settings.php:55
 msgid "From Email"
 msgstr ""
 
@@ -1450,7 +1450,7 @@ msgstr ""
 msgid "Important"
 msgstr ""
 
-#: admin/forms/settings/email-settings.php:50
+#: admin/forms/settings/email-settings.php:58
 msgid ""
 "IMPORTANT: The email address should match with your domain name for proper "
 "delivery. eg. admin@yourwebsite.com"
@@ -2900,8 +2900,10 @@ msgid "Use #form_title for form title, #form_details for form inputs"
 msgstr ""
 
 #: admin/forms/settings/email-settings.php:21
-#: admin/forms/settings/email-settings.php:49
-msgid "Use [admin_email] for admin email"
+#: admin/forms/settings/email-settings.php:57
+msgid ""
+"Use [admin_email] for admin email. Settings > General > Administration Email "
+"Address"
 msgstr ""
 
 #: admin/forms/shortcode-overlay.php:9

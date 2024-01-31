@@ -26,8 +26,8 @@
     max-width: 100%;
 }
 
-/*.toplevel_page_hashform .notice,
-.toplevel_page_hashform .settings-error,*/
+.toplevel_page_hashform.is-fullscreen-mode .notice,
+.toplevel_page_hashform.is-fullscreen-mode .settings-error,
 .hf-hidden{
     display: none !important;
 }
