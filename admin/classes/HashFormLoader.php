@@ -48,11 +48,16 @@ class HashFormLoader {
             ));
         }
 
+        if (strpos($page, 'hashform-smtp') === 0) {
+            wp_enqueue_script('plugin-install');
+            wp_enqueue_script('updates');
+        }
+
         wp_enqueue_script('hashform-chosen', HASHFORM_URL . '/js/chosen.jquery.js', array('jquery'), HASHFORM_VERSION, true);
         wp_enqueue_script('hashform-select2', HASHFORM_URL . '/js/select2.min.js', array('jquery'), HASHFORM_VERSION, true);
         wp_enqueue_script('jquery-condition', HASHFORM_URL . '/js/jquery-condition.js', array('jquery'), HASHFORM_VERSION, true);
         wp_enqueue_script('wp-color-picker-alpha', HASHFORM_URL . '/js/wp-color-picker-alpha.js', array('wp-color-picker'), HASHFORM_VERSION, true);
-        wp_enqueue_script('hashform-admin-settings', HASHFORM_URL . '/js/admin-settings.js', array('jquery', 'plugin-install', 'updates'), HASHFORM_VERSION, true);
+        wp_enqueue_script('hashform-admin-settings', HASHFORM_URL . '/js/admin-settings.js', array('jquery'), HASHFORM_VERSION, true);
 
         wp_localize_script('hashform-admin-settings', 'hashform_admin_js_obj', array(
             'ajax_url' => admin_url('admin-ajax.php'),
