@@ -21,6 +21,7 @@ define('HASHFORM_PATH', plugin_dir_path(HASHFORM_FILE));
 define('HASHFORM_URL', plugin_dir_url(HASHFORM_FILE));
 define('HASHFORM_UPLOAD_DIR', '/hashform');
 
+require HASHFORM_PATH . 'admin/classes/HashFormBlock.php';
 require HASHFORM_PATH . 'admin/classes/HashFormUploader.php';
 require HASHFORM_PATH . 'admin/classes/HashFormCreateTable.php';
 require HASHFORM_PATH . 'admin/classes/HashFormBuilder.php';
