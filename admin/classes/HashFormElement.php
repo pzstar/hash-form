@@ -16,7 +16,7 @@ class HashFormElement extends Widget_Base {
     }
 
     public function get_icon() {
-        return 'eicon-code';
+        return 'hfi hfi-form';
     }
 
     public function get_categories() {

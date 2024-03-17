@@ -74,21 +74,24 @@ class HashFormEntry {
         ?>
         <div class="hf-content">
             <div class="hf-entry-list-wrap wrap">
-                <?php
-                self::display_message($message, $class);
-                $entry_table = new HashFormEntryListing();
-                $entry_status = HashFormHelper::get_var('status', 'sanitize_title', 'published');
-                $entry_table->views();
-                ?>
-                <form id="posts-filter" method="get">
-                    <input type="hidden" name="page" value="<?php echo esc_attr(HashFormHelper::get_var('page', 'sanitize_title')); ?>" />
-                    <input type="hidden" name="status" value="<?php echo esc_attr($entry_status); ?>" />
+                <h1></h1>
+                <div id="hf-entry-list">
                     <?php
-                    $entry_table->prepare_items();
-                    $entry_table->search_box('Search', 'search');
-                    $entry_table->display();
+                    self::display_message($message, $class);
+                    $entry_table = new HashFormEntryListing();
+                    $entry_status = HashFormHelper::get_var('status', 'sanitize_title', 'published');
+                    $entry_table->views();
                     ?>
-                </form>
+                    <form id="posts-filter" method="get">
+                        <input type="hidden" name="page" value="<?php echo esc_attr(HashFormHelper::get_var('page', 'sanitize_title')); ?>" />
+                        <input type="hidden" name="status" value="<?php echo esc_attr($entry_status); ?>" />
+                        <?php
+                        $entry_table->prepare_items();
+                        $entry_table->search_box('Search', 'search');
+                        $entry_table->display();
+                        ?>
+                    </form>
+                </div>
             </div>
         </div>
         <?php

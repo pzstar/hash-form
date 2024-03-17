@@ -43,7 +43,7 @@ class HashFormBuilder {
 
     public function add_menu() {
         global $hashform_listing_page;
-        add_menu_page(esc_html__('Hash Form', 'hash-form'), esc_html__('Hash Form', 'hash-form'), 'manage_options', 'hashform', array($this, 'route'), 'dashicons-format-aside', 29);
+        add_menu_page(esc_html__('Hash Form', 'hash-form'), esc_html__('Hash Form', 'hash-form'), 'manage_options', 'hashform', array($this, 'route'), 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTcuNjYgMTUyLjI3IiBmaWxsPSIjYTdhYWFkIj48Zz48Zz48cGF0aCBkPSJNMCwzLjQ2QTMuNDYsMy40NiwwLDAsMSwzLjE0LDBoODBBMy41MywzLjUzLDAsMCwxLDg1LjYsMWwzMSwzMWEzLjQ3LDMuNDcsMCwwLDEsMSwyLjQzVjE0OC44MWEzLjQ2LDMuNDYsMCwwLDEtMy40NiwzLjQ2SDMxLjYzYTMuNDYsMy40NiwwLDEsMSwwLTYuOTJoNzkuMTFWMzguMDdIODMuMDVhMy40NiwzLjQ2LDAsMCwxLTMuNDYtMy40NlY2LjkySDYuOTJWMTQ1LjM1SDE0YTMuNDYsMy40NiwwLDEsMSwwLDYuOTJIMy40NkEzLjQ2LDMuNDYsMCwwLDEsMCwxNDguODFaTTEwNiwzMS4xNSw4Ni41MSwxMS42OFYzMS4xNVoiLz48cGF0aCBkPSJNNzguNjYsNTkuM0g5NS4wOXY2LjYxSDc4LjY2Vjg1Ljc1SDcyLjA1VjQyLjg3aDYuNjFabTAsMzkuNjd2MTYuNDJINzIuMDVWOTlINTIuMjJWOTIuMzZIOTUuMDlWOTlaTTM5LDk5SDIyLjU3VjkyLjM2SDM5VjcyLjUyaDYuNjFWMTE1LjRIMzlaTTM5LDU5LjNWNDIuODdoNi42MVY1OS4zSDY1LjQ0djYuNjFIMjIuNTdWNTkuM1oiLz48L2c+PC9nPjwvc3ZnPg==', 29);
         $hashform_listing_page = add_submenu_page('hashform', esc_html__('Forms', 'hash-form'), esc_html__('Forms', 'hash-form'), 'manage_options', 'hashform', array($this, 'route'));
         add_action("load-$hashform_listing_page", array($this, 'listing_page_screen_options'));
     }
@@ -91,6 +91,7 @@ class HashFormBuilder {
         ?>
         <div class="hf-content">
             <div class="hf-form-list-wrap wrap">
+                <h1></h1>
                 <div class="hf-add-new-form">
                     <a href="#" class="button hf-trigger-modal"><?php esc_html_e('Add New', 'hash-form'); ?></a>
                 </div>

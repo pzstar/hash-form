@@ -10,6 +10,7 @@ class HashFormLoader {
         add_action('admin_enqueue_scripts', array($this, 'admin_init'), 11);
         add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'), 11);
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+        add_action('elementor/editor/after_enqueue_styles', array($this, 'elementor_editor_styles'));
     }
 
     public function load_plugin_textdomain() {
@@ -41,7 +42,6 @@ class HashFormLoader {
         if (strpos($page, 'hashform') === 0) {
             wp_enqueue_script('hashform-builder', HASHFORM_URL . 'js/builder.js', array('jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-i18n', 'wp-hooks', 'jquery-ui-dialog', 'hashform-select2'), HASHFORM_VERSION, true);
             wp_enqueue_script('hashform-backend', HASHFORM_URL . 'js/backend.js', array('jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-i18n', 'wp-hooks', 'jquery-ui-dialog', 'jquery-ui-datepicker'), HASHFORM_VERSION, true);
-            wp_enqueue_style('hashform-icons', HASHFORM_URL . 'fonts/hf-icons.css', array(), HASHFORM_VERSION);
 
             wp_localize_script('hashform-backend', 'hashform_backend_js', array(
                 'nonce' => wp_create_nonce('hashform_ajax'),
@@ -68,6 +68,7 @@ class HashFormLoader {
         ));
 
         wp_enqueue_style('wp-color-picker');
+        wp_enqueue_style('hashform-icons', HASHFORM_URL . 'fonts/hf-icons.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('materialdesignicons', HASHFORM_URL . 'fonts/materialdesignicons.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-chosen', HASHFORM_URL . '/css/chosen.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-select2', HASHFORM_URL . '/css/select2.min.css', array(), HASHFORM_VERSION);
@@ -82,6 +83,10 @@ class HashFormLoader {
         if ($fonts_url) {
             wp_enqueue_style('hashform-fonts', $fonts_url, array(), false);
         }
+    }
+    
+    public static function elementor_editor_styles() {
+        wp_enqueue_style('hashform-icons', HASHFORM_URL . 'fonts/hf-icons.css', array(), HASHFORM_VERSION);
     }
 
     public static function enqueue_styles() {

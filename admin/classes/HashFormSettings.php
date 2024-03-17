@@ -37,50 +37,53 @@ class HashFormSettings {
         );
         $current = 'captcha-settings'
         ?>
-        <div id="hf-settings-wrap" class="wrap">
-            <form name="hashform_settings_form" method="post" action="?page=hashform-settings<?php echo esc_html($current ? '&amp;t=' . $current : '' ); ?>">
-                <div class="hf-page-title">
-                    <h3><?php esc_html_e('Settings', 'hash-form'); ?></h3>
-                </div>
-                <div class="hf-content"> 
-                    <div class="hf-body">
-                        <div class="hf-fields-sidebar">
-                            <ul class="hf-settings-tab">
-                                <?php foreach ($sections as $key => $section) { ?>
-                                    <li class="<?php echo esc_attr($current === $key ? 'hf-active' : '' ); ?>">
-                                        <a href="#hf-<?php echo esc_attr($key); ?>">
-                                            <i class="<?php echo esc_attr($section['icon']); ?>"></i>
-                                            <?php echo wp_kses_post($section['name']); ?>
-                                        </a>
-                                    </li>
-                                <?php } ?>
-                            </ul>
-                        </div>
+        <div class="hf-settings-wrap wrap">
+            <h1></h1>
+            <div id="hf-settings-wrap">
+                <form name="hashform_settings_form" method="post" action="?page=hashform-settings<?php echo esc_html($current ? '&amp;t=' . $current : '' ); ?>">
+                    <div class="hf-page-title">
+                        <h3><?php esc_html_e('Settings', 'hash-form'); ?></h3>
+                    </div>
+                    <div class="hf-content"> 
+                        <div class="hf-body">
+                            <div class="hf-fields-sidebar">
+                                <ul class="hf-settings-tab">
+                                    <?php foreach ($sections as $key => $section) { ?>
+                                        <li class="<?php echo esc_attr($current === $key ? 'hf-active' : '' ); ?>">
+                                            <a href="#hf-<?php echo esc_attr($key); ?>">
+                                                <i class="<?php echo esc_attr($section['icon']); ?>"></i>
+                                                <?php echo wp_kses_post($section['name']); ?>
+                                            </a>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                            </div>
 
-                        <div id="hf-form-panel">
-                            <div class="hf-form-wrap">
-                                <?php HashFormHelper::print_message(); ?>
+                            <div id="hf-form-panel">
+                                <div class="hf-form-wrap">
+                                    <?php HashFormHelper::print_message(); ?>
 
-                                <input type="hidden" name="hashform_action" value="process-form"/>
-                                <?php
-                                wp_nonce_field('hashform_process_form_nonce', 'process_form');
-                                foreach ($sections as $key => $section) {
-                                    ?>
-                                    <div id="hf-<?php echo esc_attr($key); ?>" class="<?php echo ( $current === $key ) ? '' : 'hf-hidden'; ?>">
-                                        <h3><?php echo esc_html($section['name']); ?></h3>
-                                        <?php
-                                        include( HASHFORM_PATH . 'admin/settings/' . $key . '.php' );
+                                    <input type="hidden" name="hashform_action" value="process-form"/>
+                                    <?php
+                                    wp_nonce_field('hashform_process_form_nonce', 'process_form');
+                                    foreach ($sections as $key => $section) {
                                         ?>
-                                    </div>
-                                <?php } ?>
+                                        <div id="hf-<?php echo esc_attr($key); ?>" class="<?php echo ( $current === $key ) ? '' : 'hf-hidden'; ?>">
+                                            <h3><?php echo esc_html($section['name']); ?></h3>
+                                            <?php
+                                            include( HASHFORM_PATH . 'admin/settings/' . $key . '.php' );
+                                            ?>
+                                        </div>
+                                    <?php } ?>
+                                </div>
                             </div>
                         </div>
+                        <div class="hf-footer">
+                            <input class="button button-primary button-large" type="submit" value="<?php esc_attr_e('Update', 'hash-form'); ?>"/>
+                        </div>
                     </div>
-                    <div class="hf-footer">
-                        <input class="button button-primary button-large" type="submit" value="<?php esc_attr_e('Update', 'hash-form'); ?>"/>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
         <?php
     }

@@ -22,6 +22,10 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.hfi.hfi-form:before {
+  content: "\e91c";
+}
+
 .hfi.hfi-phone:before {
     content: "\e900";
 }

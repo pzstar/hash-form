@@ -2142,8 +2142,10 @@ form.hf-success .hf-copied{
 }
 
 
-
-
+#hf-entry-list{
+    clear: both;
+    margin-top: 20px;
+}
 
 /** Admin Notice **/
 .hashform-notice.notice {
@@ -2155,8 +2157,8 @@ form.hf-success .hf-copied{
 }
 
 .hashform-notice.notice .hashform-notice-logo{
-    width: 84px;
-    flex: 84px 0 0;
+    width: 55px;
+    flex: 55px 0 0;
 }
 
 .hashform-notice.notice .hashform-notice-logo svg{
