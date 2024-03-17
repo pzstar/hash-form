@@ -26,6 +26,8 @@ class HashFormBuilder {
 
         add_action('wp_ajax_hashform_file_delete_action', array($this, 'file_delete_action'));
         add_action('wp_ajax_nopriv_hashform_file_delete_action', array($this, 'file_delete_action'));
+
+        add_action('wp_loaded', array($this, 'admin_notice'), 20);
     }
 
     public function includes() {
@@ -801,6 +803,86 @@ class HashFormBuilder {
                 }
             }
             closedir($dir);
+        }
+    }
+
+    public function admin_notice() {
+        add_action('admin_notices', array($this, 'admin_notice_content'));
+    }
+
+    public function admin_notice_content() {
+        if (!$this->is_dismissed('review') && !empty(get_option('hashform_first_activation')) && time() > get_option('hashform_first_activation') + 15 * DAY_IN_SECONDS) {
+            $this->review_notice();
+        }
+    }
+
+    public static function is_dismissed($notice) {
+        $dismissed = get_option('hashform_dismissed_notices', array());
+
+        // Handle legacy user meta
+        $dismissed_meta = get_user_meta(get_current_user_id(), 'hashform_dismissed_notices', true);
+        if (is_array($dismissed_meta)) {
+            if (array_diff($dismissed_meta, $dismissed)) {
+                $dismissed = array_merge($dismissed, $dismissed_meta);
+                update_option('hashform_dismissed_notices', $dismissed);
+            }
+            if (!is_multisite()) {
+                // Don't delete on multisite to avoid the notices to appear in other sites.
+                delete_user_meta(get_current_user_id(), 'hashform_dismissed_notices');
+            }
+        }
+
+        return in_array($notice, $dismissed);
+    }
+
+    public function review_notice() {
+        ?>
+        <div class="hashform-notice notice notice-info">
+            <?php $this->dismiss_button('review'); ?>
+            <div class="hashform-notice-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 117.66 152.27"><g><g><path d="M0,3.46A3.46,3.46,0,0,1,3.14,0h80A3.53,3.53,0,0,1,85.6,1l31,31a3.47,3.47,0,0,1,1,2.43V148.81a3.46,3.46,0,0,1-3.46,3.46H31.63a3.46,3.46,0,1,1,0-6.92h79.11V38.07H83.05a3.46,3.46,0,0,1-3.46-3.46V6.92H6.92V145.35H14a3.46,3.46,0,1,1,0,6.92H3.46A3.46,3.46,0,0,1,0,148.81ZM106,31.15,86.51,11.68V31.15Z"/><path d="M78.66,59.3H95.09v6.61H78.66V85.75H72.05V42.87h6.61Zm0,39.67v16.42H72.05V99H52.22V92.36H95.09V99ZM39,99H22.57V92.36H39V72.52h6.61V115.4H39ZM39,59.3V42.87h6.61V59.3H65.44v6.61H22.57V59.3Z"/></g></g></svg>
+            </div>
+
+            <div class="hashform-notice-content">
+                <p>
+                    <?php
+                    printf(
+                            /* translators: %1$s is link start tag, %2$s is link end tag. */
+                            esc_html__('Great to see that you have been using Hash Form for some time. We hope you love it, and we would really appreciate it if you would %1$sgive us a 5 stars rating%2$s and spread your words to the world.', 'hash-form'), '<a target="_blank" href="https://wordpress.org/support/plugin/hash-form/reviews/?filter=5">', '</a>'
+                    );
+                    ?>
+                </p>
+                <a target="_blank" class="button button-primary button-large" href="https://wordpress.org/support/plugin/hash-form/reviews/?filter=5"><span class="dashicons dashicons-thumbs-up"></span><?php echo esc_html__('Yes, of course', 'hash-form') ?></a> &nbsp;
+                <a class="button button-large" href="<?php echo esc_url(wp_nonce_url(add_query_arg('hashform-hide-notice', 'review'), 'review', 'hashform_notice_nonce')); ?>"><span class="dashicons dashicons-yes"></span><?php echo esc_html__('I have already rated', 'hash-form') ?></a>
+            </div>
+        </div>
+        <?php
+    }
+
+    public function welcome_init() {
+        if (!get_option('hashform_first_activation')) {
+            update_option('hashform_first_activation', time());
+        };
+
+        if (isset($_GET['hashform-hide-notice'], $_GET['hashform_notice_nonce'])) {
+            $notice = sanitize_key($_GET['hashform-hide-notice']);
+            check_admin_referer($notice, 'hashform_notice_nonce');
+            self::dismiss($notice);
+            wp_safe_redirect(remove_query_arg(array('hashform-hide-notice', 'hashform_notice_nonce'), wp_get_referer()));
+            exit;
+        }
+    }
+
+    public function dismiss_button($name) {
+        printf('<a class="notice-dismiss" href="%s"><span class="screen-reader-text">%s</span></a>', esc_url(wp_nonce_url(add_query_arg('hashform-hide-notice', $name), $name, 'hashform_notice_nonce')), esc_html__('Dismiss this notice.', 'hash-form'));
+    }
+
+    public static function dismiss($notice) {
+        $dismissed = get_option('hashform_dismissed_notices', array());
+
+        if (!in_array($notice, $dismissed)) {
+            $dismissed[] = $notice;
+            update_option('hashform_dismissed_notices', array_unique($dismissed));
         }
     }
 
