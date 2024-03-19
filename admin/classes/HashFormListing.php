@@ -106,7 +106,7 @@ class HashFormListing extends \WP_List_Table {
                     'entries' => $this->get_entry_link($id),
                     'id' => $id,
                     'form_key' => $item['form_key'],
-                    'shortcode' => '[hashform id=' . $id . ']',
+                    'shortcode' => '[hashform id="' . $id . '"]',
                     'created_at' => HashFormHelper::convert_date_format($item['created_at'])
                 );
             }
