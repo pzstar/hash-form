@@ -109,10 +109,11 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 11. Global Email Settings Page
 
 == Changelog ==
-= 1.1.0, 17 Mar, 2024 =
+= 1.1.0, 25 Mar, 2024 =
 * Icon for HashForm - Added
 * HashForm block for Gutenberg - Added
 * Documentation link - Added
+* Shortcode naming - Updated
 
 = 1.0.9, 13 Feb, 2024 =
 * Theme upload button not working fixed
