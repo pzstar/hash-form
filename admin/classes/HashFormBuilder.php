@@ -502,7 +502,7 @@ class HashFormBuilder {
         $form_title = $form->name;
         ?>
         <div id="hf-header" class="<?php echo esc_attr($class); ?>">
-            <h4><span class="mdi mdi-form-select"></span><?php echo esc_html($form_title); ?></h4>
+            <h4><span class="hfi hfi-form"></span><?php echo esc_html($form_title); ?></h4>
             <?php self::get_form_nav($form); ?>
 
             <button class="hashform-ajax-udpate-button" type="button" id="hf-update-button" >
