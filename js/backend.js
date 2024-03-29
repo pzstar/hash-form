@@ -1344,6 +1344,14 @@ var hashFormAdmin = hashFormAdmin || {};
             }
         },
 
+        bindClickForDialogClose: function ($modal) {
+            const closeModal = function () {
+                $modal.dialog('close');
+            };
+            $('.ui-widget-overlay').on('click', closeModal);
+            $modal.on('click', 'a.dismiss', closeModal);
+        },
+
     };
 
     $(function () {
