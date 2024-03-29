@@ -1533,14 +1533,6 @@ var hashFormBuilder = hashFormBuilder || {};
             field.className = filteredClasses.join(' ');
         },
 
-        bindClickForDialogClose: function ($modal) {
-            const closeModal = function () {
-                $modal.dialog('close');
-            };
-            $('.ui-widget-overlay').on('click', closeModal);
-            $modal.on('click', 'a.dismiss', closeModal);
-        },
-
         removeWPUnload: function () {
             window.onbeforeunload = null;
             var w = $(window);
