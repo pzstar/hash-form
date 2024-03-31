@@ -611,8 +611,9 @@ class HashFormBuilder {
 
     public function init_overlay_html() {
         $plugin_path = HASHFORM_PATH;
+        $new_form_overlay = apply_filters('hashform_new_form_overlay_template', $plugin_path . 'admin/forms/new-form-overlay.php');
         if (HashFormHelper::is_form_listing_page()) {
-            include $plugin_path . 'admin/forms/new-form-overlay.php';
+            include $new_form_overlay;
         }
         if (HashFormHelper::is_form_builder_page()) {
             include $plugin_path . 'admin/forms/shortcode-overlay.php';
