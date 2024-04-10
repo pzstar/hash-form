@@ -115,7 +115,7 @@ class HashFormFields {
     }
 
     public static function field_selection() {
-        return array(
+        $hashform_fields = array(
             'name' => array(
                 'name' => esc_html__('Name', 'hash-form'),
                 'icon' => 'hfi hfi-name',
@@ -225,6 +225,7 @@ class HashFormFields {
                 'icon' => 'hfi hfi-recaptcha',
             )
         );
+        return apply_filters('hashform_field_selection', $hashform_fields);
     }
 
     public static function create_row($values, $return = true) {
@@ -475,7 +476,7 @@ class HashFormFields {
     }
 
     private static function get_field_type_class($field_type = '') {
-        $type_classes = array(
+        $type_classes = apply_filters('hashform_field_type_class', array(
             'text' => 'HashFormFieldText',
             'textarea' => 'HashFormFieldTextarea',
             'select' => 'HashFormFieldSelect',
@@ -503,7 +504,7 @@ class HashFormFields {
             'date' => 'HashFormFieldDate',
             'time' => 'HashFormFieldTime',
             'upload' => 'HashFormFieldUpload',
-        );
+        ));
         if ($field_type) {
             return isset($type_classes[$field_type]) ? $type_classes[$field_type] : '';
         } else {
@@ -515,8 +516,11 @@ class HashFormFields {
         $classes = self::get_field_type_class();
         include HASHFORM_PATH . 'admin/classes/fields/HashFormFieldType.php';
         foreach ($classes as $class) {
-            include HASHFORM_PATH . 'admin/classes/fields/' . $class . '.php';
+            if (file_exists(HASHFORM_PATH . 'admin/classes/fields/' . $class . '.php')) {
+                include HASHFORM_PATH . 'admin/classes/fields/' . $class . '.php';
+            }
         }
+        do_action('hashform_include_field_class');
     }
 
     public static function show_fields($fields) {
