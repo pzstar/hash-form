@@ -1173,7 +1173,6 @@
     height:1em;
     border-radius:50%;
     border:2px solid;
-    border-color: inherit;
     border-right-color: transparent;
     animation:hf-spin 0.4s infinite linear;
 }
