@@ -590,6 +590,6 @@ defined('ABSPATH') || die();
             </div>
             <?php
         }
-        ?>                     
+        ?>
     </div>
 </div>

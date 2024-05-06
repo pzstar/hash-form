@@ -3,6 +3,7 @@ var hashFormBuilder = hashFormBuilder || {};
 (function ($) {
     'use strict';
     let $editorFieldsWrap = $('#hf-editor-fields'),
+            $editorWrap = $('#hf-editor-wrap'),
             $buildForm = $('#hf-fields-form'),
             buildForm = document.getElementById('hf-fields-form'),
             $formMeta = $('#hf-meta-form'),
@@ -117,7 +118,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 const wrap = document.getElementById('wp-' + editor.id + '-wrap');
                 wrap.classList.add('tmce-active');
                 wrap.classList.remove('html-active');
-        }
+            }
         }
     };
 
@@ -139,6 +140,11 @@ var hashFormBuilder = hashFormBuilder || {};
             $editorFieldsWrap.on('click', 'input[type=radio], input[type=checkbox]', hashFormBuilder.stopFieldFocus);
 
             $('#hf-add-fields-panel').on('click', '.hf-add-field', hashFormBuilder.addFieldClick);
+
+            hashFormBuilder.renumberMultiSteps();
+            $editorWrap.on('click', '.hf-step-item', hashFormBuilder.reorderStep);
+
+            hashFormBuilder.resetToFirstStep();
         },
 
         setupSortable: function (sortableSelector) {
@@ -580,7 +586,7 @@ var hashFormBuilder = hashFormBuilder || {};
         },
 
         groupIncludesBreakOrHidden: function (group) {
-            return null !== group.querySelector('.hf-editor-field-type-break, .hf-editor-field-type-hidden');
+            return null !== group.querySelector('.hf-editor-field-type-multi_step, .hf-editor-field-type-hidden');
         },
 
         unselectFieldGroups: function (event) {
@@ -667,7 +673,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
         clickDeleteField: function () {
             if (confirm("Are you sure?")) {
-                hashFormBuilder.deleteFields($(this).attr('data-deletefield'))
+                hashFormBuilder.deleteFields($(this).attr('data-deletefield'));
             }
             return false;
         },
@@ -695,6 +701,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 },
                 success: function () {
                     var $thisField = $('#hf-editor-field-id-' + fieldId),
+                            type = $thisField.data('type'),
                             settings = $('#hf-fields-settings-' + fieldId);
 
                     // Remove settings from sidebar.
@@ -727,6 +734,10 @@ var hashFormBuilder = hashFormBuilder || {};
                             hashFormBuilder.syncLayoutClasses($adjacentFields.first());
                         } else {
                             $liWrapper.remove();
+                        }
+
+                        if (type === 'multi_step') {
+                            hashFormBuilder.renumberMultiSteps();
                         }
                     });
                 }
@@ -782,6 +793,9 @@ var hashFormBuilder = hashFormBuilder || {};
                             }
                     );
                     hashFormBuilder.maybeFixRangeSlider();
+                    setTimeout(function() {
+                        $(document).find('.hf-color-picker').wpColorPicker();
+                    }, 1000)
                 },
                 error: hashFormBuilder.handleInsertFieldError
             });
@@ -875,6 +889,9 @@ var hashFormBuilder = hashFormBuilder || {};
             const event = new Event('hashform_sync_after_drag_and_drop', {bubbles: false});
             document.dispatchEvent(event);
             hashFormBuilder.maybeFixRangeSlider();
+            setTimeout(function() {
+                $(document).find('.hf-color-picker').wpColorPicker();
+            }, 1000)
         },
 
         fixUnwrappedListItems: function () {
@@ -1397,6 +1414,10 @@ var hashFormBuilder = hashFormBuilder || {};
             addedEvent.hfType = type;
             addedEvent.hfToggles = toggled;
             document.dispatchEvent(addedEvent);
+            if(type="multi_step") {
+                hashFormBuilder.resetToFirstStep();
+                hashFormBuilder.renumberMultiSteps();
+            }
         },
 
         getClassForBlock: function (size, type, index) {
@@ -1523,7 +1544,7 @@ var hashFormBuilder = hashFormBuilder || {};
             return checkbox.length && checkbox.prop('checked');
         },
 
-        /* Change the classes in the builder */
+
         changeFieldClass: function (field, setting) {
             var classes = field.className.split(' ');
             var filteredClasses = classes.filter(function (value, index, arr) {
@@ -1542,7 +1563,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
         maybeAddSaveAndDragIcons: function (fieldId) {
             var fieldOptions = document.querySelectorAll(`[id^=hf-option-list-${fieldId}-]`);
-            // return if there are no options.
+
             if (fieldOptions.length < 2) {
                 return;
             }
@@ -1555,6 +1576,99 @@ var hashFormBuilder = hashFormBuilder || {};
             });
         },
 
+        renumberMultiSteps: function () {
+            var i, containerClass,
+                steps = $('.hf-step-num');
+
+            if (steps.length > 1) {
+                $('#hf-first-step').removeClass('hf-hidden');
+                for (i = 0; i < steps.length; i++) {
+                    steps[i].textContent = (i + 1);
+                }
+            } else {
+                $('#hf-first-step').addClass('hf-hidden');
+            }
+        },
+
+
+        toggleCollapseStep: function(field) {
+            var toCollapse = hashFormBuilder.getAllFieldsForStep(field.get(0).parentNode.closest('li.hf-editor-field-box').nextElementSibling);
+            hashFormBuilder.toggleStep(field, toCollapse);
+        },
+
+        reorderStep: function() {
+            var field = $(this).closest('.hf-editor-form-field[data-type="multi_step"]');
+            if (field.length) {
+                hashFormBuilder.toggleCollapseStep(field);
+            } else {
+                hashFormBuilder.toggleCollapseFirstStep();
+            }
+        },
+
+        toggleCollapseFirstStep: function() {
+            var topLevel = document.getElementById('hf-first-step'),
+                firstField = document.getElementById('hf-editor-fields').firstElementChild,
+                toCollapse = hashFormBuilder.getAllFieldsForStep(firstField);
+
+            if (firstField.getAttribute('data-type') === 'multi_step') {
+                return;
+            }
+            hashFormBuilder.toggleStep(jQuery(topLevel), toCollapse);
+        },
+
+        toggleStep: function(field, toCollapse) {
+            var i,
+                fieldCount = toCollapse.length;
+
+            jQuery('ul#hf-editor-fields > li.hf-editor-field-box').each(function() {
+                const tfield = $(this),
+                    isStepField = tfield.find('.hf-editor-form-field[data-type="multi_step"]');
+
+                if(isStepField.length < 1) {
+                    tfield.slideUp(150, function() {
+                        tfield.hide();
+                    });
+                }
+            });
+
+            for (i = 0; i < fieldCount; i++) {
+                const stepItem = $(toCollapse[i]);
+                if (stepItem.find('.hf-editor-form-field[data-type="multi_step"]').length > 0) {
+                    break;
+                }
+                if (i === fieldCount - 1) {
+                    stepItem.slideDown(150, function() {
+                        toCollapse.show();
+                    });
+                } else {
+                    stepItem.slideDown(150);
+                }
+            }
+        },
+
+        getAllFieldsForStep: function(firstWrapper) {
+            var $fieldsForPage, currentWrapper;
+            $fieldsForPage = jQuery();
+            if (null === firstWrapper) {
+                return $fieldsForPage;
+            }
+
+            currentWrapper = firstWrapper;
+            do {
+                if (null !== currentWrapper.querySelector('.edit_field_type_break')) {
+                    break;
+                }
+                $fieldsForPage = $fieldsForPage.add(jQuery(currentWrapper));
+                currentWrapper = currentWrapper.nextElementSibling;
+            } while (null !== currentWrapper);
+            return $fieldsForPage;
+        },
+
+        resetToFirstStep: function() {
+            if($('.hf-step-item').length > 1) {
+                $('.hf-step-item#hf-first-step').trigger('click');
+            }
+        }
     }
 
     $(function () {

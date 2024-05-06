@@ -102,7 +102,7 @@ defined('ABSPATH') || die();
                 <ul class="hf-add-field-attr-to-form">
                     <?php
                     foreach ($fields as $field) {
-                        if (!($field->type == 'heading' || $field->type == 'paragraph' || $field->type == 'separator' || $field->type == 'spacer' || $field->type == 'image' || $field->type == 'captcha')) {
+                        if (!(in_array($field->type, array('heading', 'paragraph', 'separator', 'spacer', 'image', 'captcha', 'gdpr_agreement')) {
                             ?>
                             <li data-value="#field_id_<?php echo esc_attr($field->id); ?>">
                                 <?php echo esc_html($field->name); ?><span>#field_id_<?php echo esc_html($field->id); ?></span>
