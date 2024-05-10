@@ -38,8 +38,10 @@ $settings = $form->settings ? $form->settings : HashFormHelper::get_form_setting
             'icon' => 'mdi mdi-swap-horizontal'
         ),
     );
+    $sections = apply_filters('hashform_settings_sections', $sections);
     $current = 'email-settings';
     ?>
+
     <div class="hf-body">
         <div class="hf-fields-sidebar">
             <ul class="hf-settings-tab">
@@ -65,7 +67,13 @@ $settings = $form->settings ? $form->settings : HashFormHelper::get_form_setting
                         ?>
                         <div id="hf-<?php echo esc_attr($key); ?>" class="<?php echo (($current === $key) ? '' : ' hf-hidden'); ?>">
                             <h2><?php echo esc_html($section['name']); ?></h2>
-                            <?php require HASHFORM_PATH . 'admin/forms/settings/' . esc_attr($key) . '.php'; ?>
+                            <?php
+                            $file_path = HASHFORM_PATH . 'admin/forms/settings/';
+                            if(!file_exists( $file_path . esc_attr($key) . '.php')) {
+                                $file_path = apply_filters('hashform_settings_sections_filepath', $file_path);
+                            }
+                            require $file_path . esc_attr($key) . '.php';
+                            ?>
                         </div>
                     <?php } ?>
                 </form>
