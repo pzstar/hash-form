@@ -254,7 +254,7 @@ class HashFormHelper {
     }
 
     public static function get_form_settings_default($name = '') {
-        return array(
+        $return = array(
             'email_to' => '[admin_email]',
             'email_from' => '[admin_email]',
             'reply_to_email' => '',
@@ -273,6 +273,7 @@ class HashFormHelper {
             'show_page_id' => '',
             'redirect_url_page' => '',
         );
+        return apply_filters('hashform_form_settings_default', $return);
     }
 
     public static function get_form_styles_default() {
@@ -295,7 +296,7 @@ class HashFormHelper {
     }
 
     public static function get_form_settings_sanitize_rules() {
-        return array(
+        $return = array(
             'email_to' => 'sanitize_text_field',
             'email_from' => 'sanitize_text_field',
             'reply_to_email' => 'sanitize_text_field',
@@ -329,6 +330,7 @@ class HashFormHelper {
                 'sanitize_text_field'
             )
         );
+        return apply_filters('hashform_settings_sanitize_rules', $return);
     }
 
     public static function get_form_styles_sanitize_rules() {
@@ -887,6 +889,40 @@ class HashFormHelper {
         if (hash_equals($hmac, $calcmac)) {
             return $original_plaintext;
         }
+    }
+
+    public static function get_field_input_value($value) {
+        $entry_val = '';
+        $entry_value = maybe_unserialize($value['value']);
+        $entry_type = maybe_unserialize($value['type']);
+        if (is_array($entry_value)) {
+            if ($entry_type == 'name') {
+                $entry_value = implode(' ', array_filter($entry_value));
+            } elseif ($entry_type == 'repeater_field') {
+                $entry_val = '<table><thead><tr>';
+                foreach(array_keys($entry_value) as $key) {
+                    $entry_val .= '<th>' . $key . '</th>';
+                }
+                $entry_val .= '</tr></thead><tbody>';
+                $out = array();
+                foreach ($entry_value as  $rowkey => $row) {
+                    foreach($row as $colkey => $col){
+                        $out[$colkey][$rowkey]=$col;
+                    }
+                }
+                foreach($out as $key => $val) {
+                    foreach($val as $eval) {
+                        $entry_val .= '<td>' . $eval . '</td>';
+                    }
+                    $entry_val .= '</tr>';
+                }
+                $entry_val .= '</tbody></table>';
+                $entry_value = $entry_val;
+            } else {
+                $entry_value = implode(',', array_filter($entry_value));
+            }
+        }
+        return $entry_value;
     }
 
 }
