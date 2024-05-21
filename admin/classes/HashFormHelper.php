@@ -925,4 +925,50 @@ class HashFormHelper {
         return $entry_value;
     }
 
+    public static function unserialize_or_decode($value) {
+        if (is_array($value)) {
+            return;
+        }
+        if (is_serialized($value)) {
+            return self::maybe_unserialize_array($value);
+        } else {
+            return self::maybe_json_decode($value, false);
+        }
+    }
+
+
+    public static function maybe_unserialize_array($value) {
+        if (!is_string($value)) {
+            return $value;
+        }
+
+        if (!is_serialized($value) || 'a:' !== substr($value, 0, 2)) {
+            return $value;
+        }
+
+        $parsed = HashFormSerializedStrParser::get()->parse( $value );
+        if (is_array($parsed)) {
+            $value = $parsed;
+        }
+        return $value;
+    }
+
+    public static function maybe_json_decode($string, $single_to_array = true) {
+        if (is_array($string) || is_null($string)) {
+            return $string;
+        }
+
+        $new_string = json_decode($string, true);
+        if (function_exists('json_last_error')) {
+            $single_value = false;
+            if (!$single_to_array) {
+                $single_value = is_array($new_string) && count($new_string) === 1 && isset($new_string[0]);
+            }
+            if (json_last_error() == JSON_ERROR_NONE && is_array($new_string) && ! $single_value) {
+                $string = $new_string;
+            }
+        }
+        return $string;
+    }
+
 }

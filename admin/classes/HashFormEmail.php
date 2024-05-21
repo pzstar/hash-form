@@ -40,8 +40,8 @@ class HashFormEmail {
             $reply_to_email = str_replace('#field_id_' . absint($item), $value['value'], $reply_to_email);
             $email_subject = str_replace('#field_id_' . absint($item), $value['value'], $email_subject);
             $reply_to_ar = str_replace(absint($item), $value['value'], $reply_to_ar);
-            $entry_value = maybe_unserialize($value['value']);
-            $entry_type = maybe_unserialize($value['type']);
+            $entry_value = HashFormHelper::unserialize_or_decode($value['value']);
+            $entry_type = HashFormHelper::unserialize_or_decode($value['type']);
             if (is_array($entry_value)) {
                 if ($entry_type == 'name') {
                     $entry_value = implode(' ', array_filter($entry_value));
@@ -176,7 +176,7 @@ class HashFormEmail {
         foreach ($entry->metas as $id => $value) {
             $count++;
             $title = $value['name'];
-            $entry_value = maybe_unserialize($value['value']);
+            $entry_value = HashFormHelper::unserialize_or_decode($value['value']);
             $entry_type = $value['type'];
             if (is_array($entry_value)) {
                 if ($entry_type == 'name') {

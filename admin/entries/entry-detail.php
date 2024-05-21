@@ -19,7 +19,7 @@ defined('ABSPATH') || die();
                 $file_img_placeholder = HASHFORM_URL . '/img/attachment.png';
                 foreach ($entry->metas as $id => $value) {
                     $title = $value['name'];
-                    $entry_value = maybe_unserialize($value['value']);
+                    $entry_value = HashFormHelper::unserialize_or_decode($value['value']);
                     $entry_type = $value['type'];
 
                     if (is_array($entry_value)) {
