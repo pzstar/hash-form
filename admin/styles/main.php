@@ -964,6 +964,8 @@ $id = get_the_ID();
     </div>
 </div>
 
+<?php do_action('hashform_styles_settings', $hashform_styles); ?>
+
 
 <h2 class="hf-settings-heading"><?php esc_html_e('Import/Export', 'hash-form'); ?><span class="mdi mdi-triangle-small-down"></span></h2>
 <div class="hf-form-settings">

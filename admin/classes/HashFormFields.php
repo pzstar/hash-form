@@ -19,7 +19,7 @@ class HashFormFields {
         $results = $wpdb->get_results($query);
         foreach ($results as $value) {
             foreach ($value as $key => $val) {
-                $value->$key = HashFormHelper::unserialize_or_decode($val);
+                $value->$key = maybe_unserialize($val);
             }
         }
         return $results;
@@ -376,7 +376,7 @@ class HashFormFields {
         $values['form_id'] = $form_id;
         $cols_array = array('name', 'description', 'type', 'field_order', 'field_options', 'options', 'default_value', 'required');
         foreach ($cols_array as $col) {
-            $values[$col] = HashFormHelper::unserialize_or_decode($field->{$col});
+            $values[$col] = maybe_unserialize($field->{$col});
         }
     }
 
@@ -424,9 +424,9 @@ class HashFormFields {
     }
 
     private static function prepare_options(&$results) {
-        $results->field_options = HashFormHelper::unserialize_or_decode($results->field_options);
-        $results->options = HashFormHelper::unserialize_or_decode($results->options);
-        $results->default_value = HashFormHelper::unserialize_or_decode($results->default_value);
+        $results->field_options = maybe_unserialize($results->field_options);
+        $results->options = maybe_unserialize($results->options);
+        $results->default_value = maybe_unserialize($results->default_value);
     }
 
     public static function get_option($field, $option) {

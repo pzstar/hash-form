@@ -603,7 +603,7 @@ class HashFormBuilder {
             return;
 
         foreach ($results as $key => $value) {
-            $results->$key = HashFormHelper::unserialize_or_decode($value);
+            $results->$key = maybe_unserialize($value);
         }
 
         return $results;

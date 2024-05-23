@@ -927,7 +927,7 @@ class HashFormHelper {
 
     public static function unserialize_or_decode($value) {
         if (is_array($value)) {
-            return;
+            return '';
         }
         if (is_serialized($value)) {
             return self::maybe_unserialize_array($value);

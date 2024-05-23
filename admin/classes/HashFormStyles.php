@@ -828,7 +828,7 @@ class HashFormStyles {
                 'handle_color' => ''
             ]
         ];
-        $new_settings = array_merge($settings, self::default_typography());
+        $new_settings = apply_filters('hashform_default_styles_settings_array', array_merge($settings, self::default_typography()));
         return $new_settings;
     }
 
@@ -1110,7 +1110,7 @@ class HashFormStyles {
                 'handle_color' => 'hashform_sanitize_color'
             ]
         ];
-        $new_settings = array_merge($settings, self::default_typography());
+        $new_settings = apply_filters('hashform_default_styles_settings_sanitize_array', array_merge($settings, self::default_typography()));
         return $new_settings;
     }
 
