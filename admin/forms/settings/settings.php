@@ -75,7 +75,8 @@ $settings = $form->settings ? $form->settings : HashFormHelper::get_form_setting
                             do_action('hashform_settings_sections_content', array(
                                 'section_key' => $key,
                                 'settings' => $settings,
-                                'fields' => $fields
+                                'fields' => $fields,
+                                'form_id' => $id
                             ));
                             ?>
                         </div>
