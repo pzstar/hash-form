@@ -66,7 +66,7 @@ if (!$hashform_styles) {
     </div>
     <?php
     echo '<style class="hf-style-content">';
-    echo '#hf-container-' . absint($form->id) . '{';
+    echo 'div:not(.hf-elementor-form-custom-style) > .hf-form-tempate #hf-container-' . absint($form->id) . '{';
     HashFormStyles::get_style_vars($hashform_styles, '');
     echo '}';
     echo '</style>';
