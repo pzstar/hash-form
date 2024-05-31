@@ -506,7 +506,7 @@ class HashFormFields {
             'upload' => 'HashFormFieldUpload',
         ));
         if ($field_type) {
-            return isset($type_classes[$field_type]) ? $type_classes[$field_type] : '';
+            return isset($type_classes[$field_type]) ? $type_classes[$field_type] : 'HashFormFieldText';
         } else {
             return $type_classes;
         }
