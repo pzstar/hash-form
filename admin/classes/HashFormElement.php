@@ -1030,7 +1030,7 @@ class HashFormElement extends Widget_Base {
             <p><?php echo esc_html__('Please select a Form', 'hash-form'); ?></p>
             <?php
         }
-        
+
         if ($enable_custom_style == 'yes') {
             remove_filter('hashform_form_classes', array($this, 'modify_class'));
             remove_filter('hashform_enable_style', '__return_false');

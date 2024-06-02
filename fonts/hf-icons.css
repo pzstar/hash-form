@@ -23,7 +23,7 @@
 }
 
 .hfi.hfi-form:before {
-  content: "\e91c";
+    content: "\e91c";
 }
 
 .hfi.hfi-phone:before {

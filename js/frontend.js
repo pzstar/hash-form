@@ -182,7 +182,7 @@ jQuery(function ($) {
         const $this = $(this);
         const dtFormat = $this.attr('data-format');
         const dtVal = $this.val();
-        if(dtVal) {
+        if (dtVal) {
             var date = new Date(dtVal);
             $this.val(date == 'Invalid Date' ? '' : moment(date).format(dtFormat.replace("dd", "DD").replace("MM", "MMMM").replace("mm", "MM")));
         }
@@ -205,14 +205,14 @@ jQuery(function ($) {
         var retCase = false;
         switch (condition) {
             case 'equal':
-                if($.inArray(compareValue, arrayVals) !== -1) {
+                if ($.inArray(compareValue, arrayVals) !== -1) {
                     retCase = true;
                 }
                 break;
 
             case 'less_than':
                 retCase = arrayVals.length > 0 ? true : false;
-                $.each(arrayVals, function(index, val) {
+                $.each(arrayVals, function (index, val) {
                     if (compareValue <= val) {
                         retCase = false;
                         return false;
@@ -222,7 +222,7 @@ jQuery(function ($) {
 
             case 'less_than_or_equal':
                 retCase = arrayVals.length > 0 ? true : false;
-                $.each(arrayVals, function(index, val) {
+                $.each(arrayVals, function (index, val) {
                     if (compareValue < val) {
                         retCase = false;
                         return false;
@@ -232,7 +232,7 @@ jQuery(function ($) {
 
             case 'greater_than':
                 retCase = arrayVals.length > 0 ? true : false;
-                $.each(arrayVals, function(index, val) {
+                $.each(arrayVals, function (index, val) {
                     if (compareValue >= val) {
                         retCase = false;
                         return false;
@@ -244,7 +244,7 @@ jQuery(function ($) {
                 console.log(arrayVals);
                 console.log(arrayVals.length);
                 retCase = arrayVals.length > 0 ? true : false;
-                $.each(arrayVals, function(index, val) {
+                $.each(arrayVals, function (index, val) {
                     if (compareValue > val) {
                         retCase = false;
                         return false;
@@ -253,7 +253,7 @@ jQuery(function ($) {
                 break;
 
             case 'is_like':
-                $.each(arrayVals, function(index, val) {
+                $.each(arrayVals, function (index, val) {
                     if (val.indexOf(compareValue) >= 0) {
                         retCase = true;
                     }
@@ -484,16 +484,16 @@ jQuery(function ($) {
     $('.hf-file-uploader').each(function () {
         upload_counter++;
         var attr_element_id = $(this).attr('id'),
-                size = $(this).attr('data-max-upload-size'),
-                limit_flag = 0,
-                selector = $(this),
-                uploader_label = $(this).attr('data-upload-label'),
-                multiple_upload = ($(this).attr('data-multiple-uploads') == 'true') ? true : false,
-                upload_limit = $(this).attr('data-multiple-uploads-limit'),
-                upload_limit_message = $(this).attr('data-multiple-uploads-error-message'),
-                extensions = $(this).attr('data-extensions'),
-                extension_error_message = $(this).attr('data-extensions-error-message'),
-                extensions_array = extensions.split(',');
+            size = $(this).attr('data-max-upload-size'),
+            limit_flag = 0,
+            selector = $(this),
+            uploader_label = $(this).attr('data-upload-label'),
+            multiple_upload = ($(this).attr('data-multiple-uploads') == 'true') ? true : false,
+            upload_limit = $(this).attr('data-multiple-uploads-limit'),
+            upload_limit_message = $(this).attr('data-multiple-uploads-error-message'),
+            extensions = $(this).attr('data-extensions'),
+            extension_error_message = $(this).attr('data-extensions-error-message'),
+            extensions_array = extensions.split(',');
 
         upload_limit = upload_limit < 1 ? 1 : upload_limit;
 

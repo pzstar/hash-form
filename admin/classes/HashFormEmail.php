@@ -47,18 +47,18 @@ class HashFormEmail {
                     $entry_value = implode(' ', array_filter($entry_value));
                 } elseif ($entry_type == 'repeater_field') {
                     $entry_val = '<table><thead><tr>';
-                    foreach(array_keys($entry_value) as $key) {
+                    foreach (array_keys($entry_value) as $key) {
                         $entry_val .= '<th>' . $key . '</th>';
                     }
                     $entry_val .= '</tr></thead><tbody>';
                     $out = array();
-                    foreach ($entry_value as  $rowkey => $row) {
-                        foreach($row as $colkey => $col){
-                            $out[$colkey][$rowkey]=$col;
+                    foreach ($entry_value as $rowkey => $row) {
+                        foreach ($row as $colkey => $col) {
+                            $out[$colkey][$rowkey] = $col;
                         }
                     }
-                    foreach($out as $key => $val) {
-                        foreach($val as $eval) {
+                    foreach ($out as $key => $val) {
+                        foreach ($val as $eval) {
                             $entry_val .= '<td>' . $eval . '</td>';
                         }
                         $entry_val .= '</tr>';
@@ -183,18 +183,18 @@ class HashFormEmail {
                     $entry_value = implode(' ', array_filter($entry_value));
                 } elseif ($entry_type == 'repeater_field') {
                     $entry_val = '<table><thead><tr>';
-                    foreach(array_keys($entry_value) as $key) {
+                    foreach (array_keys($entry_value) as $key) {
                         $entry_val .= '<th>' . $key . '</th>';
                     }
                     $entry_val .= '</tr></thead><tbody>';
                     $out = array();
-                    foreach ($entry_value as  $rowkey => $row) {
-                        foreach($row as $colkey => $col){
-                            $out[$colkey][$rowkey]=$col;
+                    foreach ($entry_value as $rowkey => $row) {
+                        foreach ($row as $colkey => $col) {
+                            $out[$colkey][$rowkey] = $col;
                         }
                     }
-                    foreach($out as $key => $val) {
-                        foreach($val as $eval) {
+                    foreach ($out as $key => $val) {
+                        foreach ($val as $eval) {
                             $entry_val .= '<td>' . $eval . '</td>';
                         }
                         $entry_val .= '</tr>';

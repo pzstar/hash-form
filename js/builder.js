@@ -3,15 +3,15 @@ var hashFormBuilder = hashFormBuilder || {};
 (function ($) {
     'use strict';
     let $editorFieldsWrap = $('#hf-editor-fields'),
-            $editorWrap = $('#hf-editor-wrap'),
-            $buildForm = $('#hf-fields-form'),
-            buildForm = document.getElementById('hf-fields-form'),
-            $formMeta = $('#hf-meta-form'),
-            $formSettings = $('#hf-settings-form'),
-            currentFormId = $('#hf-form-id').val(),
-            copyHelper = false,
-            // fieldsUpdated = 0,
-            autoId = 0;
+        $editorWrap = $('#hf-editor-wrap'),
+        $buildForm = $('#hf-fields-form'),
+        buildForm = document.getElementById('hf-fields-form'),
+        $formMeta = $('#hf-meta-form'),
+        $formSettings = $('#hf-settings-form'),
+        currentFormId = $('#hf-form-id').val(),
+        copyHelper = false,
+        // fieldsUpdated = 0,
+        autoId = 0;
 
 
     const wysiwyg = {
@@ -46,12 +46,12 @@ var hashFormBuilder = hashFormBuilder || {};
                 const orgSettings = tinyMCEPreInit.mceInit[ key ];
 
                 const settings = Object.assign(
-                        {},
-                        orgSettings,
-                        {
-                            selector: '#' + editor.id,
-                            body_class: orgSettings.body_class.replace(key, editor.id)
-                        }
+                    {},
+                    orgSettings,
+                    {
+                        selector: '#' + editor.id,
+                        body_class: orgSettings.body_class.replace(key, editor.id)
+                    }
                 );
 
                 settings.setup = editor => {
@@ -96,11 +96,11 @@ var hashFormBuilder = hashFormBuilder || {};
 
             function setUpTinyMceVisualButtonListener() {
                 $(document).on(
-                        'click', '#' + editor.id + '-html',
-                        function () {
-                            editor.style.visibility = 'visible';
-                            initQuickTagsButtons(editor);
-                        }
+                    'click', '#' + editor.id + '-html',
+                    function () {
+                        editor.style.visibility = 'visible';
+                        initQuickTagsButtons(editor);
+                    }
                 );
             }
 
@@ -118,7 +118,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 const wrap = document.getElementById('wp-' + editor.id + '-wrap');
                 wrap.classList.add('tmce-active');
                 wrap.classList.remove('html-active');
-            }
+        }
         }
     };
 
@@ -149,12 +149,12 @@ var hashFormBuilder = hashFormBuilder || {};
 
         setupSortable: function (sortableSelector) {
             document.querySelectorAll(sortableSelector).forEach(
-                    list => {
-                        hashFormBuilder.makeDroppable(list);
-                        Array.from(list.children).forEach(
-                                child => hashFormBuilder.makeDraggable(child, '.hf-editor-move-action')
-                        );
-                    }
+                list => {
+                    hashFormBuilder.makeDroppable(list);
+                    Array.from(list.children).forEach(
+                        child => hashFormBuilder.makeDraggable(child, '.hf-editor-move-action')
+                    );
+                }
             );
 
         },
@@ -310,18 +310,18 @@ var hashFormBuilder = hashFormBuilder || {};
                 return;
             }
             dividers.forEach(
-                    function (divider) {
-                        const children = [].slice.call(divider.children);
-                        children.forEach(
-                                function (child) {
-                                    if (0 === child.children.length) {
-                                        child.remove();
-                                    } else if (1 === child.children.length && 'ul' === child.firstElementChild.nodeName.toLowerCase() && 0 === child.firstElementChild.children.length) {
-                                        child.remove();
-                                    }
-                                }
-                        );
-                    }
+                function (divider) {
+                    const children = [].slice.call(divider.children);
+                    children.forEach(
+                        function (child) {
+                            if (0 === child.children.length) {
+                                child.remove();
+                            } else if (1 === child.children.length && 'ul' === child.firstElementChild.nodeName.toLowerCase() && 0 === child.firstElementChild.children.length) {
+                                child.remove();
+                            }
+                        }
+                    );
+                }
             );
         },
 
@@ -409,8 +409,8 @@ var hashFormBuilder = hashFormBuilder || {};
 
         determineIndexBasedOffOfMousePositionInRow: function ($row, x) {
             var $inputs = hashFormBuilder.getFieldsInRow($row),
-                    length = $inputs.length,
-                    index, input, inputLeft, returnIndex;
+                length = $inputs.length,
+                index, input, inputLeft, returnIndex;
             returnIndex = 0;
             for (index = length - 1; index >= 0; --index) {
                 input = $inputs.get(index);
@@ -434,16 +434,16 @@ var hashFormBuilder = hashFormBuilder || {};
             }
 
             Array.from(row.children).forEach(
-                    child => {
-                        if ('none' === child.style.display) {
-                            return;
-                        }
-                        const classes = child.classList;
-                        if (!classes.contains('hf-editor-form-field') || classes.contains('hf-editor-field-type-end_divider') || classes.contains('hf-sortable-helper')) {
-                            return;
-                        }
-                        $fields = $fields.add(child);
+                child => {
+                    if ('none' === child.style.display) {
+                        return;
                     }
+                    const classes = child.classList;
+                    if (!classes.contains('hf-editor-form-field') || classes.contains('hf-editor-field-type-end_divider') || classes.contains('hf-sortable-helper')) {
+                        return;
+                    }
+                    $fields = $fields.add(child);
+                }
             );
             return $fields;
         },
@@ -651,9 +651,9 @@ var hashFormBuilder = hashFormBuilder || {};
 
         showFieldOptions: function (obj) {
             var i, singleField,
-                    fieldId = obj.getAttribute('data-fid'),
-                    fieldType = obj.getAttribute('data-type'),
-                    allFieldSettings = document.querySelectorAll('.hf-fields-settings:not(.hf-hidden)');
+                fieldId = obj.getAttribute('data-fid'),
+                fieldType = obj.getAttribute('data-type'),
+                allFieldSettings = document.querySelectorAll('.hf-fields-settings:not(.hf-hidden)');
 
             for (i = 0; i < allFieldSettings.length; i++) {
                 allFieldSettings[i].classList.add('hf-hidden');
@@ -701,8 +701,8 @@ var hashFormBuilder = hashFormBuilder || {};
                 },
                 success: function () {
                     var $thisField = $('#hf-editor-field-id-' + fieldId),
-                            type = $thisField.data('type'),
-                            settings = $('#hf-fields-settings-' + fieldId);
+                        type = $thisField.data('type'),
+                        settings = $('#hf-fields-settings-' + fieldId);
 
                     // Remove settings from sidebar.
                     if (settings.is(':visible')) {
@@ -712,9 +712,9 @@ var hashFormBuilder = hashFormBuilder || {};
 
                     $thisField.fadeOut('fast', function () {
                         var $section = $thisField.closest('.start_divider'),
-                                type = $thisField.data('type'),
-                                $adjacentFields = $thisField.siblings('li.hf-editor-form-field'),
-                                $liWrapper;
+                            type = $thisField.data('type'),
+                            $adjacentFields = $thisField.siblings('li.hf-editor-form-field'),
+                            $liWrapper;
 
                         if (!$adjacentFields.length) {
                             if ($thisField.is('.hf-editor-field-type-end_divider')) {
@@ -746,9 +746,9 @@ var hashFormBuilder = hashFormBuilder || {};
 
         toggleSectionHolder: function () {
             document.querySelectorAll('.start_divider').forEach(
-                    function (divider) {
-                        hashFormBuilder.toggleOneSectionHolder($(divider));
-                    }
+                function (divider) {
+                    hashFormBuilder.toggleOneSectionHolder($(divider));
+                }
             );
         },
 
@@ -787,13 +787,13 @@ var hashFormBuilder = hashFormBuilder || {};
                     hashFormBuilder.afterAddField(msg, true);
 
                     replaceWith.each(
-                            function () {
-                                hashFormBuilder.makeDroppable(this.querySelector('ul.hf-editor-sorting'));
-                                hashFormBuilder.makeDraggable(this.querySelector('.hf-editor-form-field'), '.hf-editor-move-action');
-                            }
+                        function () {
+                            hashFormBuilder.makeDroppable(this.querySelector('ul.hf-editor-sorting'));
+                            hashFormBuilder.makeDraggable(this.querySelector('.hf-editor-form-field'), '.hf-editor-move-action');
+                        }
                     );
                     hashFormBuilder.maybeFixRangeSlider();
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $(document).find('.hf-color-picker').wpColorPicker();
                     }, 1000)
                 },
@@ -828,9 +828,9 @@ var hashFormBuilder = hashFormBuilder || {};
             return function (...args) {
                 clearTimeout(timeout);
                 timeout = setTimeout(
-                        () => func.apply(this, args),
-                        wait
-                        );
+                    () => func.apply(this, args),
+                    wait
+                    );
             };
         },
 
@@ -889,7 +889,7 @@ var hashFormBuilder = hashFormBuilder || {};
             const event = new Event('hashform_sync_after_drag_and_drop', {bubbles: false});
             document.dispatchEvent(event);
             hashFormBuilder.maybeFixRangeSlider();
-            setTimeout(function() {
+            setTimeout(function () {
                 $(document).find('.hf-color-picker').wpColorPicker();
             }, 1000)
         },
@@ -897,24 +897,24 @@ var hashFormBuilder = hashFormBuilder || {};
         fixUnwrappedListItems: function () {
             const lists = document.querySelectorAll('ul#hf-editor-fields, ul.start_divider');
             lists.forEach(
-                    list => {
-                        list.childNodes.forEach(
-                                child => {
-                                    if ('undefined' === typeof child.classList) {
-                                        return;
-                                    }
+                list => {
+                    list.childNodes.forEach(
+                        child => {
+                            if ('undefined' === typeof child.classList) {
+                                return;
+                            }
 
-                                    if (child.classList.contains('hf-editor-field-type-end_divider')) {
-                                        // Never wrap end divider in place.
-                                        return;
-                                    }
+                            if (child.classList.contains('hf-editor-field-type-end_divider')) {
+                                // Never wrap end divider in place.
+                                return;
+                            }
 
-                                    if ('undefined' !== typeof child.classList && child.classList.contains('hf-editor-form-field')) {
-                                        hashFormBuilder.wrapFieldLiInPlace(child);
-                                    }
-                                }
-                        );
-                    }
+                            if ('undefined' !== typeof child.classList && child.classList.contains('hf-editor-form-field')) {
+                                hashFormBuilder.wrapFieldLiInPlace(child);
+                            }
+                        }
+                    );
+                }
             );
         },
 
@@ -940,13 +940,13 @@ var hashFormBuilder = hashFormBuilder || {};
 
         maybeFixEndDividers: function () {
             document.querySelectorAll('.hf-editor-field-type-end_divider').forEach(
-                    endDivider => endDivider.parentNode.appendChild(endDivider)
+                endDivider => endDivider.parentNode.appendChild(endDivider)
             );
         },
 
         maybeDeleteEmptyFieldGroups: function () {
             document.querySelectorAll('li.form_field_box:not(.hf-editor-form-field)').forEach(
-                    fieldGroup => !fieldGroup.children.length && fieldGroup.remove()
+                fieldGroup => !fieldGroup.children.length && fieldGroup.remove()
             );
         },
 
@@ -1214,9 +1214,9 @@ var hashFormBuilder = hashFormBuilder || {};
         updateFieldAfterMovingBetweenSections: function (currentItem, previousSection) {
             if (!currentItem.hasClass('hf-editor-form-field')) {
                 hashFormBuilder.getFieldsInRow($(currentItem.get(0).firstChild)).each(
-                        function () {
-                            hashFormBuilder.updateFieldAfterMovingBetweenSections($(this), previousSection);
-                        }
+                    function () {
+                        hashFormBuilder.updateFieldAfterMovingBetweenSections($(this), previousSection);
+                    }
                 );
                 return;
             }
@@ -1347,25 +1347,25 @@ var hashFormBuilder = hashFormBuilder || {};
 
             let result = $();
             Array.from(wrapper.children).forEach(
-                    li => {
-                        result = result.add(
-                                $('<li>')
-                                .addClass('hf-editor-field-box')
-                                .html($('<ul>').addClass('hf-editor-grid-container hf-editor-sorting').append(li))
-                                );
-                    }
+                li => {
+                    result = result.add(
+                        $('<li>')
+                        .addClass('hf-editor-field-box')
+                        .html($('<ul>').addClass('hf-editor-grid-container hf-editor-sorting').append(li))
+                        );
+                }
             );
             return result;
         },
 
         afterAddField: function (msg, addFocus) {
             var regex = /id="(\S+)"/,
-                    match = regex.exec(msg),
-                    field = document.getElementById(match[1]),
-                    section = '#' + match[1] + '.hf-editor-field-type-divider ul.hf-editor-sorting.start_divider',
-                    $thisSection = $(section),
-                    toggled = false,
-                    $parentSection;
+                match = regex.exec(msg),
+                field = document.getElementById(match[1]),
+                section = '#' + match[1] + '.hf-editor-field-type-divider ul.hf-editor-sorting.start_divider',
+                $thisSection = $(section),
+                toggled = false,
+                $parentSection;
             var type = field.getAttribute('data-type');
 
             hashFormBuilder.setupSortable(section);
@@ -1386,12 +1386,12 @@ var hashFormBuilder = hashFormBuilder || {};
 
             if (addFocus) {
                 var bounding = field.getBoundingClientRect(),
-                        container = document.getElementById('hf-form-panel'),
-                        inView = (bounding.top >= 0 &&
-                                bounding.left >= 0 &&
-                                bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
-                                bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-                                );
+                    container = document.getElementById('hf-form-panel'),
+                    inView = (bounding.top >= 0 &&
+                        bounding.left >= 0 &&
+                        bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
+                        bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+                        );
 
                 if (!inView) {
                     container.scroll({
@@ -1414,7 +1414,7 @@ var hashFormBuilder = hashFormBuilder || {};
             addedEvent.hfType = type;
             addedEvent.hfToggles = toggled;
             document.dispatchEvent(addedEvent);
-            if(type="multi_step") {
+            if (type = "multi_step") {
                 hashFormBuilder.resetToFirstStep();
                 hashFormBuilder.renumberMultiSteps();
             }
@@ -1489,7 +1489,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
         addBlankSelectOption: function (field, placeholder) {
             var opt = document.createElement('option'),
-                    firstChild = field.firstChild;
+                firstChild = field.firstChild;
 
             opt.value = '';
             opt.innerHTML = placeholder;
@@ -1503,7 +1503,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
         getImageLabel: function (label, showLabelWithImage, imageUrl, fieldType) {
             var imageLabelClass, fullLabel,
-                    originalLabel = label;
+                originalLabel = label;
 
             fullLabel = '<div class="hf-field-is-image">';
             fullLabel += '<span class="hf-field-is-checked mdi-check-circle"></span>';
@@ -1543,7 +1543,6 @@ var hashFormBuilder = hashFormBuilder || {};
             var checkbox = field.siblings('.hf-choice-input');
             return checkbox.length && checkbox.prop('checked');
         },
-
 
         changeFieldClass: function (field, setting) {
             var classes = field.className.split(' ');
@@ -1590,13 +1589,12 @@ var hashFormBuilder = hashFormBuilder || {};
             }
         },
 
-
-        toggleCollapseStep: function(field) {
+        toggleCollapseStep: function (field) {
             var toCollapse = hashFormBuilder.getAllFieldsForStep(field.get(0).parentNode.closest('li.hf-editor-field-box').nextElementSibling);
             hashFormBuilder.toggleStep(field, toCollapse);
         },
 
-        reorderStep: function() {
+        reorderStep: function () {
             var field = $(this).closest('.hf-editor-form-field[data-type="multi_step"]');
             if (field.length) {
                 hashFormBuilder.toggleCollapseStep(field);
@@ -1605,7 +1603,7 @@ var hashFormBuilder = hashFormBuilder || {};
             }
         },
 
-        toggleCollapseFirstStep: function() {
+        toggleCollapseFirstStep: function () {
             var topLevel = document.getElementById('hf-first-step'),
                 firstField = document.getElementById('hf-editor-fields').firstElementChild,
                 toCollapse = hashFormBuilder.getAllFieldsForStep(firstField);
@@ -1616,16 +1614,16 @@ var hashFormBuilder = hashFormBuilder || {};
             hashFormBuilder.toggleStep(jQuery(topLevel), toCollapse);
         },
 
-        toggleStep: function(field, toCollapse) {
+        toggleStep: function (field, toCollapse) {
             var i,
                 fieldCount = toCollapse.length;
 
-            jQuery('ul#hf-editor-fields > li.hf-editor-field-box').each(function() {
+            jQuery('ul#hf-editor-fields > li.hf-editor-field-box').each(function () {
                 const tfield = $(this),
                     isStepField = tfield.find('.hf-editor-form-field[data-type="multi_step"]');
 
-                if(isStepField.length < 1) {
-                    tfield.slideUp(150, function() {
+                if (isStepField.length < 1) {
+                    tfield.slideUp(150, function () {
                         tfield.hide();
                     });
                 }
@@ -1637,7 +1635,7 @@ var hashFormBuilder = hashFormBuilder || {};
                     break;
                 }
                 if (i === fieldCount - 1) {
-                    stepItem.slideDown(150, function() {
+                    stepItem.slideDown(150, function () {
                         toCollapse.show();
                     });
                 } else {
@@ -1646,7 +1644,7 @@ var hashFormBuilder = hashFormBuilder || {};
             }
         },
 
-        getAllFieldsForStep: function(firstWrapper) {
+        getAllFieldsForStep: function (firstWrapper) {
             var $fieldsForPage, currentWrapper;
             $fieldsForPage = jQuery();
             if (null === firstWrapper) {
@@ -1664,8 +1662,8 @@ var hashFormBuilder = hashFormBuilder || {};
             return $fieldsForPage;
         },
 
-        resetToFirstStep: function() {
-            if($('.hf-step-item').length > 1) {
+        resetToFirstStep: function () {
+            if ($('.hf-step-item').length > 1) {
                 $('.hf-step-item#hf-first-step').trigger('click');
             }
         }
