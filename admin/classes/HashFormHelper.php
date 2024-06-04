@@ -900,18 +900,18 @@ class HashFormHelper {
                 $entry_value = implode(' ', array_filter($entry_value));
             } elseif ($entry_type == 'repeater_field') {
                 $entry_val = '<table><thead><tr>';
-                foreach(array_keys($entry_value) as $key) {
+                foreach (array_keys($entry_value) as $key) {
                     $entry_val .= '<th>' . $key . '</th>';
                 }
                 $entry_val .= '</tr></thead><tbody>';
                 $out = array();
-                foreach ($entry_value as  $rowkey => $row) {
-                    foreach($row as $colkey => $col){
-                        $out[$colkey][$rowkey]=$col;
+                foreach ($entry_value as $rowkey => $row) {
+                    foreach ($row as $colkey => $col) {
+                        $out[$colkey][$rowkey] = $col;
                     }
                 }
-                foreach($out as $key => $val) {
-                    foreach($val as $eval) {
+                foreach ($out as $key => $val) {
+                    foreach ($val as $eval) {
                         $entry_val .= '<td>' . $eval . '</td>';
                     }
                     $entry_val .= '</tr>';
@@ -936,7 +936,6 @@ class HashFormHelper {
         }
     }
 
-
     public static function maybe_unserialize_array($value) {
         if (!is_string($value)) {
             return $value;
@@ -946,7 +945,7 @@ class HashFormHelper {
             return $value;
         }
 
-        $parsed = HashFormSerializedStrParser::get()->parse( $value );
+        $parsed = HashFormSerializedStrParser::get()->parse($value);
         if (is_array($parsed)) {
             $value = $parsed;
         }
@@ -964,7 +963,7 @@ class HashFormHelper {
             if (!$single_to_array) {
                 $single_value = is_array($new_string) && count($new_string) === 1 && isset($new_string[0]);
             }
-            if (json_last_error() == JSON_ERROR_NONE && is_array($new_string) && ! $single_value) {
+            if (json_last_error() == JSON_ERROR_NONE && is_array($new_string) && !$single_value) {
                 $string = $new_string;
             }
         }

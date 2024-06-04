@@ -155,8 +155,8 @@
         }
 
         var normalCompletion = true,
-                didErr = false,
-                err;
+            didErr = false,
+            err;
         return {
             s: function () {
                 it = o[Symbol.iterator]();
@@ -642,9 +642,9 @@
                 value: function _int2duration(seconds, step) {
                     seconds = Math.abs(seconds);
                     var minutes = Math.round(seconds / 60),
-                            duration = [],
-                            hours,
-                            mins;
+                        duration = [],
+                        hours,
+                        mins;
 
                     if (minutes < 60) {
                         // Only show (x mins) under 1 hour
@@ -687,8 +687,8 @@
                     }
 
                     var seconds = parseInt(timeInt % 60),
-                            minutes = parseInt(timeInt / 60 % 60),
-                            hours = parseInt(timeInt / (60 * 60) % 24);
+                        minutes = parseInt(timeInt / 60 % 60),
+                        hours = parseInt(timeInt / (60 * 60) % 24);
                     var time = new Date(1970, 0, 2, hours, minutes, seconds, 0);
 
                     if (isNaN(time.getTime())) {
@@ -865,7 +865,7 @@
 
 
                     var _iterator = _createForOfIteratorHelper(settings.disableTimeRanges),
-                            _step;
+                        _step;
 
                     try {
                         for (_iterator.s(); !(_step = _iterator.n()).done; ) {
@@ -989,7 +989,7 @@
                     var output = {};
 
                     var _iterator2 = _createForOfIteratorHelper(keys),
-                            _step2;
+                        _step2;
 
                     try {
                         for (_iterator2.s(); !(_step2 = _iterator2.n()).done; ) {
@@ -1017,7 +1017,7 @@
                 key: "hideAll",
                 value: function hideAll() {
                     var _iterator3 = _createForOfIteratorHelper(document.getElementsByClassName('ui-timepicker-input')),
-                            _step3;
+                        _step3;
 
                     try {
                         for (_iterator3.s(); !(_step3 = _iterator3.n()).done; ) {
@@ -1140,7 +1140,7 @@
             }
 
             var _iterator = _createForOfIteratorHelper(settings.disableTimeRanges),
-                    _step;
+                _step;
 
             try {
                 for (_iterator.s(); !(_step = _iterator.n()).done; ) {
@@ -1210,7 +1210,7 @@
         list.classList.add('ui-timepicker-list');
 
         var _iterator2 = _createForOfIteratorHelper(items),
-                _step2;
+            _step2;
 
         try {
             for (_iterator2.s(); !(_step2 = _iterator2.n()).done; ) {
@@ -1244,7 +1244,7 @@
         }
 
         var _iterator3 = _createForOfIteratorHelper(items),
-                _step3;
+            _step3;
 
         try {
             for (_iterator3.s(); !(_step3 = _iterator3.n()).done; ) {
@@ -1275,7 +1275,7 @@
 
         if (tp.settings.className) {
             var _iterator4 = _createForOfIteratorHelper(tp.settings.className.split(' ')),
-                    _step4;
+                _step4;
 
             try {
                 for (_iterator4.s(); !(_step4 = _iterator4.n()).done; ) {

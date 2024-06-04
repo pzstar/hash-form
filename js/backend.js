@@ -3,11 +3,11 @@ var hashFormAdmin = hashFormAdmin || {};
 (function ($) {
     'use strict';
     let $buildForm = $('#hf-fields-form'),
-            $formMeta = $('#hf-meta-form'),
-            $formSettings = $('#hf-settings-form'),
-            $styleSettings = $('#hf-style-form'),
-            copyHelper = false,
-            fieldsUpdated = 0;
+        $formMeta = $('#hf-meta-form'),
+        $formSettings = $('#hf-settings-form'),
+        $styleSettings = $('#hf-style-form'),
+        copyHelper = false,
+        fieldsUpdated = 0;
     var isCheckedField = false;
 
     hashFormAdmin = {
@@ -68,18 +68,18 @@ var hashFormAdmin = hashFormAdmin || {};
 
             document.addEventListener(
                 "hashform_added_field", (e) => {
-                    if (e.hfType == 'date') {
-                        $(document).find('.hf-fields-type-date .hf-default-value-field').datepicker({
-                            changeMonth: true,
-                        });
-                    }
-                }, false,
-            );
+                if (e.hfType == 'date') {
+                    $(document).find('.hf-fields-type-date .hf-default-value-field').datepicker({
+                        changeMonth: true,
+                    });
+                }
+            }, false,
+                );
         },
 
         clickNewTab: function () {
             var href = $(this).attr('href'),
-                    $link = $(this);
+                $link = $(this);
             if (typeof href === 'undefined') {
                 return false;
             }
@@ -92,9 +92,9 @@ var hashFormAdmin = hashFormAdmin || {};
 
         searchContent: function () {
             var i,
-                    searchText = $(this).val().toLowerCase(),
-                    toSearch = $(this).attr('data-tosearch'),
-                    $items = $('.' + toSearch);
+                searchText = $(this).val().toLowerCase(),
+                toSearch = $(this).attr('data-tosearch'),
+                $items = $('.' + toSearch);
 
             $items.each(function () {
                 if ($(this).attr('id').indexOf(searchText) > -1) {
@@ -107,7 +107,7 @@ var hashFormAdmin = hashFormAdmin || {};
 
         clickNewTabSettings: function () {
             var id = this.getAttribute('href'),
-                    $link = $(this);
+                $link = $(this);
 
             if (typeof id === 'undefined') {
                 return false;
@@ -221,7 +221,7 @@ var hashFormAdmin = hashFormAdmin || {};
 
         removeImageFromOption: function (e) {
             var $this = $(this),
-                    previewWrapper = $this.closest('li');
+                previewWrapper = $this.closest('li');
             e.preventDefault();
             e.stopPropagation();
 
@@ -285,11 +285,11 @@ var hashFormAdmin = hashFormAdmin || {};
 
         liveChangesInput: function () {
             var option,
-                    newValue = this.value,
-                    changes = document.getElementById(this.getAttribute('data-changeme')),
-                    att = this.getAttribute('data-changeatt'),
-                    fieldAttrType = this.getAttribute('type'),
-                    parentField = $(changes).closest('.hf-editor-form-field');
+                newValue = this.value,
+                changes = document.getElementById(this.getAttribute('data-changeme')),
+                att = this.getAttribute('data-changeatt'),
+                fieldAttrType = this.getAttribute('type'),
+                parentField = $(changes).closest('.hf-editor-form-field');
 
             if (att == 'value' && fieldAttrType == "email") {
                 $(this).closest('div').find('.hf-error').remove();
@@ -374,9 +374,9 @@ var hashFormAdmin = hashFormAdmin || {};
 
         markRequired: function () {
             var thisid = this.id.replace('hf-', ''),
-                    fieldId = thisid.replace('req-field-', ''),
-                    checked = this.checked,
-                    label = $('#hf-editor-field-required-' + fieldId);
+                fieldId = thisid.replace('req-field-', ''),
+                checked = this.checked,
+                label = $('#hf-editor-field-required-' + fieldId);
 
             hashFormAdmin.toggleValidationBox(checked, '.hf-required-detail-' + fieldId);
 
@@ -395,11 +395,11 @@ var hashFormAdmin = hashFormAdmin || {};
         addFieldOption: function () {
             /*jshint validthis:true */
             var fieldId = $(this).closest('.hf-fields-settings').data('fid'),
-                    newOption = $('#hf-field-options-' + fieldId + ' .hf-option-template').prop('outerHTML'),
-                    optType = $(this).data('opttype'),
-                    optKey = 0,
-                    oldKey = '000',
-                    lastKey = hashFormAdmin.getHighestOptKey(fieldId);
+                newOption = $('#hf-field-options-' + fieldId + ' .hf-option-template').prop('outerHTML'),
+                optType = $(this).data('opttype'),
+                optKey = 0,
+                oldKey = '000',
+                lastKey = hashFormAdmin.getHighestOptKey(fieldId);
 
             if (lastKey !== oldKey) {
                 optKey = lastKey + 1;
@@ -487,9 +487,9 @@ var hashFormAdmin = hashFormAdmin || {};
 
         deleteFieldOption: function () {
             var otherInput,
-                    parentLi = this.closest('li'),
-                    parentUl = parentLi.parentNode,
-                    fieldId = this.getAttribute('data-fid');
+                parentLi = this.closest('li'),
+                parentUl = parentLi.parentNode,
+                fieldId = this.getAttribute('data-fid');
 
             $(parentLi).fadeOut('slow', function () {
                 $(parentLi).remove();
@@ -507,7 +507,7 @@ var hashFormAdmin = hashFormAdmin || {};
 
         liveChangeHeight: function () {
             var newValue = this.value,
-                    changes = document.getElementById(this.getAttribute('data-changeheight'));
+                changes = document.getElementById(this.getAttribute('data-changeheight'));
 
             if (changes === null) {
                 return;
@@ -518,7 +518,7 @@ var hashFormAdmin = hashFormAdmin || {};
 
         liveChangeRows: function () {
             var newValue = this.value,
-                    changes = document.getElementById(this.getAttribute('data-changerows'));
+                changes = document.getElementById(this.getAttribute('data-changerows'));
 
             if (changes === null) {
                 return;
@@ -529,8 +529,8 @@ var hashFormAdmin = hashFormAdmin || {};
 
         liveChangeStars: function () {
             var newValue = this.value,
-                    stars = '',
-                    changes = document.getElementById(this.getAttribute('data-changestars'));
+                stars = '',
+                changes = document.getElementById(this.getAttribute('data-changestars'));
 
             if (changes === null) {
                 return;
@@ -836,11 +836,11 @@ var hashFormAdmin = hashFormAdmin || {};
 
         resetSingleOpt: function (fieldId, fieldKey, thisOpt) {
             var saved, text, defaultVal, previewInput,
-                    optKey = thisOpt.data('optkey'),
-                    separateValues = hashFormAdmin.usingSeparateValues(fieldId),
-                    single = $('label[for="field_' + fieldKey + '-' + optKey + '"]'),
-                    baseName = 'field_options[options_' + fieldId + '][' + optKey + ']',
-                    label = $('input[name="' + baseName + '[label]"]');
+                optKey = thisOpt.data('optkey'),
+                separateValues = hashFormAdmin.usingSeparateValues(fieldId),
+                single = $('label[for="field_' + fieldKey + '-' + optKey + '"]'),
+                baseName = 'field_options[options_' + fieldId + '][' + optKey + ']',
+                label = $('input[name="' + baseName + '[label]"]');
 
             if (single.length < 1) {
                 hashFormAdmin.resetDisplayedOpts(fieldId);
@@ -884,7 +884,7 @@ var hashFormAdmin = hashFormAdmin || {};
 
         resetDisplayedOpts: function (fieldId) {
             var i, opts, type, placeholder, fieldInfo,
-                    input = $('[name^="item_meta[' + fieldId + ']"]');
+                input = $('[name^="item_meta[' + fieldId + ']"]');
 
             if (input.length < 1) {
                 return;
@@ -927,16 +927,16 @@ var hashFormAdmin = hashFormAdmin || {};
                 return;
             }
             var sourceID = atts.sourceID,
-                    placeholder = atts.placeholder,
-                    showOther = atts.other;
+                placeholder = atts.placeholder,
+                showOther = atts.other;
 
             hashFormAdmin.removeDropdownOpts(field);
             var opts = hashFormAdmin.getMultipleOpts(sourceID),
-                    hasPlaceholder = (typeof placeholder !== 'undefined');
+                hasPlaceholder = (typeof placeholder !== 'undefined');
 
             for (var i = 0; i < opts.length; i++) {
                 var label = opts[ i ].label,
-                        isOther = opts[ i ].key.indexOf('other') !== -1;
+                    isOther = opts[ i ].key.indexOf('other') !== -1;
 
                 if (hasPlaceholder && label !== '') {
                     hashFormAdmin.addBlankSelectOption(field, placeholder);
@@ -956,23 +956,23 @@ var hashFormAdmin = hashFormAdmin || {};
 
         addRadioCheckboxOpt: function (type, opt, fieldId, fieldKey) {
             var single,
-                    id = 'hf-field-' + fieldKey + '-' + opt.key;
+                id = 'hf-field-' + fieldKey + '-' + opt.key;
 
             single = '<div class="hf-choice hf-' + type + '" id="hf-' + type + '-' + fieldId + '-' + opt.key + '"><label for="' + id +
-                    '"><input type="' + type +
-                    '" name="item_meta[' + fieldId + ']' + (type === 'checkbox' ? '[]' : '') +
-                    '" value="' + opt.saved + '" id="' + id + '"' + (opt.checked ? ' checked="checked"' : '') + '> ' + opt.label + '</label>' +
-                    '</div>';
+                '"><input type="' + type +
+                '" name="item_meta[' + fieldId + ']' + (type === 'checkbox' ? '[]' : '') +
+                '" value="' + opt.saved + '" id="' + id + '"' + (opt.checked ? ' checked="checked"' : '') + '> ' + opt.label + '</label>' +
+                '</div>';
 
             return single;
         },
 
         adjustConditionalLogicOptionOrders: function (fieldId) {
             var row, rowIndex, opts, logicId, valueSelect, rowOptions, expectedOrder, optionLength, optionIndex, expectedOption, optionMatch,
-                    rows = document.getElementById('hf-wrap').querySelectorAll('.hashform_logic_row'),
-                    rowLength = rows.length,
-                    fieldOptions = hashFormAdmin.getFieldOptions(fieldId),
-                    optionLength = fieldOptions.length;
+                rows = document.getElementById('hf-wrap').querySelectorAll('.hashform_logic_row'),
+                rowLength = rows.length,
+                fieldOptions = hashFormAdmin.getFieldOptions(fieldId),
+                optionLength = fieldOptions.length;
 
             for (rowIndex = 0; rowIndex < rowLength; rowIndex++) {
                 row = rows[ rowIndex ];
@@ -1019,11 +1019,11 @@ var hashFormAdmin = hashFormAdmin || {};
             $buildForm.on('click', 'a.hf-bulk-edit-link', function (event) {
                 event.preventDefault();
                 var i, key, label,
-                        content = '',
-                        optList,
-                        opts,
-                        fieldId = $(this).closest('[data-fid]').data('fid'),
-                        separate = hashFormAdmin.usingSeparateValues(fieldId);
+                    content = '',
+                    optList,
+                    opts,
+                    fieldId = $(this).closest('[data-fid]').data('fid'),
+                    separate = hashFormAdmin.usingSeparateValues(fieldId);
 
                 optList = document.getElementById('hf-field-options-' + fieldId);
                 if (!optList)
@@ -1060,7 +1060,7 @@ var hashFormAdmin = hashFormAdmin || {};
                     return;
                 this.classList.add('hf-loading-button');
                 var separate = hashFormAdmin.usingSeparateValues(fieldId),
-                        action = 'hashform_import_options';
+                    action = 'hashform_import_options';
                 jQuery.ajax({
                     type: 'POST',
                     url: ajaxurl,
@@ -1225,13 +1225,13 @@ var hashFormAdmin = hashFormAdmin || {};
 
         getMultipleOpts: function (fieldId) {
             var i, saved, labelName, label, key, optObj,
-                    image, savedLabel, input, field, checkbox, fieldType,
-                    checked = false,
-                    opts = [],
-                    imageUrl = '',
-                    hasImageOptions = document.getElementsByName('field_options[select_option_type_' + fieldId + ']').length > 0,
-                    optVals = $('input[name^="field_options[options_' + fieldId + ']"]'),
-                    separateValues = hashFormAdmin.usingSeparateValues(fieldId);
+                image, savedLabel, input, field, checkbox, fieldType,
+                checked = false,
+                opts = [],
+                imageUrl = '',
+                hasImageOptions = document.getElementsByName('field_options[select_option_type_' + fieldId + ']').length > 0,
+                optVals = $('input[name^="field_options[options_' + fieldId + ']"]'),
+                separateValues = hashFormAdmin.usingSeparateValues(fieldId);
 
             for (i = 0; i < optVals.length; i++) {
                 if (optVals[ i ].name.indexOf('[000]') > 0 || optVals[ i ].name.indexOf('[value]') > 0 || optVals[ i ].name.indexOf('[image_id]') > 0 || optVals[ i ].name.indexOf('[price]') > 0) {
@@ -1267,9 +1267,9 @@ var hashFormAdmin = hashFormAdmin || {};
 
         getFieldOptions: function (fieldId) {
             var index, input, li,
-                    listItems = document.getElementById('hf-field-options-' + fieldId).querySelectorAll('.hashform_single_option'),
-                    options = [],
-                    length = listItems.length;
+                listItems = document.getElementById('hf-field-options-' + fieldId).querySelectorAll('.hashform_single_option'),
+                options = [],
+                length = listItems.length;
             for (index = 0; index < length; index++) {
                 li = listItems[ index ];
 
@@ -1285,9 +1285,9 @@ var hashFormAdmin = hashFormAdmin || {};
 
         getHighestOptKey: function (fieldId) {
             var i = 0,
-                    optKey = 0,
-                    opts = $('#hf-field-options-' + fieldId + ' li'),
-                    lastKey = 0;
+                optKey = 0,
+                opts = $('#hf-field-options-' + fieldId + ' li'),
+                lastKey = 0;
 
             for (i; i < opts.length; i++) {
                 optKey = opts[i].getAttribute('data-optkey');
@@ -1308,7 +1308,7 @@ var hashFormAdmin = hashFormAdmin || {};
 
         liveChangeHideShowRow: function () {
             const that = $(this),
-                    parentRow = that.closest('.hf-form-container');
+                parentRow = that.closest('.hf-form-container');
             var val = that.val();
             parentRow.find('.hf-row-show-hide').addClass('hf-hidden');
             var valArray = val.split('_');
@@ -1321,8 +1321,8 @@ var hashFormAdmin = hashFormAdmin || {};
             const that = $(this);
             var val = that.val();
             const parentFieldSetting = $(this).closest('.hf-fields-settings'),
-                    fieldId = parentFieldSetting.data('fid'),
-                    fieldLabel = $('#hf-editor-field-id-' + fieldId).find('label.hf-label-show-hide');
+                fieldId = parentFieldSetting.data('fid'),
+                fieldLabel = $('#hf-editor-field-id-' + fieldId).find('label.hf-label-show-hide');
 
             if (!val || (parentFieldSetting.find('[data-label-show-hide-checkbox]').is(':checked'))) {
                 fieldLabel.addClass('hf-hidden');
@@ -1334,8 +1334,8 @@ var hashFormAdmin = hashFormAdmin || {};
         liveChangeHideShowLabelCheckbox: function () {
             const that = $(this);
             const parentFieldSetting = $(this).closest('.hf-fields-settings'),
-                    fieldId = parentFieldSetting.data('fid'),
-                    fieldLabel = $('#hf-editor-field-id-' + fieldId).find('label.hf-label-show-hide');
+                fieldId = parentFieldSetting.data('fid'),
+                fieldLabel = $('#hf-editor-field-id-' + fieldId).find('label.hf-label-show-hide');
 
             if (that.is(':checked') || !parentFieldSetting.find('[data-label-show-hide]').val()) {
                 fieldLabel.addClass('hf-hidden');
@@ -1360,7 +1360,7 @@ var hashFormAdmin = hashFormAdmin || {};
 })(jQuery);
 
 
-HTMLSelectElement.prototype.contains = function(value) {
+HTMLSelectElement.prototype.contains = function (value) {
     for (var i = 0, l = this.options.length; i < l; i++) {
         if (this.options[i].value == value) {
             return true;

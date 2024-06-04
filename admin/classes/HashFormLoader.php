@@ -84,7 +84,7 @@ class HashFormLoader {
             wp_enqueue_style('hashform-fonts', $fonts_url, array(), false);
         }
     }
-    
+
     public static function elementor_editor_styles() {
         wp_enqueue_style('hashform-icons', HASHFORM_URL . 'fonts/hf-icons.css', array(), HASHFORM_VERSION);
     }

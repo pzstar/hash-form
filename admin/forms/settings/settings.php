@@ -69,7 +69,7 @@ $settings = $form->settings ? $form->settings : HashFormHelper::get_form_setting
                             <h2><?php echo esc_html($section['name']); ?></h2>
                             <?php
                             $file_path = HASHFORM_PATH . 'admin/forms/settings/';
-                            if(file_exists( $file_path . esc_attr($key) . '.php')) {
+                            if (file_exists($file_path . esc_attr($key) . '.php')) {
                                 require $file_path . esc_attr($key) . '.php';
                             }
                             do_action('hashform_settings_sections_content', array(

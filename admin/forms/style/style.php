@@ -74,7 +74,7 @@ $form_style_template = isset($styles['form_style_template']) ? $styles['form_sty
                                     $hashform_styles = HashFormHelper::recursive_parse_args($hashform_styles, HashFormStyles::default_styles());
                                 }
                                 ob_start();
-                                echo '*:not(.hf-elementor-form-custom-style) > .hf-form-tempate #hf-container-' . absint($id) . '{';
+                                echo '#hf-container-' . absint($id) . '{';
                                 HashFormStyles::get_style_vars($hashform_styles, '');
                                 echo '}';
                                 $tmpl_css_style = ob_get_clean();

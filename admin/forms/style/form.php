@@ -65,10 +65,13 @@ if (!$hashform_styles) {
         </div>
     </div>
     <?php
-    echo '<style class="hf-style-content">';
-    echo 'div:not(.hf-elementor-form-custom-style) > .hf-form-tempate #hf-container-' . absint($form->id) . '{';
-    HashFormStyles::get_style_vars($hashform_styles, '');
-    echo '}';
-    echo '</style>';
+    $form_style = apply_filters('hashform_enable_style', '__return_true');
+    if ($form_style) {
+        echo '<style class="hf-style-content">';
+        echo '#hf-container-' . absint($form->id) . '{';
+        HashFormStyles::get_style_vars($hashform_styles, '');
+        echo '}';
+        echo '</style>';
+    }
     ?>
 </div>

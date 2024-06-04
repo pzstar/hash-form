@@ -104,7 +104,10 @@
     text-decoration: var(--hf-form-title-typo-text-decoration, inherit);
     line-height: var(--hf-form-title-typo-line-height, 1.2);
     color: var(--hf-form-title-typo-font-color, #666);
-    margin: 0 0 var(--hf-form-title-spacing, 20px);
+    margin-bottom: var(--hf-form-title-spacing, 20px);
+    margin-top: var(--hf-form-title-spacing-top, 0);
+    margin-left: var(--hf-form-title-spacing-left, 0);
+    margin-right: var(--hf-form-title-spacing-right, 0);
 }
 
 .hf-form-defaut-style .hf-form-title{
@@ -150,7 +153,10 @@
 }
 
 .hf-form-custom-style .hf-form-description{
-    margin: 0 0 var(--hf-form-desc-spacing, 20px);
+    margin-bottom: var(--hf-form-desc-spacing, 20px);
+    margin-top: var(--hf-form-desc-spacing-top, 0);
+    margin-left: var(--hf-form-desc-spacing-left, 0);
+    margin-right: var(--hf-form-desc-spacing-right, 0);
 }
 
 /* Forms */
@@ -387,6 +393,9 @@
     line-height: var(--hf-label-typo-line-height, 1.2);
     color: var(--hf-label-typo-font-color, inherit);
     margin-bottom: var(--hf-label-spacing, 8px);
+    margin-top: var(--hf-label-spacing-top, 0);
+    margin-left: var(--hf-label-spacing-left, 0);
+    margin-right: var(--hf-label-spacing-right, 0);
 }
 
 .hf-container .hf-field-label .hf-field-required{
@@ -425,7 +434,10 @@
     text-decoration: var(--hf-desc-typo-text-decoration, inherit);
     line-height: var(--hf-desc-typo-line-height, 1.2);
     color: var(--hf-desc-typo-font-color, inherit);
-    margin: var(--hf-desc-spacing, 5px) 0 0;
+    margin-top: var(--hf-desc-spacing, 5px);
+    margin-bottom: var(--hf-desc-spacing-bottom, 0);
+    margin-left: var(--hf-desc-spacing-left, 0);
+    margin-right: var(--hf-desc-spacing-right, 0);
 }
 
 .hf-form-default-style .hf-container .hf-field-desc{
