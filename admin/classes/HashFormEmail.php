@@ -111,11 +111,6 @@ class HashFormEmail {
             $recipients[] = (trim($row) == '[admin_email]') ? get_option('admin_email') : $row;
         }
 
-        do_action('hashform_after_email', array(
-            'form_settings' => $form_settings,
-            'metas' => $metas,
-        ));
-
         if (!empty($attachments)) {
             $mail = wp_mail($recipients, $email_subject, $email_message, $head, $attachments);
         } else {
@@ -150,6 +145,11 @@ class HashFormEmail {
             } else if ($form_settings['confirmation_type'] == 'redirect_url') {
                 $redirect_url = $form_settings['redirect_url_page'];
             }
+
+            do_action('hashform_after_email', array(
+                'form_settings' => $form_settings,
+                'metas' => $metas,
+            ));
 
             if (!empty($redirect_url)) {
                 return wp_send_json(array(
