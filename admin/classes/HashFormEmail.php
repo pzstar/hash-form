@@ -148,6 +148,7 @@ class HashFormEmail {
 
             do_action('hashform_after_email', array(
                 'form' => $this->form,
+                'entry_id' => $this->entry_id,
                 'form_settings' => $form_settings,
                 'metas' => $metas,
             ));
