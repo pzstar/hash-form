@@ -39,7 +39,7 @@ class HashFormPreview {
         <div class="hf-form-tempate">
             <form enctype="multipart/form-data" method="post" class="<?php echo esc_attr(implode(' ', array_filter($form_class))); ?>" id="hf-form-id-<?php echo esc_attr($form->form_key); ?>" novalidate>
                 <?php
-                require HASHFORM_PATH . '/admin/forms/style/form.php';
+                require HASHFORM_PATH . 'admin/forms/style/form.php';
                 ?>
             </form>
         </div>

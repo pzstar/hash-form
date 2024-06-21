@@ -774,7 +774,9 @@ qq.extend(qq.FileUploader.prototype, {
         } else {
             qq.addClass(item, this._classes.fail);
         }
-        jQuery(item).append('<span class="hf-preview-remove" data-path="' + result.path + '" data-remove-id="hf-uploaded-' + id + '">' + hashform_file_vars.remove_txt + '</span></div>');
+        if (result.path) {
+            jQuery(item).append('<span class="hf-preview-remove" data-path="' + result.path + '" data-remove-id="hf-uploaded-' + id + '">' + hashform_file_vars.remove_txt + '</span></div>');
+        }
     },
     _addToList: function (id, fileName) {
         var item = qq.toElement(this._options.fileTemplate);

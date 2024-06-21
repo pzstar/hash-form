@@ -331,7 +331,7 @@ defined('ABSPATH') || die();
             </div>
 
             <div class="hf-form-row">
-                <label><?php esc_html_e('Maximum File Size Allowed to Upload', 'hash-form'); ?></label>
+                <label><?php esc_html_e('Maximum File Size Allowed to Upload (MB)', 'hash-form'); ?></label>
                 <input type="number" name="field_options[max_upload_size_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['max_upload_size']); ?>"/>
             </div>
 

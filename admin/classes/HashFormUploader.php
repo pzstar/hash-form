@@ -131,10 +131,10 @@ class HashFormFileUploader {
     private function toBytes($str) {
         $val = trim($str);
         $last = strtolower($str[strlen($str) - 1]);
-
+        $val = floatval($val);
         switch ($last) {
-            case 'g': $val *= 1024;
-            case 'm': $val *= 1024;
+            case 'g': $val *= 1024 * 1024 * 1024;
+            case 'm': $val *= 1024 * 1024;
             case 'k': $val *= 1024;
         }
 
@@ -197,20 +197,20 @@ class HashFormFileUploader {
     protected function ensureUploadDirectory($path) {
         if (!is_dir($path)) {
             mkdir($path, 0755);
-            file_put_contents($path . '/.htaccess', file_get_contents(HASHFORM_PATH . '/admin/src/stubs/htaccess.stub'));
+            file_put_contents($path . '/.htaccess', file_get_contents(HASHFORM_PATH . 'admin/src/stubs/htaccess.stub'));
         }
 
         if (!is_dir($path . '/temp')) {
             mkdir($path . '/temp', 0755);
-            file_put_contents($path . '/temp/.htaccess', file_get_contents(HASHFORM_PATH . '/admin/src/stubs/htaccess.stub'));
+            file_put_contents($path . '/temp/.htaccess', file_get_contents(HASHFORM_PATH . 'admin/src/stubs/htaccess.stub'));
         }
 
         if (!file_exists($path . '/index.php')) {
-            file_put_contents($path . '/index.php', file_get_contents(HASHFORM_PATH . '/admin/src/stubs/index.stub'));
+            file_put_contents($path . '/index.php', file_get_contents(HASHFORM_PATH . 'admin/src/stubs/index.stub'));
         }
 
         if (!file_exists($path . '/temp/index.php')) {
-            file_put_contents($path . '/temp/index.php', file_get_contents(HASHFORM_PATH . '/admin/src/stubs/index.stub'));
+            file_put_contents($path . '/temp/index.php', file_get_contents(HASHFORM_PATH . 'admin/src/stubs/index.stub'));
         }
     }
 

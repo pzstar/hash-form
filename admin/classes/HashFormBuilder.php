@@ -219,7 +219,7 @@ class HashFormBuilder {
     }
 
     public static function edit() {
-        require( HASHFORM_PATH . '/admin/forms/build/edit.php' );
+        require( HASHFORM_PATH . 'admin/forms/build/edit.php' );
     }
 
     public static function settings() {
@@ -227,7 +227,7 @@ class HashFormBuilder {
     }
 
     public static function style() {
-        require HASHFORM_PATH . '/admin/forms/style/style.php';
+        require HASHFORM_PATH . 'admin/forms/style/style.php';
     }
 
     public function listing_page_screen_options() {
@@ -770,14 +770,12 @@ class HashFormBuilder {
         $allowedExtensions = HashFormHelper::get_var('allowedExtensions');
         $default_allowed_extenstions = array('pdf', 'doc', 'docx', 'xls', 'xlsx', 'odt', 'ppt', 'pptx', 'pps', 'ppsx', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'mp3', 'mp4', 'ogg', 'wav', 'mp4', 'm4v', 'mov', 'wmv', 'avi', 'mpg', 'ogv', '3gp', 'txt', 'zip', 'rar', '7z', 'csv');
         if ($allowedExtensions) {
-            $allowedExtensions = explode(',', $allowedExtensions);
-            $allowedExtensions = array_map('trim', $allowedExtensions);
-            $filtered_allowed_extenstions = array_intersect($allowedExtensions_array, $default_allowed_extenstions);
+            $filtered_allowed_extenstions = array_intersect($allowedExtensions, $default_allowed_extenstions);
         } else {
             $filtered_allowed_extenstions = $default_allowed_extenstions;
         }
         $sizeLimit = HashFormHelper::get_var('sizeLimit');
-        $uploader = new HashFormFileUploader(implode(',', $filtered_allowed_extenstions), $sizeLimit);
+        $uploader = new HashFormFileUploader($filtered_allowed_extenstions, $sizeLimit);
         $upload_dir = wp_upload_dir();
         $result = $uploader->handleUpload($upload_dir['basedir'] . HASHFORM_UPLOAD_DIR, $replaceOldFile = false, $upload_dir['baseurl'] . HASHFORM_UPLOAD_DIR);
 
