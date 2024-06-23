@@ -3,7 +3,7 @@ Contributors: hashthemes
 Tags: form, form builder, drag and drop, contact form
 Requires at least: 5.0
 Tested up to: 6.5
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 Requires PHP: 5.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -111,6 +111,9 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 11. Global Email Settings Page
 
 == Changelog ==
+= 1.1.4, 23 Jun, 2024 =
+* Upload button in the form not working - Fixed
+
 = 1.1.3, 20 Jun, 2024 =
 * Design setting added to design form from Elementor
 * Minor bugs resolved
