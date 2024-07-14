@@ -77,11 +77,6 @@ class HashFormFileUploader {
         $allowedExtensions = array_map("strtolower", $allowedExtensions);
         $unallowed_extensions = array('php', 'exe', 'ini', 'perl');
         $exts = array_keys(get_allowed_mime_types());
-        $missed_exts = array('JPEG', 'JPG', 'PNG', 'GIF');
-
-        foreach ($missed_exts as $m_e) {
-            $exts[] = $m_e;
-        }
 
         $available_exts = array();
         foreach ($exts as $ext) {
