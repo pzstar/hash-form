@@ -192,20 +192,20 @@ class HashFormFileUploader {
     protected function ensureUploadDirectory($path) {
         if (!is_dir($path)) {
             mkdir($path, 0755);
-            file_put_contents($path . '/.htaccess', file_get_contents(HASHFORM_PATH . 'admin/src/stubs/htaccess.stub'));
+            file_put_contents($path . '/.htaccess', file_get_contents(HASHFORM_PATH . 'admin/stubs/htaccess.stub'));
         }
 
         if (!is_dir($path . '/temp')) {
             mkdir($path . '/temp', 0755);
-            file_put_contents($path . '/temp/.htaccess', file_get_contents(HASHFORM_PATH . 'admin/src/stubs/htaccess.stub'));
+            file_put_contents($path . '/temp/.htaccess', file_get_contents(HASHFORM_PATH . 'admin/stubs/htaccess.stub'));
         }
 
         if (!file_exists($path . '/index.php')) {
-            file_put_contents($path . '/index.php', file_get_contents(HASHFORM_PATH . 'admin/src/stubs/index.stub'));
+            file_put_contents($path . '/index.php', file_get_contents(HASHFORM_PATH . 'admin/stubs/index.stub'));
         }
 
         if (!file_exists($path . '/temp/index.php')) {
-            file_put_contents($path . '/temp/index.php', file_get_contents(HASHFORM_PATH . 'admin/src/stubs/index.stub'));
+            file_put_contents($path . '/temp/index.php', file_get_contents(HASHFORM_PATH . 'admin/stubs/index.stub'));
         }
     }
 
