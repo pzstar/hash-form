@@ -16,7 +16,7 @@ jQuery(function ($) {
 
         const isV3 = $('.g-recaptcha').attr('data-size') == "invisible";
         isV3 && grecaptcha.ready(function () {
-            grecaptcha.execute(siteKey, { action: 'hashform' }).then(function (token) {
+            grecaptcha.execute(siteKey, {action: 'hashform'}).then(function (token) {
                 form.append('<input type="hidden" id="recaptcha_token" value="' + token + '">');
             });
         });
@@ -529,7 +529,7 @@ jQuery(function ($) {
                 }
             },
 
-            onProgress: function (id, fileName, loaded, total) { },
+            onProgress: function (id, fileName, loaded, total) {},
 
             onComplete: function (id, fileName, responseJSON) {
 
@@ -573,8 +573,8 @@ jQuery(function ($) {
                 }
             },
 
-            onCancel: function (id, fileName) { },
-            onError: function (id, fileName, xhr) { },
+            onCancel: function (id, fileName) {},
+            onError: function (id, fileName, xhr) {},
 
             messages: {
                 typeError: extension_error_message,

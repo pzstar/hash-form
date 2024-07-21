@@ -20,7 +20,7 @@ class HashFormCreateTable {
     public function upgrade() {
         global $wpdb;
         flush_rewrite_rules();
-        require_once (ABSPATH . 'wp-admin/includes/upgrade.php');
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         $this->create_tables();
     }
 

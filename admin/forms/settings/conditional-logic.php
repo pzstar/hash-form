@@ -28,14 +28,14 @@ defined('ABSPATH') || die();
                             if (!($field->type == 'heading' || $field->type == 'paragraph' || $field->type == 'separator' || $field->type == 'spacer' || $field->type == 'image' || $field->type == 'captcha')) {
                                 ?>
                                 <option value="<?php echo esc_attr($field->id); ?>" <?php
-                                   if (isset($row['compare_from'])) {
-                                       selected($row['compare_from'], $field->id);
-                                   }
-                                   ?>><?php echo esc_html($field->name) . ' (ID: ' . esc_attr($field->id) . ')'; ?></option>
-                                <?php
-                            }
-                        }
-                        ?>
+                                if (isset($row['compare_from'])) {
+                                    selected($row['compare_from'], $field->id);
+                                }
+                                ?>><?php echo esc_html($field->name) . ' (ID: ' . esc_attr($field->id) . ')'; ?></option>
+                                        <?php
+                                    }
+                                }
+                                ?>
                     </select>
                     <span class="hf-condition-seperator">if</span>
                     <select name="compare_to[]" required>
@@ -45,14 +45,14 @@ defined('ABSPATH') || die();
                             if (!($field->type == 'heading' || $field->type == 'paragraph' || $field->type == 'separator' || $field->type == 'spacer' || $field->type == 'image' || $field->type == 'captcha' || $field->type == 'name' || $field->type == 'address')) {
                                 ?>
                                 <option value="<?php echo esc_attr($field->id); ?>" <?php
-                                   if (isset($row['compare_to'])) {
-                                       selected($row['compare_to'], $field->id);
-                                   }
-                                   ?>><?php echo esc_html($field->name) . ' (ID: ' . esc_attr($field->id) . ')'; ?></option>
-                                <?php
-                            }
-                        }
-                        ?>
+                                if (isset($row['compare_to'])) {
+                                    selected($row['compare_to'], $field->id);
+                                }
+                                ?>><?php echo esc_html($field->name) . ' (ID: ' . esc_attr($field->id) . ')'; ?></option>
+                                        <?php
+                                    }
+                                }
+                                ?>
                     </select>
                     <select name="compare_condition[]" required>
                         <option value="equal" <?php
@@ -96,7 +96,7 @@ defined('ABSPATH') || die();
                         }
                         ?>>Is Not Like</option>
                     </select>
-                    <input type="text" name="compare_value[]" value="<?php echo esc_attr($row['compare_value']); ?>" required />
+                    <input type="text" name="compare_value[]" value="<?php echo esc_attr($row['compare_value']); ?>" required/>
                     <span class="hf-condition-remove mdi mdi-close"></span>
                 </div>
             <?php } ?>

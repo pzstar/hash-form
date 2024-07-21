@@ -15,7 +15,7 @@ class HashFormStrReader {
 
     public function read_until($char, $discard_char = true) {
         $value = '';
-        while (NULL !== ($one = $this->read_one())) {
+        while (null !== ($one = $this->read_one())) {
             if ($one !== $char || !$discard_char) {
                 $value .= $one;
             }
@@ -41,7 +41,7 @@ class HashFormStrReader {
             $value = $this->string[$this->pos];
             $this->pos += 1;
         } else {
-            $value = NULL;
+            $value = null;
         }
         return $value;
     }

@@ -9,7 +9,7 @@ $form_id = HashFormHelper::get_var('id', 'absint');
             <h3><?php esc_attr_e('Use the shortcode below to add to your pages', 'hash-form'); ?></h3>
 
             <div class="hf-form-row">
-                <input type="text" value="<?php echo esc_attr('[hashform id="' . absint($form_id) . '"]') ?>" disabled />
+                <input type="text" value="<?php echo esc_attr('[hashform id="' . absint($form_id) . '"]') ?>" disabled/>
                 <span id="hf-copy-shortcode" class="mdi mdi-content-copy"></span>
             </div>
 

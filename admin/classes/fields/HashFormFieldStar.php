@@ -20,8 +20,8 @@ class HashFormFieldStar extends HashFormFieldType {
             <label>
                 <?php esc_html_e('Maximum Rating', 'hash-form'); ?>
             </label>
-            <input type="number" name="field_options[maxnum_<?php echo esc_attr($field['id']); ?>]" value="<?php echo esc_attr($field['maxnum']); ?>" min="1" max="50" step="1" data-changestars="hf-field-star-<?php echo esc_attr($field['id']); ?>" />
-            <input type="hidden" name="field_options[minnum_<?php echo esc_attr($field['id']); ?>]" />
+            <input type="number" name="field_options[maxnum_<?php echo esc_attr($field['id']); ?>]" value="<?php echo esc_attr($field['maxnum']); ?>" min="1" max="50" step="1" data-changestars="hf-field-star-<?php echo esc_attr($field['id']); ?>"/>
+            <input type="hidden" name="field_options[minnum_<?php echo esc_attr($field['id']); ?>]"/>
         </div>
         <?php
     }
@@ -41,7 +41,7 @@ class HashFormFieldStar extends HashFormFieldType {
             foreach ($field['options'] as $opt_key => $opt) {
                 ?>
                 <label class="hf-star-rating">
-                    <input type="radio" name="<?php echo esc_attr($this->html_name()); ?>" value="<?php echo esc_attr($opt); ?>" />
+                    <input type="radio" name="<?php echo esc_attr($this->html_name()); ?>" value="<?php echo esc_attr($opt); ?>"/>
                     <span class="mdi mdi-star-outline"></span>
                 </label>
                 <?php

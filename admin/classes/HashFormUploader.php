@@ -128,12 +128,9 @@ class HashFormFileUploader {
         $last = strtolower($str[strlen($str) - 1]);
         $val = floatval($val);
         switch ($last) {
-            case 'g':
-                $val *= 1024 * 1024 * 1024;
-            case 'm':
-                $val *= 1024 * 1024;
-            case 'k':
-                $val *= 1024;
+            case 'g': $val *= 1024 * 1024 * 1024;
+            case 'm': $val *= 1024 * 1024;
+            case 'k': $val *= 1024;
         }
 
         return $val;

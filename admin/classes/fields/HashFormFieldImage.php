@@ -40,7 +40,7 @@ class HashFormFieldImage extends HashFormFieldType {
             <?php
             if ($image) {
                 ?>
-                <img src="<?php echo esc_url($image); ?>" />
+                <img src="<?php echo esc_url($image); ?>"/>
                 <?php
             }
             ?>

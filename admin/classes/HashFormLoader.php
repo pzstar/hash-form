@@ -45,8 +45,7 @@ class HashFormLoader {
 
             wp_localize_script('hashform-backend', 'hashform_backend_js', array(
                 'nonce' => wp_create_nonce('hashform_ajax'),
-            )
-            );
+            ));
         }
 
         if (strpos($page, 'hashform-smtp') === 0) {
@@ -66,8 +65,7 @@ class HashFormLoader {
             'installing_text' => esc_html__('Installing WP Mail SMTP', 'hash-form'),
             'activating_text' => esc_html__('Activating WP Mail SMTP', 'hash-form'),
             'error' => esc_html__('Error! Reload the page and try again.', 'hash-form'),
-        )
-        );
+        ));
 
         wp_enqueue_style('wp-color-picker');
         wp_enqueue_style('hashform-icons', HASHFORM_URL . 'fonts/hf-icons.css', array(), HASHFORM_VERSION);
@@ -110,16 +108,14 @@ class HashFormLoader {
         wp_enqueue_script('hashform-file-uploader', HASHFORM_URL . 'js/file-uploader.js', array(), HASHFORM_VERSION, true);
         wp_localize_script('hashform-file-uploader', 'hashform_file_vars', array(
             'remove_txt' => esc_html('Remove', 'hash-form')
-        )
-        );
+        ));
         wp_enqueue_script('moment', HASHFORM_URL . 'js/moment.js', array(), HASHFORM_VERSION, true);
         wp_enqueue_script('frontend', HASHFORM_URL . 'js/frontend.js', array('jquery', 'jquery-ui-datepicker', 'jquery-timepicker', 'hashform-file-uploader', 'hashform-file-uploader'), HASHFORM_VERSION, true);
         wp_localize_script('frontend', 'hashform_vars', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'ajax_nounce' => wp_create_nonce('hashform-upload-ajax-nonce'),
             'preview_img' => '',
-        )
-        );
+        ));
     }
 
 }

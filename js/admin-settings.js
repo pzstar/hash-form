@@ -139,7 +139,7 @@
         });
     });
 
-    $('body').find(".hf-typography-fields select").chosen({ width: "100%" });
+    $('body').find(".hf-typography-fields select").chosen({width: "100%"});
 
     $('.hf-style-sidebar [name]').on('change', function () {
         var id = $(this).attr('id');

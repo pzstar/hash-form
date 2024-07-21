@@ -10,10 +10,10 @@ $settings = $form->settings ? $form->settings : HashFormHelper::get_form_setting
 <div id="hf-wrap" class="hf-content">
     <?php
     self::get_admin_header(
-        array(
-            'form' => $form,
-            'class' => 'hf-header-nav',
-        )
+            array(
+                'form' => $form,
+                'class' => 'hf-header-nav',
+            )
     );
 
     $sections = array(
@@ -77,8 +77,7 @@ $settings = $form->settings ? $form->settings : HashFormHelper::get_form_setting
                                 'settings' => $settings,
                                 'fields' => $fields,
                                 'form_id' => $id
-                            )
-                            );
+                            ));
                             ?>
                         </div>
                     <?php } ?>
