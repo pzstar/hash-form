@@ -180,32 +180,32 @@ defined('ABSPATH') || die();
                             <div class="hf-choice hf-checkbox" id="hf-checkbox-432-0">
                                 <label for="hf-field-i6zak-0">
                                     <input type="checkbox" name="item_meta[432][]" id="hf-field-i6zak-0" value="Strongly Disagree">
-                                    Strongly Disagree</label>    
+                                    Strongly Disagree</label>
                             </div>
                             <div class="hf-choice hf-checkbox" id="hf-checkbox-432-1">
                                 <label for="hf-field-i6zak-1">
                                     <input type="checkbox" name="item_meta[432][]" id="hf-field-i6zak-1" value="Disagree">
-                                    Disagree</label>    
+                                    Disagree</label>
                             </div>
                             <div class="hf-choice hf-checkbox" id="hf-checkbox-432-2">
                                 <label for="hf-field-i6zak-2">
                                     <input type="checkbox" name="item_meta[432][]" id="hf-field-i6zak-2" value="Neutral">
-                                    Neutral</label>    
+                                    Neutral</label>
                             </div>
                             <div class="hf-choice hf-checkbox" id="hf-checkbox-432-3">
                                 <label for="hf-field-i6zak-3">
                                     <input type="checkbox" name="item_meta[432][]" id="hf-field-i6zak-3" value="Agree">
-                                    Agree</label>    
+                                    Agree</label>
                             </div>
                             <div class="hf-choice hf-checkbox" id="hf-checkbox-432-4">
                                 <label for="hf-field-i6zak-4">
                                     <input type="checkbox" name="item_meta[432][]" id="hf-field-i6zak-4" value="Strongly Agree">
-                                    Strongly Agree</label>    
+                                    Strongly Agree</label>
                             </div>
                             <div class="hf-choice hf-checkbox" id="hf-checkbox-432-5">
                                 <label for="hf-field-i6zak-5">
                                     <input type="checkbox" name="item_meta[432][]" id="hf-field-i6zak-5" value="N/A">
-                                    N/A</label>    
+                                    N/A</label>
                             </div>
                         </div>
                     </div>
@@ -221,32 +221,32 @@ defined('ABSPATH') || die();
                             <div class="hf-choice hf-radio" id="hf-radio-433-0">
                                 <label for="hf-field-dfwf8-0">
                                     <input type="radio" name="item_meta[433]" id="hf-field-dfwf8-0" value="Strongly Disagree">
-                                    Strongly Disagree</label>        
+                                    Strongly Disagree</label>
                             </div>
                             <div class="hf-choice hf-radio" id="hf-radio-433-1">
                                 <label for="hf-field-dfwf8-1">
                                     <input type="radio" name="item_meta[433]" id="hf-field-dfwf8-1" value="Disagree">
-                                    Disagree</label>        
+                                    Disagree</label>
                             </div>
                             <div class="hf-choice hf-radio" id="hf-radio-433-2">
                                 <label for="hf-field-dfwf8-2">
                                     <input type="radio" name="item_meta[433]" id="hf-field-dfwf8-2" value="Neutral">
-                                    Neutral</label>        
+                                    Neutral</label>
                             </div>
                             <div class="hf-choice hf-radio" id="hf-radio-433-3">
                                 <label for="hf-field-dfwf8-3">
                                     <input type="radio" name="item_meta[433]" id="hf-field-dfwf8-3" value="Agree">
-                                    Agree</label>        
+                                    Agree</label>
                             </div>
                             <div class="hf-choice hf-radio" id="hf-radio-433-4">
                                 <label for="hf-field-dfwf8-4">
                                     <input type="radio" name="item_meta[433]" id="hf-field-dfwf8-4" value="Strongly Agree">
-                                    Strongly Agree</label>        
+                                    Strongly Agree</label>
                             </div>
                             <div class="hf-choice hf-radio" id="hf-radio-433-5">
                                 <label for="hf-field-dfwf8-5">
                                     <input type="radio" name="item_meta[433]" id="hf-field-dfwf8-5" value="N/A">
-                                    N/A</label>        
+                                    N/A</label>
                             </div>
                         </div>
                     </div>
@@ -294,7 +294,7 @@ defined('ABSPATH') || die();
 
                 <div class="hf-field-container">
                     <label class="hf-field-label ">
-                        Upload                                    
+                        Upload
                     </label>
                     <div class="hf-field-content">
                         <div class="hf-file-uploader-wrapper">

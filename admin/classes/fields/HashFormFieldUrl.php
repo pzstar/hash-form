@@ -37,7 +37,7 @@ class HashFormFieldUrl extends HashFormFieldType {
     protected function input_html() {
         $field_type = $this->type;
         ?>
-        <input type="<?php echo esc_attr($field_type); ?>" <?php $this->field_attrs(); ?>/>
+        <input type="<?php echo esc_attr($field_type); ?>" <?php $this->field_attrs(); ?> />
         <?php
     }
 

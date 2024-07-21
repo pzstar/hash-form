@@ -1,25 +1,25 @@
 @font-face {
+    font-display: block;
     font-family: 'hashform-icons';
+    font-style: normal;
+    font-weight: normal;
     src:
         url('hf-icons/hf-icons.ttf') format('truetype'),
         url('hf-icons/hf-icons.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: block;
 }
 
 .hfi {
     font-family: 'hashform-icons' !important;
-    speak: never;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
 
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    speak: never;
+    text-transform: none;
 }
 
 .hfi.hfi-form:before {

@@ -14,7 +14,7 @@ class HashFormSerializedStrParser {
     }
 
     private function __construct() {
-        
+
     }
 
     public function parse($string) {
@@ -22,7 +22,7 @@ class HashFormSerializedStrParser {
     }
 
     private function do_parse($string) {
-        $val = null;
+        $val = NULL;
 
         // May be : or ; as a terminator, depending on what the data type is.
         $type = substr($string->read(2), 0, 1);
@@ -74,7 +74,7 @@ class HashFormSerializedStrParser {
             default:
                 // Includes case 'N' and case 'O'.
                 // Treat a serialized object or anything unexpected as Null.
-                $val = null;
+                $val = NULL;
                 break;
         }//end switch
 

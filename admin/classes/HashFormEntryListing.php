@@ -15,11 +15,11 @@ class HashFormEntryListing extends \WP_List_Table {
 
     public function __construct() {
         parent::__construct(
-                array(
-                    'singular' => 'Entry',
-                    'plural' => 'Entries',
-                    'ajax' => false,
-                )
+            array(
+                'singular' => 'Entry',
+                'plural' => 'Entries',
+                'ajax' => false,
+            )
         );
         $this->status = HashFormHelper::get_var('status', 'sanitize_text_field', 'published');
     }
@@ -57,7 +57,7 @@ class HashFormEntryListing extends \WP_List_Table {
 
     public function column_cb($item) {
         return sprintf(
-                '<input type="checkbox" name="%1$s_id[]" value="%2$s" />', esc_attr($this->_args['singular']), esc_attr($item['id'])
+            '<input type="checkbox" name="%1$s_id[]" value="%2$s" />', esc_attr($this->_args['singular']), esc_attr($item['id'])
         );
     }
 
@@ -66,7 +66,7 @@ class HashFormEntryListing extends \WP_List_Table {
 
         $columns = $this->get_columns();
         $sortable = $this->get_sortable_columns();
-        $hidden = ( is_array(get_user_meta(get_current_user_id(), 'managetoplevel_page_hashform-entriescolumnshidden', true)) ) ? get_user_meta(get_current_user_id(), 'managetoplevel_page_hashform-entriescolumnshidden', true) : array();
+        $hidden = (is_array(get_user_meta(get_current_user_id(), 'managetoplevel_page_hashform-entriescolumnshidden', true))) ? get_user_meta(get_current_user_id(), 'managetoplevel_page_hashform-entriescolumnshidden', true) : array();
         $primary = 'id';
         $this->_column_headers = array($columns, $hidden, $sortable, $primary);
 

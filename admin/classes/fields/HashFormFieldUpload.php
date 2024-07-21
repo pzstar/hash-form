@@ -43,16 +43,7 @@ class HashFormFieldUpload extends HashFormFieldType {
         } else {
             ?>
             <div class="hf-file-uploader-wrapper">
-                <div class="hf-file-uploader"
-                     id="hf-file-uploader-<?php echo mt_rand(100, 99999); ?>"
-                     data-upload-label="<?php echo esc_attr($field['upload_label']); ?>"
-                     data-extensions="<?php echo esc_attr($new_extensions); ?>"
-                     data-extensions-error-message="<?php echo esc_attr($field['extensions_error_message']); ?>"
-                     data-multiple-uploads="<?php echo $field['multiple_uploads'] == 'on' ? 'true' : 'false'; ?>"
-                     data-multiple-uploads-limit="<?php echo $field['multiple_uploads'] == 'on' ? absint($field['multiple_uploads_limit']) : '-1'; ?>"
-                     data-multiple-uploads-error-message="<?php echo esc_attr($field['multiple_uploads_error_message']); ?>"
-                     data-max-upload-size="<?php echo esc_attr($max_size); ?>"
-                     data-field-uploader-id="<?php echo esc_attr($this->html_id()); ?>">
+                <div class="hf-file-uploader" id="hf-file-uploader-<?php echo mt_rand(100, 99999); ?>" data-upload-label="<?php echo esc_attr($field['upload_label']); ?>" data-extensions="<?php echo esc_attr($new_extensions); ?>" data-extensions-error-message="<?php echo esc_attr($field['extensions_error_message']); ?>" data-multiple-uploads="<?php echo $field['multiple_uploads'] == 'on' ? 'true' : 'false'; ?>" data-multiple-uploads-limit="<?php echo $field['multiple_uploads'] == 'on' ? absint($field['multiple_uploads_limit']) : '-1'; ?>" data-multiple-uploads-error-message="<?php echo esc_attr($field['multiple_uploads_error_message']); ?>" data-max-upload-size="<?php echo esc_attr($max_size); ?>" data-field-uploader-id="<?php echo esc_attr($this->html_id()); ?>">
                     <div class="qq-uploader qq-fake-uploader">
                         <div class="qq-upload-button" style="position: relative; overflow: hidden; direction: ltr;">
                             <?php echo esc_attr($field['upload_label']); ?>

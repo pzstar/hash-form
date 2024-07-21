@@ -17,10 +17,10 @@ $form_style_template = isset($styles['form_style_template']) ? $styles['form_sty
 <div id="hf-wrap" class="hf-content hf-form-style-template">
     <?php
     self::get_admin_header(
-            array(
-                'form' => $form,
-                'class' => 'hf-header-nav',
-            )
+        array(
+            'form' => $form,
+            'class' => 'hf-header-nav',
+        )
     );
     ?>
     <div class="hf-body">
@@ -30,7 +30,7 @@ $form_style_template = isset($styles['form_style_template']) ? $styles['form_sty
                 <div class="hf-form-container hf-grid-container">
                     <div class="hf-form-row">
                         <label><?php esc_html_e('Form Style', 'hash-form'); ?></label>
-                        <select name="form_style" id="hf-form-style-select"  data-condition="toggle">
+                        <select name="form_style" id="hf-form-style-select" data-condition="toggle">
                             <option value="no-style" <?php isset($form_style) ? selected('no-style', $form_style) : ''; ?>><?php esc_html_e('No Style', 'hash-form'); ?></option>
                             <option value="default-style" <?php isset($form_style) ? selected('default-style', $form_style) : ''; ?>><?php esc_html_e('Default Style', 'hash-form'); ?></option>
                             <option value="custom-style" <?php isset($form_style) ? selected('custom-style', $form_style) : ''; ?>><?php esc_html_e('Custom Style', 'hash-form'); ?></option>
