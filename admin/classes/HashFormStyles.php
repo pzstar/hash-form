@@ -325,9 +325,7 @@ class HashFormStyles {
                     'family' => urlencode(implode('|', $fonts)),
                     'subset' => urlencode($subsets),
                     'display' => 'swap',
-                ),
-                'https://fonts.googleapis.com/css'
-            );
+                ), 'https://fonts.googleapis.com/css');
         }
 
         $load_font_locally = false;

@@ -43,12 +43,9 @@ class HashFormLoader {
             wp_enqueue_script('hashform-builder', HASHFORM_URL . 'js/builder.js', array('jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-i18n', 'wp-hooks', 'jquery-ui-dialog', 'hashform-select2'), HASHFORM_VERSION, true);
             wp_enqueue_script('hashform-backend', HASHFORM_URL . 'js/backend.js', array('jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-i18n', 'wp-hooks', 'jquery-ui-dialog', 'jquery-ui-datepicker'), HASHFORM_VERSION, true);
 
-            wp_localize_script(
-                'hashform-backend',
-                'hashform_backend_js',
-                array(
-                    'nonce' => wp_create_nonce('hashform_ajax'),
-                )
+            wp_localize_script('hashform-backend', 'hashform_backend_js', array(
+                'nonce' => wp_create_nonce('hashform_ajax'),
+            )
             );
         }
 
@@ -63,16 +60,13 @@ class HashFormLoader {
         wp_enqueue_script('wp-color-picker-alpha', HASHFORM_URL . '/js/wp-color-picker-alpha.js', array('wp-color-picker'), HASHFORM_VERSION, true);
         wp_enqueue_script('hashform-admin-settings', HASHFORM_URL . '/js/admin-settings.js', array('jquery'), HASHFORM_VERSION, true);
 
-        wp_localize_script(
-            'hashform-admin-settings',
-            'hashform_admin_js_obj',
-            array(
-                'ajax_url' => admin_url('admin-ajax.php'),
-                'ajax_nonce' => wp_create_nonce('hashform-ajax-nonce'),
-                'installing_text' => esc_html__('Installing WP Mail SMTP', 'hash-form'),
-                'activating_text' => esc_html__('Activating WP Mail SMTP', 'hash-form'),
-                'error' => esc_html__('Error! Reload the page and try again.', 'hash-form'),
-            )
+        wp_localize_script('hashform-admin-settings', 'hashform_admin_js_obj', array(
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'ajax_nonce' => wp_create_nonce('hashform-ajax-nonce'),
+            'installing_text' => esc_html__('Installing WP Mail SMTP', 'hash-form'),
+            'activating_text' => esc_html__('Activating WP Mail SMTP', 'hash-form'),
+            'error' => esc_html__('Error! Reload the page and try again.', 'hash-form'),
+        )
         );
 
         wp_enqueue_style('wp-color-picker');
@@ -114,23 +108,17 @@ class HashFormLoader {
         wp_enqueue_script('jquery-ui-slider');
         wp_enqueue_script('jquery-timepicker', HASHFORM_URL . 'js/jquery.timepicker.min.js', array('jquery'), HASHFORM_VERSION, true);
         wp_enqueue_script('hashform-file-uploader', HASHFORM_URL . 'js/file-uploader.js', array(), HASHFORM_VERSION, true);
-        wp_localize_script(
-            'hashform-file-uploader',
-            'hashform_file_vars',
-            array(
-                'remove_txt' => esc_html('Remove', 'hash-form')
-            )
+        wp_localize_script('hashform-file-uploader', 'hashform_file_vars', array(
+            'remove_txt' => esc_html('Remove', 'hash-form')
+        )
         );
         wp_enqueue_script('moment', HASHFORM_URL . 'js/moment.js', array(), HASHFORM_VERSION, true);
         wp_enqueue_script('frontend', HASHFORM_URL . 'js/frontend.js', array('jquery', 'jquery-ui-datepicker', 'jquery-timepicker', 'hashform-file-uploader', 'hashform-file-uploader'), HASHFORM_VERSION, true);
-        wp_localize_script(
-            'frontend',
-            'hashform_vars',
-            array(
-                'ajaxurl' => admin_url('admin-ajax.php'),
-                'ajax_nounce' => wp_create_nonce('hashform-upload-ajax-nonce'),
-                'preview_img' => '',
-            )
+        wp_localize_script('frontend', 'hashform_vars', array(
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'ajax_nounce' => wp_create_nonce('hashform-upload-ajax-nonce'),
+            'preview_img' => '',
+        )
         );
     }
 
