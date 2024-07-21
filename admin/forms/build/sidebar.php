@@ -13,11 +13,13 @@ defined('ABSPATH') || die();
         <div class="hf-fields-panels">
             <div id="hf-add-fields-panel" class="ht-fields-panel">
                 <?php
-                HashFormHelper::show_search_box(array(
-                    'input_id' => 'field-list',
-                    'placeholder' => esc_html__('Search Fields', 'hash-form'),
-                    'tosearch' => 'hf-field-box',
-                ));
+                HashFormHelper::show_search_box(
+                    array(
+                        'input_id' => 'field-list',
+                        'placeholder' => esc_html__('Search Fields', 'hash-form'),
+                        'tosearch' => 'hf-field-box',
+                    )
+                );
                 ?>
                 <ul class="hf-fields-list">
                     <?php

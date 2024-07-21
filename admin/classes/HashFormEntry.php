@@ -59,7 +59,7 @@ class HashFormEntry {
             return;
         }
 
-        include( HASHFORM_PATH . 'admin/entries/entry-detail.php' );
+        include (HASHFORM_PATH . 'admin/entries/entry-detail.php');
     }
 
     public static function display_message($message, $class) {
@@ -148,7 +148,7 @@ class HashFormEntry {
 
         $count = 0;
         if (self::set_status($id, $available_status[$status]['new_status'])) {
-            $count ++;
+            $count++;
         }
 
         $available_status['untrash']['message'] = sprintf(_n('%1$s form restored from the Trash.', '%1$s forms restored from the Trash.', $count, 'hash-form'), $count);
@@ -191,7 +191,7 @@ class HashFormEntry {
         $count = 0;
         foreach ($trash_entries as $entry) {
             self::destroy_entry($entry->id);
-            $count ++;
+            $count++;
         }
         return $count;
     }
@@ -201,7 +201,7 @@ class HashFormEntry {
         check_admin_referer('destroy_entry_' . $id);
         $count = 0;
         if (self::destroy_entry($id)) {
-            $count ++;
+            $count++;
         }
         $message = sprintf(_n('%1$s Entry Permanently Deleted', '%1$s Entries Permanently Deleted', $count, 'hash-form'), $count);
         self::display_entry_list($message);
@@ -234,7 +234,7 @@ class HashFormEntry {
         $bulkaction = HashFormHelper::get_var('action', 'sanitize_text_field');
 
 
-        if ($bulkaction == - 1) {
+        if ($bulkaction == -1) {
             $bulkaction = HashFormHelper::get_var('action2', 'sanitize_title');
         }
 
@@ -290,7 +290,7 @@ class HashFormEntry {
         foreach ($ids as $id) {
             $entry = self::destroy_entry($id);
             if ($entry) {
-                $count ++;
+                $count++;
             }
         }
         $message = sprintf(_n('%1$s form permanently deleted.', '%1$s forms permanently deleted.', $count, 'hash-form'), $count);
@@ -376,17 +376,21 @@ class HashFormEntry {
 
             if (!$check_mail) {
                 $wpdb->update($wpdb->prefix . 'hashform_entries', array('delivery_status' => false), array('id' => $entry_id));
-                return wp_send_json(array(
-                    'status' => 'failed',
-                    'message' => esc_html($form_settings['error_message'])
-                ));
+                return wp_send_json(
+                    array(
+                        'status' => 'failed',
+                        'message' => esc_html($form_settings['error_message'])
+                    )
+                );
             }
         }
 
-        return wp_send_json(array(
-            'status' => 'error',
-            'message' => $errors
-        ));
+        return wp_send_json(
+            array(
+                'status' => 'error',
+                'message' => $errors
+            )
+        );
     }
 
     public static function create($values) {
@@ -451,9 +455,9 @@ class HashFormEntry {
         $counts = array_fill_keys($statuses, 0);
         foreach ($results as $row) {
             if ('published' == $row->status) {
-                $counts['published'] ++;
+                $counts['published']++;
             } else {
-                $counts['trash'] ++;
+                $counts['trash']++;
             }
         }
         return $counts;

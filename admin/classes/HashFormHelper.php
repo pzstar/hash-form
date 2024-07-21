@@ -90,13 +90,13 @@ class HashFormHelper {
 
     public static function is_preview_page() {
         $action = self::get_var('action', 'sanitize_title');
-        return (is_admin() && ( $action == 'hashform_preview'));
+        return (is_admin() && ($action == 'hashform_preview'));
     }
 
     public static function is_form_builder_page() {
         $action = self::get_var('hashform_action', 'sanitize_title');
         $builder_actions = self::get_form_builder_actions();
-        return self::is_admin_page('hashform') && ( in_array($action, $builder_actions) );
+        return self::is_admin_page('hashform') && (in_array($action, $builder_actions));
     }
 
     public static function is_form_listing_page() {
@@ -140,8 +140,9 @@ class HashFormHelper {
         ?>
         <div class="hf-search-fields">
             <span class="mdi mdi-magnify"></span>
-            <input type="search" id="<?php echo esc_attr($input_id); ?>" name="s" value="<?php _admin_search_query(); ?>" placeholder="<?php echo esc_attr($atts['placeholder']); ?>" class="<?php echo esc_attr($class); ?>" data-tosearch="<?php echo esc_attr($atts['tosearch']); ?>" <?php if (!empty($atts['tosearch'])) { ?> autocomplete="off"<?php } ?> />
-            <?php if (empty($atts['tosearch'])) submit_button($atts['text'], 'button-secondary', '', false, array('id' => 'search-submit')); ?>
+            <input type="search" id="<?php echo esc_attr($input_id); ?>" name="s" value="<?php _admin_search_query(); ?>" placeholder="<?php echo esc_attr($atts['placeholder']); ?>" class="<?php echo esc_attr($class); ?>" data-tosearch="<?php echo esc_attr($atts['tosearch']); ?>" <?php if (!empty($atts['tosearch'])) { ?> autocomplete="off" <?php } ?> />
+            <?php if (empty($atts['tosearch']))
+                submit_button($atts['text'], 'button-secondary', '', false, array('id' => 'search-submit')); ?>
         </div>
         <?php
     }
@@ -184,7 +185,7 @@ class HashFormHelper {
                         $fields[$ids[0]][$ids[1]][$ids[2]][$ids[3]][$ids[4]] = $value;
                         break;
                 endswitch;
-            }else {
+            } else {
                 $fields[$name] = $value;
             }
         }

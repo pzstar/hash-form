@@ -320,7 +320,7 @@ class HashFormFields {
                 );
 
                 foreach ($default_field_cols as $col => $default) {
-                    $default = ( $default === '' ) ? $field->{$col} : $default;
+                    $default = ($default === '') ? $field->{$col} : $default;
                     $new_field[$col] = isset($values['field_options'][$col . '_' . absint($field->id)]) ? $values['field_options'][$col . '_' . absint($field->id)] : $default;
                 }
 
@@ -354,12 +354,14 @@ class HashFormFields {
     public static function duplicate_fields($old_form_id, $form_id) {
         global $wpdb;
 
-        $query = $wpdb->prepare("SELECT hfi.*, hfm.name AS form_name 
+        $query = $wpdb->prepare(
+            "SELECT hfi.*, hfm.name AS form_name 
             FROM {$wpdb->prefix}hashform_fields hfi 
             LEFT OUTER JOIN {$wpdb->prefix}hashform_forms hfm 
             ON hfi.form_id = hfm.id 
             WHERE hfi.form_id=%d 
-            ORDER BY 'field_order'", $old_form_id
+            ORDER BY 'field_order'",
+            $old_form_id
         );
         $fields = $wpdb->get_results($query);
 
@@ -504,7 +506,8 @@ class HashFormFields {
             'date' => 'HashFormFieldDate',
             'time' => 'HashFormFieldTime',
             'upload' => 'HashFormFieldUpload',
-        ));
+        )
+        );
         if ($field_type) {
             return isset($type_classes[$field_type]) ? $type_classes[$field_type] : 'HashFormFieldText';
         } else {

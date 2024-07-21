@@ -41,7 +41,7 @@ wp_nonce_field('hf-styles-nonce', 'hashform_styles_nonce');
                     <span class="spinner"></span>
                     <?php if ($hashform_post_type == 'hashform-styles') { ?>
                         <input name="original_publish" type="hidden" id="original_publish" value="Publish">
-                        <input type="submit" name="publish" id="publish" class="button button-primary button-large" value="<?php esc_html_e('Publish', 'hash-form'); ?>">						
+                        <input type="submit" name="publish" id="publish" class="button button-primary button-large" value="<?php esc_html_e('Publish', 'hash-form'); ?>">
                     <?php } else { ?>
                         <input name="original_publish" type="hidden" id="original_publish" value="Update">
                         <input type="submit" name="save" id="publish" class="button button-primary button-large" value="<?php esc_html_e('Update', 'hash-form'); ?>">

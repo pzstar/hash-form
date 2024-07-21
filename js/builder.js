@@ -26,7 +26,7 @@ var hashFormBuilder = hashFormBuilder || {};
             setUpTinyMceHtmlButtonListener();
 
             function initQuickTagsButtons() {
-                if ('function' !== typeof window.quicktags || typeof window.QTags.instances[ editor.id ] !== 'undefined') {
+                if ('function' !== typeof window.quicktags || typeof window.QTags.instances[editor.id] !== 'undefined') {
                     return;
                 }
 
@@ -35,7 +35,7 @@ var hashFormBuilder = hashFormBuilder || {};
                     name: 'qt_' + id,
                     id: id,
                     canvas: editor,
-                    settings: {id},
+                    settings: { id },
                     toolbar: document.getElementById('qt_' + id + '_toolbar'),
                     theButtons: {}
                 });
@@ -43,7 +43,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
             function initRichText() {
                 const key = Object.keys(tinyMCEPreInit.mceInit)[0];
-                const orgSettings = tinyMCEPreInit.mceInit[ key ];
+                const orgSettings = tinyMCEPreInit.mceInit[key];
 
                 const settings = Object.assign(
                     {},
@@ -118,7 +118,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 const wrap = document.getElementById('wp-' + editor.id + '-wrap');
                 wrap.classList.add('tmce-active');
                 wrap.classList.remove('html-active');
-        }
+            }
         }
     };
 
@@ -204,7 +204,7 @@ var hashFormBuilder = hashFormBuilder || {};
                         }
                     }
 
-                    return hashFormBuilder.div({className: 'hf-field-box'});
+                    return hashFormBuilder.div({ className: 'hf-field-box' });
                 },
                 revert: 'invalid',
                 delay: 10,
@@ -250,12 +250,12 @@ var hashFormBuilder = hashFormBuilder || {};
 
                     if ('hf-editor-fields' === droppable.id || droppable.classList.contains('start_divider')) {
                         placeholder.style.left = 0;
-                        hashFormBuilder.handleDragOverYAxis({droppable, y: event.clientY, placeholder});
+                        hashFormBuilder.handleDragOverYAxis({ droppable, y: event.clientY, placeholder });
                         return;
                     }
 
                     placeholder.style.top = '';
-                    hashFormBuilder.handleDragOverFieldGroup({droppable, x: event.clientX, placeholder});
+                    hashFormBuilder.handleDragOverFieldGroup({ droppable, x: event.clientX, placeholder });
                 },
                 cursor: 'grabbing',
                 refreshPositions: true,
@@ -281,7 +281,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 return output;
             }
 
-            const {id, className, children, child, text, data} = args;
+            const { id, className, children, child, text, data } = args;
 
             if (id) {
                 output.id = id;
@@ -354,7 +354,7 @@ var hashFormBuilder = hashFormBuilder || {};
             return droppable;
         },
 
-        handleDragOverYAxis: function ( {droppable, y, placeholder}) {
+        handleDragOverYAxis: function ({ droppable, y, placeholder }) {
             const $list = $(droppable);
             let top;
 
@@ -383,7 +383,7 @@ var hashFormBuilder = hashFormBuilder || {};
             placeholder.style.top = top + 'px';
         },
 
-        handleDragOverFieldGroup: function ( {droppable, x, placeholder}) {
+        handleDragOverFieldGroup: function ({ droppable, x, placeholder }) {
             const $row = $(droppable);
             const $children = hashFormBuilder.getFieldsInRow($row);
             if (!$children.length) {
@@ -667,7 +667,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
             const editor = singleField.querySelector('.wp-editor-area');
             if (editor) {
-                wysiwyg.init(editor, {setupCallback: hashFormBuilder.setupTinyMceEventHandlers});
+                wysiwyg.init(editor, { setupCallback: hashFormBuilder.setupTinyMceEventHandlers });
             }
         },
 
@@ -830,7 +830,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 timeout = setTimeout(
                     () => func.apply(this, args),
                     wait
-                    );
+                );
             };
         },
 
@@ -886,7 +886,7 @@ var hashFormBuilder = hashFormBuilder || {};
             hashFormBuilder.maybeDeleteEmptyFieldGroups();
             hashFormBuilder.updateFieldOrder();
 
-            const event = new Event('hashform_sync_after_drag_and_drop', {bubbles: false});
+            const event = new Event('hashform_sync_after_drag_and_drop', { bubbles: false });
             document.dispatchEvent(event);
             hashFormBuilder.maybeFixRangeSlider();
             setTimeout(function () {
@@ -955,7 +955,7 @@ var hashFormBuilder = hashFormBuilder || {};
             $('#hf-editor-fields').each(function (i) {
                 fields = $('li.hf-editor-field-box', this);
                 for (i = 0; i < fields.length; i++) {
-                    fieldId = fields[ i ].getAttribute('data-fid');
+                    fieldId = fields[i].getAttribute('data-fid');
                     field = $('input[name="field_options[field_order_' + fieldId + ']"]');
                     currentOrder = field.val();
                     newOrder = i + 1;
@@ -1131,7 +1131,7 @@ var hashFormBuilder = hashFormBuilder || {};
                     };
                 } else {
                     classToAddFunction = function (index) {
-                        var size = type[ index ];
+                        var size = type[index];
                         return hashFormBuilder.getLayoutClassForSize(size);
                     };
                 }
@@ -1146,7 +1146,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 length = layoutClasses.length;
                 activeLayoutClass = false;
                 for (layoutClassIndex = 0; layoutClassIndex < length; ++layoutClassIndex) {
-                    currentClass = layoutClasses[ layoutClassIndex ];
+                    currentClass = layoutClasses[layoutClassIndex];
                     if (this.classList.contains(currentClass)) {
                         activeLayoutClass = currentClass;
                         break;
@@ -1350,9 +1350,9 @@ var hashFormBuilder = hashFormBuilder || {};
                 li => {
                     result = result.add(
                         $('<li>')
-                        .addClass('hf-editor-field-box')
-                        .html($('<ul>').addClass('hf-editor-grid-container hf-editor-sorting').append(li))
-                        );
+                            .addClass('hf-editor-field-box')
+                            .html($('<ul>').addClass('hf-editor-grid-container hf-editor-sorting').append(li))
+                    );
                 }
             );
             return result;
@@ -1391,7 +1391,7 @@ var hashFormBuilder = hashFormBuilder || {};
                         bounding.left >= 0 &&
                         bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
                         bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-                        );
+                    );
 
                 if (!inView) {
                     container.scroll({
@@ -1408,7 +1408,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
             hashFormBuilder.deselectFields();
 
-            const addedEvent = new Event('hashform_added_field', {bubbles: false});
+            const addedEvent = new Event('hashform_added_field', { bubbles: false });
             addedEvent.hfField = field;
             addedEvent.hfSection = section;
             addedEvent.hfType = type;

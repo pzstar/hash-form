@@ -281,7 +281,7 @@
 
                 self.options.color = self._getColor();
                 // Generate background slider alpha, only for CSS3.
-                controls.stripAlpha.css({'background': 'linear-gradient(to bottom, ' + gradient.join(', ') + '), url(' + backgroundImage + ')'});
+                controls.stripAlpha.css({ 'background': 'linear-gradient(to bottom, ' + gradient.join(', ') + '), url(' + backgroundImage + ')' });
                 // Update alpha value
                 if (active) {
                     controls.stripAlphaSlider.slider('value', alpha);
@@ -540,7 +540,7 @@
                  * @returns {void}
                  */
                 change: function (event, ui) {
-                    self.colorAlpha.css({'background-color': ui.color.to_s(self.alphaOptions.alphaColorType)});
+                    self.colorAlpha.css({ 'background-color': ui.color.to_s(self.alphaOptions.alphaColorType) });
 
                     // fire change callback if we have one
                     if (typeof self.options.change === 'function') {

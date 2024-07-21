@@ -186,17 +186,19 @@ class HashFormImportExport {
 
         if (isset($imdat['field']) && is_array($imdat['field']) && !empty($imdat['field'])) {
             foreach ($imdat['field'] as $field) {
-                HashFormFields::create_row(array(
-                    'name' => isset($field['name']) ? $field['name'] : '',
-                    'description' => isset($field['description']) ? $field['description'] : '',
-                    'type' => isset($field['type']) ? $field['type'] : 'text',
-                    'default_value' => isset($field['default_value']) ? $field['default_value'] : '',
-                    'options' => isset($field['options']) ? $field['options'] : '',
-                    'field_order' => isset($field['field_order']) ? $field['field_order'] : '',
-                    'form_id' => absint($form_id),
-                    'required' => isset($field['required']) ? $field['required'] : false,
-                    'field_options' => isset($field['field_options']) ? $field['field_options'] : array()
-                ));
+                HashFormFields::create_row(
+                    array(
+                        'name' => isset($field['name']) ? $field['name'] : '',
+                        'description' => isset($field['description']) ? $field['description'] : '',
+                        'type' => isset($field['type']) ? $field['type'] : 'text',
+                        'default_value' => isset($field['default_value']) ? $field['default_value'] : '',
+                        'options' => isset($field['options']) ? $field['options'] : '',
+                        'field_order' => isset($field['field_order']) ? $field['field_order'] : '',
+                        'form_id' => absint($form_id),
+                        'required' => isset($field['required']) ? $field['required'] : false,
+                        'field_options' => isset($field['field_options']) ? $field['field_options'] : array()
+                    )
+                );
             }
         }
 

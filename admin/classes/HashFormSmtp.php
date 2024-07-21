@@ -29,7 +29,7 @@ class HashFormSmtp {
                     <?php
                 } else if (!is_plugin_active('wp-mail-smtp/wp_mail_smtp.php')) {
                     ?>
-                    <a href="#" class="button hf-activate-wp-mail-smtp-plugin"><?php echo esc_html__('Activate WP Mail SMTP Plugin', 'hash-form') ?></a>
+                        <a href="#" class="button hf-activate-wp-mail-smtp-plugin"><?php echo esc_html__('Activate WP Mail SMTP Plugin', 'hash-form') ?></a>
                     <?php
                 }
                 ?>

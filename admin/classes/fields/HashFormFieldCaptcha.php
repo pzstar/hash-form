@@ -105,7 +105,7 @@ class HashFormFieldCaptcha extends HashFormFieldType {
             if ($invalid_message === esc_html__('The reCAPTCHA was not entered correctly', 'hash-form')) {
                 $invalid_message = '';
             }
-            $errors['field' . $args['id']] = ( $invalid_message === '' ? $settings['re_msg '] : $invalid_message );
+            $errors['field' . $args['id']] = ($invalid_message === '' ? $settings['re_msg '] : $invalid_message);
         }
 
         return $errors;

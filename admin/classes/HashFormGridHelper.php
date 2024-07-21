@@ -46,7 +46,7 @@ class HashFormGridHelper {
             return;
         }
         $this->section_helper->force_close_field_wrapper();
-        $this->section_helper = null;
+        $this->section_helper = NULL;
     }
 
     private function should_first_close_the_active_field_wrapper() {
@@ -68,7 +68,7 @@ class HashFormGridHelper {
         }
 
         if (false !== $this->parent_li) {
-            $this->current_field_count ++;
+            $this->current_field_count++;
             $this->current_list_size += $this->active_field_size;
             if (12 === $this->current_list_size) {
                 $this->close_field_wrapper();
