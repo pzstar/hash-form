@@ -14,16 +14,18 @@ class HashFormBlock {
             return;
         }
 
-        register_block_type('hash-form/form-selector', array(
-            'attributes' => array(
-                'formId' => array(
-                    'type' => 'string',
-                )
-            ),
-            'editor_style' => 'hash-form-block-editor',
-            'editor_script' => 'hash-form-block-editor',
-            'render_callback' => array($this, 'get_form_html'),
-        )
+        register_block_type(
+            'hash-form/form-selector',
+            array(
+                'attributes' => array(
+                    'formId' => array(
+                        'type' => 'string',
+                    )
+                ),
+                'editor_style' => 'hash-form-block-editor',
+                'editor_script' => 'hash-form-block-editor',
+                'render_callback' => array($this, 'get_form_html'),
+            )
         );
     }
 

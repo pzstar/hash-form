@@ -72,12 +72,14 @@ $settings = $form->settings ? $form->settings : HashFormHelper::get_form_setting
                             if (file_exists($file_path . esc_attr($key) . '.php')) {
                                 require $file_path . esc_attr($key) . '.php';
                             }
-                            do_action('hashform_settings_sections_content', array(
-                                'section_key' => $key,
-                                'settings' => $settings,
-                                'fields' => $fields,
-                                'form_id' => $id
-                            )
+                            do_action(
+                                'hashform_settings_sections_content',
+                                array(
+                                    'section_key' => $key,
+                                    'settings' => $settings,
+                                    'fields' => $fields,
+                                    'form_id' => $id
+                                )
                             );
                             ?>
                         </div>

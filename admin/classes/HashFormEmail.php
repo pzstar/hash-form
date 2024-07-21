@@ -146,12 +146,14 @@ class HashFormEmail {
                 $redirect_url = $form_settings['redirect_url_page'];
             }
 
-            do_action('hashform_after_email', array(
-                'form' => $this->form,
-                'entry_id' => $this->entry_id,
-                'form_settings' => $form_settings,
-                'metas' => $metas,
-            )
+            do_action(
+                'hashform_after_email',
+                array(
+                    'form' => $this->form,
+                    'entry_id' => $this->entry_id,
+                    'form_settings' => $form_settings,
+                    'metas' => $metas,
+                )
             );
 
             if (!empty($redirect_url)) {
