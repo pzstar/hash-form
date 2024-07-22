@@ -68,13 +68,13 @@ var hashFormAdmin = hashFormAdmin || {};
 
             document.addEventListener(
                 "hashform_added_field", (e) => {
-                    if (e.hfType == 'date') {
-                        $(document).find('.hf-fields-type-date .hf-default-value-field').datepicker({
-                            changeMonth: true,
-                        });
-                    }
-                }, false,
-            );
+                if (e.hfType == 'date') {
+                    $(document).find('.hf-fields-type-date .hf-default-value-field').datepicker({
+                        changeMonth: true,
+                    });
+                }
+            }, false,
+                );
         },
 
         clickNewTab: function () {
@@ -871,7 +871,7 @@ var hashFormAdmin = hashFormAdmin || {};
 
             // Set the displayed value.
             text = single[0].childNodes;
-            text[text.length - 1].nodeValue = ' ' + label.val();
+            text[ text.length - 1 ].nodeValue = ' ' + label.val();
             previewInput.closest('.hf-choice').find('.hf-field-is-label').text(saved);
 
             // Set saved value.
@@ -915,7 +915,7 @@ var hashFormAdmin = hashFormAdmin || {};
                 var container = $('#hf-editor-field-container-' + fieldId + ' .hf-choice-container');
 
                 for (i = 0; i < opts.length; i++) {
-                    container.append(hashFormAdmin.addRadioCheckboxOpt(type, opts[i], fieldId, fieldInfo.fieldKey));
+                    container.append(hashFormAdmin.addRadioCheckboxOpt(type, opts[ i ], fieldId, fieldInfo.fieldKey));
                 }
             }
 
@@ -935,8 +935,8 @@ var hashFormAdmin = hashFormAdmin || {};
                 hasPlaceholder = (typeof placeholder !== 'undefined');
 
             for (var i = 0; i < opts.length; i++) {
-                var label = opts[i].label,
-                    isOther = opts[i].key.indexOf('other') !== -1;
+                var label = opts[ i ].label,
+                    isOther = opts[ i ].key.indexOf('other') !== -1;
 
                 if (hasPlaceholder && label !== '') {
                     hashFormAdmin.addBlankSelectOption(field, placeholder);
@@ -947,7 +947,7 @@ var hashFormAdmin = hashFormAdmin || {};
 
                 if (!isOther || showOther) {
                     var opt = document.createElement('option');
-                    opt.value = opts[i].saved;
+                    opt.value = opts[ i ].saved;
                     opt.innerHTML = label;
                     field.appendChild(opt);
                 }
@@ -975,18 +975,18 @@ var hashFormAdmin = hashFormAdmin || {};
                 optionLength = fieldOptions.length;
 
             for (rowIndex = 0; rowIndex < rowLength; rowIndex++) {
-                row = rows[rowIndex];
+                row = rows[ rowIndex ];
                 opts = row.querySelector('.hashform_logic_field_opts');
 
                 if (opts.value != fieldId) {
                     continue;
                 }
 
-                logicId = row.id.split('_')[2];
+                logicId = row.id.split('_')[ 2 ];
                 valueSelect = row.querySelector('select[name="field_options[hide_opt_' + logicId + '][]"]');
 
                 for (optionIndex = optionLength - 1; optionIndex >= 0; optionIndex--) {
-                    expectedOption = fieldOptions[optionIndex];
+                    expectedOption = fieldOptions[ optionIndex ];
                     optionMatch = valueSelect.querySelector('option[value="' + expectedOption + '"]');
 
                     if (optionMatch === null) {
@@ -1234,19 +1234,19 @@ var hashFormAdmin = hashFormAdmin || {};
                 separateValues = hashFormAdmin.usingSeparateValues(fieldId);
 
             for (i = 0; i < optVals.length; i++) {
-                if (optVals[i].name.indexOf('[000]') > 0 || optVals[i].name.indexOf('[value]') > 0 || optVals[i].name.indexOf('[image_id]') > 0 || optVals[i].name.indexOf('[price]') > 0) {
+                if (optVals[ i ].name.indexOf('[000]') > 0 || optVals[ i ].name.indexOf('[value]') > 0 || optVals[ i ].name.indexOf('[image_id]') > 0 || optVals[ i ].name.indexOf('[price]') > 0) {
                     continue;
                 }
-                saved = optVals[i].value;
+                saved = optVals[ i ].value;
                 label = saved;
-                key = optVals[i].name.replace('field_options[options_' + fieldId + '][', '').replace('[label]', '').replace(']', '');
+                key = optVals[ i ].name.replace('field_options[options_' + fieldId + '][', '').replace('[label]', '').replace(']', '');
 
                 if (separateValues) {
-                    labelName = optVals[i].name.replace('[label]', '[value]');
+                    labelName = optVals[ i ].name.replace('[label]', '[value]');
                     saved = $('input[name="' + labelName + '"]').val();
                 }
 
-                checked = hashFormBuilder.getChecked(optVals[i].getAttribute('class'));
+                checked = hashFormBuilder.getChecked(optVals[ i ].getAttribute('class'));
 
                 if (hasImageOptions) {
                     imageUrl = hashFormBuilder.getImageUrlFromInput(optVals[i]);
@@ -1271,7 +1271,7 @@ var hashFormAdmin = hashFormAdmin || {};
                 options = [],
                 length = listItems.length;
             for (index = 0; index < length; index++) {
-                li = listItems[index];
+                li = listItems[ index ];
 
                 if (li.classList.contains('hf-hidden')) {
                     continue;

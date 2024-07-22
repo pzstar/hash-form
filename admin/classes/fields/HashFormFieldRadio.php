@@ -30,7 +30,7 @@ class HashFormFieldRadio extends HashFormFieldType {
                 ?>
                 <div class="hf-choice hf-checkbox">
                     <label for="<?php echo esc_attr($this->html_id('-' . $option_key)); ?>">
-                        <input type="radio" id="<?php echo esc_attr($this->html_id('-' . $option_key)); ?>" name="<?php echo esc_attr($this->html_name()) . '[]'; ?>" value="<?php echo esc_attr($label); ?>" <?php checked(($label == $default), true); ?> />
+                        <input type="radio" id="<?php echo esc_attr($this->html_id('-' . $option_key)); ?>" name="<?php echo esc_attr($this->html_name()) . '[]'; ?>" value="<?php echo esc_attr($label); ?>" <?php checked(($label == $default), true); ?>/>
                         <?php echo esc_html($label); ?>
                     </label>
                 </div>

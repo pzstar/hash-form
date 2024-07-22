@@ -14,7 +14,7 @@ if (isset($settings['header_image'])) {
         <label class="hf-setting-label"><?php esc_html_e('Header Image', 'hash-form'); ?></label>
         <div class="hf-grid-3">
             <div class="hf-image-preview">
-                <input type="hidden" class="hf-image-id" name="hashform_settings[header_image]" id="header_image" value="<?php echo esc_attr($image_id); ?>" />
+                <input type="hidden" class="hf-image-id" name="hashform_settings[header_image]" id="header_image" value="<?php echo esc_attr($image_id); ?>"/>
 
                 <div class="hf-image-preview-wrap<?php echo ($image ? '' : ' hf-hidden'); ?>">
                     <div class="hf-image-preview-box">

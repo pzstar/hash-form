@@ -5,13 +5,13 @@
 
 .hf-form-custom-style .hf-form-preview{
     background: var(--hf-form-bg-color, transparent);
+    box-shadow: var(--hf-form-shadow-x, 0) var(--hf-form-shadow-y, 0) var(--hf-form-shadow-blur, 0) var(--hf-form-shadow-spread, 0) var(--hf-form-shadow-color, transparent);
+    padding: var(--hf-form-padding-top, 0) var(--hf-form-padding-right, 0) var(--hf-form-padding-bottom, 0) var(--hf-form-padding-left, 0);
+    border-top: var(--hf-form-border-top, 0) solid var(--hf-form-border-color, transparent);
+    border-right: var(--hf-form-border-right, 0) solid var(--hf-form-border-color, transparent);
     border-bottom: var(--hf-form-border-bottom, 0) solid var(--hf-form-border-color, transparent);
     border-left: var(--hf-form-border-left, 0) solid var(--hf-form-border-color, transparent);
     border-radius: var(--hf-form-border-radius-top, 0) var(--hf-form-border-radius-right, 0) var(--hf-form-border-radius-bottom, 0) var(--hf-form-border-radius-left, 0);
-    border-right: var(--hf-form-border-right, 0) solid var(--hf-form-border-color, transparent);
-    border-top: var(--hf-form-border-top, 0) solid var(--hf-form-border-color, transparent);
-    box-shadow: var(--hf-form-shadow-x, 0) var(--hf-form-shadow-y, 0) var(--hf-form-shadow-blur, 0) var(--hf-form-shadow-spread, 0) var(--hf-form-shadow-color, transparent);
-    padding: var(--hf-form-padding-top, 0) var(--hf-form-padding-right, 0) var(--hf-form-padding-bottom, 0) var(--hf-form-padding-left, 0);
 }
 
 .hf-container *{
@@ -31,8 +31,8 @@
 .hf-container,
 .hf-grouped-field{
     display:grid;
-    grid-gap: 20px;
     grid-template-columns: repeat(12, 1fr);
+    grid-gap: 20px;
 }
 
 .hf-form-custom-style .hf-container,
@@ -95,30 +95,30 @@
 }
 
 .hf-form-custom-style .hf-form-title{
-    color: var(--hf-form-title-typo-font-color, #666);
     font-family: var(--hf-form-title-typo-font-family);
     font-size: var(--hf-form-title-typo-font-size, 30px);
-    font-style: var(--hf-form-title-typo-font-style, normal);
     font-weight: var(--hf-form-title-typo-font-weight, 700);
+    font-style: var(--hf-form-title-typo-font-style, normal);
     letter-spacing: var(--hf-form-title-typo-letter-spacing, normal);
+    text-transform: var(--hf-form-title-typo-text-transform, inherit);
+    text-decoration: var(--hf-form-title-typo-text-decoration, inherit);
     line-height: var(--hf-form-title-typo-line-height, 1.2);
+    color: var(--hf-form-title-typo-font-color, #666);
     margin-bottom: var(--hf-form-title-spacing, 20px);
+    margin-top: var(--hf-form-title-spacing-top, 0);
     margin-left: var(--hf-form-title-spacing-left, 0);
     margin-right: var(--hf-form-title-spacing-right, 0);
-    margin-top: var(--hf-form-title-spacing-top, 0);
-    text-decoration: var(--hf-form-title-typo-text-decoration, inherit);
-    text-transform: var(--hf-form-title-typo-text-transform, inherit);
 }
 
 .hf-form-defaut-style .hf-form-title{
-    color: #666;
     font-size: 30px;
-    font-style: normal;
     font-weight: 700;
+    font-style: normal;
     letter-spacing: normal;
-    line-height: 1.2;
-    text-decoration: inherit;
     text-transform: inherit;
+    text-decoration: inherit;
+    line-height: 1.2;
+    color: #666;
 }
 
 .hf-form-description p{
@@ -126,26 +126,26 @@
 }
 
 .hf-form-custom-style .hf-form-description p{
-    color: var(--hf-form-desc-typo-font-color, #666);
     font-family: var(--hf-form-desc-typo-font-family);
     font-size: var(--hf-form-desc-typo-font-size, 16px);
-    font-style: var(--hf-form-desc-typo-font-style, normal);
     font-weight: var(--hf-form-desc-typo-font-weight, 400);
+    font-style: var(--hf-form-desc-typo-font-style, normal);
     letter-spacing: var(--hf-form-desc-typo-letter-spacing, normal);
-    line-height: var(--hf-form-desc-typo-line-height, 1.2);
-    text-decoration: var(--hf-form-desc-typo-text-decoration, inherit);
     text-transform: var(--hf-form-desc-typo-text-transform, inherit);
+    text-decoration: var(--hf-form-desc-typo-text-decoration, inherit);
+    line-height: var(--hf-form-desc-typo-line-height, 1.2);
+    color: var(--hf-form-desc-typo-font-color, #666);
 }
 
 .hf-form-default-style .hf-form-description p{
-    color: #666;
     font-size: 16px;
-    font-style: normal;
     font-weight: 400;
+    font-style: normal;
     letter-spacing: normal;
-    line-height: 1.2;
-    text-decoration: inherit;
     text-transform: inherit;
+    text-decoration: inherit;
+    line-height: 1.2;
+    color: #666;
 }
 
 .hf-form-tempate .hf-form-description{
@@ -154,9 +154,9 @@
 
 .hf-form-custom-style .hf-form-description{
     margin-bottom: var(--hf-form-desc-spacing, 20px);
+    margin-top: var(--hf-form-desc-spacing-top, 0);
     margin-left: var(--hf-form-desc-spacing-left, 0);
     margin-right: var(--hf-form-desc-spacing-right, 0);
-    margin-top: var(--hf-form-desc-spacing-top, 0);
 }
 
 /* Forms */
@@ -171,60 +171,60 @@
 .hf-form-custom-style .hf-container input[type="button"],
 .hf-form-custom-style .hf-container input[type="reset"],
 .hf-form-custom-style .hf-container input[type="submit"] {
-    background-color: var(--hf-button-bg-color-normal, transparent);
+    border-top: var(--hf-button-border-top, 1px) solid var(--hf-button-border-color-normal, #CCC);
+    border-right: var(--hf-button-border-right, 1px) solid var(--hf-button-border-color-normal, #CCC);
     border-bottom: var(--hf-button-border-bottom, 1px) solid var(--hf-button-border-color-normal, #CCC);
     border-left: var(--hf-button-border-left, 1px) solid var(--hf-button-border-color-normal, #CCC);
     border-radius: var(--hf-button-border-radius-top, 3px) var(--hf-button-border-radius-right, 3px) var(--hf-button-border-radius-bottom, 3px) var(--hf-button-border-radius-left, 3px);
-    border-right: var(--hf-button-border-right, 1px) solid var(--hf-button-border-color-normal, #CCC);
-    border-top: var(--hf-button-border-top, 1px) solid var(--hf-button-border-color-normal, #CCC);
-    box-shadow: var(--hf-button-shadow-normal-x, 0) var(--hf-button-shadow-normal-y, 0) var(--hf-button-shadow-normal-blur, 0) var(--hf-button-shadow-normal-spread, 0) var(--hf-button-shadow-normal-color, transparent);
-    color: var(--hf-button-color-normal, #666);  
+    padding: var(--hf-button-padding-top, 15px) var(--hf-button-padding-right, 30px) var(--hf-button-padding-bottom, 15px) var(--hf-button-padding-left, 30px);  
     font-family: var(--hf-button-typo-font-family);
     font-size: var(--hf-button-typo-font-size, 14px);
-    font-style: var(--hf-button-typo-font-style, normal);
     font-weight: var(--hf-button-typo-font-weight, 400);
-    height: auto;
+    font-style: var(--hf-button-typo-font-style, normal);
     letter-spacing: var(--hf-button-typo-letter-spacing, normal);
-    line-height: var(--hf-button-typo-line-height, 1.2);
-    min-height: 0;
-    outline: 0;
-    padding: var(--hf-button-padding-top, 15px) var(--hf-button-padding-right, 30px) var(--hf-button-padding-bottom, 15px) var(--hf-button-padding-left, 30px);
-    text-decoration: var(--hf-button-typo-text-decoration, inherit);
     text-transform: var(--hf-button-typo-text-transform, inherit);
+    text-decoration: var(--hf-button-typo-text-decoration, inherit);
+    line-height: var(--hf-button-typo-line-height, 1.2);
+    color: var(--hf-button-color-normal, #666);
+    background-color: var(--hf-button-bg-color-normal, transparent);
+    box-shadow: var(--hf-button-shadow-normal-x, 0) var(--hf-button-shadow-normal-y, 0) var(--hf-button-shadow-normal-blur, 0) var(--hf-button-shadow-normal-spread, 0) var(--hf-button-shadow-normal-color, transparent);
+    outline: 0;
+    min-height: 0;
+    height: auto;
 }
 
 .hf-form-default-style .hf-container button,
 .hf-form-default-style .hf-container input[type="button"],
 .hf-form-default-style .hf-container input[type="reset"],
 .hf-form-default-style .hf-container input[type="submit"] {
-    background: #333;
     border: 1px solid #CCC;
     border-radius: 3px;
-    color: #FFF;  
+    padding: 15px 30px;  
     font-size: 14px;
-    font-style: normal;
     font-weight: 400;
-    height: auto;
+    font-style: normal;
     letter-spacing: normal;
-    line-height: 1.2;
-    min-height: 0;
-    outline: 0;
-    padding: 15px 30px;
-    text-decoration: inherit;
     text-transform: inherit;
+    text-decoration: inherit;
+    line-height: 1.2;
+    outline: 0;
+    min-height: 0;
+    height: auto;
+    color: #FFF;
+    background: #333;
 }
 
 .hf-form-custom-style .hf-container button:hover,
 .hf-form-custom-style .hf-container input[type="button"]:hover,
 .hf-form-custom-style .hf-container input[type="reset"]:hover,
 .hf-form-custom-style .hf-container input[type="submit"]:hover {
-    background-color: var(--hf-button-bg-color-hover, var(--hf-button-bg-color-normal, transparent));
+    border-top: var(--hf-button-border-top, 1px) solid var(--hf-button-border-color-hover, var(--hf-button-border-color-normal, #CCC));
+    border-right: var(--hf-button-border-right, 1px) solid var(--hf-button-border-color-hover, var(--hf-button-border-color-normal, #CCC));
     border-bottom: var(--hf-button-border-bottom, 1px) solid var(--hf-button-border-color-hover, var(--hf-button-border-color-normal, #CCC));
     border-left: var(--hf-button-border-left, 1px) solid var(--hf-button-border-color-hover, var(--hf-button-border-color-normal, #CCC));
-    border-right: var(--hf-button-border-right, 1px) solid var(--hf-button-border-color-hover, var(--hf-button-border-color-normal, #CCC));
-    border-top: var(--hf-button-border-top, 1px) solid var(--hf-button-border-color-hover, var(--hf-button-border-color-normal, #CCC));
-    box-shadow: var(--hf-button-shadow-hover-x, var(--hf-button-shadow-normal-x, 0)) var(--hf-button-shadow-hover-y, var(--hf-button-shadow-normal-y, 0)) var(--hf-button-shadow-hover-blur, var(--hf-button-shadow-normal-blur, 0)) var(--hf-button-shadow-hover-spread, var(--hf-button-shadow-normal-spread, 0)) var(--hf-button-shadow-hover-color, var(--hf-button-shadow-normal-color, transparent));
     color: var(--hf-button-color-hover,var(--hf-button-color-normal, inherit));
+    background-color: var(--hf-button-bg-color-hover, var(--hf-button-bg-color-normal, transparent));
+    box-shadow: var(--hf-button-shadow-hover-x, var(--hf-button-shadow-normal-x, 0)) var(--hf-button-shadow-hover-y, var(--hf-button-shadow-normal-y, 0)) var(--hf-button-shadow-hover-blur, var(--hf-button-shadow-normal-blur, 0)) var(--hf-button-shadow-hover-spread, var(--hf-button-shadow-normal-spread, 0)) var(--hf-button-shadow-hover-color, var(--hf-button-shadow-normal-color, transparent));
 }
 
 .hf-container input[type="text"],
@@ -244,9 +244,9 @@
 .hf-container input[type="color"],
 .hf-container textarea,
 .hf-container select{
+    width: 100%;
     max-width: 100%;
     outline: 0;
-    width: 100%;
 }
 
 .hf-form-custom-style .hf-container input[type="text"],
@@ -266,26 +266,26 @@
 .hf-form-custom-style .hf-container input[type="color"],
 .hf-form-custom-style .hf-container textarea,
 .hf-form-custom-style .hf-container select{
-    background-color: var(--hf-field-bg-color-normal, transparent);
+    border-top: var(--hf-field-border-top, 1px) solid var(--hf-field-border-color-normal, #CCC);
+    border-right: var(--hf-field-border-right, 1px) solid var(--hf-field-border-color-normal, #CCC);
     border-bottom: var(--hf-field-border-bottom, 1px) solid var(--hf-field-border-color-normal, #CCC);
     border-left: var(--hf-field-border-left, 1px) solid var(--hf-field-border-color-normal, #CCC);
     border-radius: var(--hf-field-border-radius-top, 3px) var(--hf-field-border-radius-right, 3px) var(--hf-field-border-radius-bottom, 3px) var(--hf-field-border-radius-left, 3px);
-    border-right: var(--hf-field-border-right, 1px) solid var(--hf-field-border-color-normal, #CCC);
-    border-top: var(--hf-field-border-top, 1px) solid var(--hf-field-border-color-normal, #CCC);
-    box-shadow: var(--hf-field-shadow-normal-x, 0) var(--hf-field-shadow-normal-y, 0) var(--hf-field-shadow-normal-blur, 0) var(--hf-field-shadow-normal-spread, 0) var(--hf-field-shadow-normal-color, transparent);
-    color: var(--hf-field-color-normal, #666);  
+    padding: var(--hf-field-padding-top, 10px) var(--hf-field-padding-right, 10px) var(--hf-field-padding-bottom, 10px) var(--hf-field-padding-left, 10px);  
     font-family: var(--hf-field-typo-font-family);
     font-size: var(--hf-field-typo-font-size, 14px);
-    font-style: var(--hf-field-typo-font-style, bold);
     font-weight: var(--hf-field-typo-font-weight, 400);
-    height: auto;
+    font-style: var(--hf-field-typo-font-style, bold);
     letter-spacing: var(--hf-field-typo-letter-spacing, normal);
-    line-height: var(--hf-field-typo-line-height, 1.2);
-    min-height: 0;
-    outline: 0;
-    padding: var(--hf-field-padding-top, 10px) var(--hf-field-padding-right, 10px) var(--hf-field-padding-bottom, 10px) var(--hf-field-padding-left, 10px);
-    text-decoration: var(--hf-field-typo-text-decoration, inherit);
     text-transform: var(--hf-field-typo-text-transform, inherit);
+    text-decoration: var(--hf-field-typo-text-decoration, inherit);
+    line-height: var(--hf-field-typo-line-height, 1.2);
+    color: var(--hf-field-color-normal, #666);
+    background-color: var(--hf-field-bg-color-normal, transparent);
+    box-shadow: var(--hf-field-shadow-normal-x, 0) var(--hf-field-shadow-normal-y, 0) var(--hf-field-shadow-normal-blur, 0) var(--hf-field-shadow-normal-spread, 0) var(--hf-field-shadow-normal-color, transparent);
+    outline: 0;
+    min-height: 0;
+    height: auto;
 }
 
 .hf-form-default-style .hf-container input[type="text"],
@@ -305,21 +305,21 @@
 .hf-form-default-style .hf-container input[type="color"],
 .hf-form-default-style .hf-container textarea,
 .hf-form-default-style .hf-container select{
-    background-color: transparent;
     border: 1px solid #CCC;
     border-radius: 3px;
-    color: #666;  
+    padding: 10px;  
     font-size: 14px;
-    font-style: normal;
     font-weight: 400;
-    height: auto;
+    font-style: normal;
     letter-spacing: normal;
-    line-height: 1.2;
-    min-height: 0;
-    outline: 0;
-    padding: 10px;
-    text-decoration: inherit;
     text-transform: inherit;
+    text-decoration: inherit;
+    line-height: 1.2;
+    color: #666;
+    background-color: transparent;
+    outline: 0;
+    min-height: 0;
+    height: auto;
 }
 
 .hf-form-custom-style .hf-container input[type="text"]:focus,
@@ -339,13 +339,13 @@
 .hf-form-custom-style .hf-container input[type="color"]:focus,
 .hf-form-custom-style .hf-container textarea:focus,
 .hf-form-custom-style .hf-container select:focus{
-    background-color: var(--hf-field-bg-color-focus, var(--hf-field-bg-color-normal, transparent));
+    border-top: var(--hf-field-border-top, 1px) solid var(--hf-field-border-color-focus, var(--hf-field-border-color-normal, #CCC));
+    border-right: var(--hf-field-border-right, 1px) solid var(--hf-field-border-color-focus, var(--hf-field-border-color-normal, #CCC));
     border-bottom: var(--hf-field-border-bottom, 1px) solid var(--hf-field-border-color-focus, var(--hf-field-border-color-normal, #CCC));
     border-left: var(--hf-field-border-left, 1px) solid var(--hf-field-border-color-focus, var(--hf-field-border-color-normal, #CCC));
-    border-right: var(--hf-field-border-right, 1px) solid var(--hf-field-border-color-focus, var(--hf-field-border-color-normal, #CCC));
-    border-top: var(--hf-field-border-top, 1px) solid var(--hf-field-border-color-focus, var(--hf-field-border-color-normal, #CCC));
-    box-shadow: var(--hf-field-shadow-focus-x, var(--hf-field-shadow-normal-x, 0)) var(--hf-field-shadow-focus-y, var(--hf-field-shadow-normal-y, 0)) var(--hf-field-shadow-focus-blur, var(--hf-field-shadow-normal-blur, 0)) var(--hf-field-shadow-focus-spread, var(--hf-field-shadow-normal-spread, 0)) var(--hf-field-shadow-focus-color, var(--hf-field-shadow-normal-color, transparent));
     color: var(--hf-field-color-focus,var(--hf-field-color-normal, inherit));
+    background-color: var(--hf-field-bg-color-focus, var(--hf-field-bg-color-normal, transparent));
+    box-shadow: var(--hf-field-shadow-focus-x, var(--hf-field-shadow-normal-x, 0)) var(--hf-field-shadow-focus-y, var(--hf-field-shadow-normal-y, 0)) var(--hf-field-shadow-focus-blur, var(--hf-field-shadow-normal-blur, 0)) var(--hf-field-shadow-focus-spread, var(--hf-field-shadow-normal-spread, 0)) var(--hf-field-shadow-focus-color, var(--hf-field-shadow-normal-color, transparent));
 }
 
 .hf-form-custom-style .hf-form-field.hashform-field-type-spinner .hf-quantity-input.hf-field-focussed .mdi-minus,
@@ -382,20 +382,20 @@
 }
 
 .hf-form-custom-style .hf-container .hf-field-label{
-    color: var(--hf-label-typo-font-color, inherit);
     display: block;
     font-family: var(--hf-label-typo-font-family);
     font-size: var(--hf-label-typo-font-size, 14px);
-    font-style: var(--hf-label-typo-font-style, normal);
     font-weight: var(--hf-label-typo-font-weight, 400);
+    font-style: var(--hf-label-typo-font-style, normal);
     letter-spacing: var(--hf-label-typo-letter-spacing, normal);
+    text-transform: var(--hf-label-typo-text-transform, inherit);
+    text-decoration: var(--hf-label-typo-text-decoration, inherit);
     line-height: var(--hf-label-typo-line-height, 1.2);
+    color: var(--hf-label-typo-font-color, inherit);
     margin-bottom: var(--hf-label-spacing, 8px);
+    margin-top: var(--hf-label-spacing-top, 0);
     margin-left: var(--hf-label-spacing-left, 0);
     margin-right: var(--hf-label-spacing-right, 0);
-    margin-top: var(--hf-label-spacing-top, 0);
-    text-decoration: var(--hf-label-typo-text-decoration, inherit);
-    text-transform: var(--hf-label-typo-text-transform, inherit);
 }
 
 .hf-container .hf-field-label .hf-field-required{
@@ -407,16 +407,16 @@
 }
 
 .hf-form-default-style .hf-container .hf-field-label{
-    color: #666;
-    color: inherit;
     display: block;
     font-size: 14px;
-    font-style: normal;
     font-weight: 400;
+    font-style: normal;
     letter-spacing: normal;
-    line-height: 1.2;
-    text-decoration: inherit;
     text-transform: inherit;
+    text-decoration: inherit;
+    line-height: 1.2;
+    color: #666;
+    color: inherit;
 }
 
 .hf-container .hf-field-desc{
@@ -425,31 +425,31 @@
 }
 
 .hf-form-custom-style .hf-container .hf-field-desc{
-    color: var(--hf-desc-typo-font-color, inherit);
     font-family: var(--hf-desc-typo-font-family);
     font-size: var(--hf-desc-typo-font-size, 0.82em);
-    font-style: var(--hf-desc-typo-font-style, italic);
     font-weight: var(--hf-desc-typo-font-weight, 400);
+    font-style: var(--hf-desc-typo-font-style, italic);
     letter-spacing: var(--hf-desc-typo-letter-spacing, normal);
+    text-transform: var(--hf-desc-typo-text-transform, inherit);
+    text-decoration: var(--hf-desc-typo-text-decoration, inherit);
     line-height: var(--hf-desc-typo-line-height, 1.2);
+    color: var(--hf-desc-typo-font-color, inherit);
+    margin-top: var(--hf-desc-spacing, 5px);
     margin-bottom: var(--hf-desc-spacing-bottom, 0);
     margin-left: var(--hf-desc-spacing-left, 0);
     margin-right: var(--hf-desc-spacing-right, 0);
-    margin-top: var(--hf-desc-spacing, 5px);
-    text-decoration: var(--hf-desc-typo-text-decoration, inherit);
-    text-transform: var(--hf-desc-typo-text-transform, inherit);
 }
 
 .hf-form-default-style .hf-container .hf-field-desc{
-    color: #666;
     display: block;
     font-size: 12px;
-    font-style: normal;
     font-weight: 400;
+    font-style: normal;
     letter-spacing: normal;
-    line-height: 1.2;
-    text-decoration: inherit;
     text-transform: inherit;
+    text-decoration: inherit;
+    line-height: 1.2;
+    color: #666;
 }
 
 .hf-form-default-style .hashform-error-container .hf-field-label{
@@ -481,36 +481,36 @@
 }
 
 .hf-container .hf-error-msg{
-    background: none;
+    margin: 5px 0 0;
     color: #FF0000;
     display: block;
+    background: none;
     font-size: 0.82em;
-    margin: 5px 0 0;
 }
 
 .hf-form-custom-style .hf-container .hf-error-msg{
-    color: var(--hf-validation-typo-font-color, #FF0000);
     font-family: var(--hf-validation-typo-font-family);
     font-size: var(--hf-validation-typo-font-size, 0.82em);
-    font-style: var(--hf-validation-typo-font-style, normal);
     font-weight: var(--hf-validation-typo-font-weight, 400);
+    font-style: var(--hf-validation-typo-font-style, normal);
     letter-spacing: var(--hf-validation-typo-letter-spacing, normal);
+    text-transform: var(--hf-validation-typo-text-transform, inherit);
+    text-decoration: var(--hf-validation-typo-text-decoration, inherit);
     line-height: var(--hf-validation-typo-line-height, 1.2);
+    color: var(--hf-validation-typo-font-color, #FF0000);
     margin: var(--hf-validation-spacing, 5px) 0 0;
     text-align: var(--hf-validation-textalign, left);
-    text-decoration: var(--hf-validation-typo-text-decoration, inherit);
-    text-transform: var(--hf-validation-typo-text-transform, inherit);
 }
 
 .hf-form-default-style .hf-container .hf-error-msg{
     display: block;
     font-size: 13px;
-    font-style: normal;
     font-weight: 400;
+    font-style: normal;
     letter-spacing: normal;
-    line-height: 1.2;
-    text-decoration: inherit;
     text-transform: inherit;
+    text-decoration: inherit;
+    line-height: 1.2;
 }
 
 /* Label Position */
@@ -534,15 +534,15 @@
 }
 
 .hf-form-field.hf-label-position-left .hf-field-label{
+    width: 200px;
     flex: 0 0 200px;
     margin: 0;
-    width: 200px;
 }
 
 .hf-form-field.hf-label-position-right .hf-field-label{
+    width: 200px;
     flex: 0 0 200px;
     order: 2;
-    width: 200px;
 }
 
 .hf-form-field.hf-label-position-hide .hf-field-label{
@@ -616,14 +616,14 @@
 .hf-form-custom-style .hf-form-field.hashform-field-type-heading h4,
 .hf-form-custom-style .hf-form-field.hashform-field-type-heading h5,
 .hf-form-custom-style .hf-form-field.hashform-field-type-heading h6{
-    color: var(--hf-heading-typo-font-color, inherit);
     font-family: var(--hf-heading-typo-font-family);
-    font-style: var(--hf-heading-typo-font-style, normal);
     font-weight: var(--hf-heading-typo-font-weight, 400);
+    font-style: var(--hf-heading-typo-font-style, normal);
     letter-spacing: var(--hf-heading-typo-letter-spacing, normal);
-    line-height: var(--hf-heading-typo-line-height, 1.2);
-    text-decoration: var(--hf-heading-typo-text-decoration, inherit);
     text-transform: var(--hf-heading-typo-text-transform, inherit);
+    text-decoration: var(--hf-heading-typo-text-decoration, inherit);
+    line-height: var(--hf-heading-typo-line-height, 1.2);
+    color: var(--hf-heading-typo-font-color, inherit);
 }
 
 .hf-form-default-style .hf-form-field.hashform-field-type-heading h1,
@@ -632,13 +632,13 @@
 .hf-form-default-style .hf-form-field.hashform-field-type-heading h4,
 .hf-form-default-style .hf-form-field.hashform-field-type-heading h5,
 .hf-form-default-style .hf-form-field.hashform-field-type-heading h6{
-    color: #333;
-    font-style: normal;
     font-weight: 700;
+    font-style: normal;
     letter-spacing: normal;
-    line-height: 1.2;
-    text-decoration: inherit;
     text-transform: inherit;
+    text-decoration: inherit;
+    line-height: 1.2;
+    color: #333;
 }
 
 .hf-form-custom-style .hf-form-field.hashform-field-type-heading{
@@ -675,26 +675,26 @@
 }
 
 .hf-form-custom-style .hf-form-field.hashform-field-type-paragraph p{
-    color: var(--hf-paragraph-typo-font-color, inherit);
     font-family: var(--hf-paragraph-typo-font-family);
     font-size: var(--hf-paragraph-typo-font-size, 13px);
-    font-style: var(--hf-paragraph-typo-font-style, normal);
     font-weight: var(--hf-paragraph-typo-font-weight, 400);
+    font-style: var(--hf-paragraph-typo-font-style, normal);
     letter-spacing: var(--hf-paragraph-typo-letter-spacing, normal);
-    line-height: var(--hf-paragraph-typo-line-height, 1.2);
-    text-decoration: var(--hf-paragraph-typo-text-decoration, inherit);
     text-transform: var(--hf-paragraph-typo-text-transform, inherit);
+    text-decoration: var(--hf-paragraph-typo-text-decoration, inherit);
+    line-height: var(--hf-paragraph-typo-line-height, 1.2);
+    color: var(--hf-paragraph-typo-font-color, inherit);
 }
 
 .hf-form-default-style .hf-form-field.hashform-field-type-paragraph p{
-    color: #333;
     font-size: 13px;
-    font-style: normal;
     font-weight: 400;
+    font-style: normal;
     letter-spacing: normal;
-    line-height: 1.2;
-    text-decoration: inherit;
     text-transform: inherit;
+    text-decoration: inherit;
+    line-height: 1.2;
+    color: #333;
 }
 
 /* Select */
@@ -705,10 +705,10 @@
 /* Checkbox/Radio */
 .hf-form-field.hashform-field-type-radio .hf-choice label,
 .hf-form-field.hashform-field-type-checkbox .hf-choice label{
-    align-items: center;
     cursor: pointer;
     display: flex;
     gap: 0.5em;
+    align-items: center;
 }
 
 .hf-form-field input[type="checkbox"],
@@ -723,43 +723,43 @@
 }
 
 .hf-form-custom-style .hf-form-field .hf-choice-container{
-    color: var(--hf-field-color-normal, #666);
     font-family: var(--hf-field-typo-font-family);
     font-size: var(--hf-field-typo-font-size, 14px);
-    font-style: var(--hf-field-typo-font-style, normal);
     font-weight: var(--hf-field-typo-font-weight, 400);
+    font-style: var(--hf-field-typo-font-style, normal);
     letter-spacing: var(--hf-field-typo-letter-spacing, normal);
-    line-height: var(--hf-field-typo-line-height, 1.2);
-    text-decoration: var(--hf-field-typo-text-decoration, inherit);
     text-transform: var(--hf-field-typo-text-transform, inherit);
+    text-decoration: var(--hf-field-typo-text-decoration, inherit);
+    line-height: var(--hf-field-typo-line-height, 1.2);
+    color: var(--hf-field-color-normal, #666);
 }
 
 .hf-form-default-style .hf-form-field .hf-choice-container{
-    color: #666;
     font-size: 14px;
-    font-style: normal;
     font-weight: 400;
+    font-style: normal;
     letter-spacing: normal;
-    line-height: 1.2;
-    text-decoration: inherit;
     text-transform: inherit;
+    text-decoration: inherit;
+    line-height: 1.2;
+    color: #666;
 }
 
 .hf-form-field .hf-choice-container .hf-choice > label{
-    color: inherit;
     font-size: inherit;
-    font-style: inherit;
     font-weight: inherit;
+    font-style: inherit;
     letter-spacing: inherit;
-    line-height: inherit;
-    text-decoration: inherit;
     text-transform: inherit;
+    text-decoration: inherit;
+    line-height: inherit;
+    color: inherit;
 }
 
 .hf-form-field.hf-options-layout-inline .hf-choice-container{
     display: flex;
-    flex-wrap: wrap;
     gap: 15px;
+    flex-wrap: wrap;
 }
 
 .hf-form-field.hf-options-layout-1.hf-choice-container{
@@ -813,20 +813,20 @@
 }
 
 .hf-form-field.hashform-field-type-image_select .hf-field-is-image .hf-field-is-checked{
-    align-items: center;
-    background: #FFF;
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    color: green;
-    font-size: 25px;
-    height: 30px;
-    justify-content: center;
-    padding: 2px;
     position: absolute;
     right: 10px;
     top: -10px;
+    font-size: 25px;
+    background: #FFF;
+    border-radius: 50%;
+    padding: 2px;
+    color: green;
+    height: 30px;
     width: 30px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
     z-index: 9;
+    align-items: center;
+    justify-content: center;
 }
 
 .hf-form-field.hashform-field-type-image_select .hf-field-is-image{
@@ -836,28 +836,28 @@
 }
 
 .hf-form-field.hashform-field-type-image_select .hf-field-is-image:before{
-    align-items: center;
-    bottom: 0;
     content: "NO IMAGE";
-    display: flex;
-    font-size: 16px;
-    justify-content: center;
-    left: 0;
-    opacity: 0.4;
     position: absolute;
-    right: 0;
+    left: 0;
     top: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    opacity: 0.4;
 }
 
 .hf-form-field.hashform-field-type-image_select .hf-field-is-image img{
     display: block;
-    margin: 0 auto;
     position: relative;
+    margin: 0 auto;
 }
 
 .hf-form-field.hashform-field-type-image_select .hf-field-is-label{
-    margin-top: 10px;
     text-align: center;
+    margin-top: 10px;
 }
 
 .hf-form-field.hf-options-layout-inline.hashform-field-type-image_select .hf-choice-container .hf-choice{
@@ -899,9 +899,9 @@
 }
 
 .hf-form-field.hashform-field-type-image .hf-no-image-field{
-    opacity: 0.4;
     text-align: center;
     text-transform: uppercase;
+    opacity: 0.4;
 }
 
 /* Time */
@@ -990,9 +990,9 @@
 
 .hf-form-field.hashform-field-type-spinner .hf-quantity-input input{
     -moz-appearance: textfield;
-    display: flex;
     padding-left: 70px !important;
     padding-right: 70px !important;
+    display: flex;
     text-align: center;
 }
 
@@ -1008,18 +1008,18 @@
 }
 
 .hf-form-field.hashform-field-type-spinner .hf-quantity-input span{
-    align-items: center;
-    color: #CCC;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    position: relative;
     width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    color: #CCC;
 }
 
 .hf-form-custom-style .hf-form-field.hashform-field-type-spinner .hf-quantity-input span{
-    color: var(--hf-field-border-color-normal, #CCC);
     width: 3.5em;
+    color: var(--hf-field-border-color-normal, #CCC);
 }
 
 .hf-form-field.hashform-field-type-spinner .hf-quantity-input span:before{
@@ -1027,23 +1027,23 @@
 }
 
 .hf-form-field.hashform-field-type-spinner .hf-quantity-input .mdi-minus{
-    border-right: 1px solid #EEE;
     margin-right: -60px;
+    border-right: 1px solid #EEE;
 }
 
 .hf-form-custom-style .hf-form-field.hashform-field-type-spinner .hf-quantity-input .mdi-minus{
-    border-right: var(--hf-field-border-right, 1px) solid var(--hf-field-border-color-normal, #CCC);
     margin-right: -3.5em;
+    border-right: var(--hf-field-border-right, 1px) solid var(--hf-field-border-color-normal, #CCC);
 }
 
 .hf-form-field.hashform-field-type-spinner .hf-quantity-input .mdi-plus{
-    border-left: 1px solid #EEE;
     margin-left: -60px;
+    border-left: 1px solid #EEE;
 }
 
 .hf-form-custom-style .hf-form-field.hashform-field-type-spinner .hf-quantity-input .mdi-plus{
-    border-left: var(--hf-field-border-right, 1px) solid var(--hf-field-border-color-normal, #CCC);
     margin-left: -3.5em;
+    border-left: var(--hf-field-border-right, 1px) solid var(--hf-field-border-color-normal, #CCC);
 }
 
 /* Divider */
@@ -1092,35 +1092,35 @@
 
 /* Range Slider */
 .hf-form-field.hashform-field-type-range_slider .hashform-range-slider-wrap {
-    align-items: center;
-    display: flex;
     width: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .hf-form-field.hashform-field-type-range_slider .hashform-range-slider-wrap .hashform-range-slider {
+    position: relative;
+    flex-grow: 1;
+    height: 4px;
+    margin: 12px 0;
     background: rgba(0, 0, 0, 0.15);
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    flex-grow: 1;
-    height: 4px;
-    margin: 12px 0;
-    position: relative;
     transition: background 0.5s;
 }
 
 .hf-form-custom-style .hf-form-field.hashform-field-type-range_slider .hashform-range-slider-wrap .hashform-range-slider {
-    background: var(--hf-range-color, rgba(0, 0, 0, 0.15));
     height: var(--hf-range-height, 4px);
+    background: var(--hf-range-color, rgba(0, 0, 0, 0.15));
 }
 
 .hf-form-field.hashform-field-type-range_slider .hashform-range-slider-wrap .hashform-range-slider .ui-slider-range {
-    background: #13a1dc;
-    border-radius: 5px;
     display: inline-block;
-    height: 100%;
     position: absolute;
     top: 0;
+    height: 100%;
+    background: #13a1dc;
+    border-radius: 5px;
 }
 
 .hf-form-custom-style .hf-form-field.hashform-field-type-range_slider .hashform-range-slider-wrap .hashform-range-slider .ui-slider-range {
@@ -1128,32 +1128,32 @@
 }
 
 .hf-form-field.hashform-field-type-range_slider .hashform-range-slider-wrap .hashform-range-slider .ui-slider-handle {
+    height: 16px;
+    width: 16px;
     background: #fff;
     border: none;
-    border-radius: 50%;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
     display: inline-block;
-    height: 16px;
-    margin: 0 0 0 -8px;
     position: absolute;
     top: 50%;
+    margin: 0 0 0 -8px;
     transform: translateY(-50%);
-    width: 16px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    cursor: pointer;
     z-index: 9;
 }
 
 .hf-form-custom-style .hf-form-field.hashform-field-type-range_slider .hashform-range-slider-wrap .hashform-range-slider .ui-slider-handle {
-    background: var(--hf-range-handle-color, #fff);
     height: var(--hf-range-handle-size, 16px);
-    margin: 0 0 0 calc(var(--hf-range-handle-size, 8px)/2 * -1);
     width: var(--hf-range-handle-size, 16px);
+    background: var(--hf-range-handle-color, #fff);
+    margin: 0 0 0 calc(var(--hf-range-handle-size, 8px)/2 * -1);
 }
 
 .hf-form-field.hashform-field-type-range_slider .hashform-range-slider-wrap .hashform-range-slider + .hashform-range-input-selector {
     margin-left: 10px;
-    text-align: center;
     width: 80px;
+    text-align: center;
 }
 
 .hf-form-field.hashform-field-type-range_slider .hf-typography-line-height-field .hashform-range-slider + .hashform-range-input-selector{
@@ -1174,19 +1174,19 @@
 }
 
 .hf-submit-button{
-    align-items: center;
     display: flex;
+    align-items: center;
     gap: 6px;
 }
 
 .hf-submit-button.hf-button-loading:after{
-    animation:hf-spin 0.4s infinite linear;
-    border:2px solid;
-    border-radius:50%;
-    border-right-color: transparent;
     content: "";
-    height:1em;
     width:1em;
+    height:1em;
+    border-radius:50%;
+    border:2px solid;
+    border-right-color: transparent;
+    animation:hf-spin 0.4s infinite linear;
 }
 
 @keyframes hf-spin {
@@ -1195,53 +1195,53 @@
 
 /* Form Success Message */
 .hf-success-msg{
-    background: #4BB543;
-    border-radius: 3px;
-    color: #FFF;
     display: block;
-    font-size: 1em;
-    margin-top: 20px;
+    background: #4BB543;
+    color: #FFF;
     padding: 10px 15px;
+    margin-top: 20px;
+    font-size: 1em;
+    border-radius: 3px;
     text-align: center;
 }
 
 .hf-failed-msg{
-    background: #ff3333;
-    border-radius: 3px;
-    color: #FFF;
     display: block;
-    font-size: 1em;
-    margin-top: 20px;
+    background: #ff3333;
+    color: #FFF;
     padding: 10px 15px;
+    margin-top: 20px;
+    font-size: 1em;
+    border-radius: 3px;
     text-align: center;
 }
 
 /***********/
 body.hashform_preview_page .hf-form-preview{
-    margin: 50px auto;
     max-width: 1100px;
+    margin: 50px auto;
 }
 
 
 
 /* Date Picker Default Styles */
 .ui-datepicker {
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
     background-color: #fff;
     border: 1px solid #dcdcde;
-    border-radius: 0;
     border-top: none;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
-    margin: 0;
     min-width: 17em;
-    padding: 0;
     width: auto !important;
     z-index: 999999 !important;
 }
 .ui-datepicker * {
-    border-radius: 0;
+    padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-    padding: 0;
+    border-radius: 0;
     -webkit-user-select: none;
     user-select: none;
 }
@@ -1249,10 +1249,10 @@ body.hashform_preview_page .hf-form-preview{
     float: left;
 }
 .ui-datepicker table {
-    border: none;
-    border-collapse: collapse;
     font-size: 13px;
     margin: 0;
+    border: none;
+    border-collapse: collapse;
 }
 .ui-datepicker .ui-widget-header,
 .ui-datepicker .ui-datepicker-header {
@@ -1267,18 +1267,18 @@ body.hashform_preview_page .hf-form-preview{
     cursor: pointer;
 }
 .ui-datepicker .ui-datepicker-title {
+    margin: 0;
+    padding: 10px 0;
     color: #fff;
     font-size: 14px;
     line-height: 14px;
-    margin: 0;
-    padding: 10px 0;
     text-align: center;
 }
 .ui-datepicker .ui-datepicker-prev,
 .ui-datepicker .ui-datepicker-next {
-    height: 34px;
     position: relative;
     top: 0;
+    height: 34px;
     width: 34px;
 }
 .ui-datepicker .ui-state-hover.ui-datepicker-prev,
@@ -1315,14 +1315,14 @@ body.hashform_preview_page .hf-form-preview{
 }
 .ui-datepicker .ui-datepicker-next:not(.ui-state-disabled):before,
 .ui-datepicker .ui-datepicker-prev:not(.ui-state-disabled):before {
-    color: #fff;
     font: normal 20px/34px "dashicons";
+    padding-left: 7px;
+    color: #fff;
+    speak: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    height: 34px;
-    padding-left: 7px;
-    speak: none;
     width: 34px;
+    height: 34px;
 }
 .ui-datepicker .ui-datepicker-prev-hover:before,
 .ui-datepicker .ui-datepicker-next-hover:before {
@@ -1340,8 +1340,8 @@ body.hashform_preview_page .hf-form-preview{
     padding: 10px;
 }
 .ui-datepicker td {
-    border: 1px solid #f0f0f1;
     padding: 0;
+    border: 1px solid #f0f0f1;
 }
 .ui-datepicker td.ui-datepicker-other-month {
     border: transparent;
@@ -1369,13 +1369,13 @@ body.hashform_preview_page .hf-form-preview{
 .ui-datepicker td .ui-state-default {
     background: transparent;
     border: none;
-    color: #3c434a;
-    display: block;
-    font-weight: normal;
-    padding: 5px 10px;
     text-align: center;
     text-decoration: none;
     width: auto;
+    display: block;
+    padding: 5px 10px;
+    font-weight: normal;
+    color: #3c434a;
 }
 .ui-datepicker td .ui-state-default.ui-priority-secondary {
     opacity: 0.3;

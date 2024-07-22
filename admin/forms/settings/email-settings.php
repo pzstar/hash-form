@@ -11,7 +11,7 @@ defined('ABSPATH') || die();
                 foreach ($email_to_array as $row) {
                     ?>
                     <div class="hf-email-row">
-                        <input type="email" name="email_to[]" value="<?php echo esc_attr($row); ?>" />
+                        <input type="email" name="email_to[]" value="<?php echo esc_attr($row); ?>"/>
                         <span class="mdi mdi-trash-can-outline hf-delete-email-row"></span>
                     </div>
                 <?php } ?>
@@ -45,7 +45,7 @@ defined('ABSPATH') || die();
                     </ul>
                 </div>
             </label>
-            <input type="text" name="reply_to_email" value="<?php echo esc_attr($settings['reply_to_email']); ?>" />
+            <input type="text" name="reply_to_email" value="<?php echo esc_attr($settings['reply_to_email']); ?>"/>
             <p class="description"><?php esc_html_e('Choose the email field by clicking on the TAGS above.', 'hash-form'); ?></p>
         </div>
     </div>
@@ -53,7 +53,7 @@ defined('ABSPATH') || die();
     <div class="hf-form-row hf-grid-container">
         <div class="hf-grid-3">
             <label><?php esc_html_e('From Email', 'hash-form'); ?></label>
-            <input type="text" name="email_from" value="<?php echo esc_attr($settings['email_from']); ?>" />
+            <input type="text" name="email_from" value="<?php echo esc_attr($settings['email_from']); ?>"/>
             <p class="description"><?php esc_html_e('Use [admin_email] for admin email. Settings > General > Administration Email Address', 'hash-form'); ?></p>
             <p class="description" style="color:red;"><?php esc_html_e('IMPORTANT: The email address should match with your domain name for proper delivery. eg. admin@yourwebsite.com', 'hash-form'); ?></p>
         </div>
@@ -62,7 +62,7 @@ defined('ABSPATH') || die();
     <div class="hf-form-row hf-grid-container">
         <div class="hf-grid-3">
             <label><?php esc_html_e('From Name', 'hash-form'); ?></label>
-            <input type="text" name="email_from_name" value="<?php echo esc_attr($settings['email_from_name']); ?>" />
+            <input type="text" name="email_from_name" value="<?php echo esc_attr($settings['email_from_name']); ?>"/>
         </div>
     </div>
 
@@ -89,7 +89,7 @@ defined('ABSPATH') || die();
             </div>
         </label>
 
-        <input type="text" name="email_subject" value="<?php echo esc_attr($settings['email_subject']); ?>" />
+        <input type="text" name="email_subject" value="<?php echo esc_attr($settings['email_subject']); ?>"/>
     </div>
 
     <div class="hf-form-row">

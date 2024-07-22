@@ -214,12 +214,12 @@ class HashFormBuilder {
             'name' => esc_html($args['title']),
             'description' => esc_html($args['description']),
             'options' => maybe_serialize($options)
-        ), array('id' => $id));
+                ), array('id' => $id));
         return $query_results;
     }
 
     public static function edit() {
-        require (HASHFORM_PATH . 'admin/forms/build/edit.php');
+        require( HASHFORM_PATH . 'admin/forms/build/edit.php' );
     }
 
     public static function settings() {
@@ -324,7 +324,7 @@ class HashFormBuilder {
 
         foreach ($trash_forms as $form) {
             self::destroy_form($form->id);
-            $count++;
+            $count ++;
         }
         return $count;
     }
@@ -334,7 +334,7 @@ class HashFormBuilder {
         check_admin_referer('destroy_form_' . $id);
         $count = 0;
         if (self::destroy_form($id)) {
-            $count++;
+            $count ++;
         }
         $message = sprintf(_n('%1$s Form Permanently Deleted', '%1$s Forms Permanently Deleted', $count, 'hash-form'), $count);
         self::display_forms_list($message);
@@ -353,7 +353,7 @@ class HashFormBuilder {
         $bulkaction = HashFormHelper::get_var('action', 'sanitize_text_field');
 
 
-        if ($bulkaction == -1) {
+        if ($bulkaction == - 1) {
             $bulkaction = HashFormHelper::get_var('action2', 'sanitize_title');
         }
 
@@ -411,7 +411,7 @@ class HashFormBuilder {
         foreach ($ids as $id) {
             $form = self::destroy_form($id);
             if ($form) {
-                $count++;
+                $count ++;
             }
         }
 
@@ -505,7 +505,7 @@ class HashFormBuilder {
             <h4><span class="hfi hfi-form"></span><?php echo esc_html($form_title); ?></h4>
             <?php self::get_form_nav($form); ?>
 
-            <button class="hashform-ajax-udpate-button" type="button" id="hf-update-button">
+            <button class="hashform-ajax-udpate-button" type="button" id="hf-update-button" >
                 <span class="mdi mdi-check-circle-outline"></span><?php esc_html_e('Update', 'hash-form'); ?>
             </button>
 
@@ -728,7 +728,7 @@ class HashFormBuilder {
                 <option value="is_not_like"><?php esc_html_e('Is Not Like', 'hash-form'); ?></option>
             </select>
 
-            <input type="text" name="compare_value[]" required />
+            <input type="text" name="compare_value[]" required/>
             <span class="hf-condition-remove mdi mdi-close"></span>
         </div>
         <?php
@@ -756,7 +756,7 @@ class HashFormBuilder {
 
     public function add_plugin_action_link($links) {
         $custom['settings'] = sprintf(
-            '<a href="%s" aria-label="%s">%s</a>', esc_url(add_query_arg('page', 'hashform', admin_url('admin.php'))), esc_attr__('Hash Froms', 'hash-form'), esc_html__('Settings', 'hash-form')
+                '<a href="%s" aria-label="%s">%s</a>', esc_url(add_query_arg('page', 'hashform', admin_url('admin.php'))), esc_attr__('Hash Froms', 'hash-form'), esc_html__('Settings', 'hash-form')
         );
 
         return array_merge($custom, (array) $links);
@@ -803,7 +803,7 @@ class HashFormBuilder {
         $temp_dir = $upload_dir['basedir'] . HASHFORM_UPLOAD_DIR . '/temp/';
 
         // Remove old temp files
-        if (is_dir($temp_dir) and ($dir = opendir($temp_dir))) {
+        if (is_dir($temp_dir) and ( $dir = opendir($temp_dir))) {
             while (($file = readdir($dir)) !== false) {
                 $temp_file_path = $temp_dir . DIRECTORY_SEPARATOR . $file;
                 if ((filemtime($temp_file_path) < time() - $max_file_age)) {
@@ -848,22 +848,15 @@ class HashFormBuilder {
         <div class="hashform-notice notice notice-info">
             <?php $this->dismiss_button('review'); ?>
             <div class="hashform-notice-logo">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 117.66 152.27">
-                    <g>
-                        <g>
-                            <path d="M0,3.46A3.46,3.46,0,0,1,3.14,0h80A3.53,3.53,0,0,1,85.6,1l31,31a3.47,3.47,0,0,1,1,2.43V148.81a3.46,3.46,0,0,1-3.46,3.46H31.63a3.46,3.46,0,1,1,0-6.92h79.11V38.07H83.05a3.46,3.46,0,0,1-3.46-3.46V6.92H6.92V145.35H14a3.46,3.46,0,1,1,0,6.92H3.46A3.46,3.46,0,0,1,0,148.81ZM106,31.15,86.51,11.68V31.15Z" />
-                            <path d="M78.66,59.3H95.09v6.61H78.66V85.75H72.05V42.87h6.61Zm0,39.67v16.42H72.05V99H52.22V92.36H95.09V99ZM39,99H22.57V92.36H39V72.52h6.61V115.4H39ZM39,59.3V42.87h6.61V59.3H65.44v6.61H22.57V59.3Z" />
-                        </g>
-                    </g>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 117.66 152.27"><g><g><path d="M0,3.46A3.46,3.46,0,0,1,3.14,0h80A3.53,3.53,0,0,1,85.6,1l31,31a3.47,3.47,0,0,1,1,2.43V148.81a3.46,3.46,0,0,1-3.46,3.46H31.63a3.46,3.46,0,1,1,0-6.92h79.11V38.07H83.05a3.46,3.46,0,0,1-3.46-3.46V6.92H6.92V145.35H14a3.46,3.46,0,1,1,0,6.92H3.46A3.46,3.46,0,0,1,0,148.81ZM106,31.15,86.51,11.68V31.15Z"/><path d="M78.66,59.3H95.09v6.61H78.66V85.75H72.05V42.87h6.61Zm0,39.67v16.42H72.05V99H52.22V92.36H95.09V99ZM39,99H22.57V92.36H39V72.52h6.61V115.4H39ZM39,59.3V42.87h6.61V59.3H65.44v6.61H22.57V59.3Z"/></g></g></svg>
             </div>
 
             <div class="hashform-notice-content">
                 <p>
                     <?php
                     printf(
-                        /* translators: %1$s is link start tag, %2$s is link end tag. */
-                        esc_html__('Great to see that you have been using Hash Form for some time. We hope you love it, and we would really appreciate it if you would %1$sgive us a 5 stars rating%2$s and spread your words to the world.', 'hash-form'), '<a target="_blank" href="https://wordpress.org/support/plugin/hash-form/reviews/?filter=5">', '</a>'
+                            /* translators: %1$s is link start tag, %2$s is link end tag. */
+                            esc_html__('Great to see that you have been using Hash Form for some time. We hope you love it, and we would really appreciate it if you would %1$sgive us a 5 stars rating%2$s and spread your words to the world.', 'hash-form'), '<a target="_blank" href="https://wordpress.org/support/plugin/hash-form/reviews/?filter=5">', '</a>'
                     );
                     ?>
                 </p>
@@ -877,7 +870,7 @@ class HashFormBuilder {
     public function welcome_init() {
         if (!get_option('hashform_first_activation')) {
             update_option('hashform_first_activation', time());
-        }
+        };
 
         if (isset($_GET['hashform-hide-notice'], $_GET['hashform_notice_nonce'])) {
             $notice = sanitize_key($_GET['hashform-hide-notice']);

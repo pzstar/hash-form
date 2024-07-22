@@ -15,7 +15,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
 
     const wysiwyg = {
-        init(editor, {setupCallback, height, addFocusEvents} = {}) {
+        init(editor, { setupCallback, height, addFocusEvents } = {}) {
             if (isTinyMceActive()) {
                 setTimeout(resetTinyMce, 0);
             } else {
@@ -26,7 +26,7 @@ var hashFormBuilder = hashFormBuilder || {};
             setUpTinyMceHtmlButtonListener();
 
             function initQuickTagsButtons() {
-                if ('function' !== typeof window.quicktags || typeof window.QTags.instances[editor.id] !== 'undefined') {
+                if ('function' !== typeof window.quicktags || typeof window.QTags.instances[ editor.id ] !== 'undefined') {
                     return;
                 }
 
@@ -43,7 +43,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
             function initRichText() {
                 const key = Object.keys(tinyMCEPreInit.mceInit)[0];
-                const orgSettings = tinyMCEPreInit.mceInit[key];
+                const orgSettings = tinyMCEPreInit.mceInit[ key ];
 
                 const settings = Object.assign(
                     {},
@@ -118,7 +118,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 const wrap = document.getElementById('wp-' + editor.id + '-wrap');
                 wrap.classList.add('tmce-active');
                 wrap.classList.remove('html-active');
-            }
+        }
         }
     };
 
@@ -354,7 +354,7 @@ var hashFormBuilder = hashFormBuilder || {};
             return droppable;
         },
 
-        handleDragOverYAxis: function ({droppable, y, placeholder}) {
+        handleDragOverYAxis: function ( {droppable, y, placeholder}) {
             const $list = $(droppable);
             let top;
 
@@ -383,7 +383,7 @@ var hashFormBuilder = hashFormBuilder || {};
             placeholder.style.top = top + 'px';
         },
 
-        handleDragOverFieldGroup: function ({droppable, x, placeholder}) {
+        handleDragOverFieldGroup: function ( {droppable, x, placeholder}) {
             const $row = $(droppable);
             const $children = hashFormBuilder.getFieldsInRow($row);
             if (!$children.length) {
@@ -830,7 +830,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 timeout = setTimeout(
                     () => func.apply(this, args),
                     wait
-                );
+                    );
             };
         },
 
@@ -955,7 +955,7 @@ var hashFormBuilder = hashFormBuilder || {};
             $('#hf-editor-fields').each(function (i) {
                 fields = $('li.hf-editor-field-box', this);
                 for (i = 0; i < fields.length; i++) {
-                    fieldId = fields[i].getAttribute('data-fid');
+                    fieldId = fields[ i ].getAttribute('data-fid');
                     field = $('input[name="field_options[field_order_' + fieldId + ']"]');
                     currentOrder = field.val();
                     newOrder = i + 1;
@@ -1131,7 +1131,7 @@ var hashFormBuilder = hashFormBuilder || {};
                     };
                 } else {
                     classToAddFunction = function (index) {
-                        var size = type[index];
+                        var size = type[ index ];
                         return hashFormBuilder.getLayoutClassForSize(size);
                     };
                 }
@@ -1146,7 +1146,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 length = layoutClasses.length;
                 activeLayoutClass = false;
                 for (layoutClassIndex = 0; layoutClassIndex < length; ++layoutClassIndex) {
-                    currentClass = layoutClasses[layoutClassIndex];
+                    currentClass = layoutClasses[ layoutClassIndex ];
                     if (this.classList.contains(currentClass)) {
                         activeLayoutClass = currentClass;
                         break;
@@ -1350,9 +1350,9 @@ var hashFormBuilder = hashFormBuilder || {};
                 li => {
                     result = result.add(
                         $('<li>')
-                            .addClass('hf-editor-field-box')
-                            .html($('<ul>').addClass('hf-editor-grid-container hf-editor-sorting').append(li))
-                    );
+                        .addClass('hf-editor-field-box')
+                        .html($('<ul>').addClass('hf-editor-grid-container hf-editor-sorting').append(li))
+                        );
                 }
             );
             return result;
@@ -1391,7 +1391,7 @@ var hashFormBuilder = hashFormBuilder || {};
                         bounding.left >= 0 &&
                         bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
                         bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-                    );
+                        );
 
                 if (!inView) {
                     container.scroll({

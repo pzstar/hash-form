@@ -26,7 +26,7 @@ class HashFormFieldEmail extends HashFormFieldType {
 
     public function input_html() {
         ?>
-        <input type="email" <?php $this->field_attrs(); ?> />
+        <input type="email" <?php $this->field_attrs(); ?>/>
         <?php
     }
 

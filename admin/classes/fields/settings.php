@@ -4,7 +4,7 @@ defined('ABSPATH') || die();
 
 <div class="hf-fields-settings hf-hidden hf-fields-type-<?php echo esc_attr($field_type); ?>" id="hf-fields-settings-<?php echo esc_attr($field_id); ?>" data-fid="<?php echo esc_attr($field_id); ?>">
     <input type="hidden" name="hf-form-submitted[]" value="<?php echo absint($field_id); ?>" />
-    <input type="hidden" name="field_options[field_order_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['field_order']); ?>" />
+    <input type="hidden" name="field_options[field_order_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['field_order']); ?>"/>
     <input type="hidden" name="field_options[grid_id_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['grid_id']); ?>" id="hf-grid-class-<?php echo esc_attr($field_id); ?>" />
 
     <div class="hf-field-panel-header">
@@ -83,7 +83,7 @@ defined('ABSPATH') || die();
                     <option value="h2" <?php isset($field['heading_type']) ? selected($field['heading_type'], 'h2') : ''; ?>>
                         <?php esc_html_e('H2', 'hash-form'); ?>
                     </option>
-                    <option value="h3" <?php isset($field['heading_type']) ? selected($field['heading_type'], 'h3') : ''; ?>>
+                    <option value="h3" <?php isset($field['heading_type']) ? selected($field['heading_type'], 'h3') : ''; ?> >
                         <?php esc_html_e('H3', 'hash-form'); ?>
                     </option>
                     <option value="h4" <?php isset($field['heading_type']) ? selected($field['heading_type'], 'h4') : ''; ?>>
@@ -171,7 +171,7 @@ defined('ABSPATH') || die();
             <div class="hf-form-row">
                 <label><?php esc_html_e('Select Image', 'hash-form'); ?></label>
                 <div class="hf-image-preview">
-                    <input type="hidden" class="hf-image-id" name="field_options[image_id_<?php echo esc_attr($field_id); ?>]" id="hf-field-image-<?php echo absint($field_id); ?>" value="<?php echo esc_attr($image_id); ?>" />
+                    <input type="hidden" class="hf-image-id" name="field_options[image_id_<?php echo esc_attr($field_id); ?>]" id="hf-field-image-<?php echo absint($field_id); ?>" value="<?php echo esc_attr($image_id); ?>"/>
                     <div class="hf-image-preview-wrap<?php echo ($image ? '' : ' hf-hidden'); ?>">
                         <div class="hf-image-preview-box">
                             <img id="hf-image-preview-<?php echo absint($field_id); ?>" src="<?php echo esc_url($image); ?>" />
@@ -181,7 +181,7 @@ defined('ABSPATH') || die();
                             <?php esc_html_e('Delete', 'hash-form'); ?>
                         </button>
                     </div>
-                    <button type="button" class="button hf-choose-image<?php echo ($image ? ' hf-hidden' : ''); ?>">
+                    <button type="button" class="button hf-choose-image<?php echo($image ? ' hf-hidden' : ''); ?>">
                         <span class="mdi mdi-tray-arrow-up"></span>
                         <?php esc_attr_e('Upload image', 'hash-form'); ?>
                     </button>
@@ -194,7 +194,7 @@ defined('ABSPATH') || die();
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Height (px)', 'hash-form'); ?></label>
-                <input type="number" name="field_options[spacer_height_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['spacer_height']) ? esc_attr($field['spacer_height']) : ''; ?>" data-changeheight="field_change_height_<?php echo absint($field_id) ?>" />
+                <input type="number" name="field_options[spacer_height_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['spacer_height']) ? esc_attr($field['spacer_height']) : ''; ?>" data-changeheight="field_change_height_<?php echo absint($field_id) ?>"/>
             </div>
             <?php
         }
@@ -203,15 +203,15 @@ defined('ABSPATH') || die();
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Step', 'hash-form'); ?></label>
-                <input type="number" name="field_options[step_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['step']) ? esc_attr($field['step']) : ''; ?>" min="1" />
+                <input type="number" name="field_options[step_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['step']) ? esc_attr($field['step']) : ''; ?>" min="1"/>
             </div>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Min Time', 'hash-form'); ?></label>
-                <input type="text" class="min-value-field" name="field_options[min_time_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['min_time']) ? esc_attr($field['min_time']) : ''; ?>" />
+                <input type="text" class="min-value-field" name="field_options[min_time_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['min_time']) ? esc_attr($field['min_time']) : ''; ?>"/>
             </div>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Max Time', 'hash-form'); ?></label>
-                <input type="text" class="max-value-field" name="field_options[max_time_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['max_time']) ? esc_attr($field['max_time']) : ''; ?>" />
+                <input type="text" class="max-value-field" name="field_options[max_time_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['max_time']) ? esc_attr($field['max_time']) : ''; ?>"/>
             </div>
             <?php
         }
@@ -242,7 +242,7 @@ defined('ABSPATH') || die();
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Rows', 'hash-form'); ?></label>
-                <input type="number" name="field_options[rows_<?php echo absint($field_id); ?>]" value="<?php echo (isset($field['rows']) ? esc_attr($field['rows']) : ''); ?>" data-changerows="<?php echo esc_attr($this->html_id()); ?>" />
+                <input type="number" name="field_options[rows_<?php echo absint($field_id); ?>]" value="<?php echo (isset($field['rows']) ? esc_attr($field['rows']) : ''); ?>" data-changerows="<?php echo esc_attr($this->html_id()); ?>"/>
             </div>
             <?php
         }
@@ -275,7 +275,7 @@ defined('ABSPATH') || die();
 
             <div class="hf-form-row">
                 <label><?php esc_html_e('Divider Height (px)', 'hash-form'); ?></label>
-                <input type="number" name="field_options[border_width_<?php echo absint($field_id); ?>]" value="<?php echo (isset($field['border_width']) ? esc_attr($field['border_width']) : ''); ?>" data-changeborderwidth="field_change_style_<?php echo absint($field_id) ?>" />
+                <input type="number" name="field_options[border_width_<?php echo absint($field_id); ?>]" value="<?php echo (isset($field['border_width']) ? esc_attr($field['border_width']) : ''); ?>" data-changeborderwidth="field_change_style_<?php echo absint($field_id) ?>"/>
             </div>
             <?php
         }
@@ -298,17 +298,17 @@ defined('ABSPATH') || die();
                 <div class="hf-grid-container">
                     <div class="hf-form-row hf-grid-2">
                         <label><?php esc_html_e('From', 'hash-form'); ?></label>
-                        <input type="number" name="field_options[minnum_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['minnum']); ?>" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="min" <?php echo ($field_type === 'range_slider' ? 'data-changemin="field_change_min_' . esc_attr($field['field_key']) . '"' : ''); ?> />
+                        <input type="number" name="field_options[minnum_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['minnum']); ?>" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="min" <?php echo ($field_type === 'range_slider' ? 'data-changemin="field_change_min_' . esc_attr($field['field_key']) . '"' : ''); ?>/>
                     </div>
 
                     <div class="hf-form-row hf-grid-2">
                         <label><?php esc_html_e('To', 'hash-form'); ?></label>
-                        <input type="number" name="field_options[maxnum_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['maxnum']); ?>" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="max" <?php echo ($field_type === 'range_slider' ? 'data-changemax="field_change_max_' . esc_attr($field['field_key']) . '"' : ''); ?> />
+                        <input type="number" name="field_options[maxnum_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['maxnum']); ?>" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="max" <?php echo ($field_type === 'range_slider' ? 'data-changemax="field_change_max_' . esc_attr($field['field_key']) . '"' : ''); ?>/>
                     </div>
 
                     <div class="hf-form-row hf-grid-2">
                         <label><?php esc_html_e('Step', 'hash-form'); ?></label>
-                        <input type="number" name="field_options[step_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['step']); ?>" data-changeatt="step" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" />
+                        <input type="number" name="field_options[step_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['step']); ?>" data-changeatt="step" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>"/>
                     </div>
                 </div>
             </div>
@@ -321,24 +321,24 @@ defined('ABSPATH') || die();
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Upload Label', 'hash-form'); ?></label>
-                <input type="text" name="field_options[upload_label_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['upload_label']); ?>" data-changeme="hf-editor-upload-label-text-<?php echo absint($field_id); ?>" />
+                <input type="text" name="field_options[upload_label_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['upload_label']); ?>" data-changeme="hf-editor-upload-label-text-<?php echo absint($field_id); ?>"/>
             </div>
 
             <div class="hf-form-row">
                 <label><?php esc_html_e('Extensions', 'hash-form'); ?></label>
-                <input type="text" name="field_options[extensions_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['extensions']); ?>" />
+                <input type="text" name="field_options[extensions_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['extensions']); ?>"/>
                 <label class="hf-field-desc"><?php esc_html_e('The allowed extensions are pdf, doc, docx, xls, xlsx, odt, ppt, pptx, pps, ppsx, jpg, jpeg, png, gif, bmp, mp3, mp4, ogg, wav, mp4, m4v, mov, wmv, avi, mpg, ogv, 3gp, txt, zip, rar, 7z, csv', 'hash-form'); ?></label>
             </div>
 
             <div class="hf-form-row">
                 <label><?php esc_html_e('Maximum File Size Allowed to Upload (MB)', 'hash-form'); ?></label>
-                <input type="number" name="field_options[max_upload_size_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['max_upload_size']); ?>" />
+                <input type="number" name="field_options[max_upload_size_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['max_upload_size']); ?>"/>
             </div>
 
             <div class="hf-form-row">
                 <label>
                     <input type="hidden" name="field_options[multiple_uploads_<?php echo absint($field_id); ?>]" value="off" />
-                    <input type="checkbox" name="field_options[multiple_uploads_<?php echo absint($field_id); ?>]" value="on" data-condition="toggle" id="hf-multiple-uploads-<?php echo absint($field_id); ?>" <?php checked($field['multiple_uploads'], 'on'); ?> />
+                    <input type="checkbox" name="field_options[multiple_uploads_<?php echo absint($field_id); ?>]" value="on" data-condition="toggle" id="hf-multiple-uploads-<?php echo absint($field_id); ?>" <?php checked($field['multiple_uploads'], 'on'); ?>/>
                     <?php esc_html_e('Multiple Uploads', 'hash-form'); ?>
                 </label>
             </div>
@@ -346,7 +346,7 @@ defined('ABSPATH') || die();
             <div class="hf-form-row" data-condition-toggle="hf-multiple-uploads-<?php echo absint($field_id); ?>">
                 <label>
                     <?php esc_html_e('Multiple Uploads Limit', 'hash-form'); ?>
-                    <input type="number" name="field_options[multiple_uploads_limit_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['multiple_uploads_limit']); ?>" />
+                    <input type="number" name="field_options[multiple_uploads_limit_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['multiple_uploads_limit']); ?>"/>
                 </label>
             </div>
             <?php
@@ -356,7 +356,7 @@ defined('ABSPATH') || die();
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('CSS Classes', 'hash-form'); ?></label>
-                <input type="text" name="field_options[classes_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['classes']); ?>" />
+                <input type="text" name="field_options[classes_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['classes']); ?>"/>
             </div>
             <?php
         }
@@ -370,7 +370,7 @@ defined('ABSPATH') || die();
             <div class="hf-form-row">
                 <label>
                     <input type="hidden" name="field_options[auto_width_<?php echo absint($field_id); ?>]" value="off" />
-                    <input type="checkbox" name="field_options[auto_width_<?php echo absint($field_id); ?>]" value="on" <?php checked($field['auto_width'], 'on'); ?> />
+                    <input type="checkbox" name="field_options[auto_width_<?php echo absint($field_id); ?>]" value="on" <?php checked($field['auto_width'], 'on'); ?>/>
                     <?php esc_html_e('Automatic Width', 'hash-form'); ?>
                 </label>
             </div>
@@ -389,7 +389,7 @@ defined('ABSPATH') || die();
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Default Value', 'hash-form'); ?></label>
-                <input type="<?php echo esc_attr($field_type_attr_val); ?>" name="<?php echo 'default_value_' . absint($field_id); ?>" value="<?php echo esc_attr($field['default_value']); ?>" class="hf-default-value-field" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="value" />
+                <input type="<?php echo esc_attr($field_type_attr_val); ?>" name="<?php echo 'default_value_' . absint($field_id); ?>" value="<?php echo esc_attr($field['default_value']); ?>" class="hf-default-value-field" data-changeme="hf-field-<?php echo esc_attr($field['field_key']); ?>" data-changeatt="value"/>
             </div>
             <?php
         }
@@ -562,7 +562,7 @@ defined('ABSPATH') || die();
             ?>
             <div class="hf-form-row hf-required-detail-<?php echo esc_attr($field_id) . ($field['required'] ? '' : ' hf-hidden'); ?>">
                 <label><?php esc_html_e('Required', 'hash-form'); ?></label>
-                <input type="text" name="field_options[blank_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($field['blank']); ?>" />
+                <input type="text" name="field_options[blank_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($field['blank']); ?>"/>
             </div>
             <?php
         }
@@ -571,7 +571,7 @@ defined('ABSPATH') || die();
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Invalid Format', 'hash-form'); ?></label>
-                <input type="text" name="field_options[invalid_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($field['invalid']); ?>" />
+                <input type="text" name="field_options[invalid_<?php echo esc_attr($field_id); ?>]" value="<?php echo esc_attr($field['invalid']); ?>"/>
             </div>
             <?php
         }
@@ -581,12 +581,12 @@ defined('ABSPATH') || die();
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Extensions', 'hash-form'); ?></label>
-                <input type="text" name="field_options[extensions_error_message_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['extensions_error_message']); ?>" />
+                <input type="text" name="field_options[extensions_error_message_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['extensions_error_message']); ?>"/>
             </div>
 
             <div class="hf-form-row" data-condition-toggle="hf-multiple-uploads-<?php echo absint($field_id); ?>">
                 <label><?php esc_html_e('Multiple Uploads', 'hash-form'); ?></label>
-                <input type="text" name="field_options[multiple_uploads_error_message_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['multiple_uploads_error_message']); ?>" />
+                <input type="text" name="field_options[multiple_uploads_error_message_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['multiple_uploads_error_message']); ?>"/>
             </div>
             <?php
         }

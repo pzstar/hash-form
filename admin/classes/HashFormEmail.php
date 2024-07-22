@@ -95,7 +95,7 @@ class HashFormEmail {
         $email_message = empty($email_msg) ? '' : wpautop($email_msg);
 
         ob_start();
-        include (HASHFORM_PATH . 'admin/settings/email-templates/' . $email_template . '.php');
+        include(HASHFORM_PATH . 'admin/settings/email-templates/' . $email_template . '.php');
         $email_message = ob_get_clean();
 
         $head = array();
@@ -128,7 +128,7 @@ class HashFormEmail {
                 $header_image = $settings['header_image'];
 
                 ob_start();
-                include (HASHFORM_PATH . 'admin/settings/email-templates/template1.php');
+                include(HASHFORM_PATH . 'admin/settings/email-templates/template1.php');
                 $form_html = ob_get_clean();
 
                 $from_ar = ($from_ar == '[admin_email]') ? get_option('admin_email') : esc_attr($from_ar);

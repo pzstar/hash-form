@@ -162,7 +162,7 @@ abstract class HashFormFieldType {
             $image_max_width_unit = isset($field['image_max_width_unit']) ? esc_attr($field['image_max_width_unit']) : '%';
         }
         ?>
-        <li id="hf-editor-field-id-<?php echo esc_attr($field['id']); ?>" class="<?php echo esc_attr(implode(' ', $classes)); ?>" data-fid="<?php echo esc_attr($field['id']); ?>" data-formid="<?php echo esc_attr('divider' === $field['type'] ? esc_attr($field['form_select']) : esc_attr($field['form_id'])); ?>" data-type="<?php echo esc_attr($field['type']); ?>">
+        <li id="hf-editor-field-id-<?php echo esc_attr($field['id']); ?>" class="<?php echo esc_attr(implode(' ', $classes)); ?>" data-fid="<?php echo esc_attr($field['id']); ?>" data-formid="<?php echo esc_attr('divider' === $field['type'] ? esc_attr($field['form_select']) : esc_attr($field['form_id']) ); ?>" data-type="<?php echo esc_attr($field['type']); ?>">
 
             <div id="hf-editor-field-container-<?php echo esc_attr($field['id']); ?>" class="hf-editor-field-container" style="<?php echo ($field_max_width ? ('--hf-width:' . esc_attr($field_max_width) . esc_attr($field_max_width_unit) . ';') : ''); ?><?php echo ((isset($image_max_width) && $image_max_width) ? '--hf-image-width: ' . esc_attr($image_max_width) . esc_attr($image_max_width_unit) : ''); ?>">
                 <div class="hf-editor-action-buttons">
@@ -312,13 +312,13 @@ abstract class HashFormFieldType {
         $all_field_types = HashFormFields::field_selection();
         $type_name = $all_field_types[$field_type]['name'];
 
-        include (HASHFORM_PATH . 'admin/classes/fields/settings.php');
+        include( HASHFORM_PATH . 'admin/classes/fields/settings.php' );
     }
 
     /* Extra Options */
 
     public function show_primary_options() {
-
+        
     }
 
     public function show_field_choices() {
@@ -362,7 +362,7 @@ abstract class HashFormFieldType {
             $field_val = $opt['label'];
             $default_value = (array) $field['default_value'];
             $checked = in_array($field_val, $default_value) ? 'checked' : '';
-            require (HASHFORM_PATH . 'admin/classes/fields/single-option.php');
+            require( HASHFORM_PATH . 'admin/classes/fields/single-option.php' );
         }
     }
 
@@ -379,7 +379,7 @@ abstract class HashFormFieldType {
 
         $checked = false;
 
-        require (HASHFORM_PATH . 'admin/classes/fields/single-option.php');
+        require( HASHFORM_PATH . 'admin/classes/fields/single-option.php' );
     }
 
     protected function field_choices_heading() {
@@ -396,7 +396,7 @@ abstract class HashFormFieldType {
     /* Combo Options */
 
     protected function show_after_default() {
-
+        
     }
 
     public function get_default_field_options() {
@@ -468,7 +468,7 @@ abstract class HashFormFieldType {
     }
 
     protected function load_field_scripts() {
-
+        
     }
 
     protected function prepare_esc_value() {

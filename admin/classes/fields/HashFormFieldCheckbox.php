@@ -28,7 +28,7 @@ class HashFormFieldCheckbox extends HashFormFieldType {
                 ?>
                 <div class="hf-choice hf-checkbox">
                     <label for="<?php echo esc_attr($this->html_id('-' . $option_key)); ?>">
-                        <input type="checkbox" id="<?php echo esc_attr($this->html_id('-' . $option_key)) ?>" name="<?php echo esc_attr($this->html_name()) . '[]'; ?>" value="<?php echo esc_attr($option['label']); ?>" <?php checked(in_array($option['label'], $default), true); ?> />
+                        <input type="checkbox" id="<?php echo esc_attr($this->html_id('-' . $option_key)) ?>" name="<?php echo esc_attr($this->html_name()) . '[]'; ?>" value="<?php echo esc_attr($option['label']); ?>" <?php checked(in_array($option['label'], $default), true); ?>/>
                         <?php echo esc_html($option['label']); ?>
                     </label>
                 </div>

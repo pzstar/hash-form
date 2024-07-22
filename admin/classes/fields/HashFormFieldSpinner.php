@@ -69,7 +69,7 @@ class HashFormFieldSpinner extends HashFormFieldType {
             return 0;
         }
         $div = floor($div);
-        return array($div * $step / $pow, ($div + 1) * $step / $pow);
+        return array($div * $step / $pow, ( $div + 1 ) * $step / $pow);
     }
 
     private function remove_commas_from_number(&$args) {

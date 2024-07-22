@@ -65,7 +65,7 @@ class HashFormFieldNumber extends HashFormFieldType {
         if (is_int($div))
             return 0;
         $div = floor($div);
-        return array($div * $step / $pow, ($div + 1) * $step / $pow);
+        return array($div * $step / $pow, ( $div + 1 ) * $step / $pow);
     }
 
     private function remove_commas_from_number(&$args) {
@@ -81,7 +81,7 @@ class HashFormFieldNumber extends HashFormFieldType {
     protected function input_html() {
         $field_type = $this->type;
         ?>
-        <input type="<?php echo esc_attr($field_type); ?>" <?php $this->field_attrs(); ?> />
+        <input type="<?php echo esc_attr($field_type); ?>" <?php $this->field_attrs(); ?>/>
         <?php
     }
 

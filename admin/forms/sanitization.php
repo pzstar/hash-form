@@ -26,7 +26,7 @@ function hashform_sanitize_float($input) {
 
 function hashform_sanitize_color($color) {
     // Is this an rgba color or a hex?
-    $mode = (false === strpos($color, 'rgba')) ? 'hex' : 'rgba';
+    $mode = ( false === strpos($color, 'rgba') ) ? 'hex' : 'rgba';
     if ('rgba' === $mode) {
         $color = str_replace(' ', '', $color);
         sscanf($color, 'rgba(%d,%d,%d,%f)', $red, $green, $blue, $alpha);

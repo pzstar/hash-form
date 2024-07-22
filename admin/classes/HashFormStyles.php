@@ -324,7 +324,7 @@ class HashFormStyles {
                 'family' => urlencode(implode('|', $fonts)),
                 'subset' => urlencode($subsets),
                 'display' => 'swap',
-            ), 'https://fonts.googleapis.com/css');
+                    ), 'https://fonts.googleapis.com/css');
         }
 
         $load_font_locally = false;
@@ -343,7 +343,7 @@ class HashFormStyles {
         $query = array(
             'post_type' => 'hashform-styles',
             'post_status' => array('publish', 'private'),
-            'numberposts' => -1,
+            'numberposts' => - 1,
             'orderby' => 'title',
             'order' => 'ASC',
         );
@@ -472,7 +472,7 @@ class HashFormStyles {
 
                         <div class="hf-typography-input-field hashform-range-slider-wrap">
                             <div class="hashform-range-slider"></div>
-                            <input data-unit="px" id="<?php echo esc_attr('hf-' . $label_id . '-typo-font-size'); ?>" class="hashform-range-input-selector" type="number" min="0" max="100" step="1" value="<?php echo esc_attr($settings[$label]['typo']['font_size']); ?>" name="<?php echo esc_attr($name . '[' . $label . '][typo][font_size]'); ?>" /> px
+                            <input data-unit="px" id="<?php echo esc_attr('hf-' . $label_id . '-typo-font-size'); ?>" class="hashform-range-input-selector" type="number" min="0" max="100" step="1" value="<?php echo esc_attr($settings[$label]['typo']['font_size']); ?>" name="<?php echo esc_attr($name . '[' . $label . '][typo][font_size]'); ?>"/> px
                         </div>
                     </li>
                     <?php
@@ -485,8 +485,8 @@ class HashFormStyles {
 
                         <div class="hf-typography-input-field hashform-range-slider-wrap">
                             <div class="hashform-range-slider"></div>
-                            <input data-unit="px" id="<?php echo esc_attr('hf-' . $label_id . '-typo-letter-spacing'); ?>" class="hashform-range-input-selector" type="number" min="-5" max="5" step="0.1" value="<?php echo esc_attr($settings[$label]['typo']['letter_spacing']); ?>" name="<?php echo esc_attr($name . '[' . $label . '][typo][letter_spacing]'); ?>" /> px
-                        </div>
+                            <input data-unit="px" id="<?php echo esc_attr('hf-' . $label_id . '-typo-letter-spacing'); ?>" class="hashform-range-input-selector" type="number" min="-5" max="5" step="0.1" value="<?php echo esc_attr($settings[$label]['typo']['letter_spacing']); ?>" name="<?php echo esc_attr($name . '[' . $label . '][typo][letter_spacing]'); ?>"/>  px
+                        </div>           
                     </li>
                     <?php
                 }
@@ -498,8 +498,8 @@ class HashFormStyles {
 
                         <div class="hf-typography-input-field hashform-range-slider-wrap">
                             <div class="hashform-range-slider"></div>
-                            <input id="<?php echo esc_attr('hf-' . $label_id . '-typo-line-height'); ?>" class="hashform-range-input-selector" type="number" min="0.5" max="5" step="0.1" value="<?php echo esc_attr($settings[$label]['typo']['line_height']); ?>" name="<?php echo esc_attr($name . '[' . $label . '][typo][line_height]'); ?>" />
-                        </div>
+                            <input id="<?php echo esc_attr('hf-' . $label_id . '-typo-line-height'); ?>" class="hashform-range-input-selector" type="number" min="0.5" max="5" step="0.1" value="<?php echo esc_attr($settings[$label]['typo']['line_height']); ?>" name="<?php echo esc_attr($name . '[' . $label . '][typo][line_height]'); ?>"/>
+                        </div>         
                     </li>
                     <?php
                 }
@@ -1145,9 +1145,9 @@ class HashFormStyles {
         add_filter('hashform_form_classes', array($this, 'update_form_class'));
 
         if (empty($form_id)) {
-            include (HASHFORM_PATH . 'admin/styles/demo-preview.php');
+            include(HASHFORM_PATH . 'admin/styles/demo-preview.php');
         } else {
-            include (HASHFORM_PATH . 'admin/styles/form-preview.php');
+            include(HASHFORM_PATH . 'admin/styles/form-preview.php');
         }
         die();
     }
