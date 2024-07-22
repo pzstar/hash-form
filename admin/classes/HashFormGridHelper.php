@@ -68,7 +68,7 @@ class HashFormGridHelper {
         }
 
         if (false !== $this->parent_li) {
-            $this->current_field_count ++;
+            $this->current_field_count++;
             $this->current_list_size += $this->active_field_size;
             if (12 === $this->current_list_size) {
                 $this->close_field_wrapper();

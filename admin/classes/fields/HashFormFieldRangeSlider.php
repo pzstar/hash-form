@@ -58,7 +58,7 @@ class HashFormFieldRangeSlider extends HashFormFieldType {
             return 0;
         }
         $div = floor($div);
-        return array($div * $step / $pow, ( $div + 1 ) * $step / $pow);
+        return array($div * $step / $pow, ($div + 1) * $step / $pow);
     }
 
     public function sanitize_value(&$value) {

@@ -18,7 +18,7 @@
     border-bottom: var(--hf-upload-border-bottom, 1px) solid var(--hf-upload-border-color-normal, #CCC);
     border-left: var(--hf-upload-border-left, 1px) solid var(--hf-upload-border-color-normal, #CCC);
     border-radius: var(--hf-upload-border-radius-top, 3px) var(--hf-upload-border-radius-right, 3px) var(--hf-upload-border-radius-bottom, 3px) var(--hf-upload-border-radius-left, 3px);
-    padding: var(--hf-upload-padding-top, 10px) var(--hf-upload-padding-right, 20px) var(--hf-upload-padding-bottom, 10px) var(--hf-upload-padding-left, 20px);  
+    padding: var(--hf-upload-padding-top, 10px) var(--hf-upload-padding-right, 20px) var(--hf-upload-padding-bottom, 10px) var(--hf-upload-padding-left, 20px);
     color: var(--hf-upload-color-normal, #666);
     background-color: var(--hf-upload-bg-color-normal, #EEE);
     box-shadow: var(--hf-upload-shadow-normal-x, 0) var(--hf-upload-shadow-normal-y, 0) var(--hf-upload-shadow-normal-blur, 0) var(--hf-upload-shadow-normal-spread, 0) var(--hf-upload-shadow-normal-color, transparent);
@@ -30,18 +30,18 @@
     border-right: var(--hf-upload-border-right, 1px) solid var(--hf-upload-border-color-hover, var(--hf-upload-border-color-normal, #CCC));
     border-bottom: var(--hf-upload-border-bottom, 1px) solid var(--hf-upload-border-color-hover, var(--hf-upload-border-color-normal, #CCC));
     border-left: var(--hf-upload-border-left, 1px) solid var(--hf-upload-border-color-hover, var(--hf-upload-border-color-normal, #CCC));
-    color: var(--hf-upload-color-hover,var(--hf-upload-color-normal, inherit));
+    color: var(--hf-upload-color-hover, var(--hf-upload-color-normal, inherit));
     background-color: var(--hf-upload-bg-color-hover, var(--hf-upload-bg-color-normal, #EEE));
     box-shadow: var(--hf-upload-shadow-hover-x, var(--hf-upload-shadow-normal-x, 0)) var(--hf-upload-shadow-hover-y, var(--hf-upload-shadow-normal-y, 0)) var(--hf-upload-shadow-hover-blur, var(--hf-upload-shadow-normal-blur, 0)) var(--hf-upload-shadow-hover-spread, var(--hf-upload-shadow-normal-spread, 0)) var(--hf-upload-shadow-hover-color, var(--hf-upload-shadow-normal-color, transparent));
 }
 
-.hf-file-uploader .qq-upload-button input{
+.hf-file-uploader .qq-upload-button input {
     height: 100% !important;
     width: 100% !important;
     font-size: 0 !important;
 }
 
-.hf-file-uploader .qq-upload-drop-area{
+.hf-file-uploader .qq-upload-drop-area {
     width: 100%;
     max-width: 300px;
     min-height: 80px;
@@ -77,7 +77,7 @@
     background-color: #FFF0BD;
 }
 
-.hf-file-uploader .qq-progress-bar{
+.hf-file-uploader .qq-progress-bar {
     display: none;
 }
 
@@ -89,7 +89,7 @@
     vertical-align: text-bottom;
 }
 
-.hf-file-uploader .qq-upload-size, 
+.hf-file-uploader .qq-upload-size,
 .hf-file-uploader .qq-upload-cancel {
     font-size: 12px;
     font-weight: normal;
@@ -113,23 +113,23 @@
     color: #FFFFFF;
 }
 
-.hf-prev-holder{
+.hf-prev-holder {
     border: 1px solid #EEE;
     padding: 10px;
     margin-bottom: 10px;
 }
 
-.hf-prev-holder img{
+.hf-prev-holder img {
     max-width: 200px !important;
 }
 
-.hf-prev-holder .hf-prev-name{
+.hf-prev-holder .hf-prev-name {
     display: block;
     margin: 6px 0;
     font-size: 12px;
 }
 
-.hf-preview-remove{
+.hf-preview-remove {
     background: #FF0000;
     font-size: 12px;
     cursor: pointer;
@@ -139,6 +139,6 @@
     border-radius: 5px;
 }
 
-.hf-preview-remove:hover{
+.hf-preview-remove:hover {
     background: #000;
 }

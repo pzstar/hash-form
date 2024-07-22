@@ -38,7 +38,7 @@ class HashFormFieldText extends HashFormFieldType {
 
     protected function input_html() {
         ?>
-        <input type="text" <?php $this->field_attrs(); ?>/>
+        <input type="text" <?php $this->field_attrs(); ?> />
         <?php
     }
 

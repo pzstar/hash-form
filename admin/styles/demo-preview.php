@@ -11,7 +11,8 @@ defined('ABSPATH') || die();
         <div class="hf-container">
             <div id="hf-field-container-419" class="hf-form-field hf-form-field-required hashform-field-type-name hf-label-position-top hf-label-alignment-left ">
                 <div class="hf-field-container">
-                    <label class="hf-field-label">Name
+                    <label class="hf-field-label">
+                        Name
                         <span class="hf-field-required" aria-hidden="true">*</span>
                     </label>
                     <div class="hf-field-content">
@@ -34,7 +35,8 @@ defined('ABSPATH') || die();
             </div>
             <div id="hf-field-container-420" class="hf-form-field hashform-field-type-email hf-label-position-top hf-label-alignment-left ">
                 <div class="hf-field-container">
-                    <label class="hf-field-label">Email
+                    <label class="hf-field-label">
+                        Email
                         <span class="hf-field-required" aria-hidden="true"></span>
                     </label>
                     <div class="hf-field-content">
@@ -45,7 +47,8 @@ defined('ABSPATH') || die();
             </div>
             <div id="hf-field-container-421" class="hf-form-field hashform-field-type-phone hf-label-position-top hf-label-alignment-left ">
                 <div class="hf-field-container">
-                    <label class="hf-field-label">Phone
+                    <label class="hf-field-label">
+                        Phone
                         <span class="hf-field-required" aria-hidden="true"></span>
                     </label>
                     <div class="hf-field-content">
@@ -56,7 +59,8 @@ defined('ABSPATH') || die();
             </div>
             <div id="hf-field-container-422" class="hf-form-field hashform-field-type-url hf-label-position-top hf-label-alignment-left ">
                 <div class="hf-field-container">
-                    <label class="hf-field-label">Website/URL
+                    <label class="hf-field-label">
+                        Website/URL
                         <span class="hf-field-required" aria-hidden="true"></span>
                     </label>
                     <div class="hf-field-content">
@@ -66,7 +70,8 @@ defined('ABSPATH') || die();
             </div>
             <div id="hf-field-container-423" class="hf-form-field hashform-field-type-address hf-label-position-top hf-label-alignment-left ">
                 <div class="hf-field-container">
-                    <label class="hf-field-label">Address
+                    <label class="hf-field-label">
+                        Address
                         <span class="hf-field-required" aria-hidden="true"></span>
                     </label>
                     <div class="hf-field-content">
@@ -135,7 +140,8 @@ defined('ABSPATH') || die();
             </div>
             <div id="hf-field-container-429" class="hf-form-field hashform-field-type-text hf-label-position-top hf-label-alignment-left ">
                 <div class="hf-field-container">
-                    <label class="hf-field-label">Text
+                    <label class="hf-field-label">
+                        Text
                         <span class="hf-field-required" aria-hidden="true"></span>
                     </label>
                     <div class="hf-field-content">
@@ -145,7 +151,8 @@ defined('ABSPATH') || die();
             </div>
             <div id="hf-field-container-430" class="hf-form-field hashform-field-type-textarea hf-label-position-top hf-label-alignment-left ">
                 <div class="hf-field-container">
-                    <label class="hf-field-label">Text Area
+                    <label class="hf-field-label">
+                        Text Area
                         <span class="hf-field-required" aria-hidden="true"></span>
                     </label>
                     <div class="hf-field-content">
@@ -155,7 +162,8 @@ defined('ABSPATH') || die();
             </div>
             <div id="hf-field-container-431" class="hf-form-field hashform-field-type-select hf-label-position-top hf-label-alignment-left ">
                 <div class="hf-field-container">
-                    <label class="hf-field-label">Dropdown
+                    <label class="hf-field-label">
+                        Dropdown
                         <span class="hf-field-required" aria-hidden="true"></span>
                     </label>
                     <div class="hf-field-content">
@@ -172,7 +180,8 @@ defined('ABSPATH') || die();
             </div>
             <div id="hf-field-container-432" class="hf-form-field hashform-field-type-checkbox hf-label-position-top hf-label-alignment-left  hf-options-layout-inline">
                 <div class="hf-field-container">
-                    <label class="hf-field-label">Checkboxes
+                    <label class="hf-field-label">
+                        Checkboxes
                         <span class="hf-field-required" aria-hidden="true"></span>
                     </label>
                     <div class="hf-field-content">
@@ -180,32 +189,38 @@ defined('ABSPATH') || die();
                             <div class="hf-choice hf-checkbox" id="hf-checkbox-432-0">
                                 <label for="hf-field-i6zak-0">
                                     <input type="checkbox" name="item_meta[432][]" id="hf-field-i6zak-0" value="Strongly Disagree">
-                                    Strongly Disagree</label>    
+                                    Strongly Disagree
+                                </label>
                             </div>
                             <div class="hf-choice hf-checkbox" id="hf-checkbox-432-1">
                                 <label for="hf-field-i6zak-1">
                                     <input type="checkbox" name="item_meta[432][]" id="hf-field-i6zak-1" value="Disagree">
-                                    Disagree</label>    
+                                    Disagree
+                                </label>
                             </div>
                             <div class="hf-choice hf-checkbox" id="hf-checkbox-432-2">
                                 <label for="hf-field-i6zak-2">
                                     <input type="checkbox" name="item_meta[432][]" id="hf-field-i6zak-2" value="Neutral">
-                                    Neutral</label>    
+                                    Neutral
+                                </label>
                             </div>
                             <div class="hf-choice hf-checkbox" id="hf-checkbox-432-3">
                                 <label for="hf-field-i6zak-3">
                                     <input type="checkbox" name="item_meta[432][]" id="hf-field-i6zak-3" value="Agree">
-                                    Agree</label>    
+                                    Agree
+                                </label>
                             </div>
                             <div class="hf-choice hf-checkbox" id="hf-checkbox-432-4">
                                 <label for="hf-field-i6zak-4">
                                     <input type="checkbox" name="item_meta[432][]" id="hf-field-i6zak-4" value="Strongly Agree">
-                                    Strongly Agree</label>    
+                                    Strongly Agree
+                                </label>
                             </div>
                             <div class="hf-choice hf-checkbox" id="hf-checkbox-432-5">
                                 <label for="hf-field-i6zak-5">
                                     <input type="checkbox" name="item_meta[432][]" id="hf-field-i6zak-5" value="N/A">
-                                    N/A</label>    
+                                    N/A
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -213,7 +228,8 @@ defined('ABSPATH') || die();
             </div>
             <div id="hf-field-container-433" class="hf-form-field hashform-field-type-radio hf-label-position-top hf-label-alignment-left  hf-options-layout-inline">
                 <div class="hf-field-container">
-                    <label class="hf-field-label">Radio Buttons
+                    <label class="hf-field-label">
+                        Radio Buttons
                         <span class="hf-field-required" aria-hidden="true"></span>
                     </label>
                     <div class="hf-field-content">
@@ -221,32 +237,38 @@ defined('ABSPATH') || die();
                             <div class="hf-choice hf-radio" id="hf-radio-433-0">
                                 <label for="hf-field-dfwf8-0">
                                     <input type="radio" name="item_meta[433]" id="hf-field-dfwf8-0" value="Strongly Disagree">
-                                    Strongly Disagree</label>        
+                                    Strongly Disagree
+                                </label>
                             </div>
                             <div class="hf-choice hf-radio" id="hf-radio-433-1">
                                 <label for="hf-field-dfwf8-1">
                                     <input type="radio" name="item_meta[433]" id="hf-field-dfwf8-1" value="Disagree">
-                                    Disagree</label>        
+                                    Disagree
+                                </label>
                             </div>
                             <div class="hf-choice hf-radio" id="hf-radio-433-2">
                                 <label for="hf-field-dfwf8-2">
                                     <input type="radio" name="item_meta[433]" id="hf-field-dfwf8-2" value="Neutral">
-                                    Neutral</label>        
+                                    Neutral
+                                </label>
                             </div>
                             <div class="hf-choice hf-radio" id="hf-radio-433-3">
                                 <label for="hf-field-dfwf8-3">
                                     <input type="radio" name="item_meta[433]" id="hf-field-dfwf8-3" value="Agree">
-                                    Agree</label>        
+                                    Agree
+                                </label>
                             </div>
                             <div class="hf-choice hf-radio" id="hf-radio-433-4">
                                 <label for="hf-field-dfwf8-4">
                                     <input type="radio" name="item_meta[433]" id="hf-field-dfwf8-4" value="Strongly Agree">
-                                    Strongly Agree</label>        
+                                    Strongly Agree
+                                </label>
                             </div>
                             <div class="hf-choice hf-radio" id="hf-radio-433-5">
                                 <label for="hf-field-dfwf8-5">
                                     <input type="radio" name="item_meta[433]" id="hf-field-dfwf8-5" value="N/A">
-                                    N/A</label>        
+                                    N/A
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -254,7 +276,8 @@ defined('ABSPATH') || die();
             </div>
             <div id="hf-field-container-434" class="hf-form-field hashform-field-type-image_select hf-label-position-top hf-label-alignment-left  hf-options-layout-inline">
                 <div class="hf-field-container">
-                    <label class="hf-field-label">Image Selector
+                    <label class="hf-field-label">
+                        Image Selector
                         <span class="hf-field-required" aria-hidden="true"></span>
                     </label>
                     <div class="hf-field-content">
@@ -294,7 +317,7 @@ defined('ABSPATH') || die();
 
                 <div class="hf-field-container">
                     <label class="hf-field-label ">
-                        Upload                                    
+                        Upload
                     </label>
                     <div class="hf-field-content">
                         <div class="hf-file-uploader-wrapper">
@@ -315,7 +338,8 @@ defined('ABSPATH') || die();
             </div>
             <div id="hf-field-container-435" class="hf-form-field hashform-field-type-number hf-label-position-top hf-label-alignment-left ">
                 <div class="hf-field-container">
-                    <label class="hf-field-label">Number
+                    <label class="hf-field-label">
+                        Number
                         <span class="hf-field-required" aria-hidden="true"></span>
                     </label>
                     <div class="hf-field-content">
@@ -325,7 +349,8 @@ defined('ABSPATH') || die();
             </div>
             <div id="hf-field-container-436" class="hf-form-field hashform-field-type-range_slider hf-label-position-top hf-label-alignment-left ">
                 <div class="hf-field-container">
-                    <label class="hf-field-label">Range Slider
+                    <label class="hf-field-label">
+                        Range Slider
                         <span class="hf-field-required" aria-hidden="true"></span>
                     </label>
                     <div class="hf-field-content">
@@ -343,7 +368,8 @@ defined('ABSPATH') || die();
             </div>
             <div id="hf-field-container-437" class="hf-form-field hashform-field-type-star hf-label-position-top hf-label-alignment-left ">
                 <div class="hf-field-container">
-                    <label class="hf-field-label">Star
+                    <label class="hf-field-label">
+                        Star
                         <span class="hf-field-required" aria-hidden="true"></span>
                     </label>
                     <div class="hf-field-content">
@@ -376,7 +402,8 @@ defined('ABSPATH') || die();
             </div>
             <div id="hf-field-container-438" class="hf-form-field hashform-field-type-spinner hf-label-position-top hf-label-alignment-left ">
                 <div class="hf-field-container">
-                    <label class="hf-field-label">Spinner
+                    <label class="hf-field-label">
+                        Spinner
                         <span class="hf-field-required" aria-hidden="true"></span>
                     </label>
                     <div class="hf-field-content">

@@ -10,7 +10,7 @@ defined('ABSPATH') || die();
             $grid_helper = new HashFormGridHelper();
             $vars['count'] = 0;
             foreach ($vars['fields'] as $field) {
-                $vars['count'] ++;
+                $vars['count']++;
                 $grid_helper->set_field($field);
                 $grid_helper->maybe_begin_field_wrapper();
                 $field_obj = HashFormFields::get_field_class($field['type'], $field);

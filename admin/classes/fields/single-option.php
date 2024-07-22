@@ -15,11 +15,11 @@ if ($field['type'] == 'image_select') {
 <li id="hf-option-list-<?php echo absint($field['id']) . '-' . esc_attr($opt_key); ?>" data-optkey="<?php echo esc_attr($opt_key); ?>" class="<?php echo ($opt_key === '000' ? ' hf-hidden hf-option-template' : ''); ?>">
     <div class="hf-single-option">
         <span class="mdi mdi-drag hf-drag"></span>
-        <input class="hf-choice-input" type="<?php echo esc_attr($field_type); ?>" name="<?php echo esc_attr($field_name); ?>" value="<?php echo esc_attr($field_val); ?>" <?php echo wp_kses_post($checked); ?>/>
+        <input class="hf-choice-input" type="<?php echo esc_attr($field_type); ?>" name="<?php echo esc_attr($field_name); ?>" value="<?php echo esc_attr($field_val); ?>" <?php echo wp_kses_post($checked); ?> />
 
         <input class="<?php echo esc_attr($html_id . '-' . $opt_key); ?>" type="text" name="field_options[options_<?php echo esc_attr($field['id']); ?>][<?php echo esc_attr($opt_key); ?>][label]" value="<?php echo esc_attr($field_val); ?>" />
 
-        <a href="javascript:void(0)" class="hf-remove-field" data-fid="<?php echo esc_attr($field['id']); ?>" data-removeid="hf-option-list-<?php echo absint($field['id']) . '-' . esc_attr($opt_key); ?>" >
+        <a href="javascript:void(0)" class="hf-remove-field" data-fid="<?php echo esc_attr($field['id']); ?>" data-removeid="hf-option-list-<?php echo absint($field['id']) . '-' . esc_attr($opt_key); ?>">
             <span class="mdi mdi-trash-can-outline"></span>
         </a>
     </div>
@@ -44,7 +44,7 @@ if ($field['type'] == 'image_select') {
                     <?php
                     if (!empty($image['url'])) {
                         ?>
-                        <img id="hf-is-image-preview-<?php echo absint($field['id']) . '-' . esc_attr($opt_key); ?>" src="<?php echo esc_url($image['url']); ?>"/>
+                        <img id="hf-is-image-preview-<?php echo absint($field['id']) . '-' . esc_attr($opt_key); ?>" src="<?php echo esc_url($image['url']); ?>" />
                         <?php
                     }
                     ?>
