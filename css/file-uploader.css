@@ -95,6 +95,14 @@
     font-weight: normal;
 }
 
+.hf-file-uploader .qq-upload-size{
+    margin-right: auto;
+}
+
+.hf-file-uploader .qq-upload-size:before{
+    content: " - ";
+}
+
 .hf-file-uploader .qq-upload-failed-text {
     display: none;
 }
