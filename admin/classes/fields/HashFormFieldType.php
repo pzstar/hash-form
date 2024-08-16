@@ -312,7 +312,7 @@ abstract class HashFormFieldType {
         $all_field_types = HashFormFields::field_selection();
         $type_name = $all_field_types[$field_type]['name'];
 
-        include (HASHFORM_PATH . 'admin/classes/fields/settings.php');
+        include(HASHFORM_PATH . 'admin/classes/fields/settings.php');
     }
 
     /* Extra Options */
@@ -362,7 +362,7 @@ abstract class HashFormFieldType {
             $field_val = $opt['label'];
             $default_value = (array) $field['default_value'];
             $checked = in_array($field_val, $default_value) ? 'checked' : '';
-            require (HASHFORM_PATH . 'admin/classes/fields/single-option.php');
+            require(HASHFORM_PATH . 'admin/classes/fields/single-option.php');
         }
     }
 
@@ -379,7 +379,7 @@ abstract class HashFormFieldType {
 
         $checked = false;
 
-        require (HASHFORM_PATH . 'admin/classes/fields/single-option.php');
+        require(HASHFORM_PATH . 'admin/classes/fields/single-option.php');
     }
 
     protected function field_choices_heading() {
