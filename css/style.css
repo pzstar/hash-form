@@ -288,6 +288,26 @@
     height: auto;
 }
 
+.hf-form-custom-style .hf-container input[type="text"]::placeholder ,
+.hf-form-custom-style .hf-container input[type="email"]::placeholder ,
+.hf-form-custom-style .hf-container input[type="url"]::placeholder ,
+.hf-form-custom-style .hf-container input[type="password"]::placeholder ,
+.hf-form-custom-style .hf-container input[type="search"]::placeholder ,
+.hf-form-custom-style .hf-container input[type="number"]::placeholder ,
+.hf-form-custom-style .hf-container input[type="tel"]::placeholder ,
+.hf-form-custom-style .hf-container input[type="range"]::placeholder ,
+.hf-form-custom-style .hf-container input[type="date"]::placeholder ,
+.hf-form-custom-style .hf-container input[type="month"]::placeholder ,
+.hf-form-custom-style .hf-container input[type="week"]::placeholder ,
+.hf-form-custom-style .hf-container input[type="time"]::placeholder ,
+.hf-form-custom-style .hf-container input[type="datetime"]::placeholder ,
+.hf-form-custom-style .hf-container input[type="datetime-local"]::placeholder ,
+.hf-form-custom-style .hf-container input[type="color"]::placeholder ,
+.hf-form-custom-style .hf-container textarea::placeholder ,
+.hf-form-custom-style .hf-container select::placeholder {
+    color: var(--hf-field-color-normal, #666);
+}
+
 .hf-form-default-style .hf-container input[type="text"],
 .hf-form-default-style .hf-container input[type="email"],
 .hf-form-default-style .hf-container input[type="url"],
@@ -346,6 +366,26 @@
     color: var(--hf-field-color-focus, var(--hf-field-color-normal, inherit));
     background-color: var(--hf-field-bg-color-focus, var(--hf-field-bg-color-normal, transparent));
     box-shadow: var(--hf-field-shadow-focus-x, var(--hf-field-shadow-normal-x, 0)) var(--hf-field-shadow-focus-y, var(--hf-field-shadow-normal-y, 0)) var(--hf-field-shadow-focus-blur, var(--hf-field-shadow-normal-blur, 0)) var(--hf-field-shadow-focus-spread, var(--hf-field-shadow-normal-spread, 0)) var(--hf-field-shadow-focus-color, var(--hf-field-shadow-normal-color, transparent));
+}
+
+.hf-form-custom-style .hf-container input[type="text"]::placeholder:focus ,
+.hf-form-custom-style .hf-container input[type="email"]::placeholder:focus ,
+.hf-form-custom-style .hf-container input[type="url"]::placeholder:focus ,
+.hf-form-custom-style .hf-container input[type="password"]::placeholder:focus ,
+.hf-form-custom-style .hf-container input[type="search"]::placeholder:focus ,
+.hf-form-custom-style .hf-container input[type="number"]::placeholder:focus ,
+.hf-form-custom-style .hf-container input[type="tel"]::placeholder:focus ,
+.hf-form-custom-style .hf-container input[type="range"]::placeholder:focus ,
+.hf-form-custom-style .hf-container input[type="date"]::placeholder:focus ,
+.hf-form-custom-style .hf-container input[type="month"]::placeholder:focus ,
+.hf-form-custom-style .hf-container input[type="week"]::placeholder:focus ,
+.hf-form-custom-style .hf-container input[type="time"]::placeholder:focus ,
+.hf-form-custom-style .hf-container input[type="datetime"]::placeholder:focus ,
+.hf-form-custom-style .hf-container input[type="datetime-local"]::placeholder:focus ,
+.hf-form-custom-style .hf-container input[type="color"]::placeholder:focus ,
+.hf-form-custom-style .hf-container textarea::placeholder:focus ,
+.hf-form-custom-style .hf-container select::placeholder:focus {
+    color: var(--hf-field-color-focus, var(--hf-field-color-normal, inherit));
 }
 
 .hf-form-custom-style .hf-form-field.hashform-field-type-spinner .hf-quantity-input.hf-field-focussed .mdi-minus,
