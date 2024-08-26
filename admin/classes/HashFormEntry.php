@@ -59,7 +59,7 @@ class HashFormEntry {
             return;
         }
 
-        include (HASHFORM_PATH . 'admin/entries/entry-detail.php');
+        include(HASHFORM_PATH . 'admin/entries/entry-detail.php');
     }
 
     public static function display_message($message, $class) {

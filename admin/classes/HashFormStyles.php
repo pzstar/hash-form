@@ -1145,9 +1145,9 @@ class HashFormStyles {
         add_filter('hashform_form_classes', array($this, 'update_form_class'));
 
         if (empty($form_id)) {
-            include (HASHFORM_PATH . 'admin/styles/demo-preview.php');
+            include(HASHFORM_PATH . 'admin/styles/demo-preview.php');
         } else {
-            include (HASHFORM_PATH . 'admin/styles/form-preview.php');
+            include(HASHFORM_PATH . 'admin/styles/form-preview.php');
         }
         die();
     }

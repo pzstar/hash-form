@@ -12,7 +12,7 @@ class HashFormPreview {
         header('Content-Type: text/html; charset=' . get_option('blog_charset'));
         $id = htmlspecialchars_decode(HashFormHelper::get_var('form', 'absint'));
         $form = HashFormBuilder::get_form_vars($id);
-        require (HASHFORM_PATH . 'admin/forms/preview/preview.php');
+        require(HASHFORM_PATH . 'admin/forms/preview/preview.php');
         wp_die();
     }
 

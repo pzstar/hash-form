@@ -71,7 +71,7 @@ class HashFormSettings {
                                         <div id="hf-<?php echo esc_attr($key); ?>" class="<?php echo ($current === $key) ? '' : 'hf-hidden'; ?>">
                                             <h3><?php echo esc_html($section['name']); ?></h3>
                                             <?php
-                                            include (HASHFORM_PATH . 'admin/settings/' . $key . '.php');
+                                            include(HASHFORM_PATH . 'admin/settings/' . $key . '.php');
                                             ?>
                                         </div>
                                     <?php } ?>
@@ -154,7 +154,7 @@ class HashFormSettings {
             $email_message .= call_user_func('HashFormEmail::' . $email_template, $content['title'], $content['value'], $count);
         }
         ob_start();
-        include (HASHFORM_PATH . 'admin/settings/email-templates/' . $email_template . '.php');
+        include(HASHFORM_PATH . 'admin/settings/email-templates/' . $email_template . '.php');
         $form_html = ob_get_clean();
 
         $admin_email = get_option('admin_email');

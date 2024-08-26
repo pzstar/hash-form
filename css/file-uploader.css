@@ -95,11 +95,11 @@
     font-weight: normal;
 }
 
-.hf-file-uploader .qq-upload-size{
+.hf-file-uploader .qq-upload-size {
     margin-right: auto;
 }
 
-.hf-file-uploader .qq-upload-size:before{
+.hf-file-uploader .qq-upload-size:before {
     content: " - ";
 }
 

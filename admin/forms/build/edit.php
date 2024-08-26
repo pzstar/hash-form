@@ -34,12 +34,12 @@ if (defined('DOING_AJAX')) {
         );
         ?>
         <div class="hf-body">
-            <?php require (HASHFORM_PATH . 'admin/forms/build/sidebar.php'); ?>
+            <?php require(HASHFORM_PATH . 'admin/forms/build/sidebar.php'); ?>
 
             <div id="hf-form-panel">
                 <div class="hf-form-wrap">
                     <form method="post">
-                        <?php require (HASHFORM_PATH . 'admin/forms/build/builder.php'); ?>
+                        <?php require(HASHFORM_PATH . 'admin/forms/build/builder.php'); ?>
                     </form>
                 </div>
             </div>
