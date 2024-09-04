@@ -114,11 +114,6 @@ class HashFormFieldAddress extends HashFormFieldType {
         return $errors;
     }
 
-    public function sanitize_value(&$value) {
-        $value = HashFormHelper::sanitize_value('sanitize_text_field', $value);
-        return $value;
-    }
-
     protected function input_html() {
         $field = $this->get_field();
         $field_id = $field['id'];

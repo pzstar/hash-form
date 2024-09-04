@@ -107,11 +107,6 @@ class HashFormFieldName extends HashFormFieldType {
         return $field_options;
     }
 
-    public function sanitize_value(&$value) {
-        $value = HashFormHelper::sanitize_value('sanitize_text_field', $value);
-        return $value;
-    }
-
     public function validate($args) {
         $errors = isset($args['errors']) ? $args['errors'] : array();
         $field = $this->get_field();
