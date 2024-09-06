@@ -78,6 +78,8 @@ defined('ABSPATH') || die();
                     echo '<td>' . wp_kses_post($entry_value) . '</td>';
                     echo '</tr>';
                 }
+
+                do_action('hf_after_entry_detail_view', $entry);
                 ?>
             </tbody>
         </table>
