@@ -12,7 +12,7 @@ class HashFormPreview {
         header('Content-Type: text/html; charset=' . get_option('blog_charset'));
         $id = htmlspecialchars_decode(HashFormHelper::get_var('form', 'absint'));
         $form = HashFormBuilder::get_form_vars($id);
-        require( HASHFORM_PATH . 'admin/forms/preview/preview.php' );
+        require(HASHFORM_PATH . 'admin/forms/preview/preview.php');
         wp_die();
     }
 
@@ -39,8 +39,7 @@ class HashFormPreview {
         <div class="hf-form-tempate">
             <form enctype="multipart/form-data" method="post" class="<?php echo esc_attr(implode(' ', array_filter($form_class))); ?>" id="hf-form-id-<?php echo esc_attr($form->form_key); ?>" novalidate>
                 <?php
-                require HASHFORM_PATH . '/admin/forms/style/form.php';
-                $form_msg = HashFormHelper::get_var('hf_success');
+                require HASHFORM_PATH . 'admin/forms/style/form.php';
                 if($form_msg == 'true') {
                     ?>
                     <span class="hf-success-msg"><?php echo esc_html($form->settings['confirmation_message']); ?></span>

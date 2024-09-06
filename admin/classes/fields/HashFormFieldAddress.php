@@ -36,7 +36,7 @@ class HashFormFieldAddress extends HashFormFieldType {
             'country' => array(
                 'type' => 'select',
                 'label' => esc_html__('Country', 'hash-form')
-        ));
+            ));
     }
 
     protected function show_after_default() {
@@ -114,11 +114,6 @@ class HashFormFieldAddress extends HashFormFieldType {
         return $errors;
     }
 
-    public function sanitize_value(&$value) {
-        $value = HashFormHelper::sanitize_value('sanitize_text_field', $value);
-        return $value;
-    }
-
     protected function input_html() {
         $field = $this->get_field();
         $field_id = $field['id'];
@@ -142,7 +137,7 @@ class HashFormFieldAddress extends HashFormFieldType {
                         <?php
                         if ($type !== 'select') {
                             ?>
-                            <input type="<?php echo esc_attr($type); ?>" id="hf-field-<?php echo esc_attr($field_key); ?>-<?php echo esc_attr($name); ?>" value="<?php echo esc_attr($value); ?>" name="<?php echo esc_attr($this->html_name()) . '[' . esc_attr($name) . ']'; ?>" placeholder="<?php echo esc_attr($placeholder); ?>" >
+                            <input type="<?php echo esc_attr($type); ?>" id="hf-field-<?php echo esc_attr($field_key); ?>-<?php echo esc_attr($name); ?>" value="<?php echo esc_attr($value); ?>" name="<?php echo esc_attr($this->html_name()) . '[' . esc_attr($name) . ']'; ?>" placeholder="<?php echo esc_attr($placeholder); ?>">
                             <?php
                         } else {
                             $this->get_country_select(HashFormHelper::get_countries());

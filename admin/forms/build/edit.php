@@ -27,19 +27,19 @@ if (defined('DOING_AJAX')) {
     <div id="hf-wrap" class="hf-content">
         <?php
         self::get_admin_header(
-                array(
-                    'form' => $form,
-                    'class' => 'hf-header-nav',
-                )
+            array(
+                'form' => $form,
+                'class' => 'hf-header-nav',
+            )
         );
         ?>
         <div class="hf-body">
-            <?php require( HASHFORM_PATH . 'admin/forms/build/sidebar.php' ); ?>
+            <?php require(HASHFORM_PATH . 'admin/forms/build/sidebar.php'); ?>
 
             <div id="hf-form-panel">
                 <div class="hf-form-wrap">
                     <form method="post">
-                        <?php require( HASHFORM_PATH . 'admin/forms/build/builder.php' ); ?>
+                        <?php require(HASHFORM_PATH . 'admin/forms/build/builder.php'); ?>
                     </form>
                 </div>
             </div>

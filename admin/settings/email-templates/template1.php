@@ -4,6 +4,7 @@ defined('ABSPATH') || die();
 
 <!doctype html>
 <html>
+
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@ defined('ABSPATH') || die();
             #outlook a {
                 padding: 0;
             }
+
             body {
                 width: 100% !important;
                 -webkit-text-size-adjust: 100%;
@@ -19,9 +21,11 @@ defined('ABSPATH') || die();
                 margin: 0;
                 padding: 0;
             }
+
             .ExternalClass {
                 width: 100%;
             }
+
             .ExternalClass,
             .ExternalClass p,
             .ExternalClass span,
@@ -30,12 +34,14 @@ defined('ABSPATH') || die();
             .ExternalClass div {
                 line-height: 100%;
             }
-            #bodyTable{
-                height:100% !important;
-                margin:0;
-                padding:0;
-                width:100% !important;
+
+            #bodyTable {
+                height: 100% !important;
+                margin: 0;
+                padding: 0;
+                width: 100% !important;
             }
+
             .apple-link a {
                 color: inherit !important;
                 font-family: inherit !important;
@@ -53,39 +59,49 @@ defined('ABSPATH') || die();
                 font-weight: inherit;
                 line-height: inherit;
             }
+
             img {
                 outline: none;
                 text-decoration: none;
                 -ms-interpolation-mode: bicubic;
             }
+
             a img {
                 border: none;
             }
+
             .image_fix {
                 display: block;
             }
+
             p {
                 margin: 1em 0;
             }
+
             table td {
                 border-collapse: collapse;
             }
+
             table {
                 border-collapse: collapse;
                 mso-table-lspace: 0pt;
                 mso-table-rspace: 0pt;
             }
+
             a {
                 color: #000;
             }
-            .content table:last-child{
+
+            .content table:last-child {
                 margin-bottom: 0;
             }
-            .content p{
+
+            .content p {
                 margin: 0 0 20px 0;
             }
         </style>
     </head>
+
     <body style="background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%;">
         <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="body" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f6f6f6; width: 100%;padding: 30px;" width="100%" bgcolor="#f6f6f6">
             <tbody>
@@ -97,7 +113,7 @@ defined('ABSPATH') || die();
                         ?>
                         <tr>
                             <td align="center" valign="middle" style="word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; vertical-align: top; mso-table-lspace: 0pt; mso-table-rspace: 0pt; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; color: #444; font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight: normal; margin: 0; Margin: 0; font-size: 14px; mso-line-height-rule: exactly; line-height: 140%; text-align: center; padding: 30px 30px 22px 30px;">
-                                <img src="<?php echo esc_url($image[0]); ?>" width="250" alt="<?php echo esc_html($image_alt); ?>" style="outline: none; text-decoration: none; max-width: 100%; clear: both; -ms-interpolation-mode: bicubic; display: inline-block !important; width: 250px;"/>
+                                <img src="<?php echo esc_url($image[0]); ?>" width="250" alt="<?php echo esc_html($image_alt); ?>" style="outline: none; text-decoration: none; max-width: 100%; clear: both; -ms-interpolation-mode: bicubic; display: inline-block !important; width: 250px;" />
                             </td>
                         </tr>
                         <?php
@@ -121,4 +137,5 @@ defined('ABSPATH') || die();
             </tbody>
         </table>
     </body>
+
 </html>

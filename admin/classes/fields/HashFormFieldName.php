@@ -56,7 +56,7 @@ class HashFormFieldName extends HashFormFieldType {
         $placeholder = isset($field['placeholder'][$name]) ? $field['placeholder'][$name] : '';
         $value = isset($field['default_value'][$name]) ? $field['default_value'][$name] : '';
         ?>
-        <div class="hf-form-row hf-sub-field-<?php echo esc_attr($name); ?> hf-row-show-hide <?php echo!in_array($name, explode('_', $field['name_layout'])) ? 'hf-hidden' : ''; ?>" data-sub-field-name="<?php echo esc_attr($name); ?>" data-field-id="<?php echo esc_attr($field_id); ?>">
+        <div class="hf-form-row hf-sub-field-<?php echo esc_attr($name); ?> hf-row-show-hide <?php echo !in_array($name, explode('_', $field['name_layout'])) ? 'hf-hidden' : ''; ?>" data-sub-field-name="<?php echo esc_attr($name); ?>" data-field-id="<?php echo esc_attr($field_id); ?>">
             <div class="hf-sub-field-label">
                 <?php echo esc_html($label); ?>
             </div>
@@ -107,11 +107,6 @@ class HashFormFieldName extends HashFormFieldType {
         return $field_options;
     }
 
-    public function sanitize_value(&$value) {
-        $value = HashFormHelper::sanitize_value('sanitize_text_field', $value);
-        return $value;
-    }
-
     public function validate($args) {
         $errors = isset($args['errors']) ? $args['errors'] : array();
         $field = $this->get_field();
@@ -152,7 +147,7 @@ class HashFormFieldName extends HashFormFieldType {
                 ?>
 
                 <div id="hf-subfield-container-<?php echo esc_attr($name) . '-' . esc_attr($field_id); ?>" class="hf-subfield-element hf-subfield-element-<?php echo esc_attr($name); ?>" data-sub-field-name="<?php echo esc_attr($name); ?>">
-                    <input type="text" id="hf-field-<?php echo esc_attr($field_key) . '-' . esc_attr($name); ?>" value="<?php echo esc_attr($value); ?>" name="<?php echo esc_attr($this->html_name()) . '[' . esc_attr($name) . ']'; ?>" placeholder="<?php echo esc_attr($placeholder); ?>" >
+                    <input type="text" id="hf-field-<?php echo esc_attr($field_key) . '-' . esc_attr($name); ?>" value="<?php echo esc_attr($value); ?>" name="<?php echo esc_attr($this->html_name()) . '[' . esc_attr($name) . ']'; ?>" placeholder="<?php echo esc_attr($placeholder); ?>">
                     <?php
                     if (!empty($label) || is_admin()) {
                         ?>

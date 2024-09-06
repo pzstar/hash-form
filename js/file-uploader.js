@@ -232,17 +232,17 @@ qq.obj2url = function (obj, temp, prefixDone) {
         add = function (nextObj, i) {
             var nextTemp = temp
                 ? (/\[\]$/.test(temp)) // prevent double-encoding
-                ? temp
-                : temp + '[' + i + ']'
+                    ? temp
+                    : temp + '[' + i + ']'
                 : i;
             if ((nextTemp != 'undefined') && (i != 'undefined')) {
                 uristrings.push(
                     (typeof nextObj === 'object')
-                    ? qq.obj2url(nextObj, nextTemp, true)
-                    : (Object.prototype.toString.call(nextObj) === '[object Function]')
-                    ? encodeURIComponent(nextTemp) + '=' + encodeURIComponent(nextObj())
-                    : encodeURIComponent(nextTemp) + '=' + encodeURIComponent(nextObj)
-                    );
+                        ? qq.obj2url(nextObj, nextTemp, true)
+                        : (Object.prototype.toString.call(nextObj) === '[object Function]')
+                            ? encodeURIComponent(nextTemp) + '=' + encodeURIComponent(nextObj())
+                            : encodeURIComponent(nextTemp) + '=' + encodeURIComponent(nextObj)
+                );
             }
         };
 
@@ -298,12 +298,12 @@ qq.FileUploaderBasic = function (o) {
         abortOnFailure: true, // Fail all files if one doesn't meet the criteria
         // events
         // return false to cancel submit
-        onSubmit: function (id, fileName) {},
-        onProgress: function (id, fileName, loaded, total) {},
-        onComplete: function (id, fileName, responseJSON) {},
-        onCancel: function (id, fileName) {},
-        onUpload: function (id, fileName, xhr) {},
-        onError: function (id, fileName, xhr) {},
+        onSubmit: function (id, fileName) { },
+        onProgress: function (id, fileName, loaded, total) { },
+        onComplete: function (id, fileName, responseJSON) { },
+        onCancel: function (id, fileName) { },
+        onUpload: function (id, fileName, xhr) { },
+        onError: function (id, fileName, xhr) { },
         // messages
         messages: {
             typeError: "Unfortunately the file(s) you selected weren't the type we were expecting. Only {extensions} files are allowed.",
@@ -774,7 +774,9 @@ qq.extend(qq.FileUploader.prototype, {
         } else {
             qq.addClass(item, this._classes.fail);
         }
-        jQuery(item).append('<span class="hf-preview-remove" data-path="' + result.path + '" data-remove-id="hf-uploaded-' + id + '">' + hashform_file_vars.remove_txt + '</span></div>');
+        if (result.path) {
+            jQuery(item).append('<span class="hf-preview-remove" data-path="' + result.path + '" data-remove-id="hf-uploaded-' + id + '">' + hashform_file_vars.remove_txt + '</span></div>');
+        }
     },
     _addToList: function (id, fileName) {
         var item = qq.toElement(this._options.fileTemplate);
@@ -826,11 +828,11 @@ qq.extend(qq.FileUploader.prototype, {
 qq.UploadDropZone = function (o) {
     this._options = {
         element: null,
-        onEnter: function (e) {},
-        onLeave: function (e) {},
+        onEnter: function (e) { },
+        onLeave: function (e) { },
         // is not fired when leaving element by hovering descendants
-        onLeaveNotDescendants: function (e) {},
-        onDrop: function (e) {}
+        onLeaveNotDescendants: function (e) { },
+        onDrop: function (e) { }
     };
     qq.extend(this._options, o);
     qq.extend(this, qq.DisposeSupport);
@@ -940,7 +942,7 @@ qq.UploadButton = function (o) {
         acceptFiles: null,
         // name attribute of file input
         name: 'file',
-        onChange: function (input) {},
+        onChange: function (input) { },
         hoverClass: 'qq-upload-button-hover',
         focusClass: 'qq-upload-button-focus'
     };
@@ -1049,10 +1051,10 @@ qq.UploadHandlerAbstract = function (o) {
         action: '/upload.php',
         // maximum number of concurrent uploads
         maxConnections: 999,
-        onProgress: function (id, fileName, loaded, total) {},
-        onComplete: function (id, fileName, response) {},
-        onCancel: function (id, fileName) {},
-        onUpload: function (id, fileName, xhr) {}
+        onProgress: function (id, fileName, loaded, total) { },
+        onComplete: function (id, fileName, response) { },
+        onCancel: function (id, fileName) { },
+        onUpload: function (id, fileName, xhr) { }
     };
     qq.extend(this._options, o);
 
@@ -1069,7 +1071,7 @@ qq.UploadHandlerAbstract.prototype = {
      * Adds file or file input to the queue
      * @returns id
      **/
-    add: function (file) {},
+    add: function (file) { },
     /**
      * Sends the file identified by id and additional query params to the server
      */
@@ -1104,11 +1106,11 @@ qq.UploadHandlerAbstract.prototype = {
     /**
      * Returns name of the file identified by id
      */
-    getName: function (id) {},
+    getName: function (id) { },
     /**
      * Returns size of the file identified by id
      */
-    getSize: function (id) {},
+    getSize: function (id) { },
     /**
      * Returns id of files being uploaded or
      * waiting for their turn
@@ -1119,11 +1121,11 @@ qq.UploadHandlerAbstract.prototype = {
     /**
      * Actual upload method
      */
-    _upload: function (id) {},
+    _upload: function (id) { },
     /**
      * Actual cancel method
      */
-    _cancel: function (id) {},
+    _cancel: function (id) { },
     /**
      * Removes element from queue, starts upload of next
      */

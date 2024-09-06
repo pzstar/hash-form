@@ -40,33 +40,6 @@ class HashFormUploadedFileXhr {
 
 }
 
-/**
- * Handle file uploads via regular form post (uses the $_FILES array)
- */
-class HashFormUploadedFileForm {
-
-    /**
-     * Save the file to the specified path
-     * @return boolean TRUE on success
-     */
-    function save($path) {
-        if (!move_uploaded_file($_FILES['qqfile']['tmp_name'], $path)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    function getName() {
-        return $_FILES['qqfile']['name'];
-    }
-
-    function getSize() {
-        return $_FILES['qqfile']['size'];
-    }
-
-}
-
 class HashFormFileUploader {
 
     private $allowedExtensions = array();
@@ -74,14 +47,9 @@ class HashFormFileUploader {
     private $file;
 
     function __construct(array $allowedExtensions = array(), $sizeLimit = 10485760) {
-        $allowedExtensions = array_map("strtolower", $allowedExtensions);
-        $unallowed_extensions = array('php', 'exe', 'ini', 'perl');
+        $allowedExtensions = array_map('strtolower', $allowedExtensions);
+        //$unallowed_extensions = array('php', 'exe', 'ini', 'perl');
         $exts = array_keys(get_allowed_mime_types());
-        $missed_exts = array('JPEG', 'JPG', 'PNG', 'GIF');
-
-        foreach ($missed_exts as $m_e) {
-            $exts[] = $m_e;
-        }
 
         $available_exts = array();
         foreach ($exts as $ext) {
@@ -105,16 +73,8 @@ class HashFormFileUploader {
 
         if (HashFormHelper::get_var('qqfile')) {
             $this->file = new HashFormUploadedFileXhr();
-        } elseif (isset($_FILES['qqfile'])) {
-            $this->file = new HashFormUploadedFileForm();
         } else {
             $this->file = false;
-        }
-    }
-
-    public function getName() {
-        if ($this->file) {
-            return $this->file->getName();
         }
     }
 
@@ -131,20 +91,24 @@ class HashFormFileUploader {
     private function toBytes($str) {
         $val = trim($str);
         $last = strtolower($str[strlen($str) - 1]);
-
+        $val = floatval($val);
         switch ($last) {
-            case 'g': $val *= 1024;
-            case 'm': $val *= 1024;
-            case 'k': $val *= 1024;
+            case 'g':
+                $val *= 1024 * 1024 * 1024;
+            case 'm':
+                $val *= 1024 * 1024;
+            case 'k':
+                $val *= 1024;
         }
 
         return $val;
     }
 
-    function handleUpload($uploadDirectory, $replaceOldFile = FALSE, $upload_url = '') {
+    function handleUpload($uploadDirectory, $replaceOldFile = false, $upload_url = '') {
         $this->ensureUploadDirectory($uploadDirectory);
         $uploadDirectory = trailingslashit($uploadDirectory . '/temp');
         $upload_url = $upload_url . '/temp';
+        $unallowed_extensions = array('php', 'exe', 'ini', 'perl', 'asp');
 
         if (!is_writable($uploadDirectory)) {
             return array('error' => esc_html__('Server error. Upload directory isn\'t writable.', 'hash-form'));
@@ -168,7 +132,7 @@ class HashFormFileUploader {
         $filename = $pathinfo['filename'];
         $ext = @$pathinfo['extension'];  // hide notices if extension is empty
 
-        if ($this->allowedExtensions && !in_array(strtolower($ext), $this->allowedExtensions)) {
+        if ($this->allowedExtensions && !in_array(strtolower($ext), $this->allowedExtensions) && in_array(strtolower($ext), $unallowed_extensions)) {
             $these = implode(', ', $this->allowedExtensions);
             return array('error' => esc_html__('File has an invalid extension, it should be one of', 'hash-form') . ' ' . $these . '.');
         }
@@ -181,7 +145,6 @@ class HashFormFileUploader {
         }
 
         if ($this->file->save($uploadDirectory . $filename . '.' . $ext)) {
-            $filetype = wp_check_filetype($filename . '.' . $ext);
             return array(
                 'success' => true,
                 'url' => $upload_url . '/' . $filename . '.' . $ext,
@@ -197,20 +160,20 @@ class HashFormFileUploader {
     protected function ensureUploadDirectory($path) {
         if (!is_dir($path)) {
             mkdir($path, 0755);
-            file_put_contents($path . '/.htaccess', file_get_contents(HASHFORM_PATH . '/admin/src/stubs/htaccess.stub'));
+            file_put_contents($path . '/.htaccess', file_get_contents(HASHFORM_PATH . 'admin/stubs/htaccess.stub'));
         }
 
         if (!is_dir($path . '/temp')) {
             mkdir($path . '/temp', 0755);
-            file_put_contents($path . '/temp/.htaccess', file_get_contents(HASHFORM_PATH . '/admin/src/stubs/htaccess.stub'));
+            file_put_contents($path . '/temp/.htaccess', file_get_contents(HASHFORM_PATH . 'admin/stubs/htaccess.stub'));
         }
 
         if (!file_exists($path . '/index.php')) {
-            file_put_contents($path . '/index.php', file_get_contents(HASHFORM_PATH . '/admin/src/stubs/index.stub'));
+            file_put_contents($path . '/index.php', file_get_contents(HASHFORM_PATH . 'admin/stubs/index.stub'));
         }
 
         if (!file_exists($path . '/temp/index.php')) {
-            file_put_contents($path . '/temp/index.php', file_get_contents(HASHFORM_PATH . '/admin/src/stubs/index.stub'));
+            file_put_contents($path . '/temp/index.php', file_get_contents(HASHFORM_PATH . 'admin/stubs/index.stub'));
         }
     }
 

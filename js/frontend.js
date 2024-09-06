@@ -486,7 +486,6 @@ jQuery(function ($) {
         upload_counter++;
         var attr_element_id = $(this).attr('id'),
             size = $(this).attr('data-max-upload-size'),
-            limit_flag = 0,
             selector = $(this),
             uploader_label = $(this).attr('data-upload-label'),
             multiple_upload = ($(this).attr('data-multiple-uploads') == 'true') ? true : false,
@@ -518,19 +517,15 @@ jQuery(function ($) {
                     limit_counter++;
                     selector.parent().find('.hf-multiple-upload-limit').val(limit_counter);
                     if (limit_counter > upload_limit) {
-                        if (limit_flag == 0) {
-                            upload_limit_message = (upload_limit_message != '') ? upload_limit_message : 'Maximum number of files allowed is ' + upload_limit;
-                            selector.parent().find('.hf-error').html(upload_limit_message);
-                            limit_flag = 1;
-                        }
-
+                        upload_limit_message = (upload_limit_message != '') ? upload_limit_message : 'Maximum number of files allowed is ' + upload_limit;
+                        alert(upload_limit_message);
                         selector.parent().find('.hf-multiple-upload-limit').val(upload_limit);
                         return false;
                     }
                 }
             },
 
-            onProgress: function (id, fileName, loaded, total) {},
+            onProgress: function (id, fileName, loaded, total) { },
 
             onComplete: function (id, fileName, responseJSON) {
 
@@ -574,8 +569,8 @@ jQuery(function ($) {
                 }
             },
 
-            onCancel: function (id, fileName) {},
-            onError: function (id, fileName, xhr) {},
+            onCancel: function (id, fileName) { },
+            onError: function (id, fileName, xhr) { },
 
             messages: {
                 typeError: extension_error_message,

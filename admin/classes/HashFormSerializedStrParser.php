@@ -14,7 +14,7 @@ class HashFormSerializedStrParser {
     }
 
     private function __construct() {
-        
+
     }
 
     public function parse($string) {

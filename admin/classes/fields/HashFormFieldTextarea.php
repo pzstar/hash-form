@@ -19,7 +19,7 @@ class HashFormFieldTextarea extends HashFormFieldType {
     }
 
     public function sanitize_value(&$value) {
-        return wp_kses_post($value);
+        return HashFormHelper::sanitize_value('esc_textarea', $value);
     }
 
     protected function input_html() {
