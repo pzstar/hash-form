@@ -353,6 +353,7 @@ class HashFormEntry {
     public function process_entry() {
         global $wpdb;
         parse_str(htmlspecialchars_decode(HashFormHelper::get_post('data', 'esc_html')), $data);
+        $location = esc_url(HashFormHelper::get_post('location', 'esc_html'));
 
         if (empty($data) || empty($data['form_id']) || !isset($data['form_key'])) {
             return;
@@ -371,7 +372,7 @@ class HashFormEntry {
             $form_settings = $form->settings;
             $entry_id = self::create($data);
 
-            $send_mail = new HashFormEmail($form, $entry_id);
+            $send_mail = new HashFormEmail($form, $entry_id, $location);
             $check_mail = $send_mail->send_email();
 
             if (!$check_mail) {
