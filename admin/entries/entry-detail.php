@@ -23,10 +23,10 @@ $next_url = $next_entry_id ? admin_url('admin.php?page=hashform-entries&hashform
             </h3>
             <div class="hf-form-entry-navigator">
                 <?php echo ($prev_url ? '<a href="' . $prev_url . '">' : ''); ?>
-                    <span class="tablenav-pages-navspan button <?php echo ($prev_url ? '' : 'disabled'); ?>" aria-hidden="true">&laquo; Previous</span>
+                    <span class="tablenav-pages-navspan button <?php echo ($prev_url ? '' : 'disabled'); ?>" aria-hidden="true">&laquo; <?php esc_html_e('Previous', 'hash-form'); ?></span>
                 <?php echo ($prev_url ? '</a>' : ''); ?>
                 <?php echo ($next_url ? '<a href="' . $next_url . '">' : ''); ?>
-                    <span class="tablenav-pages-navspan button <?php echo ($next_url ? '' : 'disabled'); ?>" aria-hidden="true">Next &raquo;</span>
+                    <span class="tablenav-pages-navspan button <?php echo ($next_url ? '' : 'disabled'); ?>" aria-hidden="true"><?php esc_html_e('Next', 'hash-form'); ?> &raquo;</span>
                 <?php echo ($next_url ? '</a>' : ''); ?>
             </div>
         </div>
