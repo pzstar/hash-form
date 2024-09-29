@@ -3,12 +3,12 @@ defined('ABSPATH') || die();
 $prev_entry = HashFormEntry::get_prev_entry($entry->id);
 $prev_entry = isset($prev_entry[0]) ? $prev_entry[0] : '';
 $prev_entry_id = isset($prev_entry->id) ? $prev_entry->id : '';
-$prev_url = $prev_entry_id ? admin_url('admin.php?page=hashform-entries&hashform_action=view&id=' . $prev_entry_id) : '';
+$prev_url = $prev_entry_id ? admin_url('admin.php?page=hashform-entries&hashform_action=view&id=' . $prev_entry_id) : '#';
 
 $next_entry = HashFormEntry::get_next_entry($entry->id);
 $next_entry = isset($next_entry[0]) ? $next_entry[0] : '';
 $next_entry_id = isset($next_entry->id) ? $next_entry->id : '';
-$next_url = $next_entry_id ? admin_url('admin.php?page=hashform-entries&hashform_action=view&id=' . $next_entry_id) : '';
+$next_url = $next_entry_id ? admin_url('admin.php?page=hashform-entries&hashform_action=view&id=' . $next_entry_id) : '#';
 ?>
 
 <div class="hf-form-entry-details-wrap wrap">
@@ -21,13 +21,13 @@ $next_url = $next_entry_id ? admin_url('admin.php?page=hashform-entries&hashform
                     <?php printf(esc_html__('(ID %d)', 'hash-form'), absint($entry->id)); ?>
                 </span>
             </h3>
-            <div class="hf-form-entry-navigator">
-                <?php echo ($prev_url ? '<a href="' . $prev_url . '">' : ''); ?>
-                    <span class="tablenav-pages-navspan button <?php echo ($prev_url ? '' : 'disabled'); ?>" aria-hidden="true">&laquo; <?php esc_html_e('Previous', 'hash-form'); ?></span>
-                <?php echo ($prev_url ? '</a>' : ''); ?>
-                <?php echo ($next_url ? '<a href="' . $next_url . '">' : ''); ?>
-                    <span class="tablenav-pages-navspan button <?php echo ($next_url ? '' : 'disabled'); ?>" aria-hidden="true"><?php esc_html_e('Next', 'hash-form'); ?> &raquo;</span>
-                <?php echo ($next_url ? '</a>' : ''); ?>
+            <div class="hf-form-entry-navigation">
+                <a class="hf-form-entry-prev<?php echo $prev_url == '#' ? ' hf-disabled' : ''; ?>" href="<?php echo esc_url($prev_url); ?>">
+                    <i class="mdi mdi-chevron-left"></i><?php echo esc_html__('Previous', 'hash-form') ?>
+                </a>
+                <a class="hf-form-entry-next<?php echo $next_url == '#' ? ' hf-disabled' : ''; ?>" href="<?php echo esc_url($next_url); ?>">
+                    <?php echo esc_html__('Next', 'hash-form') ?><i class="mdi mdi-chevron-right"></i>
+                </a>
             </div>
         </div>
         <table>
