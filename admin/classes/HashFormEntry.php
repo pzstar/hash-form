@@ -467,6 +467,20 @@ class HashFormEntry {
         return $count;
     }
 
+    public static function get_prev_entry($entry_id) {
+        global $wpdb;
+        $query = $wpdb->prepare("select id from {$wpdb->prefix}hashform_entries WHERE id < %d ORDER BY id DESC LIMIT 1", $entry_id);
+        $results = $wpdb->get_results($query);
+        return $results;
+    }
+
+    public static function get_next_entry($entry_id) {
+        global $wpdb;
+        $query = $wpdb->prepare("select id from {$wpdb->prefix}hashform_entries WHERE id > %d ORDER BY id ASC LIMIT 1", $entry_id);
+        $results = $wpdb->get_results($query);
+        return $results;
+    }
+
 }
 
 new HashFormEntry();
