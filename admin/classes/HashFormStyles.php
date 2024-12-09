@@ -10,6 +10,7 @@ class HashFormStyles {
         add_action('wp_ajax_hashform_get_google_font_variants', array($this, 'get_google_font_variants'));
         add_action('admin_menu', array($this, 'remove_publish_button'));
         add_action('wp_ajax_hashform_template_style_preview', array($this, 'get_form_preview_html'));
+        add_action('init', array($this,'assign_book_capabilities'));
     }
 
     public function register_post_type() {
@@ -32,16 +33,34 @@ class HashFormStyles {
 
         $args = array(
             'labels' => $labels,
-            'public' => false,
-            'show_ui' => true,
+            'public' => true,
+            //'show_ui' => true,
             'show_in_menu' => 'hashform',
             'menu_icon' => 'dashicons-cart',
             'supports' => array('title'),
-            'capability_type' => 'page',
+            'capability_type' => ['book', 'books'],
+            'map_meta_cap' => true,
         );
 
         register_post_type('hashform-styles', $args);
     }
+
+    function assign_book_capabilities() {
+        // Get the editor role
+        $role = get_role('editor');
+    
+        if ($role) {
+            // Add custom capabilities
+            $role->add_cap('edit_book');
+            $role->add_cap('read_book');
+            $role->add_cap('delete_book');
+            $role->add_cap('edit_books');
+            $role->add_cap('edit_others_books');
+            $role->add_cap('publish_books');
+            $role->add_cap('read_private_books');
+        }
+    }
+    
 
     public function settings_metabox() {
         add_meta_box('hashform-styles-metabox', esc_html__('Hash Form Styles', 'hash-form'), array($this, 'settings_metabox_callback'), 'hashform-styles', 'advanced', 'high');
