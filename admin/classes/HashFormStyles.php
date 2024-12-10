@@ -10,7 +10,7 @@ class HashFormStyles {
         add_action('wp_ajax_hashform_get_google_font_variants', array($this, 'get_google_font_variants'));
         add_action('admin_menu', array($this, 'remove_publish_button'));
         add_action('wp_ajax_hashform_template_style_preview', array($this, 'get_form_preview_html'));
-        add_action('init', array($this,'assign_book_capabilities'));
+        add_action('admin_init', array($this, 'assign_hashform_style_capabilities'), 9999);
     }
 
     public function register_post_type() {
@@ -33,34 +33,44 @@ class HashFormStyles {
 
         $args = array(
             'labels' => $labels,
-            'public' => true,
-            //'show_ui' => true,
+            'public' => false,
+            'show_ui' => true,
             'show_in_menu' => 'hashform',
             'menu_icon' => 'dashicons-cart',
             'supports' => array('title'),
-            'capability_type' => ['book', 'books'],
+            'capability_type' => 'hashform_style',
+            'capabilities' => array(
+                'edit_post' => 'edit_hashform_style',
+                'read_post' => 'read_hashform_style',
+                'delete_post' => 'delete_hashform_style',
+                'edit_posts' => 'edit_hashform_styles',
+                'edit_others_posts' => 'edit_others_hashform_styles',
+                'publish_posts' => 'publish_hashform_styles',
+                'read_private_posts' => 'read_private_hashform_styles',
+                'create_posts' => 'edit_hashform_styles',
+            ),
             'map_meta_cap' => true,
         );
 
         register_post_type('hashform-styles', $args);
     }
 
-    function assign_book_capabilities() {
-        // Get the editor role
-        $role = get_role('editor');
-    
-        if ($role) {
-            // Add custom capabilities
-            $role->add_cap('edit_book');
-            $role->add_cap('read_book');
-            $role->add_cap('delete_book');
-            $role->add_cap('edit_books');
-            $role->add_cap('edit_others_books');
-            $role->add_cap('publish_books');
-            $role->add_cap('read_private_books');
-        }
+    function assign_hashform_style_capabilities() {
+        $role = get_role('administrator');
+        var_dump($role); die();
+
+       // if ($role) {
+            $role->add_cap('read_hashform_style');
+            $role->add_cap('delete_published_hashform_style');
+            $role->add_cap('edit_hashform_styles');
+            $role->add_cap('edit_others_hashform_styles');
+            $role->add_cap('edit_publish_hashform_styles');
+            $role->add_cap('publish_hashform_styles');
+            $role->add_cap('delete_others_hashform_styles');
+            $role->add_cap('read_private_hashform_styles');
+       // }
     }
-    
+
 
     public function settings_metabox() {
         add_meta_box('hashform-styles-metabox', esc_html__('Hash Form Styles', 'hash-form'), array($this, 'settings_metabox_callback'), 'hashform-styles', 'advanced', 'high');
