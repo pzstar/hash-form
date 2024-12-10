@@ -38,7 +38,7 @@ class HashFormStyles {
             'show_in_menu' => 'hashform',
             'menu_icon' => 'dashicons-cart',
             'supports' => array('title'),
-            'capability_type' => 'hashform_style',
+            'capability_type' => array('hashform_style', 'hashform_styles'),
             'capabilities' => array(
                 'edit_post' => 'edit_hashform_style',
                 'read_post' => 'read_hashform_style',
@@ -47,7 +47,13 @@ class HashFormStyles {
                 'edit_others_posts' => 'edit_others_hashform_styles',
                 'publish_posts' => 'publish_hashform_styles',
                 'read_private_posts' => 'read_private_hashform_styles',
-                'create_posts' => 'edit_hashform_styles',
+                'delete_posts'  => 'delete_hashform_styles',
+                'delete_private_posts' => 'delete_private_hashform_styles',
+                'delete_published_posts' => 'delete_published_hashform_styles',
+                'delete_others_posts' => 'delete_others_hashform_styles',
+                'edit_private_posts' => 'edit_private_hashform_styles',
+                'edit_published_posts' => 'edit_published_hashform_styles',
+                'create_posts'       => 'edit_hashform_styles', 
             ),
             'map_meta_cap' => true,
         );
@@ -57,20 +63,23 @@ class HashFormStyles {
 
     function assign_hashform_style_capabilities() {
         $role = get_role('administrator');
-        var_dump($role); die();
 
-       // if ($role) {
+        if ($role) {
+            $role->add_cap('edit_hashform_style');
             $role->add_cap('read_hashform_style');
-            $role->add_cap('delete_published_hashform_style');
+            $role->add_cap('delete_hashform_style');
             $role->add_cap('edit_hashform_styles');
             $role->add_cap('edit_others_hashform_styles');
-            $role->add_cap('edit_publish_hashform_styles');
             $role->add_cap('publish_hashform_styles');
-            $role->add_cap('delete_others_hashform_styles');
             $role->add_cap('read_private_hashform_styles');
-       // }
+            $role->add_cap('delete_hashform_styles');
+            $role->add_cap('delete_private_hashform_styles');
+            $role->add_cap('delete_published_hashform_styles');
+            $role->add_cap('delete_others_hashform_styles');
+            $role->add_cap('edit_private_hashform_styles');
+            $role->add_cap('edit_published_hashform_styles');
+        }
     }
-
 
     public function settings_metabox() {
         add_meta_box('hashform-styles-metabox', esc_html__('Hash Form Styles', 'hash-form'), array($this, 'settings_metabox_callback'), 'hashform-styles', 'advanced', 'high');
