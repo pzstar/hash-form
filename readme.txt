@@ -1,10 +1,10 @@
 === Hash Form - Drag & Drop Form Builder ===
 Contributors: hashthemes
 Tags: form, form builder, drag and drop, contact form
-Requires at least: 5.0
+Requires at least: 6.3
 Tested up to: 6.7
 Stable tag: 1.2.4
-Requires PHP: 5.4
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
