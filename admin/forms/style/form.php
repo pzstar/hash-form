@@ -38,13 +38,21 @@ if (!$hashform_styles) {
 
     if ($show_title == 'on' && $form_title) {
         ?>
-        <h3 class="hf-form-title"><?php echo esc_html($form_title); ?></h3>
+        <h3 class="hf-form-title">
+            <?php
+            echo esc_html(apply_filters('hf_translate_string', $form_title, 'Hash Form', $form_title . ' - ' . 'Name'));
+            ?>
+        </h3>
         <?php
     }
 
     if ($show_description == 'on' && $form_description) {
         ?>
-        <div class="hf-form-description"><?php echo esc_html($form_description); ?></div>
+        <div class="hf-form-description">
+            <?php
+            echo esc_html(apply_filters('hf_translate_string', $form_description, 'Hash Form', $form_description . ' - ' . 'Name'));
+            ?>
+        </div>
         <?php
     }
     ?>

@@ -159,6 +159,21 @@ class HashFormListing extends \WP_List_Table {
         }
     }
 
+    public static function get_published_table_data() {
+        global $wpdb;
+        $table = $wpdb->prefix . 'hashform_forms';
+        $status = 'published';
+        $search = htmlspecialchars_decode(HashFormHelper::get_var('s'));
+
+        if ($search) {
+            $query = $wpdb->prepare("SELECT * from {$table} WHERE status=%s AND name Like %s", $status, '%' . $wpdb->esc_like($search) . '%');
+            return $wpdb->get_results($query, ARRAY_A);
+        } else {
+            $query = $wpdb->prepare("SELECT * from {$table} WHERE status=%s", $status);
+            return $wpdb->get_results($query, ARRAY_A);
+        }
+    }
+
     public function get_bulk_actions() {
         if ($this->status == 'published') {
             return array(
