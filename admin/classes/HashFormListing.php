@@ -56,7 +56,7 @@ class HashFormListing extends \WP_List_Table {
         $form_name = $item['name'];
         $form_id = $item['id'];
         if (trim($form_name) == '') {
-            $form_name = esc_html__('(no title)', 'hash-form');
+            $form_name = esc_html__('No Title', 'hash-form');
         }
         $edit_url = admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($form_id));
 
@@ -283,7 +283,7 @@ class HashFormListing extends \WP_List_Table {
         foreach ($statuses as $status => $name) {
             $class = ($status == $this->status) ? ' class="current"' : '';
             if ($counts->{$status}) {
-                $links[$status] = '<a href="' . esc_url('?page=hashform&status=' . $status) . '" ' . $class . '>' . sprintf(__('%1$s <span class="count">(%2$s)</span>', 'hash-form'), $name, number_format_i18n($counts->{$status})) . '</a>';
+                $links[$status] = '<a href="' . esc_url('?page=hashform&status=' . $status) . '" ' . $class . '>' . sprintf('%1$s <span class="count">(%2$s)</span>', $name, number_format_i18n($counts->{$status})) . '</a>';
             }
         }
         return $links;
