@@ -604,6 +604,23 @@ class HashFormBuilder {
         return $results;
     }
 
+    public static function get_form_title($id) {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'hashform_forms';
+
+        $query = $wpdb->prepare("SELECT name FROM {$table_name} WHERE id=%d", $id);
+        $results = $wpdb->get_row($query);
+
+        if (!$results)
+            return;
+
+        foreach ($results as $key => $value) {
+            $results->$key = maybe_unserialize($value);
+        }
+
+        return isset($results->name) ? $results->name : '';
+    }
+
     public function init_overlay_html() {
         $plugin_path = HASHFORM_PATH;
         $new_form_overlay = apply_filters('hashform_new_form_overlay_template', $plugin_path . 'admin/forms/new-form-overlay.php');
@@ -982,6 +999,18 @@ class HashFormBuilder {
                     }
                 }
 
+                if ($field->type == 'address') {
+                    $address_arrs = array('line1', 'line2', 'city', 'state', 'zip', 'country');
+                    foreach ($address_arrs as $address) {
+                        $value = isset($field->default_value[$address]) ? $field->default_value[$address] : '';
+                        $placeholder = isset($field->placeholder[$address]) ? $field->placeholder[$address] : '';
+                        $label = isset($field->field_options['desc'][$address]) ? $field->field_options['desc'][$address] : '';
+                        $string_array[ucwords($address) . ' Label'] = $label;
+                        $string_array[ucwords($address) . ' Value'] = $value;
+                        $string_array[ucwords($address) . ' Placeholder'] = $placeholder;
+                    }
+                }
+
                 if (isset($field->default_value) && $field->type != 'name') {
                     if (is_array($field->default_value)) {
                         foreach($field->default_value as $key => $defval) {
@@ -1004,13 +1033,11 @@ class HashFormBuilder {
 
                 foreach ($string_array as $title => $strings) {
                     if (has_action('wpml_register_single_string')) {
-                        do_action('wpml_register_single_string', 'Hash Form', $field->id . ' - ' . $title, $strings);
+                        do_action('wpml_register_single_string', 'Hash Form', $form_title . ' - ' . $field->id . ' - ' . $title, $strings);
                     }
                 }
             }
-
         }
-        // var_dump(apply_filters('hf_translate_string', $settings['confirmation_message'], 'Hash Form', $title . ' - ' . 'Confirmation Message'));
     }
 
     public function hf_translate_string($original_value, $domain, $name = '') {
