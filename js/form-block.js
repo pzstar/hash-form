@@ -18,10 +18,13 @@ registerBlockType('hash-form/form-selector', {
         formId: {
             type: 'string',
         },
+        enableCustomStyle: {
+            type: 'boolean',
+        },
     },
 
     edit(props) {
-        const {attributes: {formId = '', displayTitle = false, displayDescription = false}, setAttributes} = props;
+        const {attributes: {formId = '', displayTitle = false, displayDescription = false, enableCustomStyle = false}, setAttributes} = props;
         const formOptions = Object.entries(hash_form_block_data.forms).map(value => ({
             value: value[0],
             label: value[1]
@@ -54,7 +57,19 @@ registerBlockType('hash-form/form-selector', {
                         options={formOptions}
                         onChange={selectForm}
                     />
+                    <p>{<>{hash_form_block_data.i18n.create_form} <a href={hash_form_block_data.i18n.create_form_link}>{hash_form_block_data.i18n.click_here}</a><>}</p>
                 </PanelBody>
+                {formId && <PanelBody title={hash_form_block_data.i18n.custom_style}>
+                    <ToggleControl
+                        label={hash_form_block_data.i18n.enable_custom_style}
+                        checked={enableCustomStyle}
+                        onChange={(newValue) => setAttributes({enableCustomStyle: !enableCustomStyle})}
+                    />
+                </PanelBody>}
+                {formId && enableCustomStyle && <>
+                    <PanelBody title={hash_form_block_data.i18n.form_style}>
+                    </PanelBody>
+                </>}
             </InspectorControls>
         ];
 
