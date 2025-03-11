@@ -42,15 +42,7 @@ class HashFormBlock {
                     esc_html__('form', 'hash-form'),
                     esc_html__('contact', 'hash-form'),
                 ),
-                'form_select' => esc_html__('Select a Form', 'hash-form'),
-                'form_settings' => esc_html__('Form Settings', 'hash-form'),
-                'form_selected' => esc_html__('Form', 'hash-form'),
-                'create_form' => esc_html__('To Create New Form', 'hash-form'),
-                'click_here' => esc_html__('Cick Here', 'hash-form'),
                 'create_form_link' => esc_url(add_query_arg('page', 'hashform', admin_url('admin.php'))),
-                'custom_style' => esc_html__('Custom Style', 'hash-form'),
-                'enable_custom_style' => esc_html__('Enable Custom Style', 'hash-form'),
-                'form_style' => esc_html__('Form', 'hash-form'),
             ),
         );
         wp_localize_script('hash-form-block-editor', 'hash_form_block_data', $form_block_data);
