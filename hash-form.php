@@ -42,6 +42,7 @@ require HASHFORM_PATH . 'admin/classes/HashFormSettings.php';
 require HASHFORM_PATH . 'admin/classes/HashFormStyles.php';
 require HASHFORM_PATH . 'admin/classes/HashFormGridHelper.php';
 require HASHFORM_PATH . 'admin/classes/HashFormEmail.php';
+require HASHFORM_PATH . 'admin/classes/HashFormCSS.php';
 
 /**
  * Register widget.
