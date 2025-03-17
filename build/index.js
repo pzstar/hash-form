@@ -13449,7 +13449,7 @@ function Edit(props) {
       rangeHandleColor: value
     })
   })))) || 'advanced' === activeTab && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null)))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)({
-    className: "wp-block-hash-form"
+    className: "wp-block-hash-form" + (enableCustomStyle ? ' hf-form-custom-style' : '')
   }), formId ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)((_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_20___default()), {
     key: "hash-form-selector-server-side-renderer",
     block: "hash-form/form-selector",
