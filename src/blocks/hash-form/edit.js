@@ -30,6 +30,7 @@ import {getStyleVars} from '../../utils/helper';
 import {LayoutIcon, StyleIcon, AdvancedIcon, HashFormIcon} from '../../utils/svgicons';
 import {applyFilters} from '@wordpress/hooks';
 import ServerSideRender from '@wordpress/server-side-render';
+import {useEffect} from '@wordpress/element';
 
 export default function Edit(props) {
     const {attributes, setAttributes} = props;
@@ -468,6 +469,10 @@ export default function Edit(props) {
         rangeSliderBarColorActive,
         rangeHandleColor,
     } = attributes;
+    useEffect(() => {
+        columnGapUnit && setAttributes({columnGapUnit: 'px'});
+        rowGapUnit && setAttributes({rowGapUnit: 'px'});
+    }, [])
 
     setAttributes({id: useBlockProps()['id']});
 

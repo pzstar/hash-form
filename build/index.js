@@ -11176,6 +11176,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 function Edit(props) {
   const {
     attributes,
@@ -11561,6 +11562,14 @@ function Edit(props) {
     rangeSliderBarColorActive,
     rangeHandleColor
   } = attributes;
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    columnGapUnit && setAttributes({
+      columnGapUnit: 'px'
+    });
+    rowGapUnit && setAttributes({
+      rowGapUnit: 'px'
+    });
+  }, []);
   setAttributes({
     id: (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)()['id']
   });
