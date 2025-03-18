@@ -2,7 +2,7 @@ import {__} from '@wordpress/i18n';
 import {useSelect} from '@wordpress/data';
 
 const getCssVar = (varname, value, unit = '', def = '0') => {
-    var varname = '--sb-' + varname;
+    var varname = '--hf-' + varname;
 
     console.log('reslider: var(' + varname + ', ' + def + ');');
     return `
@@ -11,16 +11,16 @@ const getCssVar = (varname, value, unit = '', def = '0') => {
 }
 
 const responsiveSliderVars = (varname, valueLg, valueSm, valueMd, unit = '', def = '0') => {
-    var lg = '--sb-' + varname + '-lg';
-    var md = '--sb-' + varname + '-md';
-    var sm = '--sb-' + varname + '-sm';
+    var lg = '--hf-' + varname + '-lg';
+    var md = '--hf-' + varname + '-md';
+    var sm = '--hf-' + varname + '-sm';
     console.log('reslider: var(' + lg + ', 0);\n' +
         'reslider: var(' + md + ', var(' + lg + ', 0));\n' +
         'reslider: var(' + sm + ', var(' + md + ', var(' + lg + ', 0)));');
     return `
-        ${valueLg ? '--sb-' + varname + '-lg:' + valueLg + unit + ';' : ''}
-        ${valueMd ? '--sb-' + varname + '-md:' + valueMd + unit + ';' : ''}
-        ${valueSm ? '--sb-' + varname + '-sm:' + valueSm + unit + ';' : ''}
+        ${valueLg ? '--hf-' + varname + '-lg:' + valueLg + unit + ';' : ''}
+        ${valueMd ? '--hf-' + varname + '-md:' + valueMd + unit + ';' : ''}
+        ${valueSm ? '--hf-' + varname + '-sm:' + valueSm + unit + ';' : ''}
     `;
 }
 
@@ -430,120 +430,120 @@ const responsiveTypographyVars = (varname, family, weight, textTransform, textDe
     fonsSizeSm, fontSizeMd, fontSize, fontSizeUnit,
     letterSpacingSm, letterSpacingMd, letterSpacing, letterSpacingUnit,
     lineHeightSm, lineHeightMd, lineHeight, lineHeightUnit) => {
-    var lgfs = '--sb-' + varname + '-fs-lg';
-    var lgls = '--sb-' + varname + '-ls-lg';
-    var lglh = '--sb-' + varname + '-lh-lg';
+    var lgfs = '--hf-' + varname + '-fs-lg';
+    var lgls = '--hf-' + varname + '-ls-lg';
+    var lglh = '--hf-' + varname + '-lh-lg';
 
     console.log('font-size: var(' + lgfs + ', 1em);\n' +
         'letter-spacing: var(' + lgls + ', inherit);\n' +
         'line-height: var(' + lglh + ', inherit);');
 
-    var mdfs = '--sb-' + varname + '-fs-md';
-    var mdls = '--sb-' + varname + '-ls-md';
-    var mdlh = '--sb-' + varname + '-lh-md';
+    var mdfs = '--hf-' + varname + '-fs-md';
+    var mdls = '--hf-' + varname + '-ls-md';
+    var mdlh = '--hf-' + varname + '-lh-md';
 
     console.log('font-size: var(' + mdfs + ', var(' + lgfs + ', 1em));\n' +
         'letter-spacing: var(' + mdls + ', var(' + lgls + ', inherit));\n' +
         'line-height: var(' + mdlh + ', var(' + lglh + ', inherit));');
 
-    var smfs = '--sb-' + varname + '-fs-sm';
-    var smls = '--sb-' + varname + '-ls-sm';
-    var smlh = '--sb-' + varname + '-lh-sm';
+    var smfs = '--hf-' + varname + '-fs-sm';
+    var smls = '--hf-' + varname + '-ls-sm';
+    var smlh = '--hf-' + varname + '-lh-sm';
 
     console.log('font-size: var(' + smfs + ', var(' + mdfs + ', var(' + lgfs + ', 1em)));\n' +
         'letter-spacing: var(' + smls + ', var(' + mdls + ', var(' + lgls + ', inherit)));\n' +
         'line-height: var(' + smlh + ', var(' + mdlh + ', var(' + lglh + ', inherit)));');
 
-    return `${family ? `--sb-${varname}-family: ${checkDefault(family)};` : ''}
-        ${weight ? `--sb-${varname}-weight: ${checkDefault(weight.replace(/\D/g, ''), weight)};` : ''}
-        ${weight ? `--sb-${varname}-style: ${checkDefault(weight.replace(/\d+/g, ''), weight)};` : ''}
-        ${textTransform ? `--sb-${varname}-tt: ${textTransform};` : ''}
-        ${textDecoration ? `--sb-${varname}-td: ${textDecoration};` : ''}
-        ${fonsSizeSm ? `--sb-${varname}-fs-sm: ${(fonsSizeSm + fontSizeUnit)};` : ''}
-        ${fontSizeMd ? `--sb-${varname}-fs-md: ${(fontSizeMd + fontSizeUnit)};` : ''}
-        ${fontSize ? `--sb-${varname}-fs-lg: ${(fontSize + fontSizeUnit)};` : ''}
-        ${letterSpacingSm ? `--sb-${varname}-ls-sm: ${(letterSpacingSm + letterSpacingUnit)};` : ''}
-        ${letterSpacingMd ? `--sb-${varname}-ls-md: ${(letterSpacingMd + letterSpacingUnit)};` : ''}
-        ${letterSpacing ? `--sb-${varname}-ls-lg: ${(letterSpacing + letterSpacingUnit)};` : ''}
-        ${lineHeightSm ? `--sb-${varname}-lh-sm: ${(lineHeightSm + lineHeightUnit)};` : ''}
-        ${lineHeightMd ? `--sb-${varname}-lh-md: ${(lineHeightMd + lineHeightUnit)};` : ''}
-        ${lineHeight ? `--sb-${varname}-lh-lg: ${(lineHeight + lineHeightUnit)};` : ''}`;
+    return `${family ? `--hf-${varname}-family: ${checkDefault(family)};` : ''}
+        ${weight ? `--hf-${varname}-weight: ${checkDefault(weight.replace(/\D/g, ''), weight)};` : ''}
+        ${weight ? `--hf-${varname}-style: ${checkDefault(weight.replace(/\d+/g, ''), weight)};` : ''}
+        ${textTransform ? `--hf-${varname}-tt: ${textTransform};` : ''}
+        ${textDecoration ? `--hf-${varname}-td: ${textDecoration};` : ''}
+        ${fonsSizeSm ? `--hf-${varname}-fs-sm: ${(fonsSizeSm + fontSizeUnit)};` : ''}
+        ${fontSizeMd ? `--hf-${varname}-fs-md: ${(fontSizeMd + fontSizeUnit)};` : ''}
+        ${fontSize ? `--hf-${varname}-fs-lg: ${(fontSize + fontSizeUnit)};` : ''}
+        ${letterSpacingSm ? `--hf-${varname}-ls-sm: ${(letterSpacingSm + letterSpacingUnit)};` : ''}
+        ${letterSpacingMd ? `--hf-${varname}-ls-md: ${(letterSpacingMd + letterSpacingUnit)};` : ''}
+        ${letterSpacing ? `--hf-${varname}-ls-lg: ${(letterSpacing + letterSpacingUnit)};` : ''}
+        ${lineHeightSm ? `--hf-${varname}-lh-sm: ${(lineHeightSm + lineHeightUnit)};` : ''}
+        ${lineHeightMd ? `--hf-${varname}-lh-md: ${(lineHeightMd + lineHeightUnit)};` : ''}
+        ${lineHeight ? `--hf-${varname}-lh-lg: ${(lineHeight + lineHeightUnit)};` : ''}`;
 }
 
 const dimensionVars = (varname, top, right, bottom, left, unit = '') => {
-    var lgtop = '--sb-' + varname + '-top';
-    var lgright = '--sb-' + varname + '-right';
-    var lgbottom = '--sb-' + varname + '-bottom';
-    var lgleft = '--sb-' + varname + '-left';
+    var lgtop = '--hf-' + varname + '-top';
+    var lgright = '--hf-' + varname + '-right';
+    var lgbottom = '--hf-' + varname + '-bottom';
+    var lgleft = '--hf-' + varname + '-left';
     console.log('dimen-top: var(' + lgtop + ', 0);\n' +
         'dimen-right: var(' + lgright + ', 0);\n' +
         'dimen-bottom: var(' + lgbottom + ', 0);\n' +
         'dimen-left: var(' + lgleft + ', 0);');
 
-    return `${top ? `--sb-${varname}-top: ${(top + unit)};` : ''}
-        ${right ? `--sb-${varname}-right: ${(right + unit)};` : ''}
-        ${bottom ? `--sb-${varname}-bottom: ${(bottom + unit)};` : ''}
-        ${left ? `--sb-${varname}-left: ${(left + unit)};` : ''}`
+    return `${top ? `--hf-${varname}-top: ${(top + unit)};` : ''}
+        ${right ? `--hf-${varname}-right: ${(right + unit)};` : ''}
+        ${bottom ? `--hf-${varname}-bottom: ${(bottom + unit)};` : ''}
+        ${left ? `--hf-${varname}-left: ${(left + unit)};` : ''}`
 }
 
 const boxShadowVars = (varname, horizontal, vertical, blur, spread, color, inset, unit = '') => {
-    console.log('box-shadow: var(--sb-' + varname + '-horizontal) var(--sb-' + varname + '-vertical) var(--sb-' + varname + '-blur) var(--sb-' + varname + '-spread) var(--sb-' + varname + '-color) var(--sb-' + varname + '-inset, );');
-    return `${horizontal ? `--sb-${varname}-horizontal: ${(horizontal + unit)};` : ''}
-        ${vertical ? `--sb-${varname}-vertical: ${(vertical + unit)};` : ''}
-        ${blur ? `--sb-${varname}-blur: ${(blur + unit)};` : ''}
-        ${spread ? `--sb-${varname}-spread: ${(spread + unit)};` : ''}
-        ${color ? `--sb-${varname}-color: ${color};` : ''}
-        ${inset ? `--sb-${varname}-inset: ${inset};` : ''}
-        ${`--sb-${varname}: var(--sb-${varname}-horizontal) var(--sb-${varname}-vertical) var(--sb-${varname}-blur) var(--sb-${varname}-spread) var(--sb-${varname}-color) var(--sb-${varname}-inset, );`}`;
+    console.log('box-shadow: var(--hf-' + varname + '-horizontal) var(--hf-' + varname + '-vertical) var(--hf-' + varname + '-blur) var(--hf-' + varname + '-spread) var(--hf-' + varname + '-color) var(--hf-' + varname + '-inset, );');
+    return `${horizontal ? `--hf-${varname}-horizontal: ${(horizontal + unit)};` : ''}
+        ${vertical ? `--hf-${varname}-vertical: ${(vertical + unit)};` : ''}
+        ${blur ? `--hf-${varname}-blur: ${(blur + unit)};` : ''}
+        ${spread ? `--hf-${varname}-spread: ${(spread + unit)};` : ''}
+        ${color ? `--hf-${varname}-color: ${color};` : ''}
+        ${inset ? `--hf-${varname}-inset: ${inset};` : ''}
+        ${`--hf-${varname}: var(--hf-${varname}-horizontal) var(--hf-${varname}-vertical) var(--hf-${varname}-blur) var(--hf-${varname}-spread) var(--hf-${varname}-color) var(--hf-${varname}-inset, );`}`;
 }
 
 const responsiveDimensionVars = (varname, top, right, bottom, left, topSm, rightSm, bottomSm, leftSm, topMd, rightMd, bottomMd, leftMd, unit = '') => {
-    var lgtop = '--sb-' + varname + '-top-lg';
-    var lgright = '--sb-' + varname + '-right-lg';
-    var lgbottom = '--sb-' + varname + '-bottom-lg';
-    var lgleft = '--sb-' + varname + '-left-lg';
+    var lgtop = '--hf-' + varname + '-top-lg';
+    var lgright = '--hf-' + varname + '-right-lg';
+    var lgbottom = '--hf-' + varname + '-bottom-lg';
+    var lgleft = '--hf-' + varname + '-left-lg';
     console.log('resdimen-top: var(' + lgtop + ', 0);\n' +
         'resdimen-right: var(' + lgright + ', 0);\n' +
         'resdimen-bottom: var(' + lgbottom + ', 0);\n' +
         'resdimen-left: var(' + lgleft + ', 0);');
 
-    var mdtop = '--sb-' + varname + '-top-md';
-    var mdright = '--sb-' + varname + '-right-md';
-    var mdbottom = '--sb-' + varname + '-bottom-md';
-    var mdleft = '--sb-' + varname + '-left-md';
+    var mdtop = '--hf-' + varname + '-top-md';
+    var mdright = '--hf-' + varname + '-right-md';
+    var mdbottom = '--hf-' + varname + '-bottom-md';
+    var mdleft = '--hf-' + varname + '-left-md';
     console.log('resdimen-top: var(' + mdtop + ', var(' + lgtop + ', 0));\n' +
         'resdimen-right: var(' + mdright + ', var(' + lgright + ', 0));\n' +
         'resdimen-bottom: var(' + mdbottom + ', var(' + lgbottom + ', 0));\n' +
         'resdimen-left: var(' + mdleft + ', var(' + lgleft + ', 0));');
 
-    var smtop = '--sb-' + varname + '-top-sm';
-    var smright = '--sb-' + varname + '-right-sm';
-    var smbottom = '--sb-' + varname + '-bottom-sm';
-    var smleft = '--sb-' + varname + '-left-sm';
+    var smtop = '--hf-' + varname + '-top-sm';
+    var smright = '--hf-' + varname + '-right-sm';
+    var smbottom = '--hf-' + varname + '-bottom-sm';
+    var smleft = '--hf-' + varname + '-left-sm';
     console.log('resdimen-top: var(' + smtop + ', var(' + mdtop + ', var(' + lgtop + ', 0)));\n' +
         'resdimen-right: var(' + smright + ', var(' + mdright + ', var(' + lgright + ', 0)));\n' +
         'resdimen-bottom: var(' + smbottom + ', var(' + mdbottom + ', var(' + lgbottom + ', 0)));\n' +
         'resdimen-left: var(' + smleft + ', var(' + mdleft + ', var(' + lgleft + ', 0)));');
-    return `${topSm ? `--sb-${varname}-top-sm: ${(topSm + unit)};` : ''}
-        ${rightSm ? `--sb-${varname}-right-sm: ${(rightSm + unit)};` : ''}
-        ${bottomSm ? `--sb-${varname}-bottom-sm: ${(bottomSm + unit)};` : ''}
-        ${leftSm ? `--sb-${varname}-left-sm: ${(leftSm + unit)};` : ''}
-        ${topMd ? `--sb-${varname}-top-md: ${(topMd + unit)};` : ''}
-        ${rightMd ? `--sb-${varname}-right-md: ${(rightMd + unit)};` : ''}
-        ${bottomMd ? `--sb-${varname}-bottom-md: ${(bottomMd + unit)};` : ''}
-        ${leftMd ? `--sb-${varname}-left-md: ${(leftMd + unit)};` : ''}
-        ${top ? `--sb-${varname}-top-lg: ${(top + unit)};` : ''}
-        ${right ? `--sb-${varname}-right-lg: ${(right + unit)};` : ''}
-        ${bottom ? `--sb-${varname}-bottom-lg: ${(bottom + unit)};` : ''}
-        ${left ? `--sb-${varname}-left-lg: ${(left + unit)};` : ''};`
+    return `${topSm ? `--hf-${varname}-top-sm: ${(topSm + unit)};` : ''}
+        ${rightSm ? `--hf-${varname}-right-sm: ${(rightSm + unit)};` : ''}
+        ${bottomSm ? `--hf-${varname}-bottom-sm: ${(bottomSm + unit)};` : ''}
+        ${leftSm ? `--hf-${varname}-left-sm: ${(leftSm + unit)};` : ''}
+        ${topMd ? `--hf-${varname}-top-md: ${(topMd + unit)};` : ''}
+        ${rightMd ? `--hf-${varname}-right-md: ${(rightMd + unit)};` : ''}
+        ${bottomMd ? `--hf-${varname}-bottom-md: ${(bottomMd + unit)};` : ''}
+        ${leftMd ? `--hf-${varname}-left-md: ${(leftMd + unit)};` : ''}
+        ${top ? `--hf-${varname}-top-lg: ${(top + unit)};` : ''}
+        ${right ? `--hf-${varname}-right-lg: ${(right + unit)};` : ''}
+        ${bottom ? `--hf-${varname}-bottom-lg: ${(bottom + unit)};` : ''}
+        ${left ? `--hf-${varname}-left-lg: ${(left + unit)};` : ''};`
 }
 
 const textShadowVars = (varname, horizontal, vertical, blur, color, unit = '') => {
-    console.log('text-shadow: var(--sb-' + varname + '-horizontal) var(--sb-' + varname + '-vertical) var(--sb-' + varname + '-blur) var(--sb-' + varname + '-color)');
-    return `${horizontal ? `--sb-${varname}-horizontal: ${(horizontal + unit)};` : ''}
-        ${vertical ? `--sb-${varname}-vertical: ${(vertical + unit)};` : ''}
-        ${blur ? `--sb-${varname}-blur: ${(blur + unit)};` : ''}
-        ${color ? `--sb-${varname}-color: ${color};` : ''}`;
+    console.log('text-shadow: var(--hf-' + varname + '-horizontal) var(--hf-' + varname + '-vertical) var(--hf-' + varname + '-blur) var(--hf-' + varname + '-color)');
+    return `${horizontal ? `--hf-${varname}-horizontal: ${(horizontal + unit)};` : ''}
+        ${vertical ? `--hf-${varname}-vertical: ${(vertical + unit)};` : ''}
+        ${blur ? `--hf-${varname}-blur: ${(blur + unit)};` : ''}
+        ${color ? `--hf-${varname}-color: ${color};` : ''}`;
 }
 
 const getImageSrc = (imgId) => {
@@ -683,7 +683,7 @@ const getStyleVars = (attributes, vars) => {
     if (normal?.length) {
         normal.map((lvar) => {
             if (attributes[lvar]) {
-                retvar += `--sb-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}:${attributes[lvar]};`;
+                retvar += `--hf-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}:${attributes[lvar]};`;
             }
         })
     }
@@ -691,7 +691,7 @@ const getStyleVars = (attributes, vars) => {
     if (normalPx?.length) {
         normalPx.map((lvar) => {
             if (attributes[lvar]) {
-                retvar += `--sb-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}:${attributes[lvar]}px;`;
+                retvar += `--hf-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}:${attributes[lvar]}px;`;
             }
         })
     }
@@ -699,7 +699,7 @@ const getStyleVars = (attributes, vars) => {
     if (normalDeg?.length) {
         normalDeg.map((lvar) => {
             if (attributes[lvar]) {
-                retvar += `--sb-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}:${attributes[lvar]}deg;`;
+                retvar += `--hf-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}:${attributes[lvar]}deg;`;
             }
         })
     }
@@ -707,7 +707,7 @@ const getStyleVars = (attributes, vars) => {
     if (normalUnit?.length) {
         normalUnit.map((lvar) => {
             if (attributes[lvar]) {
-                retvar += `--sb-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}:${attributes[lvar]}${attributes[lvar + 'Unit']};`;
+                retvar += `--hf-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}:${attributes[lvar]}${attributes[lvar + 'Unit']};`;
             }
         })
     }
@@ -763,13 +763,13 @@ const getStyleVars = (attributes, vars) => {
     if (responsiveBorder?.length) {
         responsiveBorder.map((lvar) => {
             if (attributes[lvar]) {
-                retvar += `--sb-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}:${attributes[lvar]};`;
+                retvar += `--hf-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}:${attributes[lvar]};`;
             }
             retvar += responsiveDimensionVars(lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), attributes[lvar + 'Top'], attributes[lvar + 'Right'], attributes[lvar + 'Bottom'], attributes[lvar + 'Left'],
             attributes[lvar + 'SmTop'], attributes[lvar + 'SmRight'], attributes[lvar + 'SmBottom'], attributes[lvar + 'SmLeft'],
             attributes[lvar + 'MdTop'], attributes[lvar + 'MdRight'], attributes[lvar + 'MdBottom'], attributes[lvar + 'MdLeft'], attributes[lvar + 'Unit']);
             if (attributes[lvar + 'Color']) {
-                retvar += `--sb-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}-color:${attributes[lvar + 'Color']};`;
+                retvar += `--hf-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}-color:${attributes[lvar + 'Color']};`;
             }
         })
     }
@@ -787,10 +787,10 @@ const getStyleVars = (attributes, vars) => {
     if (backgroundType?.length) {
         backgroundType.map((lvar) => {
             if (attributes[lvar + 'Type'] == 'color' && attributes[lvar + 'Color']) {
-                retvar += `--sb-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}-color:${attributes[lvar + 'Color']};`;
+                retvar += `--hf-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}-color:${attributes[lvar + 'Color']};`;
             }
             if (attributes[lvar + 'Type'] == 'gradient' && attributes[lvar + 'Gradient']) {
-                retvar += `--sb-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}-gradient:${attributes[lvar + 'Gradient']};`;
+                retvar += `--hf-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}-gradient:${attributes[lvar + 'Gradient']};`;
             }
         })
     }
@@ -798,7 +798,7 @@ const getStyleVars = (attributes, vars) => {
     if (advancedRadius?.length) {
         advancedRadius.map((lvar) => {
             if (attributes[lvar + 'AdvancedShow']) {
-                retvar += `--sb-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}-radius:${attributes[lvar + 'Advanced']};`;
+                retvar += `--hf-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}-radius:${attributes[lvar + 'Advanced']};`;
             } else {
                 retvar += dimensionVars(lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase() + '-radius', attributes[lvar + 'Top'], attributes[lvar + 'Right'], attributes[lvar + 'Bottom'], attributes[lvar + 'Left'], attributes[lvar + 'Unit']);
             }

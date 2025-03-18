@@ -42,11 +42,11 @@ export default function Edit(props) {
         formId,
         enableCustomStyle,
 
-        columnGap,
-        columnGapUnit,
+        formColumnGap,
+        formColumnGapUnit = 'px',
 
-        rowGap,
-        rowGapUnit,
+        formRowGap,
+        formRowGapUnit = 'px',
 
         labelTypographyFamily,
         labelTypographyWeight,
@@ -470,8 +470,8 @@ export default function Edit(props) {
         rangeHandleColor,
     } = attributes;
     useEffect(() => {
-        columnGapUnit && setAttributes({columnGapUnit: 'px'});
-        rowGapUnit && setAttributes({rowGapUnit: 'px'});
+        !formColumnGapUnit && setAttributes({formColumnGapUnit: 'px'});
+        !formRowGapUnit && setAttributes({formRowGapUnit: 'px'});
     }, [])
 
     setAttributes({id: useBlockProps()['id']});
@@ -480,7 +480,7 @@ export default function Edit(props) {
         ${enableCustomStyle && getStyleVars(attributes, {
             responsiveSliderUnits: [],
             normal: ['labelColor', 'requiredColor', 'descriptionColor', 'fieldsColor', 'fieldsBgColor', 'fieldsColorFocus', 'fieldsBgColorFocus', 'uploadColor', 'uploadBorderColor', 'uploadBgColor', 'uploadColorHover', 'uploadBgColorHover', 'buttonColor', 'buttonBgColor', 'buttonColorHover', 'buttonBgColorHover', 'validationColor', 'validationTextAlignment', 'formTitleColor', 'formDescColor', 'headingColor', 'paragraphColor', 'dividerColor', 'starColor', 'starColorActive', 'rangeSliderBarColor', 'rangeSliderBarColorActive', 'rangeHandleColor'],
-            normalUnit: ['columnGap', 'rowGap', 'starSize', 'rangeSliderHeight', 'rangeSliderHandleSize'],
+            normalUnit: ['formColumnGap', 'formRowGap', 'starSize', 'rangeSliderHeight', 'rangeSliderHandleSize'],
             dimension: ['labelSpacing', 'descriptionSpacing', 'fieldsBorderRadius', 'fieldsPadding', 'uploadBorderRadius', 'uploadPadding', 'buttonBorderRadius', 'buttonPadding', 'formTitleSpacing', 'formDescSpacing'],
             responsiveBorder: ['fieldsBorder', 'fieldsBorderFocus', 'uploadBorderHover', 'buttonBorder', 'buttonBorderHover'],
             responsiveTypography: ['labelTypography', 'descriptionTypography', 'fieldsTypography', 'uploadTypography', 'buttonTypography', 'validationTypography', 'formTitleTypography', 'formDescTypography', 'headingTypography', 'paragraphTypography'],
@@ -579,10 +579,10 @@ export default function Edit(props) {
                                         initialOpen={false}>
                                         <RangeSliderControl
                                             label={__('Column Gap', 'hash-form')}
-                                            value={columnGap}
-                                            setValue={(columnGap) => setAttributes({columnGap})}
-                                            unit={columnGapUnit}
-                                            setUnit={(columnGapUnit) => setAttributes({columnGapUnit})}
+                                            value={formColumnGap}
+                                            setValue={(formColumnGap) => setAttributes({formColumnGap})}
+                                            unit={formColumnGapUnit}
+                                            setUnit={(formColumnGapUnit) => setAttributes({formColumnGapUnit})}
                                             units={['px', 'em', 'rem']}
                                             min={10}
                                             max={80}
@@ -590,10 +590,10 @@ export default function Edit(props) {
                                         />
                                         <RangeSliderControl
                                             label={__('Row Gap', 'hash-form')}
-                                            value={rowGap}
-                                            setValue={(rowGap) => setAttributes({rowGap})}
-                                            unit={rowGapUnit}
-                                            setUnit={(rowGapUnit) => setAttributes({rowGapUnit})}
+                                            value={formRowGap}
+                                            setValue={(formRowGap) => setAttributes({formRowGap})}
+                                            unit={formRowGapUnit}
+                                            setUnit={(formRowGapUnit) => setAttributes({formRowGapUnit})}
                                             units={['px', 'em', 'rem']}
                                             min={10}
                                             max={80}
