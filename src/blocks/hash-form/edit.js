@@ -469,10 +469,7 @@ export default function Edit(props) {
         rangeSliderBarColorActive,
         rangeHandleColor,
     } = attributes;
-    useEffect(() => {
-        !formColumnGapUnit && setAttributes({formColumnGapUnit: 'px'});
-        !formRowGapUnit && setAttributes({formRowGapUnit: 'px'});
-    }, [])
+    
 
     setAttributes({id: useBlockProps()['id']});
 

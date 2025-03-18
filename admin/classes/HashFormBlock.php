@@ -39,11 +39,11 @@ class HashFormBlock {
 
                     "enableCustomStyle" => ["type" => "boolean"],
 
-                    "columnGap" => ["type" => "string"],
-                    "columnGapUnit" => ["type" => "string", "enum" => ['px', 'em', 'rem'], "default" => 'px'],
+                    "formColumnGap" => ["type" => "string"],
+                    "formColumnGapUnit" => ["type" => "string", "enum" => ['px', 'em', 'rem'], "default" => 'px'],
 
-                    "rowGap" => ["type" => "string"],
-                    "rowGapUnit" => ["type" => "string", "enum" => ['px', 'em', 'rem'], "default" => 'px'],
+                    "formRowGap" => ["type" => "string"],
+                    "formRowGapUnit" => ["type" => "string", "enum" => ['px', 'em', 'rem'], "default" => 'px'],
 
                     "labelTypographyFamily" => ["type" => "string"],
                     "labelTypographyWeight" => ["type" => "string"],
