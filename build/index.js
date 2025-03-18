@@ -14328,6 +14328,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 const RangeSliderControl = ({
   label,
   min,
@@ -14346,6 +14347,10 @@ const RangeSliderControl = ({
   setUnit
 }) => {
   const allUnits = units ? units : ["px", "em", "%"];
+  const [calcStep, setCalcStep] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(useUnit && ['em', 'rem'].includes(unit) ? 0.1 : steps ? steps : 1);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    setCalcStep(useUnit && ['em', 'rem'].includes(unit) ? 0.1 : steps ? steps : 1);
+  }, [unit]);
   const getView = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useSelect)(select => {
     const {
       getView
@@ -14425,13 +14430,13 @@ const RangeSliderControl = ({
     min: calcMinVal(),
     max: calcMaxVal(),
     value: valueSm,
-    step: steps ? steps : 1,
+    step: calcStep,
     onChange: e => {
       setValueSm(e.target.value);
     }
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "number",
-    step: steps ? steps : 1,
+    step: calcStep,
     onChange: e => {
       setValueSm(e.target.value);
     },
@@ -14443,13 +14448,13 @@ const RangeSliderControl = ({
     min: calcMinVal(),
     max: calcMaxVal(),
     value: valueMd,
-    step: steps ? steps : 1,
+    step: calcStep,
     onChange: e => {
       setValueMd(e.target.value);
     }
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "number",
-    step: steps ? steps : 1,
+    step: calcStep,
     onChange: e => {
       setValueMd(e.target.value);
     },
@@ -14461,13 +14466,13 @@ const RangeSliderControl = ({
     min: calcMinVal(),
     max: calcMaxVal(),
     value: value,
-    step: steps ? steps : 1,
+    step: calcStep,
     onChange: e => {
       setValue(e.target.value);
     }
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "number",
-    step: steps ? steps : 1,
+    step: calcStep,
     onChange: e => {
       setValue(e.target.value);
     },
@@ -14479,13 +14484,13 @@ const RangeSliderControl = ({
     min: calcMinVal(),
     max: calcMaxVal(),
     value: value,
-    step: steps ? steps : 1,
+    step: calcStep,
     onChange: e => {
       setValue(e.target.value);
     }
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     type: "number",
-    step: steps ? steps : 1,
+    step: calcStep,
     onChange: e => {
       setValue(e.target.value);
     },

@@ -1,6 +1,7 @@
 import {__} from '@wordpress/i18n';
 import ResponsiveDropdown from '../utils/responsivedropdown';
 import {useSelect} from '@wordpress/data';
+import {useState, useEffect} from '@wordpress/element';
 
 const RangeSliderControl = ({
     label,
@@ -21,6 +22,12 @@ const RangeSliderControl = ({
     setUnit
 }) => {
     const allUnits = units ? units : ["px", "em", "%"];
+
+    const [calcStep, setCalcStep] = useState(useUnit && ['em', 'rem'].includes(unit) ? 0.1 : (steps ? steps : 1));
+    useEffect(() => {
+        setCalcStep(useUnit && ['em', 'rem'].includes(unit) ? 0.1 : (steps ? steps : 1))
+    }, [unit])
+
 
     const getView = useSelect(select => {
         const {getView} = select('hash-form/data');
@@ -103,11 +110,11 @@ const RangeSliderControl = ({
                                 min={calcMinVal()}
                                 max={calcMaxVal()}
                                 value={valueSm}
-                                step={steps ? steps : 1}
+                                step={calcStep}
                                 onChange={(e) => {setValueSm(e.target.value)}}
                             />
                             <input type="number"
-                                step={steps ? steps : 1}
+                                step={calcStep}
                                 onChange={(e) => {setValueSm(e.target.value)}}
                                 value={valueSm}
                             />
@@ -119,11 +126,11 @@ const RangeSliderControl = ({
                                 min={calcMinVal()}
                                 max={calcMaxVal()}
                                 value={valueMd}
-                                step={steps ? steps : 1}
+                                step={calcStep}
                                 onChange={(e) => {setValueMd(e.target.value)}}
                             />
                             <input type="number"
-                                step={steps ? steps : 1}
+                                step={calcStep}
                                 onChange={(e) => {setValueMd(e.target.value)}}
                                 value={valueMd}
                             />
@@ -135,11 +142,11 @@ const RangeSliderControl = ({
                                 min={calcMinVal()}
                                 max={calcMaxVal()}
                                 value={value}
-                                step={steps ? steps : 1}
+                                step={calcStep}
                                 onChange={(e) => {setValue(e.target.value)}}
                             />
                             <input type="number"
-                                step={steps ? steps : 1}
+                                step={calcStep}
                                 onChange={(e) => {setValue(e.target.value)}}
                                 value={value}
                             />
@@ -152,11 +159,11 @@ const RangeSliderControl = ({
                             min={calcMinVal()}
                             max={calcMaxVal()}
                             value={value}
-                            step={steps ? steps : 1}
+                            step={calcStep}
                             onChange={(e) => {setValue(e.target.value)}}
                         />
                         <input type="number"
-                            step={steps ? steps : 1}
+                            step={calcStep}
                             onChange={(e) => {setValue(e.target.value)}}
                             value={value}
                         />
