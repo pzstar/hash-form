@@ -7,6 +7,10 @@ class HashFormBlock {
     public function __construct() {
         add_action('init', array($this, 'register_block'));
         add_action('enqueue_block_editor_assets', array($this, 'enqueue_block_editor_assets'));
+
+        // Load translation files
+        add_action('plugins_loaded', array($this, 'load_textdomain'), 99);
+        add_action('enqueue_block_editor_assets', array($this, 'block_localization'));
     }
 
     public function register_block() {
@@ -479,6 +483,17 @@ class HashFormBlock {
         ob_start();
         HashFormPreview::show_form($form_id);
         return ob_get_clean();
+    }
+
+    public function load_textdomain() {
+        load_plugin_textdomain('hash-form', false, HASHFORM_PATH . 'languages');
+    }
+
+    // Enqueue localization data for our blocks.
+    public function block_localization() {
+        if (function_exists('wp_set_script_translations')) {
+            wp_set_script_translations('hfb-blocks', 'hash-form', HASHFORM_PATH . 'languages');
+        }
     }
 
 }
