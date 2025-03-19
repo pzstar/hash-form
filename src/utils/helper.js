@@ -430,44 +430,44 @@ const responsiveTypographyVars = (varname, family, weight, textTransform, textDe
     fonsSizeSm, fontSizeMd, fontSize, fontSizeUnit,
     letterSpacingSm, letterSpacingMd, letterSpacing, letterSpacingUnit,
     lineHeightSm, lineHeightMd, lineHeight, lineHeightUnit) => {
-    var lgfs = '--hf-' + varname + '-fs-lg';
-    var lgls = '--hf-' + varname + '-ls-lg';
-    var lglh = '--hf-' + varname + '-lh-lg';
+    var lgfs = '--hf-' + varname + '-font-size';
+    var lgls = '--hf-' + varname + '-letter-spacing';
+    var lglh = '--hf-' + varname + '-line-height';
 
     console.log('font-size: var(' + lgfs + ', 1em);\n' +
         'letter-spacing: var(' + lgls + ', inherit);\n' +
         'line-height: var(' + lglh + ', inherit);');
 
-    var mdfs = '--hf-' + varname + '-fs-md';
-    var mdls = '--hf-' + varname + '-ls-md';
-    var mdlh = '--hf-' + varname + '-lh-md';
+    var mdfs = '--hf-' + varname + '-font-size-md';
+    var mdls = '--hf-' + varname + '-letter-spacing-md';
+    var mdlh = '--hf-' + varname + '-line-height-md';
 
     console.log('font-size: var(' + mdfs + ', var(' + lgfs + ', 1em));\n' +
         'letter-spacing: var(' + mdls + ', var(' + lgls + ', inherit));\n' +
         'line-height: var(' + mdlh + ', var(' + lglh + ', inherit));');
 
-    var smfs = '--hf-' + varname + '-fs-sm';
-    var smls = '--hf-' + varname + '-ls-sm';
-    var smlh = '--hf-' + varname + '-lh-sm';
+    var smfs = '--hf-' + varname + '-font-size-sm';
+    var smls = '--hf-' + varname + '-letter-spacing-sm';
+    var smlh = '--hf-' + varname + '-line-height-sm';
 
     console.log('font-size: var(' + smfs + ', var(' + mdfs + ', var(' + lgfs + ', 1em)));\n' +
         'letter-spacing: var(' + smls + ', var(' + mdls + ', var(' + lgls + ', inherit)));\n' +
         'line-height: var(' + smlh + ', var(' + mdlh + ', var(' + lglh + ', inherit)));');
 
-    return `${family ? `--hf-${varname}-family: ${checkDefault(family)};` : ''}
-        ${weight ? `--hf-${varname}-weight: ${checkDefault(weight.replace(/\D/g, ''), weight)};` : ''}
-        ${weight ? `--hf-${varname}-style: ${checkDefault(weight.replace(/\d+/g, ''), weight)};` : ''}
-        ${textTransform ? `--hf-${varname}-tt: ${textTransform};` : ''}
-        ${textDecoration ? `--hf-${varname}-td: ${textDecoration};` : ''}
-        ${fonsSizeSm ? `--hf-${varname}-fs-sm: ${(fonsSizeSm + fontSizeUnit)};` : ''}
-        ${fontSizeMd ? `--hf-${varname}-fs-md: ${(fontSizeMd + fontSizeUnit)};` : ''}
-        ${fontSize ? `--hf-${varname}-fs-lg: ${(fontSize + fontSizeUnit)};` : ''}
-        ${letterSpacingSm ? `--hf-${varname}-ls-sm: ${(letterSpacingSm + letterSpacingUnit)};` : ''}
-        ${letterSpacingMd ? `--hf-${varname}-ls-md: ${(letterSpacingMd + letterSpacingUnit)};` : ''}
-        ${letterSpacing ? `--hf-${varname}-ls-lg: ${(letterSpacing + letterSpacingUnit)};` : ''}
-        ${lineHeightSm ? `--hf-${varname}-lh-sm: ${(lineHeightSm + lineHeightUnit)};` : ''}
-        ${lineHeightMd ? `--hf-${varname}-lh-md: ${(lineHeightMd + lineHeightUnit)};` : ''}
-        ${lineHeight ? `--hf-${varname}-lh-lg: ${(lineHeight + lineHeightUnit)};` : ''}`;
+    return `${family ? `--hf-${varname}-font-family: ${checkDefault(family)};` : ''}
+        ${weight ? `--hf-${varname}-font-weight: ${checkDefault(weight.replace(/\D/g, ''), weight)};` : ''}
+        ${weight ? `--hf-${varname}-font-style: ${checkDefault(weight.replace(/\d+/g, ''), weight)};` : ''}
+        ${textTransform ? `--hf-${varname}-text-transform: ${textTransform};` : ''}
+        ${textDecoration ? `--hf-${varname}-text-decoration: ${textDecoration};` : ''}
+        ${fonsSizeSm ? `--hf-${varname}-font-size-sm: ${(fonsSizeSm + fontSizeUnit)};` : ''}
+        ${fontSizeMd ? `--hf-${varname}-font-size-md: ${(fontSizeMd + fontSizeUnit)};` : ''}
+        ${fontSize ? `--hf-${varname}-font-size: ${(fontSize + fontSizeUnit)};` : ''}
+        ${letterSpacingSm ? `--hf-${varname}-letter-spacing-sm: ${(letterSpacingSm + letterSpacingUnit)};` : ''}
+        ${letterSpacingMd ? `--hf-${varname}-letter-spacing-md: ${(letterSpacingMd + letterSpacingUnit)};` : ''}
+        ${letterSpacing ? `--hf-${varname}-letter-spacing: ${(letterSpacing + letterSpacingUnit)};` : ''}
+        ${lineHeightSm ? `--hf-${varname}-line-height-sm: ${(lineHeightSm + lineHeightUnit)};` : ''}
+        ${lineHeightMd ? `--hf-${varname}-line-height-md: ${(lineHeightMd + lineHeightUnit)};` : ''}
+        ${lineHeight ? `--hf-${varname}-line-height: ${(lineHeight + lineHeightUnit)};` : ''}`;
 }
 
 const dimensionVars = (varname, top, right, bottom, left, unit = '') => {
@@ -487,14 +487,13 @@ const dimensionVars = (varname, top, right, bottom, left, unit = '') => {
 }
 
 const boxShadowVars = (varname, horizontal, vertical, blur, spread, color, inset, unit = '') => {
-    console.log('box-shadow: var(--hf-' + varname + '-horizontal) var(--hf-' + varname + '-vertical) var(--hf-' + varname + '-blur) var(--hf-' + varname + '-spread) var(--hf-' + varname + '-color) var(--hf-' + varname + '-inset, );');
-    return `${horizontal ? `--hf-${varname}-horizontal: ${(horizontal + unit)};` : ''}
-        ${vertical ? `--hf-${varname}-vertical: ${(vertical + unit)};` : ''}
+    console.log('box-shadow: var(--hf-' + varname + '-x) var(--hf-' + varname + '-y) var(--hf-' + varname + '-blur) var(--hf-' + varname + '-spread) var(--hf-' + varname + '-color) var(--hf-' + varname + '-inset, );');
+    return `${horizontal ? `--hf-${varname}-x: ${(horizontal + unit)};` : ''}
+        ${vertical ? `--hf-${varname}-y: ${(vertical + unit)};` : ''}
         ${blur ? `--hf-${varname}-blur: ${(blur + unit)};` : ''}
         ${spread ? `--hf-${varname}-spread: ${(spread + unit)};` : ''}
         ${color ? `--hf-${varname}-color: ${color};` : ''}
-        ${inset ? `--hf-${varname}-inset: ${inset};` : ''}
-        ${`--hf-${varname}: var(--hf-${varname}-horizontal) var(--hf-${varname}-vertical) var(--hf-${varname}-blur) var(--hf-${varname}-spread) var(--hf-${varname}-color) var(--hf-${varname}-inset, );`}`;
+        ${inset ? `--hf-${varname}-inset: ${inset};` : ''}`
 }
 
 const responsiveDimensionVars = (varname, top, right, bottom, left, topSm, rightSm, bottomSm, leftSm, topMd, rightMd, bottomMd, leftMd, unit = '') => {
@@ -776,10 +775,23 @@ const getStyleVars = (attributes, vars) => {
     let responsiveTypography = vars?.responsiveTypography;
     if (responsiveTypography?.length) {
         responsiveTypography.map((lvar) => {
-            retvar += responsiveTypographyVars(lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), attributes[lvar + 'Family'], attributes[lvar + 'Weight'], attributes[lvar + 'TextTransform'], attributes[lvar + 'TextDecoration'],
-                attributes[lvar + 'FontSizeSm'], attributes[lvar + 'FontSizeMd'], attributes[lvar + 'FontSize'], attributes[lvar + 'FontSizeUnit'],
-                attributes[lvar + 'LetterSpacingSm'], attributes[lvar + 'LetterSpacingMd'], attributes[lvar + 'LetterSpacing'], attributes[lvar + 'LetterSpacingUnit'],
-                attributes[lvar + 'LineHeightSm'], attributes[lvar + 'LineHeightMd'], attributes[lvar + 'LineHeight'], attributes[lvar + 'LineHeightUnit']
+            retvar += responsiveTypographyVars(lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), 
+                attributes[lvar + 'Family'], 
+                attributes[lvar + 'Weight'], 
+                attributes[lvar + 'TextTransform'], 
+                attributes[lvar + 'TextDecoration'],
+                attributes[lvar + 'FontSizeSm'], 
+                attributes[lvar + 'FontSizeMd'], 
+                attributes[lvar + 'FontSize'], 
+                attributes[lvar + 'FontSizeUnit'],
+                attributes[lvar + 'LetterSpacingSm'], 
+                attributes[lvar + 'LetterSpacingMd'], 
+                attributes[lvar + 'LetterSpacing'], 
+                attributes[lvar + 'LetterSpacingUnit'],
+                attributes[lvar + 'LineHeightSm'], 
+                attributes[lvar + 'LineHeightMd'], 
+                attributes[lvar + 'LineHeight'], 
+                attributes[lvar + 'LineHeightUnit']
             );
         })
     }

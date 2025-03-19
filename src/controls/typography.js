@@ -192,7 +192,7 @@ const TypographyControl = ({
 
 	return <>
 		<div className="hf-field hf-field-typography hf-display-inline">
-			<label>{label ? label : esc_html__("Typography", 'hash-form')}</label>
+			<label>{label ? label : __("Typography", 'hash-form')}</label>
 			<div className="hf-components-dropdown">
 				<Tooltip text={__('Clear', 'hash-form')}>
 					<div className="hf-reset-field"
