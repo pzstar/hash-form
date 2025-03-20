@@ -74,8 +74,8 @@ const ImageBackgroundControl = ({
                             label={__('Attachment', 'hash-form')}
                             value={imageAttachment}
                             options={[
-                                {label: esc_html__('Scroll', 'hash-form'), value: 'scroll'},
-                                {label: esc_html__('Fixed', 'hash-form'), value: 'fixed'}
+                                {label: __('Scroll', 'hash-form'), value: 'scroll'},
+                                {label: __('Fixed', 'hash-form'), value: 'fixed'}
                             ]}
                             onChange={value => setImageAttachment(value)}
                         />
@@ -84,10 +84,10 @@ const ImageBackgroundControl = ({
                             label={__('Repeat', 'hash-form')}
                             value={imageRepeat}
                             options={[
-                                {label: esc_html__('Repeat', 'hash-form'), value: 'repeat'},
-                                {label: esc_html__('No Repeat', 'hash-form'), value: 'no-repeat'},
-                                {label: esc_html__('Repeat X', 'hash-form'), value: 'repeat-x'},
-                                {label: esc_html__('Repeat Y', 'hash-form'), value: 'repeat-y'}
+                                {label: __('Repeat', 'hash-form'), value: 'repeat'},
+                                {label: __('No Repeat', 'hash-form'), value: 'no-repeat'},
+                                {label: __('Repeat X', 'hash-form'), value: 'repeat-x'},
+                                {label: __('Repeat Y', 'hash-form'), value: 'repeat-y'}
                             ]}
                             onChange={value => setImageRepeat(value)}
                         />
@@ -96,9 +96,9 @@ const ImageBackgroundControl = ({
                             label={__('Size', 'hash-form')}
                             value={imageSize}
                             options={[
-                                {label: esc_html__('Auto', 'hash-form'), value: 'auto'},
-                                {label: esc_html__('Cover', 'hash-form'), value: 'cover'},
-                                {label: esc_html__('Contain', 'hash-form'), value: 'contain'}
+                                {label: __('Auto', 'hash-form'), value: 'auto'},
+                                {label: __('Cover', 'hash-form'), value: 'cover'},
+                                {label: __('Contain', 'hash-form'), value: 'contain'}
                             ]}
                             onChange={value => setImageSize(value)}
                         />
@@ -114,8 +114,8 @@ const ImageBackgroundControl = ({
                     <MediaPlaceholder
                         icon="format-image"
                         labels={{
-                            title: esc_html__('Background Image', 'hash-form'),
-                            name: esc_html__('Background Image', 'hash-form')
+                            title: __('Background Image', 'hash-form'),
+                            name: __('Background Image', 'hash-form')
                         }}
                         value={imageID}
                         onSelect={value => {
