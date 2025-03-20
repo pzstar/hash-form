@@ -423,8 +423,6 @@ class HashFormBlock {
             self::$stylesheet = $this->get_stylesheet($attr);
             add_action('wp_footer', array($this, 'print_stylesheet'), 11);
         }
-//         var_dump($attr);
-// var_dump($this->get_stylesheet($attr));die();
         if (!is_admin()) {
             echo '<div ' . get_block_wrapper_attributes(['class' => 'wp-block-hash-form', 'id' => $attr['id']]) . '>';
         }
