@@ -424,7 +424,7 @@
 .hf-form-custom-style .hf-container .hf-field-label {
     display: block;
     font-family: var(--hf-label-typo-font-family);
-    font-size: var(--hf-label-typo-font-size, 14px);
+    font-size: var(--hf-label-typo-font-size, 1em);
     font-weight: var(--hf-label-typo-font-weight, 400);
     font-style: var(--hf-label-typo-font-style, normal);
     letter-spacing: var(--hf-label-typo-letter-spacing, normal);
@@ -432,7 +432,7 @@
     text-decoration: var(--hf-label-typo-text-decoration, inherit);
     line-height: var(--hf-label-typo-line-height, 1.2);
     color: var(--hf-label-typo-font-color, inherit);
-    margin-bottom: var(--hf-label-spacing, 8px);
+    margin-bottom: var(--hf-label-spacing-bottom, 8px);
     margin-top: var(--hf-label-spacing-top, 0);
     margin-left: var(--hf-label-spacing-left, 0);
     margin-right: var(--hf-label-spacing-right, 0);
