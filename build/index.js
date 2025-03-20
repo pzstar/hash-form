@@ -11192,184 +11192,141 @@ function Edit(props) {
     formColumnGapUnit = 'px',
     formRowGap,
     formRowGapUnit = 'px',
-    labelTypographyFamily,
-    labelTypographyWeight,
-    labelTypographyTextTransform,
-    labelTypographyTextDecoration,
-    labelTypographyFontSizeSm,
-    labelTypographyFontSizeMd,
-    labelTypographyFontSize,
-    labelTypographyFontSizeUnit,
-    labelTypographyLetterSpacingSm,
-    labelTypographyLetterSpacingMd,
-    labelTypographyLetterSpacing,
-    labelTypographyLetterSpacingUnit,
-    labelTypographyLineHeightSm,
-    labelTypographyLineHeightMd,
-    labelTypographyLineHeight,
-    labelTypographyLineHeightUnit,
-    labelColor,
-    requiredColor,
+    labelTypoFamily,
+    labelTypoWeight,
+    labelTypoTextTransform,
+    labelTypoTextDecoration,
+    labelTypoFontSizeSm,
+    labelTypoFontSizeMd,
+    labelTypoFontSize,
+    labelTypoFontSizeUnit,
+    labelTypoLetterSpacingSm,
+    labelTypoLetterSpacingMd,
+    labelTypoLetterSpacing,
+    labelTypoLetterSpacingUnit,
+    labelTypoLineHeightSm,
+    labelTypoLineHeightMd,
+    labelTypoLineHeight,
+    labelTypoLineHeightUnit,
+    labelTypoFontColor,
+    labelRequiredColor,
     labelSpacingTop,
     labelSpacingLeft,
     labelSpacingRight,
     labelSpacingBottom,
     labelSpacingUnit,
-    descriptionTypographyFamily,
-    descriptionTypographyWeight,
-    descriptionTypographyTextTransform,
-    descriptionTypographyTextDecoration,
-    descriptionTypographyFontSizeSm,
-    descriptionTypographyFontSizeMd,
-    descriptionTypographyFontSize,
-    descriptionTypographyFontSizeUnit,
-    descriptionTypographyLetterSpacingSm,
-    descriptionTypographyLetterSpacingMd,
-    descriptionTypographyLetterSpacing,
-    descriptionTypographyLetterSpacingUnit,
-    descriptionTypographyLineHeightSm,
-    descriptionTypographyLineHeightMd,
-    descriptionTypographyLineHeight,
-    descriptionTypographyLineHeightUnit,
-    descriptionColor,
-    descriptionSpacingTop,
-    descriptionSpacingLeft,
-    descriptionSpacingRight,
-    descriptionSpacingBottom,
-    descriptionSpacingUnit,
-    fieldsTypographyFamily,
-    fieldsTypographyWeight,
-    fieldsTypographyTextTransform,
-    fieldsTypographyTextDecoration,
-    fieldsTypographyFontSizeSm,
-    fieldsTypographyFontSizeMd,
-    fieldsTypographyFontSize,
-    fieldsTypographyFontSizeUnit,
-    fieldsTypographyLetterSpacingSm,
-    fieldsTypographyLetterSpacingMd,
-    fieldsTypographyLetterSpacing,
-    fieldsTypographyLetterSpacingUnit,
-    fieldsTypographyLineHeightSm,
-    fieldsTypographyLineHeightMd,
-    fieldsTypographyLineHeight,
-    fieldsTypographyLineHeightUnit,
-    fieldsColor,
-    fieldsBgColor,
-    fieldsBoxShadowHorizontal,
-    fieldsBoxShadowVertical,
-    fieldsBoxShadowBlur,
-    fieldsBoxShadowSpread,
-    fieldsBoxShadowColor,
-    fieldsBoxShadowInset,
-    fieldsBorder,
-    fieldsBorderWidthTop,
-    fieldsBorderWidthMdTop,
-    fieldsBorderWidthSmTop,
-    fieldsBorderWidthLeft,
-    fieldsBorderWidthMdLeft,
-    fieldsBorderWidthSmLeft,
-    fieldsBorderWidthRight,
-    fieldsBorderWidthMdRight,
-    fieldsBorderWidthSmRight,
-    fieldsBorderWidthBottom,
-    fieldsBorderWidthMdBottom,
-    fieldsBorderWidthSmBottom,
-    fieldsBorderWidthUnit,
-    fieldsBorderColor,
-    fieldsColorFocus,
-    fieldsBgColorFocus,
-    fieldsBoxShadowFocusHorizontal,
-    fieldsBoxShadowFocusVertical,
-    fieldsBoxShadowFocusBlur,
-    fieldsBoxShadowFocusSpread,
-    fieldsBoxShadowFocusColor,
-    fieldsBoxShadowFocusInset,
-    fieldsBorderFocus,
-    fieldsBorderFocusWidthTop,
-    fieldsBorderFocusWidthMdTop,
-    fieldsBorderFocusWidthSmTop,
-    fieldsBorderFocusWidthLeft,
-    fieldsBorderFocusWidthMdLeft,
-    fieldsBorderFocusWidthSmLeft,
-    fieldsBorderFocusWidthRight,
-    fieldsBorderFocusWidthMdRight,
-    fieldsBorderFocusWidthSmRight,
-    fieldsBorderFocusWidthBottom,
-    fieldsBorderFocusWidthMdBottom,
-    fieldsBorderFocusWidthSmBottom,
-    fieldsBorderFocusWidthUnit,
-    fieldsBorderFocusColor,
-    fieldsBorderRadiusTop,
-    fieldsBorderRadiusLeft,
-    fieldsBorderRadiusRight,
-    fieldsBorderRadiusBottom,
-    fieldsBorderRadiusUnit,
-    fieldsPaddingTop,
-    fieldsPaddingLeft,
-    fieldsPaddingRight,
-    fieldsPaddingBottom,
-    fieldsPaddingUnit,
-    uploadTypographyFamily,
-    uploadTypographyWeight,
-    uploadTypographyTextTransform,
-    uploadTypographyTextDecoration,
-    uploadTypographyFontSizeSm,
-    uploadTypographyFontSizeMd,
-    uploadTypographyFontSize,
-    uploadTypographyFontSizeUnit,
-    uploadTypographyLetterSpacingSm,
-    uploadTypographyLetterSpacingMd,
-    uploadTypographyLetterSpacing,
-    uploadTypographyLetterSpacingUnit,
-    uploadTypographyLineHeightSm,
-    uploadTypographyLineHeightMd,
-    uploadTypographyLineHeight,
-    uploadTypographyLineHeightUnit,
+    descTypoFamily,
+    descTypoWeight,
+    descTypoTextTransform,
+    descTypoTextDecoration,
+    descTypoFontSizeSm,
+    descTypoFontSizeMd,
+    descTypoFontSize,
+    descTypoFontSizeUnit,
+    descTypoLetterSpacingSm,
+    descTypoLetterSpacingMd,
+    descTypoLetterSpacing,
+    descTypoLetterSpacingUnit,
+    descTypoLineHeightSm,
+    descTypoLineHeightMd,
+    descTypoLineHeight,
+    descTypoLineHeightUnit,
+    descTypoFontColor,
+    descSpacingTop,
+    descSpacingLeft,
+    descSpacingRight,
+    descSpacingBottom,
+    descSpacingUnit,
+    fieldTypoFamily,
+    fieldTypoWeight,
+    fieldTypoTextTransform,
+    fieldTypoTextDecoration,
+    fieldTypoFontSizeSm,
+    fieldTypoFontSizeMd,
+    fieldTypoFontSize,
+    fieldTypoFontSizeUnit,
+    fieldTypoLetterSpacingSm,
+    fieldTypoLetterSpacingMd,
+    fieldTypoLetterSpacing,
+    fieldTypoLetterSpacingUnit,
+    fieldTypoLineHeightSm,
+    fieldTypoLineHeightMd,
+    fieldTypoLineHeight,
+    fieldTypoLineHeightUnit,
+    fieldColorNormal,
+    fieldBgColorNormal,
+    fieldShadowNormalX,
+    fieldShadowNormalY,
+    fieldShadowNormalBlur,
+    fieldShadowNormalSpread,
+    fieldShadowNormalColor,
+    fieldShadowNormalInset,
+    fieldBorder,
+    fieldBorderTop,
+    fieldBorderLeft,
+    fieldBorderRight,
+    fieldBorderBottom,
+    fieldBorderUnit,
+    fieldBorderColorNormal,
+    fieldColorNormalFocus,
+    fieldBgColorNormalFocus,
+    fieldShadowFocusHorizontal,
+    fieldShadowFocusVertical,
+    fieldShadowFocusBlur,
+    fieldShadowFocusSpread,
+    fieldShadowFocusColor,
+    fieldShadowFocusInset,
+    fieldBorderFocusColor,
+    fieldBorderRadiusTop,
+    fieldBorderRadiusLeft,
+    fieldBorderRadiusRight,
+    fieldBorderRadiusBottom,
+    fieldBorderRadiusUnit,
+    fieldPaddingTop,
+    fieldPaddingLeft,
+    fieldPaddingRight,
+    fieldPaddingBottom,
+    fieldPaddingUnit,
+    uploadTypoFamily,
+    uploadTypoWeight,
+    uploadTypoTextTransform,
+    uploadTypoTextDecoration,
+    uploadTypoFontSizeSm,
+    uploadTypoFontSizeMd,
+    uploadTypoFontSize,
+    uploadTypoFontSizeUnit,
+    uploadTypoLetterSpacingSm,
+    uploadTypoLetterSpacingMd,
+    uploadTypoLetterSpacing,
+    uploadTypoLetterSpacingUnit,
+    uploadTypoLineHeightSm,
+    uploadTypoLineHeightMd,
+    uploadTypoLineHeight,
+    uploadTypoLineHeightUnit,
     uploadColor,
     uploadBgColor,
-    uploadBoxShadowHorizontal,
-    uploadBoxShadowVertical,
-    uploadBoxShadowBlur,
-    uploadBoxShadowSpread,
-    uploadBoxShadowColor,
-    uploadBoxShadowInset,
+    uploadShadowHorizontal,
+    uploadShadowVertical,
+    uploadShadowBlur,
+    uploadShadowSpread,
+    uploadShadowColor,
+    uploadShadowInset,
     uploadBorder,
     uploadBorderWidthTop,
-    uploadBorderWidthMdTop,
-    uploadBorderWidthSmTop,
     uploadBorderWidthLeft,
-    uploadBorderWidthMdLeft,
-    uploadBorderWidthSmLeft,
     uploadBorderWidthRight,
-    uploadBorderWidthMdRight,
-    uploadBorderWidthSmRight,
     uploadBorderWidthBottom,
-    uploadBorderWidthMdBottom,
-    uploadBorderWidthSmBottom,
     uploadBorderWidthUnit,
     uploadBorderColor,
     uploadColorHover,
     uploadBgColorHover,
-    uploadBoxShadowHoverHorizontal,
-    uploadBoxShadowHoverVertical,
-    uploadBoxShadowHoverBlur,
-    uploadBoxShadowHoverSpread,
-    uploadBoxShadowHoverColor,
-    uploadBoxShadowHoverInset,
+    uploadShadowHoverHorizontal,
+    uploadShadowHoverVertical,
+    uploadShadowHoverBlur,
+    uploadShadowHoverSpread,
+    uploadShadowHoverColor,
+    uploadShadowHoverInset,
     uploadBorderHover,
-    uploadBorderHoverWidthTop,
-    uploadBorderHoverWidthMdTop,
-    uploadBorderHoverWidthSmTop,
-    uploadBorderHoverWidthLeft,
-    uploadBorderHoverWidthMdLeft,
-    uploadBorderHoverWidthSmLeft,
-    uploadBorderHoverWidthRight,
-    uploadBorderHoverWidthMdRight,
-    uploadBorderHoverWidthSmRight,
-    uploadBorderHoverWidthBottom,
-    uploadBorderHoverWidthMdBottom,
-    uploadBorderHoverWidthSmBottom,
-    uploadBorderHoverWidthUnit,
     uploadBorderHoverColor,
     uploadBorderRadiusTop,
     uploadBorderRadiusLeft,
@@ -11381,67 +11338,45 @@ function Edit(props) {
     uploadPaddingRight,
     uploadPaddingBottom,
     uploadPaddingUnit,
-    buttonTypographyFamily,
-    buttonTypographyWeight,
-    buttonTypographyTextTransform,
-    buttonTypographyTextDecoration,
-    buttonTypographyFontSizeSm,
-    buttonTypographyFontSizeMd,
-    buttonTypographyFontSize,
-    buttonTypographyFontSizeUnit,
-    buttonTypographyLetterSpacingSm,
-    buttonTypographyLetterSpacingMd,
-    buttonTypographyLetterSpacing,
-    buttonTypographyLetterSpacingUnit,
-    buttonTypographyLineHeightSm,
-    buttonTypographyLineHeightMd,
-    buttonTypographyLineHeight,
-    buttonTypographyLineHeightUnit,
-    buttonColor,
-    buttonBgColor,
-    buttonBoxShadowHorizontal,
-    buttonBoxShadowVertical,
-    buttonBoxShadowBlur,
-    buttonBoxShadowSpread,
-    buttonBoxShadowColor,
-    buttonBoxShadowInset,
+    buttonTypoFamily,
+    buttonTypoWeight,
+    buttonTypoTextTransform,
+    buttonTypoTextDecoration,
+    buttonTypoFontSizeSm,
+    buttonTypoFontSizeMd,
+    buttonTypoFontSize,
+    buttonTypoFontSizeUnit,
+    buttonTypoLetterSpacingSm,
+    buttonTypoLetterSpacingMd,
+    buttonTypoLetterSpacing,
+    buttonTypoLetterSpacingUnit,
+    buttonTypoLineHeightSm,
+    buttonTypoLineHeightMd,
+    buttonTypoLineHeight,
+    buttonTypoLineHeightUnit,
+    buttonColorNormal,
+    buttonBgColorNormal,
+    buttonShadowX,
+    buttonShadowY,
+    buttonShadowBlur,
+    buttonShadowSpread,
+    buttonShadowColor,
+    buttonShadowInset,
     buttonBorder,
-    buttonBorderWidthTop,
-    buttonBorderWidthMdTop,
-    buttonBorderWidthSmTop,
-    buttonBorderWidthLeft,
-    buttonBorderWidthMdLeft,
-    buttonBorderWidthSmLeft,
-    buttonBorderWidthRight,
-    buttonBorderWidthMdRight,
-    buttonBorderWidthSmRight,
-    buttonBorderWidthBottom,
-    buttonBorderWidthMdBottom,
-    buttonBorderWidthSmBottom,
-    buttonBorderWidthUnit,
+    buttonBorderTop,
+    buttonBorderLeft,
+    buttonBorderRight,
+    buttonBorderBottom,
+    buttonBorderUnit,
     buttonBorderColor,
     buttonColorHover,
     buttonBgColorHover,
-    buttonBoxShadowHoverHorizontal,
-    buttonBoxShadowHoverVertical,
-    buttonBoxShadowHoverBlur,
-    buttonBoxShadowHoverSpread,
-    buttonBoxShadowHoverColor,
-    buttonBoxShadowHoverInset,
-    buttonBorderHover,
-    buttonBorderHoverWidthTop,
-    buttonBorderHoverWidthMdTop,
-    buttonBorderHoverWidthSmTop,
-    buttonBorderHoverWidthLeft,
-    buttonBorderHoverWidthMdLeft,
-    buttonBorderHoverWidthSmLeft,
-    buttonBorderHoverWidthRight,
-    buttonBorderHoverWidthMdRight,
-    buttonBorderHoverWidthSmRight,
-    buttonBorderHoverWidthBottom,
-    buttonBorderHoverWidthMdBottom,
-    buttonBorderHoverWidthSmBottom,
-    buttonBorderHoverWidthUnit,
+    buttonShadowHoverX,
+    buttonShadowHoverY,
+    buttonShadowHoverBlur,
+    buttonShadowHoverSpread,
+    buttonShadowHoverColor,
+    buttonShadowHoverInset,
     buttonBorderHoverColor,
     buttonBorderRadiusTop,
     buttonBorderRadiusLeft,
@@ -11453,135 +11388,127 @@ function Edit(props) {
     buttonPaddingRight,
     buttonPaddingBottom,
     buttonPaddingUnit,
-    validationTypographyFamily,
-    validationTypographyWeight,
-    validationTypographyTextTransform,
-    validationTypographyTextDecoration,
-    validationTypographyFontSizeSm,
-    validationTypographyFontSizeMd,
-    validationTypographyFontSize,
-    validationTypographyFontSizeUnit,
-    validationTypographyLetterSpacingSm,
-    validationTypographyLetterSpacingMd,
-    validationTypographyLetterSpacing,
-    validationTypographyLetterSpacingUnit,
-    validationTypographyLineHeightSm,
-    validationTypographyLineHeightMd,
-    validationTypographyLineHeight,
-    validationTypographyLineHeightUnit,
-    validationColor,
-    validationTextAlignment,
-    formTitleTypographyFamily,
-    formTitleTypographyWeight,
-    formTitleTypographyTextTransform,
-    formTitleTypographyTextDecoration,
-    formTitleTypographyFontSizeSm,
-    formTitleTypographyFontSizeMd,
-    formTitleTypographyFontSize,
-    formTitleTypographyFontSizeUnit,
-    formTitleTypographyLetterSpacingSm,
-    formTitleTypographyLetterSpacingMd,
-    formTitleTypographyLetterSpacing,
-    formTitleTypographyLetterSpacingUnit,
-    formTitleTypographyLineHeightSm,
-    formTitleTypographyLineHeightMd,
-    formTitleTypographyLineHeight,
-    formTitleTypographyLineHeightUnit,
-    formTitleColor,
+    validationTypoFamily,
+    validationTypoWeight,
+    validationTypoTextTransform,
+    validationTypoTextDecoration,
+    validationTypoFontSizeSm,
+    validationTypoFontSizeMd,
+    validationTypoFontSize,
+    validationTypoFontSizeUnit,
+    validationTypoLetterSpacingSm,
+    validationTypoLetterSpacingMd,
+    validationTypoLetterSpacing,
+    validationTypoLetterSpacingUnit,
+    validationTypoLineHeightSm,
+    validationTypoLineHeightMd,
+    validationTypoLineHeight,
+    validationTypoLineHeightUnit,
+    validationTypoFontColor,
+    validationTextAlign,
+    formTitleTypoFamily,
+    formTitleTypoWeight,
+    formTitleTypoTextTransform,
+    formTitleTypoTextDecoration,
+    formTitleTypoFontSizeSm,
+    formTitleTypoFontSizeMd,
+    formTitleTypoFontSize,
+    formTitleTypoFontSizeUnit,
+    formTitleTypoLetterSpacingSm,
+    formTitleTypoLetterSpacingMd,
+    formTitleTypoLetterSpacing,
+    formTitleTypoLetterSpacingUnit,
+    formTitleTypoLineHeightSm,
+    formTitleTypoLineHeightMd,
+    formTitleTypoLineHeight,
+    formTitleTypoLineHeightUnit,
+    formTitleTypoFontColor,
     formTitleSpacingTop,
     formTitleSpacingLeft,
     formTitleSpacingRight,
     formTitleSpacingBottom,
     formTitleSpacingUnit,
-    formDescTypographyFamily,
-    formDescTypographyWeight,
-    formDescTypographyTextTransform,
-    formDescTypographyTextDecoration,
-    formDescTypographyFontSizeSm,
-    formDescTypographyFontSizeMd,
-    formDescTypographyFontSize,
-    formDescTypographyFontSizeUnit,
-    formDescTypographyLetterSpacingSm,
-    formDescTypographyLetterSpacingMd,
-    formDescTypographyLetterSpacing,
-    formDescTypographyLetterSpacingUnit,
-    formDescTypographyLineHeightSm,
-    formDescTypographyLineHeightMd,
-    formDescTypographyLineHeight,
-    formDescTypographyLineHeightUnit,
-    formDescColor,
+    formDescTypoFamily,
+    formDescTypoWeight,
+    formDescTypoTextTransform,
+    formDescTypoTextDecoration,
+    formDescTypoFontSizeSm,
+    formDescTypoFontSizeMd,
+    formDescTypoFontSize,
+    formDescTypoFontSizeUnit,
+    formDescTypoLetterSpacingSm,
+    formDescTypoLetterSpacingMd,
+    formDescTypoLetterSpacing,
+    formDescTypoLetterSpacingUnit,
+    formDescTypoLineHeightSm,
+    formDescTypoLineHeightMd,
+    formDescTypoLineHeight,
+    formDescTypoLineHeightUnit,
+    formDescTypoFontColor,
     formDescSpacingTop,
     formDescSpacingLeft,
     formDescSpacingRight,
     formDescSpacingBottom,
     formDescSpacingUnit,
-    headingTypographyFamily,
-    headingTypographyWeight,
-    headingTypographyTextTransform,
-    headingTypographyTextDecoration,
-    headingTypographyFontSizeSm,
-    headingTypographyFontSizeMd,
-    headingTypographyFontSize,
-    headingTypographyFontSizeUnit,
-    headingTypographyLetterSpacingSm,
-    headingTypographyLetterSpacingMd,
-    headingTypographyLetterSpacing,
-    headingTypographyLetterSpacingUnit,
-    headingTypographyLineHeightSm,
-    headingTypographyLineHeightMd,
-    headingTypographyLineHeight,
-    headingTypographyLineHeightUnit,
-    headingColor,
-    paragraphTypographyFamily,
-    paragraphTypographyWeight,
-    paragraphTypographyTextTransform,
-    paragraphTypographyTextDecoration,
-    paragraphTypographyFontSizeSm,
-    paragraphTypographyFontSizeMd,
-    paragraphTypographyFontSize,
-    paragraphTypographyFontSizeUnit,
-    paragraphTypographyLetterSpacingSm,
-    paragraphTypographyLetterSpacingMd,
-    paragraphTypographyLetterSpacing,
-    paragraphTypographyLetterSpacingUnit,
-    paragraphTypographyLineHeightSm,
-    paragraphTypographyLineHeightMd,
-    paragraphTypographyLineHeight,
-    paragraphTypographyLineHeightUnit,
-    paragraphColor,
+    headingTypoFamily,
+    headingTypoWeight,
+    headingTypoTextTransform,
+    headingTypoTextDecoration,
+    headingTypoFontSizeSm,
+    headingTypoFontSizeMd,
+    headingTypoFontSize,
+    headingTypoFontSizeUnit,
+    headingTypoLetterSpacingSm,
+    headingTypoLetterSpacingMd,
+    headingTypoLetterSpacing,
+    headingTypoLetterSpacingUnit,
+    headingTypoLineHeightSm,
+    headingTypoLineHeightMd,
+    headingTypoLineHeight,
+    headingTypoLineHeightUnit,
+    headingTypoFontColor,
+    paragraphTypoFamily,
+    paragraphTypoWeight,
+    paragraphTypoTextTransform,
+    paragraphTypoTextDecoration,
+    paragraphTypoFontSizeSm,
+    paragraphTypoFontSizeMd,
+    paragraphTypoFontSize,
+    paragraphTypoFontSizeUnit,
+    paragraphTypoLetterSpacingSm,
+    paragraphTypoLetterSpacingMd,
+    paragraphTypoLetterSpacing,
+    paragraphTypoLetterSpacingUnit,
+    paragraphTypoLineHeightSm,
+    paragraphTypoLineHeightMd,
+    paragraphTypoLineHeight,
+    paragraphTypoLineHeightUnit,
+    paragraphTypoFontColor,
     dividerColor,
     starSize,
     starSizeUnit,
     starColor,
     starColorActive,
-    rangeSliderHeight,
-    rangeSliderHeightUnit,
-    rangeSliderHandleSize,
-    rangeSliderHandleSizeUnit,
-    rangeSliderBarColor,
-    rangeSliderBarColorActive,
+    rangeHeight,
+    rangeHeightUnit,
+    rangeHandleSize,
+    rangeHandleSizeUnit,
+    rangeColor,
+    rangeColorActive,
     rangeHandleColor
   } = attributes;
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    !formColumnGapUnit && setAttributes({
-      formColumnGapUnit: 'px'
-    });
-    !formRowGapUnit && setAttributes({
-      formRowGapUnit: 'px'
-    });
-  }, []);
   setAttributes({
     id: (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)()['id']
   });
   const stylesCSS = `#${id} {
         ${enableCustomStyle && (0,_utils_helper__WEBPACK_IMPORTED_MODULE_17__.getStyleVars)(attributes, {
     responsiveSliderUnits: [],
-    normal: ['labelColor', 'requiredColor', 'descriptionColor', 'fieldsColor', 'fieldsBgColor', 'fieldsColorFocus', 'fieldsBgColorFocus', 'uploadColor', 'uploadBorderColor', 'uploadBgColor', 'uploadColorHover', 'uploadBgColorHover', 'buttonColor', 'buttonBgColor', 'buttonColorHover', 'buttonBgColorHover', 'validationColor', 'validationTextAlignment', 'formTitleColor', 'formDescColor', 'headingColor', 'paragraphColor', 'dividerColor', 'starColor', 'starColorActive', 'rangeSliderBarColor', 'rangeSliderBarColorActive', 'rangeHandleColor'],
-    normalUnit: ['formColumnGap', 'formRowGap', 'starSize', 'rangeSliderHeight', 'rangeSliderHandleSize'],
-    dimension: ['labelSpacing', 'descriptionSpacing', 'fieldsBorderRadius', 'fieldsPadding', 'uploadBorderRadius', 'uploadPadding', 'buttonBorderRadius', 'buttonPadding', 'formTitleSpacing', 'formDescSpacing'],
-    responsiveBorder: ['fieldsBorder', 'fieldsBorderFocus', 'uploadBorderHover', 'buttonBorder', 'buttonBorderHover'],
-    responsiveTypography: ['labelTypography', 'descriptionTypography', 'fieldsTypography', 'uploadTypography', 'buttonTypography', 'validationTypography', 'formTitleTypography', 'formDescTypography', 'headingTypography', 'paragraphTypography'],
-    boxShadow: ['fieldsBoxShadow', 'fieldsBoxShadowFocus', 'buttonBoxShadow', 'buttonBoxShadowHover', 'uploadBoxShadowHover']
+    normal: ['labelTypoFontColor', 'labelRequiredColor', 'descTypoFontColor', 'fieldBorder', 'fieldColorNormal', 'fieldBgColorNormal', 'fieldBorderColorNormal', 'fieldColorNormalFocus', 'fieldBgColorNormalFocus', 'fieldBorderFocusColor', 'uploadColor', 'uploadBorderColor', 'uploadBgColor', 'uploadColorHover', 'uploadBgColorHover', 'buttonColorNormal', 'buttonBgColorNormal', 'buttonColorHover', 'buttonBgColorHover', 'validationTypoFontColor', 'validationTextAlign', 'formTitleTypoFontColor', 'formDescTypoFontColor', 'headingTypoFontColor', 'paragraphTypoFontColor', 'dividerColor', 'starColor', 'starColorActive', 'rangeColor', 'rangeColorActive', 'rangeHandleColor'],
+    normalUnit: ['formColumnGap', 'formRowGap', 'starSize', 'rangeHeight', 'rangeHandleSize'],
+    dimension: ['labelSpacing', 'descSpacing', 'fieldBorder', 'fieldBorderRadius', 'fieldPadding', 'uploadBorderRadius', 'uploadPadding', 'buttonBorder', 'buttonBorderRadius', 'buttonPadding', 'formTitleSpacing', 'formDescSpacing'],
+    responsiveBorder: ['uploadBorderHover', 'buttonBorderHover'],
+    responsiveTypography: ['labelTypo', 'descTypo', 'fieldTypo', 'uploadTypo', 'buttonTypo', 'validationTypo', 'formTitleTypo', 'formDescTypo', 'headingTypo', 'paragraphTypo'],
+    boxShadow: ['fieldShadowNormal', 'fieldShadowFocus', 'buttonShadow', 'buttonShadowHover', 'uploadShadowHover']
   })}
     }`;
   setAttributes({
@@ -11601,36 +11528,36 @@ function Edit(props) {
   };
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("style", {
     jsx: true
-  }, (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_19__.applyFilters)('hashform.editorcss', hfStyle, props)), labelTypographyFamily && labelTypographyFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    family: labelTypographyFamily,
-    weight: labelTypographyWeight.replace("italic", "i")
-  }), descriptionTypographyFamily && descriptionTypographyFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    family: descriptionTypographyFamily,
-    weight: descriptionTypographyWeight.replace("italic", "i")
-  }), fieldsTypographyFamily && fieldsTypographyFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    family: fieldsTypographyFamily,
-    weight: fieldsTypographyWeight.replace("italic", "i")
-  }), uploadTypographyFamily && uploadTypographyFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    family: uploadTypographyFamily,
-    weight: uploadTypographyWeight.replace("italic", "i")
-  }), buttonTypographyFamily && buttonTypographyFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    family: buttonTypographyFamily,
-    weight: buttonTypographyWeight.replace("italic", "i")
-  }), validationTypographyFamily && validationTypographyFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    family: validationTypographyFamily,
-    weight: validationTypographyWeight.replace("italic", "i")
-  }), formTitleTypographyFamily && formTitleTypographyFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    family: formTitleTypographyFamily,
-    weight: formTitleTypographyWeight.replace("italic", "i")
-  }), formDescTypographyFamily && formDescTypographyFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    family: formDescTypographyFamily,
-    weight: formDescTypographyWeight.replace("italic", "i")
-  }), headingTypographyFamily && headingTypographyFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    family: headingTypographyFamily,
-    weight: headingTypographyWeight.replace("italic", "i")
-  }), paragraphTypographyFamily && paragraphTypographyFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    family: paragraphTypographyFamily,
-    weight: paragraphTypographyWeight.replace("italic", "i")
+  }, (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_19__.applyFilters)('hashform.editorcss', hfStyle, props)), labelTypoFamily && labelTypoFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    family: labelTypoFamily,
+    weight: labelTypoWeight.replace("italic", "i")
+  }), descTypoFamily && descTypoFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    family: descTypoFamily,
+    weight: descTypoWeight.replace("italic", "i")
+  }), fieldTypoFamily && fieldTypoFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    family: fieldTypoFamily,
+    weight: fieldTypoWeight.replace("italic", "i")
+  }), uploadTypoFamily && uploadTypoFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    family: uploadTypoFamily,
+    weight: uploadTypoWeight.replace("italic", "i")
+  }), buttonTypoFamily && buttonTypoFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    family: buttonTypoFamily,
+    weight: buttonTypoWeight.replace("italic", "i")
+  }), validationTypoFamily && validationTypoFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    family: validationTypoFamily,
+    weight: validationTypoWeight.replace("italic", "i")
+  }), formTitleTypoFamily && formTitleTypoFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    family: formTitleTypoFamily,
+    weight: formTitleTypoWeight.replace("italic", "i")
+  }), formDescTypoFamily && formDescTypoFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    family: formDescTypoFamily,
+    weight: formDescTypoWeight.replace("italic", "i")
+  }), headingTypoFamily && headingTypoFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    family: headingTypoFamily,
+    weight: headingTypoWeight.replace("italic", "i")
+  }), paragraphTypoFamily && paragraphTypoFamily != 'Default' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_googlefontload__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    family: paragraphTypoFamily,
+    weight: paragraphTypoWeight.replace("italic", "i")
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "hf-head-panel-tabs"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -11657,7 +11584,7 @@ function Edit(props) {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "dashicons"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_svgicons__WEBPACK_IMPORTED_MODULE_18__.AdvancedIcon, null)), (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Advanced', 'hash-form'))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "hf-panel-tab-fields"
+    className: "hf-panel-tab-field"
   }, 'layout' === activeTab && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Form Settings', 'hash-form'),
     initialOpen: false
@@ -11714,83 +11641,83 @@ function Edit(props) {
     initialOpen: false
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_typography__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Typography', 'smart-blocks-pro'),
-    valueFamily: labelTypographyFamily,
+    valueFamily: labelTypoFamily,
     setValueFamily: value => setAttributes({
-      labelTypographyFamily: value
+      labelTypoFamily: value
     }),
-    valueWeight: labelTypographyWeight,
+    valueWeight: labelTypoWeight,
     setValueWeight: value => setAttributes({
-      labelTypographyWeight: value
+      labelTypoWeight: value
     }),
-    valueTextTransform: labelTypographyTextTransform,
+    valueTextTransform: labelTypoTextTransform,
     setValueTextTransform: value => setAttributes({
-      labelTypographyTextTransform: value
+      labelTypoTextTransform: value
     }),
-    valueTextDecoration: labelTypographyTextDecoration,
+    valueTextDecoration: labelTypoTextDecoration,
     setValueTextDecoration: value => setAttributes({
-      labelTypographyTextDecoration: value
+      labelTypoTextDecoration: value
     }),
-    valueFontSizeSm: labelTypographyFontSizeSm,
+    valueFontSizeSm: labelTypoFontSizeSm,
     setValueFontSizeSm: value => setAttributes({
-      labelTypographyFontSizeSm: value
+      labelTypoFontSizeSm: value
     }),
-    valueFontSizeMd: labelTypographyFontSizeMd,
+    valueFontSizeMd: labelTypoFontSizeMd,
     setValueFontSizeMd: value => setAttributes({
-      labelTypographyFontSizeMd: value
+      labelTypoFontSizeMd: value
     }),
-    valueFontSize: labelTypographyFontSize,
+    valueFontSize: labelTypoFontSize,
     setValueFontSize: value => setAttributes({
-      labelTypographyFontSize: value
+      labelTypoFontSize: value
     }),
-    valueFontSizeUnit: labelTypographyFontSizeUnit,
+    valueFontSizeUnit: labelTypoFontSizeUnit,
     setValueFontSizeUnit: value => setAttributes({
-      labelTypographyFontSizeUnit: value
+      labelTypoFontSizeUnit: value
     }),
-    valueLetterSpacingSm: labelTypographyLetterSpacingSm,
+    valueLetterSpacingSm: labelTypoLetterSpacingSm,
     setValueLetterSpacingSm: value => setAttributes({
-      labelTypographyLetterSpacingSm: value
+      labelTypoLetterSpacingSm: value
     }),
-    valueLetterSpacingMd: labelTypographyLetterSpacingMd,
+    valueLetterSpacingMd: labelTypoLetterSpacingMd,
     setValueLetterSpacingMd: value => setAttributes({
-      labelTypographyLetterSpacingMd: value
+      labelTypoLetterSpacingMd: value
     }),
-    valueLetterSpacing: labelTypographyLetterSpacing,
+    valueLetterSpacing: labelTypoLetterSpacing,
     setValueLetterSpacing: value => setAttributes({
-      labelTypographyLetterSpacing: value
+      labelTypoLetterSpacing: value
     }),
-    valueLetterSpacingUnit: labelTypographyLetterSpacingUnit,
+    valueLetterSpacingUnit: labelTypoLetterSpacingUnit,
     setValueLetterSpacingUnit: value => setAttributes({
-      labelTypographyLetterSpacingUnit: value
+      labelTypoLetterSpacingUnit: value
     }),
-    valueLineHeightSm: labelTypographyLineHeightSm,
+    valueLineHeightSm: labelTypoLineHeightSm,
     setValueLineHeightSm: value => setAttributes({
-      labelTypographyLineHeightSm: value
+      labelTypoLineHeightSm: value
     }),
-    valueLineHeightMd: labelTypographyLineHeightMd,
+    valueLineHeightMd: labelTypoLineHeightMd,
     setValueLineHeightMd: value => setAttributes({
-      labelTypographyLineHeightMd: value
+      labelTypoLineHeightMd: value
     }),
-    valueLineHeight: labelTypographyLineHeight,
+    valueLineHeight: labelTypoLineHeight,
     setValueLineHeight: value => setAttributes({
-      labelTypographyLineHeight: value
+      labelTypoLineHeight: value
     }),
-    valueLineHeightUnit: labelTypographyLineHeightUnit,
+    valueLineHeightUnit: labelTypoLineHeightUnit,
     setValueLineHeightUnit: value => setAttributes({
-      labelTypographyLineHeightUnit: value
+      labelTypoLineHeightUnit: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Color', 'smart-blocks'),
     enableAlpha: true,
-    value: labelColor,
+    value: labelTypoFontColor,
     setValue: value => setAttributes({
-      labelColor: value
+      labelTypoFontColor: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Required Color', 'smart-blocks'),
     enableAlpha: true,
-    value: requiredColor,
+    value: labelRequiredColor,
     setValue: value => setAttributes({
-      requiredColor: value
+      labelRequiredColor: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_dimension__WEBPACK_IMPORTED_MODULE_11__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Spacing', 'smart-blocks'),
@@ -11820,98 +11747,98 @@ function Edit(props) {
     initialOpen: false
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_typography__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Typography', 'smart-blocks-pro'),
-    valueFamily: descriptionTypographyFamily,
+    valueFamily: descTypoFamily,
     setValueFamily: value => setAttributes({
-      descriptionTypographyFamily: value
+      descTypoFamily: value
     }),
-    valueWeight: descriptionTypographyWeight,
+    valueWeight: descTypoWeight,
     setValueWeight: value => setAttributes({
-      descriptionTypographyWeight: value
+      descTypoWeight: value
     }),
-    valueTextTransform: descriptionTypographyTextTransform,
+    valueTextTransform: descTypoTextTransform,
     setValueTextTransform: value => setAttributes({
-      descriptionTypographyTextTransform: value
+      descTypoTextTransform: value
     }),
-    valueTextDecoration: descriptionTypographyTextDecoration,
+    valueTextDecoration: descTypoTextDecoration,
     setValueTextDecoration: value => setAttributes({
-      descriptionTypographyTextDecoration: value
+      descTypoTextDecoration: value
     }),
-    valueFontSizeSm: descriptionTypographyFontSizeSm,
+    valueFontSizeSm: descTypoFontSizeSm,
     setValueFontSizeSm: value => setAttributes({
-      descriptionTypographyFontSizeSm: value
+      descTypoFontSizeSm: value
     }),
-    valueFontSizeMd: descriptionTypographyFontSizeMd,
+    valueFontSizeMd: descTypoFontSizeMd,
     setValueFontSizeMd: value => setAttributes({
-      descriptionTypographyFontSizeMd: value
+      descTypoFontSizeMd: value
     }),
-    valueFontSize: descriptionTypographyFontSize,
+    valueFontSize: descTypoFontSize,
     setValueFontSize: value => setAttributes({
-      descriptionTypographyFontSize: value
+      descTypoFontSize: value
     }),
-    valueFontSizeUnit: descriptionTypographyFontSizeUnit,
+    valueFontSizeUnit: descTypoFontSizeUnit,
     setValueFontSizeUnit: value => setAttributes({
-      descriptionTypographyFontSizeUnit: value
+      descTypoFontSizeUnit: value
     }),
-    valueLetterSpacingSm: descriptionTypographyLetterSpacingSm,
+    valueLetterSpacingSm: descTypoLetterSpacingSm,
     setValueLetterSpacingSm: value => setAttributes({
-      descriptionTypographyLetterSpacingSm: value
+      descTypoLetterSpacingSm: value
     }),
-    valueLetterSpacingMd: descriptionTypographyLetterSpacingMd,
+    valueLetterSpacingMd: descTypoLetterSpacingMd,
     setValueLetterSpacingMd: value => setAttributes({
-      descriptionTypographyLetterSpacingMd: value
+      descTypoLetterSpacingMd: value
     }),
-    valueLetterSpacing: descriptionTypographyLetterSpacing,
+    valueLetterSpacing: descTypoLetterSpacing,
     setValueLetterSpacing: value => setAttributes({
-      descriptionTypographyLetterSpacing: value
+      descTypoLetterSpacing: value
     }),
-    valueLetterSpacingUnit: descriptionTypographyLetterSpacingUnit,
+    valueLetterSpacingUnit: descTypoLetterSpacingUnit,
     setValueLetterSpacingUnit: value => setAttributes({
-      descriptionTypographyLetterSpacingUnit: value
+      descTypoLetterSpacingUnit: value
     }),
-    valueLineHeightSm: descriptionTypographyLineHeightSm,
+    valueLineHeightSm: descTypoLineHeightSm,
     setValueLineHeightSm: value => setAttributes({
-      descriptionTypographyLineHeightSm: value
+      descTypoLineHeightSm: value
     }),
-    valueLineHeightMd: descriptionTypographyLineHeightMd,
+    valueLineHeightMd: descTypoLineHeightMd,
     setValueLineHeightMd: value => setAttributes({
-      descriptionTypographyLineHeightMd: value
+      descTypoLineHeightMd: value
     }),
-    valueLineHeight: descriptionTypographyLineHeight,
+    valueLineHeight: descTypoLineHeight,
     setValueLineHeight: value => setAttributes({
-      descriptionTypographyLineHeight: value
+      descTypoLineHeight: value
     }),
-    valueLineHeightUnit: descriptionTypographyLineHeightUnit,
+    valueLineHeightUnit: descTypoLineHeightUnit,
     setValueLineHeightUnit: value => setAttributes({
-      descriptionTypographyLineHeightUnit: value
+      descTypoLineHeightUnit: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Color', 'smart-blocks'),
     enableAlpha: true,
-    value: descriptionColor,
+    value: descTypoFontColor,
     setValue: value => setAttributes({
-      descriptionColor: value
+      descTypoFontColor: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_dimension__WEBPACK_IMPORTED_MODULE_11__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Spacing', 'smart-blocks'),
-    dimensionTop: descriptionSpacingTop,
+    dimensionTop: descSpacingTop,
     setDimensionTop: value => setAttributes({
-      descriptionSpacingTop: value
+      descSpacingTop: value
     }),
-    dimensionLeft: descriptionSpacingLeft,
+    dimensionLeft: descSpacingLeft,
     setDimensionLeft: value => setAttributes({
-      descriptionSpacingLeft: value
+      descSpacingLeft: value
     }),
-    dimensionRight: descriptionSpacingRight,
+    dimensionRight: descSpacingRight,
     setDimensionRight: value => setAttributes({
-      descriptionSpacingRight: value
+      descSpacingRight: value
     }),
-    dimensionBottom: descriptionSpacingBottom,
+    dimensionBottom: descSpacingBottom,
     setDimensionBottom: value => setAttributes({
-      descriptionSpacingBottom: value
+      descSpacingBottom: value
     }),
-    unit: descriptionSpacingUnit,
+    unit: descSpacingUnit,
     setUnit: value => setAttributes({
-      descriptionSpacingUnit: value
+      descSpacingUnit: value
     }),
     units: ['px', 'em', '%']
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
@@ -11919,332 +11846,239 @@ function Edit(props) {
     initialOpen: false
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_typography__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Typography', 'smart-blocks-pro'),
-    valueFamily: fieldsTypographyFamily,
+    valueFamily: fieldTypoFamily,
     setValueFamily: value => setAttributes({
-      fieldsTypographyFamily: value
+      fieldTypoFamily: value
     }),
-    valueWeight: fieldsTypographyWeight,
+    valueWeight: fieldTypoWeight,
     setValueWeight: value => setAttributes({
-      fieldsTypographyWeight: value
+      fieldTypoWeight: value
     }),
-    valueTextTransform: fieldsTypographyTextTransform,
+    valueTextTransform: fieldTypoTextTransform,
     setValueTextTransform: value => setAttributes({
-      fieldsTypographyTextTransform: value
+      fieldTypoTextTransform: value
     }),
-    valueTextDecoration: fieldsTypographyTextDecoration,
+    valueTextDecoration: fieldTypoTextDecoration,
     setValueTextDecoration: value => setAttributes({
-      fieldsTypographyTextDecoration: value
+      fieldTypoTextDecoration: value
     }),
-    valueFontSizeSm: fieldsTypographyFontSizeSm,
+    valueFontSizeSm: fieldTypoFontSizeSm,
     setValueFontSizeSm: value => setAttributes({
-      fieldsTypographyFontSizeSm: value
+      fieldTypoFontSizeSm: value
     }),
-    valueFontSizeMd: fieldsTypographyFontSizeMd,
+    valueFontSizeMd: fieldTypoFontSizeMd,
     setValueFontSizeMd: value => setAttributes({
-      fieldsTypographyFontSizeMd: value
+      fieldTypoFontSizeMd: value
     }),
-    valueFontSize: fieldsTypographyFontSize,
+    valueFontSize: fieldTypoFontSize,
     setValueFontSize: value => setAttributes({
-      fieldsTypographyFontSize: value
+      fieldTypoFontSize: value
     }),
-    valueFontSizeUnit: fieldsTypographyFontSizeUnit,
+    valueFontSizeUnit: fieldTypoFontSizeUnit,
     setValueFontSizeUnit: value => setAttributes({
-      fieldsTypographyFontSizeUnit: value
+      fieldTypoFontSizeUnit: value
     }),
-    valueLetterSpacingSm: fieldsTypographyLetterSpacingSm,
+    valueLetterSpacingSm: fieldTypoLetterSpacingSm,
     setValueLetterSpacingSm: value => setAttributes({
-      fieldsTypographyLetterSpacingSm: value
+      fieldTypoLetterSpacingSm: value
     }),
-    valueLetterSpacingMd: fieldsTypographyLetterSpacingMd,
+    valueLetterSpacingMd: fieldTypoLetterSpacingMd,
     setValueLetterSpacingMd: value => setAttributes({
-      fieldsTypographyLetterSpacingMd: value
+      fieldTypoLetterSpacingMd: value
     }),
-    valueLetterSpacing: fieldsTypographyLetterSpacing,
+    valueLetterSpacing: fieldTypoLetterSpacing,
     setValueLetterSpacing: value => setAttributes({
-      fieldsTypographyLetterSpacing: value
+      fieldTypoLetterSpacing: value
     }),
-    valueLetterSpacingUnit: fieldsTypographyLetterSpacingUnit,
+    valueLetterSpacingUnit: fieldTypoLetterSpacingUnit,
     setValueLetterSpacingUnit: value => setAttributes({
-      fieldsTypographyLetterSpacingUnit: value
+      fieldTypoLetterSpacingUnit: value
     }),
-    valueLineHeightSm: fieldsTypographyLineHeightSm,
+    valueLineHeightSm: fieldTypoLineHeightSm,
     setValueLineHeightSm: value => setAttributes({
-      fieldsTypographyLineHeightSm: value
+      fieldTypoLineHeightSm: value
     }),
-    valueLineHeightMd: fieldsTypographyLineHeightMd,
+    valueLineHeightMd: fieldTypoLineHeightMd,
     setValueLineHeightMd: value => setAttributes({
-      fieldsTypographyLineHeightMd: value
+      fieldTypoLineHeightMd: value
     }),
-    valueLineHeight: fieldsTypographyLineHeight,
+    valueLineHeight: fieldTypoLineHeight,
     setValueLineHeight: value => setAttributes({
-      fieldsTypographyLineHeight: value
+      fieldTypoLineHeight: value
     }),
-    valueLineHeightUnit: fieldsTypographyLineHeightUnit,
+    valueLineHeightUnit: fieldTypoLineHeightUnit,
     setValueLineHeightUnit: value => setAttributes({
-      fieldsTypographyLineHeightUnit: value
+      fieldTypoLineHeightUnit: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_tabs__WEBPACK_IMPORTED_MODULE_9__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     tabTitle: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Normal", 'smart-blocks')
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Color', 'smart-blocks'),
     enableAlpha: true,
-    value: fieldsColor,
+    value: fieldColorNormal,
     setValue: value => setAttributes({
-      fieldsColor: value
+      fieldColorNormal: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Background Color', 'smart-blocks'),
     enableAlpha: true,
-    value: fieldsBgColor,
+    value: fieldBgColorNormal,
     setValue: value => setAttributes({
-      fieldsBgColor: value
+      fieldBgColorNormal: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_boxshadow__WEBPACK_IMPORTED_MODULE_15__["default"], {
-    valueHorizontal: fieldsBoxShadowHorizontal,
-    setValueHorizontal: fieldsBoxShadowHorizontal => setAttributes({
-      fieldsBoxShadowHorizontal
+    valueHorizontal: fieldShadowNormalX,
+    setValueHorizontal: fieldShadowNormalX => setAttributes({
+      fieldShadowNormalX
     }),
-    valueVertical: fieldsBoxShadowVertical,
-    setValueVertical: fieldsBoxShadowVertical => setAttributes({
-      fieldsBoxShadowVertical
+    valueVertical: fieldShadowNormalY,
+    setValueVertical: fieldShadowNormalY => setAttributes({
+      fieldShadowNormalY
     }),
-    valueBlur: fieldsBoxShadowBlur,
-    setValueBlur: fieldsBoxShadowBlur => setAttributes({
-      fieldsBoxShadowBlur
+    valueBlur: fieldShadowNormalBlur,
+    setValueBlur: fieldShadowNormalBlur => setAttributes({
+      fieldShadowNormalBlur
     }),
-    valueSpread: fieldsBoxShadowSpread,
-    setValueSpread: fieldsBoxShadowSpread => setAttributes({
-      fieldsBoxShadowSpread
+    valueSpread: fieldShadowNormalSpread,
+    setValueSpread: fieldShadowNormalSpread => setAttributes({
+      fieldShadowNormalSpread
     }),
-    valueColor: fieldsBoxShadowColor,
-    setValueColor: fieldsBoxShadowColor => setAttributes({
-      fieldsBoxShadowColor
+    valueColor: fieldShadowNormalColor,
+    setValueColor: fieldShadowNormalColor => setAttributes({
+      fieldShadowNormalColor
     }),
-    valueInset: fieldsBoxShadowInset,
-    setValueInset: fieldsBoxShadowInset => setAttributes({
-      fieldsBoxShadowInset
+    valueInset: fieldShadowNormalInset,
+    setValueInset: fieldShadowNormalInset => setAttributes({
+      fieldShadowNormalInset
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_border__WEBPACK_IMPORTED_MODULE_14__["default"], {
-    value: fieldsBorder,
-    setValue: fieldsBorder => setAttributes({
-      fieldsBorder
+    value: fieldBorder,
+    setValue: fieldBorder => setAttributes({
+      fieldBorder
     })
-  }), fieldsBorder && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_dimension__WEBPACK_IMPORTED_MODULE_11__["default"], {
+  }), fieldBorder && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_dimension__WEBPACK_IMPORTED_MODULE_11__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Border Width', 'smart-blocks-pro'),
     units: ['px', 'em', 'rem', 'vw'],
-    responsive: !0,
-    dimensionTop: fieldsBorderWidthTop,
+    responsive: !1,
+    dimensionTop: fieldBorderTop,
     setDimensionTop: value => setAttributes({
-      fieldsBorderWidthTop: value
+      fieldBorderTop: value
     }),
-    dimensionMdTop: fieldsBorderWidthMdTop,
-    setDimensionMdTop: value => setAttributes({
-      fieldsBorderWidthMdTop: value
-    }),
-    dimensionSmTop: fieldsBorderWidthSmTop,
-    setDimensionSmTop: value => setAttributes({
-      fieldsBorderWidthSmTop: value
-    }),
-    dimensionLeft: fieldsBorderWidthLeft,
+    dimensionLeft: fieldBorderLeft,
     setDimensionLeft: value => setAttributes({
-      fieldsBorderWidthLeft: value
+      fieldBorderLeft: value
     }),
-    dimensionMdLeft: fieldsBorderWidthMdLeft,
-    setDimensionMdLeft: value => setAttributes({
-      fieldsBorderWidthMdLeft: value
-    }),
-    dimensionSmLeft: fieldsBorderWidthSmLeft,
-    setDimensionSmLeft: value => setAttributes({
-      fieldsBorderWidthSmLeft: value
-    }),
-    dimensionRight: fieldsBorderWidthRight,
+    dimensionRight: fieldBorderRight,
     setDimensionRight: value => setAttributes({
-      fieldsBorderWidthRight: value
+      fieldBorderRight: value
     }),
-    dimensionMdRight: fieldsBorderWidthMdRight,
-    setDimensionMdRight: value => setAttributes({
-      fieldsBorderWidthMdRight: value
-    }),
-    dimensionSmRight: fieldsBorderWidthSmRight,
-    setDimensionSmRight: value => setAttributes({
-      fieldsBorderWidthSmRight: value
-    }),
-    dimensionBottom: fieldsBorderWidthBottom,
+    dimensionBottom: fieldBorderBottom,
     setDimensionBottom: value => setAttributes({
-      fieldsBorderWidthBottom: value
+      fieldBorderBottom: value
     }),
-    dimensionMdBottom: fieldsBorderWidthMdBottom,
-    setDimensionMdBottom: value => setAttributes({
-      fieldsBorderWidthMdBottom: value
-    }),
-    dimensionSmBottom: fieldsBorderWidthSmBottom,
-    setDimensionSmBottom: value => setAttributes({
-      fieldsBorderWidthSmBottom: value
-    }),
-    unit: fieldsBorderWidthUnit,
+    unit: fieldBorderUnit,
     setUnit: value => setAttributes({
-      fieldsBorderWidthUnit: value
+      fieldBorderUnit: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Border Color', 'smart-blocks-pro'),
     enableAlpha: true,
-    value: fieldsBorderColor,
-    setValue: fieldsBorderColor => setAttributes({
-      fieldsBorderColor
+    value: fieldBorderColorNormal,
+    setValue: fieldBorderColorNormal => setAttributes({
+      fieldBorderColorNormal
     })
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     tabTitle: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Focus", 'smart-blocks')
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Color', 'smart-blocks'),
     enableAlpha: true,
-    value: fieldsColorFocus,
+    value: fieldColorNormalFocus,
     setValue: value => setAttributes({
-      fieldsColorFocus: value
+      fieldColorNormalFocus: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Background Color', 'smart-blocks'),
     enableAlpha: true,
-    value: fieldsBgColorFocus,
+    value: fieldBgColorNormalFocus,
     setValue: value => setAttributes({
-      fieldsBgColorFocus: value
+      fieldBgColorNormalFocus: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_boxshadow__WEBPACK_IMPORTED_MODULE_15__["default"], {
-    valueHorizontal: fieldsBoxShadowFocusHorizontal,
-    setValueHorizontal: fieldsBoxShadowFocusHorizontal => setAttributes({
-      fieldsBoxShadowFocusHorizontal
+    valueHorizontal: fieldShadowFocusHorizontal,
+    setValueHorizontal: fieldShadowFocusHorizontal => setAttributes({
+      fieldShadowFocusHorizontal
     }),
-    valueVertical: fieldsBoxShadowFocusVertical,
-    setValueVertical: fieldsBoxShadowFocusVertical => setAttributes({
-      fieldsBoxShadowFocusVertical
+    valueVertical: fieldShadowFocusVertical,
+    setValueVertical: fieldShadowFocusVertical => setAttributes({
+      fieldShadowFocusVertical
     }),
-    valueBlur: fieldsBoxShadowFocusBlur,
-    setValueBlur: fieldsBoxShadowFocusBlur => setAttributes({
-      fieldsBoxShadowFocusBlur
+    valueBlur: fieldShadowFocusBlur,
+    setValueBlur: fieldShadowFocusBlur => setAttributes({
+      fieldShadowFocusBlur
     }),
-    valueSpread: fieldsBoxShadowFocusSpread,
-    setValueSpread: fieldsBoxShadowFocusSpread => setAttributes({
-      fieldsBoxShadowFocusSpread
+    valueSpread: fieldShadowFocusSpread,
+    setValueSpread: fieldShadowFocusSpread => setAttributes({
+      fieldShadowFocusSpread
     }),
-    valueColor: fieldsBoxShadowFocusColor,
-    setValueColor: fieldsBoxShadowFocusColor => setAttributes({
-      fieldsBoxShadowFocusColor
+    valueColor: fieldShadowFocusColor,
+    setValueColor: fieldShadowFocusColor => setAttributes({
+      fieldShadowFocusColor
     }),
-    valueInset: fieldsBoxShadowFocusInset,
-    setValueInset: fieldsBoxShadowFocusInset => setAttributes({
-      fieldsBoxShadowFocusInset
-    })
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_border__WEBPACK_IMPORTED_MODULE_14__["default"], {
-    value: fieldsBorderFocus,
-    setValue: fieldsBorderFocus => setAttributes({
-      fieldsBorderFocus
-    })
-  }), fieldsBorderFocus && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_dimension__WEBPACK_IMPORTED_MODULE_11__["default"], {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Border Width', 'smart-blocks-pro'),
-    units: ['px', 'em', 'rem', 'vw'],
-    responsive: !0,
-    dimensionTop: fieldsBorderFocusWidthTop,
-    setDimensionTop: value => setAttributes({
-      fieldsBorderFocusWidthTop: value
-    }),
-    dimensionMdTop: fieldsBorderFocusWidthMdTop,
-    setDimensionMdTop: value => setAttributes({
-      fieldsBorderFocusWidthMdTop: value
-    }),
-    dimensionSmTop: fieldsBorderFocusWidthSmTop,
-    setDimensionSmTop: value => setAttributes({
-      fieldsBorderFocusWidthSmTop: value
-    }),
-    dimensionLeft: fieldsBorderFocusWidthLeft,
-    setDimensionLeft: value => setAttributes({
-      fieldsBorderFocusWidthLeft: value
-    }),
-    dimensionMdLeft: fieldsBorderFocusWidthMdLeft,
-    setDimensionMdLeft: value => setAttributes({
-      fieldsBorderFocusWidthMdLeft: value
-    }),
-    dimensionSmLeft: fieldsBorderFocusWidthSmLeft,
-    setDimensionSmLeft: value => setAttributes({
-      fieldsBorderFocusWidthSmLeft: value
-    }),
-    dimensionRight: fieldsBorderFocusWidthRight,
-    setDimensionRight: value => setAttributes({
-      fieldsBorderFocusWidthRight: value
-    }),
-    dimensionMdRight: fieldsBorderFocusWidthMdRight,
-    setDimensionMdRight: value => setAttributes({
-      fieldsBorderFocusWidthMdRight: value
-    }),
-    dimensionSmRight: fieldsBorderFocusWidthSmRight,
-    setDimensionSmRight: value => setAttributes({
-      fieldsBorderFocusWidthSmRight: value
-    }),
-    dimensionBottom: fieldsBorderFocusWidthBottom,
-    setDimensionBottom: value => setAttributes({
-      fieldsBorderFocusWidthBottom: value
-    }),
-    dimensionMdBottom: fieldsBorderFocusWidthMdBottom,
-    setDimensionMdBottom: value => setAttributes({
-      fieldsBorderFocusWidthMdBottom: value
-    }),
-    dimensionSmBottom: fieldsBorderFocusWidthSmBottom,
-    setDimensionSmBottom: value => setAttributes({
-      fieldsBorderFocusWidthSmBottom: value
-    }),
-    unit: fieldsBorderFocusWidthUnit,
-    setUnit: value => setAttributes({
-      fieldsBorderFocusWidthUnit: value
+    valueInset: fieldShadowFocusInset,
+    setValueInset: fieldShadowFocusInset => setAttributes({
+      fieldShadowFocusInset
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Border Color', 'smart-blocks-pro'),
     enableAlpha: true,
-    value: fieldsBorderFocusColor,
-    setValue: fieldsBorderFocusColor => setAttributes({
-      fieldsBorderFocusColor
+    value: fieldBorderFocusColor,
+    setValue: fieldBorderFocusColor => setAttributes({
+      fieldBorderFocusColor
     })
-  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_dimension__WEBPACK_IMPORTED_MODULE_11__["default"], {
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_dimension__WEBPACK_IMPORTED_MODULE_11__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Border Radius', 'smart-blocks'),
-    dimensionTop: fieldsBorderRadiusTop,
+    dimensionTop: fieldBorderRadiusTop,
     setDimensionTop: value => setAttributes({
-      fieldsBorderRadiusTop: value
+      fieldBorderRadiusTop: value
     }),
-    dimensionLeft: fieldsBorderRadiusLeft,
+    dimensionLeft: fieldBorderRadiusLeft,
     setDimensionLeft: value => setAttributes({
-      fieldsBorderRadiusLeft: value
+      fieldBorderRadiusLeft: value
     }),
-    dimensionRight: fieldsBorderRadiusRight,
+    dimensionRight: fieldBorderRadiusRight,
     setDimensionRight: value => setAttributes({
-      fieldsBorderRadiusRight: value
+      fieldBorderRadiusRight: value
     }),
-    dimensionBottom: fieldsBorderRadiusBottom,
+    dimensionBottom: fieldBorderRadiusBottom,
     setDimensionBottom: value => setAttributes({
-      fieldsBorderRadiusBottom: value
+      fieldBorderRadiusBottom: value
     }),
-    unit: fieldsBorderRadiusUnit,
+    unit: fieldBorderRadiusUnit,
     setUnit: value => setAttributes({
-      fieldsBorderRadiusUnit: value
+      fieldBorderRadiusUnit: value
     }),
     units: ['px', 'em', '%']
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_dimension__WEBPACK_IMPORTED_MODULE_11__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Padding', 'smart-blocks'),
-    dimensionTop: fieldsPaddingTop,
+    dimensionTop: fieldPaddingTop,
     setDimensionTop: value => setAttributes({
-      fieldsPaddingTop: value
+      fieldPaddingTop: value
     }),
-    dimensionLeft: fieldsPaddingLeft,
+    dimensionLeft: fieldPaddingLeft,
     setDimensionLeft: value => setAttributes({
-      fieldsPaddingLeft: value
+      fieldPaddingLeft: value
     }),
-    dimensionRight: fieldsPaddingRight,
+    dimensionRight: fieldPaddingRight,
     setDimensionRight: value => setAttributes({
-      fieldsPaddingRight: value
+      fieldPaddingRight: value
     }),
-    dimensionBottom: fieldsPaddingBottom,
+    dimensionBottom: fieldPaddingBottom,
     setDimensionBottom: value => setAttributes({
-      fieldsPaddingBottom: value
+      fieldPaddingBottom: value
     }),
-    unit: fieldsPaddingUnit,
+    unit: fieldPaddingUnit,
     setUnit: value => setAttributes({
-      fieldsPaddingUnit: value
+      fieldPaddingUnit: value
     }),
     units: ['px', 'em', '%']
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
@@ -12252,69 +12086,69 @@ function Edit(props) {
     initialOpen: false
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_typography__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Typography', 'smart-blocks-pro'),
-    valueFamily: uploadTypographyFamily,
+    valueFamily: uploadTypoFamily,
     setValueFamily: value => setAttributes({
-      uploadTypographyFamily: value
+      uploadTypoFamily: value
     }),
-    valueWeight: uploadTypographyWeight,
+    valueWeight: uploadTypoWeight,
     setValueWeight: value => setAttributes({
-      uploadTypographyWeight: value
+      uploadTypoWeight: value
     }),
-    valueTextTransform: uploadTypographyTextTransform,
+    valueTextTransform: uploadTypoTextTransform,
     setValueTextTransform: value => setAttributes({
-      uploadTypographyTextTransform: value
+      uploadTypoTextTransform: value
     }),
-    valueTextDecoration: uploadTypographyTextDecoration,
+    valueTextDecoration: uploadTypoTextDecoration,
     setValueTextDecoration: value => setAttributes({
-      uploadTypographyTextDecoration: value
+      uploadTypoTextDecoration: value
     }),
-    valueFontSizeSm: uploadTypographyFontSizeSm,
+    valueFontSizeSm: uploadTypoFontSizeSm,
     setValueFontSizeSm: value => setAttributes({
-      uploadTypographyFontSizeSm: value
+      uploadTypoFontSizeSm: value
     }),
-    valueFontSizeMd: uploadTypographyFontSizeMd,
+    valueFontSizeMd: uploadTypoFontSizeMd,
     setValueFontSizeMd: value => setAttributes({
-      uploadTypographyFontSizeMd: value
+      uploadTypoFontSizeMd: value
     }),
-    valueFontSize: uploadTypographyFontSize,
+    valueFontSize: uploadTypoFontSize,
     setValueFontSize: value => setAttributes({
-      uploadTypographyFontSize: value
+      uploadTypoFontSize: value
     }),
-    valueFontSizeUnit: uploadTypographyFontSizeUnit,
+    valueFontSizeUnit: uploadTypoFontSizeUnit,
     setValueFontSizeUnit: value => setAttributes({
-      uploadTypographyFontSizeUnit: value
+      uploadTypoFontSizeUnit: value
     }),
-    valueLetterSpacingSm: uploadTypographyLetterSpacingSm,
+    valueLetterSpacingSm: uploadTypoLetterSpacingSm,
     setValueLetterSpacingSm: value => setAttributes({
-      uploadTypographyLetterSpacingSm: value
+      uploadTypoLetterSpacingSm: value
     }),
-    valueLetterSpacingMd: uploadTypographyLetterSpacingMd,
+    valueLetterSpacingMd: uploadTypoLetterSpacingMd,
     setValueLetterSpacingMd: value => setAttributes({
-      uploadTypographyLetterSpacingMd: value
+      uploadTypoLetterSpacingMd: value
     }),
-    valueLetterSpacing: uploadTypographyLetterSpacing,
+    valueLetterSpacing: uploadTypoLetterSpacing,
     setValueLetterSpacing: value => setAttributes({
-      uploadTypographyLetterSpacing: value
+      uploadTypoLetterSpacing: value
     }),
-    valueLetterSpacingUnit: uploadTypographyLetterSpacingUnit,
+    valueLetterSpacingUnit: uploadTypoLetterSpacingUnit,
     setValueLetterSpacingUnit: value => setAttributes({
-      uploadTypographyLetterSpacingUnit: value
+      uploadTypoLetterSpacingUnit: value
     }),
-    valueLineHeightSm: uploadTypographyLineHeightSm,
+    valueLineHeightSm: uploadTypoLineHeightSm,
     setValueLineHeightSm: value => setAttributes({
-      uploadTypographyLineHeightSm: value
+      uploadTypoLineHeightSm: value
     }),
-    valueLineHeightMd: uploadTypographyLineHeightMd,
+    valueLineHeightMd: uploadTypoLineHeightMd,
     setValueLineHeightMd: value => setAttributes({
-      uploadTypographyLineHeightMd: value
+      uploadTypoLineHeightMd: value
     }),
-    valueLineHeight: uploadTypographyLineHeight,
+    valueLineHeight: uploadTypoLineHeight,
     setValueLineHeight: value => setAttributes({
-      uploadTypographyLineHeight: value
+      uploadTypoLineHeight: value
     }),
-    valueLineHeightUnit: uploadTypographyLineHeightUnit,
+    valueLineHeightUnit: uploadTypoLineHeightUnit,
     setValueLineHeightUnit: value => setAttributes({
-      uploadTypographyLineHeightUnit: value
+      uploadTypoLineHeightUnit: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_tabs__WEBPACK_IMPORTED_MODULE_9__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     tabTitle: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Normal", 'smart-blocks')
@@ -12333,29 +12167,29 @@ function Edit(props) {
       uploadBgColor: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_boxshadow__WEBPACK_IMPORTED_MODULE_15__["default"], {
-    valueHorizontal: uploadBoxShadowHorizontal,
-    setValueHorizontal: uploadBoxShadowHorizontal => setAttributes({
-      uploadBoxShadowHorizontal
+    valueHorizontal: uploadShadowHorizontal,
+    setValueHorizontal: uploadShadowHorizontal => setAttributes({
+      uploadShadowHorizontal
     }),
-    valueVertical: uploadBoxShadowVertical,
-    setValueVertical: uploadBoxShadowVertical => setAttributes({
-      uploadBoxShadowVertical
+    valueVertical: uploadShadowVertical,
+    setValueVertical: uploadShadowVertical => setAttributes({
+      uploadShadowVertical
     }),
-    valueBlur: uploadBoxShadowBlur,
-    setValueBlur: uploadBoxShadowBlur => setAttributes({
-      uploadBoxShadowBlur
+    valueBlur: uploadShadowBlur,
+    setValueBlur: uploadShadowBlur => setAttributes({
+      uploadShadowBlur
     }),
-    valueSpread: uploadBoxShadowSpread,
-    setValueSpread: uploadBoxShadowSpread => setAttributes({
-      uploadBoxShadowSpread
+    valueSpread: uploadShadowSpread,
+    setValueSpread: uploadShadowSpread => setAttributes({
+      uploadShadowSpread
     }),
-    valueColor: uploadBoxShadowColor,
-    setValueColor: uploadBoxShadowColor => setAttributes({
-      uploadBoxShadowColor
+    valueColor: uploadShadowColor,
+    setValueColor: uploadShadowColor => setAttributes({
+      uploadShadowColor
     }),
-    valueInset: uploadBoxShadowInset,
-    setValueInset: uploadBoxShadowInset => setAttributes({
-      uploadBoxShadowInset
+    valueInset: uploadShadowInset,
+    setValueInset: uploadShadowInset => setAttributes({
+      uploadShadowInset
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_border__WEBPACK_IMPORTED_MODULE_14__["default"], {
     value: uploadBorder,
@@ -12370,49 +12204,17 @@ function Edit(props) {
     setDimensionTop: value => setAttributes({
       uploadBorderWidthTop: value
     }),
-    dimensionMdTop: uploadBorderWidthMdTop,
-    setDimensionMdTop: value => setAttributes({
-      uploadBorderWidthMdTop: value
-    }),
-    dimensionSmTop: uploadBorderWidthSmTop,
-    setDimensionSmTop: value => setAttributes({
-      uploadBorderWidthSmTop: value
-    }),
     dimensionLeft: uploadBorderWidthLeft,
     setDimensionLeft: value => setAttributes({
       uploadBorderWidthLeft: value
-    }),
-    dimensionMdLeft: uploadBorderWidthMdLeft,
-    setDimensionMdLeft: value => setAttributes({
-      uploadBorderWidthMdLeft: value
-    }),
-    dimensionSmLeft: uploadBorderWidthSmLeft,
-    setDimensionSmLeft: value => setAttributes({
-      uploadBorderWidthSmLeft: value
     }),
     dimensionRight: uploadBorderWidthRight,
     setDimensionRight: value => setAttributes({
       uploadBorderWidthRight: value
     }),
-    dimensionMdRight: uploadBorderWidthMdRight,
-    setDimensionMdRight: value => setAttributes({
-      uploadBorderWidthMdRight: value
-    }),
-    dimensionSmRight: uploadBorderWidthSmRight,
-    setDimensionSmRight: value => setAttributes({
-      uploadBorderWidthSmRight: value
-    }),
     dimensionBottom: uploadBorderWidthBottom,
     setDimensionBottom: value => setAttributes({
       uploadBorderWidthBottom: value
-    }),
-    dimensionMdBottom: uploadBorderWidthMdBottom,
-    setDimensionMdBottom: value => setAttributes({
-      uploadBorderWidthMdBottom: value
-    }),
-    dimensionSmBottom: uploadBorderWidthSmBottom,
-    setDimensionSmBottom: value => setAttributes({
-      uploadBorderWidthSmBottom: value
     }),
     unit: uploadBorderWidthUnit,
     setUnit: value => setAttributes({
@@ -12442,90 +12244,34 @@ function Edit(props) {
       uploadBgColorHover: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_boxshadow__WEBPACK_IMPORTED_MODULE_15__["default"], {
-    valueHorizontal: uploadBoxShadowHoverHorizontal,
-    setValueHorizontal: uploadBoxShadowHoverHorizontal => setAttributes({
-      uploadBoxShadowHoverHorizontal
+    valueHorizontal: uploadShadowHoverHorizontal,
+    setValueHorizontal: uploadShadowHoverHorizontal => setAttributes({
+      uploadShadowHoverHorizontal
     }),
-    valueVertical: uploadBoxShadowHoverVertical,
-    setValueVertical: uploadBoxShadowHoverVertical => setAttributes({
-      uploadBoxShadowHoverVertical
+    valueVertical: uploadShadowHoverVertical,
+    setValueVertical: uploadShadowHoverVertical => setAttributes({
+      uploadShadowHoverVertical
     }),
-    valueBlur: uploadBoxShadowHoverBlur,
-    setValueBlur: uploadBoxShadowHoverBlur => setAttributes({
-      uploadBoxShadowHoverBlur
+    valueBlur: uploadShadowHoverBlur,
+    setValueBlur: uploadShadowHoverBlur => setAttributes({
+      uploadShadowHoverBlur
     }),
-    valueSpread: uploadBoxShadowHoverSpread,
-    setValueSpread: uploadBoxShadowHoverSpread => setAttributes({
-      uploadBoxShadowHoverSpread
+    valueSpread: uploadShadowHoverSpread,
+    setValueSpread: uploadShadowHoverSpread => setAttributes({
+      uploadShadowHoverSpread
     }),
-    valueColor: uploadBoxShadowHoverColor,
-    setValueColor: uploadBoxShadowHoverColor => setAttributes({
-      uploadBoxShadowHoverColor
+    valueColor: uploadShadowHoverColor,
+    setValueColor: uploadShadowHoverColor => setAttributes({
+      uploadShadowHoverColor
     }),
-    valueInset: uploadBoxShadowHoverInset,
-    setValueInset: uploadBoxShadowHoverInset => setAttributes({
-      uploadBoxShadowHoverInset
+    valueInset: uploadShadowHoverInset,
+    setValueInset: uploadShadowHoverInset => setAttributes({
+      uploadShadowHoverInset
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_border__WEBPACK_IMPORTED_MODULE_14__["default"], {
     value: uploadBorderHover,
     setValue: uploadBorderHover => setAttributes({
       uploadBorderHover
-    })
-  }), uploadBorderHover && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_dimension__WEBPACK_IMPORTED_MODULE_11__["default"], {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Border Width', 'smart-blocks-pro'),
-    units: ['px', 'em', 'rem', 'vw'],
-    responsive: !0,
-    dimensionTop: uploadBorderHoverWidthTop,
-    setDimensionTop: value => setAttributes({
-      uploadBorderHoverWidthTop: value
-    }),
-    dimensionMdTop: uploadBorderHoverWidthMdTop,
-    setDimensionMdTop: value => setAttributes({
-      uploadBorderHoverWidthMdTop: value
-    }),
-    dimensionSmTop: uploadBorderHoverWidthSmTop,
-    setDimensionSmTop: value => setAttributes({
-      uploadBorderHoverWidthSmTop: value
-    }),
-    dimensionLeft: uploadBorderHoverWidthLeft,
-    setDimensionLeft: value => setAttributes({
-      uploadBorderHoverWidthLeft: value
-    }),
-    dimensionMdLeft: uploadBorderHoverWidthMdLeft,
-    setDimensionMdLeft: value => setAttributes({
-      uploadBorderHoverWidthMdLeft: value
-    }),
-    dimensionSmLeft: uploadBorderHoverWidthSmLeft,
-    setDimensionSmLeft: value => setAttributes({
-      uploadBorderHoverWidthSmLeft: value
-    }),
-    dimensionRight: uploadBorderHoverWidthRight,
-    setDimensionRight: value => setAttributes({
-      uploadBorderHoverWidthRight: value
-    }),
-    dimensionMdRight: uploadBorderHoverWidthMdRight,
-    setDimensionMdRight: value => setAttributes({
-      uploadBorderHoverWidthMdRight: value
-    }),
-    dimensionSmRight: uploadBorderHoverWidthSmRight,
-    setDimensionSmRight: value => setAttributes({
-      uploadBorderHoverWidthSmRight: value
-    }),
-    dimensionBottom: uploadBorderHoverWidthBottom,
-    setDimensionBottom: value => setAttributes({
-      uploadBorderHoverWidthBottom: value
-    }),
-    dimensionMdBottom: uploadBorderHoverWidthMdBottom,
-    setDimensionMdBottom: value => setAttributes({
-      uploadBorderHoverWidthMdBottom: value
-    }),
-    dimensionSmBottom: uploadBorderHoverWidthSmBottom,
-    setDimensionSmBottom: value => setAttributes({
-      uploadBorderHoverWidthSmBottom: value
-    }),
-    unit: uploadBorderHoverWidthUnit,
-    setUnit: value => setAttributes({
-      uploadBorderHoverWidthUnit: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Border Color', 'smart-blocks-pro'),
@@ -12534,7 +12280,7 @@ function Edit(props) {
     setValue: uploadBorderHoverColor => setAttributes({
       uploadBorderHoverColor
     })
-  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_dimension__WEBPACK_IMPORTED_MODULE_11__["default"], {
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_dimension__WEBPACK_IMPORTED_MODULE_11__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Border Radius', 'smart-blocks'),
     dimensionTop: uploadBorderRadiusTop,
     setDimensionTop: value => setAttributes({
@@ -12585,110 +12331,110 @@ function Edit(props) {
     initialOpen: false
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_typography__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Typography', 'smart-blocks-pro'),
-    valueFamily: buttonTypographyFamily,
+    valueFamily: buttonTypoFamily,
     setValueFamily: value => setAttributes({
-      buttonTypographyFamily: value
+      buttonTypoFamily: value
     }),
-    valueWeight: buttonTypographyWeight,
+    valueWeight: buttonTypoWeight,
     setValueWeight: value => setAttributes({
-      buttonTypographyWeight: value
+      buttonTypoWeight: value
     }),
-    valueTextTransform: buttonTypographyTextTransform,
+    valueTextTransform: buttonTypoTextTransform,
     setValueTextTransform: value => setAttributes({
-      buttonTypographyTextTransform: value
+      buttonTypoTextTransform: value
     }),
-    valueTextDecoration: buttonTypographyTextDecoration,
+    valueTextDecoration: buttonTypoTextDecoration,
     setValueTextDecoration: value => setAttributes({
-      buttonTypographyTextDecoration: value
+      buttonTypoTextDecoration: value
     }),
-    valueFontSizeSm: buttonTypographyFontSizeSm,
+    valueFontSizeSm: buttonTypoFontSizeSm,
     setValueFontSizeSm: value => setAttributes({
-      buttonTypographyFontSizeSm: value
+      buttonTypoFontSizeSm: value
     }),
-    valueFontSizeMd: buttonTypographyFontSizeMd,
+    valueFontSizeMd: buttonTypoFontSizeMd,
     setValueFontSizeMd: value => setAttributes({
-      buttonTypographyFontSizeMd: value
+      buttonTypoFontSizeMd: value
     }),
-    valueFontSize: buttonTypographyFontSize,
+    valueFontSize: buttonTypoFontSize,
     setValueFontSize: value => setAttributes({
-      buttonTypographyFontSize: value
+      buttonTypoFontSize: value
     }),
-    valueFontSizeUnit: buttonTypographyFontSizeUnit,
+    valueFontSizeUnit: buttonTypoFontSizeUnit,
     setValueFontSizeUnit: value => setAttributes({
-      buttonTypographyFontSizeUnit: value
+      buttonTypoFontSizeUnit: value
     }),
-    valueLetterSpacingSm: buttonTypographyLetterSpacingSm,
+    valueLetterSpacingSm: buttonTypoLetterSpacingSm,
     setValueLetterSpacingSm: value => setAttributes({
-      buttonTypographyLetterSpacingSm: value
+      buttonTypoLetterSpacingSm: value
     }),
-    valueLetterSpacingMd: buttonTypographyLetterSpacingMd,
+    valueLetterSpacingMd: buttonTypoLetterSpacingMd,
     setValueLetterSpacingMd: value => setAttributes({
-      buttonTypographyLetterSpacingMd: value
+      buttonTypoLetterSpacingMd: value
     }),
-    valueLetterSpacing: buttonTypographyLetterSpacing,
+    valueLetterSpacing: buttonTypoLetterSpacing,
     setValueLetterSpacing: value => setAttributes({
-      buttonTypographyLetterSpacing: value
+      buttonTypoLetterSpacing: value
     }),
-    valueLetterSpacingUnit: buttonTypographyLetterSpacingUnit,
+    valueLetterSpacingUnit: buttonTypoLetterSpacingUnit,
     setValueLetterSpacingUnit: value => setAttributes({
-      buttonTypographyLetterSpacingUnit: value
+      buttonTypoLetterSpacingUnit: value
     }),
-    valueLineHeightSm: buttonTypographyLineHeightSm,
+    valueLineHeightSm: buttonTypoLineHeightSm,
     setValueLineHeightSm: value => setAttributes({
-      buttonTypographyLineHeightSm: value
+      buttonTypoLineHeightSm: value
     }),
-    valueLineHeightMd: buttonTypographyLineHeightMd,
+    valueLineHeightMd: buttonTypoLineHeightMd,
     setValueLineHeightMd: value => setAttributes({
-      buttonTypographyLineHeightMd: value
+      buttonTypoLineHeightMd: value
     }),
-    valueLineHeight: buttonTypographyLineHeight,
+    valueLineHeight: buttonTypoLineHeight,
     setValueLineHeight: value => setAttributes({
-      buttonTypographyLineHeight: value
+      buttonTypoLineHeight: value
     }),
-    valueLineHeightUnit: buttonTypographyLineHeightUnit,
+    valueLineHeightUnit: buttonTypoLineHeightUnit,
     setValueLineHeightUnit: value => setAttributes({
-      buttonTypographyLineHeightUnit: value
+      buttonTypoLineHeightUnit: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_utils_tabs__WEBPACK_IMPORTED_MODULE_9__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     tabTitle: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Normal", 'smart-blocks')
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Color', 'smart-blocks'),
     enableAlpha: true,
-    value: buttonColor,
+    value: buttonColorNormal,
     setValue: value => setAttributes({
-      buttonColor: value
+      buttonColorNormal: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Background Color', 'smart-blocks'),
     enableAlpha: true,
-    value: buttonBgColor,
+    value: buttonBgColorNormal,
     setValue: value => setAttributes({
-      buttonBgColor: value
+      buttonBgColorNormal: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_boxshadow__WEBPACK_IMPORTED_MODULE_15__["default"], {
-    valueHorizontal: buttonBoxShadowHorizontal,
-    setValueHorizontal: buttonBoxShadowHorizontal => setAttributes({
-      buttonBoxShadowHorizontal
+    valueHorizontal: buttonShadowX,
+    setValueHorizontal: buttonShadowX => setAttributes({
+      buttonShadowX
     }),
-    valueVertical: buttonBoxShadowVertical,
-    setValueVertical: buttonBoxShadowVertical => setAttributes({
-      buttonBoxShadowVertical
+    valueVertical: buttonShadowY,
+    setValueVertical: buttonShadowY => setAttributes({
+      buttonShadowY
     }),
-    valueBlur: buttonBoxShadowBlur,
-    setValueBlur: buttonBoxShadowBlur => setAttributes({
-      buttonBoxShadowBlur
+    valueBlur: buttonShadowBlur,
+    setValueBlur: buttonShadowBlur => setAttributes({
+      buttonShadowBlur
     }),
-    valueSpread: buttonBoxShadowSpread,
-    setValueSpread: buttonBoxShadowSpread => setAttributes({
-      buttonBoxShadowSpread
+    valueSpread: buttonShadowSpread,
+    setValueSpread: buttonShadowSpread => setAttributes({
+      buttonShadowSpread
     }),
-    valueColor: buttonBoxShadowColor,
-    setValueColor: buttonBoxShadowColor => setAttributes({
-      buttonBoxShadowColor
+    valueColor: buttonShadowColor,
+    setValueColor: buttonShadowColor => setAttributes({
+      buttonShadowColor
     }),
-    valueInset: buttonBoxShadowInset,
-    setValueInset: buttonBoxShadowInset => setAttributes({
-      buttonBoxShadowInset
+    valueInset: buttonShadowInset,
+    setValueInset: buttonShadowInset => setAttributes({
+      buttonShadowInset
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_border__WEBPACK_IMPORTED_MODULE_14__["default"], {
     value: buttonBorder,
@@ -12698,58 +12444,26 @@ function Edit(props) {
   }), buttonBorder && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_dimension__WEBPACK_IMPORTED_MODULE_11__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Border Width', 'smart-blocks-pro'),
     units: ['px', 'em', 'rem', 'vw'],
-    responsive: !0,
-    dimensionTop: buttonBorderWidthTop,
+    responsive: !1,
+    dimensionTop: buttonBorderTop,
     setDimensionTop: value => setAttributes({
-      buttonBorderWidthTop: value
+      buttonBorderTop: value
     }),
-    dimensionMdTop: buttonBorderWidthMdTop,
-    setDimensionMdTop: value => setAttributes({
-      buttonBorderWidthMdTop: value
-    }),
-    dimensionSmTop: buttonBorderWidthSmTop,
-    setDimensionSmTop: value => setAttributes({
-      buttonBorderWidthSmTop: value
-    }),
-    dimensionLeft: buttonBorderWidthLeft,
+    dimensionLeft: buttonBorderLeft,
     setDimensionLeft: value => setAttributes({
-      buttonBorderWidthLeft: value
+      buttonBorderLeft: value
     }),
-    dimensionMdLeft: buttonBorderWidthMdLeft,
-    setDimensionMdLeft: value => setAttributes({
-      buttonBorderWidthMdLeft: value
-    }),
-    dimensionSmLeft: buttonBorderWidthSmLeft,
-    setDimensionSmLeft: value => setAttributes({
-      buttonBorderWidthSmLeft: value
-    }),
-    dimensionRight: buttonBorderWidthRight,
+    dimensionRight: buttonBorderRight,
     setDimensionRight: value => setAttributes({
-      buttonBorderWidthRight: value
+      buttonBorderRight: value
     }),
-    dimensionMdRight: buttonBorderWidthMdRight,
-    setDimensionMdRight: value => setAttributes({
-      buttonBorderWidthMdRight: value
-    }),
-    dimensionSmRight: buttonBorderWidthSmRight,
-    setDimensionSmRight: value => setAttributes({
-      buttonBorderWidthSmRight: value
-    }),
-    dimensionBottom: buttonBorderWidthBottom,
+    dimensionBottom: buttonBorderBottom,
     setDimensionBottom: value => setAttributes({
-      buttonBorderWidthBottom: value
+      buttonBorderBottom: value
     }),
-    dimensionMdBottom: buttonBorderWidthMdBottom,
-    setDimensionMdBottom: value => setAttributes({
-      buttonBorderWidthMdBottom: value
-    }),
-    dimensionSmBottom: buttonBorderWidthSmBottom,
-    setDimensionSmBottom: value => setAttributes({
-      buttonBorderWidthSmBottom: value
-    }),
-    unit: buttonBorderWidthUnit,
+    unit: buttonBorderUnit,
     setUnit: value => setAttributes({
-      buttonBorderWidthUnit: value
+      buttonBorderUnit: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Border Color', 'smart-blocks-pro'),
@@ -12775,92 +12489,31 @@ function Edit(props) {
       buttonBgColorHover: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_boxshadow__WEBPACK_IMPORTED_MODULE_15__["default"], {
-    valueHorizontal: buttonBoxShadowHoverHorizontal,
-    setValueHorizontal: buttonBoxShadowHoverHorizontal => setAttributes({
-      buttonBoxShadowHoverHorizontal
+    valueHorizontal: buttonShadowHoverX,
+    setValueHorizontal: buttonShadowHoverX => setAttributes({
+      buttonShadowHoverX
     }),
-    valueVertical: buttonBoxShadowHoverVertical,
-    setValueVertical: buttonBoxShadowHoverVertical => setAttributes({
-      buttonBoxShadowHoverVertical
+    valueVertical: buttonShadowHoverY,
+    setValueVertical: buttonShadowHoverY => setAttributes({
+      buttonShadowHoverY
     }),
-    valueBlur: buttonBoxShadowHoverBlur,
-    setValueBlur: buttonBoxShadowHoverBlur => setAttributes({
-      buttonBoxShadowHoverBlur
+    valueBlur: buttonShadowHoverBlur,
+    setValueBlur: buttonShadowHoverBlur => setAttributes({
+      buttonShadowHoverBlur
     }),
-    valueSpread: buttonBoxShadowHoverSpread,
-    setValueSpread: buttonBoxShadowHoverSpread => setAttributes({
-      buttonBoxShadowHoverSpread
+    valueSpread: buttonShadowHoverSpread,
+    setValueSpread: buttonShadowHoverSpread => setAttributes({
+      buttonShadowHoverSpread
     }),
-    valueColor: buttonBoxShadowHoverColor,
-    setValueColor: buttonBoxShadowHoverColor => setAttributes({
-      buttonBoxShadowHoverColor
+    valueColor: buttonShadowHoverColor,
+    setValueColor: buttonShadowHoverColor => setAttributes({
+      buttonShadowHoverColor
     }),
-    valueInset: buttonBoxShadowHoverInset,
-    setValueInset: buttonBoxShadowHoverInset => setAttributes({
-      buttonBoxShadowHoverInset
+    valueInset: buttonShadowHoverInset,
+    setValueInset: buttonShadowHoverInset => setAttributes({
+      buttonShadowHoverInset
     })
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_border__WEBPACK_IMPORTED_MODULE_14__["default"], {
-    value: uploadBorderHover,
-    setValue: buttonBorderHover => setAttributes({
-      buttonBorderHover
-    })
-  }), buttonBorderHover && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_dimension__WEBPACK_IMPORTED_MODULE_11__["default"], {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Border Width', 'smart-blocks-pro'),
-    units: ['px', 'em', 'rem', 'vw'],
-    responsive: !0,
-    dimensionTop: buttonBorderHoverWidthTop,
-    setDimensionTop: value => setAttributes({
-      buttonBorderHoverWidthTop: value
-    }),
-    dimensionMdTop: buttonBorderHoverWidthMdTop,
-    setDimensionMdTop: value => setAttributes({
-      buttonBorderHoverWidthMdTop: value
-    }),
-    dimensionSmTop: buttonBorderHoverWidthSmTop,
-    setDimensionSmTop: value => setAttributes({
-      buttonBorderHoverWidthSmTop: value
-    }),
-    dimensionLeft: buttonBorderHoverWidthLeft,
-    setDimensionLeft: value => setAttributes({
-      buttonBorderHoverWidthLeft: value
-    }),
-    dimensionMdLeft: buttonBorderHoverWidthMdLeft,
-    setDimensionMdLeft: value => setAttributes({
-      buttonBorderHoverWidthMdLeft: value
-    }),
-    dimensionSmLeft: buttonBorderHoverWidthSmLeft,
-    setDimensionSmLeft: value => setAttributes({
-      buttonBorderHoverWidthSmLeft: value
-    }),
-    dimensionRight: buttonBorderHoverWidthRight,
-    setDimensionRight: value => setAttributes({
-      buttonBorderHoverWidthRight: value
-    }),
-    dimensionMdRight: buttonBorderHoverWidthMdRight,
-    setDimensionMdRight: value => setAttributes({
-      buttonBorderHoverWidthMdRight: value
-    }),
-    dimensionSmRight: buttonBorderHoverWidthSmRight,
-    setDimensionSmRight: value => setAttributes({
-      buttonBorderHoverWidthSmRight: value
-    }),
-    dimensionBottom: buttonBorderHoverWidthBottom,
-    setDimensionBottom: value => setAttributes({
-      buttonBorderHoverWidthBottom: value
-    }),
-    dimensionMdBottom: buttonBorderHoverWidthMdBottom,
-    setDimensionMdBottom: value => setAttributes({
-      buttonBorderHoverWidthMdBottom: value
-    }),
-    dimensionSmBottom: buttonBorderHoverWidthSmBottom,
-    setDimensionSmBottom: value => setAttributes({
-      buttonBorderHoverWidthSmBottom: value
-    }),
-    unit: buttonBorderHoverWidthUnit,
-    setUnit: value => setAttributes({
-      buttonBorderHoverWidthUnit: value
-    })
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }), buttonBorder && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Border Color', 'smart-blocks-pro'),
     enableAlpha: true,
     value: buttonBorderHoverColor,
@@ -12918,76 +12571,76 @@ function Edit(props) {
     initialOpen: false
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_typography__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Typography', 'smart-blocks-pro'),
-    valueFamily: validationTypographyFamily,
+    valueFamily: validationTypoFamily,
     setValueFamily: value => setAttributes({
-      validationTypographyFamily: value
+      validationTypoFamily: value
     }),
-    valueWeight: validationTypographyWeight,
+    valueWeight: validationTypoWeight,
     setValueWeight: value => setAttributes({
-      validationTypographyWeight: value
+      validationTypoWeight: value
     }),
-    valueTextTransform: validationTypographyTextTransform,
+    valueTextTransform: validationTypoTextTransform,
     setValueTextTransform: value => setAttributes({
-      validationTypographyTextTransform: value
+      validationTypoTextTransform: value
     }),
-    valueTextDecoration: validationTypographyTextDecoration,
+    valueTextDecoration: validationTypoTextDecoration,
     setValueTextDecoration: value => setAttributes({
-      validationTypographyTextDecoration: value
+      validationTypoTextDecoration: value
     }),
-    valueFontSizeSm: validationTypographyFontSizeSm,
+    valueFontSizeSm: validationTypoFontSizeSm,
     setValueFontSizeSm: value => setAttributes({
-      validationTypographyFontSizeSm: value
+      validationTypoFontSizeSm: value
     }),
-    valueFontSizeMd: validationTypographyFontSizeMd,
+    valueFontSizeMd: validationTypoFontSizeMd,
     setValueFontSizeMd: value => setAttributes({
-      validationTypographyFontSizeMd: value
+      validationTypoFontSizeMd: value
     }),
-    valueFontSize: validationTypographyFontSize,
+    valueFontSize: validationTypoFontSize,
     setValueFontSize: value => setAttributes({
-      validationTypographyFontSize: value
+      validationTypoFontSize: value
     }),
-    valueFontSizeUnit: validationTypographyFontSizeUnit,
+    valueFontSizeUnit: validationTypoFontSizeUnit,
     setValueFontSizeUnit: value => setAttributes({
-      validationTypographyFontSizeUnit: value
+      validationTypoFontSizeUnit: value
     }),
-    valueLetterSpacingSm: validationTypographyLetterSpacingSm,
+    valueLetterSpacingSm: validationTypoLetterSpacingSm,
     setValueLetterSpacingSm: value => setAttributes({
-      validationTypographyLetterSpacingSm: value
+      validationTypoLetterSpacingSm: value
     }),
-    valueLetterSpacingMd: validationTypographyLetterSpacingMd,
+    valueLetterSpacingMd: validationTypoLetterSpacingMd,
     setValueLetterSpacingMd: value => setAttributes({
-      validationTypographyLetterSpacingMd: value
+      validationTypoLetterSpacingMd: value
     }),
-    valueLetterSpacing: validationTypographyLetterSpacing,
+    valueLetterSpacing: validationTypoLetterSpacing,
     setValueLetterSpacing: value => setAttributes({
-      validationTypographyLetterSpacing: value
+      validationTypoLetterSpacing: value
     }),
-    valueLetterSpacingUnit: validationTypographyLetterSpacingUnit,
+    valueLetterSpacingUnit: validationTypoLetterSpacingUnit,
     setValueLetterSpacingUnit: value => setAttributes({
-      validationTypographyLetterSpacingUnit: value
+      validationTypoLetterSpacingUnit: value
     }),
-    valueLineHeightSm: validationTypographyLineHeightSm,
+    valueLineHeightSm: validationTypoLineHeightSm,
     setValueLineHeightSm: value => setAttributes({
-      validationTypographyLineHeightSm: value
+      validationTypoLineHeightSm: value
     }),
-    valueLineHeightMd: validationTypographyLineHeightMd,
+    valueLineHeightMd: validationTypoLineHeightMd,
     setValueLineHeightMd: value => setAttributes({
-      validationTypographyLineHeightMd: value
+      validationTypoLineHeightMd: value
     }),
-    valueLineHeight: validationTypographyLineHeight,
+    valueLineHeight: validationTypoLineHeight,
     setValueLineHeight: value => setAttributes({
-      validationTypographyLineHeight: value
+      validationTypoLineHeight: value
     }),
-    valueLineHeightUnit: validationTypographyLineHeightUnit,
+    valueLineHeightUnit: validationTypoLineHeightUnit,
     setValueLineHeightUnit: value => setAttributes({
-      validationTypographyLineHeightUnit: value
+      validationTypoLineHeightUnit: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Color', 'smart-blocks'),
     enableAlpha: true,
-    value: validationColor,
+    value: validationTypoFontColor,
     setValue: value => setAttributes({
-      validationColor: value
+      validationTypoFontColor: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_buttongroup__WEBPACK_IMPORTED_MODULE_12__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Text Alignment', 'smart-blocks-pro'),
@@ -13010,85 +12663,85 @@ function Edit(props) {
       }),
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Right', 'smart-blocks-pro')
     }],
-    value: validationTextAlignment,
+    value: validationTextAlign,
     setValue: value => setAttributes({
-      validationTextAlignment: value
+      validationTextAlign: value
     })
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Form Title', 'hash-form'),
     initialOpen: false
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_typography__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Typography', 'smart-blocks-pro'),
-    valueFamily: formTitleTypographyFamily,
+    valueFamily: formTitleTypoFamily,
     setValueFamily: value => setAttributes({
-      formTitleTypographyFamily: value
+      formTitleTypoFamily: value
     }),
-    valueWeight: formTitleTypographyWeight,
+    valueWeight: formTitleTypoWeight,
     setValueWeight: value => setAttributes({
-      formTitleTypographyWeight: value
+      formTitleTypoWeight: value
     }),
-    valueTextTransform: formTitleTypographyTextTransform,
+    valueTextTransform: formTitleTypoTextTransform,
     setValueTextTransform: value => setAttributes({
-      formTitleTypographyTextTransform: value
+      formTitleTypoTextTransform: value
     }),
-    valueTextDecoration: formTitleTypographyTextDecoration,
+    valueTextDecoration: formTitleTypoTextDecoration,
     setValueTextDecoration: value => setAttributes({
-      formTitleTypographyTextDecoration: value
+      formTitleTypoTextDecoration: value
     }),
-    valueFontSizeSm: formTitleTypographyFontSizeSm,
+    valueFontSizeSm: formTitleTypoFontSizeSm,
     setValueFontSizeSm: value => setAttributes({
-      formTitleTypographyFontSizeSm: value
+      formTitleTypoFontSizeSm: value
     }),
-    valueFontSizeMd: formTitleTypographyFontSizeMd,
+    valueFontSizeMd: formTitleTypoFontSizeMd,
     setValueFontSizeMd: value => setAttributes({
-      formTitleTypographyFontSizeMd: value
+      formTitleTypoFontSizeMd: value
     }),
-    valueFontSize: formTitleTypographyFontSize,
+    valueFontSize: formTitleTypoFontSize,
     setValueFontSize: value => setAttributes({
-      formTitleTypographyFontSize: value
+      formTitleTypoFontSize: value
     }),
-    valueFontSizeUnit: formTitleTypographyFontSizeUnit,
+    valueFontSizeUnit: formTitleTypoFontSizeUnit,
     setValueFontSizeUnit: value => setAttributes({
-      formTitleTypographyFontSizeUnit: value
+      formTitleTypoFontSizeUnit: value
     }),
-    valueLetterSpacingSm: formTitleTypographyLetterSpacingSm,
+    valueLetterSpacingSm: formTitleTypoLetterSpacingSm,
     setValueLetterSpacingSm: value => setAttributes({
-      formTitleTypographyLetterSpacingSm: value
+      formTitleTypoLetterSpacingSm: value
     }),
-    valueLetterSpacingMd: formTitleTypographyLetterSpacingMd,
+    valueLetterSpacingMd: formTitleTypoLetterSpacingMd,
     setValueLetterSpacingMd: value => setAttributes({
-      formTitleTypographyLetterSpacingMd: value
+      formTitleTypoLetterSpacingMd: value
     }),
-    valueLetterSpacing: formTitleTypographyLetterSpacing,
+    valueLetterSpacing: formTitleTypoLetterSpacing,
     setValueLetterSpacing: value => setAttributes({
-      formTitleTypographyLetterSpacing: value
+      formTitleTypoLetterSpacing: value
     }),
-    valueLetterSpacingUnit: formTitleTypographyLetterSpacingUnit,
+    valueLetterSpacingUnit: formTitleTypoLetterSpacingUnit,
     setValueLetterSpacingUnit: value => setAttributes({
-      formTitleTypographyLetterSpacingUnit: value
+      formTitleTypoLetterSpacingUnit: value
     }),
-    valueLineHeightSm: formTitleTypographyLineHeightSm,
+    valueLineHeightSm: formTitleTypoLineHeightSm,
     setValueLineHeightSm: value => setAttributes({
-      formTitleTypographyLineHeightSm: value
+      formTitleTypoLineHeightSm: value
     }),
-    valueLineHeightMd: formTitleTypographyLineHeightMd,
+    valueLineHeightMd: formTitleTypoLineHeightMd,
     setValueLineHeightMd: value => setAttributes({
-      formTitleTypographyLineHeightMd: value
+      formTitleTypoLineHeightMd: value
     }),
-    valueLineHeight: formTitleTypographyLineHeight,
+    valueLineHeight: formTitleTypoLineHeight,
     setValueLineHeight: value => setAttributes({
-      formTitleTypographyLineHeight: value
+      formTitleTypoLineHeight: value
     }),
-    valueLineHeightUnit: formTitleTypographyLineHeightUnit,
+    valueLineHeightUnit: formTitleTypoLineHeightUnit,
     setValueLineHeightUnit: value => setAttributes({
-      formTitleTypographyLineHeightUnit: value
+      formTitleTypoLineHeightUnit: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Color', 'smart-blocks'),
     enableAlpha: true,
-    value: formTitleColor,
+    value: formTitleTypoFontColor,
     setValue: value => setAttributes({
-      formTitleColor: value
+      formTitleTypoFontColor: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_dimension__WEBPACK_IMPORTED_MODULE_11__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Spacing', 'smart-blocks'),
@@ -13118,76 +12771,76 @@ function Edit(props) {
     initialOpen: false
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_typography__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Typography', 'smart-blocks-pro'),
-    valueFamily: formDescTypographyFamily,
+    valueFamily: formDescTypoFamily,
     setValueFamily: value => setAttributes({
-      formDescTypographyFamily: value
+      formDescTypoFamily: value
     }),
-    valueWeight: formDescTypographyWeight,
+    valueWeight: formDescTypoWeight,
     setValueWeight: value => setAttributes({
-      formDescTypographyWeight: value
+      formDescTypoWeight: value
     }),
-    valueTextTransform: formDescTypographyTextTransform,
+    valueTextTransform: formDescTypoTextTransform,
     setValueTextTransform: value => setAttributes({
-      formDescTypographyTextTransform: value
+      formDescTypoTextTransform: value
     }),
-    valueTextDecoration: formDescTypographyTextDecoration,
+    valueTextDecoration: formDescTypoTextDecoration,
     setValueTextDecoration: value => setAttributes({
-      formDescTypographyTextDecoration: value
+      formDescTypoTextDecoration: value
     }),
-    valueFontSizeSm: formDescTypographyFontSizeSm,
+    valueFontSizeSm: formDescTypoFontSizeSm,
     setValueFontSizeSm: value => setAttributes({
-      formDescTypographyFontSizeSm: value
+      formDescTypoFontSizeSm: value
     }),
-    valueFontSizeMd: formDescTypographyFontSizeMd,
+    valueFontSizeMd: formDescTypoFontSizeMd,
     setValueFontSizeMd: value => setAttributes({
-      formDescTypographyFontSizeMd: value
+      formDescTypoFontSizeMd: value
     }),
-    valueFontSize: formDescTypographyFontSize,
+    valueFontSize: formDescTypoFontSize,
     setValueFontSize: value => setAttributes({
-      formDescTypographyFontSize: value
+      formDescTypoFontSize: value
     }),
-    valueFontSizeUnit: formDescTypographyFontSizeUnit,
+    valueFontSizeUnit: formDescTypoFontSizeUnit,
     setValueFontSizeUnit: value => setAttributes({
-      formDescTypographyFontSizeUnit: value
+      formDescTypoFontSizeUnit: value
     }),
-    valueLetterSpacingSm: formDescTypographyLetterSpacingSm,
+    valueLetterSpacingSm: formDescTypoLetterSpacingSm,
     setValueLetterSpacingSm: value => setAttributes({
-      formDescTypographyLetterSpacingSm: value
+      formDescTypoLetterSpacingSm: value
     }),
-    valueLetterSpacingMd: formDescTypographyLetterSpacingMd,
+    valueLetterSpacingMd: formDescTypoLetterSpacingMd,
     setValueLetterSpacingMd: value => setAttributes({
-      formDescTypographyLetterSpacingMd: value
+      formDescTypoLetterSpacingMd: value
     }),
-    valueLetterSpacing: formDescTypographyLetterSpacing,
+    valueLetterSpacing: formDescTypoLetterSpacing,
     setValueLetterSpacing: value => setAttributes({
-      formDescTypographyLetterSpacing: value
+      formDescTypoLetterSpacing: value
     }),
-    valueLetterSpacingUnit: formDescTypographyLetterSpacingUnit,
+    valueLetterSpacingUnit: formDescTypoLetterSpacingUnit,
     setValueLetterSpacingUnit: value => setAttributes({
-      formDescTypographyLetterSpacingUnit: value
+      formDescTypoLetterSpacingUnit: value
     }),
-    valueLineHeightSm: formDescTypographyLineHeightSm,
+    valueLineHeightSm: formDescTypoLineHeightSm,
     setValueLineHeightSm: value => setAttributes({
-      formDescTypographyLineHeightSm: value
+      formDescTypoLineHeightSm: value
     }),
-    valueLineHeightMd: formDescTypographyLineHeightMd,
+    valueLineHeightMd: formDescTypoLineHeightMd,
     setValueLineHeightMd: value => setAttributes({
-      formDescTypographyLineHeightMd: value
+      formDescTypoLineHeightMd: value
     }),
-    valueLineHeight: formDescTypographyLineHeight,
+    valueLineHeight: formDescTypoLineHeight,
     setValueLineHeight: value => setAttributes({
-      formDescTypographyLineHeight: value
+      formDescTypoLineHeight: value
     }),
-    valueLineHeightUnit: formDescTypographyLineHeightUnit,
+    valueLineHeightUnit: formDescTypoLineHeightUnit,
     setValueLineHeightUnit: value => setAttributes({
-      formDescTypographyLineHeightUnit: value
+      formDescTypoLineHeightUnit: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Color', 'smart-blocks'),
     enableAlpha: true,
-    value: formDescColor,
+    value: formDescTypoFontColor,
     setValue: value => setAttributes({
-      formDescColor: value
+      formDescTypoFontColor: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_dimension__WEBPACK_IMPORTED_MODULE_11__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Spacing', 'smart-blocks'),
@@ -13217,152 +12870,152 @@ function Edit(props) {
     initialOpen: false
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_typography__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Typography', 'smart-blocks-pro'),
-    valueFamily: headingTypographyFamily,
+    valueFamily: headingTypoFamily,
     setValueFamily: value => setAttributes({
-      headingTypographyFamily: value
+      headingTypoFamily: value
     }),
-    valueWeight: headingTypographyWeight,
+    valueWeight: headingTypoWeight,
     setValueWeight: value => setAttributes({
-      headingTypographyWeight: value
+      headingTypoWeight: value
     }),
-    valueTextTransform: headingTypographyTextTransform,
+    valueTextTransform: headingTypoTextTransform,
     setValueTextTransform: value => setAttributes({
-      headingTypographyTextTransform: value
+      headingTypoTextTransform: value
     }),
-    valueTextDecoration: headingTypographyTextDecoration,
+    valueTextDecoration: headingTypoTextDecoration,
     setValueTextDecoration: value => setAttributes({
-      headingTypographyTextDecoration: value
+      headingTypoTextDecoration: value
     }),
-    valueFontSizeSm: headingTypographyFontSizeSm,
+    valueFontSizeSm: headingTypoFontSizeSm,
     setValueFontSizeSm: value => setAttributes({
-      headingTypographyFontSizeSm: value
+      headingTypoFontSizeSm: value
     }),
-    valueFontSizeMd: headingTypographyFontSizeMd,
+    valueFontSizeMd: headingTypoFontSizeMd,
     setValueFontSizeMd: value => setAttributes({
-      headingTypographyFontSizeMd: value
+      headingTypoFontSizeMd: value
     }),
-    valueFontSize: headingTypographyFontSize,
+    valueFontSize: headingTypoFontSize,
     setValueFontSize: value => setAttributes({
-      headingTypographyFontSize: value
+      headingTypoFontSize: value
     }),
-    valueFontSizeUnit: headingTypographyFontSizeUnit,
+    valueFontSizeUnit: headingTypoFontSizeUnit,
     setValueFontSizeUnit: value => setAttributes({
-      headingTypographyFontSizeUnit: value
+      headingTypoFontSizeUnit: value
     }),
-    valueLetterSpacingSm: headingTypographyLetterSpacingSm,
+    valueLetterSpacingSm: headingTypoLetterSpacingSm,
     setValueLetterSpacingSm: value => setAttributes({
-      headingTypographyLetterSpacingSm: value
+      headingTypoLetterSpacingSm: value
     }),
-    valueLetterSpacingMd: headingTypographyLetterSpacingMd,
+    valueLetterSpacingMd: headingTypoLetterSpacingMd,
     setValueLetterSpacingMd: value => setAttributes({
-      headingTypographyLetterSpacingMd: value
+      headingTypoLetterSpacingMd: value
     }),
-    valueLetterSpacing: headingTypographyLetterSpacing,
+    valueLetterSpacing: headingTypoLetterSpacing,
     setValueLetterSpacing: value => setAttributes({
-      headingTypographyLetterSpacing: value
+      headingTypoLetterSpacing: value
     }),
-    valueLetterSpacingUnit: headingTypographyLetterSpacingUnit,
+    valueLetterSpacingUnit: headingTypoLetterSpacingUnit,
     setValueLetterSpacingUnit: value => setAttributes({
-      headingTypographyLetterSpacingUnit: value
+      headingTypoLetterSpacingUnit: value
     }),
-    valueLineHeightSm: headingTypographyLineHeightSm,
+    valueLineHeightSm: headingTypoLineHeightSm,
     setValueLineHeightSm: value => setAttributes({
-      headingTypographyLineHeightSm: value
+      headingTypoLineHeightSm: value
     }),
-    valueLineHeightMd: headingTypographyLineHeightMd,
+    valueLineHeightMd: headingTypoLineHeightMd,
     setValueLineHeightMd: value => setAttributes({
-      headingTypographyLineHeightMd: value
+      headingTypoLineHeightMd: value
     }),
-    valueLineHeight: headingTypographyLineHeight,
+    valueLineHeight: headingTypoLineHeight,
     setValueLineHeight: value => setAttributes({
-      headingTypographyLineHeight: value
+      headingTypoLineHeight: value
     }),
-    valueLineHeightUnit: headingTypographyLineHeightUnit,
+    valueLineHeightUnit: headingTypoLineHeightUnit,
     setValueLineHeightUnit: value => setAttributes({
-      headingTypographyLineHeightUnit: value
+      headingTypoLineHeightUnit: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Color', 'smart-blocks'),
     enableAlpha: true,
-    value: headingColor,
+    value: headingTypoFontColor,
     setValue: value => setAttributes({
-      headingColor: value
+      headingTypoFontColor: value
     })
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Paragraph', 'hash-form'),
     initialOpen: false
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_typography__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Typography', 'smart-blocks-pro'),
-    valueFamily: paragraphTypographyFamily,
+    valueFamily: paragraphTypoFamily,
     setValueFamily: value => setAttributes({
-      paragraphTypographyFamily: value
+      paragraphTypoFamily: value
     }),
-    valueWeight: paragraphTypographyWeight,
+    valueWeight: paragraphTypoWeight,
     setValueWeight: value => setAttributes({
-      paragraphTypographyWeight: value
+      paragraphTypoWeight: value
     }),
-    valueTextTransform: paragraphTypographyTextTransform,
+    valueTextTransform: paragraphTypoTextTransform,
     setValueTextTransform: value => setAttributes({
-      paragraphTypographyTextTransform: value
+      paragraphTypoTextTransform: value
     }),
-    valueTextDecoration: paragraphTypographyTextDecoration,
+    valueTextDecoration: paragraphTypoTextDecoration,
     setValueTextDecoration: value => setAttributes({
-      paragraphTypographyTextDecoration: value
+      paragraphTypoTextDecoration: value
     }),
-    valueFontSizeSm: paragraphTypographyFontSizeSm,
+    valueFontSizeSm: paragraphTypoFontSizeSm,
     setValueFontSizeSm: value => setAttributes({
-      paragraphTypographyFontSizeSm: value
+      paragraphTypoFontSizeSm: value
     }),
-    valueFontSizeMd: paragraphTypographyFontSizeMd,
+    valueFontSizeMd: paragraphTypoFontSizeMd,
     setValueFontSizeMd: value => setAttributes({
-      paragraphTypographyFontSizeMd: value
+      paragraphTypoFontSizeMd: value
     }),
-    valueFontSize: paragraphTypographyFontSize,
+    valueFontSize: paragraphTypoFontSize,
     setValueFontSize: value => setAttributes({
-      paragraphTypographyFontSize: value
+      paragraphTypoFontSize: value
     }),
-    valueFontSizeUnit: paragraphTypographyFontSizeUnit,
+    valueFontSizeUnit: paragraphTypoFontSizeUnit,
     setValueFontSizeUnit: value => setAttributes({
-      paragraphTypographyFontSizeUnit: value
+      paragraphTypoFontSizeUnit: value
     }),
-    valueLetterSpacingSm: paragraphTypographyLetterSpacingSm,
+    valueLetterSpacingSm: paragraphTypoLetterSpacingSm,
     setValueLetterSpacingSm: value => setAttributes({
-      paragraphTypographyLetterSpacingSm: value
+      paragraphTypoLetterSpacingSm: value
     }),
-    valueLetterSpacingMd: paragraphTypographyLetterSpacingMd,
+    valueLetterSpacingMd: paragraphTypoLetterSpacingMd,
     setValueLetterSpacingMd: value => setAttributes({
-      paragraphTypographyLetterSpacingMd: value
+      paragraphTypoLetterSpacingMd: value
     }),
-    valueLetterSpacing: paragraphTypographyLetterSpacing,
+    valueLetterSpacing: paragraphTypoLetterSpacing,
     setValueLetterSpacing: value => setAttributes({
-      paragraphTypographyLetterSpacing: value
+      paragraphTypoLetterSpacing: value
     }),
-    valueLetterSpacingUnit: paragraphTypographyLetterSpacingUnit,
+    valueLetterSpacingUnit: paragraphTypoLetterSpacingUnit,
     setValueLetterSpacingUnit: value => setAttributes({
-      paragraphTypographyLetterSpacingUnit: value
+      paragraphTypoLetterSpacingUnit: value
     }),
-    valueLineHeightSm: paragraphTypographyLineHeightSm,
+    valueLineHeightSm: paragraphTypoLineHeightSm,
     setValueLineHeightSm: value => setAttributes({
-      paragraphTypographyLineHeightSm: value
+      paragraphTypoLineHeightSm: value
     }),
-    valueLineHeightMd: paragraphTypographyLineHeightMd,
+    valueLineHeightMd: paragraphTypoLineHeightMd,
     setValueLineHeightMd: value => setAttributes({
-      paragraphTypographyLineHeightMd: value
+      paragraphTypoLineHeightMd: value
     }),
-    valueLineHeight: paragraphTypographyLineHeight,
+    valueLineHeight: paragraphTypoLineHeight,
     setValueLineHeight: value => setAttributes({
-      paragraphTypographyLineHeight: value
+      paragraphTypoLineHeight: value
     }),
-    valueLineHeightUnit: paragraphTypographyLineHeightUnit,
+    valueLineHeightUnit: paragraphTypoLineHeightUnit,
     setValueLineHeightUnit: value => setAttributes({
-      paragraphTypographyLineHeightUnit: value
+      paragraphTypoLineHeightUnit: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Color', 'smart-blocks'),
     enableAlpha: true,
-    value: paragraphColor,
+    value: paragraphTypoFontColor,
     setValue: value => setAttributes({
-      paragraphColor: value
+      paragraphTypoFontColor: value
     })
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, {
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Divider', 'hash-form'),
@@ -13410,13 +13063,13 @@ function Edit(props) {
     initialOpen: false
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_rangeslider__WEBPACK_IMPORTED_MODULE_13__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Height', 'hash-form'),
-    value: rangeSliderHeight,
-    setValue: rangeSliderHeight => setAttributes({
-      rangeSliderHeight
+    value: rangeHeight,
+    setValue: rangeHeight => setAttributes({
+      rangeHeight
     }),
-    unit: rangeSliderHeightUnit,
-    setUnit: rangeSliderHeightUnit => setAttributes({
-      rangeSliderHeightUnit
+    unit: rangeHeightUnit,
+    setUnit: rangeHeightUnit => setAttributes({
+      rangeHeightUnit
     }),
     units: ['px', 'em', 'rem'],
     min: 10,
@@ -13424,13 +13077,13 @@ function Edit(props) {
     useUnit: !0
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_rangeslider__WEBPACK_IMPORTED_MODULE_13__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Handle Size', 'hash-form'),
-    value: rangeSliderHandleSize,
-    setValue: rangeSliderHandleSize => setAttributes({
-      rangeSliderHandleSize
+    value: rangeHandleSize,
+    setValue: rangeHandleSize => setAttributes({
+      rangeHandleSize
     }),
-    unit: rangeSliderHandleSizeUnit,
-    setUnit: rangeSliderHandleSizeUnit => setAttributes({
-      rangeSliderHandleSizeUnit
+    unit: rangeHandleSizeUnit,
+    setUnit: rangeHandleSizeUnit => setAttributes({
+      rangeHandleSizeUnit
     }),
     units: ['px', 'em', 'rem'],
     min: 10,
@@ -13439,16 +13092,16 @@ function Edit(props) {
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Bar Color', 'smart-blocks'),
     enableAlpha: true,
-    value: rangeSliderBarColor,
+    value: rangeColor,
     setValue: value => setAttributes({
-      rangeSliderBarColor: value
+      rangeColor: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Color (Active)', 'smart-blocks'),
     enableAlpha: true,
-    value: rangeSliderBarColorActive,
+    value: rangeColorActive,
     setValue: value => setAttributes({
-      rangeSliderBarColorActive: value
+      rangeColorActive: value
     })
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_controls_color__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Handle Color', 'smart-blocks'),
@@ -13458,7 +13111,8 @@ function Edit(props) {
       rangeHandleColor: value
     })
   })))) || 'advanced' === activeTab && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null)))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)({
-    className: "wp-block-hash-form" + (enableCustomStyle ? ' hf-form-custom-style' : '')
+    className: "wp-block-hash-form",
+    id: id
   }), formId ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)((_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_20___default()), {
     key: "hash-form-selector-server-side-renderer",
     block: "hash-form/form-selector",
@@ -13776,13 +13430,13 @@ const BoxShadowControl = ({
       value: valueInset,
       setValue: e => setValueInset(e),
       options: [{
-        label: esc_html__("Inset"),
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Inset"),
         value: "inset",
-        title: esc_html__("Inset")
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Inset")
       }, {
-        label: esc_html__("Outset"),
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Outset"),
         value: "",
-        title: esc_html__("Outset")
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Outset")
       }]
     }))
   }))));
@@ -14790,7 +14444,7 @@ const TypographyControl = ({
   });
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "hf-field hf-field-typography hf-display-inline"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", null, label ? label : esc_html__("Typography", 'hash-form')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", null, label ? label : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Typography", 'hash-form')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "hf-components-dropdown"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Tooltip, {
     text: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Clear', 'hash-form')
@@ -15842,32 +15496,32 @@ const checkDefault = (check, checkDiff = '') => {
   return !check || check.toLowerCase() == 'default' ? 'inherit' : check;
 };
 const responsiveTypographyVars = (varname, family, weight, textTransform, textDecoration, fonsSizeSm, fontSizeMd, fontSize, fontSizeUnit, letterSpacingSm, letterSpacingMd, letterSpacing, letterSpacingUnit, lineHeightSm, lineHeightMd, lineHeight, lineHeightUnit) => {
-  var lgfs = '--hf-' + varname + '-fs-lg';
-  var lgls = '--hf-' + varname + '-ls-lg';
-  var lglh = '--hf-' + varname + '-lh-lg';
+  var lgfs = '--hf-' + varname + '-font-size';
+  var lgls = '--hf-' + varname + '-letter-spacing';
+  var lglh = '--hf-' + varname + '-line-height';
   console.log('font-size: var(' + lgfs + ', 1em);\n' + 'letter-spacing: var(' + lgls + ', inherit);\n' + 'line-height: var(' + lglh + ', inherit);');
-  var mdfs = '--hf-' + varname + '-fs-md';
-  var mdls = '--hf-' + varname + '-ls-md';
-  var mdlh = '--hf-' + varname + '-lh-md';
+  var mdfs = '--hf-' + varname + '-font-size-md';
+  var mdls = '--hf-' + varname + '-letter-spacing-md';
+  var mdlh = '--hf-' + varname + '-line-height-md';
   console.log('font-size: var(' + mdfs + ', var(' + lgfs + ', 1em));\n' + 'letter-spacing: var(' + mdls + ', var(' + lgls + ', inherit));\n' + 'line-height: var(' + mdlh + ', var(' + lglh + ', inherit));');
-  var smfs = '--hf-' + varname + '-fs-sm';
-  var smls = '--hf-' + varname + '-ls-sm';
-  var smlh = '--hf-' + varname + '-lh-sm';
+  var smfs = '--hf-' + varname + '-font-size-sm';
+  var smls = '--hf-' + varname + '-letter-spacing-sm';
+  var smlh = '--hf-' + varname + '-line-height-sm';
   console.log('font-size: var(' + smfs + ', var(' + mdfs + ', var(' + lgfs + ', 1em)));\n' + 'letter-spacing: var(' + smls + ', var(' + mdls + ', var(' + lgls + ', inherit)));\n' + 'line-height: var(' + smlh + ', var(' + mdlh + ', var(' + lglh + ', inherit)));');
-  return `${family ? `--hf-${varname}-family: ${checkDefault(family)};` : ''}
-        ${weight ? `--hf-${varname}-weight: ${checkDefault(weight.replace(/\D/g, ''), weight)};` : ''}
-        ${weight ? `--hf-${varname}-style: ${checkDefault(weight.replace(/\d+/g, ''), weight)};` : ''}
-        ${textTransform ? `--hf-${varname}-tt: ${textTransform};` : ''}
-        ${textDecoration ? `--hf-${varname}-td: ${textDecoration};` : ''}
-        ${fonsSizeSm ? `--hf-${varname}-fs-sm: ${fonsSizeSm + fontSizeUnit};` : ''}
-        ${fontSizeMd ? `--hf-${varname}-fs-md: ${fontSizeMd + fontSizeUnit};` : ''}
-        ${fontSize ? `--hf-${varname}-fs-lg: ${fontSize + fontSizeUnit};` : ''}
-        ${letterSpacingSm ? `--hf-${varname}-ls-sm: ${letterSpacingSm + letterSpacingUnit};` : ''}
-        ${letterSpacingMd ? `--hf-${varname}-ls-md: ${letterSpacingMd + letterSpacingUnit};` : ''}
-        ${letterSpacing ? `--hf-${varname}-ls-lg: ${letterSpacing + letterSpacingUnit};` : ''}
-        ${lineHeightSm ? `--hf-${varname}-lh-sm: ${lineHeightSm + lineHeightUnit};` : ''}
-        ${lineHeightMd ? `--hf-${varname}-lh-md: ${lineHeightMd + lineHeightUnit};` : ''}
-        ${lineHeight ? `--hf-${varname}-lh-lg: ${lineHeight + lineHeightUnit};` : ''}`;
+  return `${family ? `--hf-${varname}-font-family: ${checkDefault(family)};` : ''}
+        ${weight ? `--hf-${varname}-font-weight: ${checkDefault(weight.replace(/\D/g, ''), weight)};` : ''}
+        ${weight ? `--hf-${varname}-font-style: ${checkDefault(weight.replace(/\d+/g, ''), weight)};` : ''}
+        ${textTransform ? `--hf-${varname}-text-transform: ${textTransform};` : ''}
+        ${textDecoration ? `--hf-${varname}-text-decoration: ${textDecoration};` : ''}
+        ${fonsSizeSm ? `--hf-${varname}-font-size-sm: ${fonsSizeSm + fontSizeUnit};` : ''}
+        ${fontSizeMd ? `--hf-${varname}-font-size-md: ${fontSizeMd + fontSizeUnit};` : ''}
+        ${fontSize ? `--hf-${varname}-font-size: ${fontSize + fontSizeUnit};` : ''}
+        ${letterSpacingSm ? `--hf-${varname}-letter-spacing-sm: ${letterSpacingSm + letterSpacingUnit};` : ''}
+        ${letterSpacingMd ? `--hf-${varname}-letter-spacing-md: ${letterSpacingMd + letterSpacingUnit};` : ''}
+        ${letterSpacing ? `--hf-${varname}-letter-spacing: ${letterSpacing + letterSpacingUnit};` : ''}
+        ${lineHeightSm ? `--hf-${varname}-line-height-sm: ${lineHeightSm + lineHeightUnit};` : ''}
+        ${lineHeightMd ? `--hf-${varname}-line-height-md: ${lineHeightMd + lineHeightUnit};` : ''}
+        ${lineHeight ? `--hf-${varname}-line-height: ${lineHeight + lineHeightUnit};` : ''}`;
 };
 const dimensionVars = (varname, top, right, bottom, left, unit = '') => {
   var lgtop = '--hf-' + varname + '-top';
@@ -15881,14 +15535,13 @@ const dimensionVars = (varname, top, right, bottom, left, unit = '') => {
         ${left ? `--hf-${varname}-left: ${left + unit};` : ''}`;
 };
 const boxShadowVars = (varname, horizontal, vertical, blur, spread, color, inset, unit = '') => {
-  console.log('box-shadow: var(--hf-' + varname + '-horizontal) var(--hf-' + varname + '-vertical) var(--hf-' + varname + '-blur) var(--hf-' + varname + '-spread) var(--hf-' + varname + '-color) var(--hf-' + varname + '-inset, );');
-  return `${horizontal ? `--hf-${varname}-horizontal: ${horizontal + unit};` : ''}
-        ${vertical ? `--hf-${varname}-vertical: ${vertical + unit};` : ''}
+  console.log('box-shadow: var(--hf-' + varname + '-x) var(--hf-' + varname + '-y) var(--hf-' + varname + '-blur) var(--hf-' + varname + '-spread) var(--hf-' + varname + '-color) var(--hf-' + varname + '-inset, );');
+  return `${horizontal ? `--hf-${varname}-x: ${horizontal + unit};` : ''}
+        ${vertical ? `--hf-${varname}-y: ${vertical + unit};` : ''}
         ${blur ? `--hf-${varname}-blur: ${blur + unit};` : ''}
         ${spread ? `--hf-${varname}-spread: ${spread + unit};` : ''}
         ${color ? `--hf-${varname}-color: ${color};` : ''}
-        ${inset ? `--hf-${varname}-inset: ${inset};` : ''}
-        ${`--hf-${varname}: var(--hf-${varname}-horizontal) var(--hf-${varname}-vertical) var(--hf-${varname}-blur) var(--hf-${varname}-spread) var(--hf-${varname}-color) var(--hf-${varname}-inset, );`}`;
+        ${inset ? `--hf-${varname}-inset: ${inset};` : ''}`;
 };
 const responsiveDimensionVars = (varname, top, right, bottom, left, topSm, rightSm, bottomSm, leftSm, topMd, rightMd, bottomMd, leftMd, unit = '') => {
   var lgtop = '--hf-' + varname + '-top-lg';

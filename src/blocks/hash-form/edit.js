@@ -1520,7 +1520,8 @@ export default function Edit(props) {
                 </div>
             </InspectorControls>
             <div {...useBlockProps({
-                className: "wp-block-hash-form" + (enableCustomStyle ? ' hf-form-custom-style' : '')
+                className: "wp-block-hash-form",
+                id: id
             })}>
                 {formId ? <ServerSideRender
                     key="hash-form-selector-server-side-renderer"

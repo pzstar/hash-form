@@ -3,6 +3,8 @@
 defined('ABSPATH') || die();
 
 class HashFormBlock {
+    public static $stylesheet;
+    public static $gfonts = array();
 
     public function __construct() {
         add_action('init', array($this, 'register_block'));
@@ -34,7 +36,7 @@ class HashFormBlock {
                 'style' => 'hfb-style',
                 'attributes' => [
                     "id" => ["type" => "string"],
-                    "sbStyle" => ["type" => "string"],
+                    "hfStyle" => ["type" => "string"],
                     "formId" => ["type" => "string"],
 
                     "enableCustomStyle" => ["type" => "boolean"],
@@ -416,24 +418,35 @@ class HashFormBlock {
         $enable_custom_style = isset($attr['enableCustomStyle']) ? $attr['enableCustomStyle'] : 'no';
 
         if ($enable_custom_style == 'yes') {
-            add_filter('hashform_form_classes', function ($classes) {
-                $remove_classes = array('hf-form-default-style', 'hf-form-no-style');
-                $classes = array_diff($classes, $remove_classes);
-                $classes[] = 'hf-block-form';
-                $classes[] = 'hf-form-custom-style';
-
-                return $classes;
-            });
+            add_filter('hashform_form_classes', array($this, 'modify_class'));
             add_filter('hashform_enable_style', '__return_false');
+            self::$stylesheet = $this->get_stylesheet($attr);
+            add_action('wp_footer', array($this, 'print_stylesheet'), 11);
         }
-
+//         var_dump($attr);
+// var_dump($this->get_stylesheet($attr));die();
+        if (!is_admin()) {
+            echo '<div ' . get_block_wrapper_attributes(['class' => 'wp-block-hash-form', 'id' => $attr['id']]) . '>';
+        }
         echo do_shortcode('[hashform id="' . $form_id . '"]');
+        if (!is_admin()) {
+            echo '</div>';
+        }
 
         if ($enable_custom_style == 'yes') {
             remove_filter('hashform_form_classes', array($this, 'modify_class'));
             remove_filter('hashform_enable_style', '__return_false');
         }
         return ob_get_clean();
+    }
+
+    public function modify_class($classes) {
+        $remove_classes = array('hf-form-default-style', 'hf-form-no-style');
+        $classes = array_diff($classes, $remove_classes);
+        $classes[] = 'hf-elementor-form';
+        $classes[] = 'hf-form-custom-style';
+
+        return $classes;
     }
 
     public function load_textdomain() {
@@ -445,6 +458,129 @@ class HashFormBlock {
         if (function_exists('wp_set_script_translations')) {
             wp_set_script_translations('hfb-blocks', 'hash-form', HASHFORM_PATH . 'languages');
         }
+    }
+
+    public function get_stylesheet($blockAttrs) {
+        $block_css_arr = [];
+        $block_css = '';
+        foreach ($blockAttrs as $attrs => $value) {
+            $family = '';
+            $weight = '';
+            if (str_contains($attrs, 'Family')) {
+                $family = $value;
+                $weight = $blockAttrs[str_replace('Family', 'Weight', $attrs)];
+            }
+            if ($family && $family != 'inherit') {
+                self::blocks_google_font($family, $weight ? str_replace('italic', 'i', $weight) : 400);
+            }
+        }
+        // Get CSS for the Block.
+        if (isset($blockAttrs['hfStyle'])) {
+            $block_css_arr[$blockAttrs['id']] = is_array($blockAttrs['hfStyle']) ? '' : $blockAttrs['hfStyle'];
+        }
+
+        foreach ($block_css_arr as $val) {
+            $block_css .= $val;
+        }
+        return $block_css;
+    }
+
+    public static function blocks_google_font($font_family, $font_weight, $font_subset = NULL) {
+        if (strtolower($font_family) != 'inherit') {
+
+            if (!array_key_exists($font_family, self::$gfonts)) {
+                $add_font = array(
+                    'fontfamily' => $font_family,
+                    'fontvariants' => (isset($font_weight) && !empty($font_weight) ? array($font_weight) : array()),
+                    'fontsubsets' => (isset($font_subset) && !empty($font_subset) ? array($font_subset) : array()),
+                );
+                self::$gfonts[$font_family] = $add_font;
+
+            } else {
+                if (isset($font_weight) && ($font_weight != 'inherit') && !empty($font_weight)) {
+                    if (!in_array($font_weight, self::$gfonts[$font_family]['fontvariants'], true)) {
+                        array_push(self::$gfonts[$font_family]['fontvariants'], $font_weight);
+                    }
+                }
+                if (isset($font_subset) && !empty($font_subset)) {
+                    if (!in_array($font_subset, self::$gfonts[$font_family]['fontsubsets'], true)) {
+                        array_push(self::$gfonts[$font_family]['fontsubsets'], $font_subset);
+                    }
+                }
+            }
+        }
+    }
+
+    public function print_stylesheet() {
+
+        if (is_null(self::$stylesheet) || '' === self::$stylesheet) {
+            return;
+        }
+
+        wp_register_style('sb-style-frontend', false, array(), HASHFORM_VERSION);
+        wp_enqueue_style('sb-style-frontend');
+        wp_add_inline_style('sb-style-frontend', $this->strip_whitespace(self::$stylesheet));
+        $frontend_gfonts = $this->frontend_gfonts();
+        wp_enqueue_style('sb-fonts-frontend', $frontend_gfonts, array(), NULL);
+    }
+
+    public function strip_whitespace($css) {
+        $replace = array(
+            "#/\*.*?\*/#s" => "", // Strip C style comments.
+            "#\s\s+#" => " ", // Strip excess whitespace.
+        );
+        $search = array_keys($replace);
+        $css = preg_replace($search, $replace, $css);
+
+        $replace = array(
+            ": " => ":",
+            "; " => ";",
+            " {" => "{",
+            " }" => "}",
+            ", " => ",",
+            "{ " => "{",
+            ";}" => "}", // Strip optional semicolons.
+            ",\n" => ",", // Don't wrap multiple selectors.
+            "\n}" => "}", // Don't wrap closing braces.
+            "} " => "}\n", // Put each rule on it's own line.
+        );
+        $search = array_keys($replace);
+        $css = str_replace($search, $replace, $css);
+
+        return trim($css);
+    }
+
+    public function frontend_gfonts() {
+        if (empty(self::$gfonts)) {
+            return;
+        }
+        $link = '';
+        $subsets = array();
+
+        foreach (self::$gfonts as $key => $gfont_values) {
+            if (!empty($link)) {
+                $link .= '%7C'; // Append a new font to the string.
+            }
+            $link .= $gfont_values['fontfamily'];
+            if (!empty($gfont_values['fontvariants'])) {
+                $link .= ':';
+                $link .= implode(',', $gfont_values['fontvariants']);
+            }
+
+            if (!empty($gfont_values['fontsubsets'])) {
+                foreach ($gfont_values['fontsubsets'] as $subset) {
+                    if (!in_array($subset, $subsets, true)) {
+                        array_push($subsets, $subset);
+                    }
+                }
+            }
+        }
+
+        if (!empty($subsets)) {
+            $link .= '&amp;subset=' . implode(',', $subsets);
+        }
+
+        return '//fonts.googleapis.com/css?family=' . esc_attr(str_replace('|', '%7C', $link));
     }
 
 }
