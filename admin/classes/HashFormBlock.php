@@ -479,9 +479,28 @@ class HashFormBlock {
         if (empty($form_id)) {
             return '';
         }
-
         ob_start();
-        HashFormPreview::show_form($form_id);
+
+        $enable_custom_style = isset($attr['enableCustomStyle']) ? $attr['enableCustomStyle'] : 'no';
+
+        if ($enable_custom_style == 'yes') {
+            add_filter('hashform_form_classes', function ($classes) {
+                $remove_classes = array('hf-form-default-style', 'hf-form-no-style');
+                $classes = array_diff($classes, $remove_classes);
+                $classes[] = 'hf-block-form';
+                $classes[] = 'hf-form-custom-style';
+
+                return $classes;
+            });
+            add_filter('hashform_enable_style', '__return_false');
+        }
+
+        echo do_shortcode('[hashform id="' . $form_id . '"]');
+
+        if ($enable_custom_style == 'yes') {
+            remove_filter('hashform_form_classes', array($this, 'modify_class'));
+            remove_filter('hashform_enable_style', '__return_false');
+        }
         return ob_get_clean();
     }
 

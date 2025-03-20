@@ -1,6 +1,3 @@
-
 .DS_Store
 node_modules
-build/index.asset.php
-build/index.js
-build/index.js.map
+build
