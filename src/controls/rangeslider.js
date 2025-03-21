@@ -91,12 +91,12 @@ const RangeSliderControl = ({
         return ret;
     }
 
-    return <div className={`sb-field sb-field-range ${responsive ? 'sb-responsive' : ''}`}>
-        <div className="sb-label">
+    return <div className={`hf-field hf-field-range ${responsive ? 'hf-responsive' : ''}`}>
+        <div className="hf-label">
             {label && (<label htmlFor="input">{label}</label>)}
             {responsive && (<ResponsiveDropdown />)}
             {useUnit && (
-                <div class="sb-unit-btn-group">
+                <div class="hf-unit-btn-group">
                     {allUnits.map((unt, index) => {
                         return <button
                             className={`${unit === unt ? "active" : ""}`}
@@ -113,11 +113,11 @@ const RangeSliderControl = ({
                 </div>
             )}
         </div>
-        <div className="sb-input-fields">
+        <div className="hf-input-fields">
             {responsive ?
                 (<>
                     {getView == 'Mobile' && (
-                        <div className="sb-input-range">
+                        <div className="hf-input-range">
                             <input type="range"
                                 min={calcMinVal()}
                                 max={calcMaxVal()}
@@ -133,7 +133,7 @@ const RangeSliderControl = ({
                         </div>
                     )}
                     {getView == 'Tablet' && (
-                        <div className="sb-input-range">
+                        <div className="hf-input-range">
                             <input type="range"
                                 min={calcMinVal()}
                                 max={calcMaxVal()}
@@ -149,7 +149,7 @@ const RangeSliderControl = ({
                         </div>
                     )}
                     {getView == 'Desktop' && (
-                        <div className="sb-input-range">
+                        <div className="hf-input-range">
                             <input type="range"
                                 min={calcMinVal()}
                                 max={calcMaxVal()}
@@ -166,7 +166,7 @@ const RangeSliderControl = ({
                     )}
                 </>) :
                 (
-                    <div className="sb-input-range">
+                    <div className="hf-input-range">
                         <input type="range"
                             min={calcMinVal()}
                             max={calcMaxVal()}

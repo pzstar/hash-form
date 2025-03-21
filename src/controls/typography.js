@@ -191,23 +191,23 @@ const TypographyControl = ({
 	});
 
 	return <>
-		<div className="sb-field sb-field-typography sb-display-inline">
+		<div className="hf-field hf-field-typography hf-display-inline">
 			<label>{label ? label : __("Typography", 'smart-blocks')}</label>
-			<div className="sb-components-dropdown">
+			<div className="hf-components-dropdown">
 				<Tooltip text={__('Clear', 'smart-blocks')}>
-					<div className="sb-reset-field"
+					<div className="hf-reset-field"
 						onClick={onClearHandler}>
-						<span className="sb-clear-field" role="button">
+						<span className="hf-clear-field" role="button">
 							<ClearIcon />
 						</span>
 					</div>
 				</Tooltip>
 				<Dropdown
 					position="top right"
-					contentClassName="sb-popover-style"
+					contentClassName="hf-popover-style"
 					renderToggle={({isOpen, onToggle}) => (
 						<button
-							className="sb-typo-setttings sb-setting-button"
+							className="hf-typo-setttings hf-setting-button"
 							isPrimary={!0}
 							onClick={onToggle}
 							aria-expanded={isOpen}
@@ -216,11 +216,11 @@ const TypographyControl = ({
 						</button>
 					)}
 					renderContent={() =>
-						<div className="sb-field-typography-options">
-							<div className="sb-field sb-field-select sb-display-inline">
+						<div className="hf-field-typography-options">
+							<div className="hf-field hf-field-select hf-display-inline">
 								<label>{__("Font Family", 'smart-blocks')}</label>
-								<div className="sb-input-fields">
-									<div className="sb-popup-select">
+								<div className="hf-input-fields">
+									<div className="hf-popup-select">
 										<Select
 											value={allFontList.find(option => option.value == valueFamily)}
 											onChange={value => {
@@ -231,16 +231,16 @@ const TypographyControl = ({
 											}}
 											options={allFontList}
 											isMulti={!1}
-											className="sb-select-container"
-											classNamePrefix="sb-select"
+											className="hf-select-container"
+											classNamePrefix="hf-select"
 										/>
 									</div>
 								</div>
 							</div>
-							<div className="sb-field sb-field-select sb-display-inline">
+							<div className="hf-field hf-field-select hf-display-inline">
 								<label>{__("Weight/Style", 'smart-blocks')}</label>
-								<div className="sb-input-fields">
-									<div className="sb-popup-select">
+								<div className="hf-input-fields">
+									<div className="hf-popup-select">
 										<select
 											value={valueWeight}
 											onChange={(e) => setValueWeight(e.target.value)}
@@ -255,10 +255,10 @@ const TypographyControl = ({
 								</div>
 							</div>
 
-							<div className="sb-field sb-field-select sb-display-inline">
+							<div className="hf-field hf-field-select hf-display-inline">
 								<label>{__('Text Transform', 'smart-blocks')}</label>
-								<div className="sb-input-fields">
-									<div className="sb-popup-select">
+								<div className="hf-input-fields">
+									<div className="hf-popup-select">
 										<select
 											value={valueTextTransform}
 											onChange={(e) => setValueTextTransform(e.target.value)}
@@ -273,10 +273,10 @@ const TypographyControl = ({
 								</div>
 							</div>
 
-							<div className="sb-field sb-field-select sb-display-inline">
+							<div className="hf-field hf-field-select hf-display-inline">
 								<label>{__('Text Decoration', 'smart-blocks')}</label>
-								<div className="sb-input-fields">
-									<div className="sb-popup-select">
+								<div className="hf-input-fields">
+									<div className="hf-popup-select">
 										<select
 											value={valueTextDecoration}
 											onChange={(e) => setValueTextDecoration(e.target.value)}
@@ -291,12 +291,12 @@ const TypographyControl = ({
 								</div>
 							</div>
 
-							<div className="sb-field sb-field-range sb-responsive">
-								<div class="sb-label">
+							<div className="hf-field hf-field-range hf-responsive">
+								<div class="hf-label">
 									<label for="input">{__('Font Size', 'smart-blocks')}</label>
 
 									<ResponsiveDropdown />
-									<div className="sb-unit-btn-group">
+									<div className="hf-unit-btn-group">
 										<button
 											className={`${valueFontSizeUnit === 'px' ? "active" : ""}`}
 											onClick={() => {
@@ -340,8 +340,8 @@ const TypographyControl = ({
 									</div>
 								</div>
 
-								<div className="sb-input-fields">
-									{getView == 'Desktop' && (<div className="sb-input-range">
+								<div className="hf-input-fields">
+									{getView == 'Desktop' && (<div className="hf-input-range">
 										<input type="range"
 											min={calcMinValFontSize()}
 											max={calcMaxValFontSize()}
@@ -356,7 +356,7 @@ const TypographyControl = ({
 											onChange={(e) => setValueFontSize(e.target.value)}
 										/>
 									</div>)}
-									{getView == 'Tablet' && (<div className="sb-input-range">
+									{getView == 'Tablet' && (<div className="hf-input-range">
 										<input type="range"
 											min={calcMinValFontSize()}
 											max={calcMaxValFontSize()}
@@ -371,7 +371,7 @@ const TypographyControl = ({
 											onChange={(e) => setValueFontSizeMd(e.target.value)}
 										/>
 									</div>)}
-									{getView == 'Mobile' && (<div className="sb-input-range">
+									{getView == 'Mobile' && (<div className="hf-input-range">
 										<input type="range"
 											min={calcMinValFontSize()}
 											max={calcMaxValFontSize()}
@@ -389,12 +389,12 @@ const TypographyControl = ({
 								</div>
 							</div>
 
-							<div className="sb-field sb-field-range sb-responsive">
-								<div class="sb-label">
+							<div className="hf-field hf-field-range hf-responsive">
+								<div class="hf-label">
 									<label for="input">{__('Letter Spacing', 'smart-blocks')}</label>
 
 									<ResponsiveDropdown />
-									<div className="sb-unit-btn-group">
+									<div className="hf-unit-btn-group">
 										<button
 											className={`${valueLetterSpacingUnit === 'px' ? "active" : ""}`}
 											onClick={() => {
@@ -428,8 +428,8 @@ const TypographyControl = ({
 									</div>
 								</div>
 
-								<div className="sb-input-fields">
-									{getView == 'Desktop' && (<div className="sb-input-range">
+								<div className="hf-input-fields">
+									{getView == 'Desktop' && (<div className="hf-input-range">
 										<input type="range"
 											min={calcMinValLetterSpacing()}
 											max={calcMaxValLetterSpacing()}
@@ -444,7 +444,7 @@ const TypographyControl = ({
 											onChange={(e) => setValueLetterSpacing(e.target.value)}
 										/>
 									</div>)}
-									{getView == 'Tablet' && (<div className="sb-input-range">
+									{getView == 'Tablet' && (<div className="hf-input-range">
 										<input type="range"
 											min={calcMinValLetterSpacing()}
 											max={calcMaxValLetterSpacing()}
@@ -459,7 +459,7 @@ const TypographyControl = ({
 											onChange={(e) => setValuesLetterSpacingMd(e.target.value)}
 										/>
 									</div>)}
-									{getView == 'Mobile' && (<div className="sb-input-range">
+									{getView == 'Mobile' && (<div className="hf-input-range">
 										<input type="range"
 											min={calcMinValLetterSpacing()}
 											max={calcMaxValLetterSpacing()}
@@ -479,12 +479,12 @@ const TypographyControl = ({
 
 
 
-							<div className="sb-field sb-field-range sb-responsive">
-								<div class="sb-label">
+							<div className="hf-field hf-field-range hf-responsive">
+								<div class="hf-label">
 									<label for="input">{__('Line Height', 'smart-blocks')}</label>
 
 									<ResponsiveDropdown />
-									<div className="sb-unit-btn-group">
+									<div className="hf-unit-btn-group">
 										<button
 											className={`${valueLineHeightUnit === 'px' ? "active" : ""}`}
 											onClick={() => {
@@ -518,8 +518,8 @@ const TypographyControl = ({
 									</div>
 								</div>
 
-								<div className="sb-input-fields">
-									{getView == 'Desktop' && (<div className="sb-input-range">
+								<div className="hf-input-fields">
+									{getView == 'Desktop' && (<div className="hf-input-range">
 										<input type="range"
 											min={calcMinValLineHeight()}
 											max={calcMaxValLineHeight()}
@@ -534,7 +534,7 @@ const TypographyControl = ({
 											onChange={(e) => setValueLineHeight(e.target.value)}
 										/>
 									</div>)}
-									{getView == 'Tablet' && (<div className="sb-input-range">
+									{getView == 'Tablet' && (<div className="hf-input-range">
 										<input type="range"
 											min={calcMinValLineHeight()}
 											max={calcMaxValLineHeight()}
@@ -549,7 +549,7 @@ const TypographyControl = ({
 											onChange={(e) => setValueLineHeightMd(e.target.value)}
 										/>
 									</div>)}
-									{getView == 'Mobile' && (<div className="sb-input-range">
+									{getView == 'Mobile' && (<div className="hf-input-range">
 										<input type="range"
 											min={calcMinValLineHeight()}
 											max={calcMaxValLineHeight()}
