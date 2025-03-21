@@ -136,8 +136,8 @@ export default function Edit(props) {
 
         fieldBorderColorNormal,
 
-        fieldColorNormalFocus,
-        fieldBgColorNormalFocus,
+        fieldColorFocus,
+        fieldBgColorFocus,
         fieldShadowFocusHorizontal,
         fieldShadowFocusVertical,
         fieldShadowFocusBlur,
@@ -145,7 +145,7 @@ export default function Edit(props) {
         fieldShadowFocusColor,
         fieldShadowFocusInset,
 
-        fieldBorderFocusColor,
+        fieldBorderColorFocus,
 
         fieldBorderRadiusTop,
         fieldBorderRadiusLeft,
@@ -176,37 +176,36 @@ export default function Edit(props) {
         uploadTypoLineHeight,
         uploadTypoLineHeightUnit,
 
-        uploadColor,
-        uploadBgColor,
+        uploadColorNormal,
+        uploadBgColorNormal,
 
-        uploadShadowHorizontal,
-        uploadShadowVertical,
-        uploadShadowBlur,
-        uploadShadowSpread,
-        uploadShadowColor,
-        uploadShadowInset,
+        uploadShadowNormalX,
+        uploadShadowNormalY,
+        uploadShadowNormalBlur,
+        uploadShadowNormalSpread,
+        uploadShadowNormalColor,
+        uploadShadowNormalInset,
 
         uploadBorder,
-        uploadBorderWidthTop,
-        uploadBorderWidthLeft,
-        uploadBorderWidthRight,
-        uploadBorderWidthBottom,
-        uploadBorderWidthUnit,
+        uploadBorderTop,
+        uploadBorderLeft,
+        uploadBorderRight,
+        uploadBorderBottom,
+        uploadBorderUnit,
 
-        uploadBorderColor,
+        uploadBorderColorNormal,
 
         uploadColorHover,
         uploadBgColorHover,
 
-        uploadShadowHoverHorizontal,
-        uploadShadowHoverVertical,
+        uploadShadowHoverX,
+        uploadShadowHoverY,
         uploadShadowHoverBlur,
         uploadShadowHoverSpread,
         uploadShadowHoverColor,
         uploadShadowHoverInset,
 
-        uploadBorderHover,
-        uploadBorderHoverColor,
+        uploadBorderColorHover,
 
         uploadBorderRadiusTop,
         uploadBorderRadiusLeft,
@@ -240,12 +239,12 @@ export default function Edit(props) {
         buttonColorNormal,
         buttonBgColorNormal,
 
-        buttonShadowX,
-        buttonShadowY,
-        buttonShadowBlur,
-        buttonShadowSpread,
-        buttonShadowColor,
-        buttonShadowInset,
+        buttonShadowNormalX,
+        buttonShadowNormalY,
+        buttonShadowNormalBlur,
+        buttonShadowNormalSpread,
+        buttonShadowNormalColor,
+        buttonShadowNormalInset,
 
         buttonBorder,
         buttonBorderTop,
@@ -253,7 +252,7 @@ export default function Edit(props) {
         buttonBorderRight,
         buttonBorderBottom,
         buttonBorderUnit,
-        buttonBorderColor,
+        buttonBorderColorNormal,
 
         buttonColorHover,
         buttonBgColorHover,
@@ -265,7 +264,7 @@ export default function Edit(props) {
         buttonShadowHoverColor,
         buttonShadowHoverInset,
 
-        buttonBorderHoverColor,
+        buttonBorderColorHover,
 
         buttonBorderRadiusTop,
         buttonBorderRadiusLeft,
@@ -297,7 +296,7 @@ export default function Edit(props) {
         validationTypoLineHeightUnit,
 
         validationTypoFontColor,
-        validationTextAlign,
+        validationTextalign,
 
         formTitleTypoFamily,
         formTitleTypoWeight,
@@ -409,12 +408,11 @@ export default function Edit(props) {
     const stylesCSS = `#${id} {
         ${enableCustomStyle && getStyleVars(attributes, {
         responsiveSliderUnits: [],
-        normal: ['labelTypoFontColor', 'labelRequiredColor', 'descTypoFontColor', 'fieldBorder', 'fieldColorNormal', 'fieldBgColorNormal', 'fieldBorderColorNormal', 'fieldColorNormalFocus', 'fieldBgColorNormalFocus', 'fieldBorderFocusColor', 'uploadColor', 'uploadBorderColor', 'uploadBgColor', 'uploadColorHover', 'uploadBgColorHover', 'buttonColorNormal', 'buttonBgColorNormal', 'buttonColorHover', 'buttonBgColorHover', 'validationTypoFontColor', 'validationTextAlign', 'formTitleTypoFontColor', 'formDescTypoFontColor', 'headingTypoFontColor', 'paragraphTypoFontColor', 'dividerColor', 'starColor', 'starColorActive', 'rangeColor', 'rangeColorActive', 'rangeHandleColor'],
+        normal: ['labelTypoFontColor', 'labelRequiredColor', 'descTypoFontColor', 'fieldBorder', 'fieldColorNormal', 'fieldBgColorNormal', 'fieldBorderColorNormal', 'fieldColorFocus', 'fieldBgColorFocus', 'fieldBorderColorFocus', 'uploadBorder', 'uploadColorNormal', 'uploadBorderColorNormal', 'uploadBgColorNormal', 'uploadColorHover', 'uploadBgColorHover', 'uploadBorderColorHover', 'buttonBorder', 'buttonBorderColorNormal', 'buttonColorNormal', 'buttonBgColorNormal', 'buttonBorderColorHover', 'buttonColorHover', 'buttonBgColorHover', 'validationTypoFontColor', 'validationTextalign', 'formTitleTypoFontColor', 'formDescTypoFontColor', 'headingTypoFontColor', 'paragraphTypoFontColor', 'dividerColor', 'starColor', 'starColorActive', 'rangeColor', 'rangeColorActive', 'rangeHandleColor'],
         normalUnit: ['formColumnGap', 'formRowGap', 'starSize', 'rangeHeight', 'rangeHandleSize'],
-        dimension: ['labelSpacing', 'descSpacing', 'fieldBorder', 'fieldBorderRadius', 'fieldPadding', 'uploadBorderRadius', 'uploadPadding', 'buttonBorder', 'buttonBorderRadius', 'buttonPadding', 'formTitleSpacing', 'formDescSpacing'],
-        responsiveBorder: ['uploadBorderHover',  'buttonBorderHover'],
+        dimension: ['labelSpacing', 'descSpacing', 'fieldBorder', 'fieldBorderRadius', 'fieldPadding', 'uploadBorder', 'uploadBorderRadius', 'uploadPadding', 'buttonBorder', 'buttonBorderRadius', 'buttonPadding', 'formTitleSpacing', 'formDescSpacing'],
         responsiveTypography: ['labelTypo', 'descTypo', 'fieldTypo', 'uploadTypo', 'buttonTypo', 'validationTypo', 'formTitleTypo', 'formDescTypo', 'headingTypo', 'paragraphTypo'],
-        boxShadow: ['fieldShadowNormal', 'fieldShadowFocus', 'buttonShadow', 'buttonShadowHover', 'uploadShadowHover']
+        boxShadow: ['fieldShadowNormal', 'fieldShadowFocus', 'buttonShadowNormal', 'buttonShadowHover', 'uploadShadowNormal', 'uploadShadowHover']
     })}
     }`
     setAttributes({hfStyle: stylesCSS.replace(/([^0-9a-zA-Z\.#])\s+/g, "$1").replace(/\s([^0-9a-zA-Z\.#]+)/g, "$1").replace(/;}/g, "}").replace(/\/\*.*?\*\//g, "")});
@@ -724,48 +722,44 @@ export default function Edit(props) {
                                                     value={fieldBorder}
                                                     setValue={(fieldBorder) => setAttributes({fieldBorder})}
                                                 />
-                                                {fieldBorder && (
-                                                    <>
-                                                        <DimensionControl
-                                                            label={__('Border Width', 'smart-blocks-pro')}
-                                                            units={['px', 'em', 'rem', 'vw']}
-                                                            responsive={!1}
-                                                            dimensionTop={fieldBorderTop}
-                                                            setDimensionTop={value => setAttributes({fieldBorderTop: value})}
+                                                <DimensionControl
+                                                    label={__('Border Width', 'smart-blocks-pro')}
+                                                    units={['px', 'em', 'rem', 'vw']}
+                                                    responsive={!1}
+                                                    dimensionTop={fieldBorderTop}
+                                                    setDimensionTop={value => setAttributes({fieldBorderTop: value})}
 
-                                                            dimensionLeft={fieldBorderLeft}
-                                                            setDimensionLeft={value => setAttributes({fieldBorderLeft: value})}
+                                                    dimensionLeft={fieldBorderLeft}
+                                                    setDimensionLeft={value => setAttributes({fieldBorderLeft: value})}
 
-                                                            dimensionRight={fieldBorderRight}
-                                                            setDimensionRight={value => setAttributes({fieldBorderRight: value})}
+                                                    dimensionRight={fieldBorderRight}
+                                                    setDimensionRight={value => setAttributes({fieldBorderRight: value})}
 
-                                                            dimensionBottom={fieldBorderBottom}
-                                                            setDimensionBottom={value => setAttributes({fieldBorderBottom: value})}
+                                                    dimensionBottom={fieldBorderBottom}
+                                                    setDimensionBottom={value => setAttributes({fieldBorderBottom: value})}
 
-                                                            unit={fieldBorderUnit}
-                                                            setUnit={value => setAttributes({fieldBorderUnit: value})}
-                                                        />
-                                                        <ColorControl
-                                                            label={__('Border Color', 'smart-blocks-pro')}
-                                                            enableAlpha
-                                                            value={fieldBorderColorNormal}
-                                                            setValue={(fieldBorderColorNormal) => setAttributes({fieldBorderColorNormal})}
-                                                        />
-                                                    </>
-                                                )}
+                                                    unit={fieldBorderUnit}
+                                                    setUnit={value => setAttributes({fieldBorderUnit: value})}
+                                                />
+                                                <ColorControl
+                                                    label={__('Border Color', 'smart-blocks-pro')}
+                                                    enableAlpha
+                                                    value={fieldBorderColorNormal}
+                                                    setValue={(fieldBorderColorNormal) => setAttributes({fieldBorderColorNormal})}
+                                                />
                                             </div>
                                             <div tabTitle={__("Focus", 'smart-blocks')}>
                                                 <ColorControl
                                                     label={__('Color', 'smart-blocks')}
                                                     enableAlpha
-                                                    value={fieldColorNormalFocus}
-                                                    setValue={value => setAttributes({fieldColorNormalFocus: value})}
+                                                    value={fieldColorFocus}
+                                                    setValue={value => setAttributes({fieldColorFocus: value})}
                                                 />
                                                 <ColorControl
                                                     label={__('Background Color', 'smart-blocks')}
                                                     enableAlpha
-                                                    value={fieldBgColorNormalFocus}
-                                                    setValue={value => setAttributes({fieldBgColorNormalFocus: value})}
+                                                    value={fieldBgColorFocus}
+                                                    setValue={value => setAttributes({fieldBgColorFocus: value})}
                                                 />
                                                 <BoxShadowControl
                                                     valueHorizontal={fieldShadowFocusHorizontal}
@@ -784,8 +778,8 @@ export default function Edit(props) {
                                                 <ColorControl
                                                     label={__('Border Color', 'smart-blocks-pro')}
                                                     enableAlpha
-                                                    value={fieldBorderFocusColor}
-                                                    setValue={(fieldBorderFocusColor) => setAttributes({fieldBorderFocusColor})}
+                                                    value={fieldBorderColorFocus}
+                                                    setValue={(fieldBorderColorFocus) => setAttributes({fieldBorderColorFocus})}
                                                 />
                                             </div>
                                         </Tabs>
@@ -861,62 +855,58 @@ export default function Edit(props) {
                                                 <ColorControl
                                                     label={__('Color', 'smart-blocks')}
                                                     enableAlpha
-                                                    value={uploadColor}
-                                                    setValue={value => setAttributes({uploadColor: value})}
+                                                    value={uploadColorNormal}
+                                                    setValue={value => setAttributes({uploadColorNormal: value})}
                                                 />
                                                 <ColorControl
                                                     label={__('Background Color', 'smart-blocks')}
                                                     enableAlpha
-                                                    value={uploadBgColor}
-                                                    setValue={value => setAttributes({uploadBgColor: value})}
+                                                    value={uploadBgColorNormal}
+                                                    setValue={value => setAttributes({uploadBgColorNormal: value})}
                                                 />
                                                 <BoxShadowControl
-                                                    valueHorizontal={uploadShadowHorizontal}
-                                                    setValueHorizontal={(uploadShadowHorizontal) => setAttributes({uploadShadowHorizontal})}
-                                                    valueVertical={uploadShadowVertical}
-                                                    setValueVertical={(uploadShadowVertical) => setAttributes({uploadShadowVertical})}
-                                                    valueBlur={uploadShadowBlur}
-                                                    setValueBlur={(uploadShadowBlur) => setAttributes({uploadShadowBlur})}
-                                                    valueSpread={uploadShadowSpread}
-                                                    setValueSpread={(uploadShadowSpread) => setAttributes({uploadShadowSpread})}
-                                                    valueColor={uploadShadowColor}
-                                                    setValueColor={(uploadShadowColor) => setAttributes({uploadShadowColor})}
-                                                    valueInset={uploadShadowInset}
-                                                    setValueInset={(uploadShadowInset) => setAttributes({uploadShadowInset})}
+                                                    valueHorizontal={uploadShadowNormalX}
+                                                    setValueHorizontal={(uploadShadowNormalX) => setAttributes({uploadShadowNormalX})}
+                                                    valueVertical={uploadShadowNormalY}
+                                                    setValueVertical={(uploadShadowNormalY) => setAttributes({uploadShadowNormalY})}
+                                                    valueBlur={uploadShadowNormalBlur}
+                                                    setValueBlur={(uploadShadowNormalBlur) => setAttributes({uploadShadowNormalBlur})}
+                                                    valueSpread={uploadShadowNormalSpread}
+                                                    setValueSpread={(uploadShadowNormalSpread) => setAttributes({uploadShadowNormalSpread})}
+                                                    valueColor={uploadShadowNormalColor}
+                                                    setValueColor={(uploadShadowNormalColor) => setAttributes({uploadShadowNormalColor})}
+                                                    valueInset={uploadShadowNormalInset}
+                                                    setValueInset={(uploadShadowNormalInset) => setAttributes({uploadShadowNormalInset})}
                                                 />
                                                 <BorderControl
                                                     value={uploadBorder}
                                                     setValue={(uploadBorder) => setAttributes({uploadBorder})}
                                                 />
-                                                {uploadBorder && (
-                                                    <>
-                                                        <DimensionControl
-                                                            label={__('Border Width', 'smart-blocks-pro')}
-                                                            units={['px', 'em', 'rem', 'vw']}
-                                                            responsive={!0}
-                                                            dimensionTop={uploadBorderWidthTop}
-                                                            setDimensionTop={value => setAttributes({uploadBorderWidthTop: value})}
+                                                <DimensionControl
+                                                    label={__('Border Width', 'smart-blocks-pro')}
+                                                    units={['px', 'em', 'rem', 'vw']}
+                                                    responsive={!0}
+                                                    dimensionTop={uploadBorderTop}
+                                                    setDimensionTop={value => setAttributes({uploadBorderTop: value})}
 
-                                                            dimensionLeft={uploadBorderWidthLeft}
-                                                            setDimensionLeft={value => setAttributes({uploadBorderWidthLeft: value})}
+                                                    dimensionLeft={uploadBorderLeft}
+                                                    setDimensionLeft={value => setAttributes({uploadBorderLeft: value})}
 
-                                                            dimensionRight={uploadBorderWidthRight}
-                                                            setDimensionRight={value => setAttributes({uploadBorderWidthRight: value})}
+                                                    dimensionRight={uploadBorderRight}
+                                                    setDimensionRight={value => setAttributes({uploadBorderRight: value})}
 
-                                                            dimensionBottom={uploadBorderWidthBottom}
-                                                            setDimensionBottom={value => setAttributes({uploadBorderWidthBottom: value})}
+                                                    dimensionBottom={uploadBorderBottom}
+                                                    setDimensionBottom={value => setAttributes({uploadBorderBottom: value})}
 
-                                                            unit={uploadBorderWidthUnit}
-                                                            setUnit={value => setAttributes({uploadBorderWidthUnit: value})}
-                                                        />
-                                                        <ColorControl
-                                                            label={__('Border Color', 'smart-blocks-pro')}
-                                                            enableAlpha
-                                                            value={uploadBorderColor}
-                                                            setValue={(uploadBorderColor) => setAttributes({uploadBorderColor})}
-                                                        />
-                                                    </>
-                                                )}
+                                                    unit={uploadBorderUnit}
+                                                    setUnit={value => setAttributes({uploadBorderUnit: value})}
+                                                />
+                                                <ColorControl
+                                                    label={__('Border Color', 'smart-blocks-pro')}
+                                                    enableAlpha
+                                                    value={uploadBorderColorNormal}
+                                                    setValue={(uploadBorderColorNormal) => setAttributes({uploadBorderColorNormal})}
+                                                />
                                             </div>
                                             <div tabTitle={__("Hover", 'smart-blocks')}>
                                                 <ColorControl
@@ -932,10 +922,10 @@ export default function Edit(props) {
                                                     setValue={value => setAttributes({uploadBgColorHover: value})}
                                                 />
                                                 <BoxShadowControl
-                                                    valueHorizontal={uploadShadowHoverHorizontal}
-                                                    setValueHorizontal={(uploadShadowHoverHorizontal) => setAttributes({uploadShadowHoverHorizontal})}
-                                                    valueVertical={uploadShadowHoverVertical}
-                                                    setValueVertical={(uploadShadowHoverVertical) => setAttributes({uploadShadowHoverVertical})}
+                                                    valueHorizontal={uploadShadowHoverX}
+                                                    setValueHorizontal={(uploadShadowHoverX) => setAttributes({uploadShadowHoverX})}
+                                                    valueVertical={uploadShadowHoverY}
+                                                    setValueVertical={(uploadShadowHoverY) => setAttributes({uploadShadowHoverY})}
                                                     valueBlur={uploadShadowHoverBlur}
                                                     setValueBlur={(uploadShadowHoverBlur) => setAttributes({uploadShadowHoverBlur})}
                                                     valueSpread={uploadShadowHoverSpread}
@@ -945,15 +935,11 @@ export default function Edit(props) {
                                                     valueInset={uploadShadowHoverInset}
                                                     setValueInset={(uploadShadowHoverInset) => setAttributes({uploadShadowHoverInset})}
                                                 />
-                                                <BorderControl
-                                                    value={uploadBorderHover}
-                                                    setValue={(uploadBorderHover) => setAttributes({uploadBorderHover})}
-                                                />
                                                 <ColorControl
                                                     label={__('Border Color', 'smart-blocks-pro')}
                                                     enableAlpha
-                                                    value={uploadBorderHoverColor}
-                                                    setValue={(uploadBorderHoverColor) => setAttributes({uploadBorderHoverColor})}
+                                                    value={uploadBorderColorHover}
+                                                    setValue={(uploadBorderColorHover) => setAttributes({uploadBorderColorHover})}
                                                 />
                                             </div>
                                         </Tabs>
@@ -1039,52 +1025,48 @@ export default function Edit(props) {
                                                     setValue={value => setAttributes({buttonBgColorNormal: value})}
                                                 />
                                                 <BoxShadowControl
-                                                    valueHorizontal={buttonShadowX}
-                                                    setValueHorizontal={(buttonShadowX) => setAttributes({buttonShadowX})}
-                                                    valueVertical={buttonShadowY}
-                                                    setValueVertical={(buttonShadowY) => setAttributes({buttonShadowY})}
-                                                    valueBlur={buttonShadowBlur}
-                                                    setValueBlur={(buttonShadowBlur) => setAttributes({buttonShadowBlur})}
-                                                    valueSpread={buttonShadowSpread}
-                                                    setValueSpread={(buttonShadowSpread) => setAttributes({buttonShadowSpread})}
-                                                    valueColor={buttonShadowColor}
-                                                    setValueColor={(buttonShadowColor) => setAttributes({buttonShadowColor})}
-                                                    valueInset={buttonShadowInset}
-                                                    setValueInset={(buttonShadowInset) => setAttributes({buttonShadowInset})}
+                                                    valueHorizontal={buttonShadowNormalX}
+                                                    setValueHorizontal={(buttonShadowNormalX) => setAttributes({buttonShadowNormalX})}
+                                                    valueVertical={buttonShadowNormalY}
+                                                    setValueVertical={(buttonShadowNormalY) => setAttributes({buttonShadowNormalY})}
+                                                    valueBlur={buttonShadowNormalBlur}
+                                                    setValueBlur={(buttonShadowNormalBlur) => setAttributes({buttonShadowNormalBlur})}
+                                                    valueSpread={buttonShadowNormalSpread}
+                                                    setValueSpread={(buttonShadowNormalSpread) => setAttributes({buttonShadowNormalSpread})}
+                                                    valueColor={buttonShadowNormalColor}
+                                                    setValueColor={(buttonShadowNormalColor) => setAttributes({buttonShadowNormalColor})}
+                                                    valueInset={buttonShadowNormalInset}
+                                                    setValueInset={(buttonShadowNormalInset) => setAttributes({buttonShadowNormalInset})}
                                                 />
                                                 <BorderControl
                                                     value={buttonBorder}
                                                     setValue={(buttonBorder) => setAttributes({buttonBorder})}
                                                 />
-                                                {buttonBorder && (
-                                                    <>
-                                                        <DimensionControl
-                                                            label={__('Border Width', 'smart-blocks-pro')}
-                                                            units={['px', 'em', 'rem', 'vw']}
-                                                            responsive={!1}
-                                                            dimensionTop={buttonBorderTop}
-                                                            setDimensionTop={value => setAttributes({buttonBorderTop: value})}
+                                                <DimensionControl
+                                                    label={__('Border Width', 'smart-blocks-pro')}
+                                                    units={['px', 'em', 'rem', 'vw']}
+                                                    responsive={!1}
+                                                    dimensionTop={buttonBorderTop}
+                                                    setDimensionTop={value => setAttributes({buttonBorderTop: value})}
 
-                                                            dimensionLeft={buttonBorderLeft}
-                                                            setDimensionLeft={value => setAttributes({buttonBorderLeft: value})}
+                                                    dimensionLeft={buttonBorderLeft}
+                                                    setDimensionLeft={value => setAttributes({buttonBorderLeft: value})}
 
-                                                            dimensionRight={buttonBorderRight}
-                                                            setDimensionRight={value => setAttributes({buttonBorderRight: value})}
+                                                    dimensionRight={buttonBorderRight}
+                                                    setDimensionRight={value => setAttributes({buttonBorderRight: value})}
 
-                                                            dimensionBottom={buttonBorderBottom}
-                                                            setDimensionBottom={value => setAttributes({buttonBorderBottom: value})}
+                                                    dimensionBottom={buttonBorderBottom}
+                                                    setDimensionBottom={value => setAttributes({buttonBorderBottom: value})}
 
-                                                            unit={buttonBorderUnit}
-                                                            setUnit={value => setAttributes({buttonBorderUnit: value})}
-                                                        />
-                                                        <ColorControl
-                                                            label={__('Border Color', 'smart-blocks-pro')}
-                                                            enableAlpha
-                                                            value={buttonBorderColor}
-                                                            setValue={(buttonBorderColor) => setAttributes({buttonBorderColor})}
-                                                        />
-                                                    </>
-                                                )}
+                                                    unit={buttonBorderUnit}
+                                                    setUnit={value => setAttributes({buttonBorderUnit: value})}
+                                                />
+                                                <ColorControl
+                                                    label={__('Border Color', 'smart-blocks-pro')}
+                                                    enableAlpha
+                                                    value={buttonBorderColorNormal}
+                                                    setValue={(buttonBorderColorNormal) => setAttributes({buttonBorderColorNormal})}
+                                                />
                                             </div>
                                             <div tabTitle={__("Hover", 'smart-blocks')}>
                                                 <ColorControl
@@ -1113,16 +1095,12 @@ export default function Edit(props) {
                                                     valueInset={buttonShadowHoverInset}
                                                     setValueInset={(buttonShadowHoverInset) => setAttributes({buttonShadowHoverInset})}
                                                 />
-                                                {buttonBorder && (
-                                                    <>
-                                                        <ColorControl
-                                                            label={__('Border Color', 'smart-blocks-pro')}
-                                                            enableAlpha
-                                                            value={buttonBorderHoverColor}
-                                                            setValue={(buttonBorderHoverColor) => setAttributes({buttonBorderHoverColor})}
-                                                        />
-                                                    </>
-                                                )}
+                                                <ColorControl
+                                                    label={__('Border Color', 'smart-blocks-pro')}
+                                                    enableAlpha
+                                                    value={buttonBorderColorHover}
+                                                    setValue={(buttonBorderColorHover) => setAttributes({buttonBorderColorHover})}
+                                                />
                                             </div>
                                         </Tabs>
                                         <DimensionControl
@@ -1217,8 +1195,8 @@ export default function Edit(props) {
                                                     label: __('Right', 'smart-blocks-pro')
                                                 }
                                             ]}
-                                            value={validationTextAlign}
-                                            setValue={(value) => setAttributes({validationTextAlign: value})}
+                                            value={validationTextalign}
+                                            setValue={(value) => setAttributes({validationTextalign: value})}
                                         />
                                     </PanelBody>
                                     <PanelBody

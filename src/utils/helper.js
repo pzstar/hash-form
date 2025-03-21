@@ -4,19 +4,12 @@ import {useSelect} from '@wordpress/data';
 const getCssVar = (varname, value, unit = '', def = '0') => {
     var varname = '--hf-' + varname;
 
-    console.log('reslider: var(' + varname + ', ' + def + ');');
     return `
         ${value ? varname + ':' + value + unit + ';' : ''}
     `;
 }
 
 const responsiveSliderVars = (varname, valueLg, valueSm, valueMd, unit = '', def = '0') => {
-    var lg = '--hf-' + varname + '-lg';
-    var md = '--hf-' + varname + '-md';
-    var sm = '--hf-' + varname + '-sm';
-    console.log('reslider: var(' + lg + ', 0);\n' +
-        'reslider: var(' + md + ', var(' + lg + ', 0));\n' +
-        'reslider: var(' + sm + ', var(' + md + ', var(' + lg + ', 0)));');
     return `
         ${valueLg ? '--hf-' + varname + '-lg:' + valueLg + unit + ';' : ''}
         ${valueMd ? '--hf-' + varname + '-md:' + valueMd + unit + ';' : ''}
@@ -427,39 +420,40 @@ const checkDefault = (check, checkDiff = '') => {
 }
 
 const responsiveTypographyVars = (varname, family, weight, textTransform, textDecoration,
-    fonsSizeSm, fontSizeMd, fontSize, fontSizeUnit,
+    fontSizeSm, fontSizeMd, fontSize, fontSizeUnit,
     letterSpacingSm, letterSpacingMd, letterSpacing, letterSpacingUnit,
     lineHeightSm, lineHeightMd, lineHeight, lineHeightUnit) => {
     var lgfs = '--hf-' + varname + '-font-size';
     var lgls = '--hf-' + varname + '-letter-spacing';
     var lglh = '--hf-' + varname + '-line-height';
 
-    console.log('font-size: var(' + lgfs + ', 1em);\n' +
-        'letter-spacing: var(' + lgls + ', inherit);\n' +
-        'line-height: var(' + lglh + ', inherit);');
+    //console.log('font-size: var(' + lgfs + ', 1em);\n' +
+    //    'letter-spacing: var(' + lgls + ', inherit);\n' +
+    //    'line-height: var(' + lglh + ', inherit);');
 
     var mdfs = '--hf-' + varname + '-font-size-md';
     var mdls = '--hf-' + varname + '-letter-spacing-md';
     var mdlh = '--hf-' + varname + '-line-height-md';
 
-    console.log('font-size: var(' + mdfs + ', var(' + lgfs + ', 1em));\n' +
-        'letter-spacing: var(' + mdls + ', var(' + lgls + ', inherit));\n' +
-        'line-height: var(' + mdlh + ', var(' + lglh + ', inherit));');
+    //console.log('font-size: var(' + mdfs + ', var(' + lgfs + ', 1em));\n' +
+    //    'letter-spacing: var(' + mdls + ', var(' + lgls + ', inherit));\n' +
+    //    'line-height: var(' + mdlh + ', var(' + lglh + ', inherit));');
 
     var smfs = '--hf-' + varname + '-font-size-sm';
     var smls = '--hf-' + varname + '-letter-spacing-sm';
     var smlh = '--hf-' + varname + '-line-height-sm';
 
-    console.log('font-size: var(' + smfs + ', var(' + mdfs + ', var(' + lgfs + ', 1em)));\n' +
-        'letter-spacing: var(' + smls + ', var(' + mdls + ', var(' + lgls + ', inherit)));\n' +
-        'line-height: var(' + smlh + ', var(' + mdlh + ', var(' + lglh + ', inherit)));');
+    //console.log('font-size: var(' + smfs + ', var(' + mdfs + ', var(' + lgfs + ', 1em)));\n' +
+    //    'letter-spacing: var(' + smls + ', var(' + mdls + ', var(' + lgls + ', inherit)));\n' +
+    //    'line-height: var(' + smlh + ', var(' + mdlh + ', var(' + lglh + ', inherit)));');
+
 
     return `${family ? `--hf-${varname}-font-family: ${checkDefault(family)};` : ''}
         ${weight ? `--hf-${varname}-font-weight: ${checkDefault(weight.replace(/\D/g, ''), weight)};` : ''}
         ${weight ? `--hf-${varname}-font-style: ${checkDefault(weight.replace(/\d+/g, ''), weight)};` : ''}
         ${textTransform ? `--hf-${varname}-text-transform: ${textTransform};` : ''}
         ${textDecoration ? `--hf-${varname}-text-decoration: ${textDecoration};` : ''}
-        ${fonsSizeSm ? `--hf-${varname}-font-size-sm: ${(fonsSizeSm + fontSizeUnit)};` : ''}
+        ${fontSizeSm ? `--hf-${varname}-font-size-sm: ${(fontSizeSm + fontSizeUnit)};` : ''}
         ${fontSizeMd ? `--hf-${varname}-font-size-md: ${(fontSizeMd + fontSizeUnit)};` : ''}
         ${fontSize ? `--hf-${varname}-font-size: ${(fontSize + fontSizeUnit)};` : ''}
         ${letterSpacingSm ? `--hf-${varname}-letter-spacing-sm: ${(letterSpacingSm + letterSpacingUnit)};` : ''}
@@ -471,15 +465,6 @@ const responsiveTypographyVars = (varname, family, weight, textTransform, textDe
 }
 
 const dimensionVars = (varname, top, right, bottom, left, unit = '') => {
-    var lgtop = '--hf-' + varname + '-top';
-    var lgright = '--hf-' + varname + '-right';
-    var lgbottom = '--hf-' + varname + '-bottom';
-    var lgleft = '--hf-' + varname + '-left';
-    console.log('dimen-top: var(' + lgtop + ', 0);\n' +
-        'dimen-right: var(' + lgright + ', 0);\n' +
-        'dimen-bottom: var(' + lgbottom + ', 0);\n' +
-        'dimen-left: var(' + lgleft + ', 0);');
-
     return `${top ? `--hf-${varname}-top: ${(top + unit)};` : ''}
         ${right ? `--hf-${varname}-right: ${(right + unit)};` : ''}
         ${bottom ? `--hf-${varname}-bottom: ${(bottom + unit)};` : ''}
@@ -487,7 +472,6 @@ const dimensionVars = (varname, top, right, bottom, left, unit = '') => {
 }
 
 const boxShadowVars = (varname, horizontal, vertical, blur, spread, color, inset, unit = '') => {
-    console.log('box-shadow: var(--hf-' + varname + '-x) var(--hf-' + varname + '-y) var(--hf-' + varname + '-blur) var(--hf-' + varname + '-spread) var(--hf-' + varname + '-color) var(--hf-' + varname + '-inset, );');
     return `${horizontal ? `--hf-${varname}-x: ${(horizontal + unit)};` : ''}
         ${vertical ? `--hf-${varname}-y: ${(vertical + unit)};` : ''}
         ${blur ? `--hf-${varname}-blur: ${(blur + unit)};` : ''}
@@ -497,32 +481,6 @@ const boxShadowVars = (varname, horizontal, vertical, blur, spread, color, inset
 }
 
 const responsiveDimensionVars = (varname, top, right, bottom, left, topSm, rightSm, bottomSm, leftSm, topMd, rightMd, bottomMd, leftMd, unit = '') => {
-    var lgtop = '--hf-' + varname + '-top-lg';
-    var lgright = '--hf-' + varname + '-right-lg';
-    var lgbottom = '--hf-' + varname + '-bottom-lg';
-    var lgleft = '--hf-' + varname + '-left-lg';
-    console.log('resdimen-top: var(' + lgtop + ', 0);\n' +
-        'resdimen-right: var(' + lgright + ', 0);\n' +
-        'resdimen-bottom: var(' + lgbottom + ', 0);\n' +
-        'resdimen-left: var(' + lgleft + ', 0);');
-
-    var mdtop = '--hf-' + varname + '-top-md';
-    var mdright = '--hf-' + varname + '-right-md';
-    var mdbottom = '--hf-' + varname + '-bottom-md';
-    var mdleft = '--hf-' + varname + '-left-md';
-    console.log('resdimen-top: var(' + mdtop + ', var(' + lgtop + ', 0));\n' +
-        'resdimen-right: var(' + mdright + ', var(' + lgright + ', 0));\n' +
-        'resdimen-bottom: var(' + mdbottom + ', var(' + lgbottom + ', 0));\n' +
-        'resdimen-left: var(' + mdleft + ', var(' + lgleft + ', 0));');
-
-    var smtop = '--hf-' + varname + '-top-sm';
-    var smright = '--hf-' + varname + '-right-sm';
-    var smbottom = '--hf-' + varname + '-bottom-sm';
-    var smleft = '--hf-' + varname + '-left-sm';
-    console.log('resdimen-top: var(' + smtop + ', var(' + mdtop + ', var(' + lgtop + ', 0)));\n' +
-        'resdimen-right: var(' + smright + ', var(' + mdright + ', var(' + lgright + ', 0)));\n' +
-        'resdimen-bottom: var(' + smbottom + ', var(' + mdbottom + ', var(' + lgbottom + ', 0)));\n' +
-        'resdimen-left: var(' + smleft + ', var(' + mdleft + ', var(' + lgleft + ', 0)));');
     return `${topSm ? `--hf-${varname}-top-sm: ${(topSm + unit)};` : ''}
         ${rightSm ? `--hf-${varname}-right-sm: ${(rightSm + unit)};` : ''}
         ${bottomSm ? `--hf-${varname}-bottom-sm: ${(bottomSm + unit)};` : ''}
@@ -538,7 +496,6 @@ const responsiveDimensionVars = (varname, top, right, bottom, left, topSm, right
 }
 
 const textShadowVars = (varname, horizontal, vertical, blur, color, unit = '') => {
-    console.log('text-shadow: var(--hf-' + varname + '-horizontal) var(--hf-' + varname + '-vertical) var(--hf-' + varname + '-blur) var(--hf-' + varname + '-color)');
     return `${horizontal ? `--hf-${varname}-horizontal: ${(horizontal + unit)};` : ''}
         ${vertical ? `--hf-${varname}-vertical: ${(vertical + unit)};` : ''}
         ${blur ? `--hf-${varname}-blur: ${(blur + unit)};` : ''}

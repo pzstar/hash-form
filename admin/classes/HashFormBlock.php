@@ -174,24 +174,24 @@ class HashFormBlock {
                     "uploadTypoLineHeight" => ["type" => 'string'],
                     "uploadTypoLineHeightUnit" => ["type" => 'string', "enum" => ['px', 'em', '%'], "default" => 'px'],
 
-                    "uploadColor" => ["type" => 'string'],
-                    "uploadBgColor" => ["type" => 'string'],
+                    "uploadColorNormal" => ["type" => 'string'],
+                    "uploadBgColorNormal" => ["type" => 'string'],
 
-                    "uploadShadowX" => ["type" => 'string'],
-                    "uploadShadowY" => ["type" => 'string'],
-                    "uploadShadowBlur" => ["type" => 'string'],
-                    "uploadShadowSpread" => ["type" => 'string'],
-                    "uploadShadowColor" => ["type" => 'string'],
-                    "uploadShadowInset" => ["type" => 'string'],
+                    "uploadShadowNormalX" => ["type" => 'string'],
+                    "uploadShadowNormalY" => ["type" => 'string'],
+                    "uploadShadowNormalBlur" => ["type" => 'string'],
+                    "uploadShadowNormalSpread" => ["type" => 'string'],
+                    "uploadShadowNormalColor" => ["type" => 'string'],
+                    "uploadShadowNormalInset" => ["type" => 'string'],
 
                     "uploadBorder" => ["type" => 'string'],
-                    "uploadBorderWidthTop" => ["type" => 'string'],
-                    "uploadBorderWidthLeft" => ["type" => 'string'],
-                    "uploadBorderWidthRight" => ["type" => 'string'],
-                    "uploadBorderWidthBottom" => ["type" => 'string'],
-                    "uploadBorderWidthUnit" => ["type" => 'string', "enum" => ['px', 'em', 'rem', 'vw'], "default" => 'px'],
+                    "uploadBorderTop" => ["type" => 'string'],
+                    "uploadBorderLeft" => ["type" => 'string'],
+                    "uploadBorderRight" => ["type" => 'string'],
+                    "uploadBorderBottom" => ["type" => 'string'],
+                    "uploadBorderUnit" => ["type" => 'string', "enum" => ['px', 'em', 'rem', 'vw'], "default" => 'px'],
 
-                    "uploadBorderColor" => ["type" => 'string'],
+                    "uploadBorderColorNormal" => ["type" => 'string'],
 
                     "uploadColorHover" => ["type" => 'string'],
                     "uploadBgColorHover" => ["type" => 'string'],
@@ -203,7 +203,7 @@ class HashFormBlock {
                     "uploadShadowHoverColor" => ["type" => 'string'],
                     "uploadShadowHoverInset" => ["type" => 'string'],
 
-                    "uploadBorderHoverColor" => ["type" => 'string'],
+                    "uploadBorderColorHover" => ["type" => 'string'],
 
                     "uploadBorderRadiusTop" => ["type" => 'string'],
                     "uploadBorderRadiusLeft" => ["type" => 'string'],
@@ -234,15 +234,15 @@ class HashFormBlock {
                     "buttonTypoLineHeight" => ["type" => 'string'],
                     "buttonTypoLineHeightUnit" => ["type" => 'string', "enum" => ['px', 'em', '%'], "default" => 'px'],
 
-                    "buttonColor" => ["type" => 'string'],
-                    "buttonBgColor" => ["type" => 'string'],
+                    "buttonColorNormal" => ["type" => 'string'],
+                    "buttonBgColorNormal" => ["type" => 'string'],
 
-                    "buttonShadowX" => ["type" => 'string'],
-                    "buttonShadowY" => ["type" => 'string'],
-                    "buttonShadowBlur" => ["type" => 'string'],
-                    "buttonShadowSpread" => ["type" => 'string'],
-                    "buttonShadowColor" => ["type" => 'string'],
-                    "buttonShadowInset" => ["type" => 'string'],
+                    "buttonShadowNormalX" => ["type" => 'string'],
+                    "buttonShadowNormalY" => ["type" => 'string'],
+                    "buttonShadowNormalBlur" => ["type" => 'string'],
+                    "buttonShadowNormalSpread" => ["type" => 'string'],
+                    "buttonShadowNormalColor" => ["type" => 'string'],
+                    "buttonShadowNormalInset" => ["type" => 'string'],
 
                     "buttonBorder" => ["type" => 'string'],
                     "buttonBorderTop" => ["type" => 'string'],
@@ -250,7 +250,7 @@ class HashFormBlock {
                     "buttonBorderRight" => ["type" => 'string'],
                     "buttonBorderBottom" => ["type" => 'string'],
                     "buttonBorderUnit" => ["type" => 'string', "enum" => ['px', 'em', 'rem', 'vw'], "default" => 'px'],
-                    "buttonBorderColor" => ["type" => 'string'],
+                    "buttonBorderColorNormal" => ["type" => 'string'],
 
                     "buttonColorHover" => ["type" => 'string'],
                     "buttonBgColorHover" => ["type" => 'string'],
@@ -262,7 +262,7 @@ class HashFormBlock {
                     "buttonShadowHoverColor" => ["type" => 'string'],
                     "buttonShadowHoverInset" => ["type" => 'string'],
 
-                    "buttonBorderHoverColor" => ["type" => 'string'],
+                    "buttonBorderColorHover" => ["type" => 'string'],
 
                     "buttonBorderRadiusTop" => ["type" => 'string'],
                     "buttonBorderRadiusLeft" => ["type" => 'string'],
@@ -294,7 +294,7 @@ class HashFormBlock {
                     "validationTypoLineHeightUnit" => ["type" => 'string', "enum" => ['px', 'em', '%'], "default" => 'px'],
 
                     "validationTypoFontColor" => ["type" => 'string'],
-                    "validationTextAlign" => ["type" => 'string'],
+                    "validationTextalign" => ["type" => 'string'],
 
                     "formTitleTypoFamily" => ["type" => 'string'],
                     "formTitleTypoWeight" => ["type" => 'string'],
@@ -441,7 +441,7 @@ class HashFormBlock {
     public function modify_class($classes) {
         $remove_classes = array('hf-form-default-style', 'hf-form-no-style');
         $classes = array_diff($classes, $remove_classes);
-        $classes[] = 'hf-elementor-form';
+        $classes[] = 'hf-hashform-block';
         $classes[] = 'hf-form-custom-style';
 
         return $classes;
