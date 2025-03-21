@@ -1,7 +1,6 @@
 import {__} from '@wordpress/i18n';
 import ResponsiveDropdown from '../utils/responsivedropdown';
 import {useSelect} from '@wordpress/data';
-import {useState, useEffect} from '@wordpress/element';
 
 const RangeSliderControl = ({
     label,
@@ -23,14 +22,8 @@ const RangeSliderControl = ({
 }) => {
     const allUnits = units ? units : ["px", "em", "%"];
 
-    const [calcStep, setCalcStep] = useState(useUnit && ['em', 'rem'].includes(unit) ? 0.1 : (steps ? steps : 1));
-    useEffect(() => {
-        setCalcStep(useUnit && ['em', 'rem'].includes(unit) ? 0.1 : (steps ? steps : 1))
-    }, [unit])
-
-
     const getView = useSelect(select => {
-        const {getView} = select('hash-form/data');
+        const {getView} = select('smart-blocks/data');
         const {__experimentalGetPreviewDeviceType} = select('core/edit-post') ? select('core/edit-post') : false;
         return __experimentalGetPreviewDeviceType ? __experimentalGetPreviewDeviceType() : getView();
     }, []);
@@ -79,12 +72,31 @@ const RangeSliderControl = ({
         return ret;
     }
 
-    return <div className={`hf-field hf-field-range ${responsive ? 'hf-responsive' : ''}`}>
-        <div className="hf-label">
+    const calcStepsVal = () => {
+        let ret;
+        switch(unit) {
+            case 'em':
+                ret = 0.1;
+                break;
+            case 'rem':
+                ret = 0.1;
+                break;
+            case '%':
+                ret = 1;
+                break;
+            default:
+                ret = steps;
+                break;
+        }
+        return ret;
+    }
+
+    return <div className={`sb-field sb-field-range ${responsive ? 'sb-responsive' : ''}`}>
+        <div className="sb-label">
             {label && (<label htmlFor="input">{label}</label>)}
             {responsive && (<ResponsiveDropdown />)}
             {useUnit && (
-                <div class="hf-unit-btn-group">
+                <div class="sb-unit-btn-group">
                     {allUnits.map((unt, index) => {
                         return <button
                             className={`${unit === unt ? "active" : ""}`}
@@ -101,52 +113,52 @@ const RangeSliderControl = ({
                 </div>
             )}
         </div>
-        <div className="hf-input-fields">
+        <div className="sb-input-fields">
             {responsive ?
                 (<>
                     {getView == 'Mobile' && (
-                        <div className="hf-input-range">
+                        <div className="sb-input-range">
                             <input type="range"
                                 min={calcMinVal()}
                                 max={calcMaxVal()}
                                 value={valueSm}
-                                step={calcStep}
+                                step={calcStepsVal}
                                 onChange={(e) => {setValueSm(e.target.value)}}
                             />
                             <input type="number"
-                                step={calcStep}
+                                step={calcStepsVal}
                                 onChange={(e) => {setValueSm(e.target.value)}}
                                 value={valueSm}
                             />
                         </div>
                     )}
                     {getView == 'Tablet' && (
-                        <div className="hf-input-range">
+                        <div className="sb-input-range">
                             <input type="range"
                                 min={calcMinVal()}
                                 max={calcMaxVal()}
                                 value={valueMd}
-                                step={calcStep}
+                                step={calcStepsVal}
                                 onChange={(e) => {setValueMd(e.target.value)}}
                             />
                             <input type="number"
-                                step={calcStep}
+                                step={calcStepsVal}
                                 onChange={(e) => {setValueMd(e.target.value)}}
                                 value={valueMd}
                             />
                         </div>
                     )}
                     {getView == 'Desktop' && (
-                        <div className="hf-input-range">
+                        <div className="sb-input-range">
                             <input type="range"
                                 min={calcMinVal()}
                                 max={calcMaxVal()}
                                 value={value}
-                                step={calcStep}
+                                step={calcStepsVal}
                                 onChange={(e) => {setValue(e.target.value)}}
                             />
                             <input type="number"
-                                step={calcStep}
+                                step={calcStepsVal}
                                 onChange={(e) => {setValue(e.target.value)}}
                                 value={value}
                             />
@@ -154,16 +166,16 @@ const RangeSliderControl = ({
                     )}
                 </>) :
                 (
-                    <div className="hf-input-range">
+                    <div className="sb-input-range">
                         <input type="range"
                             min={calcMinVal()}
                             max={calcMaxVal()}
                             value={value}
-                            step={calcStep}
+                            step={calcStepsVal}
                             onChange={(e) => {setValue(e.target.value)}}
                         />
                         <input type="number"
-                            step={calcStep}
+                            step={calcStepsVal}
                             onChange={(e) => {setValue(e.target.value)}}
                             value={value}
                         />

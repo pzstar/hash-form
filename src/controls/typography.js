@@ -177,7 +177,7 @@ const TypographyControl = ({
 	}
 
 	const getView = useSelect(select => {
-		const {getView} = select('hash-form/data');
+		const {getView} = select('smart-blocks/data');
 		const {__experimentalGetPreviewDeviceType} = select('core/edit-post') ? select('core/edit-post') : false;
 		return __experimentalGetPreviewDeviceType ? __experimentalGetPreviewDeviceType() : getView();
 	}, []);
@@ -191,23 +191,23 @@ const TypographyControl = ({
 	});
 
 	return <>
-		<div className="hf-field hf-field-typography hf-display-inline">
-			<label>{label ? label : __("Typography", 'hash-form')}</label>
-			<div className="hf-components-dropdown">
-				<Tooltip text={__('Clear', 'hash-form')}>
-					<div className="hf-reset-field"
+		<div className="sb-field sb-field-typography sb-display-inline">
+			<label>{label ? label : __("Typography", 'smart-blocks')}</label>
+			<div className="sb-components-dropdown">
+				<Tooltip text={__('Clear', 'smart-blocks')}>
+					<div className="sb-reset-field"
 						onClick={onClearHandler}>
-						<span className="hf-clear-field" role="button">
+						<span className="sb-clear-field" role="button">
 							<ClearIcon />
 						</span>
 					</div>
 				</Tooltip>
 				<Dropdown
 					position="top right"
-					contentClassName="hf-popover-style"
+					contentClassName="sb-popover-style"
 					renderToggle={({isOpen, onToggle}) => (
 						<button
-							className="hf-typo-setttings hf-setting-button"
+							className="sb-typo-setttings sb-setting-button"
 							isPrimary={!0}
 							onClick={onToggle}
 							aria-expanded={isOpen}
@@ -216,11 +216,11 @@ const TypographyControl = ({
 						</button>
 					)}
 					renderContent={() =>
-						<div className="hf-field-typography-options">
-							<div className="hf-field hf-field-select hf-display-inline">
-								<label>{__("Font Family", 'hash-form')}</label>
-								<div className="hf-input-fields">
-									<div className="hf-popup-select">
+						<div className="sb-field-typography-options">
+							<div className="sb-field sb-field-select sb-display-inline">
+								<label>{__("Font Family", 'smart-blocks')}</label>
+								<div className="sb-input-fields">
+									<div className="sb-popup-select">
 										<Select
 											value={allFontList.find(option => option.value == valueFamily)}
 											onChange={value => {
@@ -231,16 +231,16 @@ const TypographyControl = ({
 											}}
 											options={allFontList}
 											isMulti={!1}
-											className="hf-select-container"
-											classNamePrefix="hf-select"
+											className="sb-select-container"
+											classNamePrefix="sb-select"
 										/>
 									</div>
 								</div>
 							</div>
-							<div className="hf-field hf-field-select hf-display-inline">
-								<label>{__("Weight/Style", 'hash-form')}</label>
-								<div className="hf-input-fields">
-									<div className="hf-popup-select">
+							<div className="sb-field sb-field-select sb-display-inline">
+								<label>{__("Weight/Style", 'smart-blocks')}</label>
+								<div className="sb-input-fields">
+									<div className="sb-popup-select">
 										<select
 											value={valueWeight}
 											onChange={(e) => setValueWeight(e.target.value)}
@@ -255,10 +255,10 @@ const TypographyControl = ({
 								</div>
 							</div>
 
-							<div className="hf-field hf-field-select hf-display-inline">
-								<label>{__('Text Transform', 'hash-form')}</label>
-								<div className="hf-input-fields">
-									<div className="hf-popup-select">
+							<div className="sb-field sb-field-select sb-display-inline">
+								<label>{__('Text Transform', 'smart-blocks')}</label>
+								<div className="sb-input-fields">
+									<div className="sb-popup-select">
 										<select
 											value={valueTextTransform}
 											onChange={(e) => setValueTextTransform(e.target.value)}
@@ -273,10 +273,10 @@ const TypographyControl = ({
 								</div>
 							</div>
 
-							<div className="hf-field hf-field-select hf-display-inline">
-								<label>{__('Text Decoration', 'hash-form')}</label>
-								<div className="hf-input-fields">
-									<div className="hf-popup-select">
+							<div className="sb-field sb-field-select sb-display-inline">
+								<label>{__('Text Decoration', 'smart-blocks')}</label>
+								<div className="sb-input-fields">
+									<div className="sb-popup-select">
 										<select
 											value={valueTextDecoration}
 											onChange={(e) => setValueTextDecoration(e.target.value)}
@@ -291,12 +291,12 @@ const TypographyControl = ({
 								</div>
 							</div>
 
-							<div className="hf-field hf-field-range hf-responsive">
-								<div class="hf-label">
-									<label for="input">{__('Font Size', 'hash-form')}</label>
+							<div className="sb-field sb-field-range sb-responsive">
+								<div class="sb-label">
+									<label for="input">{__('Font Size', 'smart-blocks')}</label>
 
 									<ResponsiveDropdown />
-									<div className="hf-unit-btn-group">
+									<div className="sb-unit-btn-group">
 										<button
 											className={`${valueFontSizeUnit === 'px' ? "active" : ""}`}
 											onClick={() => {
@@ -340,48 +340,48 @@ const TypographyControl = ({
 									</div>
 								</div>
 
-								<div className="hf-input-fields">
-									{getView == 'Desktop' && (<div className="hf-input-range">
+								<div className="sb-input-fields">
+									{getView == 'Desktop' && (<div className="sb-input-range">
 										<input type="range"
 											min={calcMinValFontSize()}
 											max={calcMaxValFontSize()}
-											step="1"
+											step={!['rem', 'em'].includes(valueFontSizeUnit) ? 1 : 0.1}
 											value={valueFontSize}
 											onChange={(e) => setValueFontSize(e.target.value)}
 										/>
 										<input
 											type="number"
-											step="1"
+											step={!['rem', 'em'].includes(valueFontSizeUnit) ? 1 : 0.1}
 											value={valueFontSize}
 											onChange={(e) => setValueFontSize(e.target.value)}
 										/>
 									</div>)}
-									{getView == 'Tablet' && (<div className="hf-input-range">
+									{getView == 'Tablet' && (<div className="sb-input-range">
 										<input type="range"
 											min={calcMinValFontSize()}
 											max={calcMaxValFontSize()}
-											step="1"
+											step={!['rem', 'em'].includes(valueFontSizeUnit) ? 1 : 0.1}
 											value={valueFontSizeMd}
 											onChange={(e) => setValueFontSizeMd(e.target.value)}
 										/>
 										<input
 											type="number"
-											step="1"
+											step={!['rem', 'em'].includes(valueFontSizeUnit) ? 1 : 0.1}
 											value={valueFontSizeMd}
 											onChange={(e) => setValueFontSizeMd(e.target.value)}
 										/>
 									</div>)}
-									{getView == 'Mobile' && (<div className="hf-input-range">
+									{getView == 'Mobile' && (<div className="sb-input-range">
 										<input type="range"
 											min={calcMinValFontSize()}
 											max={calcMaxValFontSize()}
-											step="1"
+											step={!['rem', 'em'].includes(valueFontSizeUnit) ? 1 : 0.1}
 											value={valueFontSizeSm}
 											onChange={(e) => setValueFontSizeSm(e.target.value)}
 										/>
 										<input
 											type="number"
-											step="1"
+											step={!['rem', 'em'].includes(valueFontSizeUnit) ? 1 : 0.1}
 											value={valueFontSizeSm}
 											onChange={(e) => setValueFontSizeSm(e.target.value)}
 										/>
@@ -389,12 +389,12 @@ const TypographyControl = ({
 								</div>
 							</div>
 
-							<div className="hf-field hf-field-range hf-responsive">
-								<div class="hf-label">
-									<label for="input">{__('Letter Spacing', 'hash-form')}</label>
+							<div className="sb-field sb-field-range sb-responsive">
+								<div class="sb-label">
+									<label for="input">{__('Letter Spacing', 'smart-blocks')}</label>
 
 									<ResponsiveDropdown />
-									<div className="hf-unit-btn-group">
+									<div className="sb-unit-btn-group">
 										<button
 											className={`${valueLetterSpacingUnit === 'px' ? "active" : ""}`}
 											onClick={() => {
@@ -428,48 +428,48 @@ const TypographyControl = ({
 									</div>
 								</div>
 
-								<div className="hf-input-fields">
-									{getView == 'Desktop' && (<div className="hf-input-range">
+								<div className="sb-input-fields">
+									{getView == 'Desktop' && (<div className="sb-input-range">
 										<input type="range"
 											min={calcMinValLetterSpacing()}
 											max={calcMaxValLetterSpacing()}
-											step={valueLetterSpacingUnit == 'px' ? 1 : 0.1}
+											step={!['rem', 'em'].includes(valueLetterSpacingUnit) ? 1 : 0.1}
 											value={valueLetterSpacing}
 											onChange={(e) => setValueLetterSpacing(e.target.value)}
 										/>
 										<input
 											type="number"
-											step={valueLetterSpacingUnit == 'px' ? 1 : 0.1}
+											step={!['rem', 'em'].includes(valueLetterSpacingUnit) ? 1 : 0.1}
 											value={valueLetterSpacing}
 											onChange={(e) => setValueLetterSpacing(e.target.value)}
 										/>
 									</div>)}
-									{getView == 'Tablet' && (<div className="hf-input-range">
+									{getView == 'Tablet' && (<div className="sb-input-range">
 										<input type="range"
 											min={calcMinValLetterSpacing()}
 											max={calcMaxValLetterSpacing()}
-											step={valueLetterSpacingUnit == 'px' ? 1 : 0.1}
+											step={!['rem', 'em'].includes(valueLetterSpacingUnit) ? 1 : 0.1}
 											value={valueLetterSpacingMd}
 											onChange={(e) => setValuesLetterSpacingMd(e.target.value)}
 										/>
 										<input
 											type="number"
-											step={valueLetterSpacingUnit == 'px' ? 1 : 0.1}
+											step={!['rem', 'em'].includes(valueLetterSpacingUnit) ? 1 : 0.1}
 											value={valueLetterSpacingMd}
 											onChange={(e) => setValuesLetterSpacingMd(e.target.value)}
 										/>
 									</div>)}
-									{getView == 'Mobile' && (<div className="hf-input-range">
+									{getView == 'Mobile' && (<div className="sb-input-range">
 										<input type="range"
 											min={calcMinValLetterSpacing()}
 											max={calcMaxValLetterSpacing()}
-											step={valueLetterSpacingUnit == 'px' ? 1 : 0.1}
+											step={!['rem', 'em'].includes(valueLetterSpacingUnit) ? 1 : 0.1}
 											value={valueLetterSpacingSm}
 											onChange={(e) => setValuesLetterSpacingSm(e.target.value)}
 										/>
 										<input
 											type="number"
-											step={valueLetterSpacingUnit == 'px' ? 1 : 0.1}
+											step={!['rem', 'em'].includes(valueLetterSpacingUnit) ? 1 : 0.1}
 											value={valueLetterSpacingSm}
 											onChange={(e) => setValuesLetterSpacingSm(e.target.value)}
 										/>
@@ -479,12 +479,12 @@ const TypographyControl = ({
 
 
 
-							<div className="hf-field hf-field-range hf-responsive">
-								<div class="hf-label">
-									<label for="input">{__('Line Height', 'hash-form')}</label>
+							<div className="sb-field sb-field-range sb-responsive">
+								<div class="sb-label">
+									<label for="input">{__('Line Height', 'smart-blocks')}</label>
 
 									<ResponsiveDropdown />
-									<div className="hf-unit-btn-group">
+									<div className="sb-unit-btn-group">
 										<button
 											className={`${valueLineHeightUnit === 'px' ? "active" : ""}`}
 											onClick={() => {
@@ -518,48 +518,48 @@ const TypographyControl = ({
 									</div>
 								</div>
 
-								<div className="hf-input-fields">
-									{getView == 'Desktop' && (<div className="hf-input-range">
+								<div className="sb-input-fields">
+									{getView == 'Desktop' && (<div className="sb-input-range">
 										<input type="range"
 											min={calcMinValLineHeight()}
 											max={calcMaxValLineHeight()}
-											step={valueLineHeightUnit == 'px' ? 1 : 0.1}
+											step={!['rem', 'em'].includes(valueLineHeightUnit) ? 1 : 0.1}
 											value={valueLineHeight}
 											onChange={(e) => setValueLineHeight(e.target.value)}
 										/>
 										<input
 											type="number"
-											step={valueLineHeightUnit == 'px' ? 1 : 0.1}
+											step={!['rem', 'em'].includes(valueLineHeightUnit) ? 1 : 0.1}
 											value={valueLineHeight}
 											onChange={(e) => setValueLineHeight(e.target.value)}
 										/>
 									</div>)}
-									{getView == 'Tablet' && (<div className="hf-input-range">
+									{getView == 'Tablet' && (<div className="sb-input-range">
 										<input type="range"
 											min={calcMinValLineHeight()}
 											max={calcMaxValLineHeight()}
-											step={valueLineHeightUnit == 'px' ? 1 : 0.1}
+											step={!['rem', 'em'].includes(valueLineHeightUnit) ? 1 : 0.1}
 											value={valueLineHeightMd}
 											onChange={(e) => setValueLineHeightMd(e.target.value)}
 										/>
 										<input
 											type="number"
-											step={valueLineHeightUnit == 'px' ? 1 : 0.1}
+											step={!['rem', 'em'].includes(valueLineHeightUnit) ? 1 : 0.1}
 											value={valueLineHeightMd}
 											onChange={(e) => setValueLineHeightMd(e.target.value)}
 										/>
 									</div>)}
-									{getView == 'Mobile' && (<div className="hf-input-range">
+									{getView == 'Mobile' && (<div className="sb-input-range">
 										<input type="range"
 											min={calcMinValLineHeight()}
 											max={calcMaxValLineHeight()}
-											step={valueLineHeightUnit == 'px' ? 1 : 0.1}
+											step={!['rem', 'em'].includes(valueLineHeightUnit) ? 1 : 0.1}
 											value={valueLineHeightSm}
 											onChange={(e) => setValueLineHeightSm(e.target.value)}
 										/>
 										<input
 											type="number"
-											step={valueLineHeightUnit == 'px' ? 1 : 0.1}
+											step={!['rem', 'em'].includes(valueLineHeightUnit) ? 1 : 0.1}
 											value={valueLineHeightSm}
 											onChange={(e) => setValueLineHeightSm(e.target.value)}
 										/>
