@@ -683,16 +683,16 @@ const getStyleVars = (attributes, vars) => {
     if (responsiveDimension?.length) {
         responsiveDimension.map((lvar) => {
             retvar += responsiveDimensionVars(lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), attributes[lvar + 'Top'], attributes[lvar + 'Right'], attributes[lvar + 'Bottom'], attributes[lvar + 'Left'],
-            attributes[lvar + 'SmTop'], attributes[lvar + 'SmRight'], attributes[lvar + 'SmBottom'], attributes[lvar + 'SmLeft'],
-            attributes[lvar + 'MdTop'], attributes[lvar + 'MdRight'], attributes[lvar + 'MdBottom'], attributes[lvar + 'MdLeft'], attributes[lvar + 'Unit']);
+                attributes[lvar + 'SmTop'], attributes[lvar + 'SmRight'], attributes[lvar + 'SmBottom'], attributes[lvar + 'SmLeft'],
+                attributes[lvar + 'MdTop'], attributes[lvar + 'MdRight'], attributes[lvar + 'MdBottom'], attributes[lvar + 'MdLeft'], attributes[lvar + 'Unit']);
         })
     }
     let responsiveTopBottomDimension = vars?.responsiveTopBottomDimension;
     if (responsiveTopBottomDimension?.length) {
         responsiveTopBottomDimension.map((lvar) => {
             retvar += responsiveDimensionVars(lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), attributes[lvar + 'Top'], '', attributes[lvar + 'Bottom'], '',
-            attributes[lvar + 'SmTop'], '', attributes[lvar + 'SmBottom'], '',
-            attributes[lvar + 'MdTop'], '', attributes[lvar + 'MdBottom'], '', attributes[lvar + 'Unit']);
+                attributes[lvar + 'SmTop'], '', attributes[lvar + 'SmBottom'], '',
+                attributes[lvar + 'MdTop'], '', attributes[lvar + 'MdBottom'], '', attributes[lvar + 'Unit']);
         })
     }
     let topBottomDimension = vars?.topBottomDimension;
@@ -705,8 +705,8 @@ const getStyleVars = (attributes, vars) => {
     if (responsiveLeftRightDimension?.length) {
         responsiveLeftRightDimension.map((lvar) => {
             retvar += responsiveDimensionVars(lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), '', attributes[lvar + 'Right'], '', attributes[lvar + 'Left'],
-            '', attributes[lvar + 'SmRight'], '', attributes[lvar + 'SmLeft'],
-            '', attributes[lvar + 'MdRight'], '', attributes[lvar + 'MdLeft'], attributes[lvar + 'Unit']);
+                '', attributes[lvar + 'SmRight'], '', attributes[lvar + 'SmLeft'],
+                '', attributes[lvar + 'MdRight'], '', attributes[lvar + 'MdLeft'], attributes[lvar + 'Unit']);
         })
     }
     let dimension = vars?.dimension;
@@ -722,8 +722,8 @@ const getStyleVars = (attributes, vars) => {
                 retvar += `--hf-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}:${attributes[lvar]};`;
             }
             retvar += responsiveDimensionVars(lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), attributes[lvar + 'Top'], attributes[lvar + 'Right'], attributes[lvar + 'Bottom'], attributes[lvar + 'Left'],
-            attributes[lvar + 'SmTop'], attributes[lvar + 'SmRight'], attributes[lvar + 'SmBottom'], attributes[lvar + 'SmLeft'],
-            attributes[lvar + 'MdTop'], attributes[lvar + 'MdRight'], attributes[lvar + 'MdBottom'], attributes[lvar + 'MdLeft'], attributes[lvar + 'Unit']);
+                attributes[lvar + 'SmTop'], attributes[lvar + 'SmRight'], attributes[lvar + 'SmBottom'], attributes[lvar + 'SmLeft'],
+                attributes[lvar + 'MdTop'], attributes[lvar + 'MdRight'], attributes[lvar + 'MdBottom'], attributes[lvar + 'MdLeft'], attributes[lvar + 'Unit']);
             if (attributes[lvar + 'Color']) {
                 retvar += `--hf-${lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}-color:${attributes[lvar + 'Color']};`;
             }
@@ -732,22 +732,22 @@ const getStyleVars = (attributes, vars) => {
     let responsiveTypography = vars?.responsiveTypography;
     if (responsiveTypography?.length) {
         responsiveTypography.map((lvar) => {
-            retvar += responsiveTypographyVars(lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(), 
-                attributes[lvar + 'Family'], 
-                attributes[lvar + 'Weight'], 
-                attributes[lvar + 'TextTransform'], 
+            retvar += responsiveTypographyVars(lvar.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase(),
+                attributes[lvar + 'Family'],
+                attributes[lvar + 'Weight'],
+                attributes[lvar + 'TextTransform'],
                 attributes[lvar + 'TextDecoration'],
-                attributes[lvar + 'FontSizeSm'], 
-                attributes[lvar + 'FontSizeMd'], 
-                attributes[lvar + 'FontSize'], 
+                attributes[lvar + 'FontSizeSm'],
+                attributes[lvar + 'FontSizeMd'],
+                attributes[lvar + 'FontSize'],
                 attributes[lvar + 'FontSizeUnit'],
-                attributes[lvar + 'LetterSpacingSm'], 
-                attributes[lvar + 'LetterSpacingMd'], 
-                attributes[lvar + 'LetterSpacing'], 
+                attributes[lvar + 'LetterSpacingSm'],
+                attributes[lvar + 'LetterSpacingMd'],
+                attributes[lvar + 'LetterSpacing'],
                 attributes[lvar + 'LetterSpacingUnit'],
-                attributes[lvar + 'LineHeightSm'], 
-                attributes[lvar + 'LineHeightMd'], 
-                attributes[lvar + 'LineHeight'], 
+                attributes[lvar + 'LineHeightSm'],
+                attributes[lvar + 'LineHeightMd'],
+                attributes[lvar + 'LineHeight'],
                 attributes[lvar + 'LineHeightUnit']
             );
         })

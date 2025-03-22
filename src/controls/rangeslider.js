@@ -74,7 +74,7 @@ const RangeSliderControl = ({
 
     const calcStepsVal = () => {
         let ret;
-        switch(unit) {
+        switch (unit) {
             case 'em':
                 ret = 0.1;
                 break;

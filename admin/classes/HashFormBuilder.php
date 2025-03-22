@@ -955,7 +955,7 @@ class HashFormBuilder {
     public function register_translation_strings() {
         $all_forms = HashFormListing::get_published_table_data();
 
-        foreach($all_forms as $form) {
+        foreach ($all_forms as $form) {
             $form_title = $form['name'];
             $options = HashFormHelper::unserialize_or_decode($form['options']);
             $settings = HashFormHelper::unserialize_or_decode($form['settings']);
@@ -1013,7 +1013,7 @@ class HashFormBuilder {
 
                 if (isset($field->default_value) && $field->type != 'name') {
                     if (is_array($field->default_value)) {
-                        foreach($field->default_value as $key => $defval) {
+                        foreach ($field->default_value as $key => $defval) {
                             $string_array['Field Default ' . $key] = $defval;
                         }
                     } else {
@@ -1023,7 +1023,7 @@ class HashFormBuilder {
 
                 if (isset($field->field_options['placeholder'])) {
                     if (is_array($field->field_options['placeholder'])) {
-                        foreach($field->field_options['placeholder'] as $key => $defval) {
+                        foreach ($field->field_options['placeholder'] as $key => $defval) {
                             $string_array['Field Placeholder ' . $key] = $defval;
                         }
                     } else {
