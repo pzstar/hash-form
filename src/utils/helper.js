@@ -514,19 +514,19 @@ const getImageSrc = (imgId) => {
 }
 
 const getElementPositions = [
-    {value: 'top left', label: __('Top Left', 'smart-blocks-pro')},
-    {value: 'top center', label: __('Top Center', 'smart-blocks-pro')},
-    {value: 'top right', label: __('Top Right', 'smart-blocks-pro')},
-    {value: 'center center', label: __('Center Center', 'smart-blocks-pro')},
-    {value: 'center left', label: __('Center Left', 'smart-blocks-pro')},
-    {value: 'center right', label: __('Center Right', 'smart-blocks-pro')},
-    {value: 'bottom left', label: __('Bottom Left', 'smart-blocks-pro')},
-    {value: 'bottom center', label: __('Bottom Center', 'smart-blocks-pro')},
-    {value: 'bottom right', label: __('Bottom Right', 'smart-blocks-pro')},
+    {value: 'top left', label: __('Top Left', 'hash-form')},
+    {value: 'top center', label: __('Top Center', 'hash-form')},
+    {value: 'top right', label: __('Top Right', 'hash-form')},
+    {value: 'center center', label: __('Center Center', 'hash-form')},
+    {value: 'center left', label: __('Center Left', 'hash-form')},
+    {value: 'center right', label: __('Center Right', 'hash-form')},
+    {value: 'bottom left', label: __('Bottom Left', 'hash-form')},
+    {value: 'bottom center', label: __('Bottom Center', 'hash-form')},
+    {value: 'bottom right', label: __('Bottom Right', 'hash-form')},
 ];
 
 const showAnimations = [
-    {value: 'none', label: __('No Animation', 'smart-blocks-pro')},
+    {value: 'none', label: __('No Animation', 'hash-form')},
     {value: 'fadeIn', label: 'fadeIn'},
     {value: 'fadeInLeft', label: 'fadeInLeft'},
     {value: 'fadeInRight', label: 'fadeInRight'},
@@ -557,7 +557,7 @@ const showAnimations = [
 ];
 
 const showAnimationsAlt = [
-    {value: 'none', label: __('No Animation', 'smart-blocks-pro')},
+    {value: 'none', label: __('No Animation', 'hash-form')},
     {value: 'fadeIn', label: 'fadeIn'},
     {value: 'fadeInLeftSmall', label: 'fadeInLeft'},
     {value: 'fadeInRightSmall', label: 'fadeInRight'},

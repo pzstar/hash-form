@@ -532,7 +532,7 @@ export default function Edit(props) {
                                         title={__('Label', 'hash-form')}
                                         initialOpen={false}>
                                         <TypographyControl
-                                            label={__('Typography', 'smart-blocks-pro')}
+                                            label={__('Typography', 'hash-form')}
                                             valueFamily={labelTypoFamily}
                                             setValueFamily={value => setAttributes({labelTypoFamily: value})}
                                             valueWeight={labelTypoWeight}
@@ -567,19 +567,19 @@ export default function Edit(props) {
                                             setValueLineHeightUnit={value => setAttributes({labelTypoLineHeightUnit: value})}
                                         />
                                         <ColorControl
-                                            label={__('Color', 'smart-blocks')}
+                                            label={__('Color', 'hash-form')}
                                             enableAlpha
                                             value={labelTypoFontColor}
                                             setValue={value => setAttributes({labelTypoFontColor: value})}
                                         />
                                         <ColorControl
-                                            label={__('Required Color', 'smart-blocks')}
+                                            label={__('Required Color', 'hash-form')}
                                             enableAlpha
                                             value={labelRequiredColor}
                                             setValue={value => setAttributes({labelRequiredColor: value})}
                                         />
                                         <DimensionControl
-                                            label={__('Spacing', 'smart-blocks')}
+                                            label={__('Spacing', 'hash-form')}
                                             dimensionTop={labelSpacingTop}
                                             setDimensionTop={value => setAttributes({labelSpacingTop: value})}
                                             dimensionLeft={labelSpacingLeft}
@@ -597,7 +597,7 @@ export default function Edit(props) {
                                         title={__('Description', 'hash-form')}
                                         initialOpen={false}>
                                         <TypographyControl
-                                            label={__('Typography', 'smart-blocks-pro')}
+                                            label={__('Typography', 'hash-form')}
                                             valueFamily={descTypoFamily}
                                             setValueFamily={value => setAttributes({descTypoFamily: value})}
                                             valueWeight={descTypoWeight}
@@ -632,13 +632,13 @@ export default function Edit(props) {
                                             setValueLineHeightUnit={value => setAttributes({descTypoLineHeightUnit: value})}
                                         />
                                         <ColorControl
-                                            label={__('Color', 'smart-blocks')}
+                                            label={__('Color', 'hash-form')}
                                             enableAlpha
                                             value={descTypoFontColor}
                                             setValue={value => setAttributes({descTypoFontColor: value})}
                                         />
                                         <DimensionControl
-                                            label={__('Spacing', 'smart-blocks')}
+                                            label={__('Spacing', 'hash-form')}
                                             dimensionTop={descSpacingTop}
                                             setDimensionTop={value => setAttributes({descSpacingTop: value})}
                                             dimensionLeft={descSpacingLeft}
@@ -656,7 +656,7 @@ export default function Edit(props) {
                                         title={__('Fields', 'hash-form')}
                                         initialOpen={false}>
                                         <TypographyControl
-                                            label={__('Typography', 'smart-blocks-pro')}
+                                            label={__('Typography', 'hash-form')}
                                             valueFamily={fieldTypoFamily}
                                             setValueFamily={value => setAttributes({fieldTypoFamily: value})}
                                             valueWeight={fieldTypoWeight}
@@ -691,15 +691,15 @@ export default function Edit(props) {
                                             setValueLineHeightUnit={value => setAttributes({fieldTypoLineHeightUnit: value})}
                                         />
                                         <Tabs>
-                                            <div tabTitle={__("Normal", 'smart-blocks')}>
+                                            <div tabTitle={__("Normal", 'hash-form')}>
                                                 <ColorControl
-                                                    label={__('Color', 'smart-blocks')}
+                                                    label={__('Color', 'hash-form')}
                                                     enableAlpha
                                                     value={fieldColorNormal}
                                                     setValue={value => setAttributes({fieldColorNormal: value})}
                                                 />
                                                 <ColorControl
-                                                    label={__('Background Color', 'smart-blocks')}
+                                                    label={__('Background Color', 'hash-form')}
                                                     enableAlpha
                                                     value={fieldBgColorNormal}
                                                     setValue={value => setAttributes({fieldBgColorNormal: value})}
@@ -723,7 +723,7 @@ export default function Edit(props) {
                                                     setValue={(fieldBorder) => setAttributes({fieldBorder})}
                                                 />
                                                 <DimensionControl
-                                                    label={__('Border Width', 'smart-blocks-pro')}
+                                                    label={__('Border Width', 'hash-form')}
                                                     units={['px', 'em', 'rem', 'vw']}
                                                     responsive={!1}
                                                     dimensionTop={fieldBorderTop}
@@ -742,21 +742,21 @@ export default function Edit(props) {
                                                     setUnit={value => setAttributes({fieldBorderUnit: value})}
                                                 />
                                                 <ColorControl
-                                                    label={__('Border Color', 'smart-blocks-pro')}
+                                                    label={__('Border Color', 'hash-form')}
                                                     enableAlpha
                                                     value={fieldBorderColorNormal}
                                                     setValue={(fieldBorderColorNormal) => setAttributes({fieldBorderColorNormal})}
                                                 />
                                             </div>
-                                            <div tabTitle={__("Focus", 'smart-blocks')}>
+                                            <div tabTitle={__("Focus", 'hash-form')}>
                                                 <ColorControl
-                                                    label={__('Color', 'smart-blocks')}
+                                                    label={__('Color', 'hash-form')}
                                                     enableAlpha
                                                     value={fieldColorFocus}
                                                     setValue={value => setAttributes({fieldColorFocus: value})}
                                                 />
                                                 <ColorControl
-                                                    label={__('Background Color', 'smart-blocks')}
+                                                    label={__('Background Color', 'hash-form')}
                                                     enableAlpha
                                                     value={fieldBgColorFocus}
                                                     setValue={value => setAttributes({fieldBgColorFocus: value})}
@@ -776,7 +776,7 @@ export default function Edit(props) {
                                                     setValueInset={(fieldShadowFocusInset) => setAttributes({fieldShadowFocusInset})}
                                                 />
                                                 <ColorControl
-                                                    label={__('Border Color', 'smart-blocks-pro')}
+                                                    label={__('Border Color', 'hash-form')}
                                                     enableAlpha
                                                     value={fieldBorderColorFocus}
                                                     setValue={(fieldBorderColorFocus) => setAttributes({fieldBorderColorFocus})}
@@ -784,7 +784,7 @@ export default function Edit(props) {
                                             </div>
                                         </Tabs>
                                         <DimensionControl
-                                            label={__('Border Radius', 'smart-blocks')}
+                                            label={__('Border Radius', 'hash-form')}
                                             dimensionTop={fieldBorderRadiusTop}
                                             setDimensionTop={value => setAttributes({fieldBorderRadiusTop: value})}
                                             dimensionLeft={fieldBorderRadiusLeft}
@@ -798,7 +798,7 @@ export default function Edit(props) {
                                             units={['px', 'em', '%']}
                                         />
                                         <DimensionControl
-                                            label={__('Padding', 'smart-blocks')}
+                                            label={__('Padding', 'hash-form')}
                                             dimensionTop={fieldPaddingTop}
                                             setDimensionTop={value => setAttributes({fieldPaddingTop: value})}
                                             dimensionLeft={fieldPaddingLeft}
@@ -816,7 +816,7 @@ export default function Edit(props) {
                                         title={__('Upload Button', 'hash-form')}
                                         initialOpen={false}>
                                         <TypographyControl
-                                            label={__('Typography', 'smart-blocks-pro')}
+                                            label={__('Typography', 'hash-form')}
                                             valueFamily={uploadTypoFamily}
                                             setValueFamily={value => setAttributes({uploadTypoFamily: value})}
                                             valueWeight={uploadTypoWeight}
@@ -851,15 +851,15 @@ export default function Edit(props) {
                                             setValueLineHeightUnit={value => setAttributes({uploadTypoLineHeightUnit: value})}
                                         />
                                         <Tabs>
-                                            <div tabTitle={__("Normal", 'smart-blocks')}>
+                                            <div tabTitle={__("Normal", 'hash-form')}>
                                                 <ColorControl
-                                                    label={__('Color', 'smart-blocks')}
+                                                    label={__('Color', 'hash-form')}
                                                     enableAlpha
                                                     value={uploadColorNormal}
                                                     setValue={value => setAttributes({uploadColorNormal: value})}
                                                 />
                                                 <ColorControl
-                                                    label={__('Background Color', 'smart-blocks')}
+                                                    label={__('Background Color', 'hash-form')}
                                                     enableAlpha
                                                     value={uploadBgColorNormal}
                                                     setValue={value => setAttributes({uploadBgColorNormal: value})}
@@ -883,7 +883,7 @@ export default function Edit(props) {
                                                     setValue={(uploadBorder) => setAttributes({uploadBorder})}
                                                 />
                                                 <DimensionControl
-                                                    label={__('Border Width', 'smart-blocks-pro')}
+                                                    label={__('Border Width', 'hash-form')}
                                                     units={['px', 'em', 'rem', 'vw']}
                                                     responsive={!0}
                                                     dimensionTop={uploadBorderTop}
@@ -902,21 +902,21 @@ export default function Edit(props) {
                                                     setUnit={value => setAttributes({uploadBorderUnit: value})}
                                                 />
                                                 <ColorControl
-                                                    label={__('Border Color', 'smart-blocks-pro')}
+                                                    label={__('Border Color', 'hash-form')}
                                                     enableAlpha
                                                     value={uploadBorderColorNormal}
                                                     setValue={(uploadBorderColorNormal) => setAttributes({uploadBorderColorNormal})}
                                                 />
                                             </div>
-                                            <div tabTitle={__("Hover", 'smart-blocks')}>
+                                            <div tabTitle={__("Hover", 'hash-form')}>
                                                 <ColorControl
-                                                    label={__('Color', 'smart-blocks')}
+                                                    label={__('Color', 'hash-form')}
                                                     enableAlpha
                                                     value={uploadColorHover}
                                                     setValue={value => setAttributes({uploadColorHover: value})}
                                                 />
                                                 <ColorControl
-                                                    label={__('Background Color', 'smart-blocks')}
+                                                    label={__('Background Color', 'hash-form')}
                                                     enableAlpha
                                                     value={uploadBgColorHover}
                                                     setValue={value => setAttributes({uploadBgColorHover: value})}
@@ -936,7 +936,7 @@ export default function Edit(props) {
                                                     setValueInset={(uploadShadowHoverInset) => setAttributes({uploadShadowHoverInset})}
                                                 />
                                                 <ColorControl
-                                                    label={__('Border Color', 'smart-blocks-pro')}
+                                                    label={__('Border Color', 'hash-form')}
                                                     enableAlpha
                                                     value={uploadBorderColorHover}
                                                     setValue={(uploadBorderColorHover) => setAttributes({uploadBorderColorHover})}
@@ -944,7 +944,7 @@ export default function Edit(props) {
                                             </div>
                                         </Tabs>
                                         <DimensionControl
-                                            label={__('Border Radius', 'smart-blocks')}
+                                            label={__('Border Radius', 'hash-form')}
                                             dimensionTop={uploadBorderRadiusTop}
                                             setDimensionTop={value => setAttributes({uploadBorderRadiusTop: value})}
                                             dimensionLeft={uploadBorderRadiusLeft}
@@ -958,7 +958,7 @@ export default function Edit(props) {
                                             units={['px', 'em', '%']}
                                         />
                                         <DimensionControl
-                                            label={__('Padding', 'smart-blocks')}
+                                            label={__('Padding', 'hash-form')}
                                             dimensionTop={uploadPaddingTop}
                                             setDimensionTop={value => setAttributes({uploadPaddingTop: value})}
                                             dimensionLeft={uploadPaddingLeft}
@@ -976,7 +976,7 @@ export default function Edit(props) {
                                         title={__('Submit Button', 'hash-form')}
                                         initialOpen={false}>
                                         <TypographyControl
-                                            label={__('Typography', 'smart-blocks-pro')}
+                                            label={__('Typography', 'hash-form')}
                                             valueFamily={buttonTypoFamily}
                                             setValueFamily={value => setAttributes({buttonTypoFamily: value})}
                                             valueWeight={buttonTypoWeight}
@@ -1011,15 +1011,15 @@ export default function Edit(props) {
                                             setValueLineHeightUnit={value => setAttributes({buttonTypoLineHeightUnit: value})}
                                         />
                                         <Tabs>
-                                            <div tabTitle={__("Normal", 'smart-blocks')}>
+                                            <div tabTitle={__("Normal", 'hash-form')}>
                                                 <ColorControl
-                                                    label={__('Color', 'smart-blocks')}
+                                                    label={__('Color', 'hash-form')}
                                                     enableAlpha
                                                     value={buttonColorNormal}
                                                     setValue={value => setAttributes({buttonColorNormal: value})}
                                                 />
                                                 <ColorControl
-                                                    label={__('Background Color', 'smart-blocks')}
+                                                    label={__('Background Color', 'hash-form')}
                                                     enableAlpha
                                                     value={buttonBgColorNormal}
                                                     setValue={value => setAttributes({buttonBgColorNormal: value})}
@@ -1043,7 +1043,7 @@ export default function Edit(props) {
                                                     setValue={(buttonBorder) => setAttributes({buttonBorder})}
                                                 />
                                                 <DimensionControl
-                                                    label={__('Border Width', 'smart-blocks-pro')}
+                                                    label={__('Border Width', 'hash-form')}
                                                     units={['px', 'em', 'rem', 'vw']}
                                                     responsive={!1}
                                                     dimensionTop={buttonBorderTop}
@@ -1062,21 +1062,21 @@ export default function Edit(props) {
                                                     setUnit={value => setAttributes({buttonBorderUnit: value})}
                                                 />
                                                 <ColorControl
-                                                    label={__('Border Color', 'smart-blocks-pro')}
+                                                    label={__('Border Color', 'hash-form')}
                                                     enableAlpha
                                                     value={buttonBorderColorNormal}
                                                     setValue={(buttonBorderColorNormal) => setAttributes({buttonBorderColorNormal})}
                                                 />
                                             </div>
-                                            <div tabTitle={__("Hover", 'smart-blocks')}>
+                                            <div tabTitle={__("Hover", 'hash-form')}>
                                                 <ColorControl
-                                                    label={__('Color', 'smart-blocks')}
+                                                    label={__('Color', 'hash-form')}
                                                     enableAlpha
                                                     value={buttonColorHover}
                                                     setValue={value => setAttributes({buttonColorHover: value})}
                                                 />
                                                 <ColorControl
-                                                    label={__('Background Color', 'smart-blocks')}
+                                                    label={__('Background Color', 'hash-form')}
                                                     enableAlpha
                                                     value={buttonBgColorHover}
                                                     setValue={value => setAttributes({buttonBgColorHover: value})}
@@ -1096,7 +1096,7 @@ export default function Edit(props) {
                                                     setValueInset={(buttonShadowHoverInset) => setAttributes({buttonShadowHoverInset})}
                                                 />
                                                 <ColorControl
-                                                    label={__('Border Color', 'smart-blocks-pro')}
+                                                    label={__('Border Color', 'hash-form')}
                                                     enableAlpha
                                                     value={buttonBorderColorHover}
                                                     setValue={(buttonBorderColorHover) => setAttributes({buttonBorderColorHover})}
@@ -1104,7 +1104,7 @@ export default function Edit(props) {
                                             </div>
                                         </Tabs>
                                         <DimensionControl
-                                            label={__('Border Radius', 'smart-blocks')}
+                                            label={__('Border Radius', 'hash-form')}
                                             dimensionTop={buttonBorderRadiusTop}
                                             setDimensionTop={value => setAttributes({buttonBorderRadiusTop: value})}
                                             dimensionLeft={buttonBorderRadiusLeft}
@@ -1118,7 +1118,7 @@ export default function Edit(props) {
                                             units={['px', 'em', '%']}
                                         />
                                         <DimensionControl
-                                            label={__('Padding', 'smart-blocks')}
+                                            label={__('Padding', 'hash-form')}
                                             dimensionTop={buttonPaddingTop}
                                             setDimensionTop={value => setAttributes({buttonPaddingTop: value})}
                                             dimensionLeft={buttonPaddingLeft}
@@ -1136,7 +1136,7 @@ export default function Edit(props) {
                                         title={__('Validation Text', 'hash-form')}
                                         initialOpen={false}>
                                         <TypographyControl
-                                            label={__('Typography', 'smart-blocks-pro')}
+                                            label={__('Typography', 'hash-form')}
                                             valueFamily={validationTypoFamily}
                                             setValueFamily={value => setAttributes({validationTypoFamily: value})}
                                             valueWeight={validationTypoWeight}
@@ -1171,28 +1171,28 @@ export default function Edit(props) {
                                             setValueLineHeightUnit={value => setAttributes({validationTypoLineHeightUnit: value})}
                                         />
                                         <ColorControl
-                                            label={__('Color', 'smart-blocks')}
+                                            label={__('Color', 'hash-form')}
                                             enableAlpha
                                             value={validationTypoFontColor}
                                             setValue={value => setAttributes({validationTypoFontColor: value})}
                                         />
                                         <ButtonGroupControl
-                                            label={__('Text Alignment', 'smart-blocks-pro')}
+                                            label={__('Text Alignment', 'hash-form')}
                                             options={[
                                                 {
                                                     value: 'left',
                                                     icon: <i class="sbi-text-align-left"></i>,
-                                                    label: __('Left', 'smart-blocks-pro')
+                                                    label: __('Left', 'hash-form')
                                                 },
                                                 {
                                                     value: 'center',
                                                     icon: <i class="sbi-text-align-center"></i>,
-                                                    label: __('Center', 'smart-blocks-pro')
+                                                    label: __('Center', 'hash-form')
                                                 },
                                                 {
                                                     value: 'right',
                                                     icon: <i class="sbi-text-align-right"></i>,
-                                                    label: __('Right', 'smart-blocks-pro')
+                                                    label: __('Right', 'hash-form')
                                                 }
                                             ]}
                                             value={validationTextalign}
@@ -1203,7 +1203,7 @@ export default function Edit(props) {
                                         title={__('Form Title', 'hash-form')}
                                         initialOpen={false}>
                                         <TypographyControl
-                                            label={__('Typography', 'smart-blocks-pro')}
+                                            label={__('Typography', 'hash-form')}
                                             valueFamily={formTitleTypoFamily}
                                             setValueFamily={value => setAttributes({formTitleTypoFamily: value})}
                                             valueWeight={formTitleTypoWeight}
@@ -1238,13 +1238,13 @@ export default function Edit(props) {
                                             setValueLineHeightUnit={value => setAttributes({formTitleTypoLineHeightUnit: value})}
                                         />
                                         <ColorControl
-                                            label={__('Color', 'smart-blocks')}
+                                            label={__('Color', 'hash-form')}
                                             enableAlpha
                                             value={formTitleTypoFontColor}
                                             setValue={value => setAttributes({formTitleTypoFontColor: value})}
                                         />
                                         <DimensionControl
-                                            label={__('Spacing', 'smart-blocks')}
+                                            label={__('Spacing', 'hash-form')}
                                             dimensionTop={formTitleSpacingTop}
                                             setDimensionTop={value => setAttributes({formTitleSpacingTop: value})}
                                             dimensionLeft={formTitleSpacingLeft}
@@ -1262,7 +1262,7 @@ export default function Edit(props) {
                                         title={__('Form Description', 'hash-form')}
                                         initialOpen={false}>
                                         <TypographyControl
-                                            label={__('Typography', 'smart-blocks-pro')}
+                                            label={__('Typography', 'hash-form')}
                                             valueFamily={formDescTypoFamily}
                                             setValueFamily={value => setAttributes({formDescTypoFamily: value})}
                                             valueWeight={formDescTypoWeight}
@@ -1297,13 +1297,13 @@ export default function Edit(props) {
                                             setValueLineHeightUnit={value => setAttributes({formDescTypoLineHeightUnit: value})}
                                         />
                                         <ColorControl
-                                            label={__('Color', 'smart-blocks')}
+                                            label={__('Color', 'hash-form')}
                                             enableAlpha
                                             value={formDescTypoFontColor}
                                             setValue={value => setAttributes({formDescTypoFontColor: value})}
                                         />
                                         <DimensionControl
-                                            label={__('Spacing', 'smart-blocks')}
+                                            label={__('Spacing', 'hash-form')}
                                             dimensionTop={formDescSpacingTop}
                                             setDimensionTop={value => setAttributes({formDescSpacingTop: value})}
                                             dimensionLeft={formDescSpacingLeft}
@@ -1321,7 +1321,7 @@ export default function Edit(props) {
                                         title={__('Heading', 'hash-form')}
                                         initialOpen={false}>
                                         <TypographyControl
-                                            label={__('Typography', 'smart-blocks-pro')}
+                                            label={__('Typography', 'hash-form')}
                                             valueFamily={headingTypoFamily}
                                             setValueFamily={value => setAttributes({headingTypoFamily: value})}
                                             valueWeight={headingTypoWeight}
@@ -1356,7 +1356,7 @@ export default function Edit(props) {
                                             setValueLineHeightUnit={value => setAttributes({headingTypoLineHeightUnit: value})}
                                         />
                                         <ColorControl
-                                            label={__('Color', 'smart-blocks')}
+                                            label={__('Color', 'hash-form')}
                                             enableAlpha
                                             value={headingTypoFontColor}
                                             setValue={value => setAttributes({headingTypoFontColor: value})}
@@ -1366,7 +1366,7 @@ export default function Edit(props) {
                                         title={__('Paragraph', 'hash-form')}
                                         initialOpen={false}>
                                         <TypographyControl
-                                            label={__('Typography', 'smart-blocks-pro')}
+                                            label={__('Typography', 'hash-form')}
                                             valueFamily={paragraphTypoFamily}
                                             setValueFamily={value => setAttributes({paragraphTypoFamily: value})}
                                             valueWeight={paragraphTypoWeight}
@@ -1401,7 +1401,7 @@ export default function Edit(props) {
                                             setValueLineHeightUnit={value => setAttributes({paragraphTypoLineHeightUnit: value})}
                                         />
                                         <ColorControl
-                                            label={__('Color', 'smart-blocks')}
+                                            label={__('Color', 'hash-form')}
                                             enableAlpha
                                             value={paragraphTypoFontColor}
                                             setValue={value => setAttributes({paragraphTypoFontColor: value})}
@@ -1411,7 +1411,7 @@ export default function Edit(props) {
                                         title={__('Divider', 'hash-form')}
                                         initialOpen={false}>
                                         <ColorControl
-                                            label={__('Color', 'smart-blocks')}
+                                            label={__('Color', 'hash-form')}
                                             enableAlpha
                                             value={dividerColor}
                                             setValue={value => setAttributes({dividerColor: value})}
@@ -1432,13 +1432,13 @@ export default function Edit(props) {
                                             useUnit={!0}
                                         />
                                         <ColorControl
-                                            label={__('Color', 'smart-blocks')}
+                                            label={__('Color', 'hash-form')}
                                             enableAlpha
                                             value={starColor}
                                             setValue={value => setAttributes({starColor: value})}
                                         />
                                         <ColorControl
-                                            label={__('Color (Active)', 'smart-blocks')}
+                                            label={__('Color (Active)', 'hash-form')}
                                             enableAlpha
                                             value={starColorActive}
                                             setValue={value => setAttributes({starColorActive: value})}
@@ -1470,19 +1470,19 @@ export default function Edit(props) {
                                             useUnit={!0}
                                         />
                                         <ColorControl
-                                            label={__('Bar Color', 'smart-blocks')}
+                                            label={__('Bar Color', 'hash-form')}
                                             enableAlpha
                                             value={rangeColor}
                                             setValue={value => setAttributes({rangeColor: value})}
                                         />
                                         <ColorControl
-                                            label={__('Color (Active)', 'smart-blocks')}
+                                            label={__('Color (Active)', 'hash-form')}
                                             enableAlpha
                                             value={rangeColorActive}
                                             setValue={value => setAttributes({rangeColorActive: value})}
                                         />
                                         <ColorControl
-                                            label={__('Handle Color', 'smart-blocks')}
+                                            label={__('Handle Color', 'hash-form')}
                                             enableAlpha
                                             value={rangeHandleColor}
                                             setValue={value => setAttributes({rangeHandleColor: value})}

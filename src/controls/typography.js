@@ -177,7 +177,7 @@ const TypographyControl = ({
 	}
 
 	const getView = useSelect(select => {
-		const {getView} = select('smart-blocks/data');
+		const {getView} = select('hash-form/data');
 		const {__experimentalGetPreviewDeviceType} = select('core/edit-post') ? select('core/edit-post') : false;
 		return __experimentalGetPreviewDeviceType ? __experimentalGetPreviewDeviceType() : getView();
 	}, []);
@@ -192,9 +192,9 @@ const TypographyControl = ({
 
 	return <>
 		<div className="hf-field hf-field-typography hf-display-inline">
-			<label>{label ? label : __("Typography", 'smart-blocks')}</label>
+			<label>{label ? label : __("Typography", 'hash-form')}</label>
 			<div className="hf-components-dropdown">
-				<Tooltip text={__('Clear', 'smart-blocks')}>
+				<Tooltip text={__('Clear', 'hash-form')}>
 					<div className="hf-reset-field"
 						onClick={onClearHandler}>
 						<span className="hf-clear-field" role="button">
@@ -218,7 +218,7 @@ const TypographyControl = ({
 					renderContent={() =>
 						<div className="hf-field-typography-options">
 							<div className="hf-field hf-field-select hf-display-inline">
-								<label>{__("Font Family", 'smart-blocks')}</label>
+								<label>{__("Font Family", 'hash-form')}</label>
 								<div className="hf-input-fields">
 									<div className="hf-popup-select">
 										<Select
@@ -238,7 +238,7 @@ const TypographyControl = ({
 								</div>
 							</div>
 							<div className="hf-field hf-field-select hf-display-inline">
-								<label>{__("Weight/Style", 'smart-blocks')}</label>
+								<label>{__("Weight/Style", 'hash-form')}</label>
 								<div className="hf-input-fields">
 									<div className="hf-popup-select">
 										<select
@@ -256,7 +256,7 @@ const TypographyControl = ({
 							</div>
 
 							<div className="hf-field hf-field-select hf-display-inline">
-								<label>{__('Text Transform', 'smart-blocks')}</label>
+								<label>{__('Text Transform', 'hash-form')}</label>
 								<div className="hf-input-fields">
 									<div className="hf-popup-select">
 										<select
@@ -274,7 +274,7 @@ const TypographyControl = ({
 							</div>
 
 							<div className="hf-field hf-field-select hf-display-inline">
-								<label>{__('Text Decoration', 'smart-blocks')}</label>
+								<label>{__('Text Decoration', 'hash-form')}</label>
 								<div className="hf-input-fields">
 									<div className="hf-popup-select">
 										<select
@@ -293,7 +293,7 @@ const TypographyControl = ({
 
 							<div className="hf-field hf-field-range hf-responsive">
 								<div class="hf-label">
-									<label for="input">{__('Font Size', 'smart-blocks')}</label>
+									<label for="input">{__('Font Size', 'hash-form')}</label>
 
 									<ResponsiveDropdown />
 									<div className="hf-unit-btn-group">
@@ -391,7 +391,7 @@ const TypographyControl = ({
 
 							<div className="hf-field hf-field-range hf-responsive">
 								<div class="hf-label">
-									<label for="input">{__('Letter Spacing', 'smart-blocks')}</label>
+									<label for="input">{__('Letter Spacing', 'hash-form')}</label>
 
 									<ResponsiveDropdown />
 									<div className="hf-unit-btn-group">
@@ -481,7 +481,7 @@ const TypographyControl = ({
 
 							<div className="hf-field hf-field-range hf-responsive">
 								<div class="hf-label">
-									<label for="input">{__('Line Height', 'smart-blocks')}</label>
+									<label for="input">{__('Line Height', 'hash-form')}</label>
 
 									<ResponsiveDropdown />
 									<div className="hf-unit-btn-group">
