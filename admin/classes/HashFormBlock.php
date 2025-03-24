@@ -384,16 +384,16 @@ class HashFormBlock {
                     "paragraphTypoFontColor" => ["type" => 'string'],
                     "dividerColor" => ["type" => 'string'],
                     "starSize" => ["type" => 'string'],
-                    "starSizeUnit" => ["type" => 'string', "enum" => ['px', 'em', '%'], "default" => 'px'],
+                    "starSizeUnit" => ["type" => 'string', "enum" => ['px', 'em', 'rem'], "default" => 'px'],
 
                     "starColor" => ["type" => 'string'],
                     "starColorActive" => ["type" => 'string'],
 
                     "rangeHeight" => ["type" => 'string'],
-                    "rangeHeightUnit" => ["type" => 'string', "enum" => ['px', 'em', '%'], "default" => 'px'],
+                    "rangeHeightUnit" => ["type" => 'string', "enum" => ['px', 'em', 'rem'], "default" => 'px'],
 
                     "rangeHandleSize" => ["type" => 'string'],
-                    "rangeHandleSizeUnit" => ["type" => 'string', "enum" => ['px', 'em', '%'], "default" => 'px'],
+                    "rangeHandleSizeUnit" => ["type" => 'string', "enum" => ['px', 'em', 'rem'], "default" => 'px'],
 
                     "rangeColor" => ["type" => 'string'],
                     "rangeColorActive" => ["type" => 'string'],
