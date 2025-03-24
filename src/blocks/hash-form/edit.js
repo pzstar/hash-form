@@ -1,16 +1,10 @@
 import {__} from '@wordpress/i18n';
-import {RawHTML, useState} from '@wordpress/element';
-// eslint-disable-next-line @wordpress/no-unsafe-wp-apis
-import {format, dateI18n, getSettings} from '@wordpress/date';
 import {
     useBlockProps,
-    InspectorControls,
-    RichText,
-    store as blockEditorStore
+    InspectorControls
 } from '@wordpress/block-editor';
 import {
     PanelBody,
-    TextControl,
     Button,
     Placeholder
 } from '@wordpress/components';
@@ -30,7 +24,7 @@ import {getStyleVars} from '../../utils/helper';
 import {LayoutIcon, StyleIcon, AdvancedIcon, HashFormIcon} from '../../utils/svgicons';
 import {applyFilters} from '@wordpress/hooks';
 import ServerSideRender from '@wordpress/server-side-render';
-import {useEffect} from '@wordpress/element';
+import {useState} from '@wordpress/element';
 
 export default function Edit(props) {
     const {attributes, setAttributes} = props;
