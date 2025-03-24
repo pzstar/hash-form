@@ -1,6 +1,7 @@
 import {__} from '@wordpress/i18n';
 import ResponsiveDropdown from '../utils/responsivedropdown';
 import {useSelect} from '@wordpress/data';
+import {useState, useEffect} from '@wordpress/element';
 
 const RangeSliderControl = ({
     label,
@@ -22,16 +23,22 @@ const RangeSliderControl = ({
 }) => {
     const allUnits = units ? units : ["px", "em", "%"];
 
+    const [minVal, setMinVal] = useState(min);
+    const [maxVal, setMaxVal] = useState(max);
+    const [stepsVal, setStepsVal] = useState(steps);
+
     const getView = useSelect(select => {
         const {getView} = select('hash-form/data');
         const {__experimentalGetPreviewDeviceType} = select('core/edit-post') ? select('core/edit-post') : false;
         return __experimentalGetPreviewDeviceType ? __experimentalGetPreviewDeviceType() : getView();
     }, []);
-
-    const calcMinVal = () => {
+    const calcMinVal = (unt) => {
         let ret;
-        switch (unit) {
+        switch (unt) {
             case 'em':
+                ret = 0;
+                break;
+            case 'rem':
                 ret = 0;
                 break;
             case 'vh':
@@ -50,10 +57,13 @@ const RangeSliderControl = ({
         return ret;
     }
 
-    const calcMaxVal = () => {
+    const calcMaxVal = (unt) => {
         let ret;
-        switch (unit) {
+        switch (unt) {
             case 'em':
+                ret = 10;
+                break;
+            case 'rem':
                 ret = 10;
                 break;
             case 'vh':
@@ -72,9 +82,9 @@ const RangeSliderControl = ({
         return ret;
     }
 
-    const calcStepsVal = () => {
+    const calcStepsVal = (unt) => {
         let ret;
-        switch (unit) {
+        switch (unt) {
             case 'em':
                 ret = 0.1;
                 break;
@@ -90,6 +100,12 @@ const RangeSliderControl = ({
         }
         return ret;
     }
+
+    useEffect(() => {
+        setMinVal(calcMinVal(unit));
+        setMaxVal(calcMaxVal(unit));
+        setStepsVal(calcStepsVal(unit));
+    }, [unit])
 
     return <div className={`hf-field hf-field-range ${responsive ? 'hf-responsive' : ''}`}>
         <div className="hf-label">
@@ -114,19 +130,18 @@ const RangeSliderControl = ({
             )}
         </div>
         <div className="hf-input-fields">
-            {responsive ?
-                (<>
+            {responsive ? <>
                     {getView == 'Mobile' && (
                         <div className="hf-input-range">
                             <input type="range"
-                                min={calcMinVal()}
-                                max={calcMaxVal()}
+                                min={minVal}
+                                max={maxVal}
                                 value={valueSm}
-                                step={calcStepsVal}
+                                step={stepsVal}
                                 onChange={(e) => {setValueSm(e.target.value)}}
                             />
                             <input type="number"
-                                step={calcStepsVal}
+                                step={stepsVal}
                                 onChange={(e) => {setValueSm(e.target.value)}}
                                 value={valueSm}
                             />
@@ -135,14 +150,14 @@ const RangeSliderControl = ({
                     {getView == 'Tablet' && (
                         <div className="hf-input-range">
                             <input type="range"
-                                min={calcMinVal()}
-                                max={calcMaxVal()}
+                                min={minVal}
+                                max={maxVal}
                                 value={valueMd}
-                                step={calcStepsVal}
+                                step={stepsVal}
                                 onChange={(e) => {setValueMd(e.target.value)}}
                             />
                             <input type="number"
-                                step={calcStepsVal}
+                                step={stepsVal}
                                 onChange={(e) => {setValueMd(e.target.value)}}
                                 value={valueMd}
                             />
@@ -151,36 +166,33 @@ const RangeSliderControl = ({
                     {getView == 'Desktop' && (
                         <div className="hf-input-range">
                             <input type="range"
-                                min={calcMinVal()}
-                                max={calcMaxVal()}
+                                min={minVal}
+                                max={maxVal}
                                 value={value}
-                                step={calcStepsVal}
+                                step={stepsVal}
                                 onChange={(e) => {setValue(e.target.value)}}
                             />
                             <input type="number"
-                                step={calcStepsVal}
+                                step={stepsVal}
                                 onChange={(e) => {setValue(e.target.value)}}
                                 value={value}
                             />
                         </div>
                     )}
-                </>) :
-                (
-                    <div className="hf-input-range">
-                        <input type="range"
-                            min={calcMinVal()}
-                            max={calcMaxVal()}
-                            value={value}
-                            step={calcStepsVal}
-                            onChange={(e) => {setValue(e.target.value)}}
-                        />
-                        <input type="number"
-                            step={calcStepsVal}
-                            onChange={(e) => {setValue(e.target.value)}}
-                            value={value}
-                        />
-                    </div>
-                )
+                </> : <div className="hf-input-range">
+                    <input type="range"
+                        min={minVal}
+                        max={maxVal}
+                        value={value}
+                        step={stepsVal}
+                        onChange={(e) => {setValue(e.target.value)}}
+                    />
+                    <input type="number"
+                        step={stepsVal}
+                        onChange={(e) => {setValue(e.target.value)}}
+                        value={value}
+                    />
+                </div>
             }
         </div>
     </div>
