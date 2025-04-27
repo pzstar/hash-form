@@ -635,25 +635,23 @@ class HashFormBuilder {
     public function save_form_settings() {
         if (!current_user_can('manage_options'))
             return;
-        if (wp_verify_nonce(HashFormHelper::get_post('_wpnonce'), 'hashform-upload-ajax-nonce')) {
 
-            $json_vars = htmlspecialchars_decode(nl2br(str_replace('&quot;', '"', HashFormHelper::get_post('hashform_compact_fields'))));
-            $vars = HashFormHelper::parse_json_array($json_vars);
-            $email_to_array = array();
-            foreach ($vars['email_to'] as $row) {
-                $email_to_val = trim($row);
-                if ($email_to_val) {
-                    $email_to_array[] = $email_to_val;
-                }
+        $json_vars = htmlspecialchars_decode(nl2br(str_replace('&quot;', '"', HashFormHelper::get_post('hashform_compact_fields'))));
+        $vars = HashFormHelper::parse_json_array($json_vars);
+        $email_to_array = array();
+        foreach ($vars['email_to'] as $row) {
+            $email_to_val = trim($row);
+            if ($email_to_val) {
+                $email_to_array[] = $email_to_val;
             }
-            $vars['email_to'] = implode(',', $email_to_array);
-            $id = isset($vars['id']) ? absint($vars['id']) : HashFormHelper::get_var('id', 'absint');
-            unset($vars['id'], $vars['process_form'], $vars['_wp_http_referer']);
-
-            self::update_settings($id, $vars);
-            $message = '<span class="mdi mdi-check-circle"></span>' . esc_html__('Form was successfully updated.', 'hash-form');
-            wp_die(wp_kses_post($message));
         }
+        $vars['email_to'] = implode(',', $email_to_array);
+        $id = isset($vars['id']) ? absint($vars['id']) : HashFormHelper::get_var('id', 'absint');
+        unset($vars['id'], $vars['process_form'], $vars['_wp_http_referer']);
+
+        self::update_settings($id, $vars);
+        $message = '<span class="mdi mdi-check-circle"></span>' . esc_html__('Form was successfully updated.', 'hash-form');
+        wp_die(wp_kses_post($message));
     }
 
     public function save_form_style() {
