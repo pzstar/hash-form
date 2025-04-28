@@ -650,7 +650,7 @@ var hashFormAdmin = hashFormAdmin || {};
         initFormSettings: function () {
             $('.hashform-ajax-udpate-button').on('click', hashFormAdmin.submitSettingsBuild);
             $('.hf-multiple-rows').on('click', '.hf-add-email', function () {
-                $(this).closest('.hf-multiple-rows').find('.hf-multiple-email').append('<div class="hf-email-row"><input type="email" name="email_to[]" value=""/><span class="mdi mdi-trash-can-outline hf-delete-email-row"></span></div>');
+                $(this).closest('.hf-multiple-rows').find('.hf-multiple-email').append('<div class="hf-email-row"><input type="email" name="email_to[]" autocomplete="off" value=""/><span class="mdi mdi-trash-can-outline hf-delete-email-row"></span></div>');
             })
             $(document).on('click', '.hf-multiple-rows .hf-delete-email-row', function () {
                 $(this).closest('.hf-email-row').remove();
@@ -684,14 +684,14 @@ var hashFormAdmin = hashFormAdmin || {};
             e.preventDefault();
             var $thisEle = this;
             hashFormAdmin.preFormSave(this);
-            var v = JSON.stringify($formSettings.serializeArray());
-            $('#hashform_compact_fields').val(v);
+            var fields = JSON.stringify($formSettings.serializeArray());
+            $('#hashform_compact_fields').val(fields);
             $.ajax({
                 type: 'POST',
                 url: ajaxurl,
                 data: {
                     action: 'hashform_save_form_settings',
-                    hashform_compact_fields: v,
+                    hashform_compact_fields: fields,
                 },
                 success: function (msg) {
                     hashFormAdmin.afterFormSave($thisEle);
@@ -726,14 +726,14 @@ var hashFormAdmin = hashFormAdmin || {};
             e.preventDefault();
             var $thisEle = this;
             hashFormAdmin.preFormSave(this);
-            var v = JSON.stringify($styleSettings.serializeArray());
-            $('#hashform_compact_fields').val(v);
+            var fields = JSON.stringify($styleSettings.serializeArray());
+            $('#hashform_compact_fields').val(fields);
             jQuery.ajax({
                 type: 'POST',
                 url: ajaxurl,
                 data: {
                     action: 'hashform_save_form_style',
-                    hashform_compact_fields: v,
+                    hashform_compact_fields: fields,
                     backend_nonce: hashform_backend_js.nonce
                 },
                 success: function (msg) {
