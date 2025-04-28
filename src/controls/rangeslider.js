@@ -131,68 +131,68 @@ const RangeSliderControl = ({
         </div>
         <div className="hf-input-fields">
             {responsive ? <>
-                    {getView == 'Mobile' && (
-                        <div className="hf-input-range">
-                            <input type="range"
-                                min={minVal}
-                                max={maxVal}
-                                value={valueSm}
-                                step={stepsVal}
-                                onChange={(e) => {setValueSm(e.target.value)}}
-                            />
-                            <input type="number"
-                                step={stepsVal}
-                                onChange={(e) => {setValueSm(e.target.value)}}
-                                value={valueSm}
-                            />
-                        </div>
-                    )}
-                    {getView == 'Tablet' && (
-                        <div className="hf-input-range">
-                            <input type="range"
-                                min={minVal}
-                                max={maxVal}
-                                value={valueMd}
-                                step={stepsVal}
-                                onChange={(e) => {setValueMd(e.target.value)}}
-                            />
-                            <input type="number"
-                                step={stepsVal}
-                                onChange={(e) => {setValueMd(e.target.value)}}
-                                value={valueMd}
-                            />
-                        </div>
-                    )}
-                    {getView == 'Desktop' && (
-                        <div className="hf-input-range">
-                            <input type="range"
-                                min={minVal}
-                                max={maxVal}
-                                value={value}
-                                step={stepsVal}
-                                onChange={(e) => {setValue(e.target.value)}}
-                            />
-                            <input type="number"
-                                step={stepsVal}
-                                onChange={(e) => {setValue(e.target.value)}}
-                                value={value}
-                            />
-                        </div>
-                    )}
-                </> : <div className="hf-input-range">
-                    <input type="range"
-                        min={minVal}
-                        max={maxVal}
-                        value={value}
-                        step={stepsVal}
-                        onChange={(e) => {setValue(e.target.value)}}
-                    />
-                    <input type="number"
-                        step={stepsVal}
-                        onChange={(e) => {setValue(e.target.value)}}
-                        value={value}
-                    />
-                </div>
+                {getView == 'Mobile' && (
+                    <div className="hf-input-range">
+                        <input type="range"
+                            min={minVal}
+                            max={maxVal}
+                            value={valueSm}
+                            step={stepsVal}
+                            onChange={(e) => {setValueSm(e.target.value)}}
+                        />
+                        <input type="number"
+                            step={stepsVal}
+                            onChange={(e) => {setValueSm(e.target.value)}}
+                            value={valueSm}
+                        />
+                    </div>
+                )}
+                {getView == 'Tablet' && (
+                    <div className="hf-input-range">
+                        <input type="range"
+                            min={minVal}
+                            max={maxVal}
+                            value={valueMd}
+                            step={stepsVal}
+                            onChange={(e) => {setValueMd(e.target.value)}}
+                        />
+                        <input type="number"
+                            step={stepsVal}
+                            onChange={(e) => {setValueMd(e.target.value)}}
+                            value={valueMd}
+                        />
+                    </div>
+                )}
+                {getView == 'Desktop' && (
+                    <div className="hf-input-range">
+                        <input type="range"
+                            min={minVal}
+                            max={maxVal}
+                            value={value}
+                            step={stepsVal}
+                            onChange={(e) => {setValue(e.target.value)}}
+                        />
+                        <input type="number"
+                            step={stepsVal}
+                            onChange={(e) => {setValue(e.target.value)}}
+                            value={value}
+                        />
+                    </div>
+                )}
+            </> : <div className="hf-input-range">
+                <input type="range"
+                    min={minVal}
+                    max={maxVal}
+                    value={value}
+                    step={stepsVal}
+                    onChange={(e) => {setValue(e.target.value)}}
+                />
+                <input type="number"
+                    step={stepsVal}
+                    onChange={(e) => {setValue(e.target.value)}}
+                    value={value}
+                />
+            </div>
             }
         </div>
     </div>
