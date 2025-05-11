@@ -97,6 +97,11 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 <li>Activate Plugin from "Plugins" menu in WordPress.</li>
 </ol>
 
+== Frequently Asked Questions ==
+= How can I report security bugs? =
+
+You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/9e5fbfa4-59bf-4372-86ea-76312f38d4a7)
+
 == Screenshots ==
 1. Form Builder Screen
 2. Form Builder Screen With Fields
