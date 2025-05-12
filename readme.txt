@@ -3,7 +3,7 @@ Contributors: hashthemes
 Tags: form, form builder, drag and drop, contact form
 Requires at least: 6.3
 Tested up to: 6.7
-Stable tag: 1.2.9
+Stable tag: 1.3.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -116,6 +116,9 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 11. Global Email Settings Page
 
 == Changelog ==
+= 1.3.0 - 12 May, 2025 =
+* Spacing appearing in Textarea fixed - Fixed
+
 = 1.2.9 - 28 Apr, 2025 =
 * Nonce check for all ajax requests - Updated
 * pot file updated
