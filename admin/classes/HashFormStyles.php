@@ -1165,6 +1165,8 @@ class HashFormStyles {
 
         check_ajax_referer('hashform_admin_settings_ajax', 'admin_setting_nonce');
         ob_start();
+        remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+        remove_action( 'wp_print_styles', 'print_emoji_styles' );
         wp_head();
 
         $form_id = HashFormHelper::get_post('form_id', 'absint');
