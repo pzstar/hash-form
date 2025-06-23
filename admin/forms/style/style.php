@@ -9,7 +9,6 @@ if (!$form) {
     return;
 }
 
-$fields = HashFormFields::get_form_fields($id);
 $styles = $form->styles ? $form->styles : array();
 $form_style = isset($styles['form_style']) ? $styles['form_style'] : 'default-style';
 $form_style_template = isset($styles['form_style_template']) ? $styles['form_style_template'] : '';
@@ -95,7 +94,7 @@ $form_style_template = isset($styles['form_style_template']) ? $styles['form_sty
 
         <div id="hf-form-panel">
             <div class="hf-form-wrap">
-                <?php HashFormPreview::show_form($form->id); ?>
+                <div class="hf-form-preview" data-form="<?php echo esc_attr($id); ?>"></div>
             </div>
         </div>
     </div>
