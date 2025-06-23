@@ -25,7 +25,7 @@ wp_nonce_field('hf-styles-nonce', 'hashform_styles_nonce');
         <div id="hf-form-panel">
             <div class="hf-form-wrap">
                 <?php HashFormHelper::print_message(); ?>
-                <?php include HASHFORM_PATH . 'admin/styles/demo-preview.php'; ?>
+                <div class="hf-template-preview"></div>
             </div>
         </div>
     </div>
