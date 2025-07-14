@@ -92,7 +92,7 @@ $form_style_template = isset($styles['form_style_template']) ? $styles['form_sty
             </form>
         </div>
 
-        <div id="hf-form-panel">
+        <div id="hf-form-panel" class="hf-style-form-panel">
             <div class="hf-form-wrap">
                 <div class="hf-form-preview" data-form="<?php echo esc_attr($id); ?>"></div>
             </div>

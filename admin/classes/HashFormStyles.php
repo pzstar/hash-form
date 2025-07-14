@@ -106,7 +106,7 @@ class HashFormStyles {
 
     public static function default_font_array() {
         return array(
-            'Default' => array(
+            'inherit' => array(
                 'family' => 'Default',
                 'variants' => array(
                     'Default' => 'Default',
@@ -327,7 +327,7 @@ class HashFormStyles {
         $fonts_url = '';
         $subsets = 'latin,latin-ext';
         $fonts = $font_family_array = $variants_array = array();
-        $standard_fonts = ['Default', 'Helvetica', 'Verdana', 'Arial', 'Times', 'Georgia', 'Courier', 'Trebuchet', 'Tahoma', 'Palatino'];
+        $standard_fonts = ['inherit', 'Helvetica', 'Verdana', 'Arial', 'Times', 'Georgia', 'Courier', 'Trebuchet', 'Tahoma', 'Palatino'];
         $all_font = self::font_array();
         $custom_fonts = self::custom_fonts();
 

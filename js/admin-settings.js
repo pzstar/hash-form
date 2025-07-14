@@ -122,7 +122,7 @@
     $(document).on('change', '.hf-typography-font-family', function () {
         var $this = $(this);
         var font_family = $(this).val();
-        var standard_fonts = ['Default', 'Helvetica', 'Verdana', 'Arial', 'Times', 'Georgia', 'Courier', 'Trebuchet', 'Tahoma', 'Palatino'];
+        var standard_fonts = ['inherit', 'Helvetica', 'Verdana', 'Arial', 'Times', 'Georgia', 'Courier', 'Trebuchet', 'Tahoma', 'Palatino'];
         if (!standard_fonts.includes(font_family)) {
             var fontId = $this.attr('id');
             var $fontId = $('link#' + fontId);

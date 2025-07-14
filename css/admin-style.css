@@ -187,6 +187,10 @@
     color: #333;
 }
 
+body:has(#hf-wrap){
+    overflow: hidden;
+}
+
 /* Main Panel */
 .hf-body {
     display: flex;
@@ -2242,7 +2246,7 @@ form.hf-success .hf-copied {
 .hf-template-preview,
 .hf-form-preview {
     width: 100%;
-    height: calc(100vh - 200px);
+    height: calc(100% - 10px);
     position: relative;
 }
 
