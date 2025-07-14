@@ -128,7 +128,7 @@ class HashFormFieldName extends HashFormFieldType {
         $field = $this->get_field();
         $field_id = $field['id'];
         $field_key = $field['field_key'];
-        $name_layout = $field['name_layout'];
+        $name_layout = isset($field['name_layout']) ? $field['name_layout'] : 'full';
         $display = explode('_', $name_layout);
         ?>
 

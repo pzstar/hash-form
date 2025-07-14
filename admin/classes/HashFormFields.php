@@ -373,7 +373,6 @@ class HashFormFields {
     }
 
     public static function fill_field(&$values, $field, $form_id) {
-        global $wpdb;
         $values['field_key'] = HashFormHelper::get_unique_key('hashform_fields', 'field_key');
         $values['form_id'] = $form_id;
         $cols_array = array('name', 'description', 'type', 'field_order', 'field_options', 'options', 'default_value', 'required');
