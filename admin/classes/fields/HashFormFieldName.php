@@ -52,11 +52,11 @@ class HashFormFieldName extends HashFormFieldType {
         $field_key = $field['field_key'];
         $label = $sub_field['label'];
         $type = $sub_field['type'];
-        $desc = ($name !== 'full') ? $field['desc'][$name] : '';
+        $desc = ($name !== 'full') && isset($field['desc'][$name]) ? $field['desc'][$name] : '';
         $placeholder = isset($field['placeholder'][$name]) ? $field['placeholder'][$name] : '';
         $value = isset($field['default_value'][$name]) ? $field['default_value'][$name] : '';
         ?>
-        <div class="hf-form-row hf-sub-field-<?php echo esc_attr($name); ?> hf-row-show-hide <?php echo !in_array($name, explode('_', $field['name_layout'])) ? 'hf-hidden' : ''; ?>" data-sub-field-name="<?php echo esc_attr($name); ?>" data-field-id="<?php echo esc_attr($field_id); ?>">
+        <div class="hf-form-row hf-sub-field-<?php echo esc_attr($name); ?> hf-row-show-hide <?php echo isset($field['name_layout']) && !in_array($name, explode('_', $field['name_layout'])) ? 'hf-hidden' : ''; ?>" data-sub-field-name="<?php echo esc_attr($name); ?>" data-field-id="<?php echo esc_attr($field_id); ?>">
             <div class="hf-sub-field-label">
                 <?php echo esc_html($label); ?>
             </div>
