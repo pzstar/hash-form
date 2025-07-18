@@ -16,7 +16,7 @@ $confirmation_types = apply_filters('hf_confirmation_types', array(
                 <?php
                 foreach ($confirmation_types as $key => $val) {
                     ?>
-                    <option value="<?php esc_attr($key) ?>" <?php selected($settings['confirmation_type'], $key); ?>><?php echo esc_html($val); ?></option>
+                    <option value="<?php echo esc_attr($key) ?>" <?php selected($settings['confirmation_type'], $key); ?>><?php echo esc_html($val); ?></option>
                     <?php
                 }
                 ?>
