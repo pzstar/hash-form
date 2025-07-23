@@ -28,11 +28,14 @@ class HashFormValidate {
 
     public static function validate_field($field, &$errors, $values) {
         $field_id = $field->id;
+
         if ($field->type == 'captcha') {
             $value = isset($values['g-recaptcha-response']) ? $values['g-recaptcha-response'] : '';
         } else {
             $value = isset($values['item_meta'][$field_id]) ? $values['item_meta'][$field_id] : '';
         }
+
+        $value = apply_filters('hash_form_field_value', $value, $field, $values);
 
         if (!is_array($value)) {
             $value = trim($value);
