@@ -28,9 +28,6 @@ class HashFormPreview {
         $form = HashFormBuilder::get_form_vars($id);
         $values = HashFormHelper::get_fields_array($id);
 
-// var_dump($form);
-// var_dump($values);
-
         $styles = $form->styles ? $form->styles : '';
 
         $form_class = array('hashform-form');
