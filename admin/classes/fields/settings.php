@@ -361,7 +361,7 @@ defined('ABSPATH') || die();
             <?php
         }
 
-        if ($field_type === 'select' || $field_type === 'radio' || $field_type === 'checkbox' || $field_type === 'image_select') {
+        if (in_array($field_type, apply_filters('hash_form_choices_fields', array('select', 'radio', 'checkbox', 'image_select')))) {
             $this->show_field_choices();
         }
 

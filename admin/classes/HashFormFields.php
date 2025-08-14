@@ -92,7 +92,7 @@ class HashFormFields {
 
         $field_id = HashFormHelper::get_post('field_id', 'absint');
         $field = self::get_field_vars($field_id);
-        if (!in_array($field->type, array('radio', 'checkbox', 'select'))) {
+        if (!in_array($field->type, apply_filters('hash_form_choices_fields', array('radio', 'checkbox', 'select')))) {
             return;
         }
 
