@@ -35,8 +35,12 @@ class HashFormSettings {
                 'icon' => 'mdi mdi-email-multiple-outline'
             )
         ));
-        $current = 'captcha-settings'
-            ?>
+        $vars = apply_filters('hash_form_settings_vars', array(
+            'current' => 'captcha-settings'
+        ));
+        extract($vars);
+        ?>
+
         <div class="hf-settings-wrap wrap">
             <h1></h1>
             <div id="hf-settings-wrap">
@@ -197,7 +201,7 @@ class HashFormSettings {
     }
 
     public static function checkbox_settings() {
-        return array();
+        return apply_filters('hash_form_settings_checkbox', array());
     }
 
     public static function default_values() {
