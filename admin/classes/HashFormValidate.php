@@ -86,7 +86,7 @@ class HashFormValidate {
         $sh_conditions = HashFormBuilder::get_show_hide_conditions(absint($values['form_id']));
         $hidden_arrays = array();
 
-        foreach($sh_conditions as $cond) {
+        foreach ($sh_conditions as $cond) {
             $compare_to = $values['item_meta'][$cond['compare_to']];
             $compareValue = $cond['compare_value'];
             $condition = false;
@@ -101,22 +101,22 @@ class HashFormValidate {
                     break;
 
                 case 'less_than':
-                    $compare_to = ($compare_to === '') ? 0 : (int)$compare_to;
+                    $compare_to = ($compare_to === '') ? 0 : (int) $compare_to;
                     $condition = is_array($compare_to) ? self::arrayValsCompare($compareValue, $compare_to, 'less_than') : ($compare_to < $compareValue);
                     break;
 
                 case 'less_than_or_equal':
-                    $compare_to = ($compare_to === '') ? 0 : (int)$compare_to;
+                    $compare_to = ($compare_to === '') ? 0 : (int) $compare_to;
                     $condition = is_array($compare_to) ? self::arrayValsCompare($compareValue, $compare_to, 'less_than_or_equal') : ($compare_to <= $compareValue);
                     break;
 
                 case 'greater_than':
-                    $compare_to = ($compare_to === '') ? 0 : (int)$compare_to;
+                    $compare_to = ($compare_to === '') ? 0 : (int) $compare_to;
                     $condition = is_array($compare_to) ? self::arrayValsCompare($compareValue, $compare_to, 'greater_than') : ($compare_to > $compareValue);
                     break;
 
                 case 'greater_than_or_equal':
-                    $compare_to = ($compare_to === '') ? 0 : (int)$compare_to;
+                    $compare_to = ($compare_to === '') ? 0 : (int) $compare_to;
                     $condition = is_array($compare_to) ? self::arrayValsCompare($compareValue, $compare_to, 'greater_than_or_equal') : ($compare_to >= $compareValue);
                     break;
 
