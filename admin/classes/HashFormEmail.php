@@ -35,7 +35,7 @@ class HashFormEmail {
         $email_template = $settings['email_template'] ? sanitize_text_field($settings['email_template']) : 'template1';
         $header_image = sanitize_text_field($settings['header_image']);
         $email_msg = isset($form_settings['email_message']) ? sanitize_text_field($form_settings['email_message']) : '';
-        $email_table = $this->get_entry_rows($email_template);
+        $email_table = self::get_entry_rows($email_template, $this->entry_id);
         $form_title = $this->form->name;
         $file_img_placeholder = HASHFORM_URL . 'img/attachment.png';
 
@@ -173,9 +173,9 @@ class HashFormEmail {
         }
     }
 
-    public function get_entry_rows($email_template) {
+    public static function get_entry_rows($email_template, $entry_id) {
         $settings = HashFormSettings::get_settings();
-        $entry = HashFormEntry::get_entry_vars($this->entry_id);
+        $entry = HashFormEntry::get_entry_vars($entry_id);
         $entry_rows = '';
         $file_img_placeholder = HASHFORM_URL . 'img/attachment.png';
         $count = 0;

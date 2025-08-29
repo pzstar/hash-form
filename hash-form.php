@@ -77,14 +77,6 @@ function hashform_network_create_table($network_wide) {
 }
 
 /**
- * Create form tables on single site.
- */
-function hashform_create_table() {
-    $db = new HashFormCreateTable();
-    $db->upgrade();
-}
-
-/**
  * Create form tables on multisite creation.
  */
 add_action('wp_insert_site', 'hashform_on_create_blog');
