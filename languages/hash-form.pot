@@ -10,11 +10,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-04-28 17:54+0000\n"
+"POT-Creation-Date: 2025-09-14 15:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: hash-form\n"
-"\n"
 "Language: \n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;"
 
@@ -25,7 +24,7 @@ msgid_plural "%1$s Entries Permanently Deleted"
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin/classes/HashFormBuilder.php:281 admin/classes/HashFormBuilder.php:392
+#: admin/classes/HashFormBuilder.php:282 admin/classes/HashFormBuilder.php:393
 #: admin/classes/HashFormEntry.php:155 admin/classes/HashFormEntry.php:277
 #, php-format
 msgid "%1$s form moved to the Trash. %2$sUndo%3$s"
@@ -33,14 +32,14 @@ msgid_plural "%1$s forms moved to the Trash. %2$sUndo%3$s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin/classes/HashFormBuilder.php:334
+#: admin/classes/HashFormBuilder.php:335
 #, php-format
 msgid "%1$s Form Permanently Deleted"
 msgid_plural "%1$s Forms Permanently Deleted"
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin/classes/HashFormBuilder.php:307 admin/classes/HashFormBuilder.php:413
+#: admin/classes/HashFormBuilder.php:308 admin/classes/HashFormBuilder.php:414
 #: admin/classes/HashFormEntry.php:180 admin/classes/HashFormEntry.php:296
 #, php-format
 msgid "%1$s form permanently deleted."
@@ -48,7 +47,7 @@ msgid_plural "%1$s forms permanently deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin/classes/HashFormBuilder.php:280 admin/classes/HashFormBuilder.php:401
+#: admin/classes/HashFormBuilder.php:281 admin/classes/HashFormBuilder.php:402
 #: admin/classes/HashFormEntry.php:154 admin/classes/HashFormEntry.php:285
 #, php-format
 msgid "%1$s form restored from the Trash."
@@ -68,7 +67,7 @@ msgstr ""
 msgid "%s (Edit)"
 msgstr ""
 
-#: admin/classes/HashFormFields.php:460
+#: admin/classes/HashFormFields.php:459
 #, php-format
 msgid "%s characters only allowed."
 msgstr ""
@@ -78,12 +77,12 @@ msgstr ""
 msgid "%s Field"
 msgstr ""
 
-#: admin/classes/HashFormFields.php:458
+#: admin/classes/HashFormFields.php:457
 #, php-format
 msgid "%s is invalid."
 msgstr ""
 
-#: admin/classes/HashFormFields.php:459
+#: admin/classes/HashFormFields.php:458
 #, php-format
 msgid "%s is required."
 msgstr ""
@@ -93,7 +92,7 @@ msgstr ""
 msgid "%s Options"
 msgstr ""
 
-#: admin/forms/style/style.php:57
+#: admin/forms/style/style.php:56
 msgid "--Select Style--"
 msgstr ""
 
@@ -168,7 +167,7 @@ msgstr ""
 msgid "Add Fields"
 msgstr ""
 
-#: admin/forms/build/builder.php:35
+#: admin/forms/build/builder.php:34
 msgid "Add Fields Here"
 msgstr ""
 
@@ -176,16 +175,16 @@ msgstr ""
 msgid "Add More Email"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:90
+#: admin/classes/HashFormBuilder.php:91
 msgid "Add New"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:21
+#: admin/classes/HashFormStyles.php:24
 msgctxt "add new on admin bar"
 msgid "Style Template"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:23
+#: admin/classes/HashFormStyles.php:26
 msgid "Add New Style Template"
 msgstr ""
 
@@ -197,7 +196,7 @@ msgstr ""
 msgid "Address"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:20
+#: admin/classes/HashFormStyles.php:23
 msgctxt "admin menu"
 msgid "Style Template"
 msgstr ""
@@ -346,15 +345,15 @@ msgstr ""
 msgid "Browser Default"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:547
+#: admin/classes/HashFormBuilder.php:548
 msgid "Build"
 msgstr ""
 
-#: admin/forms/style/style.php:89
+#: admin/forms/style/style.php:88
 msgid "Build fast with a style template - style your forms in seconds."
 msgstr ""
 
-#: admin/forms/build/builder.php:45
+#: admin/forms/build/builder.php:44
 #: admin/classes/fields/HashFormFieldType.php:346
 msgid "Bulk Edit Options"
 msgstr ""
@@ -363,7 +362,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:287
+#: admin/classes/HashFormStyles.php:315
 msgid "Capitalize"
 msgstr ""
 
@@ -392,17 +391,17 @@ msgstr ""
 msgid "Checkboxes"
 msgstr ""
 
-#: admin/forms/style/style.php:51
+#: admin/forms/style/style.php:50
 msgid "Choose \"Custom Style\" when you want to implement your own styles"
 msgstr ""
 
-#: admin/forms/style/style.php:47
+#: admin/forms/style/style.php:46
 msgid ""
 "Choose \"Default Style\" when you want to implement Hash Form plugin styles "
 "with minimal designs."
 msgstr ""
 
-#: admin/forms/style/style.php:41
+#: admin/forms/style/style.php:40
 msgid ""
 "Choose \"No Style\" when you don't want to implement Hash Form plugin style "
 "and let theme style take over."
@@ -420,7 +419,7 @@ msgstr ""
 msgid "Choose Form to Preview"
 msgstr ""
 
-#: admin/forms/style/style.php:55
+#: admin/forms/style/style.php:54
 msgid "Choose Template Style"
 msgstr ""
 
@@ -437,12 +436,12 @@ msgstr ""
 msgid "City"
 msgstr ""
 
-#: admin/forms/build/builder.php:36
+#: admin/forms/build/builder.php:35
 msgid "Click or drag a field from the sidebar to add it to your form"
 msgstr ""
 
-#: admin/forms/shortcode-overlay.php:19 admin/classes/HashFormBuilder.php:516
-#: admin/styles/settings.php:66 admin/forms/build/builder.php:47
+#: admin/forms/shortcode-overlay.php:19 admin/classes/HashFormBuilder.php:517
+#: admin/styles/settings.php:65 admin/forms/build/builder.php:46
 msgid "Close"
 msgstr ""
 
@@ -476,12 +475,12 @@ msgstr ""
 msgid "Confirmation"
 msgstr ""
 
-#: admin/forms/settings/form-confirmation.php:8
+#: admin/forms/settings/form-confirmation.php:14
 msgid "Confirmation Type"
 msgstr ""
 
 #: admin/classes/fields/settings.php:106
-#: admin/classes/fields/HashFormFieldHTML.php:28
+#: admin/classes/fields/HashFormFieldHTML.php:30
 msgid "Content"
 msgstr ""
 
@@ -489,7 +488,7 @@ msgstr ""
 msgid "Copied!"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:467
+#: admin/classes/HashFormBuilder.php:468
 msgid "Copy"
 msgstr ""
 
@@ -1771,7 +1770,7 @@ msgstr ""
 msgid "Create New Form"
 msgstr ""
 
-#: admin/forms/style/style.php:90
+#: admin/forms/style/style.php:89
 msgid "Create/Edit Style Template"
 msgstr ""
 
@@ -1787,11 +1786,11 @@ msgstr ""
 msgid "CSS Classes"
 msgstr ""
 
-#: admin/classes/fields/HashFormFieldHTML.php:51
+#: admin/classes/fields/HashFormFieldHTML.php:53
 msgid "Custom HTML - No Preview Available"
 msgstr ""
 
-#: admin/forms/style/style.php:36
+#: admin/forms/style/style.php:35
 msgid "Custom Style"
 msgstr ""
 
@@ -1807,8 +1806,8 @@ msgstr ""
 msgid "Date Format"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:283 admin/classes/HashFormStyles.php:293
-#: admin/classes/HashFormStyles.php:408
+#: admin/classes/HashFormStyles.php:311 admin/classes/HashFormStyles.php:321
+#: admin/classes/HashFormStyles.php:436
 msgid "Default"
 msgstr ""
 
@@ -1816,7 +1815,7 @@ msgstr ""
 msgid "Default Demo Form"
 msgstr ""
 
-#: admin/forms/style/style.php:35
+#: admin/forms/style/style.php:34
 msgid "Default Style"
 msgstr ""
 
@@ -1852,7 +1851,7 @@ msgstr ""
 msgid "Disagree"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:952
+#: admin/classes/HashFormBuilder.php:974
 msgid "Dismiss this notice."
 msgstr ""
 
@@ -1892,11 +1891,11 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: admin/forms/build/builder.php:53
+#: admin/forms/build/builder.php:52
 msgid "Edit or add field options (one per line)"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:25
+#: admin/classes/HashFormStyles.php:28
 msgid "Edit Template"
 msgstr ""
 
@@ -1904,7 +1903,7 @@ msgstr ""
 msgid "Email"
 msgstr ""
 
-#: admin/classes/HashFormSettings.php:172
+#: admin/classes/HashFormSettings.php:191
 msgid "Email Sent Successfully"
 msgstr ""
 
@@ -1916,7 +1915,7 @@ msgstr ""
 msgid "Email Template"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:508
+#: admin/classes/HashFormBuilder.php:509
 msgid "Embed"
 msgstr ""
 
@@ -1933,7 +1932,7 @@ msgstr ""
 msgid "Enter a Regex Format to validate."
 msgstr ""
 
-#: admin/classes/HashFormListing.php:48 admin/classes/HashFormBuilder.php:565
+#: admin/classes/HashFormListing.php:48 admin/classes/HashFormBuilder.php:566
 #: admin/classes/HashFormEntry.php:16 admin/classes/HashFormEntry.php:16
 msgid "Entries"
 msgstr ""
@@ -1950,19 +1949,19 @@ msgstr ""
 msgid "Entry Submitted: "
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:743
+#: admin/classes/HashFormBuilder.php:765
 msgid "Equals to"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:446
+#: admin/classes/HashFormBuilder.php:447
 msgid "Error ! Refresh the page and try again."
 msgstr ""
 
-#: admin/forms/settings/form-confirmation.php:44
+#: admin/forms/settings/form-confirmation.php:54
 msgid "Error Message"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:487
+#: admin/classes/HashFormBuilder.php:488
 msgid "Error! Form Can not be Copied"
 msgstr ""
 
@@ -2002,7 +2001,7 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
-#: admin/classes/HashFormSettings.php:179
+#: admin/classes/HashFormSettings.php:198
 msgid "Failed to Send Email"
 msgstr ""
 
@@ -2063,15 +2062,15 @@ msgstr ""
 msgid "Focus"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:405
+#: admin/classes/HashFormStyles.php:433
 msgid "Font Family"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:496
+#: admin/classes/HashFormStyles.php:524
 msgid "Font Size"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:437
+#: admin/classes/HashFormStyles.php:465
 msgid "Font Style"
 msgstr ""
 
@@ -2092,7 +2091,7 @@ msgstr ""
 msgid "Form Name"
 msgstr ""
 
-#: admin/forms/style/style.php:32
+#: admin/forms/style/style.php:31
 msgid "Form Style"
 msgstr ""
 
@@ -2110,12 +2109,12 @@ msgstr ""
 msgid "Form Title"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:484
+#: admin/classes/HashFormBuilder.php:485
 msgid "Form was Successfully Copied"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:196 admin/classes/HashFormBuilder.php:658
-#: admin/classes/HashFormBuilder.php:674 admin/forms/build/edit.php:16
+#: admin/classes/HashFormBuilder.php:197 admin/classes/HashFormBuilder.php:659
+#: admin/classes/HashFormBuilder.php:676 admin/forms/build/edit.php:16
 msgid "Form was successfully updated."
 msgstr ""
 
@@ -2123,11 +2122,11 @@ msgstr ""
 msgid "Format"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:41
+#: admin/classes/HashFormBuilder.php:42
 msgid "Forms"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:240
+#: admin/classes/HashFormBuilder.php:241
 msgid "Forms per page"
 msgstr ""
 
@@ -2157,12 +2156,12 @@ msgstr ""
 msgid "Getting content length is not supported."
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:422
+#: admin/classes/HashFormStyles.php:450
 msgid "Google Fonts"
 msgstr ""
 
 #. %1$s is link start tag, %2$s is link end tag.
-#: admin/classes/HashFormBuilder.php:926
+#: admin/classes/HashFormBuilder.php:948
 #, php-format
 msgid ""
 "Great to see that you have been using Hash Form for some time. We hope you "
@@ -2170,11 +2169,11 @@ msgid ""
 "stars rating%2$s and spread your words to the world."
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:745
+#: admin/classes/HashFormBuilder.php:767
 msgid "Greater Than"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:746
+#: admin/classes/HashFormBuilder.php:768
 msgid "Greater Than Or Equals to"
 msgstr ""
 
@@ -2214,7 +2213,7 @@ msgstr ""
 msgid "Handle Size"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:40 admin/classes/HashFormElement.php:16
+#: admin/classes/HashFormBuilder.php:41 admin/classes/HashFormElement.php:16
 msgid "Hash Form"
 msgstr ""
 
@@ -2222,11 +2221,11 @@ msgstr ""
 msgid "Hash Form - Drag & Drop Form Builder"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:85
+#: admin/classes/HashFormStyles.php:97
 msgid "Hash Form Styles"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:781
+#: admin/classes/HashFormBuilder.php:803
 msgid "Hash Froms"
 msgstr ""
 
@@ -2250,7 +2249,7 @@ msgstr ""
 msgid "Height (px)"
 msgstr ""
 
-#: admin/classes/HashFormSettings.php:152
+#: admin/classes/HashFormSettings.php:171
 msgid "Hello, this is a test email."
 msgstr ""
 
@@ -2259,7 +2258,7 @@ msgstr ""
 msgid "Hidden"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:712 admin/classes/fields/settings.php:46
+#: admin/classes/HashFormBuilder.php:734 admin/classes/fields/settings.php:46
 msgid "Hide"
 msgstr ""
 
@@ -2286,7 +2285,7 @@ msgstr ""
 msgid "https://hashthemes.com/"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:931
+#: admin/classes/HashFormBuilder.php:953
 msgid "I have already rated"
 msgstr ""
 
@@ -2294,7 +2293,7 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:728
+#: admin/classes/HashFormBuilder.php:750
 msgid "if"
 msgstr ""
 
@@ -2346,7 +2345,7 @@ msgstr ""
 msgid "Inline"
 msgstr ""
 
-#: admin/forms/build/builder.php:61
+#: admin/forms/build/builder.php:60
 msgid "Insert Presets"
 msgstr ""
 
@@ -2370,11 +2369,11 @@ msgstr ""
 msgid "IP"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:749
+#: admin/classes/HashFormBuilder.php:771
 msgid "Is Like"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:750
+#: admin/classes/HashFormBuilder.php:772
 msgid "Is Not Like"
 msgstr ""
 
@@ -2415,15 +2414,15 @@ msgstr ""
 msgid "Left"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:747
+#: admin/classes/HashFormBuilder.php:769
 msgid "Less Than"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:748
+#: admin/classes/HashFormBuilder.php:770
 msgid "Less Than Or Equals to"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:509
+#: admin/classes/HashFormStyles.php:537
 msgid "Letter Spacing"
 msgstr ""
 
@@ -2441,15 +2440,15 @@ msgstr ""
 msgid "Line 2"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:522
+#: admin/classes/HashFormStyles.php:550
 msgid "Line Height"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:296
+#: admin/classes/HashFormStyles.php:324
 msgid "Line-through"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:286
+#: admin/classes/HashFormStyles.php:314
 msgid "Lowercase"
 msgstr ""
 
@@ -2478,8 +2477,8 @@ msgid "Medium"
 msgstr ""
 
 #: admin/forms/settings/auto-responder.php:54
-#: admin/forms/settings/form-confirmation.php:10
-#: admin/forms/settings/form-confirmation.php:19
+#: admin/forms/settings/form-confirmation.php:5
+#: admin/forms/settings/form-confirmation.php:29
 #: admin/forms/settings/email-settings.php:97
 msgid "Message"
 msgstr ""
@@ -2540,7 +2539,7 @@ msgstr ""
 msgid "New Entry: "
 msgstr ""
 
-#: admin/classes/HashFormEmail.php:127
+#: admin/classes/HashFormEmail.php:153
 msgid "New Form Submission"
 msgstr ""
 
@@ -2549,7 +2548,7 @@ msgstr ""
 msgid "New Option"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:24
+#: admin/classes/HashFormStyles.php:27
 msgid "New Template"
 msgstr ""
 
@@ -2573,23 +2572,23 @@ msgstr ""
 msgid "No forms found. Please create a new one."
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:362
+#: admin/classes/HashFormBuilder.php:363
 msgid "No forms were specified"
 msgstr ""
 
-#: admin/classes/HashFormEmail.php:126
+#: admin/classes/HashFormEmail.php:152
 msgid "No Name"
 msgstr ""
 
-#: admin/forms/style/style.php:34
+#: admin/forms/style/style.php:33
 msgid "No Style"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:31
+#: admin/classes/HashFormStyles.php:34
 msgid "No Template found in Trash."
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:30
+#: admin/classes/HashFormStyles.php:33
 msgid "No Template found."
 msgstr ""
 
@@ -2598,7 +2597,7 @@ msgstr ""
 msgid "No Title"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:284 admin/classes/HashFormStyles.php:294
+#: admin/classes/HashFormStyles.php:312 admin/classes/HashFormStyles.php:322
 msgid "None"
 msgstr ""
 
@@ -2611,7 +2610,7 @@ msgstr ""
 msgid "Not at all Important"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:744
+#: admin/classes/HashFormBuilder.php:766
 msgid "Not Equals to"
 msgstr ""
 
@@ -2620,7 +2619,7 @@ msgid ""
 "Note: This field will not show in the form. Enter the value to be hidden."
 msgstr ""
 
-#: admin/classes/HashFormValidate.php:17
+#: admin/classes/HashFormValidate.php:79
 msgid "Nounce Error"
 msgstr ""
 
@@ -2655,7 +2654,7 @@ msgstr ""
 msgid "Options Layout"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:297
+#: admin/classes/HashFormStyles.php:325
 msgid "Overline"
 msgstr ""
 
@@ -2668,11 +2667,11 @@ msgstr ""
 msgid "Paragraph"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:29
+#: admin/classes/HashFormStyles.php:32
 msgid "Parent Template:"
 msgstr ""
 
-#: admin/classes/HashFormSettings.php:94
+#: admin/classes/HashFormSettings.php:113
 msgid "Permission Denied"
 msgstr ""
 
@@ -2713,12 +2712,12 @@ msgstr ""
 msgid "Please select a valid form"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:18
+#: admin/classes/HashFormStyles.php:21
 msgctxt "post type general name"
 msgid "Style Template"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:19
+#: admin/classes/HashFormStyles.php:22
 msgctxt "post type singular name"
 msgid "Style Template"
 msgstr ""
@@ -2727,7 +2726,7 @@ msgstr ""
 msgid "Prefer Not to Answer"
 msgstr ""
 
-#: admin/classes/HashFormListing.php:242 admin/classes/HashFormBuilder.php:512
+#: admin/classes/HashFormListing.php:242 admin/classes/HashFormBuilder.php:513
 msgid "Preview"
 msgstr ""
 
@@ -2735,7 +2734,7 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
-#: admin/styles/settings.php:57
+#: admin/styles/settings.php:56
 msgid "Publish"
 msgstr ""
 
@@ -2768,8 +2767,8 @@ msgstr ""
 msgid "reCAPTCHA Type"
 msgstr ""
 
-#: admin/forms/settings/form-confirmation.php:12
-#: admin/forms/settings/form-confirmation.php:37
+#: admin/forms/settings/form-confirmation.php:7
+#: admin/forms/settings/form-confirmation.php:47
 msgid "Redirect URL"
 msgstr ""
 
@@ -2835,6 +2834,10 @@ msgstr ""
 msgid "Satisfied"
 msgstr ""
 
+#: admin/classes/HashFormStyles.php:126
+msgid "Saved successfully!"
+msgstr ""
+
 #: admin/classes/HashFormHelper.php:134
 msgid "Search"
 msgstr ""
@@ -2843,7 +2846,7 @@ msgstr ""
 msgid "Search Fields"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:28
+#: admin/classes/HashFormStyles.php:31
 msgid "Search Template"
 msgstr ""
 
@@ -2856,7 +2859,7 @@ msgstr ""
 msgid "Select a field to see the options"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:716 admin/classes/HashFormBuilder.php:730
+#: admin/classes/HashFormBuilder.php:738 admin/classes/HashFormBuilder.php:752
 msgid "Select Field"
 msgstr ""
 
@@ -2892,9 +2895,9 @@ msgstr ""
 msgid "Server error. Upload directory isn't writable."
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:553 admin/classes/HashFormBuilder.php:781
+#: admin/classes/HashFormBuilder.php:554 admin/classes/HashFormBuilder.php:803
 #: admin/classes/HashFormSettings.php:13 admin/classes/HashFormSettings.php:13
-#: admin/classes/HashFormSettings.php:45
+#: admin/classes/HashFormSettings.php:49
 msgid "Settings"
 msgstr ""
 
@@ -2902,7 +2905,7 @@ msgstr ""
 msgid "Settings Imported Successfully"
 msgstr ""
 
-#: admin/classes/HashFormSettings.php:101
+#: admin/classes/HashFormSettings.php:120
 msgid "Settings Saved !"
 msgstr ""
 
@@ -2910,12 +2913,12 @@ msgstr ""
 msgid "Shortcode"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:711
+#: admin/classes/HashFormBuilder.php:733
 msgid "Show"
 msgstr ""
 
-#: admin/forms/settings/form-confirmation.php:11
-#: admin/forms/settings/form-confirmation.php:26
+#: admin/forms/settings/form-confirmation.php:6
+#: admin/forms/settings/form-confirmation.php:36
 msgid "Show Page"
 msgstr ""
 
@@ -2955,7 +2958,7 @@ msgstr ""
 msgid "Sorry, An error Occurred! Your form cannot be submitted."
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:643
+#: admin/classes/HashFormBuilder.php:644
 msgid "Sorry, Nonce did not verify."
 msgstr ""
 
@@ -2973,7 +2976,7 @@ msgstr ""
 msgid "Spread"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:412
+#: admin/classes/HashFormStyles.php:440
 msgid "Standard Fonts"
 msgstr ""
 
@@ -3009,16 +3012,16 @@ msgstr ""
 msgid "Strongly Disagree"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:559
+#: admin/classes/HashFormBuilder.php:560
 msgid "Style"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:22
+#: admin/classes/HashFormStyles.php:25
 msgctxt "Style Template"
 msgid "Add New"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:27
+#: admin/classes/HashFormStyles.php:30
 msgid "Styles"
 msgstr ""
 
@@ -3027,9 +3030,9 @@ msgstr ""
 msgid "Subject"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:126 admin/classes/HashFormHelper.php:250
+#: admin/classes/HashFormBuilder.php:127 admin/classes/HashFormHelper.php:250
 #: admin/styles/demo-preview.php:421 admin/forms/style/form.php:8
-#: admin/forms/build/builder.php:29
+#: admin/forms/build/builder.php:28
 msgid "Submit"
 msgstr ""
 
@@ -3065,7 +3068,7 @@ msgstr ""
 msgid "Template 3"
 msgstr ""
 
-#: admin/classes/HashFormSettings.php:129
+#: admin/classes/HashFormSettings.php:148
 msgid "Test Email"
 msgstr ""
 
@@ -3085,15 +3088,15 @@ msgstr ""
 msgid "Text Area"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:535
+#: admin/classes/HashFormStyles.php:563
 msgid "Text Color"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:477
+#: admin/classes/HashFormStyles.php:505
 msgid "Text Decoration"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:458
+#: admin/classes/HashFormStyles.php:486
 msgid "Text Transform"
 msgstr ""
 
@@ -3109,16 +3112,16 @@ msgid ""
 "mpg, ogv, 3gp, txt, zip, rar, 7z, csv"
 msgstr ""
 
-#: admin/forms/style/style.php:43
+#: admin/forms/style/style.php:42
 msgid ""
 "The preview seen here will not match with the frontend for \"No Style\"."
 msgstr ""
 
-#: admin/classes/fields/HashFormFieldCaptcha.php:117
+#: admin/classes/fields/HashFormFieldCaptcha.php:120
 msgid "The reCAPTCHA keys are not entered."
 msgstr ""
 
-#: admin/classes/fields/HashFormFieldCaptcha.php:105
+#: admin/classes/fields/HashFormFieldCaptcha.php:108
 msgid "The reCAPTCHA was not entered correctly"
 msgstr ""
 
@@ -3131,12 +3134,12 @@ msgid ""
 "SMTP plugin on your WordPress site."
 msgstr ""
 
-#: admin/classes/fields/HashFormFieldCaptcha.php:85
-#: admin/classes/fields/HashFormFieldCaptcha.php:91
+#: admin/classes/fields/HashFormFieldCaptcha.php:88
+#: admin/classes/fields/HashFormFieldCaptcha.php:94
 msgid "There was a problem verifying your captcha"
 msgstr ""
 
-#: admin/classes/HashFormValidate.php:12
+#: admin/classes/HashFormValidate.php:74
 msgid "There was a problem with your submission. Please try again."
 msgstr ""
 
@@ -3151,7 +3154,7 @@ msgstr ""
 msgid "This field is invalid."
 msgstr ""
 
-#: admin/classes/fields/HashFormFieldCaptcha.php:149
+#: admin/classes/fields/HashFormFieldCaptcha.php:152
 msgid "This field is not set up yet."
 msgstr ""
 
@@ -3233,7 +3236,7 @@ msgstr ""
 msgid "Under 18"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:295
+#: admin/classes/HashFormStyles.php:323
 msgid "Underline"
 msgstr ""
 
@@ -3249,12 +3252,12 @@ msgstr ""
 msgid "Untitled"
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:504 admin/classes/HashFormSettings.php:82
-#: admin/styles/settings.php:60
+#: admin/classes/HashFormBuilder.php:505 admin/classes/HashFormSettings.php:101
+#: admin/styles/settings.php:59
 msgid "Update"
 msgstr ""
 
-#: admin/forms/build/builder.php:80
+#: admin/forms/build/builder.php:79
 msgid "Update Options"
 msgstr ""
 
@@ -3268,6 +3271,9 @@ msgstr ""
 
 #: admin/styles/demo-preview.php:330
 #: admin/classes/fields/HashFormFieldUpload.php:16
+#: admin/classes/fields/HashFormFieldUpload.php:38
+#: admin/classes/fields/HashFormFieldUpload.php:46
+#: admin/classes/fields/HashFormFieldUpload.php:49
 msgid "Upload File"
 msgstr ""
 
@@ -3279,7 +3285,7 @@ msgstr ""
 msgid "Upload Label"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:285
+#: admin/classes/HashFormStyles.php:313
 msgid "Uppercase"
 msgstr ""
 
@@ -3362,7 +3368,7 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: admin/classes/HashFormStyles.php:26
+#: admin/classes/HashFormStyles.php:29
 msgid "View Template"
 msgstr ""
 
@@ -3381,7 +3387,7 @@ msgid ""
 "trigger spam filters and send error messages to its users."
 msgstr ""
 
-#: admin/classes/HashFormBuilder.php:930
+#: admin/classes/HashFormBuilder.php:952
 msgid "Yes, of course"
 msgstr ""
 
