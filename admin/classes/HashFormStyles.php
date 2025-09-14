@@ -40,6 +40,8 @@ class HashFormStyles {
             'show_in_menu' => 'hashform',
             'menu_icon' => 'dashicons-cart',
             'supports' => array('title'),
+            'template' => array(),
+            'template_lock' => false,
             'capability_type' => array('hashform_style', 'hashform_styles'),
             'capabilities' => array(
                 'edit_post' => 'edit_hashform_style',
@@ -119,6 +121,7 @@ class HashFormStyles {
 
     public function remove_publish_button() {
         remove_meta_box('submitdiv', 'hashform-styles', 'side');
+        remove_meta_box('pageparentdiv', 'hashform-styles', 'side');
     }
 
     public static function default_font_array() {
