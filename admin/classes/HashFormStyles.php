@@ -105,6 +105,12 @@ class HashFormStyles {
                     'ID' => $postID
                 ]);
             }
+            wp_update_post([
+                'ID' => $postID,
+                'post_type' => 'hashform-styles',
+                'post_title' => HashFormHelper::get_post('post_title'),
+                'post_status' => 'publish'
+            ]);
             $hashform_styles = HashFormHelper::get_post('hashform_styles', 'sanitize_text_field', '', self::get_styles_sanitize_array());
             update_post_meta($postID, 'hashform_styles', $hashform_styles);
             wp_send_json_success($newLayout ? array('redirect' => admin_url("post.php?post=$postID&action=edit")) : array('message' => esc_html__('Saved successfully!', 'hash-form')));
