@@ -13,6 +13,7 @@ class HashFormStyles {
         add_action('admin_init', array($this, 'assign_hashform_style_capabilities'), 9999);
         add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
         add_action('admin_footer', array($this, 'hf_alert'));
+        add_filter('post_row_actions', array($this, 'remove_edit_link'), 10, 2);
     }
 
     public function register_post_type() {
@@ -83,6 +84,13 @@ class HashFormStyles {
             $role->add_cap('edit_private_hashform_styles');
             $role->add_cap('edit_published_hashform_styles');
         }
+    }
+
+    public function remove_edit_link($actions, $post) {
+        if ($post->post_type === 'hashform-styles') {
+            unset($actions['inline hide-if-no-js']); // Quick Edit
+        }
+        return $actions;
     }
 
     public function settings_metabox() {
