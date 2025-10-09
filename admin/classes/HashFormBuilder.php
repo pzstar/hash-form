@@ -295,8 +295,8 @@ class HashFormBuilder {
         global $wpdb;
 
         if (is_array($id)) {
-            $query = $wpdb->prepare("UPDATE {$wpdb->prefix}hashform_forms SET status=%s WHERE id IN (" . implode(',', array_fill(0, count($id), '%d')) . ")", $status, ...$id);
-            $query_results = $wpdb->query($query);
+            $sqlquery = $wpdb->prepare("UPDATE {$wpdb->prefix}hashform_forms SET status=%s WHERE id IN (" . implode(',', array_fill(0, count($id), '%d')) . ")", $status, ...$id);
+            $query_results = $wpdb->query($sqlquery);
         } else {
             $query_results = $wpdb->update($wpdb->prefix . 'hashform_forms', array('status' => $status), array('id' => $id));
         }

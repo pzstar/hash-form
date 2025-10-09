@@ -9,21 +9,50 @@ class HashFormUploadedFileXhr {
      * Save the file to the specified path
      * @return boolean TRUE on success
      */
-    function save($path) {
-        $input = fopen("php://input", "r");
-        $temp = tmpfile();
-        $realSize = stream_copy_to_stream($input, $temp);
-        fclose($input);
+    public function save( $path ) {
+        global $wp_filesystem;
 
-        if ($realSize != $this->getSize()) {
+        // 1. Initialize the WordPress Filesystem API
+        if (empty($wp_filesystem)) {
+            require_once(ABSPATH . '/wp-admin/includes/file.php');
+            // Attempt direct connection; if it fails, this might prompt for credentials elsewhere
+            if (!WP_Filesystem()) {
+                // Log error or handle failure to initialize filesystem
+                error_log('Failed to initialize WP_Filesystem.');
+                return false;
+            }
+        }
+
+        // 2. Read the raw input stream into memory
+        // (This replaces the initial fopen("php://input"), stream_copy_to_stream, and fclose($input))
+        $raw_input_data = file_get_contents('php://input');
+
+        if ($raw_input_data === false) {
             return false;
         }
 
-        $target = fopen($path, "w");
-        fseek($temp, 0, SEEK_SET);
-        stream_copy_to_stream($temp, $target);
-        fclose($target);
-        return true;
+        $realSize = strlen($raw_input_data);
+
+        // 3. Perform size validation
+        if ($realSize != $this->getSize()) {
+            // Clear the data from memory
+            $raw_input_data = null;
+            return false;
+        }
+
+        // 4. Write data to the target file using WP_Filesystem
+        // (This replaces tmpfile(), fseek(), fopen($path), stream_copy_to_stream, and fclose($target))
+        $result = $wp_filesystem->put_contents(
+            $path,
+            $raw_input_data,
+            FS_CHMOD_FILE // Optional: Sets recommended file permissions (e.g., 0644)
+        );
+
+        // Clear the data from memory after writing
+        $raw_input_data = null;
+
+        // 5. Return success status
+        return $result; // put_contents returns true on success, false on failure.
     }
 
     function getName() {
@@ -84,7 +113,7 @@ class HashFormFileUploader {
 
         if ($postSize < $this->sizeLimit || $uploadSize < $this->sizeLimit) {
             $size = max(1, $this->sizeLimit / 1024 / 1024) . 'M';
-            die("{'error':'increase post_max_size and upload_max_filesize to $size'}");
+            die(esc_html("{'error':'increase post_max_size and upload_max_filesize to $size'}"));
         }
     }
 
