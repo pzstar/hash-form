@@ -151,7 +151,9 @@ class HashFormEntry {
             $count++;
         }
 
+        /* translators: 1: form count singular & plural */
         $available_status['untrash']['message'] = sprintf(_n('%1$s form restored from the Trash.', '%1$s forms restored from the Trash.', $count, 'hash-form'), $count);
+        /* translators: 1: form count singular & plural */
         $available_status['trash']['message'] = sprintf(_n('%1$s form moved to the Trash. %2$sUndo%3$s', '%1$s forms moved to the Trash. %2$sUndo%3$s', $count, 'hash-form'), $count, '<a href="' . esc_url(wp_nonce_url('?page=hashform-entries&hashform_action=untrash&id=' . $id, 'untrash_entry_' . $id)) . '">', '</a>');
         $message = $available_status[$status]['message'];
 
@@ -177,6 +179,7 @@ class HashFormEntry {
 
     public static function delete_all() {
         $count = self::delete();
+        /* translators: 1: form count singular & plural */
         $message = sprintf(_n('%1$s form permanently deleted.', '%1$s forms permanently deleted.', $count, 'hash-form'), $count);
         self::display_entry_list($message);
     }
@@ -203,6 +206,7 @@ class HashFormEntry {
         if (self::destroy_entry($id)) {
             $count++;
         }
+        /* translators: 1: form count singular & plural */
         $message = sprintf(_n('%1$s Entry Permanently Deleted', '%1$s Entries Permanently Deleted', $count, 'hash-form'), $count);
         self::display_entry_list($message);
     }
@@ -274,6 +278,7 @@ class HashFormEntry {
         if (!$count) {
             return '';
         }
+        /* translators: 1: form count singular & plural */
         return sprintf(_n('%1$s form moved to the Trash. %2$sUndo%3$s', '%1$s forms moved to the Trash. %2$sUndo%3$s', $count, 'hash-form'), $count, '<a href="' . esc_url(wp_nonce_url('?page=hashform-entries&action=bulk_untrash&status=published&entry_id=' . implode(',', $ids), 'bulk-toplevel_page_hashform')) . '">', '</a>');
     }
 
@@ -282,6 +287,7 @@ class HashFormEntry {
         if (!$count) {
             return '';
         }
+        /* translators: 1: form count singular & plural */
         return sprintf(_n('%1$s form restored from the Trash.', '%1$s forms restored from the Trash.', $count, 'hash-form'), $count);
     }
 
@@ -293,6 +299,7 @@ class HashFormEntry {
                 $count++;
             }
         }
+        /* translators: 1: form count singular & plural */
         $message = sprintf(_n('%1$s form permanently deleted.', '%1$s forms permanently deleted.', $count, 'hash-form'), $count);
         return $message;
     }

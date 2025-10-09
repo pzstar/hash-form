@@ -64,6 +64,7 @@ class HashFormListing extends \WP_List_Table {
         if ('trash' == $this->status) {
             $output .= esc_html($form_name);
         } else {
+            /* translators: 1: form name */
             $output .= '<a class="row-title" href="' . esc_url($edit_url) . '" aria-label="' . sprintf(esc_html__('%s (Edit)', 'hash-form'), $form_name) . '">' . esc_html($form_name) . '</a>';
         }
         $output .= '</strong>';

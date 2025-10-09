@@ -130,20 +130,20 @@ class HashFormImportExport {
         $extension = end($extension);
 
         if ($extension != 'json') {
-            wp_die(esc_html__('Please upload a valid .json file'));
+            wp_die(esc_html__('Please upload a valid .json file', 'hash-form'));
         }
 
         $hashform_import_file = sanitize_text_field($_FILES['hashform_import_file']['tmp_name']);
 
         if (empty($hashform_import_file)) {
-            wp_die(esc_html__('Please upload a file to import'));
+            wp_die(esc_html__('Please upload a file to import', 'hash-form'));
         }
 
         // Retrieve the settings from the file and convert the json object to an array.
         $imdat = json_decode(file_get_contents($hashform_import_file), true);
 
         if (!(isset($imdat['options']) && isset($imdat['settings']) && isset($imdat['styles']))) {
-            wp_die(esc_html__('Please upload a valid file to import'));
+            wp_die(esc_html__('Please upload a valid file to import', 'hash-form'));
         }
 
         $options = HashFormHelper::recursive_parse_args($imdat['options'], HashFormHelper::get_form_options_default());
@@ -225,13 +225,13 @@ class HashFormImportExport {
         $extension = end($extension);
 
         if ($extension != 'json') {
-            wp_die(esc_html__('Please upload a valid .json file'));
+            wp_die(esc_html__('Please upload a valid .json file', 'hash-form'));
         }
 
         $hashform_import_file = sanitize_text_field($_FILES['hashform_import_file']['tmp_name']);
 
         if (empty($hashform_import_file)) {
-            wp_die(esc_html__('Please upload a file to import'));
+            wp_die(esc_html__('Please upload a file to import', 'hash-form'));
         }
 
         // Retrieve the settings from the file and convert the json object to an array.

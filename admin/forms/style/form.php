@@ -30,7 +30,10 @@ if (!$hashform_styles) {
         ?>
         <div class="hf-form-error">
             <strong><?php esc_html_e('Oops!', 'hash-form'); ?></strong>
-            <?php printf(esc_html__('You did not add any fields to your form. %1$sGo back%2$s and add some.', 'hash-form'), '<a href="' . esc_url(admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($id))) . '">', '</a>'); ?>
+            <?php 
+            /* translators: 1: link open, 2: link close */
+            printf(esc_html__('You did not add any fields to your form. %1$sGo back%2$s and add some.', 'hash-form'), '<a href="' . esc_url(admin_url('admin.php?page=hashform&hashform_action=edit&id=' . absint($id))) . '">', '</a>'); 
+            ?>
         </div>
         <?php
         return;
@@ -71,7 +74,7 @@ if (!$hashform_styles) {
         <div class="hf-submit-wrap <?php echo esc_attr($submit_class); ?>">
             <button class="<?php echo esc_attr(implode(' ', $button_class)) ?>" type="submit" <?php disabled($hashform_action, 'hashform_preview'); ?>>
                 <?php
-                echo apply_filters('hf_translate_string', esc_html($submit), 'Hash Form', $form_title . ' - ' . 'Submit Button Text');
+                echo esc_html(apply_filters('hf_translate_string', $submit, 'Hash Form', $form_title . ' - Submit Button Text'));
                 ?>
             </button>
         </div>

@@ -53,7 +53,8 @@ class HashFormFieldNumber extends HashFormFieldType {
         $result = $this->check_value_is_valid_with_step($args['value'], $step);
         if (!$result)
             return;
-        $errors['field' . $args['id']] = sprintf(__('Please enter a valid value. Two nearest valid values are %1$s and %2$s', 'hash-form'), floatval($result[0]), floatval($result[1]));
+        /* translators: 1: nearest number, 2: nearest number */
+        $errors['field' . $args['id']] = sprintf(esc_html__('Please enter a valid value. Two nearest valid values are %1$s and %2$s', 'hash-form'), floatval($result[0]), floatval($result[1]));
     }
 
     private function check_value_is_valid_with_step($value, $step) {

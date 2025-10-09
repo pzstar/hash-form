@@ -45,6 +45,7 @@ class HashFormFieldRangeSlider extends HashFormFieldType {
         if (!$result) {
             return;
         }
+        /* translators: 1: nearest number, 2: nearest number */
         $errors['field' . $args['id']] = sprintf(__('Please enter a valid value. Two nearest valid values are %1$s and %2$s', 'hash-form'), floatval($result[0]), floatval($result[1]));
     }
 

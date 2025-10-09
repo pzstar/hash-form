@@ -8,7 +8,12 @@ defined('ABSPATH') || die();
     <input type="hidden" name="field_options[grid_id_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['grid_id']) ? esc_attr($field['grid_id']) : ''; ?>" id="hf-grid-class-<?php echo esc_attr($field_id); ?>" />
 
     <div class="hf-field-panel-header">
-        <h3><?php printf(esc_html__('%s Field', 'hash-form'), esc_html($type_name)); ?></h3>
+        <h3>
+            <?php
+            /* translators: 1: field name */
+            printf(esc_html__('%s Field', 'hash-form'), esc_html($type_name));
+            ?>
+        </h3>
         <div class="hf-field-panel-id">(ID <?php echo esc_html($field_id); ?>)</div>
     </div>
 
@@ -17,8 +22,16 @@ defined('ABSPATH') || die();
         if ($field_type === 'captcha' && !HashFormFieldCaptcha::should_show_captcha()) {
             ?>
             <div class="hf-form-row">
-                <?php printf(esc_html__('Captchas will not work untill the Site and Secret Keys are set up. Add Keys %1$shere%2$s.', 'hash-form'), '<a href="?page=hashform-settings" target="_blank">', '</a>'); ?>
-                <label class="hf-field-desc"><?php printf(esc_html__('Tutorial to %1$sGenerate Site and Secret Keys%2$s', 'hash-form'), '<a href="https://hashthemes.com/articles/generate-site-key-and-secret-key-from-google-recaptcha/" target="_blank">', '</a>'); ?></label>
+                <?php
+                /* translators: 1: link open, 2: link close */
+                printf(esc_html__('Captchas will not work untill the Site and Secret Keys are set up. Add Keys %1$shere%2$s.', 'hash-form'), '<a href="?page=hashform-settings" target="_blank">', '</a>');
+                ?>
+                <label class="hf-field-desc">
+                    <?php
+                    /* translators: 1: link open, 2: link close */
+                    printf(esc_html__('Tutorial to %1$sGenerate Site and Secret Keys%2$s', 'hash-form'), '<a href="https://hashthemes.com/articles/generate-site-key-and-secret-key-from-google-recaptcha/" target="_blank">', '</a>');
+                    ?>
+                </label>
             </div>
             <?php
         }

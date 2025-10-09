@@ -399,6 +399,7 @@ abstract class HashFormFieldType {
         ?>
         <h4 class="hf-field-heading">
             <?php
+            /* translators: 1: field name */
             printf(esc_html__('%s Options', 'hash-form'), esc_html($field['name']));
             ?>
         </h4>

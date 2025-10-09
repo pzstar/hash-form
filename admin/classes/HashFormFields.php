@@ -454,8 +454,11 @@ class HashFormFields {
         $max_length = intval(HashFormFields::get_option($field, 'max'));
 
         $defaults = array(
+            /* translators: 1: field name */
             'invalid' => sprintf(esc_html__('%s is invalid.', 'hash-form'), $field_name),
+            /* translators: 1: field name */
             'blank' => sprintf(esc_html__('%s is required.', 'hash-form'), $field_name),
+            /* translators: 1: max length of characters */
             'max_char' => sprintf(esc_html__('%s characters only allowed.', 'hash-form'), $max_length),
         );
         $msg = HashFormFields::get_option($field, $error);
