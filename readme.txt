@@ -3,7 +3,7 @@ Contributors: hashthemes
 Tags: form, form builder, drag and drop, contact form
 Requires at least: 6.3
 Tested up to: 6.8
-Stable tag: 1.3.4
+Stable tag: 1.3.5
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -116,6 +116,10 @@ You can report security bugs through the Patchstack Vulnerability Disclosure Pro
 11. Global Email Settings Page
 
 == Changelog ==
+= 1.3.5 - 10 Oct, 2025 =
+* Proper escaping functions added
+* Security fixes
+
 = 1.3.4 - 14 Sep, 2025 =
 * Ajax saving added for Hashform Style
 * Conditional logic refinements

@@ -18,7 +18,7 @@ class HashFormUploadedFileXhr {
             // Attempt direct connection; if it fails, this might prompt for credentials elsewhere
             if (!WP_Filesystem()) {
                 // Log error or handle failure to initialize filesystem
-                error_log('Failed to initialize WP_Filesystem.');
+                //error_log('Failed to initialize WP_Filesystem.');
                 return false;
             }
         }
@@ -173,7 +173,7 @@ class HashFormFileUploader {
         if (!$replaceOldFile) {
             /// don't overwrite previous files that were uploaded
             while (file_exists($uploadDirectory . $filename . '.' . $ext)) {
-                $filename .= rand(10, 99);
+                $filename .= wp_rand(10, 99);
             }
         }
 

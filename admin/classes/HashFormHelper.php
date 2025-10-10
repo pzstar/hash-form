@@ -57,7 +57,7 @@ class HashFormHelper {
         $count--;
         $key = '';
         for ($x = 1; $x <= $limit; $x++) {
-            $rand_var = rand(0, $count);
+            $rand_var = wp_rand(0, $count);
             $key .= substr($values, $rand_var, 1);
         }
 
