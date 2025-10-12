@@ -139,7 +139,18 @@ class HashFormFileUploader {
         $upload_url = $upload_url . '/temp';
         $unallowed_extensions = array('php', 'exe', 'ini', 'perl', 'asp');
 
-        if (!is_writable($uploadDirectory)) {
+        global $wp_filesystem;
+
+        // Initialize the WP_Filesystem if not already done
+        if (!function_exists('WP_Filesystem')) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+
+        if (!$wp_filesystem) {
+            WP_Filesystem();
+        }
+
+        if (!$wp_filesystem->is_writable($uploadDirectory)) {
             return array('error' => esc_html__('Server error. Upload directory isn\'t writable.', 'hash-form'));
         }
 
@@ -173,7 +184,7 @@ class HashFormFileUploader {
         if (!$replaceOldFile) {
             /// don't overwrite previous files that were uploaded
             while (file_exists($uploadDirectory . $filename . '.' . $ext)) {
-                $filename .= rand(10, 99);
+                $filename .= wp_rand(10, 99);
             }
         }
 
@@ -191,13 +202,24 @@ class HashFormFileUploader {
     }
 
     protected function ensureUploadDirectory($path) {
+        global $wp_filesystem;
+
+        // Initialize the WP_Filesystem if not already done
+        if (!function_exists('WP_Filesystem')) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+
+        if (!$wp_filesystem) {
+            WP_Filesystem();
+        }
+
         if (!is_dir($path)) {
-            mkdir($path, 0755);
+            $wp_filesystem->mkdir($path, 0755);
             file_put_contents($path . '/.htaccess', file_get_contents(HASHFORM_PATH . 'admin/stubs/htaccess.stub'));
         }
 
         if (!is_dir($path . '/temp')) {
-            mkdir($path . '/temp', 0755);
+            $wp_filesystem->mkdir($path . '/temp', 0755);
             file_put_contents($path . '/temp/.htaccess', file_get_contents(HASHFORM_PATH . 'admin/stubs/htaccess.stub'));
         }
 

@@ -28,8 +28,7 @@ class HashFormImportExport {
 
         global $wpdb;
 
-        $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_forms WHERE id=%d", $id);
-        $forms = $wpdb->get_results($query);
+        $forms = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_forms WHERE id=%d", $id));
 
         foreach ($forms as $form) {
             $form_styles = $form->styles ? unserialize($form->styles) : [];
@@ -70,7 +69,7 @@ class HashFormImportExport {
 
             nocache_headers();
             header('Content-Type: application/json; charset=utf-8');
-            header('Content-Disposition: attachment; filename=hf-' . $id . '-' . date('m-d-Y') . '.json');
+            header('Content-Disposition: attachment; filename=hf-' . $id . '-' . gmdate('m-d-Y') . '.json');
             header("Expires: 0");
 
             echo wp_json_encode($exdat);
@@ -100,7 +99,7 @@ class HashFormImportExport {
 
             nocache_headers();
             header('Content-Type: application/json; charset=utf-8');
-            header('Content-Disposition: attachment; filename=hf-style-' . $id . '-' . date('m-d-Y') . '.json');
+            header('Content-Disposition: attachment; filename=hf-style-' . $id . '-' . gmdate('m-d-Y') . '.json');
             header("Expires: 0");
 
             echo wp_json_encode($hashform_styles);
@@ -181,8 +180,7 @@ class HashFormImportExport {
         }
 
         $wpdb->update($wpdb->prefix . 'hashform_forms', $form, array('id' => $form_id));
-        $query = $wpdb->prepare("DELETE FROM {$wpdb->prefix}hashform_fields WHERE form_id=%d", $form_id);
-        $wpdb->query($query);
+        $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}hashform_fields WHERE form_id=%d", $form_id));
 
         if (isset($imdat['field']) && is_array($imdat['field']) && !empty($imdat['field'])) {
             foreach ($imdat['field'] as $field) {

@@ -63,7 +63,7 @@ function hashform_network_create_table($network_wide) {
 
     if (is_multisite() && $network_wide) {
         // Get all blogs in the network and activate plugin on each one
-        $blog_ids = $wpdb->get_col($wpdb->prepare("SELECT blog_id FROM $wpdb->blogs"));
+        $blog_ids = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
         foreach ($blog_ids as $blog_id) {
             switch_to_blog($blog_id);
             $db = new HashFormCreateTable();

@@ -149,8 +149,8 @@ class HashFormHelper {
     public static function convert_date_format($date) {
         $timestamp = strtotime($date);
 
-        $new_date = date('Y/m/d', $timestamp);
-        $new_time = date('g:i a', $timestamp);
+        $new_date = gmdate('Y/m/d', $timestamp);
+        $new_time = gmdate('g:i a', $timestamp);
 
         return $new_date . ' ' . esc_html__('at', 'hash-form') . ' ' . $new_time;
     }

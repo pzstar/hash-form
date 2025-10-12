@@ -322,7 +322,7 @@ abstract class HashFormFieldType {
         $field_type = $field['type'];
         $field_id = $field['id'];
         $all_field_types = HashFormFields::field_selection();
-        $type_name = $all_field_types[$field_type]['name'];
+        $type_name = isset($all_field_types[$field_type]['name']) ? $all_field_types[$field_type]['name'] : esc_html__('Text', 'hash-form');
 
         include(HASHFORM_PATH . 'admin/classes/fields/settings.php');
     }
