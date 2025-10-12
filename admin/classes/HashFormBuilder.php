@@ -294,9 +294,14 @@ class HashFormBuilder {
 
         global $wpdb;
 
+        $id = is_array($id) ? $id : array($id);
+        $placeholders = implode(',', array_map(function($v) {
+            return '%d';
+        }, $id));
+        $prepare_args = array_merge([$status], $id);
+
         if (is_array($id)) {
-            $sqlquery = $wpdb->prepare("UPDATE {$wpdb->prefix}hashform_forms SET status=%s WHERE id IN (" . implode(',', array_fill(0, count($id), '%d')) . ")", $status, ...$id);
-            $query_results = $wpdb->query($sqlquery);
+            $query_results = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}hashform_forms SET status=%s WHERE id IN ({$placeholders})", $prepare_args));
         } else {
             $query_results = $wpdb->update($wpdb->prefix . 'hashform_forms', array('status' => $status), array('id' => $id));
         }
@@ -314,8 +319,7 @@ class HashFormBuilder {
     public static function delete() {
         global $wpdb;
         $count = 0;
-        $query = $wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_forms WHERE status=%s", 'trash');
-        $trash_forms = $wpdb->get_results($query);
+        $trash_forms = $wpdb->get_results($wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_forms WHERE status=%s", 'trash'));
         if (!$trash_forms) {
             return 0;
         }
@@ -429,18 +433,15 @@ class HashFormBuilder {
         }
 
         $id = $form->id;
-        $query = $wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_entries WHERE form_id=%d", $id);
-        $entries = $wpdb->get_col($query);
+        $entries = $wpdb->get_col($wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_entries WHERE form_id=%d", $id));
 
         foreach ($entries as $entry_id) {
             HashFormEntry::destroy_entry($entry_id);
         }
 
-        $query = $wpdb->prepare('DELETE hfi FROM ' . $wpdb->prefix . 'hashform_fields AS hfi LEFT JOIN ' . $wpdb->prefix . 'hashform_forms hfm ON (hfi.form_id = hfm.id) WHERE hfi.form_id=%d', $id);
-        $wpdb->query($query);
+        $wpdb->query($wpdb->prepare('DELETE hfi FROM ' . $wpdb->prefix . 'hashform_fields AS hfi LEFT JOIN ' . $wpdb->prefix . 'hashform_forms hfm ON (hfi.form_id = hfm.id) WHERE hfi.form_id=%d', $id));
 
-        $query = $wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_forms WHERE id=%d', $id);
-        $results = $wpdb->query($query);
+        $results = $wpdb->query($wpdb->prepare('DELETE FROM ' . $wpdb->prefix . 'hashform_forms WHERE id=%d', $id));
         return $results;
     }
 
@@ -589,20 +590,17 @@ class HashFormBuilder {
 
     public static function get_all_forms() {
         global $wpdb;
-        $query = $wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_forms WHERE id!=%d", 0);
-        $results = $wpdb->get_results($query);
+        $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_forms WHERE id!=%d", 0));
         return $results;
     }
 
     public static function get_form_vars($id) {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'hashform_forms';
+        $results = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_forms WHERE id=%d", $id));
 
-        $query = $wpdb->prepare("SELECT * FROM {$table_name} WHERE id=%d", $id);
-        $results = $wpdb->get_row($query);
-
-        if (!$results)
+        if (!$results) {
             return;
+        }
 
         foreach ($results as $key => $value) {
             $results->$key = maybe_unserialize($value);
@@ -613,13 +611,11 @@ class HashFormBuilder {
 
     public static function get_form_title($id) {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'hashform_forms';
+        $results = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}hashform_forms WHERE id=%d", $id));
 
-        $query = $wpdb->prepare("SELECT name FROM {$table_name} WHERE id=%d", $id);
-        $results = $wpdb->get_row($query);
-
-        if (!$results)
+        if (!$results) {
             return;
+        }
 
         foreach ($results as $key => $value) {
             $results->$key = maybe_unserialize($value);
@@ -631,9 +627,11 @@ class HashFormBuilder {
     public function init_overlay_html() {
         $plugin_path = HASHFORM_PATH;
         $new_form_overlay = apply_filters('hashform_new_form_overlay_template', $plugin_path . 'admin/forms/new-form-overlay.php');
+
         if (HashFormHelper::is_form_listing_page()) {
             include $new_form_overlay;
         }
+
         if (HashFormHelper::is_form_builder_page()) {
             include $plugin_path . 'admin/forms/shortcode-overlay.php';
         }
@@ -657,6 +655,7 @@ class HashFormBuilder {
                 $email_to_array[] = $email_to_val;
             }
         }
+
         $vars['email_to'] = implode(',', $email_to_array);
         $id = isset($vars['id']) ? absint($vars['id']) : HashFormHelper::get_var('id', 'absint');
         unset($vars['id'], $vars['hashform_process_form_nonce'], $vars['_wp_http_referer']);
@@ -876,7 +875,7 @@ class HashFormBuilder {
             $path = str_replace(' ', '+', HashFormHelper::get_post('path', 'wp_kses_post'));
             $upload_dir = wp_upload_dir();
             $temp_dir = $upload_dir['basedir'] . HASHFORM_UPLOAD_DIR . '/temp/';
-            $check = @unlink($temp_dir . HashFormHelper::decrypt($path));
+            $check = wp_delete_file($temp_dir . HashFormHelper::decrypt($path));
 
             if ($check) {
                 die('success');
@@ -895,7 +894,7 @@ class HashFormBuilder {
             while (($file = readdir($dir)) !== false) {
                 $temp_file_path = $temp_dir . DIRECTORY_SEPARATOR . $file;
                 if ((filemtime($temp_file_path) < time() - $max_file_age)) {
-                    @unlink($temp_file_path);
+                    wp_delete_file($temp_file_path);
                 }
             }
             closedir($dir);

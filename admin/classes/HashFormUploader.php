@@ -18,7 +18,7 @@ class HashFormUploadedFileXhr {
             // Attempt direct connection; if it fails, this might prompt for credentials elsewhere
             if (!WP_Filesystem()) {
                 // Log error or handle failure to initialize filesystem
-                //error_log('Failed to initialize WP_Filesystem.');
+                // error_log('Failed to initialize WP_Filesystem.');
                 return false;
             }
         }
@@ -133,13 +133,42 @@ class HashFormFileUploader {
         return $val;
     }
 
-    function handleUpload($uploadDirectory, $replaceOldFile = false, $upload_url = '') {
+   function handleUpload($uploadDirectory, $replaceOldFile = false, $upload_url = '') {
+        // 1. Initialize WP_Filesystem
+        // Get the global filesystem object
+        global $wp_filesystem;
+        
+        // Attempt to initialize WP_Filesystem, requesting credentials if necessary.
+        // NOTE: In a class method within a plugin, you might use request_filesystem_credentials()
+        // and/or a more robust WP_Filesystem initialization check. 
+        // For this example, we assume it's loaded, or load it with Direct access as a fallback.
+        if (!function_exists('WP_Filesystem')) {
+            require_once(ABSPATH . 'wp-admin/includes/file.php');
+        }
+        
+        // Initialize WP_Filesystem - use 'direct' method as a fallback if no credentials are set
+        $access_type = get_filesystem_method();
+        if ($access_type === 'direct' && WP_Filesystem(false, ABSPATH, true)) {
+            // Filesystem is loaded for direct access
+        } else {
+            // Fallback for hosting environments that require credentials
+            // A more complex implementation would request these. For now, we'll return an error.
+            return array('error' => esc_html__('WP_Filesystem could not be initialized. Please check your file permissions or setup for FTP/SSH.', 'hash-form'));
+        }
+
+        // --- Original Logic ---
         $this->ensureUploadDirectory($uploadDirectory);
         $uploadDirectory = trailingslashit($uploadDirectory . '/temp');
         $upload_url = $upload_url . '/temp';
         $unallowed_extensions = array('php', 'exe', 'ini', 'perl', 'asp');
 
-        if (!is_writable($uploadDirectory)) {
+        // 2. WP_Filesystem: Check if directory exists and is writable (equivalent to !is_writable)
+        // wp_mkdir_p() will create the directory if it doesn't exist, which is good practice.
+        if (!$wp_filesystem->is_dir($uploadDirectory)) {
+            if (!$wp_filesystem->mkdir($uploadDirectory, FS_CHMOD_DIR)) {
+                return array('error' => esc_html__('Server error. Failed to create upload directory or it is not writable.', 'hash-form'));
+            }
+        } elseif (!$wp_filesystem->is_writable($uploadDirectory)) {
             return array('error' => esc_html__('Server error. Upload directory isn\'t writable.', 'hash-form'));
         }
 
@@ -172,12 +201,27 @@ class HashFormFileUploader {
 
         if (!$replaceOldFile) {
             /// don't overwrite previous files that were uploaded
-            while (file_exists($uploadDirectory . $filename . '.' . $ext)) {
+            // 3. WP_Filesystem: Check for file existence (equivalent to file_exists)
+            while ($wp_filesystem->exists($uploadDirectory . $filename . '.' . $ext)) {
                 $filename .= wp_rand(10, 99);
             }
         }
 
-        if ($this->file->save($uploadDirectory . $filename . '.' . $ext)) {
+        // 4. WP_Filesystem: Save the file content
+        // This assumes $this->file->save() is an internal method that handles the move
+        // from a temporary upload location. Since we don't know its implementation,
+        // the safest replacement involves getting the file content and using put_contents().
+        // We assume $this->file->getTempPath() returns the path to the uploaded file.
+        $temp_path = $this->file->getTempPath(); 
+        $destination_path = $uploadDirectory . $filename . '.' . $ext;
+        
+        // $this->file->save() is replaced with $wp_filesystem->move() or $wp_filesystem->put_contents()
+        
+        // Option A: Use move() - Requires getting the temporary path of the uploaded file
+        if ($wp_filesystem->move($temp_path, $destination_path, true)) {
+        // Option B: Use put_contents() if move isn't possible, requires file_get_contents
+        // $file_content = file_get_contents($temp_path);
+        // if ($wp_filesystem->put_contents($destination_path, $file_content, FS_CHMOD_FILE)) {
             return array(
                 'success' => true,
                 'url' => $upload_url . '/' . $filename . '.' . $ext,

@@ -147,18 +147,14 @@ class HashFormEntryListing extends \WP_List_Table {
 
     private function get_table_data() {
         global $wpdb;
-        $table = $wpdb->prefix . 'hashform_entries';
         $status = $this->status;
 
         if ($search = htmlspecialchars_decode(HashFormHelper::get_var('s'))) {
-            $query = $wpdb->prepare("SELECT * from {$table} WHERE status=%s AND form_id Like %s", $status, '%' . $wpdb->esc_like($search) . '%');
-            return $wpdb->get_results($query, ARRAY_A);
+            return $wpdb->get_results($wpdb->prepare("SELECT * from {$wpdb->prefix}hashform_entries WHERE status=%s AND form_id Like %s", $status, '%' . $wpdb->esc_like($search) . '%'), ARRAY_A);
         } else if ($form_id = HashFormHelper::get_var('form_id', 'absint')) {
-            $query = $wpdb->prepare("SELECT * from {$table} WHERE status=%s AND form_id=%d", $status, $form_id);
-            return $wpdb->get_results($query, ARRAY_A);
+             return $wpdb->get_results($wpdb->prepare("SELECT * from {$wpdb->prefix}hashform_entries WHERE status=%s AND form_id=%d", $status, $form_id), ARRAY_A);
         } else {
-            $query = $wpdb->prepare("SELECT * from {$table} WHERE status=%s", $status);
-            return $wpdb->get_results($query, ARRAY_A);
+            return $wpdb->get_results($wpdb->prepare("SELECT * from {$wpdb->prefix}hashform_entries WHERE status=%s", $status), ARRAY_A);
         }
     }
 
@@ -310,9 +306,7 @@ class HashFormEntryListing extends \WP_List_Table {
 
     private function get_form_link($form_id) {
         global $wpdb;
-        $table = $wpdb->prefix . 'hashform_forms';
-        $query = $wpdb->prepare("SELECT name from {$table} WHERE id=%d", $form_id);
-        $form_name = $wpdb->get_row($query, ARRAY_A);
+        $form_name = $wpdb->get_row($wpdb->prepare("SELECT name from {$wpdb->prefix}hashform_forms WHERE id=%d", $form_id), ARRAY_A);
         return '<a href="' . esc_url(admin_url('admin.php?page=hashform&hashform_action=edit&id=' . $form_id)) . '">' . esc_html($form_name['name']) . '</a>';
     }
 

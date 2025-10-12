@@ -147,31 +147,25 @@ class HashFormListing extends \WP_List_Table {
 
     private function get_table_data() {
         global $wpdb;
-        $table = $wpdb->prefix . 'hashform_forms';
         $status = $this->status;
         $search = htmlspecialchars_decode(HashFormHelper::get_var('s'));
 
         if ($search) {
-            $query = $wpdb->prepare("SELECT * from {$table} WHERE status=%s AND name Like %s", $status, '%' . $wpdb->esc_like($search) . '%');
-            return $wpdb->get_results($query, ARRAY_A);
+            return $wpdb->get_results($wpdb->prepare("SELECT * from {$wpdb->prefix}hashform_forms WHERE status=%s AND name Like %s", $status, '%' . $wpdb->esc_like($search) . '%'), ARRAY_A);
         } else {
-            $query = $wpdb->prepare("SELECT * from {$table} WHERE status=%s", $status);
-            return $wpdb->get_results($query, ARRAY_A);
+            return $wpdb->get_results($wpdb->prepare("SELECT * from {$wpdb->prefix}hashform_forms WHERE status=%s", $status), ARRAY_A);
         }
     }
 
     public static function get_published_table_data() {
         global $wpdb;
-        $table = $wpdb->prefix . 'hashform_forms';
         $status = 'published';
         $search = htmlspecialchars_decode(HashFormHelper::get_var('s'));
 
         if ($search) {
-            $query = $wpdb->prepare("SELECT * from {$table} WHERE status=%s AND name Like %s", $status, '%' . $wpdb->esc_like($search) . '%');
-            return $wpdb->get_results($query, ARRAY_A);
+            return $wpdb->get_results($wpdb->prepare("SELECT * from {$wpdb->prefix}hashform_forms WHERE status=%s AND name Like %s", $status, '%' . $wpdb->esc_like($search) . '%'), ARRAY_A);
         } else {
-            $query = $wpdb->prepare("SELECT * from {$table} WHERE status=%s", $status);
-            return $wpdb->get_results($query, ARRAY_A);
+            return $wpdb->get_results($wpdb->prepare("SELECT * from {$wpdb->prefix}hashform_forms WHERE status=%s", $status), ARRAY_A);
         }
     }
 
@@ -304,8 +298,7 @@ class HashFormListing extends \WP_List_Table {
 
     public static function get_count() {
         global $wpdb;
-        $query = $wpdb->prepare("SELECT status FROM {$wpdb->prefix}hashform_forms WHERE id!=%d", 0);
-        $results = $wpdb->get_results($query);
+        $results = $wpdb->get_results($wpdb->prepare("SELECT status FROM {$wpdb->prefix}hashform_forms WHERE id!=%d", 0));
         $statuses = array('published', 'draft', 'trash');
         $counts = array_fill_keys($statuses, 0);
         foreach ($results as $row) {
@@ -321,8 +314,7 @@ class HashFormListing extends \WP_List_Table {
 
     public static function get_status($id = 0) {
         global $wpdb;
-        $query = $wpdb->prepare("SELECT status FROM {$wpdb->prefix}hashform_forms WHERE id=%d", $id);
-        $results = $wpdb->get_results($query);
+        $results = $wpdb->get_results($wpdb->prepare("SELECT status FROM {$wpdb->prefix}hashform_forms WHERE id=%d", $id));
         return isset($results[0]) ? $results[0]->status : 'unavailable';
     }
 
