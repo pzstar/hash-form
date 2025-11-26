@@ -29,7 +29,7 @@ class HashFormFieldAddress extends HashFormFieldType {
                 'type' => 'text',
                 'label' => esc_html__('State/Province', 'hash-form')
             ),
-            'zip' => array(
+            'zip1' => array(
                 'type' => 'number',
                 'label' => esc_html__('Zip/Postal', 'hash-form')
             ),
@@ -62,7 +62,6 @@ class HashFormFieldAddress extends HashFormFieldType {
             <div class="hf-sub-field-label">
                 <?php echo esc_html($label); ?>
                 <label class="hf-field-show-hide">
-                    <input type="hidden" name="field_options[disable_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" value="on">
                     <input type="checkbox" name="field_options[disable_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" id="hf-disable-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" data-changeme="hf-subfield-disable-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" value="off" data-disablefield="hf-subfield-container-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" <?php checked(($disable == 'off'), true) ?>>
                     <label for="hf-disable-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>"></label>
                 </label>
@@ -131,7 +130,7 @@ class HashFormFieldAddress extends HashFormFieldType {
                 $label = isset($field['desc'][$name]) ? $field['desc'][$name] : '';
                 $type = $sub_field['type'];
 
-                if (is_admin() || ($disable !== 'off')) {
+                if (is_admin() || !($disable == 'off')) {
                     ?>
                     <div id="hf-subfield-container-<?php echo esc_attr($name) . '-' . esc_attr($field_id); ?>" class="hf-subfield-element hf-subfield-element-<?php echo esc_attr($name); ?> hf-grid-6 <?php echo esc_attr($class); ?>" data-sub-field-name="<?php echo esc_attr($name); ?>">
                         <?php

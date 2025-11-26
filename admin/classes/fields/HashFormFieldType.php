@@ -453,7 +453,7 @@ abstract class HashFormFieldType {
                 'line2' => '',
                 'city' => '',
                 'state' => '',
-                'zip' => '',
+                'zip1' => '',
                 'country' => ''
             )
         );
