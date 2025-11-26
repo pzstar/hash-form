@@ -131,7 +131,7 @@ class HashFormFieldAddress extends HashFormFieldType {
                 $label = isset($field['desc'][$name]) ? $field['desc'][$name] : '';
                 $type = $sub_field['type'];
 
-                if (is_admin() || $disable == 'on') {
+                if (is_admin() || ($disable !== 'off')) {
                     ?>
                     <div id="hf-subfield-container-<?php echo esc_attr($name) . '-' . esc_attr($field_id); ?>" class="hf-subfield-element hf-subfield-element-<?php echo esc_attr($name); ?> hf-grid-6 <?php echo esc_attr($class); ?>" data-sub-field-name="<?php echo esc_attr($name); ?>">
                         <?php
