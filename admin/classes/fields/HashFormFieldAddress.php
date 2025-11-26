@@ -29,7 +29,7 @@ class HashFormFieldAddress extends HashFormFieldType {
                 'type' => 'text',
                 'label' => esc_html__('State/Province', 'hash-form')
             ),
-            'zip_code' => array(
+            'postal' => array(
                 'type' => 'number',
                 'label' => esc_html__('Zip/Postal', 'hash-form')
             ),
