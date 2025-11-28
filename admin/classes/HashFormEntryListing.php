@@ -64,11 +64,11 @@ class HashFormEntryListing extends \WP_List_Table {
     public function prepare_items() {
         $this->table_data = $this->get_table_data();
 
-        $columns = $this->get_columns();
-        $sortable = $this->get_sortable_columns();
-        $hidden = (is_array(get_user_meta(get_current_user_id(), 'managetoplevel_page_hashform-entriescolumnshidden', true))) ? get_user_meta(get_current_user_id(), 'managetoplevel_page_hashform-entriescolumnshidden', true) : array();
-        $primary = 'id';
-        $this->_column_headers = array($columns, $hidden, $sortable, $primary);
+        $hashform_columns = $this->get_columns();
+        $hashform_sortable = $this->get_sortable_columns();
+        $hashform_hidden = (is_array(get_user_meta(get_current_user_id(), 'managetoplevel_page_hashform-entriescolumnshidden', true))) ? get_user_meta(get_current_user_id(), 'managetoplevel_page_hashform-entriescolumnshidden', true) : array();
+        $hashform_primary = 'id';
+        $this->_column_headers = array($hashform_columns, $hashform_hidden, $hashform_sortable, $hashform_primary);
 
         if ($this->table_data) {
             foreach ($this->table_data as $item) {

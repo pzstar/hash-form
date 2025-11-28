@@ -43,7 +43,7 @@ if (!$hashform_styles) {
         ?>
         <h3 class="hf-form-title">
             <?php
-            echo esc_html(apply_filters('hf_translate_string', $form_title, 'Hash Form', $form_title . ' - ' . 'Name'));
+            echo esc_html(apply_filters('hashform_translate_string', $form_title, 'Hash Form', $form_title . ' - ' . 'Name'));
             ?>
         </h3>
         <?php
@@ -53,7 +53,7 @@ if (!$hashform_styles) {
         ?>
         <div class="hf-form-description">
             <?php
-            echo esc_html(apply_filters('hf_translate_string', $form_description, 'Hash Form', $form_title . ' - ' . 'Description'));
+            echo esc_html(apply_filters('hashform_translate_string', $form_description, 'Hash Form', $form_title . ' - ' . 'Description'));
             ?>
         </div>
         <?php
@@ -74,7 +74,7 @@ if (!$hashform_styles) {
         <div class="hf-submit-wrap <?php echo esc_attr($submit_class); ?>">
             <button class="<?php echo esc_attr(implode(' ', $button_class)) ?>" type="submit" <?php disabled($hashform_action, 'hashform_preview'); ?>>
                 <?php
-                echo esc_html(apply_filters('hf_translate_string', $submit, 'Hash Form', $form_title . ' - Submit Button Text'));
+                echo esc_html(apply_filters('hashform_translate_string', $submit, 'Hash Form', $form_title . ' - Submit Button Text'));
                 ?>
             </button>
         </div>

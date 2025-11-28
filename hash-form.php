@@ -97,10 +97,12 @@ add_filter('wpmu_drop_tables', 'hashform_on_delete_blog');
 
 function hashform_on_delete_blog($tables) {
     global $wpdb;
-    $id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
+    $id = HashFormHelper::get_request('id');
+
     $tables[] = $wpdb->get_blog_prefix($id) . 'hashform_fields';
     $tables[] = $wpdb->get_blog_prefix($id) . 'hashform_forms';
     $tables[] = $wpdb->get_blog_prefix($id) . 'hashform_entries';
     $tables[] = $wpdb->get_blog_prefix($id) . 'hashform_entry_meta';
+
     return $tables;
 }

@@ -136,7 +136,7 @@ class HashFormFieldAddress extends HashFormFieldType {
                         <?php
                         if ($type !== 'select') {
                             ?>
-                            <input type="<?php echo esc_attr($type); ?>" id="hf-field-<?php echo esc_attr($field_key); ?>-<?php echo esc_attr($name); ?>" value="<?php echo esc_attr(apply_filters('hf_translate_string', $value, 'Hash Form', $field['id'] . ' - ' . ucwords($name) . ' Value')); ?>" name="<?php echo esc_attr($this->html_name()) . '[' . esc_attr($name) . ']'; ?>" placeholder="<?php echo esc_attr(apply_filters('hf_translate_string', $placeholder, 'Hash Form', $field['id'] . ' - ' . ucwords($name) . ' Placeholder')); ?>">
+                            <input type="<?php echo esc_attr($type); ?>" id="hf-field-<?php echo esc_attr($field_key); ?>-<?php echo esc_attr($name); ?>" value="<?php echo esc_attr(apply_filters('hashform_translate_string', $value, 'Hash Form', $field['id'] . ' - ' . ucwords($name) . ' Value')); ?>" name="<?php echo esc_attr($this->html_name()) . '[' . esc_attr($name) . ']'; ?>" placeholder="<?php echo esc_attr(apply_filters('hashform_translate_string', $placeholder, 'Hash Form', $field['id'] . ' - ' . ucwords($name) . ' Placeholder')); ?>">
                             <?php
                         } else {
                             $this->get_country_select(HashFormHelper::get_countries());
@@ -144,7 +144,7 @@ class HashFormFieldAddress extends HashFormFieldType {
                         ?>
                         <div class="hf-field-desc" id="hf-subfield-desc-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>">
                             <?php
-                            echo esc_html(apply_filters('hf_translate_string', $label, 'Hash Form', HashFormBuilder::get_form_title($field['form_id']) . ' - ' . $field['id'] . ' - ' . ucwords($name) . ' Label'));
+                            echo esc_html(apply_filters('hashform_translate_string', $label, 'Hash Form', HashFormBuilder::get_form_title($field['form_id']) . ' - ' . $field['id'] . ' - ' . ucwords($name) . ' Label'));
                             ?>
                         </div>
                     </div>

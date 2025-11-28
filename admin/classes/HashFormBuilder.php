@@ -29,7 +29,7 @@ class HashFormBuilder {
         add_action('wp_loaded', array($this, 'admin_notice'), 20);
 
         add_action('init', array($this, 'register_translation_strings'));
-        add_filter('hf_translate_string', array($this, 'hf_translate_string'), 10, 3);
+        add_filter('hashform_translate_string', array($this, 'translate_string'), 10, 3);
     }
 
     public function includes() {
@@ -1077,7 +1077,7 @@ class HashFormBuilder {
         }
     }
 
-    public function hf_translate_string($original_value, $domain, $name = '') {
+    public function translate_string($original_value, $domain, $name = '') {
         $wpml_translation = apply_filters('wpml_translate_single_string', $original_value, $domain, $name);
         if ($wpml_translation === $original_value && function_exists('pll__')) {
             return pll__($original_value);
