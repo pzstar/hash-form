@@ -1,5 +1,7 @@
 <?php
 
+defined('ABSPATH') || die();
+
 /**
  * Handle file uploads via XMLHttpRequest
  */
@@ -88,15 +90,7 @@ class HashFormFileUploader {
             }
         }
 
-        $count = 0;
-        foreach ($allowedExtensions as $ext) {
-            if (!in_array($ext, $available_exts)) {
-                unset($allowedExtensions[$count]);
-            }
-            $count++;
-        }
-
-        $this->allowedExtensions = $allowedExtensions;
+        $this->allowedExtensions = array_values(array_intersect($allowedExtensions, $available_exts));
         $this->sizeLimit = $sizeLimit;
         $this->checkServerSettings();
 
@@ -124,10 +118,13 @@ class HashFormFileUploader {
         switch ($last) {
             case 'g':
                 $val *= 1024 * 1024 * 1024;
+                break;
             case 'm':
                 $val *= 1024 * 1024;
+                break;
             case 'k':
                 $val *= 1024;
+                break;
         }
 
         return $val;

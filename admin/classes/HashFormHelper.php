@@ -48,7 +48,9 @@ class HashFormHelper {
                     $value[$k] = self::sanitize_value($sanitize, $value[$k]);
                 }
             } else {
-                $value = call_user_func($sanitize, ($value ? htmlspecialchars_decode($value) : ''));
+                // A strict check keeps legitimate "0" values from collapsing
+                // to an empty string.
+                $value = call_user_func($sanitize, ($value !== '' && $value !== null && $value !== false ? htmlspecialchars_decode($value) : ''));
             }
         }
 
@@ -56,30 +58,29 @@ class HashFormHelper {
     }
 
     public static function get_unique_key($table_name, $column_name, $limit = 6) {
-        $values = 'ABCDEFGHIJKLMOPQRSTUVXWYZ0123456789';
-        $count = strlen($values);
-        $count--;
+        $values = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        $count = strlen($values) - 1;
         $key = '';
         for ($x = 1; $x <= $limit; $x++) {
-            $rand_var = wp_rand(0, $count);
-            $key .= substr($values, $rand_var, 1);
+            $key .= substr($values, wp_rand(0, $count), 1);
         }
 
-        $key = strtolower($key);
-        $existing_keys = self::check_table_keys($table_name, $column_name);
-
-        if (in_array($key, $existing_keys)) {
-            self::get_unique_key($table_name, $column_name, $limit = 6);
+        if (self::table_key_exists($table_name, $column_name, $key)) {
+            return self::get_unique_key($table_name, $column_name, $limit);
         }
 
         return $key;
     }
 
-    public static function check_table_keys($table_name, $column_name) {
+    private static function table_key_exists($table_name, $column_name, $key) {
         global $wpdb;
-        $tbl_name = $wpdb->prefix . $table_name;
-        $results = $wpdb->get_results($wpdb->prepare("SELECT {$column_name} FROM {$tbl_name} WHERE id!=%d", 0), ARRAY_A);
-        return array_column($results, $column_name);
+
+        // Both identifiers only ever come from internal call sites, but keep
+        // them constrained to identifier characters anyway.
+        $tbl_name = $wpdb->prefix . preg_replace('/[^a-z0-9_]/i', '', $table_name);
+        $column_name = preg_replace('/[^a-z0-9_]/i', '', $column_name);
+
+        return (bool) $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$tbl_name} WHERE {$column_name}=%s", $key));
     }
 
     public static function is_admin_page($page = 'hashform') {
@@ -162,6 +163,9 @@ class HashFormHelper {
     public static function parse_json_array($array = array()) {
         $array = json_decode($array, true);
         $fields = array();
+        if (!is_array($array)) {
+            return $fields;
+        }
         foreach ($array as $val) {
             $name = $val['name'];
             $value = $val['value'];
@@ -729,21 +733,22 @@ class HashFormHelper {
 
     public static function get_ip_address() {
         $ip_options = array('REMOTE_ADDR');
-        $ip = '';
+        $fallback = '';
 
         foreach ($ip_options as $key) {
             if (!isset($_SERVER[$key])) {
                 continue;
             }
-            $key = self::get_server_value($key);
-            foreach (explode(',', $key) as $ip) {
-                $ip = trim($ip); // Just to be safe.
-                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
-                    return sanitize_text_field($ip);
+            foreach (explode(',', self::get_server_value($key)) as $candidate) {
+                $candidate = trim($candidate);
+                if (filter_var($candidate, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
+                    return sanitize_text_field($candidate);
                 }
+                // Keep e.g. the LAN address of a local install as a fallback.
+                $fallback = $candidate;
             }
         }
-        return sanitize_text_field($ip);
+        return sanitize_text_field($fallback);
     }
 
     public static function get_server_value($value) {
@@ -762,15 +767,21 @@ class HashFormHelper {
         return strlen($parts[count($parts) - 1]);
     }
 
+    // PHP sessions are never started in WP; a short per-user transient
+    // carries the one-shot notice across the redirect instead.
+    public static function set_message($message) {
+        set_transient('hashform_message_' . get_current_user_id(), $message, MINUTE_IN_SECONDS * 5);
+    }
+
     public static function print_message() {
-        if (isset($_SESSION['hashform_message'])) {
+        $key = 'hashform_message_' . get_current_user_id();
+        $message = get_transient($key);
+        if ($message) {
+            delete_transient($key);
             ?>
             <div class="hf-settings-updated">
                 <span class="mdi mdi-check-circle"></span>
-                <?php
-                echo esc_html(sanitize_text_field($_SESSION['hashform_message']));
-                unset($_SESSION['hashform_message']);
-                ?>
+                <?php echo esc_html(sanitize_text_field($message)); ?>
             </div>
             <?php
         }
@@ -905,18 +916,19 @@ class HashFormHelper {
             } elseif ($entry_type == 'repeater_field') {
                 $entry_val = '<table><thead><tr>';
                 foreach (array_keys($entry_value) as $key) {
-                    $entry_val .= '<th>' . $key . '</th>';
+                    $entry_val .= '<th>' . esc_html($key) . '</th>';
                 }
                 $entry_val .= '</tr></thead><tbody>';
                 $out = array();
                 foreach ($entry_value as $rowkey => $row) {
-                    foreach ($row as $colkey => $col) {
+                    foreach ((array) $row as $colkey => $col) {
                         $out[$colkey][$rowkey] = $col;
                     }
                 }
                 foreach ($out as $key => $val) {
+                    $entry_val .= '<tr>';
                     foreach ($val as $eval) {
-                        $entry_val .= '<td>' . $eval . '</td>';
+                        $entry_val .= '<td>' . esc_html($eval) . '</td>';
                     }
                     $entry_val .= '</tr>';
                 }

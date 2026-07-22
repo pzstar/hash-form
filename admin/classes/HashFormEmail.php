@@ -33,6 +33,10 @@ class HashFormEmail {
 
         $settings = HashFormSettings::get_settings();
         $email_template = $settings['email_template'] ? sanitize_text_field($settings['email_template']) : 'template1';
+        // The value feeds both a callable name and an include path.
+        if (!in_array($email_template, array('template1', 'template2', 'template3'), true)) {
+            $email_template = 'template1';
+        }
         $header_image = sanitize_text_field($settings['header_image']);
         $form_title = $this->form->name;
         $file_img_placeholder = HASHFORM_URL . 'img/attachment.png';
@@ -46,7 +50,7 @@ class HashFormEmail {
             $count++;
             $reply_to_email = str_replace('#field_id_' . absint($item), $value['value'], $reply_to_email);
             $email_subject = str_replace('#field_id_' . absint($item), $value['value'], $email_subject);
-            $reply_to_ar = str_replace(absint($item), $value['value'], $reply_to_ar);
+            $reply_to_ar = str_replace('#field_id_' . absint($item), $value['value'], $reply_to_ar);
             $entry_value = HashFormHelper::unserialize_or_decode($value['value']);
             $entry_type = HashFormHelper::unserialize_or_decode($value['type']);
             if (is_array($entry_value)) {
@@ -119,6 +123,11 @@ class HashFormEmail {
                 }
             }
         }
+
+        // Submitted values were substituted in above; strip line breaks so they
+        // cannot smuggle extra mail headers.
+        $reply_to_email = str_replace(array("\r", "\n"), '', $reply_to_email);
+        $email_subject = str_replace(array("\r", "\n"), ' ', $email_subject);
 
         $email_message = empty($form_settings['email_message']) ? '' : wpautop($form_settings['email_message']);
 
@@ -207,7 +216,7 @@ class HashFormEmail {
                     <th style="font-family: sans-serif; font-size: 14px; vertical-align: top;text-align:left; line-height: 18px;" valign="top"><?php echo esc_html($title); ?></th>
                 </tr>
                 <tr>
-                    <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding: 10px 0 0 0; line-height: 18px;" valign="top"><?php echo esc_html($entry_value); ?></td>
+                    <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding: 10px 0 0 0; line-height: 18px;" valign="top"><?php echo wp_kses_post($entry_value); ?></td>
                 </tr>
             </tbody>
         </table>
@@ -236,7 +245,7 @@ class HashFormEmail {
                     <th style="font-family: sans-serif; font-size: 14px; vertical-align: top;text-align:left; line-height: 18px;" valign="top"><?php echo esc_html($title); ?></th>
                 </tr>
                 <tr>
-                    <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding: 10px 0 0 0; line-height: 18px;" valign="top"><?php echo esc_html($entry_value); ?></td>
+                    <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding: 10px 0 0 0; line-height: 18px;" valign="top"><?php echo wp_kses_post($entry_value); ?></td>
                 </tr>
             </tbody>
         </table>
@@ -254,7 +263,7 @@ class HashFormEmail {
                     <th style="font-family: sans-serif; font-size: 14px; vertical-align: top;text-align:left; line-height: 18px;background: #000;color: #FFF;text-transform: uppercase;padding: 10px 20px;" valign="top"><?php echo esc_html($title); ?></th>
                 </tr>
                 <tr>
-                    <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding: 10px 0 0 0; line-height: 18px;padding: 20px !important;" valign="top"><?php echo esc_html($entry_value); ?></td>
+                    <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding: 10px 0 0 0; line-height: 18px;padding: 20px !important;" valign="top"><?php echo wp_kses_post($entry_value); ?></td>
                 </tr>
             </tbody>
         </table>
@@ -263,69 +272,5 @@ class HashFormEmail {
         return $form_html;
     }
 
-    public static function get_entry_rows($email_template, $entry_id) {
-        $settings = HashFormSettings::get_settings();
-        $entry = HashFormEntry::get_entry_vars($entry_id);
-        $entry_rows = '';
-        $file_img_placeholder = HASHFORM_URL . 'img/attachment.png';
-        $count = 0;
-        foreach ($entry->metas as $id => $value) {
-            $count++;
-            $title = $value['name'];
-            $entry_value = HashFormHelper::unserialize_or_decode($value['value']);
-            $entry_type = $value['type'];
-            if (is_array($entry_value)) {
-                if ($entry_type == 'name') {
-                    $entry_value = implode(' ', array_filter($entry_value));
-                } elseif ($entry_type == 'repeater_field') {
-                    $entry_val = '<table><thead><tr>';
-                    foreach (array_keys($entry_value) as $key) {
-                        $entry_val .= '<th>' . $key . '</th>';
-                    }
-                    $entry_val .= '</tr></thead><tbody>';
-                    $out = array();
-                    foreach ($entry_value as $rowkey => $row) {
-                        foreach ($row as $colkey => $col) {
-                            $out[$colkey][$rowkey] = $col;
-                        }
-                    }
-                    foreach ($out as $key => $val) {
-                        foreach ($val as $eval) {
-                            $entry_val .= '<td>' . $eval . '</td>';
-                        }
-                        $entry_val .= '</tr>';
-                    }
-                    $entry_val .= '</tbody></table>';
-                    $entry_value = $entry_val;
-                } else {
-                    $entry_value = implode(',<br>', array_filter($entry_value));
-                }
-            }
-
-            if ($entry_type == 'upload' && $entry_value) {
-                $files_arr = explode(',', $entry_value);
-                $upload_value = '';
-                foreach ($files_arr as $file) {
-                    $file_info = pathinfo($file);
-                    $file_name = $file_info['basename'];
-                    $file_extension = $file_info['extension'];
-
-                    $upload_value .= '<div style="margin-bottom: 10px;padding-bottom: 10px;border-bottom: 1px solid #EEE;">';
-                    $upload_value .= '<div><a href="' . esc_url($file) . '" target="_blank">';
-                    if (in_array($file_extension, array('jpg', 'jpeg', 'png', 'gif', 'bmp'))) {
-                        $upload_value .= '<img style="width:150px" src="' . esc_url($file) . '">';
-                    } else {
-                        $upload_value .= '<img style="width: 40px;border: 1px solid #666;border-radius: 6px;padding: 4px;" src="' . esc_url($file_img_placeholder) . '">';
-                    }
-                    $upload_value .= '</a></div>';
-                    $upload_value .= '<label><a href="' . esc_url($file) . '" target="_blank">';
-                    $upload_value .= esc_html($file_name) . '</a></label>';
-                    $upload_value .= '</div>';
-                }
-                $entry_value = $upload_value;
-            }
-        }
-        return $entry_rows;
-    }
 
 }

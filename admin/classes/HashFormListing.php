@@ -12,6 +12,7 @@ class HashFormListing extends \WP_List_Table {
 
     private $table_data;
     private $status;
+    private $entry_counts;
 
     public function __construct() {
         parent::__construct(
@@ -29,16 +30,7 @@ class HashFormListing extends \WP_List_Table {
     }
 
     public function column_default($item, $column_name) {
-        switch ($column_name) {
-            case 'cd':
-            case 'name':
-            case 'entries':
-            case 'id':
-            case 'shortcode':
-            case 'created_at':
-            default:
-                return $item[$column_name];
-        }
+        return isset($item[$column_name]) ? $item[$column_name] : '';
     }
 
     public function get_columns() {
@@ -77,7 +69,7 @@ class HashFormListing extends \WP_List_Table {
             $row_actions[] = '<span class="' . esc_attr($id) . '"><a href="' . $action['url'] . '">' . $action['label'] . '</a></span>';
         }
 
-        $output .= '<div class="row-desc">' . $item['description'] . '</div>';
+        $output .= '<div class="row-desc">' . wp_kses_post($item['description']) . '</div>';
 
         $output .= '<div class="row-actions">' . implode(' | ', $row_actions) . '</div>';
 
@@ -100,7 +92,19 @@ class HashFormListing extends \WP_List_Table {
         $this->_column_headers = array($hashform_columns, $hashform_hidden, $hashform_sortable, $hashform_primary);
 
         if ($this->table_data) {
-            foreach ($this->table_data as $item) {
+            // Sort the raw rows (not the rendered HTML) so ordering works on
+            // real values, then render only the rows of the current page.
+            usort($this->table_data, array(&$this, 'usort_reorder'));
+
+            /* pagination */
+            $per_page = $this->get_items_per_page('forms_per_page', 10);
+            $current_page = $this->get_pagenum();
+            $total_items = count($this->table_data);
+
+            $page_rows = array_slice($this->table_data, (($current_page - 1) * $per_page), $per_page);
+
+            $data = array();
+            foreach ($page_rows as $item) {
                 $id = $item['id'];
                 $data[$id] = array(
                     'name' => $this->column_title($item),
@@ -111,15 +115,6 @@ class HashFormListing extends \WP_List_Table {
                     'created_at' => HashFormHelper::convert_date_format($item['created_at'])
                 );
             }
-
-            usort($data, array(&$this, 'usort_reorder'));
-
-            /* pagination */
-            $per_page = $this->get_items_per_page('forms_per_page', 10);
-            $current_page = $this->get_pagenum();
-            $total_items = count($data);
-
-            $data = array_slice($data, (($current_page - 1) * $per_page), $per_page);
 
             $this->set_pagination_args(array(
                 'total_items' => $total_items,
@@ -132,16 +127,21 @@ class HashFormListing extends \WP_List_Table {
     }
 
     private function usort_reorder($a, $b) {
-        // If no sort, default to user_login
+        $sortable = array('name', 'id', 'form_key', 'created_at');
+
         $orderby = HashFormHelper::get_var('orderby', 'sanitize_text_field', 'created_at');
+        if (!in_array($orderby, $sortable, true)) {
+            $orderby = 'created_at';
+        }
 
-        // If no order, default to asc
-        $order = HashFormHelper::get_var('order', 'sanitize_text_field', 'DESC');
+        $order = strtolower(HashFormHelper::get_var('order', 'sanitize_text_field', 'desc'));
 
-        // Determine sort order
-        $result = strcmp($a[$orderby], $b[$orderby]);
+        if ('id' === $orderby) {
+            $result = (int) $a['id'] < (int) $b['id'] ? -1 : (((int) $a['id'] > (int) $b['id']) ? 1 : 0);
+        } else {
+            $result = strcmp($a[$orderby], $b[$orderby]);
+        }
 
-        // Send final sort direction to usort
         return ($order === 'asc') ? $result : -$result;
     }
 
@@ -227,7 +227,7 @@ class HashFormListing extends \WP_List_Table {
         } else {
             $actions['duplicate'] = array(
                 'label' => esc_html__('Duplicate', 'hash-form'),
-                'url' => wp_nonce_url('?page=hashform&hashform_action=duplicate&id=' . $form_id)
+                'url' => wp_nonce_url('?page=hashform&hashform_action=duplicate&id=' . $form_id, 'duplicate_form_' . absint($form_id))
             );
             $actions['edit'] = array(
                 'label' => esc_html__('Edit', 'hash-form'),
@@ -261,7 +261,11 @@ class HashFormListing extends \WP_List_Table {
     }
 
     public function get_entry_link($id) {
-        $count = HashFormEntry::get_entry_count($id);
+        // One GROUP BY query for all forms instead of a COUNT(*) per row.
+        if (null === $this->entry_counts) {
+            $this->entry_counts = HashFormEntry::get_entry_counts();
+        }
+        $count = isset($this->entry_counts[$id]) ? $this->entry_counts[$id] : 0;
         return '<a href="' . esc_url(admin_url('admin.php?page=hashform-entries&form_id=' . $id)) . '">' . $count . '</a>';
     }
 
@@ -298,18 +302,16 @@ class HashFormListing extends \WP_List_Table {
 
     public static function get_count() {
         global $wpdb;
-        $results = $wpdb->get_results($wpdb->prepare("SELECT status FROM {$wpdb->prefix}hashform_forms WHERE id!=%d", 0));
-        $statuses = array('published', 'draft', 'trash');
-        $counts = array_fill_keys($statuses, 0);
+        $results = $wpdb->get_results("SELECT status, COUNT(*) AS count FROM {$wpdb->prefix}hashform_forms GROUP BY status");
+        $counts = array('published' => 0, 'trash' => 0);
         foreach ($results as $row) {
             if ('trash' != $row->status) {
-                $counts['published']++;
+                $counts['published'] += $row->count;
             } else {
-                $counts['trash']++;
+                $counts['trash'] += $row->count;
             }
         }
-        $counts = (object) $counts;
-        return $counts;
+        return (object) $counts;
     }
 
     public static function get_status($id = 0) {

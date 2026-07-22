@@ -68,7 +68,7 @@ class HashFormValidate {
 
     public static function validate($values) {
         $errors = array();
-        self::sanitize_entries($values);
+        $values = self::sanitize_entries($values);
 
         if (!isset($values['form_id']) || !isset($values['item_meta'])) {
             $errors['form'] = esc_html__('There was a problem with your submission. Please try again.', 'hash-form');
@@ -76,13 +76,11 @@ class HashFormValidate {
         }
 
         if (HashFormHelper::is_admin_page() && is_user_logged_in() && (!isset($values['hashform_submit_entry_' . $values['form_id']]) || !wp_verify_nonce($values['hashform_submit_entry_' . $values['form_id']], 'hashform_submit_entry_nonce'))) {
-            $errors['form'] = esc_html__('Nounce Error', 'hash-form');
+            $errors['form'] = esc_html__('Nonce Error', 'hash-form');
         }
 
         $fields = HashFormFields::get_form_fields($values['form_id']);
 
-
-        $is_field_visible = true;
         $sh_conditions = HashFormBuilder::get_show_hide_conditions(absint($values['form_id']));
         $hidden_arrays = array();
 
@@ -101,23 +99,39 @@ class HashFormValidate {
                     break;
 
                 case 'less_than':
-                    $compare_to = ($compare_to === '') ? 0 : (int) $compare_to;
-                    $condition = is_array($compare_to) ? self::arrayValsCompare($compareValue, $compare_to, 'less_than') : ($compare_to < $compareValue);
+                    if (is_array($compare_to)) {
+                        $condition = self::arrayValsCompare($compareValue, $compare_to, 'less_than');
+                    } else {
+                        $compare_to = ($compare_to === '') ? 0 : (int) $compare_to;
+                        $condition = ($compare_to < (int) $compareValue);
+                    }
                     break;
 
                 case 'less_than_or_equal':
-                    $compare_to = ($compare_to === '') ? 0 : (int) $compare_to;
-                    $condition = is_array($compare_to) ? self::arrayValsCompare($compareValue, $compare_to, 'less_than_or_equal') : ($compare_to <= $compareValue);
+                    if (is_array($compare_to)) {
+                        $condition = self::arrayValsCompare($compareValue, $compare_to, 'less_than_or_equal');
+                    } else {
+                        $compare_to = ($compare_to === '') ? 0 : (int) $compare_to;
+                        $condition = ($compare_to <= (int) $compareValue);
+                    }
                     break;
 
                 case 'greater_than':
-                    $compare_to = ($compare_to === '') ? 0 : (int) $compare_to;
-                    $condition = is_array($compare_to) ? self::arrayValsCompare($compareValue, $compare_to, 'greater_than') : ($compare_to > $compareValue);
+                    if (is_array($compare_to)) {
+                        $condition = self::arrayValsCompare($compareValue, $compare_to, 'greater_than');
+                    } else {
+                        $compare_to = ($compare_to === '') ? 0 : (int) $compare_to;
+                        $condition = ($compare_to > (int) $compareValue);
+                    }
                     break;
 
                 case 'greater_than_or_equal':
-                    $compare_to = ($compare_to === '') ? 0 : (int) $compare_to;
-                    $condition = is_array($compare_to) ? self::arrayValsCompare($compareValue, $compare_to, 'greater_than_or_equal') : ($compare_to >= $compareValue);
+                    if (is_array($compare_to)) {
+                        $condition = self::arrayValsCompare($compareValue, $compare_to, 'greater_than_or_equal');
+                    } else {
+                        $compare_to = ($compare_to === '') ? 0 : (int) $compare_to;
+                        $condition = ($compare_to >= (int) $compareValue);
+                    }
                     break;
 
                 case 'is_like':
@@ -189,10 +203,11 @@ class HashFormValidate {
             'form_key' => 'sanitize_title',
             'ip' => 'sanitize_title',
             'delivery_status' => 'rest_sanitize_boolean',
-            'ip' => 'sanitize_title',
             'user_id' => 'absint',
             'status' => 'sanitize_title',
-            'g-recaptcha-response' => 'sanitize_title'
+            // The token must survive intact: sanitize_title would lowercase
+            // and strip it, making verification impossible.
+            'g-recaptcha-response' => 'sanitize_text_field'
         );
         return self::sanitize_request($sanitize_method, $values);
     }

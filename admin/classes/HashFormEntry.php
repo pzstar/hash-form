@@ -120,8 +120,7 @@ class HashFormEntry {
     }
 
     public function set_screen_option($status, $option, $value) {
-        if ('entries_per_page' == $option)
-            return $value;
+        return ('entries_per_page' === $option) ? $value : $status;
     }
 
     public static function trash() {
@@ -169,16 +168,10 @@ class HashFormEntry {
         global $wpdb;
 
         $id = is_array($id) ? $id : array($id);
-        $placeholders = implode(',', array_map(function($v) {
-            return '%d';
-        }, $id));
+        $placeholders = implode(',', array_fill(0, count($id), '%d'));
         $prepare_args = array_merge([$status], $id);
 
-        if (is_array($id)) {
-            $query_results = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}hashform_entries SET status=%s WHERE id IN ({$placeholders})", $prepare_args));
-        } else {
-            $query_results = $wpdb->update($wpdb->prefix . 'hashform_entries', array('status' => $status), array('id' => $id));
-        }
+        $query_results = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}hashform_entries SET status=%s WHERE id IN ({$placeholders})", $prepare_args));
 
         return $query_results;
     }
@@ -326,21 +319,11 @@ class HashFormEntry {
         $entry->metas = array();
 
         foreach ($metas as $meta_val) {
-            if ($meta_val->item_id == $entry->id) {
-                $entry->metas[$meta_val->field_id] = array(
-                    'name' => $meta_val->name,
-                    'value' => $meta_val->meta_value,
-                    'type' => $meta_val->field_type
-                );
-                continue;
-            }
-
-            // include sub entries in an array
-            if (!isset($entry->metas[$meta_val->field_id])) {
-                $entry->metas[$meta_val->field_id] = array();
-            }
-
-            $entry->metas[$meta_val->field_id][] = $meta_val->meta_value;
+            $entry->metas[$meta_val->field_id] = array(
+                'name' => $meta_val->name,
+                'value' => $meta_val->meta_value,
+                'type' => $meta_val->field_type
+            );
         }
 
         return $entry;
@@ -374,7 +357,7 @@ class HashFormEntry {
             $check_mail = $send_mail->send_email();
 
             if (!$check_mail) {
-                $wpdb->update($wpdb->prefix . 'hashform_entries', array('delivery_status' => false), array('id' => $entry_id));
+                $wpdb->update($wpdb->prefix . 'hashform_entries', array('delivery_status' => 0), array('id' => $entry_id));
                 return wp_send_json(array(
                     'status' => 'failed',
                     'message' => esc_html(apply_filters('hashform_translate_string', $form_settings['error_message'], 'Hash Form', $form->name . ' - ' . 'Error Message'))
@@ -444,14 +427,13 @@ class HashFormEntry {
 
     public static function get_count() {
         global $wpdb;
-        $results = $wpdb->get_results($wpdb->prepare("SELECT status FROM {$wpdb->prefix}hashform_entries WHERE id!=%d", 0));
-        $statuses = array('published', 'trash');
-        $counts = array_fill_keys($statuses, 0);
+        $results = $wpdb->get_results("SELECT status, COUNT(*) AS count FROM {$wpdb->prefix}hashform_entries GROUP BY status");
+        $counts = array('published' => 0, 'trash' => 0);
         foreach ($results as $row) {
             if ('published' == $row->status) {
-                $counts['published']++;
+                $counts['published'] += $row->count;
             } else {
-                $counts['trash']++;
+                $counts['trash'] += $row->count;
             }
         }
         return $counts;
@@ -459,19 +441,30 @@ class HashFormEntry {
 
     public static function get_entry_count($form_id) {
         global $wpdb;
-        $count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$wpdb->prefix}hashform_entries e LEFT OUTER JOIN {$wpdb->prefix}hashform_forms f ON e.form_id=f.id WHERE e.form_id=%d AND e.status='published'", $form_id));
+        $count = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM {$wpdb->prefix}hashform_entries WHERE form_id=%d AND status='published'", $form_id));
         return $count;
+    }
+
+    // Published-entry counts for every form in one query, keyed by form id.
+    public static function get_entry_counts() {
+        global $wpdb;
+        $results = $wpdb->get_results("SELECT form_id, COUNT(*) AS count FROM {$wpdb->prefix}hashform_entries WHERE status='published' GROUP BY form_id");
+        $counts = array();
+        foreach ($results as $row) {
+            $counts[$row->form_id] = (int) $row->count;
+        }
+        return $counts;
     }
 
     public static function get_prev_entry($entry_id) {
         global $wpdb;
-        $results = $wpdb->get_results($wpdb->prepare("select id from {$wpdb->prefix}hashform_entries WHERE id < %d ORDER BY id DESC LIMIT 1", $entry_id));
+        $results = $wpdb->get_results($wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_entries WHERE id < %d AND status='published' ORDER BY id DESC LIMIT 1", $entry_id));
         return $results;
     }
 
     public static function get_next_entry($entry_id) {
         global $wpdb;
-        $results = $wpdb->get_results($wpdb->prepare("select id from {$wpdb->prefix}hashform_entries WHERE id > %d ORDER BY id ASC LIMIT 1", $entry_id));
+        $results = $wpdb->get_results($wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_entries WHERE id > %d AND status='published' ORDER BY id ASC LIMIT 1", $entry_id));
         return $results;
     }
 

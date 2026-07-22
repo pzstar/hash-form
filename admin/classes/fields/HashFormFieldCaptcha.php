@@ -61,9 +61,17 @@ class HashFormFieldCaptcha extends HashFormFieldType {
     }
 
     protected function recaptcha_api_url($settings) {
-        $api_js_url = 'https://www.google.com/recaptcha/api.js?';
-        $api_js_url .= $settings['re_type'] == 'v3' ? 'render=' . $settings['pubkey_v3'] : '';
-        $api_js_url .= empty($lang) ? '' : '&hl=' . $settings['re_lang'];
+        $api_js_url = 'https://www.google.com/recaptcha/api.js';
+        $params = array();
+        if ($settings['re_type'] == 'v3') {
+            $params['render'] = $settings['pubkey_v3'];
+        }
+        if (!empty($settings['re_lang'])) {
+            $params['hl'] = $settings['re_lang'];
+        }
+        if ($params) {
+            $api_js_url .= '?' . http_build_query($params);
+        }
         return $api_js_url;
     }
 
@@ -108,7 +116,7 @@ class HashFormFieldCaptcha extends HashFormFieldType {
             if ($invalid_message === esc_html__('The reCAPTCHA was not entered correctly', 'hash-form')) {
                 $invalid_message = '';
             }
-            $errors['field' . $args['id']] = ($invalid_message === '' ? $settings['re_msg '] : $invalid_message);
+            $errors['field' . $args['id']] = ($invalid_message === '' ? $settings['re_msg'] : $invalid_message);
         }
 
         return $errors;

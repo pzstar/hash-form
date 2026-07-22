@@ -18,14 +18,21 @@ class HashFormPreview {
 
     public static function show_form($id) {
         $form = HashFormBuilder::get_form_vars($id);
-        if (!$form || $form->status === 'trash')
-            return esc_html__('Please select a valid form', 'hash-form');
+        if (!$form || $form->status === 'trash') {
+            // Callers buffer output, so the message must be echoed.
+            echo esc_html__('Please select a valid form', 'hash-form');
+            return;
+        }
 
-        self::get_form_contents($id);
+        self::get_form_contents($id, $form);
     }
 
-    public static function get_form_contents($id) {
-        $form = HashFormBuilder::get_form_vars($id);
+    public static function get_form_contents($id, $form = null) {
+        // Frontend assets are registered globally but only loaded once a form
+        // actually renders.
+        HashFormLoader::enqueue_form_assets();
+
+        $form = $form ? $form : HashFormBuilder::get_form_vars($id);
         $values = HashFormHelper::get_fields_array($id);
 
         $styles = $form->styles ? $form->styles : '';

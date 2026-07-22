@@ -274,9 +274,9 @@ class HashFormStyles {
     }
 
     public static function get_default_font_families() {
+        $default_font = self::default_font_array();
 
-        $default_font = default_font_array();
-
+        $font_family = array();
         foreach ($default_font as $key => $value) {
             $font_family[$value['family']] = $value['family'];
         }
@@ -383,7 +383,7 @@ class HashFormStyles {
         $load_font_locally = false;
 
         if ($fonts_url && $load_font_locally) {
-            require_once UWCC_PATH . 'inc/wptt-webfont-loader.php';
+            require_once HASHFORM_PATH . 'inc/wptt-webfont-loader.php';
             $fonts_url = wptt_get_webfont_url($fonts_url);
         }
 
@@ -391,6 +391,13 @@ class HashFormStyles {
     }
 
     public static function custom_fonts() {
+        // This runs from every enqueue pass; query the style posts only once
+        // per request.
+        static $cached_fonts = null;
+        if (null !== $cached_fonts) {
+            return $cached_fonts;
+        }
+
         $fonts = array();
 
         $sqlquery = array(
@@ -414,6 +421,8 @@ class HashFormStyles {
                 }
             }
         }
+
+        $cached_fonts = $fonts;
         return $fonts;
     }
 

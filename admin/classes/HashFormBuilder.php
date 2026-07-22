@@ -207,8 +207,8 @@ class HashFormBuilder {
         $options = HashFormHelper::sanitize_array($options, HashFormHelper::get_form_options_sanitize_rules());
 
         $query_results = $wpdb->update($wpdb->prefix . 'hashform_forms', array(
-            'name' => esc_html($args['title']),
-            'description' => esc_html($args['description']),
+            'name' => esc_html(isset($args['title']) ? $args['title'] : ''),
+            'description' => esc_html(isset($args['description']) ? $args['description'] : ''),
             'options' => maybe_serialize($options)
         ), array('id' => $id));
         return $query_results;
@@ -248,8 +248,7 @@ class HashFormBuilder {
     }
 
     public function set_screen_option($status, $option, $value) {
-        if ('forms_per_page' == $option)
-            return $value;
+        return ('forms_per_page' === $option) ? $value : $status;
     }
 
     public static function trash() {
@@ -295,16 +294,10 @@ class HashFormBuilder {
         global $wpdb;
 
         $id = is_array($id) ? $id : array($id);
-        $placeholders = implode(',', array_map(function($v) {
-            return '%d';
-        }, $id));
+        $placeholders = implode(',', array_fill(0, count($id), '%d'));
         $prepare_args = array_merge([$status], $id);
 
-        if (is_array($id)) {
-            $query_results = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}hashform_forms SET status=%s WHERE id IN ({$placeholders})", $prepare_args));
-        } else {
-            $query_results = $wpdb->update($wpdb->prefix . 'hashform_forms', array('status' => $status), array('id' => $id));
-        }
+        $query_results = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}hashform_forms SET status=%s WHERE id IN ({$placeholders})", $prepare_args));
 
         return $query_results;
     }
@@ -449,12 +442,12 @@ class HashFormBuilder {
         global $wpdb;
         $message = '';
         $nonce = HashFormHelper::get_var('_wpnonce');
+        $id = HashFormHelper::get_var('id', 'absint');
 
-        if (!wp_verify_nonce($nonce)) {
+        if (!wp_verify_nonce($nonce, 'duplicate_form_' . $id)) {
             wp_die(esc_html__('Error ! Refresh the page and try again.', 'hash-form'));
         }
 
-        $id = HashFormHelper::get_var('id', 'absint');
         $values = self::get_form_vars($id);
 
         if (!$values) {
@@ -483,6 +476,7 @@ class HashFormBuilder {
 
         $query_results = $wpdb->insert($wpdb->prefix . 'hashform_forms', $new_values);
 
+        $form_id = 0;
         if ($query_results) {
             $form_id = $wpdb->insert_id;
             HashFormFields::duplicate_fields($id, $form_id);
@@ -611,17 +605,17 @@ class HashFormBuilder {
 
     public static function get_form_title($id) {
         global $wpdb;
-        $results = $wpdb->get_row($wpdb->prepare("SELECT name FROM {$wpdb->prefix}hashform_forms WHERE id=%d", $id));
 
-        if (!$results) {
-            return;
+        // Rendering calls this once or twice per field; cache per request.
+        static $titles = array();
+        if (array_key_exists($id, $titles)) {
+            return $titles[$id];
         }
 
-        foreach ($results as $key => $value) {
-            $results->$key = maybe_unserialize($value);
-        }
+        $name = $wpdb->get_var($wpdb->prepare("SELECT name FROM {$wpdb->prefix}hashform_forms WHERE id=%d", $id));
+        $titles[$id] = (null === $name) ? null : maybe_unserialize($name);
 
-        return isset($results->name) ? $results->name : '';
+        return $titles[$id];
     }
 
     public function init_overlay_html() {
@@ -649,7 +643,8 @@ class HashFormBuilder {
         }
 
         $email_to_array = array();
-        foreach ($vars['email_to'] as $row) {
+        $email_to_rows = isset($vars['email_to']) ? (array) $vars['email_to'] : array();
+        foreach ($email_to_rows as $row) {
             $email_to_val = trim($row);
             if ($email_to_val) {
                 $email_to_array[] = $email_to_val;
@@ -728,6 +723,10 @@ class HashFormBuilder {
     }
 
     public function add_more_condition_block() {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+
         check_ajax_referer('hashform_backend_ajax', 'backend_nonce');
 
         $form_id = HashFormHelper::get_post('form_id', 'absint', 0);
@@ -805,7 +804,7 @@ class HashFormBuilder {
 
     public function add_plugin_action_link($links) {
         $custom['settings'] = sprintf(
-            '<a href="%s" aria-label="%s">%s</a>', esc_url(add_query_arg('page', 'hashform', admin_url('admin.php'))), esc_attr__('Hash Froms', 'hash-form'), esc_html__('Settings', 'hash-form')
+            '<a href="%s" aria-label="%s">%s</a>', esc_url(add_query_arg('page', 'hashform', admin_url('admin.php'))), esc_attr__('Hash Forms', 'hash-form'), esc_html__('Settings', 'hash-form')
         );
 
         return array_merge($custom, (array) $links);
@@ -856,11 +855,16 @@ class HashFormBuilder {
         );
 
         if ($allowedExtensions) {
+            $filtered_allowed_extenstions = array();
             foreach ($allowedExtensions as $ext) {
                 if (in_array($ext, $default_allowed_extenstions)) {
                     $filtered_allowed_extenstions[] = $ext;
                 }
             }
+
+            // Never trust the request for the size limit beyond what the
+            // server would accept anyway.
+            $sizeLimit = min(absint($sizeLimit), wp_max_upload_size());
 
             $uploader = new HashFormFileUploader($filtered_allowed_extenstions, $sizeLimit);
             $result = $uploader->handleUpload($upload_dir['basedir'] . HASHFORM_UPLOAD_DIR, $replaceOldFile = false, $upload_dir['baseurl'] . HASHFORM_UPLOAD_DIR);
@@ -892,7 +896,10 @@ class HashFormBuilder {
         // Remove old temp files
         if (is_dir($temp_dir) and ($dir = opendir($temp_dir))) {
             while (($file = readdir($dir)) !== false) {
-                $temp_file_path = $temp_dir . DIRECTORY_SEPARATOR . $file;
+                $temp_file_path = $temp_dir . $file;
+                if (!is_file($temp_file_path)) {
+                    continue;
+                }
                 if ((filemtime($temp_file_path) < time() - $max_file_age)) {
                     wp_delete_file($temp_file_path);
                 }
@@ -990,6 +997,12 @@ class HashFormBuilder {
 
 
     public function register_translation_strings() {
+        // Without WPML there is nothing to register; skip the full forms +
+        // fields scan that would otherwise run on every request.
+        if (!has_action('wpml_register_single_string')) {
+            return;
+        }
+
         $all_forms = HashFormListing::get_published_table_data();
 
         foreach ($all_forms as $form) {

@@ -253,7 +253,7 @@ class HashFormFields {
 
         if (isset($values['default_value'])) {
             $field_obj = HashFormFields::get_field_class($new_values['type']);
-            $new_values['default_value'] = $field_obj->sanitize_value($new_values['default_value']);
+            $new_values['default_value'] = $field_obj->sanitize_value($values['default_value']);
         }
 
         self::preserve_format_option_backslashes($new_values);
@@ -362,8 +362,8 @@ class HashFormFields {
             FROM {$wpdb->prefix}hashform_fields hfi 
             LEFT OUTER JOIN {$wpdb->prefix}hashform_forms hfm 
             ON hfi.form_id = hfm.id 
-            WHERE hfi.form_id=%d 
-            ORDER BY 'field_order'", $old_form_id
+            WHERE hfi.form_id=%d
+            ORDER BY hfi.field_order", $old_form_id
         ));
 
         foreach ((array) $fields as $field) {

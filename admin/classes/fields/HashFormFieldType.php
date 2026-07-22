@@ -271,7 +271,13 @@ abstract class HashFormFieldType {
 
     protected function field_attrs() {
         $attrs = array();
+        $default_attrs = array();
         $display = $this->display_field_settings();
+
+        $field = $this->get_field();
+        if (!empty($field['required'])) {
+            $default_attrs['aria-required'] = 'true';
+        }
 
         if (isset($display['id']) && $display['id']) {
             $default_attrs['id'] = $this->html_id();
@@ -380,7 +386,7 @@ abstract class HashFormFieldType {
 
     protected function hidden_field_option() {
         $field = $this->get_field();
-        $ajax_action = get_post('action', 'sanitize_text_field');
+        $ajax_action = HashFormHelper::get_post('action', 'sanitize_text_field');
         if ($ajax_action === 'hashform_import_options')
             return;
         $opt_key = '000';
@@ -497,10 +503,10 @@ abstract class HashFormFieldType {
     }
 
     protected function add_min_max() {
-        $field = $this->field();
-        $min = $field['minnum'];
-        $max = $field['maxnum'];
-        $step = $field['step'];
+        $field = $this->get_field();
+        $min = isset($field['minnum']) ? $field['minnum'] : '';
+        $max = isset($field['maxnum']) ? $field['maxnum'] : '';
+        $step = isset($field['step']) ? $field['step'] : '';
 
         if (!is_numeric($min))
             $min = 0;
@@ -511,7 +517,7 @@ abstract class HashFormFieldType {
         if (!is_numeric($step) && $step !== 'any')
             $step = 1;
 
-        $input_html .= ' min="' . esc_attr($min) . '" max="' . esc_attr($max) . '" step="' . esc_attr($step) . '"';
+        return ' min="' . esc_attr($min) . '" max="' . esc_attr($max) . '" step="' . esc_attr($step) . '"';
     }
 
     public function validate($args) {

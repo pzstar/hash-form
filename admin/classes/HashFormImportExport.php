@@ -16,6 +16,10 @@ class HashFormImportExport {
     }
 
     public function process_settings_export() {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+
         $id = HashFormHelper::get_post('hashform_form_id', 'absint');
 
         if ('export_form' != HashFormHelper::get_post('hashform_imex_action') || !$id) {
@@ -31,11 +35,11 @@ class HashFormImportExport {
         $forms = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_forms WHERE id=%d", $id));
 
         foreach ($forms as $form) {
-            $form_styles = $form->styles ? unserialize($form->styles) : [];
+            $form_styles = $form->styles ? unserialize($form->styles, array('allowed_classes' => false)) : [];
             $exdat['form_key'] = $form->form_key ? $form->form_key : '';
-            $exdat['options'] = $form->options ? unserialize($form->options) : [];
+            $exdat['options'] = $form->options ? unserialize($form->options, array('allowed_classes' => false)) : [];
             $exdat['status'] = $form->status ? $form->status : 'published';
-            $exdat['settings'] = $form->settings ? unserialize($form->settings) : [];
+            $exdat['settings'] = $form->settings ? unserialize($form->settings, array('allowed_classes' => false)) : [];
             $exdat['styles'] = $form_styles;
             $exdat['created_at'] = $form->created_at ? $form->created_at : '';
             $fields = HashFormFields::get_form_fields($form->id);
@@ -78,6 +82,10 @@ class HashFormImportExport {
     }
 
     public function process_style_export() {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+
         $id = HashFormHelper::get_post('hashform_style_id', 'absint');
 
         if ('export_style' != HashFormHelper::get_post('hashform_imex_action') || !$id) {
@@ -87,8 +95,6 @@ class HashFormImportExport {
         if (!wp_verify_nonce(HashFormHelper::get_post('hashform_imex_export_nonce'), 'hashform_imex_export_nonce')) {
             return;
         }
-
-        global $wpdb;
 
         $hashform_styles = get_post_meta($id, 'hashform_styles', true);
         $hashform_styles = HashFormHelper::sanitize_array($hashform_styles, HashFormStyles::get_styles_sanitize_array());
@@ -167,16 +173,18 @@ class HashFormImportExport {
             $styles['form_style_template'] = $style_id;
         }
 
+        $status = isset($imdat['status']) && in_array($imdat['status'], array('published', 'trash'), true) ? $imdat['status'] : 'published';
+
         $form = array(
             'options' => serialize($options),
-            'status' => esc_html($imdat['status']),
+            'status' => $status,
             'settings' => serialize($settings),
             'styles' => serialize($styles),
-            'created_at' => gmdate('Y-m-d H:i:s', strtotime(esc_html($imdat['created_at']))),
+            'created_at' => current_time('mysql'),
         );
 
-        if (empty($imdat['created_at'])) {
-            $form['created_at'] = current_time('mysql');
+        if (!empty($imdat['created_at']) && strtotime($imdat['created_at'])) {
+            $form['created_at'] = gmdate('Y-m-d H:i:s', strtotime($imdat['created_at']));
         }
 
         $wpdb->update($wpdb->prefix . 'hashform_forms', $form, array('id' => $form_id));
@@ -198,7 +206,7 @@ class HashFormImportExport {
             }
         }
 
-        $_SESSION['hashform_message'] = esc_html__('Settings Imported Successfully', 'hash-form');
+        HashFormHelper::set_message(esc_html__('Settings Imported Successfully', 'hash-form'));
     }
 
     public function process_style_import() {
@@ -232,11 +240,16 @@ class HashFormImportExport {
 
         // Retrieve the settings from the file and convert the json object to an array.
         $imdat = json_decode(file_get_contents($hashform_import_file), true);
+
+        if (!is_array($imdat)) {
+            wp_die(esc_html__('Please upload a valid file to import', 'hash-form'));
+        }
+
         $hashform_styles = HashFormHelper::recursive_parse_args($imdat, HashFormStyles::default_styles());
         $hashform_styles = HashFormHelper::sanitize_array($hashform_styles, HashFormStyles::get_styles_sanitize_array());
         update_post_meta($style_id, 'hashform_styles', $hashform_styles);
 
-        $_SESSION['hashform_message'] = esc_html__('Form Style Imported Successfully', 'hash-form');
+        HashFormHelper::set_message(esc_html__('Form Style Imported Successfully', 'hash-form'));
     }
 
 }

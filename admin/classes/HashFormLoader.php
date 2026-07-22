@@ -14,7 +14,9 @@ class HashFormLoader {
     }
 
     public function load_plugin_textdomain() {
-        load_plugin_textdomain('hash-form', false, basename(dirname(__FILE__)) . '/languages');
+        // The path is relative to the plugins directory; this file lives in
+        // admin/classes/, so it must be derived from the main plugin file.
+        load_plugin_textdomain('hash-form', false, dirname(plugin_basename(HASHFORM_FILE)) . '/languages');
     }
 
     public static function add_admin_class($classes) {
@@ -39,6 +41,18 @@ class HashFormLoader {
 
     public static function admin_init() {
         $page = HashFormHelper::get_var('page', 'sanitize_title');
+
+        // The style-template editor is a regular post screen but is driven by
+        // the same admin assets (color picker, chosen, live preview, ...).
+        $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+        $is_style_template_screen = $screen && 'hashform-styles' === $screen->post_type;
+
+        // Everything below is only useful on the plugin's own screens; do not
+        // weigh down the rest of wp-admin with it.
+        if (strpos($page, 'hashform') !== 0 && !$is_style_template_screen) {
+            return;
+        }
+
         if (strpos($page, 'hashform') === 0) {
             wp_enqueue_script('hashform-builder', HASHFORM_URL . 'js/builder.js', array('jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-i18n', 'wp-hooks', 'jquery-ui-dialog', 'hashform-select2'), HASHFORM_VERSION, true);
             wp_enqueue_script('hashform-backend', HASHFORM_URL . 'js/backend.js', array('jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-i18n', 'wp-hooks', 'jquery-ui-dialog', 'jquery-ui-datepicker'), HASHFORM_VERSION, true);
@@ -93,33 +107,49 @@ class HashFormLoader {
         wp_enqueue_style('hashform-icons', HASHFORM_URL . 'fonts/hf-icons.css', array(), HASHFORM_VERSION);
     }
 
+    // Frontend assets are only registered here; they are enqueued by
+    // enqueue_form_assets() when a form is actually rendered, so pages
+    // without a form load none of them.
     public static function enqueue_styles() {
-        wp_enqueue_style('dashicons');
-        wp_enqueue_style('jquery-timepicker', HASHFORM_URL . 'css/jquery.timepicker.css', array(), HASHFORM_VERSION);
-        wp_enqueue_style('hashform-file-uploader', HASHFORM_URL . 'css/file-uploader.css', array(), HASHFORM_VERSION);
-        wp_enqueue_style('materialdesignicons', HASHFORM_URL . 'fonts/materialdesignicons.css', array(), HASHFORM_VERSION);
-        wp_enqueue_style('hashform-style', HASHFORM_URL . 'css/style.css', array(), HASHFORM_VERSION);
-        $fonts_url = HashFormStyles::fonts_url();
+        wp_register_style('jquery-timepicker', HASHFORM_URL . 'css/jquery.timepicker.css', array(), HASHFORM_VERSION);
+        wp_register_style('hashform-file-uploader', HASHFORM_URL . 'css/file-uploader.css', array(), HASHFORM_VERSION);
+        wp_register_style('materialdesignicons', HASHFORM_URL . 'fonts/materialdesignicons.css', array(), HASHFORM_VERSION);
+        wp_register_style('hashform-style', HASHFORM_URL . 'css/style.css', array(), HASHFORM_VERSION);
 
+        $fonts_url = HashFormStyles::fonts_url();
         if ($fonts_url) {
-            wp_enqueue_style('hashform-fonts', $fonts_url, array(), HASHFORM_VERSION);
+            wp_register_style('hashform-fonts', $fonts_url, array(), HASHFORM_VERSION);
         }
     }
 
     public static function enqueue_scripts() {
-        wp_enqueue_script('jquery-ui-slider');
-        wp_enqueue_script('jquery-timepicker', HASHFORM_URL . 'js/jquery.timepicker.min.js', array('jquery'), HASHFORM_VERSION, true);
-        wp_enqueue_script('hashform-file-uploader', HASHFORM_URL . 'js/file-uploader.js', array(), HASHFORM_VERSION, true);
+        wp_register_script('jquery-timepicker', HASHFORM_URL . 'js/jquery.timepicker.min.js', array('jquery'), HASHFORM_VERSION, true);
+        wp_register_script('hashform-file-uploader', HASHFORM_URL . 'js/file-uploader.js', array(), HASHFORM_VERSION, true);
         wp_localize_script('hashform-file-uploader', 'hashform_file_vars', array(
             'remove_txt' => esc_html__('Remove', 'hash-form')
         ));
-        wp_enqueue_script('moment', HASHFORM_URL . 'js/moment.js', array(), HASHFORM_VERSION, true);
-        wp_enqueue_script('frontend', HASHFORM_URL . 'js/frontend.js', array('jquery', 'jquery-ui-datepicker', 'jquery-timepicker', 'hashform-file-uploader', 'hashform-file-uploader'), HASHFORM_VERSION, true);
+        wp_register_script('moment', HASHFORM_URL . 'js/moment.js', array(), HASHFORM_VERSION, true);
+        wp_register_script('frontend', HASHFORM_URL . 'js/frontend.js', array('jquery', 'jquery-ui-datepicker', 'jquery-timepicker', 'hashform-file-uploader'), HASHFORM_VERSION, true);
         wp_localize_script('frontend', 'hashform_vars', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'ajax_nounce' => wp_create_nonce('hashform-upload-ajax-nonce'),
             'preview_img' => '',
         ));
+    }
+
+    public static function enqueue_form_assets() {
+        wp_enqueue_style('dashicons');
+        wp_enqueue_style('jquery-timepicker');
+        wp_enqueue_style('hashform-file-uploader');
+        wp_enqueue_style('materialdesignicons');
+        wp_enqueue_style('hashform-style');
+        wp_enqueue_style('hashform-fonts');
+
+        wp_enqueue_script('jquery-ui-slider');
+        wp_enqueue_script('jquery-timepicker');
+        wp_enqueue_script('hashform-file-uploader');
+        wp_enqueue_script('moment');
+        wp_enqueue_script('frontend');
     }
 
 }
