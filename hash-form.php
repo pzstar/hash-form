@@ -31,6 +31,7 @@ require HASHFORM_PATH . 'admin/classes/HashFormListActions.php';
 require HASHFORM_PATH . 'admin/classes/HashFormBuilder.php';
 require HASHFORM_PATH . 'admin/classes/HashFormHelper.php';
 require HASHFORM_PATH . 'admin/classes/HashFormFields.php';
+require HASHFORM_PATH . 'admin/classes/HashFormFieldIcons.php';
 require HASHFORM_PATH . 'admin/classes/HashFormLoader.php';
 require HASHFORM_PATH . 'admin/classes/HashFormSmtp.php';
 require HASHFORM_PATH . 'admin/classes/HashFormEntry.php';
@@ -38,12 +39,18 @@ require HASHFORM_PATH . 'admin/classes/HashFormImportExport.php';
 require HASHFORM_PATH . 'admin/classes/HashFormListing.php';
 require HASHFORM_PATH . 'admin/classes/HashFormEntryListing.php';
 require HASHFORM_PATH . 'admin/classes/HashFormValidate.php';
+require HASHFORM_PATH . 'admin/classes/HashFormRestrictions.php';
 require HASHFORM_PATH . 'admin/classes/HashFormPreview.php';
 require HASHFORM_PATH . 'admin/classes/HashFormShortcode.php';
 require HASHFORM_PATH . 'admin/classes/HashFormSettings.php';
 require HASHFORM_PATH . 'admin/classes/HashFormStyles.php';
 require HASHFORM_PATH . 'admin/classes/HashFormGridHelper.php';
 require HASHFORM_PATH . 'admin/classes/HashFormEmail.php';
+
+/**
+ * Bring the schema up to date after a plugin update, not just on activation.
+ */
+add_action('plugins_loaded', array('HashFormCreateTable', 'maybe_upgrade'));
 
 /**
  * Register widget.

@@ -24,6 +24,13 @@ $next_url = $next_entry_id ? admin_url('admin.php?page=hashform-entries&hashform
                 <span class="hf-form-entry-date"><?php echo HashFormEntry::get_entry_date($entry->id) ?></span>
             </h3>
             <div class="hf-form-entry-navigation">
+                <button type="button" class="hf-entry-star hf-entry-star-large<?php echo empty($entry->is_starred) ? '' : ' hf-starred'; ?>"
+                        data-entry="<?php echo absint($entry->id); ?>"
+                        data-starred="<?php echo empty($entry->is_starred) ? '0' : '1'; ?>"
+                        aria-pressed="<?php echo empty($entry->is_starred) ? 'false' : 'true'; ?>"
+                        aria-label="<?php esc_attr_e('Star this entry', 'hash-form'); ?>">
+                    <span class="dashicons dashicons-star-<?php echo empty($entry->is_starred) ? 'empty' : 'filled'; ?>"></span>
+                </button>
                 <a class="hf-form-entry-prev<?php echo $prev_url == '#' ? ' hf-disabled' : ''; ?>" href="<?php echo esc_url($prev_url); ?>">
                     <i class="mdi mdi-chevron-left"></i><?php echo esc_html__('Previous', 'hash-form') ?>
                 </a>
@@ -102,5 +109,36 @@ $next_url = $next_entry_id ? admin_url('admin.php?page=hashform-entries&hashform
                 ?>
             </tbody>
         </table>
+
+        <div class="hf-entry-tools">
+            <div class="hf-entry-notes" data-entry="<?php echo absint($entry->id); ?>">
+                <h4><?php esc_html_e('Private Note', 'hash-form'); ?></h4>
+                <p class="hf-entry-note-desc"><?php esc_html_e('Only visible here in the admin. Never sent to the person who submitted the form.', 'hash-form'); ?></p>
+                <textarea rows="4" class="hf-entry-note-field" placeholder="<?php esc_attr_e('Add a note about this entry...', 'hash-form'); ?>"><?php echo esc_textarea(isset($entry->notes) ? $entry->notes : ''); ?></textarea>
+                <p class="hf-entry-note-actions">
+                    <button type="button" class="button hf-entry-note-save"><?php esc_html_e('Save Note', 'hash-form'); ?></button>
+                    <span class="hf-entry-note-status" role="status"></span>
+                </p>
+            </div>
+
+            <div class="hf-entry-resend-wrap">
+                <h4><?php esc_html_e('Notification', 'hash-form'); ?></h4>
+                <p>
+                    <?php
+                    if (isset($entry->delivery_status) && !$entry->delivery_status) {
+                        echo '<span class="hf-entry-delivery-failed">' . esc_html__('The notification for this entry failed to send.', 'hash-form') . '</span>';
+                    } else {
+                        esc_html_e('Send the notification emails for this entry again.', 'hash-form');
+                    }
+                    ?>
+                </p>
+                <p>
+                    <button type="button" class="button hf-entry-resend" data-entry="<?php echo absint($entry->id); ?>">
+                        <?php esc_html_e('Resend Notification', 'hash-form'); ?>
+                    </button>
+                    <span class="hf-entry-resend-status" role="status"></span>
+                </p>
+            </div>
+        </div>
     </div>
 </div>

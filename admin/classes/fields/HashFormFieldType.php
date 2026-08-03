@@ -268,7 +268,10 @@ abstract class HashFormFieldType {
             'auto_width' => false,
             'default' => true,
             'description' => true,
-            'image_max_width' => false
+            'image_max_width' => false,
+            // Length, pattern, matching and uniqueness rules. Only meaningful
+            // for fields that hold a single scalar answer.
+            'advanced_validation' => false
         );
     }
 
@@ -462,6 +465,14 @@ abstract class HashFormFieldType {
             'invalid' => esc_html__('This field is invalid.', 'hash-form'),
             'rows' => '10',
             'max' => '',
+            // Advanced validation
+            'min_length' => '',
+            'pattern' => '',
+            'pattern_message' => esc_html__('Please match the requested format.', 'hash-form'),
+            'match_field' => '',
+            'match_message' => esc_html__('These fields do not match.', 'hash-form'),
+            'unique' => '',
+            'unique_message' => esc_html__('This value has already been submitted.', 'hash-form'),
             'disable' => array(
                 'line1' => '',
                 'line2' => '',

@@ -245,6 +245,9 @@ class HashFormHelper {
     public static function get_form_settings_checkbox_settings() {
         return array(
             'enable_ar' => 'off',
+            // Unchecked boxes are absent from the post, so they need a default
+            // to fall back to or they would keep their previous value.
+            'one_entry_per_user' => 'off',
         );
     }
 
@@ -280,6 +283,11 @@ class HashFormHelper {
             'error_message' => esc_html__('Sorry, An error Occurred! Your form cannot be submitted.', 'hash-form'),
             'show_page_id' => '',
             'redirect_url_page' => '',
+            // Restrictions. Scheduling, entry limits and login requirements
+            // are provided by the Pro plugin, which registers them through the
+            // hashform_form_restrictions filter.
+            'one_entry_per_user' => 'off',
+            'duplicate_message' => esc_html__('You have already submitted this form.', 'hash-form'),
         );
         return apply_filters('hashform_form_settings_default', $return);
     }
@@ -322,6 +330,8 @@ class HashFormHelper {
             'error_message' => 'sanitize_text_field',
             'show_page_id' => 'sanitize_text_field',
             'redirect_url_page' => 'sanitize_url',
+            'one_entry_per_user' => 'hashform_sanitize_checkbox',
+            'duplicate_message' => 'sanitize_text_field',
             'condition_action' => array(
                 'sanitize_text_field'
             ),

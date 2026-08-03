@@ -559,6 +559,84 @@ defined('ABSPATH') || die();
             <?php
         }
 
+        if (!empty($display['advanced_validation'])) {
+            // Other fields on this form that a confirmation field could match.
+            $match_options = array();
+
+            if (!empty($field['form_id'])) {
+                // The builder renders one settings panel per field, so without
+                // this the same form-fields query runs once for every field.
+                static $form_fields_cache = array();
+
+                if (!isset($form_fields_cache[$field['form_id']])) {
+                    $form_fields_cache[$field['form_id']] = HashFormFields::get_form_fields($field['form_id']);
+                }
+
+                foreach ($form_fields_cache[$field['form_id']] as $other_field) {
+                    if ($other_field->id == $field_id) {
+                        continue;
+                    }
+
+                    if (!in_array($other_field->type, array('text', 'textarea', 'email', 'url', 'phone', 'number'), true)) {
+                        continue;
+                    }
+
+                    $match_options[$other_field->id] = $other_field->name;
+                }
+            }
+            ?>
+            <h4><?php esc_html_e('Advanced Validation', 'hash-form'); ?></h4>
+
+            <div class="hf-form-row hf-grid-3">
+                <label><?php esc_html_e('Min Characters', 'hash-form'); ?></label>
+                <input type="number" min="0" step="1" name="field_options[min_length_<?php echo esc_attr($field_id); ?>]" value="<?php echo isset($field['min_length']) ? esc_attr($field['min_length']) : ''; ?>" size="5" />
+            </div>
+
+            <div class="hf-form-row">
+                <label><?php esc_html_e('Pattern', 'hash-form'); ?></label>
+                <input type="text" name="field_options[pattern_<?php echo esc_attr($field_id); ?>]" value="<?php echo isset($field['pattern']) ? esc_attr($field['pattern']) : ''; ?>" placeholder="<?php echo esc_attr('^[A-Z]{2}[0-9]{4}$'); ?>" />
+                <label class="hf-field-desc"><?php esc_html_e('A regular expression the value must match, without delimiters. Leave empty for no pattern.', 'hash-form'); ?></label>
+            </div>
+
+            <div class="hf-form-row">
+                <label><?php esc_html_e('Pattern Error Message', 'hash-form'); ?></label>
+                <input type="text" name="field_options[pattern_message_<?php echo esc_attr($field_id); ?>]" value="<?php echo isset($field['pattern_message']) ? esc_attr($field['pattern_message']) : ''; ?>" />
+            </div>
+
+            <?php if ($match_options) { ?>
+                <div class="hf-form-row">
+                    <label><?php esc_html_e('Must Match Field', 'hash-form'); ?></label>
+                    <select name="field_options[match_field_<?php echo esc_attr($field_id); ?>]">
+                        <option value=""><?php esc_html_e('— None —', 'hash-form'); ?></option>
+                        <?php foreach ($match_options as $option_id => $option_label) { ?>
+                            <option value="<?php echo esc_attr($option_id); ?>" <?php selected(isset($field['match_field']) ? $field['match_field'] : '', $option_id); ?>>
+                                <?php echo esc_html($option_label); ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                    <label class="hf-field-desc"><?php esc_html_e('Use for confirm email or confirm password fields.', 'hash-form'); ?></label>
+                </div>
+
+                <div class="hf-form-row">
+                    <label><?php esc_html_e('Match Error Message', 'hash-form'); ?></label>
+                    <input type="text" name="field_options[match_message_<?php echo esc_attr($field_id); ?>]" value="<?php echo isset($field['match_message']) ? esc_attr($field['match_message']) : ''; ?>" />
+                </div>
+            <?php } ?>
+
+            <div class="hf-form-row">
+                <label><?php esc_html_e('No Duplicates', 'hash-form'); ?></label>
+                <input type="hidden" name="field_options[unique_<?php echo esc_attr($field_id); ?>]" value="" />
+                <input type="checkbox" name="field_options[unique_<?php echo esc_attr($field_id); ?>]" value="on" <?php checked(isset($field['unique']) ? $field['unique'] : '', 'on'); ?> />
+                <label class="hf-field-desc"><?php esc_html_e('Reject a value that has already been submitted to this form.', 'hash-form'); ?></label>
+            </div>
+
+            <div class="hf-form-row">
+                <label><?php esc_html_e('Duplicate Error Message', 'hash-form'); ?></label>
+                <input type="text" name="field_options[unique_message_<?php echo esc_attr($field_id); ?>]" value="<?php echo isset($field['unique_message']) ? esc_attr($field['unique_message']) : ''; ?>" />
+            </div>
+            <?php
+        }
+
         $has_validation = ($display['invalid'] || $display['required']);
         $has_invalid = $display['invalid'];
 

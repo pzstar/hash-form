@@ -17,11 +17,36 @@ class HashFormEmail {
         return $this->form->settings;
     }
 
+    /**
+     * Set while replaying a deferred send, so the filter that held the email
+     * back does not hold it back a second time.
+     */
+    public static $sending_deferred = false;
+
     public function send_email() {
         $attachments = array();
         $form_settings = $this->get_form_settings();
         $entry = HashFormEntry::get_entry_vars($this->entry_id);
         $metas = $entry->metas;
+
+        /**
+         * Lets an add-on postpone the notification and auto responder, which
+         * is what the payment gateways do so an abandoned checkout does not
+         * send an order confirmation.
+         *
+         * Returning false must still let the submission finish normally.
+         */
+        if (!self::$sending_deferred && !apply_filters('hashform_send_entry_emails', true, $this->form, $this->entry_id, $metas)) {
+            do_action('hashform_after_email', array(
+                'form' => $this->form,
+                'entry_id' => $this->entry_id,
+                'form_settings' => $form_settings,
+                'metas' => $metas,
+                'location' => $this->location
+            ));
+
+            return true;
+        }
 
         $email_to = isset($form_settings['email_to']) ? explode(',', $form_settings['email_to']) : '';
         $email_from = isset($form_settings['email_from']) ? $form_settings['email_from'] : '';
@@ -183,6 +208,15 @@ class HashFormEmail {
                 $redirect_url = get_permalink($form_settings['show_page_id']);
             } else if ($form_settings['confirmation_type'] == 'redirect_url') {
                 $redirect_url = $form_settings['redirect_url_page'];
+            }
+
+            // A replay (resend from the admin, or a deferred payment email)
+            // must not run the post submission actions again: those dispatch
+            // payments and third party integrations, so repeating them would
+            // charge the customer a second time. There is also no ajax caller
+            // waiting for a json response.
+            if (self::$sending_deferred) {
+                return true;
             }
 
             do_action('hashform_after_email', array(

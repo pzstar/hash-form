@@ -180,10 +180,10 @@ class HashFormValidate {
             }
         }
 
-        self::validate_field_types($errors, $field, $value);
+        self::validate_field_types($errors, $field, $value, $values);
     }
 
-    public static function validate_field_types(&$errors, $field, $value) {
+    public static function validate_field_types(&$errors, $field, $value, $values = array()) {
         $field_obj = HashFormFields::get_field_object($field);
         $args['errors'] = $errors;
         $args['value'] = $value;
@@ -194,6 +194,121 @@ class HashFormValidate {
         if (!empty($new_errors)) {
             $errors = array_merge($errors, $new_errors);
         }
+
+        self::validate_advanced_rules($errors, $field, $value, $values);
+    }
+
+    /**
+     * Length, pattern, matching and uniqueness rules.
+     *
+     * These run for every field type rather than being repeated in each field
+     * class, and they run on the server because the matching html attributes
+     * are only a convenience: a posted request can ignore them entirely.
+     */
+    public static function validate_advanced_rules(&$errors, $field, $value, $values = array()) {
+        $key = 'field' . $field->id;
+
+        // Don't pile a second complaint on a field that already failed.
+        if (isset($errors[$key])) {
+            return;
+        }
+
+        // Composite values (name, address, checkboxes) are not single answers.
+        if (is_array($value) || '' === trim((string) $value)) {
+            return;
+        }
+
+        $value = trim((string) $value);
+
+        $min_length = HashFormFields::get_option($field, 'min_length');
+
+        if ($min_length !== '' && is_numeric($min_length) && mb_strlen($value) < (int) $min_length) {
+            /* translators: %s: minimum number of characters. */
+            $errors[$key] = sprintf(esc_html__('Please enter at least %s characters.', 'hash-form'), number_format_i18n((int) $min_length));
+            return;
+        }
+
+        // The max characters option only set a maxlength attribute until now.
+        $max_length = HashFormFields::get_option($field, 'max');
+
+        if ($max_length !== '' && is_numeric($max_length) && mb_strlen($value) > (int) $max_length) {
+            /* translators: %s: maximum number of characters. */
+            $errors[$key] = sprintf(esc_html__('Please enter no more than %s characters.', 'hash-form'), number_format_i18n((int) $max_length));
+            return;
+        }
+
+        if (self::fails_pattern($field, $value)) {
+            $errors[$key] = self::message($field, 'pattern_message', esc_html__('Please match the requested format.', 'hash-form'));
+            return;
+        }
+
+        if (self::fails_match($field, $value, $values)) {
+            $errors[$key] = self::message($field, 'match_message', esc_html__('These fields do not match.', 'hash-form'));
+            return;
+        }
+
+        if (self::fails_unique($field, $value)) {
+            $errors[$key] = self::message($field, 'unique_message', esc_html__('This value has already been submitted.', 'hash-form'));
+        }
+    }
+
+    private static function message($field, $option, $fallback) {
+        $message = HashFormFields::get_option($field, $option);
+
+        return $message ? $message : $fallback;
+    }
+
+    private static function fails_pattern($field, $value) {
+        $pattern = HashFormFields::get_option($field, 'pattern');
+
+        if (!is_string($pattern) || '' === trim($pattern)) {
+            return false;
+        }
+
+        // The pattern is stored without delimiters, the way the html attribute
+        // takes it. Anchor it so it has to match the whole value.
+        $regex = '/^(?:' . str_replace('/', '\/', trim($pattern)) . ')$/u';
+
+        // An invalid pattern must not block a legitimate submission, so a
+        // broken regex is treated as no pattern at all.
+        $result = @preg_match($regex, $value);
+
+        if (false === $result) {
+            return false;
+        }
+
+        return 1 !== $result;
+    }
+
+    private static function fails_match($field, $value, $values) {
+        $match_field = HashFormFields::get_option($field, 'match_field');
+
+        if (!$match_field) {
+            return false;
+        }
+
+        $other = isset($values['item_meta'][$match_field]) ? $values['item_meta'][$match_field] : '';
+
+        if (is_array($other)) {
+            return false;
+        }
+
+        return trim((string) $other) !== $value;
+    }
+
+    private static function fails_unique($field, $value) {
+        if ('on' !== HashFormFields::get_option($field, 'unique')) {
+            return false;
+        }
+
+        global $wpdb;
+
+        $found = $wpdb->get_var($wpdb->prepare(
+                        "SELECT m.id FROM {$wpdb->prefix}hashform_entry_meta AS m
+                INNER JOIN {$wpdb->prefix}hashform_entries AS e ON e.id = m.item_id
+                WHERE m.field_id = %d AND m.meta_value = %s AND e.status = 'published' LIMIT 1", $field->id, $value));
+
+        return (bool) $found;
     }
 
     public static function sanitize_entries($values) {

@@ -33,6 +33,10 @@ $settings = $form->settings ? $form->settings : HashFormHelper::get_form_setting
             'name' => esc_html__('Conditional Logic', 'hash-form'),
             'icon' => 'mdi mdi-checkbox-multiple-marked-outline'
         ),
+        'restrictions' => array(
+            'name' => esc_html__('Restrictions', 'hash-form'),
+            'icon' => 'mdi mdi-lock-outline'
+        ),
         'import-export' => array(
             'name' => esc_html__('Import/Export', 'hash-form'),
             'icon' => 'mdi mdi-swap-horizontal'

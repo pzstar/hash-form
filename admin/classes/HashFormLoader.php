@@ -59,6 +59,11 @@ class HashFormLoader {
 
             wp_localize_script('hashform-backend', 'hashform_backend_js', array(
                 'nonce' => wp_create_nonce('hashform_backend_ajax'),
+                'entry_nonce' => wp_create_nonce('hashform_entry_action'),
+                'note_saved' => esc_html__('Note saved.', 'hash-form'),
+                'note_error' => esc_html__('The note could not be saved.', 'hash-form'),
+                'resend_confirm' => esc_html__('Send the notification emails for this entry again?', 'hash-form'),
+                'generic_error' => esc_html__('Something went wrong. Please reload the page and try again.', 'hash-form'),
             ));
 
             wp_localize_script('hashform-builder', 'hashform_backend_js', array(
@@ -97,7 +102,14 @@ class HashFormLoader {
         wp_enqueue_style('materialdesignicons', HASHFORM_URL . 'fonts/materialdesignicons.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-chosen', HASHFORM_URL . 'css/chosen.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-select2', HASHFORM_URL . 'css/select2.min.css', array(), HASHFORM_VERSION);
-        wp_enqueue_style('hashform-admin', HASHFORM_URL . 'css/admin-style.css', array(), HASHFORM_VERSION);
+        // Tokens load first and are a dependency of everything else, so any
+        // stylesheet can rely on the custom properties being defined.
+        wp_enqueue_style('hashform-tokens', HASHFORM_URL . 'css/design-tokens.css', array(), HASHFORM_VERSION);
+        wp_enqueue_style('hashform-admin', HASHFORM_URL . 'css/admin-style.css', array('hashform-tokens'), HASHFORM_VERSION);
+
+        // Loaded after the legacy sheet so the reworked screens win without
+        // having to unpick admin-style.css in one go.
+        wp_enqueue_style('hashform-builder-ui', HASHFORM_URL . 'css/builder.css', array('hashform-admin'), HASHFORM_VERSION);
         wp_enqueue_style('hashform-file-uploader', HASHFORM_URL . 'css/file-uploader.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-admin-settings', HASHFORM_URL . 'css/admin-settings.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-style', HASHFORM_URL . 'css/style.css', array(), HASHFORM_VERSION);

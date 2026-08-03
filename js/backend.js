@@ -1441,3 +1441,108 @@ HTMLSelectElement.prototype.contains = function (value) {
     }
     return false;
 };
+
+
+/**
+ * Entry workflow: starring, private notes and resending a notification.
+ * Kept separate from hashFormAdmin so it stays self contained.
+ */
+(function ($) {
+    'use strict';
+
+    function vars() {
+        return (typeof hashform_backend_js === 'undefined') ? {} : hashform_backend_js;
+    }
+
+    function post(action, data) {
+        return $.post(ajaxurl, $.extend({
+            action: action,
+            nonce: vars().entry_nonce
+        }, data));
+    }
+
+    $(document).on('click', '.hf-entry-star', function (e) {
+        e.preventDefault();
+
+        var $button = $(this);
+
+        if ($button.hasClass('hf-star-busy')) {
+            return;
+        }
+
+        // Flip straight away; the request only confirms it.
+        var starred = $button.attr('data-starred') === '1' ? 0 : 1;
+
+        $button.addClass('hf-star-busy')
+                .toggleClass('hf-starred', starred === 1)
+                .attr({'data-starred': starred, 'aria-pressed': starred ? 'true' : 'false'})
+                .find('.dashicons')
+                .toggleClass('dashicons-star-filled', starred === 1)
+                .toggleClass('dashicons-star-empty', starred === 0);
+
+        post('hashform_toggle_star', {
+            entry_id: $button.attr('data-entry'),
+            starred: starred
+        }).fail(function () {
+            // Put it back the way it was.
+            var reverted = starred ? 0 : 1;
+            $button.toggleClass('hf-starred', reverted === 1)
+                    .attr({'data-starred': reverted, 'aria-pressed': reverted ? 'true' : 'false'})
+                    .find('.dashicons')
+                    .toggleClass('dashicons-star-filled', reverted === 1)
+                    .toggleClass('dashicons-star-empty', reverted === 0);
+        }).always(function () {
+            $button.removeClass('hf-star-busy');
+        });
+    });
+
+    $(document).on('click', '.hf-entry-note-save', function (e) {
+        e.preventDefault();
+
+        var $button = $(this);
+        var $wrap = $button.closest('.hf-entry-notes');
+        var $status = $wrap.find('.hf-entry-note-status');
+
+        $button.prop('disabled', true);
+
+        post('hashform_save_entry_note', {
+            entry_id: $wrap.attr('data-entry'),
+            note: $wrap.find('textarea').val()
+        }).done(function (response) {
+            $status.text(response && response.success ? vars().note_saved : vars().note_error);
+        }).fail(function () {
+            $status.text(vars().note_error);
+        }).always(function () {
+            $button.prop('disabled', false);
+            setTimeout(function () {
+                $status.text('');
+            }, 4000);
+        });
+    });
+
+    $(document).on('click', '.hf-entry-resend', function (e) {
+        e.preventDefault();
+
+        if (!window.confirm(vars().resend_confirm)) {
+            return;
+        }
+
+        var $button = $(this);
+        var $status = $button.closest('.hf-entry-resend-wrap').find('.hf-entry-resend-status');
+
+        $button.prop('disabled', true);
+        $status.text('');
+
+        post('hashform_resend_notification', {
+            entry_id: $button.attr('data-entry')
+        }).done(function (response) {
+            var message = response && response.data && response.data.message;
+            $status.text(message || vars().generic_error);
+            $status.toggleClass('hf-entry-status-error', !(response && response.success));
+        }).fail(function () {
+            $status.text(vars().generic_error).addClass('hf-entry-status-error');
+        }).always(function () {
+            $button.prop('disabled', false);
+        });
+    });
+})(jQuery);

@@ -13,6 +13,8 @@ class HashFormEntryListing extends \WP_List_Table {
     private $table_data;
     private $status;
     private $form_names;
+    private $previews;
+    private $page_entry_ids = array();
 
     public function __construct() {
         parent::__construct(
@@ -34,15 +36,119 @@ class HashFormEntryListing extends \WP_List_Table {
     }
 
     public function get_columns() {
-        return array(
+        $columns = array(
             'cb' => '<input type="checkbox" />',
+            'is_starred' => '<span class="dashicons dashicons-star-filled" title="' . esc_attr__('Starred', 'hash-form') . '"></span>',
             'name' => esc_html__('ID', 'hash-form'),
             'form_id' => esc_html__('Form', 'hash-form'),
+            'preview' => esc_html__('Entry', 'hash-form'),
             'user_id' => esc_html__('Created By', 'hash-form'),
             'delivery_status' => esc_html__('Status', 'hash-form'),
             'ip' => esc_html__('IP', 'hash-form'),
             'created_at' => esc_html__('Created At', 'hash-form')
         );
+
+        // Add-ons append their own columns, such as payment status.
+        return apply_filters('hashform_entries_columns', $columns);
+    }
+
+    /**
+     * Unread rows are bold, the way an inbox does it.
+     */
+    public function single_row($item) {
+        $classes = empty($item['is_read']) ? 'hf-entry-unread' : '';
+        echo '<tr class="' . esc_attr($classes) . '">';
+        $this->single_row_columns($item);
+        echo '</tr>';
+    }
+
+    private function get_column_star($item) {
+        $starred = !empty($item['is_starred']);
+
+        return sprintf(
+                '<button type="button" class="hf-entry-star %1$s" data-entry="%2$s" data-starred="%3$s" aria-pressed="%4$s" aria-label="%5$s"><span class="dashicons dashicons-%6$s"></span></button>',
+                $starred ? 'hf-starred' : '',
+                esc_attr($item['id']),
+                $starred ? 1 : 0,
+                $starred ? 'true' : 'false',
+                esc_attr__('Star this entry', 'hash-form'),
+                $starred ? 'star-filled' : 'star-empty'
+        );
+    }
+
+    /**
+     * A couple of values from the entry itself, so the list can be read
+     * without opening every row.
+     */
+    private function get_column_preview($entry_id) {
+        if (null === $this->previews) {
+            $this->previews = $this->load_previews();
+        }
+
+        if (empty($this->previews[$entry_id])) {
+            return '<span class="hf-entry-preview-empty">&mdash;</span>';
+        }
+
+        $parts = array();
+
+        foreach ($this->previews[$entry_id] as $value) {
+            $parts[] = '<span class="hf-entry-preview-value">' . esc_html($value) . '</span>';
+        }
+
+        return '<div class="hf-entry-preview">' . implode('', $parts) . '</div>';
+    }
+
+    /**
+     * Loads the first couple of stored values for every entry on this page in
+     * one query, rather than one query per row.
+     */
+    private function load_previews() {
+        global $wpdb;
+
+        if (empty($this->page_entry_ids)) {
+            return array();
+        }
+
+        $ids = implode(',', array_map('absint', $this->page_entry_ids));
+
+        $rows = $wpdb->get_results(
+                "SELECT m.item_id, m.meta_value, f.type
+            FROM {$wpdb->prefix}hashform_entry_meta AS m
+            LEFT JOIN {$wpdb->prefix}hashform_fields AS f ON f.id = m.field_id
+            WHERE m.item_id IN ({$ids})
+            ORDER BY m.id ASC", ARRAY_A); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+
+        // Layout only fields hold no answer, so they make a poor preview.
+        $skip = array('heading', 'paragraph', 'separator', 'spacer', 'image', 'html', 'captcha', 'hidden', 'user_id');
+        $previews = array();
+
+        foreach ($rows as $row) {
+            $item_id = $row['item_id'];
+
+            if (isset($previews[$item_id]) && count($previews[$item_id]) >= 2) {
+                continue;
+            }
+
+            if (in_array($row['type'], $skip, true)) {
+                continue;
+            }
+
+            $value = maybe_unserialize($row['meta_value']);
+
+            if (is_array($value)) {
+                $value = implode(', ', array_filter(array_map('strval', $value)));
+            }
+
+            $value = trim(wp_strip_all_tags((string) $value));
+
+            if ('' === $value) {
+                continue;
+            }
+
+            $previews[$item_id][] = wp_html_excerpt($value, 45, '...');
+        }
+
+        return $previews;
     }
 
     public function column_cb($item) {
@@ -72,18 +178,27 @@ class HashFormEntryListing extends \WP_List_Table {
 
             $page_rows = array_slice($this->table_data, (($current_page - 1) * $per_page), $per_page);
 
+            // Collected first so the previews for the whole page load in one
+            // query instead of one per row.
+            $this->page_entry_ids = wp_list_pluck($page_rows, 'id');
+
             $data = array();
             foreach ($page_rows as $item) {
                 $id = $item['id'];
                 $data[$id] = array(
                     'id' => $item['id'],
+                    'is_read' => isset($item['is_read']) ? $item['is_read'] : 1,
+                    'is_starred' => $this->get_column_star($item),
                     'name' => $this->get_column_id($item),
                     'form_id' => $this->get_form_link($item['form_id']),
+                    'preview' => $this->get_column_preview($item['id']),
                     'user_id' => $this->get_user_link($item['user_id']),
                     'delivery_status' => $item['delivery_status'] ? esc_html__('Success', 'hash-form') : esc_html__('Failed', 'hash-form'),
                     'created_at' => HashFormHelper::convert_date_format($item['created_at']),
                     'ip' => $item['ip']
                 );
+
+                $data[$id] = apply_filters('hashform_entries_column_values', $data[$id], $item);
             }
 
             $this->set_pagination_args(array(
@@ -146,15 +261,62 @@ class HashFormEntryListing extends \WP_List_Table {
 
     private function get_table_data() {
         global $wpdb;
-        $status = $this->status;
 
-        if ($search = htmlspecialchars_decode(HashFormHelper::get_var('s'))) {
-            return $wpdb->get_results($wpdb->prepare("SELECT * from {$wpdb->prefix}hashform_entries WHERE status=%s AND form_id Like %s", $status, '%' . $wpdb->esc_like($search) . '%'), ARRAY_A);
-        } else if ($form_id = HashFormHelper::get_var('form_id', 'absint')) {
-             return $wpdb->get_results($wpdb->prepare("SELECT * from {$wpdb->prefix}hashform_entries WHERE status=%s AND form_id=%d", $status, $form_id), ARRAY_A);
-        } else {
-            return $wpdb->get_results($wpdb->prepare("SELECT * from {$wpdb->prefix}hashform_entries WHERE status=%s", $status), ARRAY_A);
+        // "unread" and "starred" are filters over published entries rather
+        // than real statuses of their own.
+        $where = array('e.status = %s');
+        $params = array(in_array($this->status, array('unread', 'starred'), true) ? 'published' : $this->status);
+        $join = '';
+
+        if ('unread' === $this->status) {
+            $where[] = 'e.is_read = 0';
+        } else if ('starred' === $this->status) {
+            $where[] = 'e.is_starred = 1';
         }
+
+        // The form filter and the search box used to be mutually exclusive,
+        // so picking a form and then searching silently ignored the form.
+        $form_id = HashFormHelper::get_var('form_id', 'absint');
+
+        if ($form_id) {
+            $where[] = 'e.form_id = %d';
+            $params[] = $form_id;
+        }
+
+        $search = trim(htmlspecialchars_decode(HashFormHelper::get_var('s')));
+
+        if ('' !== $search) {
+            $like = '%' . $wpdb->esc_like($search) . '%';
+
+            // What was submitted lives in the meta table, which is what people
+            // expect a search to look through.
+            $join = "LEFT JOIN {$wpdb->prefix}hashform_entry_meta AS m ON m.item_id = e.id
+                LEFT JOIN {$wpdb->prefix}hashform_forms AS f ON f.id = e.form_id
+                LEFT JOIN {$wpdb->users} AS u ON u.ID = e.user_id";
+
+            $search_where = array(
+                'm.meta_value LIKE %s',
+                'f.name LIKE %s',
+                'e.ip LIKE %s',
+                'u.display_name LIKE %s',
+                'u.user_email LIKE %s',
+            );
+
+            array_push($params, $like, $like, $like, $like, $like);
+
+            // A bare number is most likely an entry id.
+            if (is_numeric($search)) {
+                $search_where[] = 'e.id = %d';
+                $params[] = absint($search);
+            }
+
+            $where[] = '(' . implode(' OR ', $search_where) . ')';
+        }
+
+        // DISTINCT because the meta join returns one row per stored field.
+        $sql = "SELECT DISTINCT e.* FROM {$wpdb->prefix}hashform_entries AS e {$join} WHERE " . implode(' AND ', $where);
+
+        return $wpdb->get_results($wpdb->prepare($sql, $params), ARRAY_A); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
     }
 
     public function get_bulk_actions() {
@@ -209,10 +371,31 @@ class HashFormEntryListing extends \WP_List_Table {
                 <?php
                 self::forms_dropdown('form_id', $form_id);
                 submit_button(esc_html__('Filter', 'hash-form'), 'filter_action', '', false, array('id' => 'post-query-submit'));
+
+                // Where add-ons hang their own entry tools, such as export.
+                do_action('hashform_entries_tablenav', $this->status, $form_id);
+
+                $this->export_upsell();
                 ?>
             </div>
             <?php
         }
+    }
+
+    /**
+     * Exporting entries lives in the Pro plugin. Point at it only when it is
+     * not already installed.
+     */
+    private function export_upsell() {
+        if (defined('HASH_FORM_PRO_VERSION') || !$this->has_items()) {
+            return;
+        }
+        ?>
+        <a class="button hf-export-upsell" href="https://hashthemes.com/plugin/hash-form-pro/" target="_blank" rel="noopener">
+            <span class="dashicons dashicons-download"></span>
+            <?php esc_html_e('Export to CSV', 'hash-form'); ?>
+        </a>
+        <?php
     }
 
     public static function forms_dropdown($field_name, $field_value = '') {
@@ -279,6 +462,8 @@ class HashFormEntryListing extends \WP_List_Table {
     public function get_views() {
         $statuses = array(
             'published' => esc_html__('All', 'hash-form'),
+            'unread' => esc_html__('Unread', 'hash-form'),
+            'starred' => esc_html__('Starred', 'hash-form'),
             'trash' => esc_html__('Trash', 'hash-form'),
         );
 
@@ -288,7 +473,10 @@ class HashFormEntryListing extends \WP_List_Table {
 
         foreach ($statuses as $status => $name) {
             $class = ($status == $this->status) ? ' class="current"' : '';
-            if ($counts[$status]) {
+
+            // Unread stays visible at zero so "0 unread" is readable as good
+            // news rather than the tab vanishing.
+            if ($counts[$status] || 'unread' === $status) {
                 $links[$status] = '<a href="' . esc_url('?page=hashform-entries&status=' . $status) . '" ' . $class . '>' . sprintf('%1$s <span class="count">(%2$s)</span>', $name, number_format_i18n($counts[$status])) . '</a>';
             }
         }

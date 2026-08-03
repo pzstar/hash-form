@@ -2527,3 +2527,135 @@ form.hf-success .hf-copied {
 .hf-alert-warning {
     background-color: #DF4759;
 }
+/* ---------- Entry workflow ---------- */
+
+/* Unread entries read like an unread inbox row. */
+.hf-entry-unread td,
+.hf-entry-unread th {
+    font-weight: 600;
+}
+
+.hf-entry-unread .row-title {
+    font-weight: 700;
+}
+
+.wp-list-table .column-is_starred {
+    width: 32px;
+    text-align: center;
+}
+
+.wp-list-table .column-is_starred .dashicons {
+    color: #a7aaad;
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
+}
+
+.hf-entry-star {
+    background: none;
+    border: 0;
+    color: #a7aaad;
+    cursor: pointer;
+    line-height: 1;
+    padding: 2px;
+}
+
+.hf-entry-star:hover,
+.hf-entry-star.hf-starred {
+    color: #dba617;
+}
+
+.hf-entry-star .dashicons {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+}
+
+.hf-entry-star.hf-star-busy {
+    opacity: .5;
+}
+
+.hf-entry-star-large .dashicons {
+    font-size: 22px;
+    height: 22px;
+    width: 22px;
+}
+
+/* Entry preview column */
+.hf-entry-preview {
+    color: #50575e;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-width: 320px;
+}
+
+.hf-entry-preview-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.hf-entry-preview-value:first-child {
+    color: #1d2327;
+    font-weight: 600;
+}
+
+.hf-entry-preview-empty {
+    color: #a7aaad;
+}
+
+/* Notes and resend, on the entry detail screen */
+.hf-entry-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.hf-entry-tools > div {
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    flex: 1 1 320px;
+    padding: 16px 20px;
+}
+
+.hf-entry-tools h4 {
+    font-size: 14px;
+    margin: 0 0 6px;
+}
+
+.hf-entry-tools p {
+    color: #646970;
+    margin: 0 0 10px;
+}
+
+.hf-entry-note-field {
+    width: 100%;
+}
+
+.hf-entry-note-status,
+.hf-entry-resend-status {
+    color: #2e7d4f;
+    font-size: 13px;
+    margin-left: 8px;
+}
+
+.hf-entry-status-error,
+.hf-entry-delivery-failed {
+    color: #b32d2e;
+}
+
+/* Field sidebar icons */
+.hf-fields-list .hf-field-icon {
+    color: #50575e;
+    flex: 0 0 auto;
+    height: 20px;
+    width: 20px;
+}
+
+.hf-fields-list .hf-drag-field:hover .hf-field-icon,
+.hf-fields-list .hf-field-box:hover .hf-field-icon {
+    color: var(--wp-admin-theme-color, #2271b1);
+}

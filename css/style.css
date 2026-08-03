@@ -1873,3 +1873,11 @@ body > .hf-form-tempate {
     margin: 0 auto;
     padding: 40px;
 }
+/* Shown in place of a form that is closed, full or login-only. */
+.hf-form-closed-msg {
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    color: #50575e;
+    padding: 16px 20px;
+}

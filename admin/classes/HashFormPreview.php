@@ -40,6 +40,15 @@ class HashFormPreview {
         HashFormLoader::enqueue_form_assets();
 
         $form = $form ? $form : HashFormBuilder::get_form_vars($id);
+
+        // Scheduled, limited or login-only forms show their notice instead.
+        $restriction = HashFormRestrictions::check($form);
+
+        if (empty($restriction['allowed'])) {
+            echo wp_kses_post(HashFormRestrictions::get_closed_html($restriction));
+            return;
+        }
+
         $values = HashFormHelper::get_fields_array($id);
 
         $styles = $form->styles ? $form->styles : '';

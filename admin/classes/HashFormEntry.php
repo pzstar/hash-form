@@ -11,6 +11,125 @@ class HashFormEntry {
 
         add_action('wp_ajax_hashform_process_entry', array($this, 'process_entry'));
         add_action('wp_ajax_nopriv_hashform_process_entry', array($this, 'process_entry'));
+
+        add_action('wp_ajax_hashform_toggle_star', array($this, 'toggle_star'));
+        add_action('wp_ajax_hashform_save_entry_note', array($this, 'save_entry_note'));
+        add_action('wp_ajax_hashform_resend_notification', array($this, 'resend_notification'));
+    }
+
+    /* ===== Entry workflow ===== */
+
+    public static function set_flag($id, $column, $value) {
+        global $wpdb;
+
+        if (!in_array($column, array('is_read', 'is_starred'), true)) {
+            return false;
+        }
+
+        return $wpdb->update($wpdb->prefix . 'hashform_entries', array($column => (int) $value), array('id' => absint($id)));
+    }
+
+    public static function mark_read($id) {
+        return self::set_flag($id, 'is_read', 1);
+    }
+
+    public static function get_unread_count() {
+        global $wpdb;
+        return (int) $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}hashform_entries WHERE status='published' AND is_read = 0");
+    }
+
+    /**
+     * Star and unstar from the entries list without a page load.
+     */
+    public function toggle_star() {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error();
+        }
+
+        check_ajax_referer('hashform_entry_action', 'nonce');
+
+        $id = HashFormHelper::get_post('entry_id', 'absint');
+        $starred = HashFormHelper::get_post('starred', 'absint') ? 1 : 0;
+
+        if (!$id || !self::entry_exists($id)) {
+            wp_send_json_error();
+        }
+
+        self::set_flag($id, 'is_starred', $starred);
+
+        wp_send_json_success(array('starred' => $starred));
+    }
+
+    /**
+     * A private note on an entry, for whoever picks it up next.
+     */
+    public function save_entry_note() {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error();
+        }
+
+        check_ajax_referer('hashform_entry_action', 'nonce');
+
+        global $wpdb;
+        $id = HashFormHelper::get_post('entry_id', 'absint');
+        $note = HashFormHelper::get_post('note', 'sanitize_textarea_field');
+
+        if (!$id || !self::entry_exists($id)) {
+            wp_send_json_error();
+        }
+
+        $wpdb->update($wpdb->prefix . 'hashform_entries', array('notes' => $note), array('id' => $id));
+
+        wp_send_json_success(array('note' => $note));
+    }
+
+    /**
+     * Sends the notification emails for an entry again, for when the original
+     * bounced or the address was wrong at the time.
+     */
+    public function resend_notification() {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error();
+        }
+
+        check_ajax_referer('hashform_entry_action', 'nonce');
+
+        global $wpdb;
+        $id = HashFormHelper::get_post('entry_id', 'absint');
+        $entry = self::get_entry_vars($id);
+
+        if (!$entry) {
+            wp_send_json_error(array('message' => esc_html__('That entry no longer exists.', 'hash-form')));
+        }
+
+        $form = HashFormBuilder::get_form_vars($entry->form_id);
+
+        if (!$form) {
+            wp_send_json_error(array('message' => esc_html__('The form for this entry no longer exists.', 'hash-form')));
+        }
+
+        // Resending must only send the mail. Without this the post submission
+        // actions would run again, which for a payment form means dispatching
+        // a second charge.
+        HashFormEmail::$sending_deferred = true;
+
+        $send_mail = new HashFormEmail($form, $id, '');
+        $sent = $send_mail->send_email();
+
+        HashFormEmail::$sending_deferred = false;
+
+        $wpdb->update($wpdb->prefix . 'hashform_entries', array('delivery_status' => $sent ? 1 : 0), array('id' => $id));
+
+        if (!$sent) {
+            wp_send_json_error(array('message' => esc_html__('The notification could not be sent. Check your email settings.', 'hash-form')));
+        }
+
+        wp_send_json_success(array('message' => esc_html__('Notification sent.', 'hash-form')));
+    }
+
+    private static function entry_exists($id) {
+        global $wpdb;
+        return (bool) $wpdb->get_var($wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_entries WHERE id = %d", absint($id)));
     }
 
     public function add_menu() {
@@ -75,6 +194,12 @@ class HashFormEntry {
             </div>
             <?php
             return;
+        }
+
+        // Opening an entry is what marks it read.
+        if (empty($entry->is_read)) {
+            self::mark_read($id);
+            $entry->is_read = 1;
         }
 
         include(HASHFORM_PATH . 'admin/entries/entry-detail.php');
@@ -192,6 +317,18 @@ class HashFormEntry {
         if (!$form) {
             return;
         }
+
+        // Checked again here: the form may have closed, filled up or already
+        // been submitted since the page was loaded.
+        $restriction = HashFormRestrictions::check($form);
+
+        if (empty($restriction['allowed'])) {
+            return wp_send_json(array(
+                'status' => 'failed',
+                'message' => esc_html($restriction['message'])
+            ));
+        }
+
         $errors = '';
         $errors = HashFormValidate::validate(wp_unslash($data));
 
@@ -274,7 +411,7 @@ class HashFormEntry {
     public static function get_count() {
         global $wpdb;
         $results = $wpdb->get_results("SELECT status, COUNT(*) AS count FROM {$wpdb->prefix}hashform_entries GROUP BY status");
-        $counts = array('published' => 0, 'trash' => 0);
+        $counts = array('published' => 0, 'trash' => 0, 'unread' => 0, 'starred' => 0);
         foreach ($results as $row) {
             if ('published' == $row->status) {
                 $counts['published'] += $row->count;
@@ -282,6 +419,10 @@ class HashFormEntry {
                 $counts['trash'] += $row->count;
             }
         }
+
+        $counts['unread'] = self::get_unread_count();
+        $counts['starred'] = (int) $wpdb->get_var("SELECT COUNT(*) FROM {$wpdb->prefix}hashform_entries WHERE status='published' AND is_starred = 1");
+
         return $counts;
     }
 
