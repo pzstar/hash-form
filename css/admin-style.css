@@ -331,6 +331,175 @@ body:has(#hf-wrap){
     margin: 0;
 }
 
+/* Column row picker */
+.hf-layout-section {
+    margin: 0 0 25px;
+}
+
+.hf-layout-heading {
+    margin: 0 0 4px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: #666;
+}
+
+.hf-layout-help {
+    margin: 0 0 12px;
+    font-size: 12px;
+    color: #888;
+}
+
+/* Clicking a field does not add it, so the click answers with the hint. */
+.hf-drag-hint.hf-hint-pulse {
+    color: #4949e4;
+    font-weight: 600;
+    animation: hf-hint-pulse 1.2s ease;
+}
+
+@keyframes hf-hint-pulse {
+    0%,
+    100% {
+        transform: none;
+    }
+
+    25% {
+        transform: translateY(-2px);
+    }
+
+    50% {
+        transform: none;
+    }
+
+    75% {
+        transform: translateY(-2px);
+    }
+}
+
+.hf-field-box.hf-hint-nudge a {
+    border-color: #9999ff;
+    animation: hf-hint-nudge .5s ease;
+}
+
+@keyframes hf-hint-nudge {
+    0%,
+    100% {
+        transform: none;
+    }
+
+    30% {
+        transform: translateX(-3px);
+    }
+
+    60% {
+        transform: translateX(3px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .hf-drag-hint.hf-hint-pulse,
+    .hf-field-box.hf-hint-nudge a {
+        animation: none;
+    }
+}
+
+.hf-columns-list {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0;
+}
+
+.hf-columns-list li {
+    margin: 0;
+    padding: 0;
+}
+
+.hf-columns-list li a {
+    text-decoration: none;
+    padding: 12px 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background: #FFF;
+    border-radius: 4px;
+    box-shadow: 0 0px 2px rgba(0, 0, 0, .05);
+    transition: all 0.3s ease;
+    border: 1px solid #EEE;
+}
+
+.hf-columns-list li a:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+}
+
+.hf-column-preview {
+    display: flex;
+    gap: 2px;
+    width: 100%;
+    height: 18px;
+}
+
+.hf-column-preview > span {
+    flex: 1 1 0;
+    background: #9999ff;
+    border-radius: 2px;
+}
+
+.hf-column-label {
+    font-size: 12px;
+    color: #000;
+    line-height: 1;
+}
+
+/* A column inside a column row */
+#hf-editor-wrap .hf-editor-column {
+    list-style: none;
+    min-width: 0;
+}
+
+/* Flex, not grid, so the span classes the stacked fields still carry (they
+   describe the column's width, for the front end) have no effect in here. */
+#hf-editor-wrap .hf-editor-column-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 6px;
+    min-height: 78px;
+    border: 1px dashed #c3c3d9;
+    border-radius: 4px;
+    background: #fafaff;
+}
+
+#hf-editor-wrap .hf-editor-column-fields:empty::after,
+#hf-editor-wrap .hf-editor-column-fields::after {
+    content: '';
+}
+
+#hf-editor-wrap .hf-editor-column-fields:empty::after {
+    content: attr(data-empty-label);
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+    color: #999;
+}
+
+#hf-editor-wrap .hf-editor-column-fields.hf-dropabble {
+    border-color: #9999ff;
+    background: #f4f4ff;
+}
+
+#hf-editor-wrap .hf-editor-column-fields > li {
+    margin: 0;
+}
+
 .hf-fields-list {
     display: grid;
     gap: 15px;
@@ -357,6 +526,12 @@ body:has(#hf-wrap){
     box-shadow: 0 0px 2px rgba(0, 0, 0, .05);
     transition: all 0.3s ease;
     border: 1px solid #EEE;
+    /* Fields go into the form by dragging, so read as a handle, not a link. */
+    cursor: grab;
+}
+
+.hf-fields-list li a:active {
+    cursor: grabbing;
 }
 
 .hf-fields-list li a:hover {
@@ -659,6 +834,17 @@ body:has(#hf-wrap){
     font-size: 13px;
     line-height: 1;
     display: inline-block;
+}
+
+/* Keeps Move at the left edge and groups Duplicate with Delete at the right,
+   rather than letting space-between strand Duplicate in the middle. */
+#hf-editor-wrap .hf-editor-action-buttons > .hf-editor-duplicate-action {
+    margin-left: auto;
+}
+
+#hf-editor-wrap .hf-editor-action-buttons > a.hf-duplicating {
+    opacity: .6;
+    pointer-events: none;
 }
 
 /* Placeholder on Dragging */

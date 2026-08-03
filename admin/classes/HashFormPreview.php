@@ -12,6 +12,13 @@ class HashFormPreview {
         header('Content-Type: text/html; charset=' . get_option('blog_charset'));
         $id = htmlspecialchars_decode(HashFormHelper::get_var('form', 'absint'));
         $form = HashFormBuilder::get_form_vars($id);
+
+        // This endpoint is public, so an unknown or trashed id must not reach
+        // the template, which dereferences $form before it checks anything.
+        if (!$form || $form->status === 'trash') {
+            wp_die(esc_html__('Please select a valid form', 'hash-form'));
+        }
+
         require(HASHFORM_PATH . 'admin/forms/preview/preview.php');
         wp_die();
     }

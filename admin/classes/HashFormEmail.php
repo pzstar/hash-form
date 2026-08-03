@@ -128,6 +128,8 @@ class HashFormEmail {
         // cannot smuggle extra mail headers.
         $reply_to_email = str_replace(array("\r", "\n"), '', $reply_to_email);
         $email_subject = str_replace(array("\r", "\n"), ' ', $email_subject);
+        // Becomes the recipient of the auto responder further down.
+        $reply_to_ar = str_replace(array("\r", "\n"), '', $reply_to_ar);
 
         $email_message = empty($form_settings['email_message']) ? '' : wpautop($form_settings['email_message']);
 

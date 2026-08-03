@@ -123,6 +123,10 @@ var hashFormBuilder = hashFormBuilder || {};
         return document.getElementById('hf-editor-wrap');
     }
 
+    function emptyColumnLabel() {
+        return 'undefined' === typeof hashform_builder_js ? 'Drop a field here' : hashform_builder_js.drop_field_here;
+    }
+
     // Colour inputs arrive with freshly rendered field markup, so re-scan once the
     // markup has settled.
     function initColorPickers() {
@@ -183,15 +187,21 @@ var hashFormBuilder = hashFormBuilder || {};
         initBuild: function () {
             $('ul.hf-fields-list, .hf-fields-list li').disableSelection();
 
+            hashFormBuilder.normalizeColumnRows();
+            // Forms saved before the row was written out only learn it here, so
+            // opening and saving is enough to bring them up to date.
+            hashFormBuilder.syncColumnGroups();
             hashFormBuilder.setupSortable('ul.hf-editor-sorting');
             document.querySelectorAll('.hf-fields-list > li').forEach(hashFormBuilder.makeDraggable);
 
             $editorFieldsWrap.on('click', 'li.hf-editor-field-box.ui-state-default', hashFormBuilder.clickField);
             $editorFieldsWrap.on('click', '.hf-editor-delete-action', hashFormBuilder.clickDeleteField);
+            $editorFieldsWrap.on('click', '.hf-editor-duplicate-action', hashFormBuilder.clickDuplicateField);
             $editorFieldsWrap.on('mousedown', 'input, textarea, select', hashFormBuilder.stopFieldFocus);
             $editorFieldsWrap.on('click', 'input[type=radio], input[type=checkbox]', hashFormBuilder.stopFieldFocus);
 
-            $('#hf-add-fields-panel').on('click', '.hf-add-field', hashFormBuilder.addFieldClick);
+            $('#hf-add-fields-panel').on('click', '.hf-field-box', hashFormBuilder.hintToDragField);
+            $('#hf-add-fields-panel').on('click', '.hf-add-columns', hashFormBuilder.addColumnsClick);
 
             hashFormBuilder.renumberMultiSteps();
             hashFormBuilder.resetToFirstStep();
@@ -282,9 +292,37 @@ var hashFormBuilder = hashFormBuilder || {};
         setupSortable: function (sortableSelector) {
             document.querySelectorAll(sortableSelector).forEach(list => {
                 hashFormBuilder.makeDroppable(list);
-                Array.from(list.children).forEach(
-                    child => hashFormBuilder.makeDraggable(child, '.hf-editor-move-action')
+                Array.from(list.children).forEach(child => {
+                    // A column is placed by the row it belongs to, so it is a
+                    // drop target only, never something to drag around itself.
+                    if (child.classList.contains('hf-editor-column')) {
+                        return;
+                    }
+                    hashFormBuilder.makeDraggable(child, '.hf-editor-move-action');
+                });
+            });
+        },
+
+        // A saved form comes back with its columns, but without the markers the
+        // editor stamps on when the row is first built, so restore them here.
+        normalizeColumnRows: function () {
+            document.querySelectorAll('#hf-editor-fields ul.hf-editor-sorting').forEach(row => {
+                const columns = Array.from(row.children).filter(
+                    child => child.classList.contains('hf-editor-column')
                 );
+                if (!columns.length) {
+                    return;
+                }
+
+                row.classList.add('hf-editor-columns-row');
+                row.setAttribute('data-columns', columns.length);
+
+                columns.forEach(column => {
+                    const list = column.querySelector('ul.hf-editor-column-fields');
+                    if (list && !list.hasAttribute('data-empty-label')) {
+                        list.setAttribute('data-empty-label', emptyColumnLabel());
+                    }
+                });
             });
         },
 
@@ -370,9 +408,9 @@ var hashFormBuilder = hashFormBuilder || {};
                         });
                     }
 
-                    // The top level list and sections stack fields vertically,
-                    // everything else lays them out side by side in a row.
-                    if ('hf-editor-fields' === droppable.id || droppable.classList.contains('start_divider')) {
+                    // The top level list, sections and columns stack fields
+                    // vertically; everything else lays them out side by side.
+                    if ('hf-editor-fields' === droppable.id || droppable.classList.contains('start_divider') || hashFormBuilder.isColumnList(droppable)) {
                         placeholder.style.left = 0;
                         hashFormBuilder.handleDragOverYAxis({droppable, y: event.clientY, placeholder});
                         return;
@@ -513,6 +551,16 @@ var hashFormBuilder = hashFormBuilder || {};
 
             if ('hf-editor-fields' === droppable.id) {
                 return true;
+            }
+
+            if (hashFormBuilder.isColumnList(droppable)) {
+                // A column stacks its fields, so the per-row cap does not apply.
+                return hashFormBuilder.allowNewFieldDrop(draggable, droppable);
+            }
+
+            if (hashFormBuilder.isColumnsRow(droppable)) {
+                // Fields belong in the columns, not loose in the row itself.
+                return false;
             }
 
             if (!droppable.classList.contains('start_divider')) {
@@ -670,7 +718,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
             const $previousContainerFields = $previousFieldContainer.length ? hashFormBuilder.getFieldsInRow($previousFieldContainer) : [];
             hashFormBuilder.maybeUpdatePreviousFieldContainerAfterDrop($previousFieldContainer, $previousContainerFields);
-            hashFormBuilder.maybeUpdateDraggableClassAfterDrop(draggable, $previousContainerFields);
+            hashFormBuilder.maybeUpdateDraggableClassAfterDrop(draggable, $previousContainerFields, $previousFieldContainer);
 
             if (previousSectionId !== newSectionId) {
                 hashFormBuilder.updateFieldAfterMovingBetweenSections($(draggable), previousSection);
@@ -706,17 +754,36 @@ var hashFormBuilder = hashFormBuilder || {};
             }
         },
 
-        maybeUpdateDraggableClassAfterDrop: function (draggable, $previousContainerFields) {
-            if (0 !== $previousContainerFields.length || 1 !== hashFormBuilder.getFieldsInRow($(draggable.parentNode)).length) {
+        maybeUpdateDraggableClassAfterDrop: function (draggable, $previousContainerFields, $previousFieldContainer) {
+            // A field leaving a column still carries that column's width, so it
+            // needs a resync even when it lands alone in a row of its own.
+            const cameOutOfAColumn = hashFormBuilder.isColumnList($previousFieldContainer.get(0));
+
+            if (cameOutOfAColumn || 0 !== $previousContainerFields.length || 1 !== hashFormBuilder.getFieldsInRow($(draggable.parentNode)).length) {
                 hashFormBuilder.syncLayoutClasses($(draggable));
             }
         },
 
         maybeDeleteAnEmptyFieldGroup: function (previousFieldContainer) {
-            const closestFieldBox = previousFieldContainer.closest('li.hf-editor-field-box');
-            if (closestFieldBox && !closestFieldBox.classList.contains('hf-editor-field-type-divider')) {
-                closestFieldBox.remove();
+            // An emptied column keeps its place: the columns and the row holding
+            // them are a layout the user asked for, not a wrapper built around a
+            // field. Its closest field box is the whole columns row, so deleting
+            // it here would take the other columns and their fields with it.
+            if (hashFormBuilder.isColumnList(previousFieldContainer)) {
+                return;
             }
+
+            const closestFieldBox = previousFieldContainer.closest('li.hf-editor-field-box');
+            if (!closestFieldBox || closestFieldBox.classList.contains('hf-editor-field-type-divider')) {
+                return;
+            }
+
+            // Only ever drop a box that has nothing left in it.
+            if (closestFieldBox.querySelector('li.hf-editor-form-field:not(.hf-editor-field-type-end_divider)')) {
+                return;
+            }
+
+            closestFieldBox.remove();
         },
 
         /* -------------------------------------------------------------------
@@ -789,6 +856,10 @@ var hashFormBuilder = hashFormBuilder || {};
         },
 
         updateFieldOrder: function () {
+            // Every path that reorders fields ends up here, so this is the one
+            // place column membership needs re-deriving.
+            hashFormBuilder.syncColumnGroups();
+
             $('#hf-editor-fields').each(function () {
                 const fields = $('li.hf-editor-field-box', this);
                 for (let i = 0; i < fields.length; i++) {
@@ -894,33 +965,35 @@ var hashFormBuilder = hashFormBuilder || {};
          * Adding fields
          * ---------------------------------------------------------------- */
 
-        addFieldClick: function () {
+        // Fields are placed by dragging, so a plain click has nothing to do but
+        // point at the hint that says so.
+        hintToDragField: function (event) {
             /*jshint validthis:true */
-            const $thisObj = $(this);
-            // there is no real way to disable a <a> (with a valid href attribute) in HTML - https://css-tricks.com/how-to-disable-links/
-            if ($thisObj.hasClass('disabled')) {
-                return false;
+            event.preventDefault();
+
+            hashFormBuilder.flashHint(document.getElementById('hf-drag-hint'), 'hf-hint-pulse');
+            hashFormBuilder.flashHint(this, 'hf-hint-nudge');
+        },
+
+        hintTimers: new WeakMap(),
+
+        // Runs the hint from the top on every click, and leaves no styling
+        // behind once it has played.
+        flashHint: function (element, className) {
+            if (null === element) {
+                return;
             }
 
-            $thisObj.parent('.hf-field-box').addClass('hf-added-field');
+            clearTimeout(hashFormBuilder.hintTimers.get(element));
+            element.classList.remove(className);
+            // Reading offsetWidth restarts an animation still part way through.
+            void element.offsetWidth;
+            element.classList.add(className);
 
-            const fieldType = $thisObj.closest('.hf-field-box').attr('id');
-            const formId = document.getElementById('hf-form-id').value;
-
-            insertFieldRequest(formId, fieldType, function (msg) {
-                editorWrap().classList.add('hf-editor-has-fields');
-                const replaceWith = hashFormBuilder.wrapFieldLi(msg);
-                $editorFieldsWrap.append(replaceWith);
-                hashFormBuilder.afterAddField(msg, true);
-
-                replaceWith.each(function () {
-                    hashFormBuilder.makeDroppable(this.querySelector('ul.hf-editor-sorting'));
-                    hashFormBuilder.makeDraggable(this.querySelector('.hf-editor-form-field'), '.hf-editor-move-action');
-                });
-                hashFormBuilder.maybeFixRangeSlider();
-                initColorPickers();
-            });
-            return false;
+            hashFormBuilder.hintTimers.set(element, setTimeout(
+                () => element.classList.remove(className),
+                1200
+            ));
         },
 
         insertNewFieldByDragging: function (fieldType) {
@@ -942,13 +1015,21 @@ var hashFormBuilder = hashFormBuilder || {};
                 editorWrap().classList.add('hf-editor-has-fields');
 
                 const $siblings = $placeholder.siblings('li.hf-editor-form-field').not('.hf-editor-field-type-end_divider');
+                // A column already provides the list, so the field goes in
+                // bare; wrapping it would nest a row inside the column.
+                const inColumn = hashFormBuilder.isColumnList($placeholder.get(0).parentNode);
+                const needsRowWrapper = !$siblings.length && !inColumn;
                 let replaceWith;
-                if (!$siblings.length) {
+
+                if (needsRowWrapper) {
                     replaceWith = hashFormBuilder.wrapFieldLi(msg);
                 } else {
                     replaceWith = hashFormBuilder.msgAsObject(msg);
-                    if (!$placeholder.get(0).parentNode.parentNode.classList.contains('ui-draggable')) {
-                        hashFormBuilder.makeDraggable($placeholder.get(0).parentNode.parentNode, '.hf-editor-move-action');
+                    // Inside a column the grandparent is the column itself,
+                    // which must not become draggable by the field's handle.
+                    const rowWrapper = $placeholder.get(0).parentNode.parentNode;
+                    if (!inColumn && !rowWrapper.classList.contains('ui-draggable')) {
+                        hashFormBuilder.makeDraggable(rowWrapper, '.hf-editor-move-action');
                     }
                 }
 
@@ -960,7 +1041,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 }
                 hashFormBuilder.toggleSectionHolder();
 
-                if (!$siblings.length) {
+                if (needsRowWrapper) {
                     hashFormBuilder.makeDroppable(replaceWith.get(0).querySelector('ul.hf-editor-sorting'));
                     hashFormBuilder.makeDraggable(replaceWith.get(0).querySelector('li.hf-editor-form-field'), '.hf-editor-move-action');
                 } else {
@@ -1048,6 +1129,249 @@ var hashFormBuilder = hashFormBuilder || {};
 
         getAutoId: function () {
             return ++autoId;
+        },
+
+        /* -------------------------------------------------------------------
+         * Column rows
+         *
+         * A column row is a field row whose children are columns rather than
+         * fields. Each column holds its own vertical list, so fields dropped
+         * into one stack under each other.
+         *
+         * What persists is per field: column_group says which column it sits
+         * in, grid_id carries that column's width. The front end regroups
+         * consecutive fields sharing a column_group into one grid cell.
+         * ---------------------------------------------------------------- */
+
+        addColumnsClick: function () {
+            /*jshint validthis:true */
+            const columns = parseInt($(this).attr('data-columns'), 10);
+
+            if (!hashFormBuilder.columnCountIsValid(columns)) {
+                return false;
+            }
+
+            hashFormBuilder.addColumnRow(columns);
+            return false;
+        },
+
+        // Only divisors of 12 keep every column the same width.
+        columnCountIsValid: function (columns) {
+            return -1 !== [2, 3, 4, 6].indexOf(columns);
+        },
+
+        columnWidthClass: function (columns) {
+            return hashFormBuilder.getLayoutClassForSize(12 / columns);
+        },
+
+        // Lowercase alphanumerics only, so the key survives sanitize_key() on
+        // the way into the database.
+        newColumnGroupKey: function (index) {
+            return 'cg' + Date.now().toString(36) + index + hashFormBuilder.getAutoId();
+        },
+
+        addColumnRow: function (columns) {
+            const widthClass = hashFormBuilder.columnWidthClass(columns);
+            const row = hashFormBuilder.tag('ul', {
+                className: 'hf-editor-grid-container hf-editor-sorting hf-editor-columns-row'
+            });
+            row.setAttribute('data-columns', columns);
+
+            for (let i = 0; i < columns; i++) {
+                row.appendChild(hashFormBuilder.buildColumn(widthClass, hashFormBuilder.newColumnGroupKey(i)));
+            }
+
+            const wrapper = hashFormBuilder.tag('li', {
+                className: 'hf-editor-field-box',
+                children: [row]
+            });
+
+            editorWrap().classList.add('hf-editor-has-fields');
+            $editorFieldsWrap.append(wrapper);
+
+            hashFormBuilder.makeDroppable(row);
+            row.querySelectorAll('ul.hf-editor-column-fields').forEach(hashFormBuilder.makeDroppable);
+            hashFormBuilder.scrollNewFieldIntoView(wrapper);
+        },
+
+        // The column carries hf-editor-form-field so the row's drop machinery
+        // treats it as an occupant and positions the drop marker against it.
+        buildColumn: function (widthClass, group) {
+            const list = hashFormBuilder.tag('ul', {
+                className: 'hf-editor-column-fields hf-editor-sorting'
+            });
+            list.setAttribute('data-empty-label', emptyColumnLabel());
+
+            const column = hashFormBuilder.tag('li', {
+                className: 'hf-editor-form-field hf-editor-column ' + widthClass,
+                children: [list]
+            });
+            column.setAttribute('data-column-group', group);
+            return column;
+        },
+
+        isColumnList: function (el) {
+            return !!el && !!el.classList && el.classList.contains('hf-editor-column-fields');
+        },
+
+        isColumnsRow: function (el) {
+            return !!el && !!el.classList && el.classList.contains('hf-editor-columns-row');
+        },
+
+        columnsInRow: function (row) {
+            return Array.from(row.children).filter(child => child.classList.contains('hf-editor-column'));
+        },
+
+        columnWidth: function (column) {
+            return (column.className.match(/hf-grid-\d+/) || [''])[0];
+        },
+
+        // A column row written out as group:width pairs. Every field of the row
+        // carries the whole thing, so a column nobody used still comes back.
+        rowSpec: function (columns) {
+            return columns.map(
+                column => column.getAttribute('data-column-group') + ':' + (hashFormBuilder.columnWidth(column) || 'hf-grid-12')
+            ).join(',');
+        },
+
+        // Write a field's column membership, width and row to the inputs that
+        // get saved with the form.
+        setFieldColumn: function (fieldEl, group, widthClass, spec) {
+            const fieldId = fieldEl.dataset.fid;
+            if ('undefined' === typeof fieldId) {
+                return;
+            }
+
+            hashFormBuilder.moveFieldSettings(document.getElementById('hf-fields-settings-' + fieldId));
+
+            hashFormBuilder.setFieldInput('hf-column-group-' + fieldId, group);
+            hashFormBuilder.setFieldInput('hf-column-row-' + fieldId, spec);
+
+            if (!widthClass) {
+                return;
+            }
+
+            const gridInput = document.getElementById('hf-grid-class-' + fieldId);
+            if (gridInput) {
+                gridInput.value = widthClass;
+                hashFormBuilder.changeFieldClass(fieldEl, widthClass);
+            }
+        },
+
+        setFieldInput: function (inputId, value) {
+            const input = document.getElementById(inputId);
+            if (input && input.value !== value) {
+                input.value = value;
+            }
+        },
+
+        // Re-derive every field's column membership from where it now sits.
+        syncColumnGroups: function () {
+            document.querySelectorAll('ul.hf-editor-columns-row').forEach(row => {
+                const columns = hashFormBuilder.columnsInRow(row);
+                const spec = hashFormBuilder.rowSpec(columns);
+
+                columns.forEach(column => {
+                    const group = column.getAttribute('data-column-group');
+                    const widthClass = hashFormBuilder.columnWidth(column);
+                    const list = column.querySelector('ul.hf-editor-column-fields');
+                    if (null === list) {
+                        return;
+                    }
+
+                    Array.from(list.children).forEach(child => {
+                        if (child.classList.contains('hf-editor-form-field')) {
+                            hashFormBuilder.setFieldColumn(child, group, widthClass, spec);
+                        }
+                    });
+                });
+            });
+
+            // A field dragged back out of a column must stop claiming one.
+            document.querySelectorAll('#hf-editor-fields li.hf-editor-form-field[data-fid]').forEach(field => {
+                if (field.closest('ul.hf-editor-column-fields')) {
+                    return;
+                }
+                hashFormBuilder.setFieldInput('hf-column-group-' + field.dataset.fid, '');
+                hashFormBuilder.setFieldInput('hf-column-row-' + field.dataset.fid, '');
+            });
+        },
+
+        /* -------------------------------------------------------------------
+         * Duplicating fields
+         * ---------------------------------------------------------------- */
+
+        clickDuplicateField: function () {
+            /*jshint validthis:true */
+            const $trigger = $(this);
+
+            if ($trigger.hasClass('hf-duplicating')) {
+                return false;
+            }
+            $trigger.addClass('hf-duplicating');
+
+            hashFormBuilder.duplicateField($trigger.attr('data-duplicatefield'), function () {
+                $trigger.removeClass('hf-duplicating');
+            });
+
+            return false;
+        },
+
+        duplicateField: function (fieldId, onDone) {
+            const $source = $('#hf-editor-field-id-' + fieldId);
+
+            jQuery.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: {
+                    action: 'hashform_duplicate_field',
+                    field_id: fieldId,
+                    backend_nonce: hashform_backend_js.nonce
+                },
+                success: function (msg) {
+                    onDone();
+
+                    // The handler prints nothing when it refuses the copy.
+                    if (!msg || -1 === msg.indexOf('hf-editor-field-id-')) {
+                        hashFormBuilder.infoModal('This field could not be duplicated.');
+                        return;
+                    }
+
+                    hashFormBuilder.insertDuplicatedField($source, msg);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    onDone();
+                    hashFormBuilder.handleInsertFieldError(jqXHR, textStatus, errorThrown);
+                }
+            });
+        },
+
+        // Mirrors how a dragged field is placed: a field that owns its row gets
+        // a row of its own, one sharing a row gets dropped in beside its source.
+        insertDuplicatedField: function ($source, msg) {
+            editorWrap().classList.add('hf-editor-has-fields');
+
+            const $siblings = $source.siblings('li.hf-editor-form-field').not('.hf-editor-field-type-end_divider');
+            let inserted;
+
+            if (!$siblings.length) {
+                inserted = hashFormBuilder.wrapFieldLi(msg);
+                $source.closest('li.hf-editor-field-box').after(inserted);
+                inserted.each(function () {
+                    hashFormBuilder.makeDroppable(this.querySelector('ul.hf-editor-sorting'));
+                    hashFormBuilder.makeDraggable(this.querySelector('.hf-editor-form-field'), '.hf-editor-move-action');
+                });
+            } else {
+                inserted = hashFormBuilder.msgAsObject(msg);
+                $source.after(inserted);
+                hashFormBuilder.makeDraggable(inserted.get(0), '.hf-editor-move-action');
+                hashFormBuilder.syncLayoutClasses($source);
+            }
+
+            hashFormBuilder.updateFieldOrder();
+            hashFormBuilder.afterAddField(msg, true);
+            hashFormBuilder.maybeFixRangeSlider();
+            initColorPickers();
         },
 
         /* -------------------------------------------------------------------
@@ -1317,6 +1641,19 @@ var hashFormBuilder = hashFormBuilder || {};
 
         // `type` is either a named layout, 'clear', or an array of explicit widths.
         syncLayoutClasses: function ($item, type = 'even') {
+            // Fields stacked in a column are full width inside it; their saved
+            // grid_id belongs to the column and is set by syncColumnGroups.
+            if (hashFormBuilder.isColumnList($item.parent().get(0))) {
+                return;
+            }
+
+            // A columns row lays out columns, not fields. Their widths come from
+            // the column the user picked, and a column carries no data-fid, so
+            // resizing here would stack a second grid class onto each one.
+            if (hashFormBuilder.isColumnsRow($item.parent().get(0))) {
+                return;
+            }
+
             const $fields = $item.parent()
                 .children('li.hf-editor-form-field, li.hf-field-loading')
                 .not('.hf-editor-field-type-end_divider');

@@ -26,6 +26,8 @@ require HASHFORM_PATH . 'admin/classes/HashFormStrReader.php';
 require HASHFORM_PATH . 'admin/classes/HashFormBlock.php';
 require HASHFORM_PATH . 'admin/classes/HashFormUploader.php';
 require HASHFORM_PATH . 'admin/classes/HashFormCreateTable.php';
+// Must load before the classes that compose it.
+require HASHFORM_PATH . 'admin/classes/HashFormListActions.php';
 require HASHFORM_PATH . 'admin/classes/HashFormBuilder.php';
 require HASHFORM_PATH . 'admin/classes/HashFormHelper.php';
 require HASHFORM_PATH . 'admin/classes/HashFormFields.php';

@@ -32,7 +32,7 @@ defined('ABSPATH') || die();
     <div class="hf-no-fields">
         <span>
             <h3><?php esc_html_e('Add Fields Here', 'hash-form'); ?></h3>
-            <p><?php esc_html_e('Click or drag a field from the sidebar to add it to your form', 'hash-form'); ?></p>
+            <p><?php esc_html_e('Drag a field from the sidebar to add it to your form', 'hash-form'); ?></p>
         </span>
     </div>
 </div>

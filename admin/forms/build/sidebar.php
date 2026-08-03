@@ -19,21 +19,60 @@ defined('ABSPATH') || die();
                     'tosearch' => 'hf-field-box',
                 ));
                 ?>
-                <ul class="hf-fields-list">
-                    <?php
-                    $registered_fields = HashFormFields::field_selection();
-                    foreach ($registered_fields as $field_key => $field_type) {
-                        ?>
-                        <li class="hf-field-box hashform_<?php echo esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>">
-                            <a href="#" class="hf-add-field" title="<?php echo esc_html($field_type['name']); ?>">
-                                <i class="<?php echo esc_attr($field_type['icon']); ?>"></i>
-                                <span><?php echo esc_html($field_type['name']); ?></span>
-                            </a>
-                        </li>
+
+                <div class="hf-layout-section">
+                    <h4 class="hf-layout-heading"><?php esc_html_e('Columns', 'hash-form'); ?></h4>
+                    <p class="hf-layout-help"><?php esc_html_e('Add a row, then drag fields into its columns.', 'hash-form'); ?></p>
+                    <ul class="hf-columns-list">
                         <?php
-                    }
-                    ?>
-                </ul>
+                        // Only divisors of the 12 column grid, so every column
+                        // comes out an equal width.
+                        foreach (array(2, 3, 4, 6) as $columns) {
+                            ?>
+                            <li class="hf-column-box">
+                                <a href="#" class="hf-add-columns" data-columns="<?php echo absint($columns); ?>"
+                                   title="<?php
+                                   /* translators: 1: number of columns */
+                                   echo esc_attr(sprintf(_n('%s Column', '%s Columns', $columns, 'hash-form'), $columns));
+                                   ?>">
+                                       <span class="hf-column-preview" aria-hidden="true">
+                                           <?php for ($i = 0; $i < $columns; $i++) { ?>
+                                            <span></span>
+                                        <?php } ?>
+                                    </span>
+                                </a>
+                            </li>
+                            <?php
+                        }
+                        ?>
+                    </ul>
+                </div>
+
+                <div class="hf-layout-section hf-fields-section">
+                    <h4 class="hf-layout-heading"><?php esc_html_e('Fields', 'hash-form'); ?></h4>
+                    <p class="hf-layout-help hf-drag-hint" id="hf-drag-hint">
+                        <?php esc_html_e('Drag a field into your form to add it.', 'hash-form'); ?>
+                    </p>
+
+                    <ul class="hf-fields-list">
+                        <?php
+                        $registered_fields = HashFormFields::field_selection();
+                        foreach ($registered_fields as $field_key => $field_type) {
+                            ?>
+                            <li class="hf-field-box hashform_<?php echo esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>">
+                                <a class="hf-drag-field" title="<?php
+                                /* translators: 1: field name */
+                                echo esc_attr(sprintf(__('Drag %s into your form', 'hash-form'), $field_type['name']));
+                                ?>">
+                                    <i class="<?php echo esc_attr($field_type['icon']); ?>"></i>
+                                    <span><?php echo esc_html($field_type['name']); ?></span>
+                                </a>
+                            </li>
+                            <?php
+                        }
+                        ?>
+                    </ul>
+                </div>
             </div>
 
             <div id="hf-options-panel" class="ht-fields-panel">

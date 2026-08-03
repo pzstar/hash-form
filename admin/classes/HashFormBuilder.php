@@ -3,6 +3,8 @@ defined('ABSPATH') || die();
 
 class HashFormBuilder {
 
+    use HashFormListActions;
+
     public function __construct() {
 
         $this->includes();
@@ -43,43 +45,47 @@ class HashFormBuilder {
         add_action("load-$hashform_listing_page", array($this, 'listing_page_screen_options'));
     }
 
-    public function route() {
-        /* Gets hashform_action value else action value */
-        $action = htmlspecialchars_decode(HashFormHelper::get_var('hashform_action', 'sanitize_text_field', HashFormHelper::get_var('action')));
-
-        if (HashFormHelper::get_var('delete_all')) {
-            $action = 'delete_all';
-        }
-
-        switch ($action) {
-            case 'edit':
-            case 'trash':
-            case 'destroy':
-            case 'untrash':
-            case 'delete_all':
-            case 'duplicate':
-            case 'settings':
-            case 'style':
-                return self::$action();
-
-            default:
-
-                if (strpos($action, 'bulk_') === 0) {
-                    self::bulk_actions();
-                    return;
-                }
-
-                self::display_forms_list();
-                return;
-        }
+    protected static function list_config() {
+        return array(
+            'page' => 'hashform',
+            'table' => 'hashform_forms',
+            'id_key' => 'form_id',
+            'nonce_item' => 'form',
+            'bulk_nonce' => 'bulk-forms',
+            'actions' => array('edit', 'trash', 'destroy', 'untrash', 'delete_all', 'duplicate', 'settings', 'style'),
+        );
     }
 
-    public static function display_message($message, $class) {
-        if ('' !== trim($message)) {
-            echo '<div id="message" class="' . esc_attr($class) . ' notice is-dismissible">';
-            echo '<p>' . wp_kses_post($message) . '</p>';
-            echo '</div>';
-        }
+    protected static function destroy_item($id) {
+        return self::destroy_form($id);
+    }
+
+    protected static function render_list($message = '', $class = 'updated') {
+        self::display_forms_list($message, $class);
+    }
+
+    protected static function message_trashed($count, $undo_open, $undo_close) {
+        /* translators: 1: form count singular & plural, 2: link open, 3: link close */
+        return sprintf(_n('%1$s form moved to the Trash. %2$sUndo%3$s', '%1$s forms moved to the Trash. %2$sUndo%3$s', $count, 'hash-form'), $count, $undo_open, $undo_close);
+    }
+
+    protected static function message_untrashed($count) {
+        /* translators: 1: form count singular & plural */
+        return sprintf(_n('%1$s form restored from the Trash.', '%1$s forms restored from the Trash.', $count, 'hash-form'), $count);
+    }
+
+    protected static function message_destroyed($count) {
+        /* translators: 1: form count singular & plural */
+        return sprintf(_n('%1$s Form Permanently Deleted', '%1$s Forms Permanently Deleted', $count, 'hash-form'), $count);
+    }
+
+    protected static function message_deleted($count) {
+        /* translators: 1: form count singular & plural */
+        return sprintf(_n('%1$s form permanently deleted.', '%1$s forms permanently deleted.', $count, 'hash-form'), $count);
+    }
+
+    protected static function message_none_specified() {
+        return esc_html__('No forms were specified', 'hash-form');
     }
 
     public static function display_forms_list($message = '', $class = 'updated') {
@@ -249,173 +255,6 @@ class HashFormBuilder {
 
     public function set_screen_option($status, $option, $value) {
         return ('forms_per_page' === $option) ? $value : $status;
-    }
-
-    public static function trash() {
-        self::change_form_status('trash');
-    }
-
-    public static function untrash() {
-        self::change_form_status('untrash');
-    }
-
-    public static function change_form_status($status) {
-        $available_status = array(
-            'untrash' => array('new_status' => 'published'),
-            'trash' => array('new_status' => 'trash'),
-        );
-
-        if (!isset($available_status[$status])) {
-            return;
-        }
-
-        $id = HashFormHelper::get_var('id', 'absint');
-        check_admin_referer($status . '_form_' . $id);
-
-        $count = 0;
-        if (self::set_status($id, $available_status[$status]['new_status'])) {
-            $count++;
-        }
-        /* translators: 1: form count singular & plural */
-        $available_status['untrash']['message'] = sprintf(_n('%1$s form restored from the Trash.', '%1$s forms restored from the Trash.', $count, 'hash-form'), $count);
-        /* translators: 1: form count singular & plural, 2: link open, 3: link close */
-        $available_status['trash']['message'] = sprintf(_n('%1$s form moved to the Trash. %2$sUndo%3$s', '%1$s forms moved to the Trash. %2$sUndo%3$s', $count, 'hash-form'), $count, '<a href="' . esc_url(wp_nonce_url('?page=hashform&hashform_action=untrash&id=' . absint($id), 'untrash_form_' . absint($id))) . '">', '</a>');
-        $message = $available_status[$status]['message'];
-
-        self::display_forms_list($message);
-    }
-
-    public static function set_status($id, $status) {
-        $statuses = array('published', 'trash');
-        if (!in_array($status, $statuses)) {
-            return false;
-        }
-
-        global $wpdb;
-
-        $id = is_array($id) ? $id : array($id);
-        $placeholders = implode(',', array_fill(0, count($id), '%d'));
-        $prepare_args = array_merge([$status], $id);
-
-        $query_results = $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}hashform_forms SET status=%s WHERE id IN ({$placeholders})", $prepare_args));
-
-        return $query_results;
-    }
-
-    public static function delete_all() {
-        $count = self::delete();
-        /* translators: 1: form count singular & plural */
-        $message = sprintf(_n('%1$s form permanently deleted.', '%1$s forms permanently deleted.', $count, 'hash-form'), $count);
-        self::display_forms_list($message);
-    }
-
-    public static function delete() {
-        global $wpdb;
-        $count = 0;
-        $trash_forms = $wpdb->get_results($wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_forms WHERE status=%s", 'trash'));
-        if (!$trash_forms) {
-            return 0;
-        }
-
-        foreach ($trash_forms as $form) {
-            self::destroy_form($form->id);
-            $count++;
-        }
-        return $count;
-    }
-
-    public static function destroy() {
-        $id = HashFormHelper::get_var('id', 'absint');
-        check_admin_referer('destroy_form_' . $id);
-        $count = 0;
-        if (self::destroy_form($id)) {
-            $count++;
-        }
-        /* translators: 1: form count singular & plural */
-        $message = sprintf(_n('%1$s Form Permanently Deleted', '%1$s Forms Permanently Deleted', $count, 'hash-form'), $count);
-        self::display_forms_list($message);
-    }
-
-    public static function bulk_actions() {
-        $message = self::process_bulk_actions();
-        self::display_forms_list($message);
-    }
-
-    public static function process_bulk_actions() {
-        if (!$_REQUEST) {
-            return;
-        }
-
-        $bulkaction = HashFormHelper::get_var('action', 'sanitize_text_field');
-
-
-        if ($bulkaction == -1) {
-            $bulkaction = HashFormHelper::get_var('action2', 'sanitize_title');
-        }
-
-        if (!empty($bulkaction) && strpos($bulkaction, 'bulk_') === 0) {
-            $bulkaction = str_replace('bulk_', '', $bulkaction);
-        }
-
-        $ids = HashFormHelper::get_var('form_id', 'sanitize_text_field');
-
-        if (empty($ids)) {
-            $error = esc_html__('No forms were specified', 'hash-form');
-            return $error;
-        }
-
-        if (!is_array($ids)) {
-            $ids = explode(',', $ids);
-        }
-
-        switch ($bulkaction) {
-            case 'delete':
-                $message = self::bulk_destroy($ids);
-                break;
-            case 'trash':
-                $message = self::bulk_trash($ids);
-                break;
-            case 'untrash':
-                $message = self::bulk_untrash($ids);
-        }
-
-        if (isset($message) && !empty($message)) {
-            return $message;
-        }
-    }
-
-    public static function bulk_trash($ids) {
-        $count = self::set_status($ids, 'trash');
-        if (!$count) {
-            return '';
-        }
-
-        /* translators: 1: form count singular & plural */
-        return sprintf(_n('%1$s form moved to the Trash. %2$sUndo%3$s', '%1$s forms moved to the Trash. %2$sUndo%3$s', $count, 'hash-form'), $count, '<a href="' . esc_url(wp_nonce_url('?page=hashform&action=bulk_untrash&status=published&form_id=' . implode(',', $ids), 'bulk-toplevel_page_hashform')) . '">', '</a>');
-    }
-
-    public static function bulk_untrash($ids) {
-        $count = self::set_status($ids, 'published');
-        if (!$count) {
-            return '';
-        }
-
-        /* translators: 1: form count singular & plural */
-        return sprintf(_n('%1$s form restored from the Trash.', '%1$s forms restored from the Trash.', $count, 'hash-form'), $count);
-    }
-
-    public static function bulk_destroy($ids) {
-        $count = 0;
-        foreach ($ids as $id) {
-            $form = self::destroy_form($id);
-            if ($form) {
-                $count++;
-            }
-        }
-
-        /* translators: 1: form count singular & plural */
-        $message = sprintf(_n('%1$s form permanently deleted.', '%1$s forms permanently deleted.', $count, 'hash-form'), $count);
-        return $message;
     }
 
     public static function destroy_form($id) {
@@ -854,7 +693,9 @@ class HashFormBuilder {
             'csv'
         );
 
-        if ($allowedExtensions) {
+        // The request controls the shape of this value; a scalar would emit a
+        // warning into the middle of the JSON response below.
+        if (is_array($allowedExtensions) && $allowedExtensions) {
             $filtered_allowed_extenstions = array();
             foreach ($allowedExtensions as $ext) {
                 if (in_array($ext, $default_allowed_extenstions)) {
@@ -877,12 +718,19 @@ class HashFormBuilder {
     public function file_delete_action() {
         if (wp_verify_nonce(HashFormHelper::get_post('_wpnonce'), 'hashform-upload-ajax-nonce')) {
             $path = str_replace(' ', '+', HashFormHelper::get_post('path', 'wp_kses_post'));
-            $upload_dir = wp_upload_dir();
-            $temp_dir = $upload_dir['basedir'] . HASHFORM_UPLOAD_DIR . '/temp/';
-            $check = wp_delete_file($temp_dir . HashFormHelper::decrypt($path));
+            $file = HashFormHelper::decrypt($path);
 
-            if ($check) {
-                die('success');
+            // An empty name would resolve to the temp directory itself.
+            if ($file) {
+                $upload_dir = wp_upload_dir();
+                $temp_dir = $upload_dir['basedir'] . HASHFORM_UPLOAD_DIR . '/temp';
+
+                // Unlike wp_delete_file(), this confirms the resolved path sits
+                // inside the temp directory and returns a usable bool on every
+                // supported WordPress version.
+                if (wp_delete_file_from_directory($temp_dir . '/' . $file, $temp_dir)) {
+                    die('success');
+                }
             }
         }
         die('error');

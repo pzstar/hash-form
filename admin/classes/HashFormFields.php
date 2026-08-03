@@ -9,7 +9,7 @@ class HashFormFields {
         add_action('wp_ajax_hashform_insert_field', array($this, 'create'));
         add_action('wp_ajax_hashform_delete_field', array($this, 'destroy'));
         add_action('wp_ajax_hashform_import_options', array($this, 'import_options'));
-        //add_action('wp_ajax_hashform_duplicate_field', array($this, 'duplicate'));
+        add_action('wp_ajax_hashform_duplicate_field', array($this, 'duplicate'));
     }
 
     public static function get_form_fields($form_id) {
@@ -46,6 +46,65 @@ class HashFormFields {
         $field_id = HashFormHelper::get_post('field_id', 'absint', 0);
         self::destroy_row($field_id);
         wp_die();
+    }
+
+    public static function duplicate() {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+
+        check_ajax_referer('hashform_backend_ajax', 'backend_nonce');
+        $field_id = HashFormHelper::get_post('field_id', 'absint', 0);
+        self::duplicate_field($field_id);
+        wp_die();
+    }
+
+    /**
+     * Copy one field, place the copy directly after the original and render it.
+     *
+     * Echoes the new field's builder markup so the caller can drop it into the
+     * editor, matching what include_new_field() returns for a brand new field.
+     */
+    public static function duplicate_field($field_id) {
+        global $wpdb;
+
+        // Read the row raw: fill_field() expects the serialized columns, the
+        // same way duplicate_fields() feeds it when copying a whole form.
+        $field = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_fields WHERE id=%d", absint($field_id)));
+
+        if (!$field) {
+            return false;
+        }
+
+        // Sections own the fields nested inside them, so copying one on its own
+        // would leave the copy empty and its end marker orphaned.
+        if (in_array($field->type, array('divider', 'end_divider'), true)) {
+            return false;
+        }
+
+        $values = array();
+        self::fill_field($values, $field, $field->form_id);
+
+        // Make room so the copy sorts immediately after its original instead of
+        // tying with it, which would leave the order down to the database.
+        $wpdb->query($wpdb->prepare(
+                "UPDATE {$wpdb->prefix}hashform_fields SET field_order = field_order + 1 WHERE form_id = %d AND field_order > %d", absint($field->form_id), absint($field->field_order)
+        ));
+
+        $values['field_order'] = absint($field->field_order) + 1;
+
+        $new_id = self::create_row($values);
+
+        if (!$new_id) {
+            return false;
+        }
+
+        $new_field = self::get_field_vars($new_id);
+        $field_array = self::covert_field_obj_to_array($new_field);
+        $field_obj = self::get_field_class($field_array['type'], $field_array);
+        $field_obj->load_single_field();
+
+        return $new_id;
     }
 
     public static function include_new_field($field_type, $form_id) {
@@ -527,11 +586,89 @@ class HashFormFields {
         do_action('hashform_include_field_class');
     }
 
+    /**
+     * Render the form's fields, stacking any that share a column group.
+     *
+     * Fields carrying the same column_group are wrapped in one grid cell so
+     * they sit under each other. A column nobody put a field into still gets its
+     * cell, so the columns beside it keep the place the form was built with.
+     * Ungrouped fields stay direct children of the form grid.
+     */
     public static function show_fields($fields) {
+        $open_group = '';
+        $row = array();
+
         foreach ($fields as $field) {
+            $group = isset($field['column_group']) ? $field['column_group'] : '';
+
+            if ($group !== $open_group) {
+                if ('' !== $open_group) {
+                    echo '</div>';
+                }
+
+                if ('' === $group) {
+                    $row = self::show_empty_columns($row);
+                } else {
+                    if (!self::row_holds_column($row, $group)) {
+                        $row = self::show_empty_columns($row);
+                        $row = HashFormGridHelper::parse_column_row(isset($field['column_row']) ? $field['column_row'] : '');
+                    }
+                    $row = self::open_column($row, $group, $field);
+                }
+
+                $open_group = $group;
+            }
+
             $field_obj = HashFormFields::get_field_class($field['type'], $field);
             $field_obj->show_field();
         }
+
+        if ('' !== $open_group) {
+            echo '</div>';
+        }
+        self::show_empty_columns($row);
+    }
+
+    private static function row_holds_column($row, $group) {
+        foreach ($row as $column) {
+            if ($column['group'] === $group) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Lays down the columns of the row that come before this one and were never
+    // filled, then opens this one. Hands back what is left of the row.
+    private static function open_column($row, $group, $field) {
+        while (!empty($row)) {
+            $column = array_shift($row);
+
+            if ($column['group'] === $group) {
+                echo '<div class="hf-column-group ' . esc_attr($column['width']) . '">';
+                return $row;
+            }
+
+            self::show_empty_column($column['width']);
+        }
+
+        // Saved before the row was written out, so the field's own width stands in.
+        $width = (isset($field['grid_id']) && $field['grid_id']) ? $field['grid_id'] : 'hf-grid-12';
+        echo '<div class="hf-column-group ' . esc_attr($width) . '">';
+        return $row;
+    }
+
+    // Empties out whatever is left of a row, and hands back a row with nothing
+    // waiting in it.
+    private static function show_empty_columns($row) {
+        foreach ($row as $column) {
+            self::show_empty_column($column['width']);
+        }
+        return array();
+    }
+
+    private static function show_empty_column($width) {
+        echo '<div class="hf-column-group ' . esc_attr($width) . '"></div>';
     }
 
 }

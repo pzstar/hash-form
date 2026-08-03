@@ -45,6 +45,19 @@
     grid-column: span 12 / span 12;
 }
 
+/* One grid cell holding fields stacked under each other. Flex, not grid, so
+   the span classes the fields still carry have no effect inside it. */
+.hf-column-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+}
+
+.hf-form-custom-style .hf-column-group {
+    gap: var(--hf-form-row-gap, 20px);
+}
+
 .hf-grid-11 {
     grid-column: span 11 / span 11;
 }

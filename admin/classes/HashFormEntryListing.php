@@ -171,6 +171,10 @@ class HashFormEntryListing extends \WP_List_Table {
     }
 
     protected function display_tablenav($which) {
+        if ('top' === $which) {
+            // Signs the bulk actions and "Empty Trash" submits in this form.
+            wp_nonce_field('bulk-' . $this->_args['plural']);
+        }
         ?>
         <div class="tablenav <?php echo esc_attr($which); ?>">
             <?php if ($this->has_items()) { ?>

@@ -6,6 +6,8 @@ defined('ABSPATH') || die();
     <input type="hidden" name="hf-form-submitted[]" value="<?php echo absint($field_id); ?>" />
     <input type="hidden" name="field_options[field_order_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['field_order']); ?>" />
     <input type="hidden" name="field_options[grid_id_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['grid_id']) ? esc_attr($field['grid_id']) : ''; ?>" id="hf-grid-class-<?php echo esc_attr($field_id); ?>" />
+    <input type="hidden" name="field_options[column_group_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['column_group']) ? esc_attr($field['column_group']) : ''; ?>" id="hf-column-group-<?php echo esc_attr($field_id); ?>" />
+    <input type="hidden" name="field_options[column_row_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['column_row']) ? esc_attr($field['column_row']) : ''; ?>" id="hf-column-row-<?php echo esc_attr($field_id); ?>" />
 
     <div class="hf-field-panel-header">
         <h3>

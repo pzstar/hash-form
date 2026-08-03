@@ -64,6 +64,13 @@ class HashFormLoader {
             wp_localize_script('hashform-builder', 'hashform_backend_js', array(
                 'nonce' => wp_create_nonce('hashform_backend_ajax'),
             ));
+
+            // Kept separate from hashform_backend_js: the backend script
+            // declares that same global afterwards, which would drop any key
+            // only the builder had set.
+            wp_localize_script('hashform-builder', 'hashform_builder_js', array(
+                'drop_field_here' => esc_html__('Drop a field here', 'hash-form'),
+            ));
         }
 
         if (strpos($page, 'hashform-smtp') === 0) {

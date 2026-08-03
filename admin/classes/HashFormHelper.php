@@ -809,6 +809,8 @@ class HashFormHelper {
     public static function get_field_options_sanitize_rules() {
         return array(
             'grid_id' => 'sanitize_text_field',
+            'column_group' => 'sanitize_key',
+            'column_row' => 'sanitize_text_field',
             'name' => 'sanitize_text_field',
             'label' => 'sanitize_text_field',
             'label_position' => 'sanitize_text_field',
@@ -904,6 +906,9 @@ class HashFormHelper {
         if (hash_equals($hmac, $calcmac)) {
             return $original_plaintext;
         }
+
+        // A tampered or truncated payload must not fall through as null.
+        return false;
     }
 
     public static function get_field_input_value($value) {
