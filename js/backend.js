@@ -87,6 +87,8 @@ var hashFormAdmin = hashFormAdmin || {};
 
             $(document).on('click', '#hf-fields-tabs a', hashFormAdmin.clickNewTab);
             $(document).on('input', '.hf-search-fields-input', hashFormAdmin.searchContent);
+            $(document).on('click', '.hf-field-group-toggle', hashFormAdmin.toggleFieldGroup);
+            hashFormAdmin.restoreFieldGroups();
             $(document).on('click', '.hf-settings-tab a', hashFormAdmin.clickNewTabSettings);
 
             /* Image */
@@ -156,11 +158,94 @@ var hashFormAdmin = hashFormAdmin || {};
         },
 
         searchContent: function () {
-            const searchText = $(this).val().toLowerCase();
+            const searchText = $(this).val().toLowerCase().trim();
             const toSearch = $(this).attr('data-tosearch');
+            let matches = 0;
 
             $('.' + toSearch).each(function () {
-                $(this).toggle($(this).attr('id').indexOf(searchText) > -1);
+                const $item = $(this);
+                // The id is the field type, which rarely reads like the label
+                // people actually search for — 'select' for Dropdown, say — so
+                // the visible name is matched too.
+                const name = $item.attr('data-field-name') || '';
+                const hit = !searchText
+                    || $item.attr('id').indexOf(searchText) > -1
+                    || name.indexOf(searchText) > -1;
+
+                $item.toggle(hit);
+
+                if (hit) {
+                    matches++;
+                }
+            });
+
+            const $section = $('.hf-fields-section');
+
+            if (!$section.length) {
+                return;
+            }
+
+            // Searching opens every group so a match is never hidden behind a
+            // collapsed heading; clearing the box puts them back as they were.
+            $section.toggleClass('hf-searching', searchText !== '');
+
+            $section.find('.hf-field-group').each(function () {
+                const $group = $(this);
+                const shown = $group.find('.hf-field-box:visible').length;
+
+                $group.prop('hidden', shown === 0);
+
+                // While filtering, the badge counts what is actually under the
+                // heading rather than the size of the group.
+                const $count = $group.find('.hf-field-group-count');
+
+                if ($count.length) {
+                    if (typeof $count.data('total') === 'undefined') {
+                        $count.data('total', $count.text());
+                    }
+
+                    $count.text(searchText ? shown : $count.data('total'));
+                }
+            });
+
+            $('.hf-fields-empty').prop('hidden', matches !== 0);
+        },
+
+        toggleFieldGroup: function () {
+            const $group = $(this).closest('.hf-field-group');
+            const open = !$group.hasClass('hf-open');
+
+            $group.toggleClass('hf-open', open);
+            $(this).attr('aria-expanded', open ? 'true' : 'false');
+
+            // Remembered so the palette opens where it was left.
+            try {
+                const key = 'hashform.builder.groups';
+                const state = JSON.parse(window.localStorage.getItem(key) || '{}');
+                state[$group.data('group')] = open;
+                window.localStorage.setItem(key, JSON.stringify(state));
+            } catch (e) {
+                /* Private browsing, or the quota is full; not worth reporting. */
+            }
+        },
+
+        restoreFieldGroups: function () {
+            let state;
+
+            try {
+                state = JSON.parse(window.localStorage.getItem('hashform.builder.groups') || '{}');
+            } catch (e) {
+                return;
+            }
+
+            $('.hf-field-group').each(function () {
+                const $group = $(this);
+                const saved = state[$group.data('group')];
+
+                if (typeof saved === 'boolean') {
+                    $group.toggleClass('hf-open', saved);
+                    $group.find('.hf-field-group-toggle').attr('aria-expanded', saved ? 'true' : 'false');
+                }
             });
         },
 

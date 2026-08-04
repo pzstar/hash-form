@@ -291,6 +291,105 @@ class HashFormFields {
         return apply_filters('hashform_field_selection', $hashform_fields);
     }
 
+    /**
+     * The groups the field palette is divided into, in display order.
+     *
+     * Add-ons can add a group here and put their own types in it through
+     * hashform_field_group_map.
+     */
+    public static function field_groups() {
+        return apply_filters('hashform_field_groups', array(
+            'basic' => esc_html__('Basic', 'hash-form'),
+            'choice' => esc_html__('Choice', 'hash-form'),
+            'advanced' => esc_html__('Advanced', 'hash-form'),
+            'layout' => esc_html__('Layout', 'hash-form'),
+            'spam' => esc_html__('Spam Protection', 'hash-form'),
+            'payment' => esc_html__('Payment', 'hash-form'),
+        ));
+    }
+
+    /**
+     * Which group each field type belongs to.
+     *
+     * A type missing from this map is not dropped — the palette collects
+     * anything unlisted into a trailing group, so a field from an add-on that
+     * has not registered itself still appears.
+     */
+    public static function field_group_map() {
+        return apply_filters('hashform_field_group_map', array(
+            // Basic
+            'name' => 'basic',
+            'email' => 'basic',
+            'phone' => 'basic',
+            'url' => 'basic',
+            'address' => 'basic',
+            'text' => 'basic',
+            'textarea' => 'basic',
+            'number' => 'basic',
+
+            // Choice
+            'select' => 'choice',
+            'checkbox' => 'choice',
+            'radio' => 'choice',
+            'image_select' => 'choice',
+            'star' => 'choice',
+            'range_slider' => 'choice',
+            'spinner' => 'choice',
+
+            // Advanced
+            'date' => 'advanced',
+            'time' => 'advanced',
+            'upload' => 'advanced',
+            'user_id' => 'advanced',
+            'hidden' => 'advanced',
+
+            // Layout
+            'heading' => 'layout',
+            'paragraph' => 'layout',
+            'separator' => 'layout',
+            'spacer' => 'layout',
+            'image' => 'layout',
+            'html' => 'layout',
+
+            // Spam protection
+            'captcha' => 'spam',
+        ));
+    }
+
+    /**
+     * The palette, arranged into its groups.
+     *
+     * @return array group key => array('name' => label, 'fields' => types)
+     */
+    public static function grouped_field_selection() {
+        $fields = apply_filters('hashform_field_selection_palette', self::field_selection());
+        $groups = self::field_groups();
+        $map = self::field_group_map();
+        $grouped = array();
+
+        foreach ($groups as $key => $label) {
+            $grouped[$key] = array('name' => $label, 'fields' => array());
+        }
+
+        foreach ($fields as $type => $field) {
+            $group = isset($map[$type]) ? $map[$type] : 'other';
+
+            if (!isset($grouped[$group])) {
+                $grouped[$group] = array(
+                    'name' => ('other' === $group) ? esc_html__('Other', 'hash-form') : $group,
+                    'fields' => array(),
+                );
+            }
+
+            $grouped[$group]['fields'][$type] = $field;
+        }
+
+        // Groups nothing landed in are not worth a heading.
+        return array_filter($grouped, function ($group) {
+            return !empty($group['fields']);
+        });
+    }
+
     public static function create_row($values, $return = true) {
         global $wpdb, $hashform_duplicate_ids;
 

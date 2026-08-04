@@ -172,6 +172,147 @@
     background: var(--hf-surface);
 }
 
+/* ---------- Payment field preview ---------- */
+
+/* Every enabled gateway is a radio, and with twenty of them switched on the
+   field ran the height of the canvas and pushed the rest of the form out of
+   view. Only the builder preview is columned — the live form is untouched. */
+.hf-content .hf-editor-field-elements .hf-payment-container {
+    display: grid;
+    gap: var(--hf-space-1) var(--hf-space-4);
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+
+.hf-content .hf-editor-field-elements .hf-payment-option {
+    min-width: 0;
+}
+
+.hf-content .hf-editor-field-elements .hf-payment-option-label {
+    align-items: center;
+    display: flex;
+    gap: var(--hf-space-2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* The "no gateway enabled" note, which points at the Modules screen. */
+.hf-content .hf-editor-field-elements .hf-payment-desc {
+    color: var(--hf-text-muted);
+    font-size: var(--hf-font-sm);
+    margin: 0;
+}
+
+/* ---------- Field groups ---------- */
+
+/* Around fifty field types is too many for one run of tiles, so they sit in
+   collapsible groups. The first opens by default; the rest stay shut until
+   asked for, which keeps the whole palette roughly one screen tall. */
+.hf-content .hf-field-group {
+    border-bottom: 1px solid var(--hf-border);
+}
+
+.hf-content .hf-field-group:last-of-type {
+    border-bottom: 0;
+}
+
+.hf-content .hf-field-group-toggle {
+    align-items: center;
+    background: none;
+    border: 0;
+    color: var(--hf-text-faint);
+    cursor: pointer;
+    display: flex;
+    font-size: var(--hf-font-xs);
+    font-weight: 600;
+    gap: var(--hf-space-2);
+    letter-spacing: .06em;
+    padding: var(--hf-space-3) var(--hf-space-1);
+    text-transform: uppercase;
+    transition: color var(--hf-transition);
+    width: 100%;
+}
+
+.hf-content .hf-field-group-toggle:hover {
+    color: var(--hf-text);
+}
+
+.hf-content .hf-field-group-toggle:focus-visible {
+    outline: 2px solid var(--hf-accent);
+    outline-offset: -2px;
+}
+
+.hf-content .hf-field-group.hf-open .hf-field-group-toggle {
+    color: var(--hf-text);
+}
+
+.hf-content .hf-field-group-name {
+    flex: 1 1 auto;
+    text-align: left;
+}
+
+.hf-content .hf-field-group-count {
+    background: var(--hf-surface-sunken);
+    border: 1px solid var(--hf-border);
+    border-radius: var(--hf-radius-pill);
+    color: var(--hf-text-muted);
+    font-size: var(--hf-font-xs);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+    padding: 0 var(--hf-space-2);
+}
+
+/* A chevron drawn from a border, so it needs no icon font. */
+.hf-content .hf-field-group-chevron {
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    flex: 0 0 auto;
+    height: 6px;
+    margin-right: var(--hf-space-1);
+    transform: rotate(-45deg);
+    transition: transform var(--hf-transition-slow);
+    width: 6px;
+}
+
+.hf-content .hf-field-group.hf-open .hf-field-group-chevron {
+    transform: rotate(45deg);
+}
+
+.hf-content .hf-field-group > .hf-fields-list {
+    display: none;
+    padding-bottom: var(--hf-space-3);
+}
+
+.hf-content .hf-field-group.hf-open > .hf-fields-list {
+    display: grid;
+}
+
+/* While a search is running the groups get out of the way: every match shows,
+   whatever group it came from. */
+.hf-content .hf-fields-section.hf-searching .hf-field-group > .hf-fields-list {
+    display: grid;
+}
+
+.hf-content .hf-fields-section.hf-searching .hf-field-group-chevron {
+    visibility: hidden;
+}
+
+.hf-content .hf-field-group[hidden] {
+    display: none;
+}
+
+.hf-content .hf-fields-empty {
+    color: var(--hf-text-muted);
+    font-size: var(--hf-font-sm);
+    margin: 0;
+    padding: var(--hf-space-5) 0;
+    text-align: center;
+}
+
+.hf-content .hf-fields-empty[hidden] {
+    display: none;
+}
+
 /* ---------- Field list ---------- */
 
 .hf-content .hf-fields-list {
@@ -331,6 +472,25 @@
     margin: var(--hf-space-5) 0 var(--hf-space-3);
     padding-top: var(--hf-space-4);
     text-transform: uppercase;
+}
+
+/* Sub-field controls — the First/Last parts of a name, the pieces of an
+   address — are laid out on the same six column grid the form settings use.
+   Three of them side by side in a 300px sidebar left ~90px each, with the
+   captions wrapping onto two lines, so in this panel they take a row apiece. */
+.hf-content .hf-fields-settings .hf-grid-container > .hf-form-row.hf-grid-2 {
+    grid-column: span 6;
+}
+
+.hf-content .hf-fields-settings .hf-sub-field-label {
+    color: var(--hf-text);
+    font-size: var(--hf-font-base);
+    font-weight: 600;
+    margin: var(--hf-space-3) 0 var(--hf-space-2);
+}
+
+.hf-content .hf-fields-settings .hf-sub-field-label:empty {
+    display: none;
 }
 
 .hf-content .hf-no-field-placeholder {
