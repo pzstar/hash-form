@@ -1,0 +1,297 @@
+/**
+ * Forms and Entries list screens.
+ *
+ * Both were plain WP list tables with no header and no surface, which stood
+ * out once the Modules screen was reworked. Same tokens and the same header /
+ * card language, applied over the list table markup rather than replacing it —
+ * WP_List_Table output is not ours to restructure.
+ *
+ * Scoped to .hf-list-screen so nothing here reaches other admin screens.
+ */
+
+.hf-list-screen {
+    background: var(--hf-page, #f5f6f8);
+    margin: 0 0 0 -20px;
+    min-height: calc(100vh - 32px);
+    padding: 0 0 var(--hf-space-6, 32px);
+}
+
+.hf-list-screen * {
+    box-sizing: border-box;
+}
+
+.hf-list-screen .wrap {
+    margin: 0 auto;
+    max-width: 1400px;
+    padding: 0 var(--hf-space-6, 32px);
+}
+
+/* WP prints admin notices into this empty h1; keep it out of the layout until
+   it has something in it. */
+.hf-list-screen .wrap > h1:empty {
+    display: none;
+}
+
+/* ---------- Header ---------- */
+
+/* clear, because WP floats #screen-meta-links right and a flex container
+   forms a block formatting context, which would otherwise shrink to fit
+   beside that float and leave the header short of the table's edge. */
+.hf-list-header {
+    align-items: center;
+    background: var(--hf-surface, #fff);
+    border-bottom: 1px solid var(--hf-border, #e2e5ea);
+    clear: both;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--hf-space-3, 12px);
+    justify-content: space-between;
+    margin: 0 calc(var(--hf-space-6, 32px) * -1) var(--hf-space-5, 24px);
+    padding: var(--hf-space-4, 16px) var(--hf-space-6, 32px);
+}
+
+.hf-list-screen .hf-list-title {
+    color: var(--hf-text, #1e2327);
+    font-size: var(--hf-font-xl, 20px);
+    font-weight: 600;
+    letter-spacing: -.01em;
+    margin: 0;
+    padding: 0;
+}
+
+.hf-list-screen .hf-add-new-form {
+    margin: 0;
+}
+
+.hf-list-screen .hf-add-new-form .button {
+    background: var(--hf-accent, #2271b1);
+    border: 1px solid var(--hf-accent, #2271b1);
+    border-radius: var(--hf-radius-sm, 4px);
+    color: var(--hf-text-inverse, #fff);
+    font-size: var(--hf-font-base, 13px);
+    font-weight: 500;
+    height: auto;
+    line-height: 1.4;
+    min-height: 34px;
+    padding: var(--hf-space-2, 8px) var(--hf-space-4, 16px);
+    text-shadow: none;
+    transition: background-color var(--hf-transition, .15s ease);
+}
+
+.hf-list-screen .hf-add-new-form .button:hover,
+.hf-list-screen .hf-add-new-form .button:focus {
+    background: var(--hf-accent-hover, #135e96);
+    border-color: var(--hf-accent-hover, #135e96);
+    color: var(--hf-text-inverse, #fff);
+}
+
+/* ---------- Status links and filters ---------- */
+
+.hf-list-screen .subsubsub {
+    color: var(--hf-text-muted, #646970);
+    font-size: var(--hf-font-base, 13px);
+    margin: 0 0 var(--hf-space-3, 12px);
+}
+
+.hf-list-screen .subsubsub a {
+    color: var(--hf-text-muted, #646970);
+    text-decoration: none;
+}
+
+.hf-list-screen .subsubsub a.current,
+.hf-list-screen .subsubsub a:hover {
+    color: var(--hf-text, #1e2327);
+}
+
+.hf-list-screen .tablenav {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--hf-space-2, 8px);
+    height: auto;
+    margin: 0 0 var(--hf-space-3, 12px);
+    padding: 0;
+}
+
+.hf-list-screen .tablenav.bottom {
+    margin: var(--hf-space-3, 12px) 0 0;
+}
+
+.hf-list-screen .tablenav .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--hf-space-2, 8px);
+    padding: 0;
+}
+
+.hf-list-screen .tablenav br,
+.hf-list-screen .tablenav .clear {
+    display: none;
+}
+
+.hf-list-screen select,
+.hf-list-screen input[type="search"],
+.hf-list-screen input[type="text"] {
+    border: 1px solid var(--hf-border-strong, #d3d8e0);
+    border-radius: var(--hf-radius-sm, 4px);
+    box-shadow: none;
+    color: var(--hf-text, #1e2327);
+    font-size: var(--hf-font-base, 13px);
+    min-height: 34px;
+}
+
+.hf-list-screen select:focus,
+.hf-list-screen input[type="search"]:focus,
+.hf-list-screen input[type="text"]:focus {
+    border-color: var(--hf-accent, #2271b1);
+    box-shadow: 0 0 0 1px var(--hf-accent, #2271b1);
+    outline: 0;
+}
+
+.hf-list-screen .button:not(.hf-trigger-modal) {
+    border-color: var(--hf-border-strong, #d3d8e0);
+    border-radius: var(--hf-radius-sm, 4px);
+    color: var(--hf-text, #1e2327);
+    font-size: var(--hf-font-base, 13px);
+    min-height: 34px;
+}
+
+.hf-list-screen .button:not(.hf-trigger-modal):hover {
+    background: var(--hf-surface-sunken, #fafbfc);
+    border-color: var(--hf-text-faint, #8c9196);
+    color: var(--hf-text, #1e2327);
+}
+
+.hf-list-screen .search-box {
+    display: flex;
+    gap: var(--hf-space-2, 8px);
+    margin: 0 0 var(--hf-space-3, 12px);
+    justify-content: flex-end;
+}
+
+.hf-list-screen .search-box input[type="search"] {
+    min-width: 220px;
+}
+
+/* ---------- The table itself ---------- */
+
+.hf-list-screen .wp-list-table {
+    background: var(--hf-surface, #fff);
+    border: 1px solid var(--hf-border, #e2e5ea);
+    border-radius: var(--hf-radius, 8px);
+    border-collapse: separate;
+    border-spacing: 0;
+    box-shadow: var(--hf-shadow-sm, 0 1px 2px rgba(16, 24, 40, .05));
+    overflow: hidden;
+}
+
+.hf-list-screen .wp-list-table thead th,
+.hf-list-screen .wp-list-table tfoot th {
+    background: var(--hf-surface-sunken, #fafbfc);
+    border-bottom: 1px solid var(--hf-border, #e2e5ea);
+    color: var(--hf-text-muted, #646970);
+    font-size: var(--hf-font-xs, 11px);
+    font-weight: 700;
+    letter-spacing: .04em;
+    padding: var(--hf-space-3, 12px) var(--hf-space-4, 16px);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* Keeps the sort arrow on the same line as the label it belongs to. */
+.hf-list-screen .wp-list-table thead th a,
+.hf-list-screen .wp-list-table tfoot th a {
+    align-items: center;
+    display: inline-flex;
+    gap: var(--hf-space-1, 4px);
+}
+
+.hf-list-screen .wp-list-table tfoot th {
+    border-bottom: 0;
+    border-top: 1px solid var(--hf-border, #e2e5ea);
+}
+
+.hf-list-screen .wp-list-table thead th a,
+.hf-list-screen .wp-list-table tfoot th a {
+    color: inherit;
+}
+
+.hf-list-screen .wp-list-table tbody td,
+.hf-list-screen .wp-list-table tbody th {
+    border-bottom: 1px solid var(--hf-border, #e2e5ea);
+    color: var(--hf-text, #1e2327);
+    font-size: var(--hf-font-base, 13px);
+    padding: var(--hf-space-3, 12px) var(--hf-space-4, 16px);
+    vertical-align: middle;
+}
+
+.hf-list-screen .wp-list-table tbody tr:last-child td,
+.hf-list-screen .wp-list-table tbody tr:last-child th {
+    border-bottom: 0;
+}
+
+.hf-list-screen .wp-list-table tbody tr:hover {
+    background: var(--hf-surface-sunken, #fafbfc);
+}
+
+.hf-list-screen .wp-list-table .no-items td {
+    color: var(--hf-text-muted, #646970);
+    padding: var(--hf-space-7, 48px) var(--hf-space-4, 16px);
+    text-align: center;
+}
+
+/* WP's own striping fights the hover state. */
+.hf-list-screen .wp-list-table.striped > tbody > :nth-child(odd) {
+    background: transparent;
+}
+
+.hf-list-screen .wp-list-table .row-title,
+.hf-list-screen .wp-list-table .column-form_title a {
+    color: var(--hf-text, #1e2327);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.hf-list-screen .wp-list-table .row-title:hover,
+.hf-list-screen .wp-list-table .column-form_title a:hover {
+    color: var(--hf-accent, #2271b1);
+}
+
+/* Row actions stay out of the way until the row is hovered, as in core. */
+.hf-list-screen .wp-list-table .row-actions {
+    color: var(--hf-text-faint, #8c9196);
+    font-size: var(--hf-font-sm, 12px);
+    padding: 2px 0 0;
+}
+
+.hf-list-screen .wp-list-table .check-column {
+    padding-left: var(--hf-space-4, 16px);
+    width: 32px;
+}
+
+.hf-list-screen .tablenav .displaying-num {
+    color: var(--hf-text-muted, #646970);
+    font-size: var(--hf-font-sm, 12px);
+    margin-left: auto;
+}
+
+@media only screen and (max-width: 782px) {
+    .hf-list-screen {
+        margin-left: -10px;
+    }
+
+    .hf-list-screen .wrap {
+        padding-left: var(--hf-space-3, 12px);
+        padding-right: var(--hf-space-3, 12px);
+    }
+
+    .hf-list-header {
+        margin-left: calc(var(--hf-space-3, 12px) * -1);
+        margin-right: calc(var(--hf-space-3, 12px) * -1);
+        padding: var(--hf-space-3, 12px);
+    }
+
+    .hf-list-screen .search-box {
+        justify-content: flex-start;
+    }
+}

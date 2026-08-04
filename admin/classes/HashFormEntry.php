@@ -207,9 +207,14 @@ class HashFormEntry {
 
     public static function display_entry_list($message = '', $class = 'updated') {
         ?>
-        <div class="hf-content">
+        <div class="hf-content hf-list-screen">
             <div class="hf-entry-list-wrap wrap">
                 <h1></h1>
+
+                <div class="hf-list-header">
+                    <h2 class="hf-list-title"><?php esc_html_e('Entries', 'hash-form'); ?></h2>
+                </div>
+
                 <div id="hf-entry-list">
                     <?php
                     self::display_message($message, $class);

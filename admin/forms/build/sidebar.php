@@ -56,7 +56,13 @@ defined('ABSPATH') || die();
 
                     <ul class="hf-fields-list">
                         <?php
-                        $registered_fields = HashFormFields::field_selection();
+                        /*
+                         * Separate from hashform_field_selection so add-ons can
+                         * drop a field from the palette without removing it from
+                         * the registry, which is also what supplies the label for
+                         * fields already placed on a form.
+                         */
+                        $registered_fields = apply_filters('hashform_field_selection_palette', HashFormFields::field_selection());
                         foreach ($registered_fields as $field_key => $field_type) {
                             ?>
                             <li class="hf-field-box hashform_<?php echo esc_attr($field_key); ?>" id="<?php echo esc_attr($field_key); ?>">

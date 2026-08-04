@@ -189,6 +189,15 @@ class HashFormValidate {
         $args['value'] = $value;
         $args['id'] = $field->id;
 
+        /*
+         * The whole submitted payload, so a field can read inputs that sit
+         * beside it rather than in item_meta. The front end posts the form as
+         * one serialised 'data' parameter, so anything a field printed outside
+         * item_meta — a captcha token, for instance — never reaches $_POST on
+         * its own and can only be found here.
+         */
+        $args['values'] = $values;
+
         $new_errors = $field_obj->validate($args);
 
         if (!empty($new_errors)) {

@@ -114,6 +114,10 @@ class HashFormLoader {
         wp_enqueue_style('hashform-admin-settings', HASHFORM_URL . 'css/admin-settings.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-style', HASHFORM_URL . 'css/style.css', array(), HASHFORM_VERSION);
 
+        // Forms and Entries lists. Scoped to .hf-list-screen, so it is inert
+        // on the screens that do not carry that wrapper.
+        wp_enqueue_style('hashform-list-screens', HASHFORM_URL . 'css/list-screens.css', array('hashform-admin'), HASHFORM_VERSION);
+
         $fonts_url = HashFormStyles::fonts_url();
 
         // Load Fonts if necessary.

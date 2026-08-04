@@ -123,13 +123,17 @@ class HashFormFieldCaptcha extends HashFormFieldType {
     }
 
     public function validate($args) {
-        $errors = array();
+        /*
+         * Without a site key no widget is rendered, so there is no response to
+         * verify. Failing validation here meant a form carrying this field
+         * could never be submitted, and the error pointed at a field that was
+         * not on the page. The field is skipped instead.
+         */
         if (!self::should_show_captcha()) {
-            $errors['field' . $args['id']] = esc_html__('The reCAPTCHA keys are not entered.', 'hash-form');
-            return $errors;
-        } else {
-            return $this->validate_against_api($args);
+            return array();
         }
+
+        return $this->validate_against_api($args);
     }
 
     public static function should_show_captcha() {

@@ -90,11 +90,16 @@ class HashFormBuilder {
 
     public static function display_forms_list($message = '', $class = 'updated') {
         ?>
-        <div class="hf-content">
+        <div class="hf-content hf-list-screen">
             <div class="hf-form-list-wrap wrap">
                 <h1></h1>
-                <div class="hf-add-new-form">
-                    <a href="#" class="button hf-trigger-modal"><?php esc_html_e('Add New', 'hash-form'); ?></a>
+
+                <div class="hf-list-header">
+                    <h2 class="hf-list-title"><?php esc_html_e('Forms', 'hash-form'); ?></h2>
+
+                    <div class="hf-add-new-form">
+                        <a href="#" class="button hf-trigger-modal"><?php esc_html_e('Add New', 'hash-form'); ?></a>
+                    </div>
                 </div>
 
                 <?php
