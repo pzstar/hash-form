@@ -342,26 +342,50 @@ class HashFormBuilder {
         $form = $atts['form'];
         $form_title = $form->name;
         ?>
+        <?php
+        /*
+         * Two rows: what is being edited and what can be done to it on top,
+         * where you are underneath. A single row had the form name, four tabs
+         * and four actions competing for the same line, which left no room for
+         * a long form title and no hierarchy between them.
+         */
+        $status = isset($form->status) ? $form->status : 'published';
+        $is_published = ('published' === $status);
+        ?>
         <div id="hf-header" class="<?php echo esc_attr($class); ?>">
-            <h4><span class="hfi hfi-form"></span><?php echo esc_html($form_title); ?></h4>
-            <?php self::get_form_nav($form); ?>
+            <div class="hf-header-top">
+                <a class="hf-header-back" href="<?php echo esc_url(admin_url('admin.php?page=hashform')); ?>" aria-label="<?php esc_attr_e('Back to forms', 'hash-form'); ?>">
+                    <span class="mdi mdi-arrow-left"></span>
+                </a>
 
-            <button class="hashform-ajax-udpate-button" type="button" id="hf-update-button">
-                <span class="mdi mdi-check-circle-outline"></span><?php esc_html_e('Update', 'hash-form'); ?>
-            </button>
+                <div class="hf-header-identity">
+                    <span class="hf-header-mark" aria-hidden="true">
+                        <span class="mdi mdi-file-document-outline"></span>
+                    </span>
 
-            <button class="hf-embed-button" type="button">
-                <span class="mdi mdi-code-brackets"></span><?php esc_html_e('Embed', 'hash-form'); ?>
-            </button>
+                    <h1 class="hf-header-title"><?php echo esc_html($form_title); ?></h1>
+                    <span class="hf-header-status<?php echo $is_published ? ' hf-is-published' : ''; ?>">
+                        <?php echo $is_published ? esc_html__('Published', 'hash-form') : esc_html__('Draft', 'hash-form'); ?>
+                    </span>
+                </div>
 
-            <div class="hf-preview-button">
-                <a href="<?php echo esc_url(admin_url('admin-ajax.php?action=hashform_preview&form=' . absint($form->id))); ?>" target="_blank"><span class="mdi mdi-eye-outline"></span><?php esc_html_e('Preview', 'hash-form'); ?></a>
+                <div class="hf-header-actions">
+                    <a class="hf-preview-button" href="<?php echo esc_url(admin_url('admin-ajax.php?action=hashform_preview&form=' . absint($form->id))); ?>" target="_blank">
+                        <span class="mdi mdi-eye-outline"></span><?php esc_html_e('Preview', 'hash-form'); ?>
+                    </a>
+
+                    <button class="hf-embed-button" type="button">
+                        <span class="mdi mdi-code-brackets"></span><?php esc_html_e('Embed', 'hash-form'); ?>
+                    </button>
+
+                    <button class="hashform-ajax-udpate-button" type="button" id="hf-update-button">
+                        <span class="mdi mdi-check-circle-outline"></span><?php esc_html_e('Save', 'hash-form'); ?>
+                    </button>
+                </div>
             </div>
 
-            <div class="hashform-close">
-                <a href="<?php echo esc_url(admin_url('admin.php?page=hashform')); ?>" aria-label="<?php esc_attr_e('Close', 'hash-form'); ?>">
-                    <span class="mdi mdi-window-close"></span>
-                </a>
+            <div class="hf-header-bottom">
+                <?php self::get_form_nav($form); ?>
             </div>
         </div>
         <?php

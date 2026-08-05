@@ -626,8 +626,10 @@ defined('ABSPATH') || die();
             <div class="hf-form-row">
                 <label><?php esc_html_e('No Duplicates', 'hash-form'); ?></label>
                 <input type="hidden" name="field_options[unique_<?php echo esc_attr($field_id); ?>]" value="" />
-                <input type="checkbox" name="field_options[unique_<?php echo esc_attr($field_id); ?>]" value="on" <?php checked(isset($field['unique']) ? $field['unique'] : '', 'on'); ?> />
-                <label class="hf-field-desc"><?php esc_html_e('Reject a value that has already been submitted to this form.', 'hash-form'); ?></label>
+                <label>
+                    <input type="checkbox" name="field_options[unique_<?php echo esc_attr($field_id); ?>]" value="on" <?php checked(isset($field['unique']) ? $field['unique'] : '', 'on'); ?> />
+                    <?php esc_html_e('Reject a value that has already been submitted to this form.', 'hash-form'); ?>
+                </label>
             </div>
 
             <div class="hf-form-row">

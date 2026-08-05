@@ -1566,6 +1566,8 @@ h4.hf-field-heading {
 
 .hf-form-row label.hf-field-desc {
     margin: 6px 0 0;
+    font-weight: normal !important;
+    font-style: italic;
 }
 
 .hf-form-row .hf-sub-field-label {

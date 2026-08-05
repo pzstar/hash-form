@@ -27,27 +27,60 @@ $form_style_template = isset($styles['form_style_template']) ? $styles['form_sty
             <form class="ht-fields-panel" method="post" id="hf-style-form">
                 <input type="hidden" name="id" id="hf-form-id" value="<?php echo absint($id); ?>" />
                 <div class="hf-form-container hf-grid-container">
+                    <?php
+                    /*
+                     * The three modes are a visual choice, so they are shown as
+                     * cards rather than hidden in a dropdown. The select below
+                     * stays as the value that gets serialised on save and as
+                     * the element the data-condition rules watch — the radios
+                     * carry no name of their own, so nothing is posted twice.
+                     */
+                    $style_modes = array(
+                        'no-style' => array(
+                            'label' => esc_html__('No Style', 'hash-form'),
+                            'desc' => esc_html__('Let your theme style the form. The preview here will not match the front end.', 'hash-form'),
+                        ),
+                        'default-style' => array(
+                            'label' => esc_html__('Default Style', 'hash-form'),
+                            'desc' => esc_html__('The plugin\'s own minimal styling.', 'hash-form'),
+                        ),
+                        'custom-style' => array(
+                            'label' => esc_html__('Custom Style', 'hash-form'),
+                            'desc' => esc_html__('Apply a style template you have built.', 'hash-form'),
+                        ),
+                    );
+                    ?>
                     <div class="hf-form-row">
-                        <label><?php esc_html_e('Form Style', 'hash-form'); ?></label>
-                        <select name="form_style" id="hf-form-style-select" data-condition="toggle">
-                            <option value="no-style" <?php isset($form_style) ? selected('no-style', $form_style) : ''; ?>><?php esc_html_e('No Style', 'hash-form'); ?></option>
-                            <option value="default-style" <?php isset($form_style) ? selected('default-style', $form_style) : ''; ?>><?php esc_html_e('Default Style', 'hash-form'); ?></option>
-                            <option value="custom-style" <?php isset($form_style) ? selected('custom-style', $form_style) : ''; ?>><?php esc_html_e('Custom Style', 'hash-form'); ?></option>
+                        <fieldset class="hf-style-modes">
+                            <legend class="hf-style-modes-legend"><?php esc_html_e('Form Style', 'hash-form'); ?></legend>
+
+                            <?php foreach ($style_modes as $mode_value => $mode) { ?>
+                                <label class="hf-style-mode<?php echo ($form_style === $mode_value) ? ' hf-selected' : ''; ?>">
+                                    <?php
+                                    /*
+                                     * Named so the three behave as one radio
+                                     * group, but pointed at a form id that does
+                                     * not exist so they are not part of
+                                     * #hf-style-form. update_style() serialises
+                                     * whatever the form posts without a
+                                     * whitelist, and this control's value is
+                                     * already carried by the select below.
+                                     */
+                                    ?>
+                                    <input type="radio" name="hf_style_mode" form="hf-style-mode-detached" class="hf-style-mode-input" value="<?php echo esc_attr($mode_value); ?>" <?php checked($form_style, $mode_value); ?> />
+                                    <span class="hf-style-mode-text">
+                                        <span class="hf-style-mode-name"><?php echo esc_html($mode['label']); ?></span>
+                                        <span class="hf-style-mode-desc"><?php echo esc_html($mode['desc']); ?></span>
+                                    </span>
+                                </label>
+                            <?php } ?>
+                        </fieldset>
+
+                        <select name="form_style" id="hf-form-style-select" data-condition="toggle" class="hf-style-mode-value" tabindex="-1" aria-hidden="true">
+                            <?php foreach ($style_modes as $mode_value => $mode) { ?>
+                                <option value="<?php echo esc_attr($mode_value); ?>" <?php selected($form_style, $mode_value); ?>><?php echo esc_html($mode['label']); ?></option>
+                            <?php } ?>
                         </select>
-                    </div>
-
-                    <div class="hf-form-row" data-condition-toggle="hf-form-style-select" data-condition-val="no-style">
-                        <?php esc_html_e('Choose "No Style" when you don\'t want to implement Hash Form plugin style and let theme style take over.', 'hash-form'); ?>
-                        <br><br>
-                        <?php esc_html_e('The preview seen here will not match with the frontend for "No Style".', 'hash-form'); ?>
-                    </div>
-
-                    <div class="hf-form-row" data-condition-toggle="hf-form-style-select" data-condition-val="default-style">
-                        <?php esc_html_e('Choose "Default Style" when you want to implement Hash Form plugin styles with minimal designs.', 'hash-form'); ?>
-                    </div>
-
-                    <div class="hf-form-row" data-condition-toggle="hf-form-style-select" data-condition-val="custom-style">
-                        <?php esc_html_e('Choose "Custom Style" when you want to implement your own styles', 'hash-form'); ?>
                     </div>
 
                     <div class="hf-form-row" data-condition-toggle="hf-form-style-select" data-condition-val="custom-style">
@@ -84,9 +117,10 @@ $form_style_template = isset($styles['form_style_template']) ? $styles['form_sty
                         </select>
                     </div>
 
-                    <div style="border:2px dashed #2372b1; padding:15px" class="hf-form-row" data-condition-toggle="hf-form-style-select" data-condition-val="custom-style">
-                        <div style="margin-bottom:10px"><?php printf(esc_html__('Build fast with a style template - style your forms in seconds.', 'hash-form')); ?></div>
-                        <a class="button button-primary" href="<?php echo esc_url(admin_url('edit.php?post_type=hashform-styles')); ?>" target="_blank"><?php esc_html_e('Create/Edit Style Template', 'hash-form'); ?></a>
+                    <?php // Was inline-styled with a hardcoded blue; on the tokens it follows the admin colour scheme. ?>
+                    <div class="hf-form-row hf-style-template-cta" data-condition-toggle="hf-form-style-select" data-condition-val="custom-style">
+                        <p class="hf-style-template-cta-text"><?php esc_html_e('Build fast with a style template — style your forms in seconds.', 'hash-form'); ?></p>
+                        <a class="button" href="<?php echo esc_url(admin_url('edit.php?post_type=hashform-styles')); ?>" target="_blank"><?php esc_html_e('Create/Edit Style Template', 'hash-form'); ?></a>
                     </div>
                 </div>
             </form>

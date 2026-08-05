@@ -55,7 +55,7 @@ defined('ABSPATH') || die();
             <label><?php esc_html_e('From Email', 'hash-form'); ?></label>
             <input type="text" name="email_from" value="<?php echo esc_attr($settings['email_from']); ?>" />
             <p class="description"><?php esc_html_e('Use [admin_email] for admin email. Settings > General > Administration Email Address', 'hash-form'); ?></p>
-            <p class="description" style="color:red;"><?php esc_html_e('IMPORTANT: The email address should match with your domain name for proper delivery. eg. admin@yourwebsite.com', 'hash-form'); ?></p>
+            <p class="hf-settings-note"><?php esc_html_e('The address should be on your own domain for reliable delivery — for example admin@yourwebsite.com.', 'hash-form'); ?></p>
         </div>
     </div>
 

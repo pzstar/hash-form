@@ -431,6 +431,17 @@ var hashFormAdmin = hashFormAdmin || {};
                 const styleClass = $(this).find(':selected').val();
                 swapModifierClass($(hashFormAdmin.stylePreviewDoc()).find('form.hashform-form'), 'hf-form-', styleClass);
             });
+
+            // The visible choice is a set of cards; the select behind them is
+            // what gets serialised and what the data-condition rules watch, so
+            // picking a card feeds it and lets its change handler run.
+            $('.hf-style-mode-input').on('change', function () {
+                const value = $(this).val();
+
+                $('.hf-style-mode').removeClass('hf-selected');
+                $(this).closest('.hf-style-mode').addClass('hf-selected');
+                $('#hf-form-style-select').val(value).trigger('change');
+            });
         },
 
         stylePreviewDoc: function () {
