@@ -611,7 +611,7 @@ body:has(#hf-wrap){
 .hf-no-fields {
     min-height: 250px;
     margin: 50px;
-    top: 0;
+    top: 50px;
     left: 0;
     right: 0;
     border: 2px dashed #CCC;
