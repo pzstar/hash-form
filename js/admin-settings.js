@@ -335,7 +335,7 @@
             const previewZone = $(this).parents('.hf-preview-zone');
             const dropzone = previewZone.siblings('.hf-dropzone-wrapper').find('.hf-dropzone');
 
-            previewZone.find('.box-body').empty();
+            previewZone.find('.hf-box-body').empty();
             previewZone.addClass('hidden');
 
             // A file input can only be cleared through a form reset.
@@ -422,5 +422,53 @@
         $(this).parent().addClass('hf-field-focussed');
     }).on('focusout', function () {
         $(this).parent().removeClass('hf-field-focussed');
+    });
+
+    /* -----------------------------------------------------------------------
+     * Import/Export panel: import over AJAX
+     *
+     * Was a plain POST, so a rejected file replaced the whole screen with a
+     * bare wp_die() page and the panel was lost. The request is reported back
+     * here instead: spinner while it runs, message in place if it fails, and
+     * a reload only once the form has actually been written.
+     * -------------------------------------------------------------------- */
+
+    $(document).on('submit', '.hf-settings-import-form', function (e) {
+        e.preventDefault();
+
+        const $form = $(this);
+        const $error = $form.closest('.hf-form-row').find('.hf-import-error');
+
+        if ($form.hasClass('is-importing')) {
+            return;
+        }
+
+        $error.text('').removeClass('is-visible');
+        $form.addClass('is-importing');
+
+        const data = new FormData(this);
+        data.append('action', 'hashform_import_form_settings');
+
+        $.ajax({
+            url: ajaxUrl,
+            type: 'POST',
+            data: data,
+            // FormData supplies its own multipart boundary.
+            processData: false,
+            contentType: false
+        }).done(function (res) {
+            if (res && res.success) {
+                // The imported fields only show once the page is rebuilt, so
+                // the spinner is left running into the reload.
+                window.location.reload();
+                return;
+            }
+
+            $form.removeClass('is-importing');
+            $error.text((res && res.data && res.data.message) || hashform_admin_js_obj.error).addClass('is-visible');
+        }).fail(function () {
+            $form.removeClass('is-importing');
+            $error.text(hashform_admin_js_obj.error).addClass('is-visible');
+        });
     });
 })(jQuery);

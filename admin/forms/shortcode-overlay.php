@@ -3,11 +3,17 @@ defined('ABSPATH') || die();
 
 $form_id = HashFormHelper::get_var('id', 'absint');
 ?>
-<div id="hf-shortcode-form-modal">
+<div id="hf-shortcode-form-modal" role="dialog" aria-modal="true" aria-labelledby="hf-shortcode-title" aria-hidden="true">
     <div class="hf-shortcode-modal-wrap">
-        <form id="hf-add-template" method="post">
-            <h3><?php esc_attr_e('Use the shortcode below to add to your pages', 'hash-form'); ?></h3>
 
+        <h3 id="hf-shortcode-title"><?php esc_html_e('Use the shortcode below to add to your pages', 'hash-form'); ?></h3>
+
+        <button type="button" class="hf-modal-close hashform-close-form-modal">
+            <span class="dashicons dashicons-no-alt" aria-hidden="true"></span>
+            <span class="screen-reader-text"><?php esc_html_e('Close', 'hash-form'); ?></span>
+        </button>
+
+        <form id="hf-add-template" method="post">
             <div class="hf-form-row">
                 <input type="text" value="<?php echo esc_attr('[hashform id="' . absint($form_id) . '"]') ?>" disabled />
                 <span id="hf-copy-shortcode" class="mdi mdi-content-copy"></span>

@@ -47,7 +47,8 @@ defined('ABSPATH') || die();
 
             <div class="hf-form-row hf-grid-3">
                 <label><?php esc_html_e('Label Position', 'hash-form'); ?></label>
-                <select name="field_options[label_position_ <?php echo absint($field_id); ?>]">
+                <?php // No space after the underscore: the save path looks up label_position_<id> and a stray one made this setting silently unsaveable. ?>
+                <select name="field_options[label_position_<?php echo absint($field_id); ?>]">
                     <option value="top" <?php isset($field['label_position']) ? selected($field['label_position'], 'top') : ''; ?>>
                         <?php esc_html_e('Top', 'hash-form'); ?>
                     </option>

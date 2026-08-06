@@ -64,6 +64,7 @@ class HashFormLoader {
                 'note_error' => esc_html__('The note could not be saved.', 'hash-form'),
                 'resend_confirm' => esc_html__('Send the notification emails for this entry again?', 'hash-form'),
                 'generic_error' => esc_html__('Something went wrong. Please reload the page and try again.', 'hash-form'),
+                'form_name_required' => esc_html__('Please give the form a name.', 'hash-form'),
             ));
 
             wp_localize_script('hashform-builder', 'hashform_backend_js', array(

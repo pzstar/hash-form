@@ -472,27 +472,25 @@ class HashFormEntryListing extends \WP_List_Table {
         $counts = HashFormEntry::get_count();
 
         foreach ($statuses as $status => $name) {
-            $class = ($status == $this->status) ? ' class="current"' : '';
+            // All and Unread stay visible at zero: "0 unread" is readable as
+            // good news rather than the tab vanishing, and All is the way
+            // back from every other view. Starred and Trash have to earn it.
+            $always_shown = ('published' === $status || 'unread' === $status);
 
-            // Unread stays visible at zero so "0 unread" is readable as good
-            // news rather than the tab vanishing.
-            if ($counts[$status] || 'unread' === $status) {
-                $links[$status] = '<a href="' . esc_url('?page=hashform-entries&status=' . $status) . '" ' . $class . '>' . sprintf('%1$s <span class="count">(%2$s)</span>', $name, number_format_i18n($counts[$status])) . '</a>';
+            if (!$always_shown && !$counts[$status]) {
+                continue;
             }
+
+            $links[$status] = HashFormHelper::view_tab(
+                            admin_url('admin.php?page=hashform-entries&status=' . $status), $name, $counts[$status], $status == $this->status
+            );
         }
+
         return $links;
     }
 
     public function views() {
-        $views = $this->get_views();
-        if (empty($views))
-            return;
-        echo "<ul class='subsubsub'>\n";
-        foreach ($views as $class => $view) {
-            $views[$class] = "\t" . '<li class="' . esc_attr($class) . '">' . wp_kses_post($view);
-        }
-        echo wp_kses_post(implode(" |</li>\n", $views) . "</li>\n");
-        echo '</ul>';
+        HashFormHelper::render_view_tabs($this->get_views());
     }
 
     private function get_form_link($form_id) {

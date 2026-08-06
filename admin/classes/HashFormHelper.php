@@ -797,6 +797,42 @@ class HashFormHelper {
         }
     }
 
+    /**
+     * One status tab for a list screen. Shared by the Forms and Entries
+     * tables so a single count keeps looking the same on both.
+     */
+    public static function view_tab($url, $label, $count, $is_current) {
+        $classes = 'hf-view-tab' . ($is_current ? ' current' : '');
+
+        return '<a class="' . esc_attr($classes) . '" href="' . esc_url($url) . '">'
+                . esc_html($label)
+                . '<span class="count">' . esc_html(number_format_i18n($count)) . '</span>'
+                . '</a>';
+    }
+
+    /**
+     * Renders the tabs built by view_tab(). The subsubsub class is kept so
+     * anything hooked to the usual list-screen markup still finds it, but the
+     * ul/li and the pipe separators are gone: these read as a segmented
+     * control now, not a sentence.
+     */
+    public static function render_view_tabs($views) {
+        if (empty($views)) {
+            return;
+        }
+
+        $allowed = array(
+            'a' => array('class' => array(), 'href' => array()),
+            'span' => array('class' => array()),
+        );
+
+        echo '<div class="hf-view-tabs subsubsub">';
+        foreach ($views as $view) {
+            echo wp_kses($view, $allowed);
+        }
+        echo '</div>';
+    }
+
     public static function sanitize_array($array = array(), $sanitize_rule = array()) {
         $new_args = (array) $array;
 

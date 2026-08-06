@@ -208,28 +208,35 @@ class HashFormEntry {
     public static function display_entry_list($message = '', $class = 'updated') {
         ?>
         <div class="hf-content hf-list-screen">
-            <div class="hf-entry-list-wrap wrap">
-                <h1></h1>
 
-                <div class="hf-list-header">
+            <div class="hf-list-header">
+                <div class="hf-list-header-inner">
                     <h2 class="hf-list-title"><?php esc_html_e('Entries', 'hash-form'); ?></h2>
                 </div>
+            </div>
+
+            <div class="hf-entry-list-wrap wrap">
+                <h1></h1>
 
                 <div id="hf-entry-list">
                     <?php
                     self::display_message($message, $class);
                     $entry_table = new HashFormEntryListing();
                     $entry_status = HashFormHelper::get_var('status', 'sanitize_title', 'published');
-                    $entry_table->views();
+                    $entry_table->prepare_items();
                     ?>
                     <form id="posts-filter" method="get">
                         <input type="hidden" name="page" value="<?php echo esc_attr(HashFormHelper::get_var('page', 'sanitize_title')); ?>" />
                         <input type="hidden" name="status" value="<?php echo esc_attr($entry_status); ?>" />
-                        <?php
-                        $entry_table->prepare_items();
-                        $entry_table->search_box('Search', 'search');
-                        $entry_table->display();
-                        ?>
+
+                        <div class="hf-list-toolbar">
+                            <?php
+                            $entry_table->views();
+                            $entry_table->search_box(esc_html__('Search', 'hash-form'), 'search');
+                            ?>
+                        </div>
+
+                        <?php $entry_table->display(); ?>
                     </form>
                 </div>
             </div>

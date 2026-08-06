@@ -22,23 +22,27 @@ defined('ABSPATH') || die();
 
     <div class="hf-form-row">
         <h3><?php esc_html_e('Import', 'hash-form'); ?></h3>
-        <form method="post" enctype="multipart/form-data">
+        <p class="hf-import-error" role="alert"></p>
+
+        <form method="post" enctype="multipart/form-data" class="hf-settings-import-form">
             <div class="hf-preview-zone hidden">
                 <div class="hf-box hf-box-solid">
                     <div class="hf-box-body"></div>
                     <button type="button" class="button hf-remove-preview">
-                        <span class="mdi mdi-window-close"></span>
+                        <span class="mdi mdi-window-close" aria-hidden="true"></span>
+                        <span class="screen-reader-text"><?php esc_html_e('Remove file', 'hash-form'); ?></span>
                     </button>
                 </div>
             </div>
             <div class="hf-dropzone-wrapper">
                 <div class="hf-dropzone-desc">
-                    <span class="mdi mdi-file-image-plus-outline"></span>
-                    <p><?php esc_html_e("Choose an json file or drag it here", "hash-form"); ?></p>
+                    <span class="mdi mdi-tray-arrow-up" aria-hidden="true"></span>
+                    <p><?php esc_html_e('Choose a JSON file or drag it here', 'hash-form'); ?></p>
                 </div>
-                <input type="file" name="hashform_import_file" class="hf-dropzone">
+                <input type="file" name="hashform_import_file" class="hf-dropzone" accept=".json,application/json" />
             </div>
-            <button class="button button-primary" id="hashform_import" type="submit" name="hashform_import"><i class='icofont-download'></i> <?php esc_html_e("Import", "hash-form") ?></button>
+            <?php // icofont is not among the plugin's icon fonts, so the old <i> rendered nothing. ?>
+            <button class="button button-primary" id="hashform_import" type="submit" name="hashform_import"><span class="mdi mdi-tray-arrow-up" aria-hidden="true"></span> <?php esc_html_e("Import", "hash-form") ?></button>
             <input type="hidden" name="hashform_imex_action" value="import_form" />
             <input type="hidden" name="hashform_form_id" value="<?php echo esc_attr($id); ?>" />
             <?php wp_nonce_field("hashform_imex_import_nonce", "hashform_imex_import_nonce"); ?>

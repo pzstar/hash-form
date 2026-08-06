@@ -91,33 +91,84 @@ class HashFormBuilder {
     public static function display_forms_list($message = '', $class = 'updated') {
         ?>
         <div class="hf-content hf-list-screen">
-            <div class="hf-form-list-wrap wrap">
-                <h1></h1>
 
-                <div class="hf-list-header">
+            <?php // Outside .wrap so the bar spans the screen; the inner box keeps its contents lined up with the table. ?>
+            <div class="hf-list-header">
+                <div class="hf-list-header-inner">
                     <h2 class="hf-list-title"><?php esc_html_e('Forms', 'hash-form'); ?></h2>
 
                     <div class="hf-add-new-form">
                         <a href="#" class="button hf-trigger-modal"><?php esc_html_e('Add New', 'hash-form'); ?></a>
                     </div>
                 </div>
+            </div>
+
+            <div class="hf-form-list-wrap wrap">
+                <h1></h1>
 
                 <?php
                 self::display_message($message, $class);
+
                 $form_table = new HashFormListing();
                 $form_status = HashFormHelper::get_var('status', 'sanitize_title', 'published');
-                $form_table->views();
+
+                // Prepared up front so the screen can tell an empty list from
+                // a search that found nothing before deciding what to print.
+                $form_table->prepare_items();
+                $is_searching = '' !== (string) HashFormHelper::get_var('s');
+
+                self::display_list_stats();
                 ?>
                 <form id="posts-filter" method="get">
                     <input type="hidden" name="page" value="<?php echo esc_attr(HashFormHelper::get_var('page', 'sanitize_title')); ?>" />
                     <input type="hidden" name="status" value="<?php echo esc_attr($form_status); ?>" />
-                    <?php
-                    $form_table->prepare_items();
-                    $form_table->search_box('Search', 'search');
-                    $form_table->display();
-                    ?>
+
+                    <div class="hf-list-toolbar">
+                        <?php
+                        $form_table->views();
+
+                        // A search box over nothing is just noise on a first run.
+                        if ($form_table->has_items() || $is_searching) {
+                            $form_table->search_box(esc_html__('Search', 'hash-form'), 'search');
+                        }
+                        ?>
+                    </div>
+
+                    <?php $form_table->display(); ?>
                 </form>
             </div>
+        </div>
+        <?php
+    }
+
+    /**
+     * Totals across the top of the Forms screen. Suppressed on a brand new
+     * install, where three zeroes above an empty state say nothing.
+     */
+    private static function display_list_stats() {
+        $stats = HashFormListing::get_stats();
+
+        if (!$stats['forms'] && !$stats['trash']) {
+            return;
+        }
+        ?>
+        <div class="hf-list-stats">
+            <div class="hf-stat">
+                <span class="hf-stat-value"><?php echo esc_html(number_format_i18n($stats['forms'])); ?></span>
+                <span class="hf-stat-label"><?php echo esc_html(_n('Form', 'Forms', $stats['forms'], 'hash-form')); ?></span>
+            </div>
+
+            <a class="hf-stat" href="<?php echo esc_url(admin_url('admin.php?page=hashform-entries')); ?>">
+                <span class="hf-stat-value"><?php echo esc_html(number_format_i18n($stats['entries'])); ?></span>
+                <span class="hf-stat-label"><?php echo esc_html(_n('Entry', 'Entries', $stats['entries'], 'hash-form')); ?></span>
+            </a>
+
+            <?php if ($stats['trash']) { ?>
+                <a class="hf-stat" href="<?php echo esc_url(admin_url('admin.php?page=hashform&status=trash')); ?>">
+                    <span class="hf-stat-value"><?php echo esc_html(number_format_i18n($stats['trash'])); ?></span>
+                    <span class="hf-stat-label"><?php esc_html_e('In Trash', 'hash-form'); ?></span>
+                </a>
+            <?php } ?>
         </div>
         <?php
     }
@@ -129,7 +180,15 @@ class HashFormBuilder {
 
         check_ajax_referer('hashform_backend_ajax', 'backend_nonce');
 
-        $name = HashFormHelper::get_post('name');
+        $name = trim(HashFormHelper::get_post('name'));
+
+        // The dialog checks this too, but a form with no name is only ever
+        // reachable as "No Title" in the list, so do not create one.
+        if ('' === $name) {
+            echo wp_json_encode(array('error' => esc_html__('Please give the form a name.', 'hash-form')));
+            wp_die();
+        }
+
         $new_values = array(
             'name' => esc_html($name),
             'description' => '',

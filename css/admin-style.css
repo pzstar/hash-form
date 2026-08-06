@@ -1715,56 +1715,235 @@ h4.hf-field-heading {
     margin: 0;
 }
 
-/* =========== Add New Form Modal =========== */
+/* =========== Add New Form / Shortcode Modals =========== */
+
+/* The overlay is also the backdrop: the Pro plugin swaps in its own template
+   for the add-form dialog and has no separate backdrop element, so the dim
+   has to live on the container both templates share. */
 #hf-shortcode-form-modal,
 #hf-add-form-modal {
-    display: none;
-    position: fixed;
-    left: 0;
-    top: 0;
+    align-items: center;
+    background: rgba(16, 24, 40, .6);
     bottom: 0;
+    display: none;
+    justify-content: center;
+    left: 0;
+    padding: var(--hf-space-5, 24px);
+    position: fixed;
     right: 0;
-    background: rgba(0, 0, 0, 0.8);
-    margin-left: 160px;
+    top: 0;
     z-index: 99999;
-}
-
-#hf-shortcode-form-modal {
-    margin-left: 0;
 }
 
 #hf-shortcode-form-modal.hf-open,
 #hf-add-form-modal.hf-open {
-    display: block;
+    animation: hf-modal-fade .15s ease;
+    display: flex;
 }
 
+/* Centred by the flex parent rather than pinned and translated, so a panel
+   taller than the viewport scrolls instead of overflowing off both edges.
+   width is a bare class selector on purpose: Pro raises it to 800px from a
+   more specific rule and needs to keep winning. */
 .hf-shortcode-modal-wrap,
 .hf-add-form-modal-wrap {
-    position: fixed;
-    width: 500px;
-    border: 1px solid #EEE;
-    background: #FFF;
-    border-radius: 3px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    padding: 40px;
+    animation: hf-modal-in .2s ease;
+    background: var(--hf-surface, #fff);
+    border-radius: var(--hf-radius-lg, 12px);
+    box-shadow: var(--hf-shadow-lg, 0 12px 28px -8px rgba(16, 24, 40, .18), 0 4px 10px -4px rgba(16, 24, 40, .1));
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    max-width: 100%;
+    /* hidden, not auto: the panel itself never scrolls now. The header is
+       pinned and the body below it takes the scrolling, so a long template
+       grid cannot carry the title off the top of the dialog. */
+    overflow: hidden;
+    /* The padding moved onto the body below, so the header can reach all
+       three edges without negative margins fighting the overflow. */
+    padding: 0;
+    position: relative;
+    width: 480px;
 }
 
-.hf-shortcode-modal-wrap h3,
-.hf-add-form-modal-wrap h3 {
-    margin: -40px -40px 20px;
-    padding: 20px 40px;
-    border-bottom: 1px solid #EEE;
+@keyframes hf-modal-fade {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes hf-modal-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    #hf-shortcode-form-modal.hf-open,
+    #hf-add-form-modal.hf-open,
+    .hf-shortcode-modal-wrap,
+    .hf-add-form-modal-wrap {
+        animation: none;
+    }
+}
+
+/* A header bar in its own right: flush to the top, left and right edges of
+   the panel, filled so it reads as a bar rather than a line of text with a
+   rule under it. The panel clips to its radius, so the top corners round
+   with it. */
+.hf-shortcode-modal-wrap > h3,
+.hf-add-form-modal-wrap > h3 {
+    background: var(--hf-surface-sunken, #fafbfc);
+    border-bottom: 1px solid var(--hf-border, #e2e5ea);
+    color: var(--hf-text, #1e2327);
+    flex: 0 0 auto;
+    font-size: var(--hf-font-lg, 16px);
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0;
+    /* Extra room on the right is for the close button sitting over it. */
+    padding: var(--hf-space-4, 16px) var(--hf-space-7, 48px) var(--hf-space-4, 16px) var(--hf-space-6, 32px);
+}
+
+/* Everything that is not the header or the close button is the body: it
+   carries the panel's padding and does the scrolling. Written as an
+   exclusion because Pro swaps in its own template, where the body is a
+   different element than it is here. */
+.hf-shortcode-modal-wrap > *:not(h3):not(.hf-modal-close),
+.hf-add-form-modal-wrap > *:not(h3):not(.hf-modal-close) {
+    flex: 1 1 auto;
+    /* Lets the body shrink past its content so overflow actually scrolls. */
+    min-height: 0;
+    overflow: auto;
+    padding: var(--hf-space-6, 32px);
+}
+
+.hf-modal-close {
+    align-items: center;
+    background: none;
+    border: 0;
+    border-radius: var(--hf-radius-sm, 4px);
+    color: var(--hf-text-faint, #8c9196);
+    cursor: pointer;
+    display: flex;
+    height: 30px;
+    justify-content: center;
+    padding: 0;
+    position: absolute;
+    right: var(--hf-space-3, 12px);
+    /* Centres against the header bar: 16px padding + ~22px line, less the
+       button's own 30px, halved. */
+    top: 12px;
+    transition: background-color var(--hf-transition, .15s ease), color var(--hf-transition, .15s ease);
+    width: 30px;
+    z-index: 1;
+}
+
+.hf-modal-close:hover {
+    background: var(--hf-surface-sunken, #fafbfc);
+    color: var(--hf-text, #1e2327);
+}
+
+.hf-modal-close:focus-visible {
+    outline: 2px solid var(--hf-accent, #2271b1);
+    outline-offset: 1px;
 }
 
 .hf-shortcode-modal-wrap .hf-form-row,
 .hf-add-form-modal-wrap .hf-form-row {
-    margin-bottom: 30px;
+    margin-bottom: var(--hf-space-5, 24px);
+}
+
+.hf-add-form-modal-wrap label {
+    color: var(--hf-text, #1e2327);
+    display: block;
+    font-size: var(--hf-font-base, 13px);
+    font-weight: 600;
+    margin: 0 0 var(--hf-space-2, 8px);
 }
 
 .hf-add-form-modal-wrap .hf-form-row input[type="text"] {
+    border: 1px solid var(--hf-border-strong, #d3d8e0);
+    border-radius: var(--hf-radius-sm, 4px);
+    box-shadow: none;
+    color: var(--hf-text, #1e2327);
+    font-size: var(--hf-font-md, 14px);
+    margin: 0;
+    min-height: 40px;
+    padding: var(--hf-space-2, 8px) var(--hf-space-3, 12px);
+    transition: border-color var(--hf-transition, .15s ease), box-shadow var(--hf-transition, .15s ease);
     width: 100%;
+}
+
+.hf-add-form-modal-wrap .hf-form-row input[type="text"]:focus {
+    border-color: var(--hf-accent, #2271b1);
+    box-shadow: 0 0 0 1px var(--hf-accent, #2271b1);
+    outline: 0;
+}
+
+.hf-add-form-modal-wrap .hf-form-row.has-error input[type="text"] {
+    border-color: var(--hf-danger, #d3383c);
+}
+
+.hf-add-form-modal-wrap .hf-form-row.has-error input[type="text"]:focus {
+    box-shadow: 0 0 0 1px var(--hf-danger, #d3383c);
+}
+
+.hf-modal-help {
+    color: var(--hf-text-muted, #646970);
+    font-size: var(--hf-font-sm, 12px);
+    line-height: 1.5;
+    margin: var(--hf-space-2, 8px) 0 0;
+}
+
+.hf-modal-error {
+    color: var(--hf-danger, #d3383c);
+    display: none;
+    font-size: var(--hf-font-sm, 12px);
+    line-height: 1.5;
+    margin: var(--hf-space-2, 8px) 0 0;
+}
+
+.hf-modal-error.is-visible {
+    display: block;
+}
+
+/* Stops the page behind the dialog scrolling under the pointer. */
+body.hf-modal-open {
+    overflow: hidden;
+}
+
+@media only screen and (max-width: 782px) {
+
+    #hf-shortcode-form-modal,
+    #hf-add-form-modal {
+        padding: var(--hf-space-3, 12px);
+    }
+
+    .hf-shortcode-modal-wrap > *:not(h3):not(.hf-modal-close),
+    .hf-add-form-modal-wrap > *:not(h3):not(.hf-modal-close) {
+        padding: var(--hf-space-5, 24px);
+    }
+
+    .hf-shortcode-modal-wrap > h3,
+    .hf-add-form-modal-wrap > h3 {
+        padding: var(--hf-space-3, 12px) var(--hf-space-7, 48px) var(--hf-space-3, 12px) var(--hf-space-5, 24px);
+    }
+
+    .hf-modal-close {
+        top: 8px;
+    }
 }
 
 .hf-shortcode-modal-wrap .hf-form-row input[type="text"] {
@@ -1778,33 +1957,66 @@ h4.hf-field-heading {
     height: 60px;
 }
 
+/* Actions trail right, dismiss before confirm. Not full-bleed like the
+   header: Pro nests this footer inside a panel, where edge-to-edge rules
+   would break out of the wrong box. */
 .hf-shortcode-footer,
 .hf-add-form-footer {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
+    display: flex;
+    gap: var(--hf-space-2, 8px);
+    justify-content: flex-end;
 }
 
 .hf-shortcode-footer a,
 .hf-add-form-footer a,
 .hf-add-form-footer button {
-    padding: 12px 20px;
-    border: 1px solid #333;
+    align-items: center;
     background: none;
-    text-decoration: none;
-    border-radius: 3px;
-    color: #333;
-    line-height: 1;
-    text-transform: uppercase;
+    border: 1px solid transparent;
+    border-radius: var(--hf-radius-sm, 4px);
+    color: var(--hf-text-muted, #646970);
     cursor: pointer;
+    display: inline-flex;
+    font-size: var(--hf-font-base, 13px);
+    font-weight: 500;
+    gap: var(--hf-space-2, 8px);
+    line-height: 1;
+    min-height: 38px;
+    padding: 0 var(--hf-space-4, 16px);
+    text-decoration: none;
+    text-transform: none;
+    transition: background-color var(--hf-transition, .15s ease), border-color var(--hf-transition, .15s ease), color var(--hf-transition, .15s ease);
+}
+
+.hf-shortcode-footer a:hover,
+.hf-add-form-footer a:hover {
+    background: var(--hf-surface-sunken, #fafbfc);
+    color: var(--hf-text, #1e2327);
 }
 
 .hf-add-form-footer button {
-    background: #333;
-    color: #FFF;
-    display: flex;
-    gap: 10px;
-    align-items: center;
+    background: var(--hf-accent, #2271b1);
+    border-color: var(--hf-accent, #2271b1);
+    color: var(--hf-text-inverse, #fff);
+}
+
+.hf-add-form-footer button:hover {
+    background: var(--hf-accent-hover, #135e96);
+    border-color: var(--hf-accent-hover, #135e96);
+    color: var(--hf-text-inverse, #fff);
+}
+
+.hf-shortcode-footer a:focus-visible,
+.hf-add-form-footer a:focus-visible,
+.hf-add-form-footer button:focus-visible {
+    outline: 2px solid var(--hf-accent, #2271b1);
+    outline-offset: 1px;
+}
+
+.hf-add-form-footer button.hashform-updating {
+    cursor: default;
+    opacity: .75;
 }
 
 .hf-add-form-footer button.hashform-updating:after {
@@ -2110,86 +2322,194 @@ form.hf-success .hf-copied {
     cursor: auto;
 }
 
-/* Dropzone */
+/* =========== Import dropzone =========== */
+
+/* Shared by the Import/Export form setting and the Import tab of the Create
+   New Form dialog. No max-width: both containers are the right width already,
+   and capping it left a short box floating in a wide panel. */
 .hf-dropzone-wrapper {
-    border: 2px dashed #91b0b3;
-    color: #92b0b3;
+    background: var(--hf-surface-sunken, #fafbfc);
+    border: 2px dashed var(--hf-border-strong, #d3d8e0);
+    border-radius: var(--hf-radius, 8px);
+    color: var(--hf-text-muted, #646970);
+    margin-bottom: var(--hf-space-3, 12px);
+    min-height: 160px;
     position: relative;
-    height: 150px;
-    max-width: 500px;
-    margin-bottom: 10px;
+    transition: background-color var(--hf-transition, .15s ease), border-color var(--hf-transition, .15s ease), color var(--hf-transition, .15s ease);
 }
 
+/* The style sidebar is narrow, so this one stays compact — the larger icon
+   below would not fit in 90px. */
 .hf-style-sidebar .hf-dropzone-wrapper {
-    height: 90px;
+    min-height: 90px;
 }
 
-.hf-dropzone-desc {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    flex-direction: column;
+.hf-style-sidebar .hf-dropzone-desc {
+    font-size: var(--hf-font-base, 13px);
 }
 
-.hf-dropzone-desc .mdi {
+.hf-style-sidebar .hf-dropzone-desc .mdi {
     font-size: 22px;
 }
 
+.hf-dropzone-desc {
+    align-items: center;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    font-size: var(--hf-font-md, 14px);
+    gap: var(--hf-space-2, 8px);
+    justify-content: center;
+    left: 0;
+    padding: var(--hf-space-4, 16px);
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+}
+
+.hf-dropzone-desc p {
+    margin: 0;
+}
+
+.hf-dropzone-desc .mdi {
+    color: var(--hf-text-faint, #8c9196);
+    font-size: 32px;
+    line-height: 1;
+    transition: color var(--hf-transition, .15s ease);
+}
+
+/* left/top were missing, so the input sat at its static position and only
+   covered part of the box; the rest of it was not clickable. */
 .hf-dropzone,
 .hf-dropzone:focus {
-    position: absolute;
-    outline: none !important;
-    width: 100%;
-    height: 100%;
     cursor: pointer;
+    height: 100%;
+    left: 0;
     opacity: 0;
+    outline: none !important;
+    position: absolute;
+    top: 0;
+    width: 100%;
 }
 
 .hf-dropzone-wrapper:hover,
+.hf-dropzone-wrapper:focus-within,
 .hf-dropzone-wrapper.dragover {
-    background: #ecf0f5;
+    background: var(--hf-accent-soft, #f0f6fc);
+    border-color: var(--hf-accent, #2271b1);
+    color: var(--hf-accent, #2271b1);
 }
 
+.hf-dropzone-wrapper:hover .mdi,
+.hf-dropzone-wrapper:focus-within .mdi,
+.hf-dropzone-wrapper.dragover .mdi {
+    color: inherit;
+}
+
+/* The chosen file, shown in place of nothing once one is picked. */
 .hf-preview-zone {
-    border: 1px dashed #CCC;
-    max-width: 500px;
-    margin-bottom: 5px;
+    background: var(--hf-surface, #fff);
+    border: 1px solid var(--hf-border, #e2e5ea);
+    border-radius: var(--hf-radius, 8px);
+    margin-bottom: var(--hf-space-3, 12px);
+    padding: var(--hf-space-3, 12px) var(--hf-space-7, 48px) var(--hf-space-3, 12px) var(--hf-space-4, 16px);
     position: relative;
 }
 
 .hf-preview-zone .hf-box-solid {
-    display: flex;
     align-items: center;
-    justify-content: center;
     box-shadow: none;
-    margin-bottom: 0;
+    display: flex;
+    margin: 0;
+}
+
+.hf-preview-zone .hf-box-body {
+    color: var(--hf-text, #1e2327);
+    font-size: var(--hf-font-base, 13px);
+    font-weight: 500;
+    /* File names have no spaces to break on. */
+    word-break: break-all;
+}
+
+.hf-preview-zone .hf-box-body p {
+    margin: 0;
 }
 
 .hf-preview-zone .hf-remove-preview {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    color: red;
-    border: none;
+    align-items: center;
     background: none !important;
-    vertical-align: top;
-    text-decoration: none;
-    font-size: 16px;
-    line-height: 1;
-    min-height: 0;
-    margin: 0;
-    padding: 0;
+    border: none;
+    border-radius: var(--hf-radius-sm, 4px);
+    color: var(--hf-text-faint, #8c9196);
     cursor: pointer;
+    display: flex;
+    font-size: 16px;
+    height: 28px;
+    justify-content: center;
+    line-height: 1;
+    margin: 0;
+    min-height: 0;
+    padding: 0;
+    position: absolute;
+    right: var(--hf-space-2, 8px);
+    text-decoration: none;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: background-color var(--hf-transition, .15s ease), color var(--hf-transition, .15s ease);
+    width: 28px;
 }
 
-.hf-preview-zone.hidden + .hf-dropzone-wrapper + #hashform_import {
+.hf-preview-zone .hf-remove-preview:hover {
+    background: #fdf2f2 !important;
+    color: var(--hf-danger, #d3383c);
+}
+
+/* Nothing to import until a file is chosen. Matched on the button rather
+   than its id so the dialog's Import tab behaves the same as the settings
+   panel, which uses a different id for the same button. */
+.hf-preview-zone.hidden + .hf-dropzone-wrapper + .button {
     display: none;
+}
+
+/* Import failures are reported here rather than by replacing the screen. */
+.hf-import-error {
+    background: #fdf2f2;
+    border: 1px solid rgba(211, 56, 60, .3);
+    border-radius: var(--hf-radius-sm, 4px);
+    color: var(--hf-danger, #d3383c);
+    display: none;
+    font-size: var(--hf-font-base, 13px);
+    line-height: 1.5;
+    margin: 0 0 var(--hf-space-3, 12px);
+    padding: var(--hf-space-2, 8px) var(--hf-space-3, 12px);
+}
+
+.hf-import-error.is-visible {
+    display: block;
+}
+
+.hf-settings-import-form.is-importing .hf-preview-zone,
+.hf-settings-import-form.is-importing .hf-dropzone-wrapper {
+    opacity: .5;
+    pointer-events: none;
+}
+
+.hf-settings-import-form.is-importing button[type="submit"] {
+    align-items: center;
+    display: inline-flex;
+    gap: var(--hf-space-2, 8px);
+}
+
+.hf-settings-import-form.is-importing button[type="submit"]:after {
+    animation: hf-spin .6s infinite linear;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    border-right-color: transparent;
+    content: "";
+    display: block;
+    height: 12px;
+    width: 12px;
 }
 
 /* =========== Setting Main Menu Page  =========== */

@@ -98,13 +98,11 @@ var hashFormAdmin = hashFormAdmin || {};
             /* Add field attr to form in Settings page */
             $(document).on('click', '.hf-add-field-attr-to-form li', hashFormAdmin.addFieldAttrToForm);
 
-            /* Open/Close embed popup */
+            /* Open the embed popup. Closing it — button, backdrop or Escape —
+               is handled with the add-form dialog in initNewFormModal. */
             $(document).on('click', '.hf-embed-button', () => {
-                $('#hf-shortcode-form-modal').addClass('hf-open');
-            });
-
-            $(document).on('click', '.hashform-close-form-modal', () => {
-                $('#hf-shortcode-form-modal').removeClass('hf-open');
+                $('#hf-shortcode-form-modal').addClass('hf-open').attr('aria-hidden', 'false');
+                $('body').addClass('hf-modal-open');
             });
 
             $('.hf-add-more-condition').on('click', hashFormAdmin.addConditionRepeaterBlock);
@@ -1392,38 +1390,143 @@ var hashFormAdmin = hashFormAdmin || {};
         },
 
         initNewFormModal: function () {
-            $(document).on('click', '.hf-trigger-modal', () => {
-                $('#hf-add-form-modal').addClass('hf-open');
+            const MODALS = '#hf-add-form-modal, #hf-shortcode-form-modal';
+
+            function showError(message) {
+                $('#hf-add-template').find('.hf-form-row').addClass('has-error');
+                $('#hf-add-template').find('.hf-modal-error').text(message).addClass('is-visible');
+            }
+
+            function clearError() {
+                $('#hf-add-template').find('.hf-form-row').removeClass('has-error');
+                $('#hf-add-template').find('.hf-modal-error').text('').removeClass('is-visible');
+            }
+
+            function closeModals() {
+                $(MODALS).removeClass('hf-open').attr('aria-hidden', 'true');
+                $('body').removeClass('hf-modal-open');
+            }
+
+            $(document).on('click', '.hf-trigger-modal', (e) => {
+                e.preventDefault();
+                clearError();
+                $('#hf-add-form-modal').addClass('hf-open').attr('aria-hidden', 'false');
+                $('body').addClass('hf-modal-open');
+
+                // Naming the form is the only decision in this dialog, so put
+                // the caret in the field rather than making them click it.
+                window.setTimeout(() => $('#hf-form-name').trigger('focus'), 50);
             });
 
-            $(document).on('click', '.hashform-close-form-modal', () => {
-                $('#hf-add-form-modal').removeClass('hf-open');
+            $(document).on('click', '.hashform-close-form-modal', (e) => {
+                e.preventDefault();
+                closeModals();
             });
+
+            // A click on the dimmed area, but not one that bubbled up out of
+            // the panel sitting on top of it.
+            $(document).on('click', MODALS, function (e) {
+                if (e.target === this) {
+                    closeModals();
+                }
+            });
+
+            $(document).on('keydown', (e) => {
+                var $open = $(MODALS).filter('.hf-open');
+
+                if (!$open.length) {
+                    return;
+                }
+
+                if (e.key === 'Escape') {
+                    closeModals();
+                    return;
+                }
+
+                // Focus trap. Without it Tab walks out of the dialog and into
+                // the page behind, which is still there and still clickable.
+                if (e.key !== 'Tab') {
+                    return;
+                }
+
+                var $focusable = $open
+                        .find('a[href], button, input, select, textarea, [tabindex]')
+                        .filter(':visible')
+                        .filter(function () {
+                            return !this.disabled && $(this).attr('tabindex') !== '-1';
+                        });
+
+                if (!$focusable.length) {
+                    return;
+                }
+
+                var first = $focusable.get(0);
+                var last = $focusable.get($focusable.length - 1);
+
+                // Wrap at whichever end the caret is about to leave from.
+                if (e.shiftKey && (document.activeElement === first || !$open.get(0).contains(document.activeElement))) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            });
+
+            $(document).on('input', '#hf-form-name', clearError);
 
             $(document).on('submit', '#hf-add-template', function (event) {
                 event.preventDefault();
 
-                const $template = $(this).closest('#hf-add-template');
-                const addTemplateButton = $template.find('button');
-                if (addTemplateButton.hasClass('hashform-updating')) {
+                const $template = $(this);
+                const $button = $template.find('button[type="submit"]');
+                const $name = $template.find('input[name=template_name]');
+                const name = ($name.val() || '').trim();
+
+                if ($button.hasClass('hashform-updating')) {
                     return;
                 }
 
-                addTemplateButton.addClass('hashform-updating');
+                if (!name) {
+                    showError(hashform_backend_js.form_name_required);
+                    $name.trigger('focus');
+                    return;
+                }
+
+                $button.addClass('hashform-updating');
+                clearError();
+
                 $.ajax({
                     type: 'POST',
                     url: ajaxurl,
                     data: {
                         action: 'hashform_create_form',
-                        name: $template.find('input[name=template_name]').val(),
+                        name: name,
                         backend_nonce: hashform_backend_js.nonce
-                    },
-                    success: function (response) {
-                        const res = JSON.parse(response);
-                        if (typeof res.redirect !== 'undefined') {
-                            window.location = res.redirect;
+                    }
+                }).done(function (response) {
+                    let res = response;
+
+                    if (typeof res === 'string') {
+                        try {
+                            res = JSON.parse(res);
+                        } catch (err) {
+                            res = null;
                         }
                     }
+
+                    if (res && res.redirect) {
+                        window.location = res.redirect;
+                        return;
+                    }
+
+                    // Leaving the button spinning forever is worse than
+                    // saying nothing happened.
+                    $button.removeClass('hashform-updating');
+                    showError((res && res.error) || hashform_backend_js.generic_error);
+                }).fail(function () {
+                    $button.removeClass('hashform-updating');
+                    showError(hashform_backend_js.generic_error);
                 });
             });
         },
@@ -1639,6 +1742,117 @@ HTMLSelectElement.prototype.contains = function (value) {
             $status.text(vars().generic_error).addClass('hf-entry-status-error');
         }).always(function () {
             $button.prop('disabled', false);
+        });
+    });
+})(jQuery);
+
+
+/**
+ * List screens: reserve room for WP's Screen Options tab.
+ *
+ * The tab is pulled out of the flow so the header bar can start at the very
+ * top, which leaves it hanging over the bar's right end where Add New sits.
+ * The width it needs was a hardcoded guess before, tuned to the English
+ * label; measuring it covers translations and admin font sizes too.
+ */
+(function ($) {
+    'use strict';
+
+    function reserveScreenMetaWidth() {
+        var $header = $('.hf-list-screen .hf-list-header');
+        var $inner = $header.find('.hf-list-header-inner');
+        var $meta = $('#screen-meta-links');
+
+        if (!$header.length || !$inner.length) {
+            return;
+        }
+
+        var header = $header.get(0);
+
+        // Cleared first so the measurement below is taken against the bar's
+        // natural width rather than against a reservation already in place.
+        header.style.setProperty('--hf-screen-meta-w', '0px');
+
+        // Below the breakpoint the tab is back in the flow on its own row,
+        // so there is nothing to reserve around.
+        if (!$meta.length || 'absolute' !== $meta.css('position')) {
+            return;
+        }
+
+        var innerRect = $inner.get(0).getBoundingClientRect();
+        var padRight = parseFloat($inner.css('padding-right')) || 0;
+
+        // Where Add New currently ends, versus where the tab begins. On a wide
+        // screen the 1400px box stops well short of the tab and nothing is
+        // reserved, so no gap opens up beside the button.
+        var contentEdge = innerRect.right - padRight;
+        var overlap = contentEdge - ($meta.get(0).getBoundingClientRect().left - 12);
+
+        if (overlap > 0) {
+            header.style.setProperty('--hf-screen-meta-w', Math.ceil(overlap) + 'px');
+        }
+    }
+
+    $(reserveScreenMetaWidth);
+    $(window).on('resize', reserveScreenMetaWidth);
+})(jQuery);
+
+
+/**
+ * Click-to-copy chips, used by the shortcode column on the Forms list.
+ */
+(function ($) {
+    'use strict';
+
+    var RESET_AFTER = 2000;
+
+    /**
+     * navigator.clipboard only exists in a secure context, which rules it out
+     * on plain-http admin installs, so fall back to a throwaway textarea.
+     * Returns a promise either way.
+     */
+    function copyText(text) {
+        if (window.isSecureContext && window.navigator && navigator.clipboard) {
+            return navigator.clipboard.writeText(text);
+        }
+
+        var $helper = $('<textarea readonly></textarea>')
+                .val(text)
+                .css({ position: 'fixed', top: '-9999px', opacity: 0 })
+                .appendTo('body'),
+            copied = false;
+
+        $helper[0].select();
+
+        try {
+            copied = document.execCommand('copy');
+        } catch (err) {
+            copied = false;
+        }
+
+        $helper.remove();
+
+        return copied ? $.Deferred().resolve().promise() : $.Deferred().reject().promise();
+    }
+
+    $(document).on('click', '[data-hf-clipboard]', function (e) {
+        e.preventDefault();
+
+        var $chip = $(this);
+
+        copyText($chip.attr('data-hf-clipboard')).then(function () {
+            $chip.addClass('is-copied');
+
+            // Restart the timer on a repeat click rather than letting the
+            // first one clear the state early.
+            clearTimeout($chip.data('hfCopyTimer'));
+            $chip.data('hfCopyTimer', setTimeout(function () {
+                $chip.removeClass('is-copied');
+            }, RESET_AFTER));
+        }, function () {
+            // Copying was refused or unsupported. Select the text so the
+            // shortcode can still be copied by hand.
+            window.getSelection().selectAllChildren($chip.find('code')[0] || $chip[0]);
         });
     });
 })(jQuery);

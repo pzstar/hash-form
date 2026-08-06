@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+#
+# Syntax-checks PHP files.
+#
+#   ./bin-lint.sh              every file in the plugin
+#   ./bin-lint.sh a.php b.php  just those
+#
+# Exists because a typo'd function name (issset) shipped and left a whole
+# admin screen fatal, which php -l catches in under a second.
+#
+# Installed as a pre-commit hook with:  git config core.hooksPath .githooks
+set -uo pipefail
+
+status=0
+count=0
+
+lint() {
+    count=$((count + 1))
+    if ! out=$(php -l "$1" 2>&1); then
+        echo "$out"
+        status=1
+    fi
+}
+
+if [ "$#" -gt 0 ]; then
+    for file in "$@"; do
+        [ -f "$file" ] && lint "$file"
+    done
+else
+    cd "$(dirname "$0")"
+    while IFS= read -r -d '' file; do
+        lint "$file"
+    done < <(find . -path ./node_modules -prune -o -path ./vendor -prune -o -name '*.php' -print0)
+fi
+
+[ "$status" -eq 0 ] && echo "php -l: $count file(s) OK" || echo "php -l: syntax errors above"
+exit "$status"

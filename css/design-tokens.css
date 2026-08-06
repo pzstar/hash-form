@@ -14,7 +14,11 @@
 #hf-wrap,
 .hf-entry-list-wrap,
 .hf-form-entry-details-wrap,
-.hashform-settings-wrap {
+.hashform-settings-wrap,
+/* Printed into admin_footer, so they sit outside every wrapper above and
+   have to declare the tokens themselves. */
+#hf-add-form-modal,
+#hf-shortcode-form-modal {
     /* Brand + state */
     --hf-accent: var(--wp-admin-theme-color, #2271b1);
     --hf-accent-hover: var(--wp-admin-theme-color-darker-10, #135e96);
