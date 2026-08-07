@@ -963,20 +963,117 @@ body:has(#hf-wrap){
     margin: 0;
 }
 
-/* Image BackEnd */
-.hf-image-preview .button {
-    display: flex;
+/* =========== Image picker (admin) ===========
+ *
+ * Shared by the image and image-select field settings and by the email
+ * header image. Two states: an empty chooser, and a preview with actions.
+ */
+
+/* Empty state, drawn like the import dropzone so the two read as the same
+   kind of control. */
+.hf-image-preview .button.hf-choose-image {
     align-items: center;
-    width: 100%;
+    background: var(--hf-surface-sunken, #fafbfc);
+    border: 2px dashed var(--hf-border-strong, #d3d8e0);
+    border-radius: var(--hf-radius, 8px);
+    color: var(--hf-text-muted, #646970);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    height: auto;
     justify-content: center;
-    gap: 8px;
-    padding: 10px;
-    line-height: 1.2;
-    margin: 10px 0 0;
+    line-height: 1.4;
+    margin: 0;
+    min-height: 104px;
+    padding: var(--hf-space-4, 16px);
+    text-align: center;
+    transition: background-color var(--hf-transition, .15s ease), border-color var(--hf-transition, .15s ease), color var(--hf-transition, .15s ease);
+    white-space: normal;
+    width: 100%;
 }
 
+.hf-image-preview .button.hf-choose-image:hover,
+.hf-image-preview .button.hf-choose-image:focus {
+    background: var(--hf-accent-soft, #f0f6fc);
+    border-color: var(--hf-accent, #2271b1);
+    color: var(--hf-accent, #2271b1);
+}
+
+.hf-image-preview .hf-choose-image .mdi {
+    color: var(--hf-text-faint, #8c9196);
+    font-size: 26px;
+    line-height: 1;
+}
+
+.hf-image-preview .hf-choose-image:hover .mdi,
+.hf-image-preview .hf-choose-image:focus .mdi {
+    color: inherit;
+}
+
+.hf-image-preview .hf-choose-image-label {
+    font-size: var(--hf-font-base, 13px);
+    font-weight: 600;
+}
+
+.hf-image-preview .hf-choose-image-hint {
+    color: var(--hf-text-faint, #8c9196);
+    font-size: var(--hf-font-sm, 12px);
+}
+
+/* Filled state. A bounded box rather than a bare full-width image: the
+   preview used to be width:100% with no height at all, so a tall image
+   stretched the settings panel to whatever the original happened to be. */
+.hf-image-preview-box {
+    align-items: center;
+    background: var(--hf-surface-sunken, #fafbfc);
+    border: 1px solid var(--hf-border, #e2e5ea);
+    border-radius: var(--hf-radius, 8px);
+    display: flex;
+    justify-content: center;
+    max-height: 180px;
+    min-height: 88px;
+    overflow: hidden;
+    padding: var(--hf-space-2, 8px);
+}
+
+/* contain, not cover: this is a preview of the whole asset, and a logo
+   cropped to fill would misrepresent it. */
 .hf-image-preview-box img {
-    width: 100%;
+    display: block;
+    height: auto;
+    max-height: 164px;
+    max-width: 100%;
+    object-fit: contain;
+    width: auto;
+}
+
+.hf-image-actions {
+    display: flex;
+    gap: var(--hf-space-2, 8px);
+    margin: var(--hf-space-2, 8px) 0 0;
+}
+
+.hf-image-preview .hf-image-actions .button {
+    align-items: center;
+    border-radius: var(--hf-radius-sm, 4px);
+    display: inline-flex;
+    flex: 1 1 0;
+    gap: var(--hf-space-1, 4px);
+    justify-content: center;
+    line-height: 1;
+    margin: 0;
+    min-height: 32px;
+    padding: 0 var(--hf-space-3, 12px);
+}
+
+.hf-image-preview .hf-image-actions .hf-remove-image:hover {
+    background: #fdf2f2;
+    border-color: var(--hf-danger, #d3383c);
+    color: var(--hf-danger, #d3383c);
+}
+
+.hf-image-preview .hf-image-actions .mdi {
+    font-size: 15px;
 }
 
 /* Image FrontEnd */
@@ -1013,84 +1110,294 @@ body:has(#hf-wrap){
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
+    /* Matched to the plugin's other dialogs, which dim to the same value. */
+    background: rgba(16, 24, 40, .6);
     z-index: 8;
 }
+
+/* =========== Bulk Edit Options dialog ===========
+ *
+ * A jQuery UI dialog rather than one of the plugin's own modals, so the shell
+ * is not shared with them. These rules give it the same surface, header bar
+ * and footer language, and unpick the .postbox styling WP would otherwise
+ * apply to the panel inside it.
+ */
 
 #hf-bulk-edit-modal {
     display: none;
 }
 
+/* The shell, shared by both jQuery UI dialogs the plugin opens. Deliberately
+   generic: only the surface and the removal of jQuery UI's own chrome, so
+   the info dialog gets a sane panel too rather than inheriting rules written
+   for the bulk editor. */
+.hf-dialog {
+    background: var(--hf-surface, #fff);
+    border: 0;
+    border-radius: var(--hf-radius-lg, 12px);
+    box-shadow: var(--hf-shadow-lg, 0 12px 28px -8px rgba(16, 24, 40, .18), 0 4px 10px -4px rgba(16, 24, 40, .1));
+    /* Bounded so a tall dialog cannot grow past the viewport. jQuery UI
+       centres by absolute position, so an over-tall panel would otherwise be
+       given a negative top and take its header and buttons off screen. */
+    max-height: calc(100vh - 60px);
+    /* Clips the header bar to the rounded top corners. */
+    overflow: hidden;
+    padding: 0;
+}
+
+/* Undo the metabox WP would otherwise draw around the panel. */
+.hf-dialog #hf-bulk-edit-modal,
 #hf-bulk-edit-modal .postbox {
-    border-bottom: 1px solid #EEE;
+    background: var(--hf-surface, #fff);
+    border: 0;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
 }
 
 .hf-bulk-edit-modal-header {
+    align-items: center;
+    background: var(--hf-surface-sunken, #fafbfc);
+    border-bottom: 1px solid var(--hf-border, #e2e5ea);
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    border-bottom: 1px solid #EEE;
+    padding: var(--hf-space-4, 16px) var(--hf-space-5, 24px);
 }
 
-.hf-bulk-edit-modal-header h2 {
-    font-size: 20px;
+/* Anchored on the id so it beats wp-admin's own heading rules outright
+   rather than by loading later than they do. */
+#hf-bulk-edit-modal .hf-bulk-edit-modal-header h2 {
+    color: var(--hf-text, #1e2327);
+    font-size: var(--hf-font-lg, 16px);
+    font-weight: 600;
+    line-height: 1.4;
     margin: 0;
+    padding: 0;
 }
 
 .hf-bulk-edit-modal-header .dismiss {
+    align-items: center;
+    background: none;
+    border: 0;
+    border-radius: var(--hf-radius-sm, 4px);
+    color: var(--hf-text-faint, #8c9196);
     cursor: pointer;
-    font-size: 20px;
-    color: #333;
-}
-
-.hf-bulk-edit-body.hf-editor-grid-container {
-    margin: 20px;
-    gap: 30px;
-}
-
-.hf-bulk-edit-body p {
-    margin: 0 0 10px;
-}
-
-.hf-bulk-edit-body textarea {
-    width: 100%;
-    height: 200px;
-    border: 1px solid #EEE;
-    box-shadow: none;
-}
-
-.hf-bulk-edit-modal-footer {
     display: flex;
-    justify-content: flex-end;
-    padding: 10px 20px;
-    border-top: 1px solid #EEE;
+    font-size: 18px;
+    height: 30px;
+    justify-content: center;
+    padding: 0;
+    transition: background-color var(--hf-transition, .15s ease), color var(--hf-transition, .15s ease);
+    width: 30px;
+}
+
+.hf-bulk-edit-modal-header .dismiss:hover {
+    background: rgba(16, 24, 40, .06);
+    color: var(--hf-text, #1e2327);
+}
+
+.hf-bulk-edit-modal-header .dismiss:focus-visible {
+    outline: 2px solid var(--hf-accent, #2271b1);
+    outline-offset: 1px;
+}
+
+/* The editor takes the room; the presets sit beside it in a fixed column so
+   they do not squeeze the textarea as the list grows. */
+/* The body is the part that scrolls, so the header bar and the footer
+   buttons stay reachable on a short screen. Kept comfortably inside the
+   shell's own max-height, which the fixed header and footer also eat into. */
+.hf-bulk-edit-body.hf-editor-grid-container {
+    display: grid;
+    gap: var(--hf-space-5, 24px);
+    grid-template-columns: minmax(0, 1fr) 200px;
+    margin: 0;
+    max-height: calc(100vh - 240px);
+    overflow-y: auto;
+    padding: var(--hf-space-5, 24px);
+}
+
+/*
+ * The two panels still carry hf-grid-8 and hf-grid-4, and the generic
+ * container rule gives every child `grid-column: span 12`. Against the two
+ * columns declared above, a span of 8 or 12 makes the grid generate implicit
+ * columns to satisfy it, so the editor and the presets ended up on separate
+ * rows instead of beside each other. Placing them automatically is what puts
+ * them in the two columns.
+ */
+.hf-bulk-edit-body.hf-editor-grid-container > * {
+    grid-column: auto;
+    min-width: 0;
+}
+
+.hf-bulk-edit-label {
+    color: var(--hf-text, #1e2327);
+    display: block;
+    font-size: var(--hf-font-base, 13px);
+    font-weight: 600;
+    margin: 0 0 var(--hf-space-2, 8px);
+}
+
+/* Monospace so that label|value pairs line up while they are being edited. */
+.hf-bulk-edit-body textarea {
+    background: var(--hf-surface, #fff);
+    border: 1px solid var(--hf-border-strong, #d3d8e0);
+    border-radius: var(--hf-radius-sm, 4px);
+    box-shadow: none;
+    color: var(--hf-text, #1e2327);
+    font-family: Menlo, Consolas, monospace;
+    font-size: var(--hf-font-sm, 12px);
+    line-height: 1.7;
+    min-height: 220px;
+    padding: var(--hf-space-3, 12px);
+    resize: vertical;
+    width: 100%;
+}
+
+.hf-bulk-edit-body textarea:focus {
+    border-color: var(--hf-accent, #2271b1);
+    box-shadow: 0 0 0 1px var(--hf-accent, #2271b1);
+    outline: 0;
+}
+
+.hf-bulk-edit-help {
+    color: var(--hf-text-muted, #646970);
+    font-size: var(--hf-font-sm, 12px);
+    line-height: 1.5;
+    margin: var(--hf-space-2, 8px) 0 0;
+}
+
+.hf-bulk-edit-help code {
+    background: var(--hf-surface-sunken, #fafbfc);
+    border: 1px solid var(--hf-border, #e2e5ea);
+    border-radius: 3px;
+    font-size: 11px;
+    padding: 1px 4px;
 }
 
 .hf-bulk-edit-sidebar h3 {
-    font-size: 16px;
-    margin: 0 0 15px;
+    color: var(--hf-text-muted, #646970);
+    font-size: var(--hf-font-xs, 11px);
+    font-weight: 700;
+    letter-spacing: .04em;
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+}
+
+.hf-bulk-edit-sidebar .hf-bulk-edit-help {
+    margin: var(--hf-space-1, 4px) 0 var(--hf-space-3, 12px);
 }
 
 .hf-bulk-edit-sidebar .hf-default-opts {
-    margin: 0;
-    padding: 0;
     list-style: none;
+    margin: 0;
+    max-height: 240px;
+    overflow-y: auto;
+    padding: 0;
 }
 
 .hf-bulk-edit-sidebar .hf-default-opts li {
-    margin: 0 0 15px;
+    margin: 0 0 2px;
     padding: 0;
 }
 
 .hf-bulk-edit-sidebar .hf-default-opts li a {
+    align-items: center;
+    border-radius: var(--hf-radius-sm, 4px);
+    color: var(--hf-text, #1e2327);
+    display: flex;
+    font-size: var(--hf-font-base, 13px);
+    gap: var(--hf-space-2, 8px);
+    justify-content: space-between;
+    padding: var(--hf-space-2, 8px) var(--hf-space-3, 12px);
     text-decoration: none;
+    box-shadow: none;
+    transition: background-color var(--hf-transition, .15s ease), color var(--hf-transition, .15s ease);
 }
 
-#hf-update-bulk-options {
-    display: flex;
+.hf-bulk-edit-sidebar .hf-default-opts li a:hover,
+.hf-bulk-edit-sidebar .hf-default-opts li a:focus {
+    background: var(--hf-accent-soft, #f0f6fc);
+    color: var(--hf-accent, #2271b1);
+}
+
+.hf-preset-count {
+    background: #f0f1f3;
+    border-radius: var(--hf-radius-pill, 999px);
+    color: var(--hf-text-faint, #8c9196);
+    flex: 0 0 auto;
+    font-size: var(--hf-font-xs, 11px);
+    font-weight: 600;
+    line-height: 1.6;
+    min-width: 20px;
+    padding: 0 5px;
+    text-align: center;
+}
+
+.hf-bulk-edit-modal-footer {
     align-items: center;
-    gap: 8px;
+    background: var(--hf-surface-sunken, #fafbfc);
+    border-top: 1px solid var(--hf-border, #e2e5ea);
+    display: flex;
+    gap: var(--hf-space-2, 8px);
+    justify-content: flex-end;
+    padding: var(--hf-space-3, 12px) var(--hf-space-5, 24px);
+}
+
+/* The two footer buttons were still plain wp-admin buttons sitting in an
+   otherwise tokened dialog. Prefixed with the id so the accent fill wins
+   against .wp-core-ui .button-primary, which it would otherwise only tie
+   with and beat on stylesheet order. */
+#hf-bulk-edit-modal .hf-bulk-edit-modal-footer .button {
+    align-items: center;
+    border-radius: var(--hf-radius-sm, 4px);
+    box-shadow: none;
+    display: inline-flex;
+    font-size: var(--hf-font-base, 13px);
+    font-weight: 500;
+    gap: var(--hf-space-2, 8px);
+    line-height: 1;
+    margin: 0;
+    min-height: 34px;
+    padding: 0 var(--hf-space-4, 16px);
+    text-shadow: none;
+}
+
+#hf-bulk-edit-modal .hf-bulk-edit-modal-footer .button:not(.button-primary) {
+    background: var(--hf-surface, #fff);
+    border: 1px solid var(--hf-border-strong, #d3d8e0);
+    color: var(--hf-text, #1e2327);
+}
+
+#hf-bulk-edit-modal .hf-bulk-edit-modal-footer .button:not(.button-primary):hover {
+    background: var(--hf-surface-sunken, #fafbfc);
+    border-color: var(--hf-text-faint, #8c9196);
+    color: var(--hf-text, #1e2327);
+}
+
+#hf-bulk-edit-modal .hf-bulk-edit-modal-footer .button-primary {
+    background: var(--hf-accent, #2271b1);
+    border: 1px solid var(--hf-accent, #2271b1);
+    color: var(--hf-text-inverse, #fff);
+}
+
+#hf-bulk-edit-modal .hf-bulk-edit-modal-footer .button-primary:hover,
+#hf-bulk-edit-modal .hf-bulk-edit-modal-footer .button-primary:focus {
+    background: var(--hf-accent-hover, #135e96);
+    border-color: var(--hf-accent-hover, #135e96);
+    color: var(--hf-text-inverse, #fff);
+}
+
+#hf-bulk-edit-modal .hf-bulk-edit-modal-footer .button:focus-visible {
+    outline: 2px solid var(--hf-accent, #2271b1);
+    outline-offset: 1px;
+}
+
+@media only screen and (max-width: 782px) {
+
+    .hf-bulk-edit-body.hf-editor-grid-container {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 
 /* Heading FrondEnd*/
@@ -1390,12 +1697,12 @@ body:has(#hf-wrap){
 
 .hf-editor-field-type-spinner .hf-quantity-input .mdi-minus {
     margin-right: -60px;
-    border-right: 1px solid #8c8f94;
+    border-right: 1px solid var(--hf-border-strong);
 }
 
 .hf-editor-field-type-spinner .hf-quantity-input .mdi-plus {
     margin-left: -60px;
-    border-left: 1px solid #8c8f94;
+    border-left: 1px solid var(--hf-border-strong);
 }
 
 /* Unit BackEnd */
@@ -1643,7 +1950,7 @@ h4.hf-field-heading {
 }
 
 .hf-option-add-list > a {
-    border: 1px solid #8c8f94;
+    border: 1px solid var(--hf-border-strong);
     padding: 8px 10px;
     color: #3c434a;
     border-radius: 3px;
@@ -1946,15 +2253,103 @@ body.hf-modal-open {
     }
 }
 
-.hf-shortcode-modal-wrap .hf-form-row input[type="text"] {
-    width: 100%;
-    background: #f8f8f8;
-    color: #444444;
-    font-family: monospace;
-    font-size: 16px;
-    padding: 10px 55px 10px 10px;
-    text-align: center;
-    height: 60px;
+/* =========== Embed dialog =========== */
+
+.hf-embed-intro {
+    color: var(--hf-text-muted, #646970);
+    font-size: var(--hf-font-base, 13px);
+    line-height: 1.5;
+    margin: 0 0 var(--hf-space-5, 24px);
+}
+
+.hf-embed-method + .hf-embed-method {
+    border-top: 1px solid var(--hf-border, #e2e5ea);
+    margin-top: var(--hf-space-4, 16px);
+    padding-top: var(--hf-space-4, 16px);
+}
+
+.hf-embed-label {
+    color: var(--hf-text, #1e2327);
+    display: block;
+    font-size: var(--hf-font-base, 13px);
+    font-weight: 600;
+    margin: 0 0 var(--hf-space-2, 8px);
+}
+
+/* The field and its copy button read as one control. */
+.hf-embed-field {
+    display: flex;
+}
+
+.hf-embed-field .hf-embed-input {
+    background: var(--hf-surface-sunken, #fafbfc);
+    border: 1px solid var(--hf-border-strong, #d3d8e0);
+    border-radius: var(--hf-radius-sm, 4px) 0 0 var(--hf-radius-sm, 4px);
+    border-right: 0;
+    box-shadow: none;
+    color: var(--hf-text, #1e2327);
+    flex: 1 1 auto;
+    font-family: Menlo, Consolas, monospace;
+    font-size: var(--hf-font-sm, 12px);
+    height: 38px;
+    margin: 0;
+    min-width: 0;
+    padding: 0 var(--hf-space-3, 12px);
+}
+
+.hf-embed-field .hf-embed-input:focus {
+    border-color: var(--hf-accent, #2271b1);
+    box-shadow: none;
+    outline: 0;
+}
+
+.hf-embed-copy {
+    align-items: center;
+    background: var(--hf-surface, #fff);
+    border: 1px solid var(--hf-border-strong, #d3d8e0);
+    border-radius: 0 var(--hf-radius-sm, 4px) var(--hf-radius-sm, 4px) 0;
+    color: var(--hf-text-muted, #646970);
+    cursor: pointer;
+    display: flex;
+    flex: 0 0 auto;
+    height: 40px;
+    justify-content: center;
+    padding: 0;
+    transition: background-color var(--hf-transition, .15s ease), border-color var(--hf-transition, .15s ease), color var(--hf-transition, .15s ease);
+    width: 40px;
+}
+
+.hf-embed-copy:hover {
+    background: var(--hf-surface-sunken, #fafbfc);
+    border-color: var(--hf-accent, #2271b1);
+    color: var(--hf-accent, #2271b1);
+}
+
+.hf-embed-copy:focus-visible {
+    outline: 2px solid var(--hf-accent, #2271b1);
+    outline-offset: 1px;
+}
+
+/* Confirmation swaps the icon for a tick rather than moving anything, so the
+   row does not reflow under the pointer. */
+.hf-embed-copy.is-copied {
+    border-color: var(--hf-success, #2e9e5b);
+    color: var(--hf-success, #2e9e5b);
+}
+
+.hf-embed-copy.is-copied .dashicons:before {
+    content: "\f147";
+}
+
+.hf-embed-help {
+    color: var(--hf-text-muted, #646970);
+    font-size: var(--hf-font-sm, 12px);
+    line-height: 1.5;
+    margin: var(--hf-space-2, 8px) 0 0;
+}
+
+.hf-embed-method-plain .hf-embed-help {
+    margin-top: 0;
 }
 
 /* Actions trail right, dismiss before confirm. Not full-bleed like the
@@ -2030,53 +2425,17 @@ body.hf-modal-open {
     animation: hf-spin 0.4s infinite linear;
 }
 
-#hf-add-template .hf-form-row {
-    position: relative;
-}
-
-#hf-add-template .hf-form-row .mdi {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    border: 1px solid #BBB;
-    height: 36px;
-    width: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    cursor: pointer;
-    border-radius: 4px;
-    color: #444;
-}
-
-#hf-add-template .hf-form-row .mdi:hover {
-    border-color: #AAA;
-    color: #111;
-    background: #EEE;
-}
-
+/* The embed dialog's own footer sits below the last method, with a rule to
+   separate it the way the methods are separated from each other. */
 .hf-shortcode-footer {
+    border-top: 1px solid var(--hf-border, #e2e5ea);
     justify-content: flex-end;
+    margin-top: var(--hf-space-5, 24px);
+    padding-top: var(--hf-space-4, 16px);
 }
 
-.hf-copied {
-    text-align: center;
-    color: #198754;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.6s ease;
-}
-
-form.hf-success,
 form.hf-error {
     margin: 0;
-}
-
-form.hf-success .hf-copied {
-    opacity: 1;
-    visibility: visible;
 }
 
 /* =========== Add New Form Page =========== */
@@ -2100,14 +2459,24 @@ form.hf-success .hf-copied {
     font-size: 20px;
 }
 
+/* Same toast, red, for a save that did not land. */
+.hf-updated-info.hf-updated-error {
+    background: var(--hf-danger, #d3383c);
+}
+
+/* currentColor, not inherit: inherit takes the button's border-colour, which
+   worked only while that button had no border and fell back to its text
+   colour. Once it gained a border matching its own background the spinner
+   became accent-on-accent and vanished. currentColor follows the label
+   instead, so it stays legible whatever the button is filled with. */
 .hashform-ajax-udpate-button.hashform-updating:after,
 .hf-loading-button:after {
     content: "";
     width: 10px;
     height: 10px;
+    flex: 0 0 auto;
     border-radius: 50%;
-    border: 2px solid;
-    border-color: inherit;
+    border: 2px solid currentColor;
     border-right-color: transparent;
     animation: hf-spin 0.4s infinite linear;
 }

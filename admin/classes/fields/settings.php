@@ -188,18 +188,30 @@ defined('ABSPATH') || die();
                 <label><?php esc_html_e('Select Image', 'hash-form'); ?></label>
                 <div class="hf-image-preview">
                     <input type="hidden" class="hf-image-id" name="field_options[image_id_<?php echo esc_attr($field_id); ?>]" id="hf-field-image-<?php echo absint($field_id); ?>" value="<?php echo esc_attr($hashform_image_id); ?>" />
+
                     <div class="hf-image-preview-wrap<?php echo ($hashform_image ? '' : ' hf-hidden'); ?>">
                         <div class="hf-image-preview-box">
-                            <img id="hf-image-preview-<?php echo absint($field_id); ?>" src="<?php echo esc_url($hashform_image); ?>" />
+                            <?php // src is only printed when there is one: an empty src makes the browser re-request the page. ?>
+                            <img id="hf-image-preview-<?php echo absint($field_id); ?>" alt="" <?php echo $hashform_image ? 'src="' . esc_url($hashform_image) . '"' : ''; ?> />
                         </div>
-                        <button type="button" class="button hf-remove-image">
-                            <span class="mdi mdi-trash-can-outline"></span>
-                            <?php esc_html_e('Delete', 'hash-form'); ?>
-                        </button>
+
+                        <div class="hf-image-actions">
+                            <?php // A separate class from the empty-state button, which the picker hides once an image is set. ?>
+                            <button type="button" class="button hf-replace-image">
+                                <span class="mdi mdi-image-sync-outline" aria-hidden="true"></span>
+                                <?php esc_html_e('Replace', 'hash-form'); ?>
+                            </button>
+                            <button type="button" class="button hf-remove-image">
+                                <span class="mdi mdi-trash-can-outline" aria-hidden="true"></span>
+                                <?php esc_html_e('Remove', 'hash-form'); ?>
+                            </button>
+                        </div>
                     </div>
+
                     <button type="button" class="button hf-choose-image<?php echo ($hashform_image ? ' hf-hidden' : ''); ?>">
-                        <span class="mdi mdi-tray-arrow-up"></span>
-                        <?php esc_attr_e('Upload image', 'hash-form'); ?>
+                        <span class="mdi mdi-image-plus-outline" aria-hidden="true"></span>
+                        <span class="hf-choose-image-label"><?php esc_html_e('Choose image', 'hash-form'); ?></span>
+                        <span class="hf-choose-image-hint"><?php esc_html_e('From your media library', 'hash-form'); ?></span>
                     </button>
                 </div>
             </div>
@@ -444,8 +456,37 @@ defined('ABSPATH') || die();
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Format', 'hash-form'); ?></label>
-                <input type="text" value="<?php echo isset($field['format']) ? esc_attr($field['format']) : ''; ?>" name="field_options[format_<?php echo absint($field_id); ?>]" data-fid="<?php echo absint($field_id); ?>" />
-                <p class="description"><?php esc_html_e('Enter a Regex Format to validate.', 'hash-form'); ?> <a href="https://www.phpliveregex.com" target="_blank"><?php esc_html_e('Generate Regex', 'hash-form'); ?></a></p>
+                <input type="text" class="hf-format-input" value="<?php echo isset($field['format']) ? esc_attr($field['format']) : ''; ?>" name="field_options[format_<?php echo absint($field_id); ?>]" data-fid="<?php echo absint($field_id); ?>" />
+
+                <?php
+                /*
+                 * Offered rather than imposed. The pattern is written for
+                 * numbers ending in a four digit group, which is not how much
+                 * of the world writes a phone number, so switching it on for
+                 * every phone field would start rejecting values that submit
+                 * happily today.
+                 */
+                if ('phone' === $field_type) {
+                    ?>
+                    <p class="hf-format-presets">
+                        <button type="button" class="hf-format-preset" data-format="<?php echo esc_attr(HashFormFieldPhone::default_phone_pattern()); ?>">
+                            <?php esc_html_e('Use the standard phone pattern', 'hash-form'); ?>
+                        </button>
+                        <button type="button" class="hf-format-preset hf-format-clear" data-format="">
+                            <?php esc_html_e('Clear', 'hash-form'); ?>
+                        </button>
+                    </p>
+                    <?php
+                }
+                ?>
+
+                <p class="description">
+                    <?php esc_html_e('Enter a Regex Format to validate.', 'hash-form'); ?>
+                    <a href="https://www.phpliveregex.com" target="_blank"><?php esc_html_e('Generate Regex', 'hash-form'); ?></a>
+                    <?php if ('phone' === $field_type) { ?>
+                        <br /><?php esc_html_e('Leave empty to accept any value, which suits international numbers.', 'hash-form'); ?>
+                    <?php } ?>
+                </p>
             </div>
             <?php
         }
@@ -573,12 +614,34 @@ defined('ABSPATH') || die();
                     $form_fields_cache[$field['form_id']] = HashFormFields::get_form_fields($field['form_id']);
                 }
 
+                /*
+                 * Only fields this one could ever equal. Offering an email
+                 * field the choice of matching a phone field produced a rule
+                 * nothing could satisfy: a value that passes email validation
+                 * is not one anybody would type into a phone field, so the
+                 * form could never be submitted and the error looked like a
+                 * bug in the matching itself.
+                 *
+                 * Two fields are compatible when they are the same type, or
+                 * when one of them puts no format constraint on its value.
+                 */
+                $unconstrained = array('text', 'textarea');
+                $matchable = array_merge($unconstrained, array('email', 'url', 'phone', 'number'));
+
                 foreach ($form_fields_cache[$field['form_id']] as $other_field) {
                     if ($other_field->id == $field_id) {
                         continue;
                     }
 
-                    if (!in_array($other_field->type, array('text', 'textarea', 'email', 'url', 'phone', 'number'), true)) {
+                    if (!in_array($other_field->type, $matchable, true)) {
+                        continue;
+                    }
+
+                    $compatible = $other_field->type === $field_type
+                            || in_array($other_field->type, $unconstrained, true)
+                            || in_array($field_type, $unconstrained, true);
+
+                    if (!$compatible) {
                         continue;
                     }
 

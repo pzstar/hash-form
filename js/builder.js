@@ -739,6 +739,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
             document.dispatchEvent(new Event('hashform_sync_after_drag_and_drop', {bubbles: false}));
             hashFormBuilder.maybeFixRangeSlider();
+            hashFormBuilder.notifyFieldMarkupChanged();
             initColorPickers();
         },
 
@@ -1036,6 +1037,12 @@ var hashFormBuilder = hashFormBuilder || {};
                 $placeholder.replaceWith(replaceWith);
                 hashFormBuilder.updateFieldOrder();
                 hashFormBuilder.afterAddField(msg, false);
+                // Dropping a new field goes through here rather than through
+                // syncAfterDragAndDrop, so without this a range slider added
+                // from the palette was never wired up and stayed inert until
+                // the page was reloaded.
+                hashFormBuilder.maybeFixRangeSlider();
+                hashFormBuilder.notifyFieldMarkupChanged();
                 if ($siblings.length) {
                     hashFormBuilder.syncLayoutClasses($siblings.first());
                 }
@@ -1371,6 +1378,7 @@ var hashFormBuilder = hashFormBuilder || {};
             hashFormBuilder.updateFieldOrder();
             hashFormBuilder.afterAddField(msg, true);
             hashFormBuilder.maybeFixRangeSlider();
+            hashFormBuilder.notifyFieldMarkupChanged();
             initColorPickers();
         },
 
@@ -1735,23 +1743,57 @@ var hashFormBuilder = hashFormBuilder || {};
          * Range slider fields
          * ---------------------------------------------------------------- */
 
-        // Sliders are rendered by the server, so re-init once new markup has landed.
+        /**
+         * Announces that a field's markup on the canvas has been created or
+         * replaced.
+         *
+         * Field types that need JavaScript applied to their preview — a
+         * select2 dropdown, a picker, anything the server cannot render on
+         * its own — listen for this instead of each one needing its own call
+         * added here. Add-on field types have no other way in.
+         *
+         * @param {number|string|null} fieldId The field affected, if known.
+         */
+        notifyFieldMarkupChanged: function (fieldId) {
+            document.dispatchEvent(new CustomEvent('hashform_field_markup_changed', {
+                detail: {fieldId: typeof fieldId === 'undefined' ? null : fieldId}
+            }));
+        },
+
+        /**
+         * Wires up any slider the server has rendered but jQuery UI has not
+         * seen yet.
+         *
+         * Runs immediately: every caller invokes it once the new markup is
+         * already in the document, so the second-long timer this used to sit
+         * behind only left a freshly added slider dead to the touch for that
+         * second.
+         *
+         * Sliders that are already wired are skipped. Moving a field
+         * relocates its node rather than rebuilding it, so its slider comes
+         * through the move intact and re-initialising would discard the
+         * handle's state for nothing.
+         */
         maybeFixRangeSlider: function () {
-            setTimeout(() => {
-                $(document).find('.hf-range-input-selector').each(function () {
-                    const newSlider = $(this);
-                    newSlider.prev('.hf-range-slider').slider({
-                        value: newSlider.val(),
-                        min: parseFloat(newSlider.attr('min')),
-                        max: parseFloat(newSlider.attr('max')),
-                        step: parseFloat(newSlider.attr('step')),
-                        range: 'min',
-                        slide: function (e, ui) {
-                            $(this).next().val(ui.value);
-                        }
-                    });
+            $(document).find('.hf-range-input-selector').each(function () {
+                const newSlider = $(this);
+                const $track = newSlider.prev('.hf-range-slider');
+
+                if (!$track.length || $track.hasClass('ui-slider')) {
+                    return;
+                }
+
+                $track.slider({
+                    value: newSlider.val(),
+                    min: parseFloat(newSlider.attr('min')),
+                    max: parseFloat(newSlider.attr('max')),
+                    step: parseFloat(newSlider.attr('step')),
+                    range: 'min',
+                    slide: function (e, ui) {
+                        $(this).next().val(ui.value);
+                    }
                 });
-            }, 1000);
+            });
         },
 
         /* -------------------------------------------------------------------

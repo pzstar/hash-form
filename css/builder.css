@@ -1057,6 +1057,43 @@
     margin-top: var(--hf-space-1);
 }
 
+/* Ready-made regexes for the Format box, offered as small quiet chips so they
+   read as shortcuts rather than as the setting itself. */
+.hf-content .hf-format-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--hf-space-2);
+    margin: var(--hf-space-2) 0 0;
+}
+
+.hf-content .hf-format-preset {
+    background: var(--hf-surface-sunken);
+    border: 1px solid var(--hf-border-strong);
+    border-radius: var(--hf-radius-pill);
+    color: var(--hf-text-muted);
+    cursor: pointer;
+    font-size: var(--hf-font-sm);
+    line-height: 1.4;
+    padding: 3px var(--hf-space-3);
+    transition: background-color var(--hf-transition), border-color var(--hf-transition), color var(--hf-transition);
+}
+
+.hf-content .hf-format-preset:hover {
+    background: var(--hf-surface);
+    border-color: var(--hf-accent);
+    color: var(--hf-accent);
+}
+
+.hf-content .hf-format-preset:focus-visible {
+    outline: 2px solid var(--hf-accent);
+    outline-offset: 1px;
+}
+
+.hf-content .hf-format-preset.hf-format-clear:hover {
+    border-color: var(--hf-danger);
+    color: var(--hf-danger);
+}
+
 .hf-content .hf-validation-header,
 .hf-content .hf-fields-settings h4 {
     border-top: 1px solid var(--hf-border);
@@ -1067,6 +1104,7 @@
     margin: var(--hf-space-5) 0 var(--hf-space-3);
     padding-top: var(--hf-space-4);
     text-transform: uppercase;
+    margin: 0;
 }
 
 /* Sub-field controls — the First/Last parts of a name, the pieces of an

@@ -18,17 +18,6 @@
         };
     }
 
-    function copyToClipboard(text) {
-        if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(text);
-            return;
-        }
-
-        const helper = $('<textarea>').appendTo('body').val(text).select();
-        document.execCommand('copy');
-        helper.remove();
-    }
-
     /* -----------------------------------------------------------------------
      * Color picker
      * -------------------------------------------------------------------- */
@@ -346,23 +335,11 @@
         }
     });
 
-    /* -----------------------------------------------------------------------
-     * Shortcode copy
-     * -------------------------------------------------------------------- */
-
-    $('body').on('click', '#hf-copy-shortcode', function () {
-        const successDiv = $(this).closest('#hf-add-template');
-        if (successDiv.hasClass('hf-success')) {
-            return false;
-        }
-
-        copyToClipboard($(this).prev('input').val());
-
-        successDiv.addClass('hf-success');
-        setTimeout(function () {
-            successDiv.removeClass('hf-success');
-        }, 3000);
-    });
+    /* The embed dialog's copy buttons now go through the shared
+       [data-hf-clipboard] handler in backend.js, which already handles the
+       insecure-context fallback and the copied confirmation. The bespoke
+       #hf-copy-shortcode handler and its copyToClipboard helper that used to
+       live here were the only users of either. */
 
     /* -----------------------------------------------------------------------
      * WP Mail SMTP install/activate

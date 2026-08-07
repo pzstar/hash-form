@@ -502,6 +502,16 @@ class HashFormFields {
 
         $values['options'] = serialize(is_array($values['options']) ? HashFormHelper::sanitize_array($values['options']) : sanitize_text_field($values['options']));
 
+        /*
+         * get_field_vars() runs wp_unslash() over everything it reads, so a
+         * regex has to go in carrying an extra level of backslashes to come
+         * back out intact. create_row() has always done this; update_fields()
+         * never did, so editing a field stripped the backslashes out of its
+         * Format and left a pattern that would not compile — which rejects
+         * every value submitted to it.
+         */
+        self::preserve_format_option_backslashes($values);
+
         $values['field_options'] = serialize(HashFormHelper::sanitize_array($values['field_options'], HashFormHelper::get_field_options_sanitize_rules()));
 
         if (isset($values['default_value'])) {

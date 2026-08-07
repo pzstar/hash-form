@@ -88,11 +88,14 @@ var hashFormAdmin = hashFormAdmin || {};
             $(document).on('click', '#hf-fields-tabs a', hashFormAdmin.clickNewTab);
             $(document).on('input', '.hf-search-fields-input', hashFormAdmin.searchContent);
             $(document).on('click', '.hf-field-group-toggle', hashFormAdmin.toggleFieldGroup);
+            $(document).on('click', '.hf-format-preset', hashFormAdmin.applyFormatPreset);
             hashFormAdmin.restoreFieldGroups();
             $(document).on('click', '.hf-settings-tab a', hashFormAdmin.clickNewTabSettings);
 
             /* Image */
-            $(document).on('click', '.hf-image-preview .hf-choose-image', hashFormAdmin.addImage);
+            // Replace opens the same media frame; it carries its own class so
+            // addImage's "hide the chooser" step does not hide it as well.
+            $(document).on('click', '.hf-image-preview .hf-choose-image, .hf-image-preview .hf-replace-image', hashFormAdmin.addImage);
             $(document).on('click', '.hf-image-preview .hf-remove-image', hashFormAdmin.removeImage);
 
             /* Add field attr to form in Settings page */
@@ -170,7 +173,19 @@ var hashFormAdmin = hashFormAdmin || {};
                     || $item.attr('id').indexOf(searchText) > -1
                     || name.indexOf(searchText) > -1;
 
-                $item.toggle(hit);
+                if (searchText) {
+                    $item.toggle(hit);
+                } else {
+                    // Clearing the inline display rather than calling show():
+                    // inside a collapsed group show() forces a display value
+                    // onto the item, and the group's own CSS should be what
+                    // decides whether it is on screen.
+                    $item.css('display', '');
+                }
+
+                // The match is recorded on the element because the group
+                // counts below cannot ask :visible — see the note there.
+                $item.toggleClass('hf-search-hit', hit);
 
                 if (hit) {
                     matches++;
@@ -189,7 +204,13 @@ var hashFormAdmin = hashFormAdmin || {};
 
             $section.find('.hf-field-group').each(function () {
                 const $group = $(this);
-                const shown = $group.find('.hf-field-box:visible').length;
+
+                // Counted from the match class, never from :visible. The line
+                // above drops .hf-searching, which re-collapses every closed
+                // group, so :visible reported zero for all of them and each
+                // one was then hidden outright — clearing the search box
+                // emptied the palette and only a reload brought it back.
+                const shown = $group.find('.hf-field-box.hf-search-hit').length;
 
                 $group.prop('hidden', shown === 0);
 
@@ -207,6 +228,22 @@ var hashFormAdmin = hashFormAdmin || {};
             });
 
             $('.hf-fields-empty').prop('hidden', matches !== 0);
+        },
+
+        /**
+         * Drops a ready-made regex into the Format box, or empties it.
+         *
+         * change is fired explicitly because the value is set in code, and
+         * the builder's unsaved-changes tracking listens for it.
+         */
+        applyFormatPreset: function (e) {
+            e.preventDefault();
+
+            $(this)
+                .closest('.hf-form-row')
+                .find('.hf-format-input')
+                .val($(this).attr('data-format') || '')
+                .trigger('change');
         },
 
         toggleFieldGroup: function () {
@@ -271,7 +308,9 @@ var hashFormAdmin = hashFormAdmin || {};
             e.preventDefault();
             const imagePreview = $(this).closest('.hf-image-preview');
 
-            imagePreview.find('img').attr('src', '');
+            // Removed rather than blanked: src="" makes the browser request
+            // the current page and try to render it as the image.
+            imagePreview.find('img').removeAttr('src');
             imagePreview.find('.hf-image-preview-wrap').addClass('hf-hidden');
             imagePreview.find('.hf-choose-image').removeClass('hf-hidden');
             imagePreview.find('input.hf-image-id').val('');
@@ -315,18 +354,37 @@ var hashFormAdmin = hashFormAdmin || {};
             $.ajax({
                 type: 'POST',
                 url: ajaxurl,
-                data: data,
-                success: function (msg) {
-                    hashFormAdmin.afterFormSave(button);
-                    hashFormAdmin.showUpdatedInfo(msg);
-                }
+                data: data
+            }).done(function (msg) {
+                hashFormAdmin.afterFormSave(button);
+                hashFormAdmin.showUpdatedInfo(msg);
+            }).fail(function () {
+                // There was no failure path at all: a save that died left the
+                // button spinning for good and said nothing, which is
+                // indistinguishable from a save that is merely slow.
+                hashFormAdmin.afterFormSave(button);
+                hashFormAdmin.showUpdatedInfo(
+                    '<span class="mdi mdi-alert-circle"></span>' + hashFormAdmin.saveErrorText(),
+                    true
+                );
             });
         },
 
-        showUpdatedInfo: function (msg) {
+        saveErrorText: function () {
+            return (typeof hashform_backend_js !== 'undefined' && hashform_backend_js.generic_error)
+                || 'Something went wrong. Please reload the page and try again.';
+        },
+
+        showUpdatedInfo: function (msg, isError) {
             const panel = document.getElementById('hf-form-panel');
+
+            if (!panel) {
+                return;
+            }
+
             const notice = document.createElement('div');
-            notice.setAttribute('class', 'hf-updated-info');
+            notice.setAttribute('class', isError ? 'hf-updated-info hf-updated-error' : 'hf-updated-info');
+            notice.setAttribute('role', isError ? 'alert' : 'status');
             notice.innerHTML = msg;
             panel.insertBefore(notice, panel.firstChild);
         },
@@ -1154,6 +1212,12 @@ var hashFormAdmin = hashFormAdmin || {};
                 if (refreshed.length > 0 && refreshed[0].contains(selectedValDefault)) {
                     refreshed.val(selectedValDefault);
                 }
+
+                // Anything attached to this select is now looking at options
+                // that no longer exist and has to be told to re-read them.
+                if (typeof hashFormBuilder !== 'undefined' && hashFormBuilder.notifyFieldMarkupChanged) {
+                    hashFormBuilder.notifyFieldMarkupChanged(fieldId);
+                }
             } else {
                 const opts = hashFormAdmin.getMultipleOpts(fieldId);
                 const type = input.attr('type');
@@ -1306,7 +1370,9 @@ var hashFormAdmin = hashFormAdmin || {};
                 $modal.dialog('close');
             };
             $('.ui-widget-overlay').on('click', closeModal);
-            $modal.on('click', 'a.dismiss', closeModal);
+            // Tag-agnostic: the close control is a <button> now, so that it can
+            // be reached by keyboard, and Cancel carries the same class.
+            $modal.on('click', '.dismiss', closeModal);
         },
 
         initBulkOptionsOverlay: function () {
@@ -1834,6 +1900,12 @@ HTMLSelectElement.prototype.contains = function (value) {
 
         return copied ? $.Deferred().resolve().promise() : $.Deferred().reject().promise();
     }
+
+    // Read-only embed fields: selecting on focus means the value can still be
+    // taken by hand if the browser refuses clipboard access.
+    $(document).on('focus', '.hf-embed-input', function () {
+        this.select();
+    });
 
     $(document).on('click', '[data-hf-clipboard]', function (e) {
         e.preventDefault();

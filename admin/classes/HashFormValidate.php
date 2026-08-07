@@ -172,15 +172,44 @@ class HashFormValidate {
 
         if (!is_array($value)) {
             $value = trim($value);
+        }
 
-            if ($is_field_visible) {
-                if ($field->required == '1' && empty($value)) {
-                    $errors['field' . $field_id] = HashFormFields::get_error_msg($field, 'blank');
-                }
-            }
+        /*
+         * Outside the is_array() branch it used to sit in. Any field posting
+         * an array — a multiple select, a checkbox set, a composite name or
+         * address — skipped the required check entirely. It only appeared to
+         * work because a field with nothing chosen posts no key at all and
+         * arrives here as an empty string instead.
+         */
+        if ($is_field_visible && '1' == $field->required && self::is_blank_value($value)) {
+            $errors['field' . $field_id] = HashFormFields::get_error_msg($field, 'blank');
         }
 
         self::validate_field_types($errors, $field, $value, $values);
+    }
+
+    /**
+     * Whether a submitted value counts as nothing entered.
+     *
+     * Handles the array shapes fields post as well as plain strings: a
+     * multiple select or checkbox set posts a list, and a name or address
+     * posts an associative array whose parts may each be blank.
+     *
+     * @param mixed $value
+     * @return bool
+     */
+    private static function is_blank_value($value) {
+        if (is_array($value)) {
+            foreach ($value as $part) {
+                if (!self::is_blank_value($part)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return '' === trim((string) $value);
     }
 
     public static function validate_field_types(&$errors, $field, $value, $values = array()) {
@@ -188,6 +217,14 @@ class HashFormValidate {
         $args['errors'] = $errors;
         $args['value'] = $value;
         $args['id'] = $field->id;
+
+        /*
+         * Seven field classes read this when building their validation
+         * message, but nothing ever set it: every failed email, url, phone,
+         * number, text, spinner or range validation raised an "Undefined
+         * array key" warning on PHP 8 and looked the form title up with null.
+         */
+        $args['form_id'] = $field->form_id;
 
         /*
          * The whole submitted payload, so a field can read inputs that sit
