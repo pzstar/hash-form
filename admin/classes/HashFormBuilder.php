@@ -762,7 +762,16 @@ class HashFormBuilder {
             'png',
             'gif',
             'bmp',
+            // WordPress has allowed webp since 5.8, avif since 6.5 and heic
+            // since 6.7. Without them here a field configured for any of those
+            // filtered down to an empty allow-list, which rejected every file
+            // instead of the one unsupported type.
+            'webp',
+            'avif',
+            'heic',
+            'heif',
             'mp3',
+            'm4a',
             'mp4',
             'ogg',
             'wav',
@@ -773,6 +782,7 @@ class HashFormBuilder {
             'avi',
             'mpg',
             'ogv',
+            'webm',
             '3gp',
             'txt',
             'zip',
@@ -780,6 +790,9 @@ class HashFormBuilder {
             '7z',
             'csv'
         );
+
+        // get_allowed_mime_types() is applied again inside HashFormFileUploader,
+        // so anything this site has not actually enabled is still refused.
 
         // The request controls the shape of this value; a scalar would emit a
         // warning into the middle of the JSON response below.

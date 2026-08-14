@@ -232,6 +232,10 @@ defined('ABSPATH') || die();
             <div class="hf-form-row">
                 <label><?php esc_html_e('Step', 'hash-form'); ?></label>
                 <input type="number" name="field_options[step_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['step']) ? esc_attr($field['step']) : ''; ?>" min="1" />
+                <p class="description">
+                    <?php esc_html_e('Minutes between each time in the drop down. 15 lists 9:00 am, 9:15 am, 9:30 am and so on; 60 lists one time per hour.', 'hash-form'); ?>
+                    <br /><?php esc_html_e('Leave empty to use 60. Smaller steps make a longer list, so 5 over a full day gives 288 options.', 'hash-form'); ?>
+                </p>
             </div>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Min Time', 'hash-form'); ?></label>
@@ -355,12 +359,30 @@ defined('ABSPATH') || die();
             <div class="hf-form-row">
                 <label><?php esc_html_e('Extensions', 'hash-form'); ?></label>
                 <input type="text" name="field_options[extensions_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['extensions']); ?>" />
-                <label class="hf-field-desc"><?php esc_html_e('The allowed extensions are pdf, doc, docx, xls, xlsx, odt, ppt, pptx, pps, ppsx, jpg, jpeg, png, gif, bmp, mp3, mp4, ogg, wav, mp4, m4v, mov, wmv, avi, mpg, ogv, 3gp, txt, zip, rar, 7z, csv', 'hash-form'); ?></label>
+                <label class="hf-field-desc"><?php esc_html_e('Comma separated. The allowed extensions are pdf, doc, docx, xls, xlsx, odt, ppt, pptx, pps, ppsx, jpg, jpeg, png, gif, bmp, webp, avif, heic, heif, mp3, m4a, mp4, ogg, wav, m4v, mov, wmv, avi, mpg, ogv, webm, 3gp, txt, zip, rar, 7z, csv', 'hash-form'); ?></label>
+                <p class="description">
+                    <?php esc_html_e('Whatever you list here also has to be a file type this WordPress site accepts. A type the site itself blocks is refused on upload even if it appears above.', 'hash-form'); ?>
+                </p>
             </div>
 
             <div class="hf-form-row">
                 <label><?php esc_html_e('Maximum File Size Allowed to Upload (MB)', 'hash-form'); ?></label>
-                <input type="number" name="field_options[max_upload_size_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['max_upload_size']); ?>" />
+                <input type="number" name="field_options[max_upload_size_<?php echo absint($field_id); ?>]" value="<?php echo esc_attr($field['max_upload_size']); ?>" min="1" />
+                <p class="description">
+                    <?php
+                    /* translators: %s: the server's own upload limit, for example "64 MB". */
+                    printf(esc_html__('Your server accepts at most %s, whatever is set here.', 'hash-form'), esc_html(size_format(wp_max_upload_size())));
+                    ?>
+                </p>
+            </div>
+
+            <div class="hf-form-row">
+                <label><?php esc_html_e('Minimum File Size Allowed to Upload (KB)', 'hash-form'); ?></label>
+                <?php // isset: fields saved before this option existed have no such key until their next save. ?>
+                <input type="number" name="field_options[min_upload_size_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['min_upload_size']) ? esc_attr($field['min_upload_size']) : ''; ?>" min="0" />
+                <p class="description">
+                    <?php esc_html_e('Rejects files smaller than this, which is the quickest way to catch an empty or truncated file. Leave empty for no minimum.', 'hash-form'); ?>
+                </p>
             </div>
 
             <div class="hf-form-row">

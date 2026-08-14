@@ -135,7 +135,9 @@ class HashFormLoader {
     // enqueue_form_assets() when a form is actually rendered, so pages
     // without a form load none of them.
     public static function enqueue_styles() {
-        wp_register_style('jquery-timepicker', HASHFORM_URL . 'css/jquery.timepicker.css', array(), HASHFORM_VERSION);
+        // The stock jquery.timepicker stylesheet is deliberately not registered.
+        // The time picker is styled in style.css alongside the date picker so
+        // the two share one set of tokens.
         wp_register_style('hashform-file-uploader', HASHFORM_URL . 'css/file-uploader.css', array(), HASHFORM_VERSION);
         wp_register_style('materialdesignicons', HASHFORM_URL . 'fonts/materialdesignicons.css', array(), HASHFORM_VERSION);
         wp_register_style('hashform-style', HASHFORM_URL . 'css/style.css', array(), HASHFORM_VERSION);
@@ -163,7 +165,6 @@ class HashFormLoader {
 
     public static function enqueue_form_assets() {
         wp_enqueue_style('dashicons');
-        wp_enqueue_style('jquery-timepicker');
         wp_enqueue_style('hashform-file-uploader');
         wp_enqueue_style('materialdesignicons');
         wp_enqueue_style('hashform-style');

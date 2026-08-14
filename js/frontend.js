@@ -199,6 +199,42 @@ jQuery(function ($) {
      * Date and time fields
      * -------------------------------------------------------------------- */
 
+    /**
+     * Carry a form's style tokens onto a picker panel.
+     *
+     * The per form --hf-* properties are declared on #hf-container-{id}, but
+     * both pickers move their panel to <body> as they open, so neither is a
+     * descendant of the form and neither inherits any of them. Copying the few
+     * that matter across on open is what lets a picker match the form that was
+     * clicked, which also keeps two differently styled forms on one page from
+     * sharing a palette. Anything the form leaves unset is skipped so the
+     * stylesheet fallback stays in play.
+     */
+    function bridgePickerStyles(input, panel) {
+        const container = input.closest('[id^="hf-container-"]');
+        if (!container.length || !panel || !panel.length) {
+            return;
+        }
+
+        const from = window.getComputedStyle(container[0]);
+        const accent = from.getPropertyValue('--hf-field-border-color-focus').trim()
+            || from.getPropertyValue('--hf-button-bg-color-normal').trim();
+
+        const tokens = {
+            '--hf-pick-accent': accent,
+            '--hf-pick-text': from.getPropertyValue('--hf-field-color-normal').trim(),
+            '--hf-pick-font': from.getPropertyValue('--hf-field-typo-font-family').trim()
+        };
+
+        Object.keys(tokens).forEach(function (name) {
+            if (tokens[name]) {
+                panel[0].style.setProperty(name, tokens[name]);
+            } else {
+                panel[0].style.removeProperty(name);
+            }
+        });
+    }
+
     $('.hashform-field-type-date input').each(function () {
         const input = $(this);
         const format = input.attr('data-format');
@@ -212,13 +248,48 @@ jQuery(function ($) {
 
         input.datepicker({
             changeMonth: true,
-            dateFormat: format
+            dateFormat: format,
+            beforeShow: function () {
+                bridgePickerStyles(input, $('#ui-datepicker-div'));
+            }
         });
     });
 
-    $('.hashform-field-type-time .hf-timepicker').timepicker({
-        'showDuration': false,
-        'timeFormat': 'g:ia'
+    $('.hashform-field-type-time .hf-timepicker').each(function () {
+        const input = $(this);
+
+        // Step, Min Time and Max Time are set per field in the builder and
+        // printed as data attributes. The library does not read those itself,
+        // so they have to be passed in or the field silently lists every hour
+        // of the day whatever the user configured.
+        const step = parseInt(input.attr('data-step'), 10);
+        const minTime = input.attr('data-min-time');
+        const maxTime = input.attr('data-max-time');
+
+        const options = {
+            showDuration: false,
+            timeFormat: 'g:ia'
+        };
+
+        // The library reads step as minutes, which is the unit the stored
+        // default of 60 already assumes: one slot per hour.
+        if (step > 0) {
+            options.step = step;
+        }
+        if (minTime) {
+            options.minTime = minTime;
+        }
+        if (maxTime) {
+            options.maxTime = maxTime;
+        }
+
+        input.timepicker(options);
+
+        // The library has no beforeShow hook, but it does fire showTimepicker
+        // on the input, and only one list is ever open at a time.
+        input.on('showTimepicker', function () {
+            bridgePickerStyles(input, $('.ui-timepicker-wrapper:visible').first());
+        });
     });
 
     /* -----------------------------------------------------------------------
@@ -343,7 +414,50 @@ jQuery(function ($) {
      * File uploads
      * -------------------------------------------------------------------- */
 
-    const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif'];
+    // Which uploads get a thumbnail preview rather than just a filename. Kept
+    // in step with the formats the server accepts.
+    const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif', 'bmp'];
+
+    // Drawn with currentColor so it follows whatever the dropzone text is.
+    const UPLOAD_ICON = '<svg class="hf-upload-dropzone-icon" width="28" height="28" viewBox="0 0 24 24" fill="none"'
+        + ' stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"'
+        + ' aria-hidden="true" focusable="false">'
+        + '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>'
+        + '<polyline points="17 8 12 3 7 8"/>'
+        + '<line x1="12" y1="3" x2="12" y2="15"/>'
+        + '</svg>';
+
+    // The label and extension list are author supplied, and they are being
+    // concatenated into a template string rather than set as text.
+    function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, function (char) {
+            return {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[char];
+        });
+    }
+
+    // Bytes to something a person reads. The library has its own _formatSize,
+    // but it is a private method on the instance and this runs before one
+    // exists.
+    function formatUploadSize(bytes) {
+        const size = Number(bytes);
+
+        if (!size || size < 0) {
+            return '';
+        }
+        if (size >= 1024 * 1024 * 1024) {
+            return Math.round(size / (1024 * 1024 * 1024) * 10) / 10 + ' GB';
+        }
+        if (size >= 1024 * 1024) {
+            return Math.round(size / (1024 * 1024)) + ' MB';
+        }
+        return Math.max(1, Math.round(size / 1024)) + ' KB';
+    }
 
     // Holds each uploader instance for the lifetime of the page.
     const uploaders = [];
@@ -352,6 +466,7 @@ jQuery(function ($) {
         const element = $(this);
         const elementId = element.attr('id');
         const sizeLimit = element.attr('data-max-upload-size');
+        const minSizeLimit = Number(element.attr('data-min-upload-size')) || 0;
         const uploaderLabel = element.attr('data-upload-label');
         const multipleUpload = element.attr('data-multiple-uploads') === 'true';
         const extensions = element.attr('data-extensions').split(',');
@@ -362,6 +477,54 @@ jQuery(function ($) {
         uploadLimit = uploadLimit < 1 ? 1 : uploadLimit;
 
         const wrapper = () => $('#' + elementId).closest('.hf-file-uploader-wrapper');
+
+        // The constraints are already enforced, but nowhere on the page said
+        // what they were, so the first a visitor heard about a limit was an
+        // alert() after picking a file. Spelling them out on the dropzone is
+        // the whole reason it is worth having one.
+        const constraints = [];
+
+        if (extensions.length && extensions[0] !== '') {
+            constraints.push(extensions.map((ext) => ext.trim().toUpperCase()).join(', '));
+        }
+        if (minSizeLimit > 0) {
+            constraints.push(formatUploadSize(minSizeLimit) + ' to ' + formatUploadSize(sizeLimit));
+        } else if (sizeLimit > 0) {
+            constraints.push('up to ' + formatUploadSize(sizeLimit));
+        }
+        if (multipleUpload && uploadLimit > 0) {
+            constraints.push(uploadLimit + ' files max');
+        }
+
+        // Filters the operating system's own file dialog. Without it a JPG only
+        // field still offers every file on the machine and the rule is only
+        // discovered after picking one.
+        const acceptFiles = extensions
+            .map((ext) => ext.trim())
+            .filter(Boolean)
+            .map((ext) => '.' + ext.toLowerCase())
+            .join(',');
+
+        // One place for every rejection, so a failure reads on the form instead
+        // of in a browser dialog the visitor has to dismiss before continuing.
+        const showUploadError = (message) => {
+            const box = wrapper().find('.hf-upload-error');
+
+            if (!box.length) {
+                window.alert(message);
+                return;
+            }
+
+            box.text(message).addClass('hf-upload-error-visible');
+        };
+
+        const clearUploadError = () => {
+            wrapper().find('.hf-upload-error').text('').removeClass('hf-upload-error-visible');
+        };
+
+        const dropTitle = multipleUpload
+            ? 'Drag and drop your files here'
+            : 'Drag and drop your file here';
 
         uploaders.push(new qq.FileUploader({
             element: document.getElementById(elementId),
@@ -374,11 +537,50 @@ jQuery(function ($) {
             },
             allowedExtensions: extensions,
             sizeLimit: sizeLimit,
-            minSizeLimit: 50,
+            // 50 bytes is the old hardcoded floor, kept as the default so a
+            // field with no minimum set behaves exactly as it did.
+            minSizeLimit: minSizeLimit > 0 ? minSizeLimit : 50,
+            acceptFiles: acceptFiles,
             uploadButtonText: uploaderLabel,
             multiple: multipleUpload,
 
+            // The stock template was a bare grey button with a 300px drop area
+            // that only existed mid-drag. .qq-upload-button is kept as a real
+            // button inside the card rather than becoming the card itself, so
+            // the --hf-upload-* settings a site has already configured in the
+            // styler keep applying to exactly what they were configured for.
+            template: '<div class="qq-uploader">' +
+                '<div class="hf-upload-dropzone">' +
+                    UPLOAD_ICON +
+                    '<span class="hf-upload-dropzone-title">' + escapeHtml(dropTitle) + '</span>' +
+                    '<span class="hf-upload-dropzone-or">or</span>' +
+                    '<div class="qq-upload-button">{uploadButtonText}</div>' +
+                    (constraints.length
+                        ? '<span class="hf-upload-dropzone-hint">' + escapeHtml(constraints.join('  ·  ')) + '</span>'
+                        : '') +
+                    '<div class="qq-upload-drop-area"><span>{dragText}</span></div>' +
+                '</div>' +
+                '<div class="hf-upload-error" role="alert" aria-live="polite"></div>' +
+                '<ul class="qq-upload-list"></ul>' +
+                '</div>',
+
+            // The progress bar is wrapped in a track so it has something to run
+            // against. _find() resolves by class at any depth, so nesting is
+            // safe and the library still drives the width.
+            fileTemplate: '<li>' +
+                '<span class="hf-file-row">' +
+                    '<span class="qq-upload-file"></span>' +
+                    '<span class="qq-upload-spinner"></span>' +
+                    '<span class="qq-upload-size"></span>' +
+                    '<span class="qq-upload-failed-text">{failUploadtext}</span>' +
+                    '<a class="qq-upload-cancel" href="#">{cancelButtonText}</a>' +
+                '</span>' +
+                '<span class="hf-progress-track"><span class="qq-progress-bar"></span></span>' +
+                '</li>',
+
             onSubmit: function (id, fileName) {
+                clearUploadError();
+
                 if (!multipleUpload || uploadLimit == -1) {
                     return;
                 }
@@ -391,7 +593,7 @@ jQuery(function ($) {
                     uploadLimitMessage = uploadLimitMessage !== ''
                         ? uploadLimitMessage
                         : 'Maximum number of files allowed is ' + uploadLimit;
-                    alert(uploadLimitMessage);
+                    showUploadError(uploadLimitMessage);
                     counter.val(uploadLimit);
                     return false;
                 }
@@ -399,11 +601,15 @@ jQuery(function ($) {
 
             onComplete: function (id, fileName, responseJSON) {
                 if (!responseJSON.success) {
-                    console.log(responseJSON);
+                    // The server rejected it. Its own message is surfaced by
+                    // showMessage; this only guards against a silent failure.
+                    if (!responseJSON.error) {
+                        showUploadError('That file could not be uploaded. Please try again.');
+                    }
                     return;
                 }
 
-                wrapper().find('.hf-error').html('');
+                clearUploadError();
 
                 const extension = fileName.split('.').pop();
                 const previewImage = IMAGE_EXTENSIONS.includes(extension.toLowerCase()) ? responseJSON.url : '';
@@ -435,7 +641,7 @@ jQuery(function ($) {
             },
 
             showMessage: function (message) {
-                alert(message);
+                showUploadError(message);
             }
         }));
     });
