@@ -298,14 +298,17 @@ class HashFormEntry {
         }
 
         global $wpdb;
-        $metas = $wpdb->get_results($wpdb->prepare("SELECT m.*, f.type AS field_type, f.field_key, f.name FROM {$wpdb->prefix}hashform_entry_meta AS m LEFT JOIN {$wpdb->prefix}hashform_fields AS f ON m.field_id = f.id WHERE m.item_id = %d AND m.field_id != %d ORDER BY m.id ASC", $entry->id, 0));
+        $metas = $wpdb->get_results($wpdb->prepare("SELECT m.*, f.type AS field_type, f.field_key, f.name, f.field_options FROM {$wpdb->prefix}hashform_entry_meta AS m LEFT JOIN {$wpdb->prefix}hashform_fields AS f ON m.field_id = f.id WHERE m.item_id = %d AND m.field_id != %d ORDER BY m.id ASC", $entry->id, 0));
         $entry->metas = array();
 
         foreach ($metas as $meta_val) {
             $entry->metas[$meta_val->field_id] = array(
                 'name' => $meta_val->name,
                 'value' => $meta_val->meta_value,
-                'type' => $meta_val->field_type
+                'type' => $meta_val->field_type,
+                // Carried through so a value can be rendered the way its field
+                // was configured, rather than every display path re-querying.
+                'options' => maybe_unserialize($meta_val->field_options)
             );
         }
 
@@ -389,9 +392,7 @@ class HashFormEntry {
         if (isset($values['item_meta'])) {
             foreach ($values['item_meta'] as $field_id => $meta_value) {
                 if (!empty($meta_value)) {
-                    if (is_array($meta_value)) {
-                        $meta_value = serialize($meta_value);
-                    } else {
+                    if (!is_array($meta_value)) {
                         $meta_value = sanitize_textarea_field($meta_value);
                     }
 
@@ -402,7 +403,18 @@ class HashFormEntry {
                         'created_at' => sanitize_text_field(current_time('mysql')),
                     );
 
+                    /*
+                     * The field gets the value in the shape it was posted. It
+                     * used to be serialized first, so a field that posts more
+                     * than one value — a repeater's rows, an address, a set of
+                     * boxes — only ever saw a string and could not put its own
+                     * shape on what got stored.
+                     */
                     self::sanitize_meta_value($meta_values);
+
+                    if (is_array($meta_values['meta_value'])) {
+                        $meta_values['meta_value'] = serialize($meta_values['meta_value']);
+                    }
 
                     $query_results = $wpdb->insert($wpdb->prefix . 'hashform_entry_meta', $meta_values);
                 }

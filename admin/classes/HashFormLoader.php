@@ -160,6 +160,9 @@ class HashFormLoader {
             'ajaxurl' => admin_url('admin-ajax.php'),
             'ajax_nounce' => wp_create_nonce('hashform-upload-ajax-nonce'),
             'preview_img' => '',
+            // Shown when a submission is refused without a usable message of
+            // its own, so the visitor is never left with a silent form.
+            'generic_error' => esc_html__('Your submission could not be sent. Please try again.', 'hash-form'),
         ));
     }
 

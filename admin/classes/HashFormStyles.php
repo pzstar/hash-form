@@ -351,7 +351,21 @@ class HashFormStyles {
         die();
     }
 
+    /**
+     * The Google Fonts stylesheet a form needs, if any.
+     *
+     * Returns '' when the site has turned Google Fonts off, so no request is
+     * made to fonts.googleapis.com and no visitor address reaches Google. Also
+     * filterable, for sites that would rather decide this in code.
+     */
     public static function fonts_url() {
+        $settings = HashFormSettings::get_settings();
+        $enabled = !isset($settings['load_google_fonts']) || 'on' === $settings['load_google_fonts'];
+
+        if (!apply_filters('hashform_load_google_fonts', $enabled)) {
+            return '';
+        }
+
         $fonts_url = '';
         $subsets = 'latin,latin-ext';
         $fonts = $font_family_array = $variants_array = array();
@@ -380,13 +394,13 @@ class HashFormStyles {
             ), 'https://fonts.googleapis.com/css');
         }
 
-        $load_font_locally = false;
-
-        if ($fonts_url && $load_font_locally) {
-            require_once HASHFORM_PATH . 'inc/wptt-webfont-loader.php';
-            $fonts_url = wptt_get_webfont_url($fonts_url);
-        }
-
+        /*
+         * There was a local-hosting branch here guarded by a hardcoded false.
+         * It required inc/wptt-webfont-loader.php, which is not in the plugin,
+         * so flipping that flag would have been a fatal rather than the feature
+         * it looked like. Removed rather than left as a trap; serving the fonts
+         * from the server needs that loader added first.
+         */
         return $fonts_url;
     }
 

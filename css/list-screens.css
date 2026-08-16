@@ -387,6 +387,7 @@
     font-size: var(--hf-font-base, 13px);
     padding: var(--hf-space-3, 12px) var(--hf-space-4, 16px);
     vertical-align: top;
+    float: none;
 }
 
 .hf-list-screen .wp-list-table tbody tr:last-child td,

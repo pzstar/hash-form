@@ -82,29 +82,20 @@ class HashFormEmail {
                 if ($entry_type == 'name') {
                     $entry_value = implode(' ', array_filter($entry_value));
                 } elseif ($entry_type == 'repeater_field') {
-                    $entry_val = '<table><thead><tr>';
-                    foreach (array_keys($entry_value) as $key) {
-                        $entry_val .= '<th>' . $key . '</th>';
-                    }
-                    $entry_val .= '</tr></thead><tbody>';
-                    $out = array();
-                    foreach ($entry_value as $rowkey => $row) {
-                        foreach ($row as $colkey => $col) {
-                            $out[$colkey][$rowkey] = $col;
-                        }
-                    }
-                    foreach ($out as $key => $val) {
-                        foreach ($val as $eval) {
-                            $entry_val .= '<td>' . $eval . '</td>';
-                        }
-                        $entry_val .= '</tr>';
-                    }
-                    $entry_val .= '</tbody></table>';
-                    $entry_value = $entry_val;
+                    $entry_value = HashFormHelper::render_repeater_table($entry_value);
                 } else {
                     $entry_value = implode(',<br>', array_filter($entry_value));
                 }
             }
+            // No profile link here: a recipient may have no access to wp-admin.
+            if ($entry_type == 'user_id') {
+                $entry_value = HashFormFieldUserID::format_value(
+                    $entry_value,
+                    HashFormFieldUserID::capture_from_options(isset($value['options']) ? $value['options'] : array()),
+                    false
+                );
+            }
+
             if ($entry_type == 'upload' && trim($entry_value)) {
                 $files_arr = explode(',', $entry_value);
                 $upload_value = '';
@@ -127,6 +118,9 @@ class HashFormEmail {
                 }
                 $entry_value = $upload_value;
             }
+            /** This filter is documented in admin/entries/entry-detail.php */
+            $entry_value = apply_filters('hashform_entry_display_value', $entry_value, $entry_type, $value, 'email');
+
             $frm_table .= call_user_func('HashFormEmail::' . $email_template, $value['name'], $entry_value, $count);
 
             foreach ($replace_keys as $key) {

@@ -239,11 +239,17 @@ defined('ABSPATH') || die();
             </div>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Min Time', 'hash-form'); ?></label>
-                <input type="text" class="min-value-field" name="field_options[min_time_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['min_time']) ? esc_attr($field['min_time']) : ''; ?>" />
+                <input type="text" class="min-value-field" placeholder="09:00" name="field_options[min_time_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['min_time']) ? esc_attr($field['min_time']) : ''; ?>" />
+                <p class="description">
+                    <?php esc_html_e('Earliest time the drop down offers, as 24 hour HH:MM. 09:00 is nine in the morning, 17:00 is five in the afternoon.', 'hash-form'); ?>
+                </p>
             </div>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Max Time', 'hash-form'); ?></label>
-                <input type="text" class="max-value-field" name="field_options[max_time_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['max_time']) ? esc_attr($field['max_time']) : ''; ?>" />
+                <input type="text" class="max-value-field" placeholder="17:00" name="field_options[max_time_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['max_time']) ? esc_attr($field['max_time']) : ''; ?>" />
+                <p class="description">
+                    <?php esc_html_e('Latest time offered, in the same format. Leave both empty to offer the whole day.', 'hash-form'); ?>
+                </p>
             </div>
             <?php
         }
@@ -266,6 +272,57 @@ defined('ABSPATH') || die();
                         19/09/2023
                     </option>
                 </select>
+            </div>
+            <?php
+        }
+
+        if ($field_type === 'hidden') {
+            $hf_sources = HashFormFieldHidden::value_sources();
+            $hf_source = HashFormFieldHidden::source_from_options($field);
+            $hf_param_id = 'hf-hidden-source-param-' . absint($field_id);
+            ?>
+            <div class="hf-form-row">
+                <label><?php esc_html_e('Value Source', 'hash-form'); ?></label>
+                <select name="field_options[value_source_<?php echo absint($field_id); ?>]" data-condition="toggle" id="<?php echo esc_attr($hf_param_id); ?>" data-condition-value="url_param">
+                    <?php foreach ($hf_sources as $hf_value => $hf_label) { ?>
+                        <option value="<?php echo esc_attr($hf_value); ?>" <?php selected($hf_source, $hf_value); ?>>
+                            <?php echo esc_html($hf_label); ?>
+                        </option>
+                    <?php } ?>
+                </select>
+                <p class="description">
+                    <?php esc_html_e('The value is worked out on the server when the form is submitted, so it cannot be changed from the browser.', 'hash-form'); ?>
+                    <br /><?php esc_html_e('The page and URL parameter sources describe the address the visitor submitted from, which their browser supplies. Good for knowing where a lead came from; not proof of it.', 'hash-form'); ?>
+                </p>
+            </div>
+
+            <div class="hf-form-row">
+                <label><?php esc_html_e('URL Parameter Name', 'hash-form'); ?></label>
+                <input type="text" placeholder="utm_source" name="field_options[value_param_<?php echo absint($field_id); ?>]" value="<?php echo isset($field['value_param']) ? esc_attr($field['value_param']) : ''; ?>" />
+                <p class="description">
+                    <?php esc_html_e('Only used when the source above is a URL parameter. For example, entering utm_source records "newsletter" from a link ending ?utm_source=newsletter. Stored empty when the parameter is not in the address.', 'hash-form'); ?>
+                </p>
+            </div>
+            <?php
+        }
+
+        if ($field_type === 'user_id') {
+            $hf_capture_choices = HashFormFieldUserID::capture_choices();
+            $hf_capture = HashFormFieldUserID::capture_from_options($field);
+            ?>
+            <div class="hf-form-row">
+                <label><?php esc_html_e('Show As', 'hash-form'); ?></label>
+                <select name="field_options[capture_<?php echo absint($field_id); ?>]">
+                    <?php foreach ($hf_capture_choices as $hf_value => $hf_label) { ?>
+                        <option value="<?php echo esc_attr($hf_value); ?>" <?php selected($hf_capture, $hf_value); ?>>
+                            <?php echo esc_html($hf_label); ?>
+                        </option>
+                    <?php } ?>
+                </select>
+                <p class="description">
+                    <?php esc_html_e('How the submitter appears in the entry and in notification emails. The account ID is always what gets stored, so a later rename or address change does not leave old entries pointing at something stale.', 'hash-form'); ?>
+                    <br /><?php esc_html_e('Someone who is not logged in is recorded as Guest.', 'hash-form'); ?>
+                </p>
             </div>
             <?php
         }

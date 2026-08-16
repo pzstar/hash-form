@@ -69,6 +69,18 @@ jQuery(function ($) {
         }
     }
 
+    /**
+     * Never render an empty failure notice.
+     *
+     * A form whose Error Message setting is blank was appending an empty span,
+     * which reads to the visitor exactly like the submission having been ignored.
+     */
+    function failureText(message) {
+        return (typeof message === 'string' && message.trim())
+            ? message
+            : hashform_vars.generic_error;
+    }
+
     function showValidationErrors(errors) {
         $.each(errors, function (key, message) {
             $('#hf-field-container-' + key.replace('field', ''))
@@ -150,9 +162,17 @@ jQuery(function ($) {
                         form.append('<span class="hf-success-msg">' + response.message + '</span>');
                     } else if (response.status === 'failed') {
                         resetRecaptcha();
-                        form.append('<span class="hf-failed-msg">' + response.message + '</span>');
-                    } else {
+                        form.append('<span class="hf-failed-msg">' + failureText(response.message) + '</span>');
+                    } else if (response.message && typeof response.message === 'object') {
                         showValidationErrors(response.message);
+                    } else {
+                        // status:'error' normally carries an object of per-field
+                        // errors, but the spam checks reject a whole submission
+                        // with a plain string. $.each on a string throws, which
+                        // left the visitor looking at a form that appeared to do
+                        // nothing at all.
+                        resetRecaptcha();
+                        form.append('<span class="hf-failed-msg">' + failureText(response.message) + '</span>');
                     }
                 }
             });

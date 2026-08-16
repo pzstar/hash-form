@@ -39,6 +39,10 @@ class HashFormSettings {
             'email-settings' => array(
                 'name' => esc_html__('Email Settings', 'hash-form'),
                 'icon' => 'mdi mdi-email-multiple-outline'
+            ),
+            'general-settings' => array(
+                'name' => esc_html__('General', 'hash-form'),
+                'icon' => 'mdi mdi-tune'
             )
         ));
         $vars = apply_filters('hash_form_settings_vars', array(
@@ -276,7 +280,9 @@ class HashFormSettings {
     }
 
     public static function checkbox_settings() {
-        return apply_filters('hash_form_settings_checkbox', array());
+        return apply_filters('hash_form_settings_checkbox', array(
+            'load_google_fonts' => 'on',
+        ));
     }
 
     public static function default_values() {
@@ -290,6 +296,10 @@ class HashFormSettings {
             're_threshold' => '0.5',
             'header_image' => '',
             'email_template' => 'template1',
+            // Left on so an existing site's typography does not change under
+            // it. Sites that would rather not call out to Google can switch it
+            // off without touching their style templates.
+            'load_google_fonts' => 'on',
         ));
     }
 
@@ -304,6 +314,7 @@ class HashFormSettings {
             're_threshold' => 'sanitize_text_field',
             'header_image' => 'sanitize_text_field',
             'email_template' => 'sanitize_text_field',
+            'load_google_fonts' => 'hashform_sanitize_checkbox',
         ));
     }
 

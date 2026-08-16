@@ -875,6 +875,20 @@ class HashFormHelper {
             'upload_label' => 'sanitize_text_field',
             'max_upload_size' => 'hashform_sanitize_number',
             'min_upload_size' => 'hashform_sanitize_number',
+            'capture' => 'sanitize_key',
+            'value_source' => 'sanitize_key',
+            'value_param' => 'sanitize_key',
+            'color_format' => 'sanitize_key',
+            'button_text' => 'sanitize_text_field',
+            'button_link' => 'esc_url_raw',
+            'button_new_tab' => 'hashform_sanitize_checkbox',
+            'shortcode' => 'sanitize_text_field',
+            'min_rows' => 'hashform_sanitize_number',
+            'max_rows' => 'hashform_sanitize_number',
+            'datetime_default' => 'sanitize_text_field',
+            'datetime_min' => 'sanitize_text_field',
+            'datetime_max' => 'sanitize_text_field',
+            'datetime_step' => 'hashform_sanitize_number',
             'extensions' => 'hashform_sanitize_allowed_file_extensions',
             'extensions_error_message' => 'sanitize_text_field',
             'multiple_uploads' => 'sanitize_text_field',
@@ -958,6 +972,61 @@ class HashFormHelper {
         return false;
     }
 
+    /**
+     * A repeater's rows as a table.
+     *
+     * Entries saved before the field kept its own column labels hold the cells
+     * grouped by column, so those are turned back into rows here; newer ones
+     * already carry 'columns' and 'rows'. Three copies of this used to sit in
+     * the entry screen, the email and here, each transposing by hand and each
+     * emitting a row's closing tag without its opening one.
+     */
+    public static function render_repeater_table($value) {
+        if (!is_array($value)) {
+            return '';
+        }
+
+        if (isset($value['rows']) && is_array($value['rows'])) {
+            $columns = isset($value['columns']) && is_array($value['columns']) ? $value['columns'] : array();
+            $rows = $value['rows'];
+        } else {
+            $columns = array_keys($value);
+            $rows = array();
+
+            foreach ($value as $cells) {
+                foreach ((array) $cells as $row_key => $cell) {
+                    $rows[$row_key][] = $cell;
+                }
+            }
+        }
+
+        if (!$rows) {
+            return '';
+        }
+
+        $cell = function ($content) {
+            return esc_html(is_scalar($content) ? $content : '');
+        };
+
+        $html = '<table><thead><tr>';
+
+        foreach ($columns as $column) {
+            $html .= '<th>' . $cell($column) . '</th>';
+        }
+
+        $html .= '</tr></thead><tbody>';
+
+        foreach ($rows as $row) {
+            $html .= '<tr>';
+            foreach ((array) $row as $content) {
+                $html .= '<td>' . $cell($content) . '</td>';
+            }
+            $html .= '</tr>';
+        }
+
+        return $html . '</tbody></table>';
+    }
+
     public static function get_field_input_value($value) {
         $entry_val = '';
         $entry_value = maybe_unserialize($value['value']);
@@ -966,26 +1035,7 @@ class HashFormHelper {
             if ($entry_type == 'name') {
                 $entry_value = implode(' ', array_filter($entry_value));
             } elseif ($entry_type == 'repeater_field') {
-                $entry_val = '<table><thead><tr>';
-                foreach (array_keys($entry_value) as $key) {
-                    $entry_val .= '<th>' . esc_html($key) . '</th>';
-                }
-                $entry_val .= '</tr></thead><tbody>';
-                $out = array();
-                foreach ($entry_value as $rowkey => $row) {
-                    foreach ((array) $row as $colkey => $col) {
-                        $out[$colkey][$rowkey] = $col;
-                    }
-                }
-                foreach ($out as $key => $val) {
-                    $entry_val .= '<tr>';
-                    foreach ($val as $eval) {
-                        $entry_val .= '<td>' . esc_html($eval) . '</td>';
-                    }
-                    $entry_val .= '</tr>';
-                }
-                $entry_val .= '</tbody></table>';
-                $entry_value = $entry_val;
+                $entry_value = self::render_repeater_table($entry_value);
             } else {
                 $entry_value = implode(',', array_filter($entry_value));
             }

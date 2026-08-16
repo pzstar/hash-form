@@ -49,10 +49,30 @@ function hashform_sanitize_checkbox_boolean($input) {
     }
 }
 
+/**
+ * File extensions an upload field may be configured with.
+ *
+ * The one list. It used to be written out twice, here and in the upload AJAX
+ * handler, and the two drifted: a format present in one and missing from the
+ * other left a field that accepted nothing at all.
+ *
+ * This is only the outer bound. get_allowed_mime_types() is applied on top when
+ * the file actually arrives, so a type this site has disabled is still refused.
+ */
+function hashform_allowed_file_extensions() {
+    return apply_filters('hashform_allowed_file_extensions', array(
+        'pdf', 'doc', 'docx', 'xls', 'xlsx', 'odt', 'ppt', 'pptx', 'pps', 'ppsx',
+        'jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'avif', 'heic', 'heif',
+        'mp3', 'm4a', 'mp4', 'ogg', 'wav', 'm4v', 'mov', 'wmv', 'avi', 'mpg',
+        'ogv', 'webm', '3gp',
+        'txt', 'zip', 'rar', '7z', 'csv',
+    ));
+}
+
 function hashform_sanitize_allowed_file_extensions($extensions) {
     $new_extensions = array();
     $extensions = explode(',', $extensions);
-    $allowed_extensions = array('pdf', 'doc', 'docx', 'xls', 'xlsx', 'odt', 'ppt', 'pptx', 'pps', 'ppsx', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'mp3', 'mp4', 'ogg', 'wav', 'mp4', 'm4v', 'mov', 'wmv', 'avi', 'mpg', 'ogv', '3gp', 'txt', 'zip', 'rar', '7z', 'csv');
+    $allowed_extensions = hashform_allowed_file_extensions();
     foreach ($extensions as $row) {
         $extension = trim($row);
         if (in_array($extension, $allowed_extensions)) {

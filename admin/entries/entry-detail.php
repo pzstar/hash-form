@@ -53,28 +53,19 @@ $next_url = $next_entry_id ? admin_url('admin.php?page=hashform-entries&hashform
                         if ($entry_type == 'name') {
                             $entry_value = implode(' ', $entry_value);
                         } elseif ($entry_type == 'repeater_field') {
-                            $entry_val = '<table><thead><tr>';
-                            foreach (array_keys($entry_value) as $key) {
-                                $entry_val .= '<th>' . $key . '</th>';
-                            }
-                            $entry_val .= '</tr></thead><tbody>';
-                            $out = array();
-                            foreach ($entry_value as $rowkey => $row) {
-                                foreach ($row as $colkey => $col) {
-                                    $out[$colkey][$rowkey] = $col;
-                                }
-                            }
-                            foreach ($out as $key => $val) {
-                                foreach ($val as $eval) {
-                                    $entry_val .= '<td>' . $eval . '</td>';
-                                }
-                                $entry_val .= '</tr>';
-                            }
-                            $entry_val .= '</tbody></table>';
-                            $entry_value = $entry_val;
+                            $entry_value = HashFormHelper::render_repeater_table($entry_value);
                         } else {
                             $entry_value = implode(',<br>', $entry_value);
                         }
+                    }
+
+                    // Stored as a bare account id, which says nothing on its own.
+                    if ($entry_type == 'user_id') {
+                        $entry_value = HashFormFieldUserID::format_value(
+                            $entry_value,
+                            HashFormFieldUserID::capture_from_options(isset($value['options']) ? $value['options'] : array()),
+                            true
+                        );
                     }
 
                     if ($entry_type == 'upload' && $entry_value) {
@@ -99,6 +90,19 @@ $next_url = $next_entry_id ? admin_url('admin.php?page=hashform-entries&hashform
                         }
                         $entry_value = $upload_value;
                     }
+                    /**
+                     * Last word on how a stored value is rendered.
+                     *
+                     * Lets a field type supplied by an add-on present its own
+                     * value without this file having to know the type exists.
+                     *
+                     * @param string $entry_value Value as rendered so far.
+                     * @param string $entry_type  Field type.
+                     * @param array  $value       Raw meta row: name, value, type, options.
+                     * @param string $context     'detail' or 'email'.
+                     */
+                    $entry_value = apply_filters('hashform_entry_display_value', $entry_value, $entry_type, $value, 'detail');
+
                     echo '<tr>';
                     echo '<th>' . esc_html($title) . '</th>';
                     echo '<td>' . wpautop(wp_kses_post($entry_value)) . '</td>';

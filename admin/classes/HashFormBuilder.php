@@ -746,50 +746,9 @@ class HashFormBuilder {
         $sizeLimit = HashFormHelper::get_var('sizeLimit');
         $upload_dir = wp_upload_dir();
 
-        $default_allowed_extenstions = array(
-            'pdf',
-            'doc',
-            'docx',
-            'xls',
-            'xlsx',
-            'odt',
-            'ppt',
-            'pptx',
-            'pps',
-            'ppsx',
-            'jpg',
-            'jpeg',
-            'png',
-            'gif',
-            'bmp',
-            // WordPress has allowed webp since 5.8, avif since 6.5 and heic
-            // since 6.7. Without them here a field configured for any of those
-            // filtered down to an empty allow-list, which rejected every file
-            // instead of the one unsupported type.
-            'webp',
-            'avif',
-            'heic',
-            'heif',
-            'mp3',
-            'm4a',
-            'mp4',
-            'ogg',
-            'wav',
-            'mp4',
-            'm4v',
-            'mov',
-            'wmv',
-            'avi',
-            'mpg',
-            'ogv',
-            'webm',
-            '3gp',
-            'txt',
-            'zip',
-            'rar',
-            '7z',
-            'csv'
-        );
+        // One shared list, defined in admin/forms/sanitization.php, so this
+        // and the field's own sanitizer cannot disagree about a format.
+        $default_allowed_extenstions = hashform_allowed_file_extensions();
 
         // get_allowed_mime_types() is applied again inside HashFormFileUploader,
         // so anything this site has not actually enabled is still refused.

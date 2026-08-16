@@ -3282,9 +3282,6 @@ form.hf-error {
 }
 
 .hf-entry-preview-value {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .hf-entry-preview-value:first-child {
