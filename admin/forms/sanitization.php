@@ -16,6 +16,23 @@ function hashform_sanitize_number($input) {
     }
 }
 
+/**
+ * A heading level, held to the six that exist.
+ *
+ * The stored value is written into the tag name itself, where escaping is no
+ * protection: `h2 onmouseover=alert(1)` carries no quotes to escape and lands
+ * as an attribute on the element. Anything else falls back to the default.
+ */
+function hashform_sanitize_heading_type($input) {
+    $tag = strtolower(trim((string) $input));
+
+    return in_array($tag, hashform_heading_levels(), true) ? $tag : 'h3';
+}
+
+function hashform_heading_levels() {
+    return array('h1', 'h2', 'h3', 'h4', 'h5', 'h6');
+}
+
 function hashform_sanitize_float($input) {
     if (is_numeric($input)) {
         return (float) $input;

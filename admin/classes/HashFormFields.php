@@ -398,8 +398,11 @@ class HashFormFields {
 
         $new_values['field_key'] = sanitize_text_field(HashFormHelper::get_unique_key('hashform_fields', 'field_key'));
         $new_values['name'] = sanitize_text_field($values['name']);
-        $new_values['description'] = sanitize_text_field($values['description']);
         $new_values['type'] = sanitize_text_field($values['type']);
+        // Sanitized for the field's own kind: duplicating a field or a form,
+        // importing one and starting from a template all come through here,
+        // and none of them used to carry an HTML field's markup across.
+        $new_values['description'] = HashFormHelper::sanitize_field_description($values['description'], $new_values['type']);
         $new_values['field_order'] = isset($values['field_order']) ? absint($values['field_order']) : '';
         $new_values['required'] = $values['required'] ? true : false;
         $new_values['form_id'] = isset($values['form_id']) ? absint($values['form_id']) : '';
@@ -513,6 +516,10 @@ class HashFormFields {
         self::preserve_format_option_backslashes($values);
 
         $values['field_options'] = serialize(HashFormHelper::sanitize_array($values['field_options'], HashFormHelper::get_field_options_sanitize_rules()));
+
+        if (isset($values['description']) && isset($values['type'])) {
+            $values['description'] = HashFormHelper::sanitize_field_description($values['description'], $values['type']);
+        }
 
         if (isset($values['default_value'])) {
             $field_obj = HashFormFields::get_field_class($values['type']);

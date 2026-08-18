@@ -1005,7 +1005,8 @@ $id = get_the_ID();
                     </div>
                     <input type="file" name="hashform_import_file" class="hf-dropzone">
                 </div>
-                <button class="button button-primary" id="hashform_import" type="submit" name="hashform_import"><i class='icofont-download'></i> <?php esc_html_e("Import", "hash-form") ?></button>
+                <?php // icofont is not among the plugin's icon fonts, so the old <i> rendered nothing. ?>
+                <button class="button button-primary" id="hashform_import" type="submit" name="hashform_import"><span class="mdi mdi-tray-arrow-up" aria-hidden="true"></span> <?php esc_html_e("Import", "hash-form") ?></button>
                 <input type="hidden" name="hashform_imex_action" value="import_style" />
                 <input type="hidden" name="hashform_style_id" value="<?php echo esc_attr($id); ?>" />
                 <?php wp_nonce_field("hashform_imex_import_nonce", "hashform_imex_import_nonce"); ?>

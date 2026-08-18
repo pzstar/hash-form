@@ -368,7 +368,8 @@ class HashFormValidate {
             'status' => 'sanitize_title',
             // The token must survive intact: sanitize_title would lowercase
             // and strip it, making verification impossible.
-            'g-recaptcha-response' => 'sanitize_text_field'
+            'g-recaptcha-response' => 'sanitize_text_field',
+            'h-captcha-response' => 'sanitize_text_field'
         );
         return self::sanitize_request($sanitize_method, $values);
     }

@@ -65,6 +65,8 @@ class HashFormLoader {
                 'resend_confirm' => esc_html__('Send the notification emails for this entry again?', 'hash-form'),
                 'generic_error' => esc_html__('Something went wrong. Please reload the page and try again.', 'hash-form'),
                 'form_name_required' => esc_html__('Please give the form a name.', 'hash-form'),
+                /* translators: %s: the spacer's height in pixels, filled in by the builder. */
+                'spacer_label' => sprintf(esc_html__('Spacer · %spx', 'hash-form'), '%d'),
             ));
 
             wp_localize_script('hashform-builder', 'hashform_backend_js', array(
@@ -76,6 +78,10 @@ class HashFormLoader {
             // only the builder had set.
             wp_localize_script('hashform-builder', 'hashform_builder_js', array(
                 'drop_field_here' => esc_html__('Drop a field here', 'hash-form'),
+                'move' => esc_html__('Move Row', 'hash-form'),
+                'delete' => esc_html__('Delete Row', 'hash-form'),
+                'delete_row' => esc_html__('Delete this row?', 'hash-form'),
+                'delete_row_with_fields' => esc_html__('Delete this row and the fields in it?', 'hash-form'),
             ));
         }
 

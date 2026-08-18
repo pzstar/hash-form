@@ -123,6 +123,60 @@ var hashFormBuilder = hashFormBuilder || {};
         return document.getElementById('hf-editor-wrap');
     }
 
+    /**
+     * Mark whether the form has any fields yet.
+     *
+     * The class lives on the canvas, and the "drag a field in" hint lives in
+     * the sidebar, so the two cannot see each other in CSS. Mirroring it onto
+     * the body lets the hint retire once there is something to look at, and
+     * come back if the last field is deleted.
+     */
+    function setHasFields(hasFields) {
+        const wrap = editorWrap();
+
+        // The settings and style screens load this script without a canvas.
+        if (!wrap) {
+            return;
+        }
+
+        wrap.classList.toggle('hf-editor-has-fields', hasFields);
+        document.body.classList.toggle('hf-form-has-fields', hasFields);
+    }
+
+    /**
+     * The move and delete controls for a columns row.
+     *
+     * A row is built in the browser, so it never passed through the PHP that
+     * stamps these onto a field: there was no way to move a row or to get rid
+     * of one once it had been added.
+     */
+    function columnRowActions() {
+        const move = hashFormBuilder.tag('a', {
+            className: 'hf-editor-move-action',
+            child: hashFormBuilder.tag('span', {className: 'mdi mdi-cursor-move'})
+        });
+        move.href = '#';
+        move.title = columnRowText('move', 'Move Row');
+        move.setAttribute('aria-label', move.title);
+
+        const remove = hashFormBuilder.tag('a', {
+            className: 'hf-editor-row-delete',
+            child: hashFormBuilder.tag('span', {className: 'mdi mdi-trash-can-outline'})
+        });
+        remove.href = '#';
+        remove.title = columnRowText('delete', 'Delete Row');
+        remove.setAttribute('aria-label', remove.title);
+
+        return hashFormBuilder.div({
+            className: 'hf-editor-action-buttons hf-editor-row-actions',
+            children: [move, remove]
+        });
+    }
+
+    function columnRowText(key, fallback) {
+        return ('undefined' !== typeof hashform_builder_js && hashform_builder_js[key]) ? hashform_builder_js[key] : fallback;
+    }
+
     function emptyColumnLabel() {
         return 'undefined' === typeof hashform_builder_js ? 'Drop a field here' : hashform_builder_js.drop_field_here;
     }
@@ -181,6 +235,9 @@ var hashFormBuilder = hashFormBuilder || {};
          * ---------------------------------------------------------------- */
 
         init: function () {
+            // The canvas is rendered with the class already set, so the body
+            // has to be told once on load as well as on every change.
+            setHasFields(!!editorWrap() && editorWrap().classList.contains('hf-editor-has-fields'));
             hashFormBuilder.initBuild();
         },
 
@@ -202,6 +259,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
             $('#hf-add-fields-panel').on('click', '.hf-field-box', hashFormBuilder.hintToDragField);
             $('#hf-add-fields-panel').on('click', '.hf-add-columns', hashFormBuilder.addColumnsClick);
+            $editorFieldsWrap.on('click', '.hf-editor-row-delete', hashFormBuilder.clickDeleteColumnRow);
 
             hashFormBuilder.renumberMultiSteps();
             hashFormBuilder.resetToFirstStep();
@@ -317,6 +375,14 @@ var hashFormBuilder = hashFormBuilder || {};
                 row.classList.add('hf-editor-columns-row');
                 row.setAttribute('data-columns', columns.length);
 
+                const wrapper = row.closest('li.hf-editor-field-box');
+
+                if (wrapper && !wrapper.querySelector(':scope > .hf-editor-row-actions')) {
+                    wrapper.classList.add('hf-editor-columns-wrapper');
+                    wrapper.insertBefore(columnRowActions(), wrapper.firstChild);
+                    hashFormBuilder.makeDraggable(wrapper, '.hf-editor-move-action');
+                }
+
                 columns.forEach(column => {
                     const list = column.querySelector('ul.hf-editor-column-fields');
                     if (list && !list.hasAttribute('data-empty-label')) {
@@ -357,13 +423,32 @@ var hashFormBuilder = hashFormBuilder || {};
                         return copyTarget;
                     }
 
-                    // An existing field drags a copy of its panel button around.
+                    /*
+                     * An existing field drags a ghost of itself, at the width
+                     * it occupies.
+                     *
+                     * This used to drag a copy of the field's button from the
+                     * add-field panel: a small tile, so a full-width field
+                     * appeared to shrink the moment it was picked up, and
+                     * nothing about the drag showed how much room it needed —
+                     * which is exactly what you are judging when moving a
+                     * field between columns.
+                     */
                     if (dragged.hasAttribute('data-type')) {
-                        const fieldType = dragged.getAttribute('data-type');
-                        const panelButton = document.getElementById('hf-add-fields-panel').querySelector('.hashform_' + fieldType);
-                        const copyTarget = panelButton.cloneNode(true);
-                        copyTarget.classList.add('hf-editor-form-field', 'ui-sortable-helper');
-                        return copyTarget.cloneNode(true);
+                        const ghost = dragged.cloneNode(true);
+
+                        // Ids have to go: a clone carrying them puts a second
+                        // element with every one of the field's ids into the
+                        // document for as long as the drag lasts.
+                        ghost.removeAttribute('id');
+                        ghost.querySelectorAll('[id]').forEach(function (node) {
+                            node.removeAttribute('id');
+                        });
+
+                        ghost.classList.add('hf-editor-form-field', 'ui-sortable-helper', 'hf-drag-ghost');
+                        ghost.style.width = dragged.offsetWidth + 'px';
+
+                        return ghost;
                     }
 
                     return hashFormBuilder.div({className: 'hf-field-box'});
@@ -382,6 +467,16 @@ var hashFormBuilder = hashFormBuilder || {};
                 },
                 stop: function () {
                     document.body.classList.remove('hf-dragging');
+
+                    /*
+                     * The drop target keeps hf-dropabble otherwise: it is only
+                     * ever cleared by leaving one droppable for another, so
+                     * after a drop the class stayed on the list that received
+                     * the field and on every list above it.
+                     */
+                    document.querySelectorAll('.hf-dropabble').forEach(function (el) {
+                        el.classList.remove('hf-dropabble');
+                    });
 
                     const fade = document.querySelector('.hf-drag-fade');
                     if (fade) {
@@ -1013,7 +1108,7 @@ var hashFormBuilder = hashFormBuilder || {};
             hashFormBuilder.syncLayoutClasses($placeholder);
 
             insertFieldRequest(formId, fieldType, function (msg) {
-                editorWrap().classList.add('hf-editor-has-fields');
+                setHasFields(true);
 
                 const $siblings = $placeholder.siblings('li.hf-editor-form-field').not('.hf-editor-field-type-end_divider');
                 // A column already provides the list, so the field goes in
@@ -1189,15 +1284,16 @@ var hashFormBuilder = hashFormBuilder || {};
             }
 
             const wrapper = hashFormBuilder.tag('li', {
-                className: 'hf-editor-field-box',
-                children: [row]
+                className: 'hf-editor-field-box hf-editor-columns-wrapper',
+                children: [columnRowActions(), row]
             });
 
-            editorWrap().classList.add('hf-editor-has-fields');
+            setHasFields(true);
             $editorFieldsWrap.append(wrapper);
 
             hashFormBuilder.makeDroppable(row);
             row.querySelectorAll('ul.hf-editor-column-fields').forEach(hashFormBuilder.makeDroppable);
+            hashFormBuilder.makeDraggable(wrapper, '.hf-editor-move-action');
             hashFormBuilder.scrollNewFieldIntoView(wrapper);
         },
 
@@ -1356,7 +1452,7 @@ var hashFormBuilder = hashFormBuilder || {};
         // Mirrors how a dragged field is placed: a field that owns its row gets
         // a row of its own, one sharing a row gets dropped in beside its source.
         insertDuplicatedField: function ($source, msg) {
-            editorWrap().classList.add('hf-editor-has-fields');
+            setHasFields(true);
 
             const $siblings = $source.siblings('li.hf-editor-form-field').not('.hf-editor-field-type-end_divider');
             let inserted;
@@ -1385,6 +1481,64 @@ var hashFormBuilder = hashFormBuilder || {};
         /* -------------------------------------------------------------------
          * Deleting fields
          * ---------------------------------------------------------------- */
+
+        /**
+         * Delete a whole columns row, and whatever is standing in it.
+         *
+         * The fields inside have rows of their own in the database, so they are
+         * deleted there before the row goes from the canvas; dropping the
+         * markup alone would leave them behind as orphans.
+         */
+        clickDeleteColumnRow: function (event) {
+            /*jshint validthis:true */
+            event.preventDefault();
+
+            const wrapper = this.closest('li.hf-editor-field-box');
+
+            if (!wrapper) {
+                return false;
+            }
+
+            const fields = wrapper.querySelectorAll('li.hf-editor-form-field[data-fid]');
+            const question = fields.length
+                ? columnRowText('delete_row_with_fields', 'Delete this row and the fields in it?')
+                : columnRowText('delete_row', 'Delete this row?');
+
+            if (!confirm(question)) {
+                return false;
+            }
+
+            fields.forEach(function (field) {
+                const id = field.getAttribute('data-fid');
+                $('#hf-fields-settings-' + id).remove();
+                hashFormBuilder.deleteFieldRequest(id);
+            });
+
+            $(wrapper).fadeOut('fast', function () {
+                wrapper.remove();
+
+                if (!document.querySelectorAll('#hf-editor-fields li').length) {
+                    setHasFields(false);
+                }
+
+                hashFormBuilder.syncAfterDragAndDrop();
+            });
+
+            return false;
+        },
+
+        // Just the server side of a delete, for callers doing their own tidying.
+        deleteFieldRequest: function (fieldId) {
+            return jQuery.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: {
+                    action: 'hashform_delete_field',
+                    field_id: fieldId,
+                    backend_nonce: hashform_backend_js.nonce
+                }
+            });
+        },
 
         clickDeleteField: function () {
             if (confirm("Are you sure?")) {
@@ -1429,25 +1583,36 @@ var hashFormBuilder = hashFormBuilder || {};
                         const $section = $thisField.closest('.start_divider');
                         const type = $thisField.data('type');
                         const $adjacentFields = $thisField.siblings('li.hf-editor-form-field');
+                        const $list = $thisField.closest('ul.hf-editor-sorting');
+                        const inColumn = $list.length && hashFormBuilder.isColumnList($list.get(0));
                         let $liWrapper;
 
                         if (!$adjacentFields.length) {
                             if ($thisField.is('.hf-editor-field-type-end_divider')) {
                                 $adjacentFields.length = $thisField.closest('li.hf-editor-form-field').siblings();
-                            } else {
-                                $liWrapper = $thisField.closest('ul.hf-editor-sorting').parent();
+                            } else if (!inColumn) {
+                                /*
+                                 * An emptied column keeps its place, ready for
+                                 * the next field. Its wrapper is the column
+                                 * itself, so removing it here deleted the
+                                 * column out from under the person who had
+                                 * only asked to delete a field. Dragging the
+                                 * last field out already worked this way; only
+                                 * deleting it did not.
+                                 */
+                                $liWrapper = $list.parent();
                             }
                         }
 
                         $thisField.remove();
                         if ($('#hf-editor-fields li').length === 0) {
-                            editorWrap().classList.remove('hf-editor-has-fields');
+                            setHasFields(false);
                         } else if ($section.length) {
                             hashFormBuilder.toggleOneSectionHolder($section);
                         }
                         if ($adjacentFields.length) {
                             hashFormBuilder.syncLayoutClasses($adjacentFields.first());
-                        } else {
+                        } else if ($liWrapper) {
                             $liWrapper.remove();
                         }
 

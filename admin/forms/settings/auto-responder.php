@@ -8,10 +8,17 @@ defined('ABSPATH') || die();
             <label><?php esc_html_e('Enable Auto Responder', 'hash-form'); ?></label>
             <div class="hf-setting-fields hf-toggle-input-field">
                 <input type="hidden" name="enable_ar" value="off">
-                <input type="checkbox" name="enable_ar" value="on" <?php checked($settings['enable_ar'], 'on', true); ?>>
+                <input type="checkbox" name="enable_ar" value="on" data-condition="toggle" id="hf-enable-ar" <?php checked($settings['enable_ar'], 'on', true); ?>>
             </div>
         </div>
     </div>
+
+    <?php
+    // Everything below only applies once the responder is on, so it is
+    // grouped and hung off the switch rather than sitting there looking
+    // active while nothing sends. One group, not one rule per row.
+    ?>
+    <div data-condition-toggle="hf-enable-ar">
 
     <div class="hf-form-row hf-grid-container">
         <div class="hf-grid-3">
@@ -53,5 +60,6 @@ defined('ABSPATH') || die();
     <div class="hf-form-row">
         <label><?php esc_html_e('Message', 'hash-form'); ?></label>
         <textarea name="email_message_ar" cols="50" rows="5"><?php echo ($settings['email_message_ar'] ? esc_textarea($settings['email_message_ar']) : ''); ?></textarea>
+    </div>
     </div>
 </div>

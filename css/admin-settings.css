@@ -411,42 +411,64 @@
     margin-bottom: 6px;
 }
 
-/*Toggle Button*/
+/* Toggle Button
+ *
+ * Red for off and green for on read as an error state rather than a setting:
+ * a switch someone had never touched looked like something was wrong. Grey
+ * for off, accent for on — the same switch as the Pro Modules screen, which
+ * had already been corrected in isolation while every screen sharing this
+ * rule kept the old colours. */
 .hf-toggle-input-field input[type=checkbox] {
-    width: 40px;
-    height: 20px;
-    border-radius: 20px;
-    background: rgb(255, 42, 43);
-    position: relative;
+    background: #d5d9df;
     border: 0;
+    border-radius: var(--hf-radius-pill, 999px);
+    box-shadow: none;
+    cursor: pointer;
+    height: 24px;
     margin: 0;
     min-width: 0;
-    box-shadow: none;
+    position: relative;
+    transition: background-color var(--hf-transition-slow, .25s ease);
+    width: 42px;
+}
+
+.hf-toggle-input-field input[type=checkbox]:hover {
+    background: #c7ccd4;
 }
 
 .hf-toggle-input-field input[type=checkbox]:before {
+    background: #fff;
+    border: 0;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, .3);
+    box-sizing: border-box;
     content: "";
     display: block;
-    position: absolute;
+    height: 20px;
     left: 2px;
-    top: 2px;
-    transition: all 0.2s ease;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 4px solid #FFF;
-    background-color: rgb(255, 42, 43);
-    box-sizing: border-box;
     margin: 0;
+    position: absolute;
+    top: 2px;
+    transition: transform .2s cubic-bezier(.34, 1.4, .64, 1);
+    width: 20px;
 }
 
 .hf-toggle-input-field input[type=checkbox]:checked {
-    background-color: rgb(15, 202, 128);
+    background: var(--hf-accent, #2271b1);
+}
+
+.hf-toggle-input-field input[type=checkbox]:checked:hover {
+    background: var(--hf-accent-hover, #135e96);
 }
 
 .hf-toggle-input-field input[type=checkbox]:checked:before {
-    background-color: rgb(15, 202, 128);
-    transform: translateX(20px);
+    background: #fff;
+    transform: translateX(18px);
+}
+
+.hf-toggle-input-field input[type=checkbox]:focus-visible {
+    outline: 2px solid var(--hf-accent, #2271b1);
+    outline-offset: 2px;
 }
 
 /*Choosen Select*/

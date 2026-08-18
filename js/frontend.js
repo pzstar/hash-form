@@ -63,10 +63,34 @@ jQuery(function ($) {
         return $('#hf-field-container-' + firstError.replace('field', ''));
     }
 
-    function resetRecaptcha() {
-        if (typeof grecaptcha !== 'undefined') {
-            grecaptcha?.reset();
+    /**
+     * Put a captcha back to its unanswered state.
+     *
+     * Each service's script is loaded whenever a field of its kind is on the
+     * form, whether or not a site key was set, so the script can be present
+     * with nothing rendered — grecaptcha.reset() throws "No reCAPTCHA clients
+     * exist" in that case. That used to abandon the rest of the failure
+     * handler, which is why an hCaptcha widget kept its spent token and the
+     * visitor's second attempt failed on a token already used up.
+     */
+    function resetCaptcha(name) {
+        const api = window[name];
+
+        if (!api || typeof api.reset !== 'function') {
+            return;
         }
+
+        try {
+            api.reset();
+        } catch (e) {
+            // Nothing rendered to reset.
+        }
+    }
+
+    function resetRecaptcha() {
+        resetCaptcha('grecaptcha');
+        resetCaptcha('hcaptcha');
+        resetCaptcha('turnstile');
     }
 
     /**
@@ -102,6 +126,36 @@ jQuery(function ($) {
         $('body').find('.hf-preview-remove').trigger('click');
     }
 
+    /**
+     * A reCAPTCHA v3 token for this form, or '' when there is nothing to fetch.
+     *
+     * Scoped to the form being submitted. The widget used to be looked up as
+     * $('.g-recaptcha') — the first one in the document — so with two forms on
+     * a page one of them read the other's settings and took a path meant for a
+     * captcha it did not have.
+     */
+    function captchaToken(form) {
+        const captcha = form.find('.g-recaptcha');
+        const siteKey = captcha.attr('data-sitekey');
+        const isV3 = captcha.attr('data-size') === 'invisible';
+
+        if (!isV3 || !siteKey || typeof grecaptcha === 'undefined') {
+            return $.Deferred().resolve('').promise();
+        }
+
+        const pending = $.Deferred();
+
+        grecaptcha.ready(function () {
+            grecaptcha.execute(siteKey, { action: 'hashform' }).then(
+                (token) => pending.resolve(token),
+                // Let the server say what went wrong rather than stalling here.
+                () => pending.resolve('')
+            );
+        });
+
+        return pending.promise();
+    }
+
     $(document).on('submit.hashform-form', '.hashform-form', function (e) {
         e.preventDefault();
 
@@ -114,33 +168,29 @@ jQuery(function ($) {
         }
         submitButton.addClass('hf-button-loading');
 
-        // reCAPTCHA v3 renders as an invisible widget and needs a token fetched
-        // on submit; v2 puts its response into the form itself.
-        const isV3 = $('.g-recaptcha').attr('data-size') == 'invisible';
-        if (isV3) {
-            const siteKey = $('.g-recaptcha').attr('data-sitekey');
-            grecaptcha.ready(function () {
-                grecaptcha.execute(siteKey, { action: 'hashform' }).then(function (token) {
-                    form.append('<input type="hidden" id="recaptcha_token" value="' + token + '">');
-                });
-            });
-        }
-
         $('.hf-error-msg, .hf-success-msg, .hf-failed-msg').remove();
         $(document).find('.hashform-error-container').removeClass('hashform-error-container');
 
-        // Give grecaptcha.execute() time to resolve before reading the token.
-        setTimeout(() => {
+        /*
+         * Wait for the token itself rather than for a second on the clock.
+         *
+         * A fixed one-second setTimeout used to wrap this whole block, so
+         * every submission of every form waited a second whether a captcha was
+         * on the page or not, and a token that took longer than that was
+         * dropped: the form posted an empty response and the visitor was told
+         * the reCAPTCHA was not entered correctly, with no way to get past it.
+         */
+        captchaToken(form).then((token) => {
             const data = form.serializeArray();
 
-            if (isV3) {
-                const token = $(document).find('#recaptcha_token').val();
-                $(document).find('#recaptcha_token').remove();
-                data.forEach(function (item) {
-                    if (item.name === 'g-recaptcha-response') {
-                        item.value = item.value ? item.value : token;
-                    }
-                });
+            if (token) {
+                const existing = data.find((item) => item.name === 'g-recaptcha-response');
+
+                if (existing) {
+                    existing.value = existing.value || token;
+                } else {
+                    data.push({ name: 'g-recaptcha-response', value: token });
+                }
             }
 
             $.ajax({
@@ -164,6 +214,14 @@ jQuery(function ($) {
                         resetRecaptcha();
                         form.append('<span class="hf-failed-msg">' + failureText(response.message) + '</span>');
                     } else if (response.message && typeof response.message === 'object') {
+                        /*
+                         * A captcha that was not passed comes back as a field
+                         * error like any other, and this branch never reset the
+                         * widget — so the token stayed in the form, already
+                         * spent, and the visitor's next attempt failed on the
+                         * same token however carefully they answered it.
+                         */
+                        resetRecaptcha();
                         showValidationErrors(response.message);
                     } else {
                         // status:'error' normally carries an object of per-field
@@ -176,7 +234,7 @@ jQuery(function ($) {
                     }
                 }
             });
-        }, 1000);
+        });
     });
 
     /* -----------------------------------------------------------------------
@@ -485,11 +543,23 @@ jQuery(function ($) {
     $('.hf-file-uploader').each(function () {
         const element = $(this);
         const elementId = element.attr('id');
+
+        /*
+         * The builder canvas and the style preview draw a static copy of the
+         * uploader to show what it looks like, without an id or any of the
+         * settings. There is nothing to start up on one of those — and reading
+         * its extensions threw, which stopped every uploader after it on the
+         * page from being set up at all.
+         */
+        if (!elementId) {
+            return;
+        }
+
         const sizeLimit = element.attr('data-max-upload-size');
         const minSizeLimit = Number(element.attr('data-min-upload-size')) || 0;
         const uploaderLabel = element.attr('data-upload-label');
         const multipleUpload = element.attr('data-multiple-uploads') === 'true';
-        const extensions = element.attr('data-extensions').split(',');
+        const extensions = (element.attr('data-extensions') || '').split(',').filter(Boolean);
         const extensionErrorMessage = element.attr('data-extensions-error-message');
 
         let uploadLimit = element.attr('data-multiple-uploads-limit');

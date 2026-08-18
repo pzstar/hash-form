@@ -852,6 +852,31 @@ class HashFormHelper {
         return $new_args;
     }
 
+    /**
+     * A field description, sanitized for the kind of field it belongs to.
+     *
+     * The HTML field keeps its markup in this column, so the plain-text
+     * sanitizer every new row used to get emptied every tag out of it.
+     */
+    public static function sanitize_field_description($description, $type) {
+        return 'html' === $type ? self::sanitize_html_field_content($description) : sanitize_text_field($description);
+    }
+
+    /**
+     * Markup for the HTML field.
+     *
+     * wp_kses_post() takes the tags off a script but keeps what was between
+     * them, so a pasted tracking snippet ended up printed on the page as text.
+     * The whole element goes first, then everything else goes through kses.
+     */
+    public static function sanitize_html_field_content($html) {
+        $html = (string) $html;
+        $html = preg_replace('#<(script|style)\b[^>]*>.*?</\1\s*>#is', '', $html);
+        $html = preg_replace('#</?(script|style)\b[^>]*>#i', '', $html);
+
+        return wp_kses_post($html);
+    }
+
     public static function get_field_options_sanitize_rules() {
         return array(
             'grid_id' => 'sanitize_text_field',
@@ -862,11 +887,19 @@ class HashFormHelper {
             'label_position' => 'sanitize_text_field',
             'label_alignment' => 'sanitize_text_field',
             'hide_label' => 'hashform_sanitize_checkbox_boolean',
-            'heading_type' => 'sanitize_text_field',
+            'heading_type' => 'hashform_sanitize_heading_type',
             'text_alignment' => 'sanitize_text_field',
-            'content' => 'sanitize_text_field',
+            'content' => 'wp_kses_post',
             'select_option_type' => 'sanitize_text_field',
             'image_size' => 'sanitize_text_field',
+            'image_alt' => 'sanitize_text_field',
+            'captcha_size' => 'sanitize_key',
+            'captcha_theme' => 'sanitize_key',
+            'payment_gateways' => 'sanitize_key',
+            'step_description' => 'sanitize_text_field',
+            'next_text' => 'sanitize_text_field',
+            'progress_style' => 'sanitize_key',
+            'step_scroll' => 'hashform_sanitize_checkbox',
             'image_id' => 'hashform_sanitize_number',
             'spacer_height' => 'hashform_sanitize_number',
             'step' => 'hashform_sanitize_float',
@@ -897,6 +930,7 @@ class HashFormHelper {
             'date_format' => 'sanitize_text_field',
             'border_style' => 'sanitize_text_field',
             'border_width' => 'hashform_sanitize_number',
+            'separator_spacing' => 'hashform_sanitize_number',
             'minnum' => 'hashform_sanitize_float',
             'maxnum' => 'hashform_sanitize_float',
             'classes' => 'sanitize_text_field',
@@ -1008,7 +1042,7 @@ class HashFormHelper {
             return esc_html(is_scalar($content) ? $content : '');
         };
 
-        $html = '<table><thead><tr>';
+        $html = '<table class="hf-entry-repeater"><thead><tr>';
 
         foreach ($columns as $column) {
             $html .= '<th>' . $cell($column) . '</th>';

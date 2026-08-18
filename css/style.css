@@ -725,8 +725,15 @@
 }
 
 /* paragraph */
+
+/* One field can hold several paragraphs now, so they need space between them
+   without adding space above the first or below the last. */
 .hf-form-field.hashform-field-type-paragraph p {
-    margin: 0;
+    margin: 0 0 1em;
+}
+
+.hf-form-field.hashform-field-type-paragraph p:last-child {
+    margin-bottom: 0;
 }
 
 .hf-form-custom-style .hf-form-field.hashform-field-type-paragraph p {
@@ -1112,12 +1119,21 @@
     max-width: var(--hf-width);
 }
 
+/* An <hr>, so the break is announced rather than only drawn. Its own borders
+   and margins are cleared, since the field writes the ones it wants inline. */
 .hf-form-field.hashform-field-type-separator .hf-separator-border {
     border-color: #333;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
 }
 
 .hf-form-custom-style .hf-form-field.hashform-field-type-separator .hf-separator-border {
-    border-color: var(--hf-divider-color, #000);
+    border-color: var(--hf-divider-color, #333);
 }
 
 /* HTML */

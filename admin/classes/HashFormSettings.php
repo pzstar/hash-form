@@ -294,6 +294,13 @@ class HashFormSettings {
             'privkey_v3' => '',
             're_lang' => 'en',
             're_threshold' => '0.5',
+            /*
+             * Read by every captcha field as the message shown when a
+             * challenge is not passed, and defined nowhere until now: each of
+             * them looked up an array key that did not exist, so a field
+             * carrying no message of its own told the visitor "null".
+             */
+            're_msg' => 'The captcha was not completed correctly. Please try again.',
             'header_image' => '',
             'email_template' => 'template1',
             // Left on so an existing site's typography does not change under
@@ -312,6 +319,7 @@ class HashFormSettings {
             'privkey_v3' => 'sanitize_text_field',
             're_lang' => 'sanitize_text_field',
             're_threshold' => 'sanitize_text_field',
+            're_msg' => 'sanitize_text_field',
             'header_image' => 'sanitize_text_field',
             'email_template' => 'sanitize_text_field',
             'load_google_fonts' => 'hashform_sanitize_checkbox',

@@ -98,7 +98,10 @@ abstract class HashFormFieldType {
         $container_class[] = ($field['type'] == 'captcha' && $global_settings['re_type'] == 'v3' && !is_admin()) ? 'hf-recaptcha-v3 hf-hidden' : '';
 
         if (in_array($field['type'], array('heading', 'paragraph'))) {
-            $text_alignment = isset($field['text_alignment']) && $field['text_alignment'] ? $field['text_alignment'] : 'inline';
+            // 'inline' was the fallback, and no stylesheet has ever defined
+            // hf-text-alignment-inline. Left is what the field itself defaults
+            // to, so a field saved before the option existed reads the same.
+            $text_alignment = isset($field['text_alignment']) && $field['text_alignment'] ? $field['text_alignment'] : 'left';
             $container_class[] = 'hf-text-alignment-' . trim($text_alignment);
         }
 

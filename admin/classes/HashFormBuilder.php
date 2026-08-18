@@ -267,7 +267,15 @@ class HashFormBuilder {
         $message = '<span class="mdi mdi-check-circle"></span>' . esc_html__('Form was successfully updated.', 'hash-form');
 
         if (defined('DOING_AJAX')) {
-            wp_die(wp_kses($message, array('a' => array(), 'span' => array())));
+            /*
+             * The span is allowed a class: without one, kses stripped it and
+             * the tick that goes with the message never reached the page —
+             * only the empty element it should have been drawn in.
+             */
+            wp_die(wp_kses($message, array(
+                'a' => array('href' => array(), 'target' => array()),
+                'span' => array('class' => array()),
+            )));
         }
     }
 
@@ -579,6 +587,7 @@ class HashFormBuilder {
         }
 
         $vars['email_to'] = implode(',', $email_to_array);
+        $vars = self::drop_incomplete_conditions($vars);
         $id = isset($vars['id']) ? absint($vars['id']) : HashFormHelper::get_var('id', 'absint');
         unset($vars['id'], $vars['hashform_process_form_nonce'], $vars['_wp_http_referer']);
 
@@ -649,6 +658,139 @@ class HashFormBuilder {
         return $query_results;
     }
 
+    /**
+     * What a rule does when it matches.
+     */
+    public static function condition_actions() {
+        return array(
+            'show' => esc_html__('Show', 'hash-form'),
+            'hide' => esc_html__('Hide', 'hash-form'),
+        );
+    }
+
+    /**
+     * How a rule compares the answer it watches.
+     */
+    public static function condition_operators() {
+        return array(
+            'equal' => esc_html__('Equals to', 'hash-form'),
+            'not_equal' => esc_html__('Not Equals to', 'hash-form'),
+            'greater_than' => esc_html__('Greater Than', 'hash-form'),
+            'greater_than_or_equal' => esc_html__('Greater Than Or Equals to', 'hash-form'),
+            'less_than' => esc_html__('Less Than', 'hash-form'),
+            'less_than_or_equal' => esc_html__('Less Than Or Equals to', 'hash-form'),
+            'is_like' => esc_html__('Is Like', 'hash-form'),
+            'is_not_like' => esc_html__('Is Not Like', 'hash-form'),
+        );
+    }
+
+    /**
+     * Fields a rule can point at.
+     *
+     * Layout fields hold no answer, so they can neither be watched nor be
+     * usefully shown and hidden. The trigger side excludes a little more:
+     * name and address post several values under one id, which the comparison
+     * has no way to pick between.
+     *
+     * This list used to be written out four times — twice in the panel and
+     * twice in the AJAX handler that appends a row — and the copies had
+     * already drifted.
+     *
+     * @param object[] $fields Form fields.
+     * @param bool     $trigger Whether this is the watched side of a rule.
+     * @return object[]
+     */
+    public static function condition_fields($fields, $trigger = false) {
+        $skip = array('heading', 'paragraph', 'separator', 'spacer', 'image', 'captcha');
+
+        if ($trigger) {
+            // html and multi_step post nothing, so a rule watching one could
+            // never match. They stay available on the other side, where a
+            // rule can still show and hide them.
+            $skip = array_merge($skip, array('name', 'address', 'html', 'multi_step'));
+        }
+
+        $usable = array();
+
+        foreach ($fields as $field) {
+            if (!in_array($field->type, $skip, true)) {
+                $usable[] = $field;
+            }
+        }
+
+        return $usable;
+    }
+
+    /**
+     * One rule, as shown in the Conditional Logic panel.
+     *
+     * The panel and the AJAX handler that appends a row both render through
+     * here, so a newly added rule cannot look different from a saved one —
+     * which it did: the saved rows carried untranslated English labels.
+     *
+     * @param object[] $fields Form fields.
+     * @param array    $row    Saved rule, or empty for a new one.
+     */
+    public static function condition_row_html($fields, $row = array()) {
+        $value = isset($row['compare_value']) ? $row['compare_value'] : '';
+        ?>
+        <div class="hf-condition-row">
+            <div class="hf-condition-head">
+                <span class="hf-condition-index" aria-hidden="true"></span>
+                <button type="button" class="hf-condition-remove" title="<?php esc_attr_e('Delete this rule', 'hash-form'); ?>">
+                    <span class="mdi mdi-trash-can-outline" aria-hidden="true"></span>
+                    <span class="screen-reader-text"><?php esc_html_e('Delete this rule', 'hash-form'); ?></span>
+                </button>
+            </div>
+
+            <div class="hf-condition-grid">
+                <label class="hf-condition-cell hf-condition-cell-action">
+                    <span><?php esc_html_e('Action', 'hash-form'); ?></span>
+                    <select name="condition_action[]">
+                        <?php foreach (self::condition_actions() as $key => $label) { ?>
+                            <option value="<?php echo esc_attr($key); ?>" <?php selected(isset($row['condition_action']) ? $row['condition_action'] : '', $key); ?>><?php echo esc_html($label); ?></option>
+                        <?php } ?>
+                    </select>
+                </label>
+
+                <label class="hf-condition-cell hf-condition-cell-target">
+                    <span><?php esc_html_e('This field', 'hash-form'); ?></span>
+                    <select name="compare_from[]">
+                        <option value=""><?php esc_html_e('Select a field', 'hash-form'); ?></option>
+                        <?php foreach (self::condition_fields($fields) as $field) { ?>
+                            <option value="<?php echo esc_attr($field->id); ?>" <?php selected(isset($row['compare_from']) ? $row['compare_from'] : '', $field->id); ?>><?php echo esc_html($field->name . ' (ID: ' . $field->id . ')'); ?></option>
+                        <?php } ?>
+                    </select>
+                </label>
+
+                <label class="hf-condition-cell hf-condition-cell-trigger">
+                    <span><?php esc_html_e('When', 'hash-form'); ?></span>
+                    <select name="compare_to[]">
+                        <option value=""><?php esc_html_e('Select a field', 'hash-form'); ?></option>
+                        <?php foreach (self::condition_fields($fields, true) as $field) { ?>
+                            <option value="<?php echo esc_attr($field->id); ?>" <?php selected(isset($row['compare_to']) ? $row['compare_to'] : '', $field->id); ?>><?php echo esc_html($field->name . ' (ID: ' . $field->id . ')'); ?></option>
+                        <?php } ?>
+                    </select>
+                </label>
+
+                <label class="hf-condition-cell hf-condition-cell-operator">
+                    <span><?php esc_html_e('Is', 'hash-form'); ?></span>
+                    <select name="compare_condition[]">
+                        <?php foreach (self::condition_operators() as $key => $label) { ?>
+                            <option value="<?php echo esc_attr($key); ?>" <?php selected(isset($row['compare_condition']) ? $row['compare_condition'] : '', $key); ?>><?php echo esc_html($label); ?></option>
+                        <?php } ?>
+                    </select>
+                </label>
+
+                <label class="hf-condition-cell hf-condition-cell-value">
+                    <span><?php esc_html_e('Value', 'hash-form'); ?></span>
+                    <input type="text" name="compare_value[]" value="<?php echo esc_attr($value); ?>" placeholder="<?php esc_attr_e('Answer to compare against', 'hash-form'); ?>" />
+                </label>
+            </div>
+        </div>
+        <?php
+    }
+
     public function add_more_condition_block() {
         if (!current_user_can('manage_options')) {
             return;
@@ -657,57 +799,44 @@ class HashFormBuilder {
         check_ajax_referer('hashform_backend_ajax', 'backend_nonce');
 
         $form_id = HashFormHelper::get_post('form_id', 'absint', 0);
-        $fields = HashFormFields::get_form_fields($form_id);
-        ?>
-        <div class="hf-condition-repeater-block">
-            <select name="condition_action[]" required>
-                <option value="show"><?php esc_html_e('Show', 'hash-form'); ?></option>
-                <option value="hide"><?php esc_html_e('Hide', 'hash-form'); ?></option>
-            </select>
-
-            <select name="compare_from[]" required>
-                <option value=""><?php esc_html_e('Select Field', 'hash-form'); ?></option>
-                <?php
-                foreach ($fields as $field) {
-                    if (!($field->type == 'heading' || $field->type == 'paragraph' || $field->type == 'separator' || $field->type == 'spacer' || $field->type == 'image' || $field->type == 'captcha')) {
-                        ?>
-                        <option value="<?php echo esc_attr($field->id); ?>"><?php echo esc_html($field->name) . ' (ID: ' . esc_attr($field->id) . ')'; ?></option>
-                        <?php
-                    }
-                }
-                ?>
-            </select>
-
-            <span class="hf-condition-seperator"><?php esc_html_e('if', 'hash-form'); ?></span>
-            <select name="compare_to[]" required>
-                <option value=""><?php esc_html_e('Select Field', 'hash-form'); ?></option>
-                <?php
-                foreach ($fields as $field) {
-                    if (!($field->type == 'heading' || $field->type == 'paragraph' || $field->type == 'separator' || $field->type == 'spacer' || $field->type == 'image' || $field->type == 'captcha' || $field->type == 'name' || $field->type == 'address')) {
-                        ?>
-                        <option value="<?php echo esc_attr($field->id); ?>"><?php echo esc_html($field->name) . ' (ID: ' . esc_html($field->id) . ')'; ?></option>
-                        <?php
-                    }
-                }
-                ?>
-            </select>
-
-            <select name="compare_condition[]" required>
-                <option value="equal"><?php esc_html_e('Equals to', 'hash-form'); ?></option>
-                <option value="not_equal"><?php esc_html_e('Not Equals to', 'hash-form'); ?></option>
-                <option value="greater_than"><?php esc_html_e('Greater Than', 'hash-form'); ?></option>
-                <option value="greater_than_or_equal"><?php esc_html_e('Greater Than Or Equals to', 'hash-form'); ?></option>
-                <option value="less_than"><?php esc_html_e('Less Than', 'hash-form'); ?></option>
-                <option value="less_than_or_equal"><?php esc_html_e('Less Than Or Equals to', 'hash-form'); ?></option>
-                <option value="is_like"><?php esc_html_e('Is Like', 'hash-form'); ?></option>
-                <option value="is_not_like"><?php esc_html_e('Is Not Like', 'hash-form'); ?></option>
-            </select>
-
-            <input type="text" name="compare_value[]" required />
-            <span class="hf-condition-remove mdi mdi-close"></span>
-        </div>
-        <?php
+        self::condition_row_html(HashFormFields::get_form_fields($form_id));
         die();
+    }
+
+    /**
+     * Discards conditional logic rules that name no fields.
+     *
+     * The panel is saved over AJAX from serializeArray(), so the browser's
+     * own required checks never run — a rule left half-filled used to be
+     * stored, then read back on every page load as a rule that can never
+     * match. The five columns are parallel arrays, so they are rebuilt
+     * together or they fall out of step.
+     *
+     * @param array $vars Posted settings.
+     * @return array
+     */
+    private static function drop_incomplete_conditions($vars) {
+        if (!isset($vars['condition_action']) || !is_array($vars['condition_action'])) {
+            return $vars;
+        }
+
+        $columns = array('condition_action', 'compare_from', 'compare_to', 'compare_condition', 'compare_value');
+        $kept = array_fill_keys($columns, array());
+
+        foreach (array_keys($vars['condition_action']) as $key) {
+            $from = isset($vars['compare_from'][$key]) ? trim($vars['compare_from'][$key]) : '';
+            $to = isset($vars['compare_to'][$key]) ? trim($vars['compare_to'][$key]) : '';
+
+            if ('' === $from || '' === $to) {
+                continue;
+            }
+
+            foreach ($columns as $column) {
+                $kept[$column][] = isset($vars[$column][$key]) ? $vars[$column][$key] : '';
+            }
+        }
+
+        return array_merge($vars, $kept);
     }
 
     public static function get_show_hide_conditions($id) {

@@ -97,6 +97,7 @@ var hashFormAdmin = hashFormAdmin || {};
             // addImage's "hide the chooser" step does not hide it as well.
             $(document).on('click', '.hf-image-preview .hf-choose-image, .hf-image-preview .hf-replace-image', hashFormAdmin.addImage);
             $(document).on('click', '.hf-image-preview .hf-remove-image', hashFormAdmin.removeImage);
+            $(document).on('change', 'select[name^="field_options[image_size"]', hashFormAdmin.liveChangeImageSize);
 
             /* Add field attr to form in Settings page */
             $(document).on('click', '.hf-add-field-attr-to-form li', hashFormAdmin.addFieldAttrToForm);
@@ -110,6 +111,9 @@ var hashFormAdmin = hashFormAdmin || {};
 
             $('.hf-add-more-condition').on('click', hashFormAdmin.addConditionRepeaterBlock);
             $(document).on('click', '.hf-condition-remove', hashFormAdmin.removeConditionRepeaterBlock);
+            $('.hf-condition-list').each(function () {
+                hashFormAdmin.refreshConditionList($(this));
+            });
 
             $(document).on('change', '.hf-fields-type-time .default-value-field', hashFormAdmin.addTimeDefaultValue);
             $(document).on('change', '.hf-fields-type-time .min-value-field, .hf-fields-type-time .max-value-field, .hf-fields-type-time .hf-default-value-field', hashFormAdmin.validateTimeValue);
@@ -288,6 +292,47 @@ var hashFormAdmin = hashFormAdmin || {};
          * Image pickers
          * ---------------------------------------------------------------- */
 
+        // The canvas preview for an image field, found by the class it shares
+        // with the hidden input's id.
+        canvasImagePreview: function (imagePreview) {
+            return $('.' + imagePreview.find('input.hf-image-id').attr('id'));
+        },
+
+        // Where each size of a chosen attachment lives, as the media library
+        // reports it. Sizes it has no copy of fall back to the original.
+        attachmentSizeUrls: function (attachment) {
+            const urls = {};
+
+            ['thumbnail', 'medium', 'large'].forEach(function (size) {
+                const known = attachment.sizes && attachment.sizes[size];
+                urls[size] = known
+                    ? { url: known.url, width: known.width, height: known.height }
+                    : { url: attachment.url, width: attachment.width, height: attachment.height };
+            });
+
+            urls.full = { url: attachment.url, width: attachment.width, height: attachment.height };
+
+            return urls;
+        },
+
+        // Point a canvas image at one size of itself. srcset wins over src, so
+        // it has to go, and the dimensions travel with the file.
+        showImageSize: function (image, size) {
+            if (!image.length || !size || !size.url) {
+                return;
+            }
+
+            image.removeAttr('srcset').removeAttr('sizes').attr('src', size.url);
+
+            if (size.width) {
+                image.attr('width', size.width);
+            }
+
+            if (size.height) {
+                image.attr('height', size.height);
+            }
+        },
+
         addImage: function (e) {
             e.preventDefault();
             const imagePreview = $(this).closest('.hf-image-preview');
@@ -298,10 +343,40 @@ var hashFormAdmin = hashFormAdmin || {};
                 imagePreview.find('.hf-image-preview-wrap').removeClass('hf-hidden');
                 imagePreview.find('.hf-choose-image').addClass('hf-hidden');
 
-                const frontImagePreview = $('.' + imagePreview.find('input.hf-image-id').attr('id'));
-                frontImagePreview.append('<img src="' + attachment.url + '"/>');
+                const settings = imagePreview.closest('.hf-fields-settings');
+                const size = settings.find('select[name^="field_options[image_size"]').val() || 'full';
+                const urls = hashFormAdmin.attachmentSizeUrls(attachment);
+
+                const frontImagePreview = hashFormAdmin.canvasImagePreview(imagePreview);
+                frontImagePreview.attr('data-sizes', JSON.stringify(urls));
+
+                /*
+                 * The canvas image is replaced, not appended to: choosing a
+                 * second image left the first one sitting above it. It is also
+                 * shown at the size the field is set to rather than always at
+                 * full size, which is what the page will do.
+                 */
+                let canvasImage = frontImagePreview.find('img');
+
+                if (!canvasImage.length) {
+                    canvasImage = $('<img class="hf-image-field" alt="" />').appendTo(frontImagePreview);
+                }
+
+                hashFormAdmin.showImageSize(canvasImage, urls[size] || urls.full);
                 frontImagePreview.find('.hf-no-image-field').addClass('hf-hidden');
             });
+        },
+
+        liveChangeImageSize: function () {
+            const settings = $(this).closest('.hf-fields-settings');
+            const frontImagePreview = $('#hf-editor-field-container-' + settings.data('fid')).find('.hf-image-preview-front');
+            const urls = frontImagePreview.attr('data-sizes');
+
+            if (!urls) {
+                return;
+            }
+
+            hashFormAdmin.showImageSize(frontImagePreview.find('img'), JSON.parse(urls)[this.value]);
         },
 
         removeImage: function (e) {
@@ -584,7 +659,11 @@ var hashFormAdmin = hashFormAdmin || {};
             $('#hf-meta-panel').on('input', '[data-changeme]', hashFormAdmin.liveChangesInput);
             $('#hf-meta-panel').on('change', 'select[name="submit_btn_alignment"]', hashFormAdmin.liveChangeButtonPosition);
 
-            $buildForm.on('input, change', '[data-changeme]', hashFormAdmin.liveChangesInput);
+            // 'input change', not 'input, change': jQuery splits event names on
+            // whitespace, so the comma made this listen for an event called
+            // "input," that nothing ever fires. Typing changed nothing on the
+            // canvas until the control lost focus.
+            $buildForm.on('input change', '[data-changeme]', hashFormAdmin.liveChangesInput);
 
             $buildForm.on('click', 'input.hf-form-field-required', hashFormAdmin.markRequired);
 
@@ -613,6 +692,7 @@ var hashFormAdmin = hashFormAdmin || {};
 
             $buildForm.on('change', '[data-changebordertype]', hashFormAdmin.liveChangeBorderType);
             $buildForm.on('input', '[data-changeborderwidth]', hashFormAdmin.liveChangeBorderWidth);
+            $buildForm.on('input', '[data-changeseparatorspacing]', hashFormAdmin.liveChangeSeparatorSpacing);
 
             $buildForm.on('input', 'input[name^="field_options[field_max_width"]', hashFormAdmin.liveChangeFieldMaxWidth);
             $buildForm.on('change', 'select[name^="field_options[field_max_width_unit"]', hashFormAdmin.liveChangeFieldMaxWidth);
@@ -668,7 +748,12 @@ var hashFormAdmin = hashFormAdmin || {};
                     changes.innerHTML = '<input type="text" value="" disabled />';
                 }
             } else {
-                changes.innerHTML = newValue;
+                // A paragraph field is rendered with wpautop, so the canvas
+                // has to break the text up the same way or the preview shows
+                // one run of words where the page will show paragraphs.
+                changes.innerHTML = changes.classList.contains('hf-paragraph-field')
+                    ? hashFormAdmin.autoParagraphs(newValue)
+                    : newValue;
 
                 if ('TEXTAREA' === changes.nodeName && changes.classList.contains('wp-editor-area')) {
                     $(changes).trigger('change');
@@ -678,6 +763,22 @@ var hashFormAdmin = hashFormAdmin || {};
                     changes.nextElementSibling.querySelector('.hf-editor-submit-button').textContent = newValue;
                 }
             }
+        },
+
+        // The essentials of wpautop: a blank line starts a paragraph, a single
+        // newline is a break. Kept to that, because this only has to agree with
+        // what PHP will render, not reimplement it.
+        autoParagraphs: function (text) {
+            return String(text)
+                .replace(/\r\n?/g, '\n')
+                .split(/\n{2,}/)
+                .filter(function (block) {
+                    return block.trim() !== '';
+                })
+                .map(function (block) {
+                    return '<p>' + block.trim().replace(/\n/g, '<br />') + '</p>';
+                })
+                .join('');
         },
 
         applyChangedAtt: function (changes, att, newValue, source) {
@@ -759,10 +860,25 @@ var hashFormAdmin = hashFormAdmin || {};
 
         liveChangeHeadingType: function (e) {
             const tag = e.target.value;
-            const id = 'hf-field-' + fieldIdOf(this);
-            $('#' + id).replaceWith(function () {
-                return '<' + tag + ' id="' + id + '">' + $(this).html() + '</' + tag + '>';
+            const current = document.getElementById('hf-field-' + fieldIdOf(this));
+
+            if (!current || !/^h[1-6]$/.test(tag)) {
+                return;
+            }
+
+            /*
+             * Carry the attributes over. This used to write a bare
+             * <tag id="...">, so changing the level dropped the field's own
+             * class and every rule hanging off it until the page was reloaded.
+             */
+            const replacement = document.createElement(tag);
+
+            Array.prototype.forEach.call(current.attributes, function (attr) {
+                replacement.setAttribute(attr.name, attr.value);
             });
+
+            replacement.innerHTML = current.innerHTML;
+            current.replaceWith(replacement);
         },
 
         liveChangeSelectImageType: function () {
@@ -779,8 +895,20 @@ var hashFormAdmin = hashFormAdmin || {};
 
         liveChangeHeight: function () {
             const changes = document.getElementById(this.getAttribute('data-changeheight'));
-            if (changes !== null) {
-                $(changes).css('height', this.value);
+
+            if (changes === null) {
+                return;
+            }
+
+            // Empty falls back to 50px, the way the field renders it. This
+            // cleared the height instead, so the canvas showed nothing while
+            // the page would show a 50px gap.
+            const height = this.value === '' || isNaN(parseInt(this.value, 10)) ? 50 : Math.max(0, parseInt(this.value, 10));
+
+            $(changes).css('height', height + 'px');
+
+            if (changes.hasAttribute('data-label') && hashform_backend_js.spacer_label) {
+                changes.setAttribute('data-label', hashform_backend_js.spacer_label.replace('%d', height));
             }
         },
 
@@ -811,7 +939,19 @@ var hashFormAdmin = hashFormAdmin || {};
         },
 
         liveChangeBorderWidth: function () {
-            $('#' + this.getAttribute('data-changeborderwidth')).css('border-bottom-width', this.value + 'px');
+            // Empty falls back to 2px, the way the field renders it. This wrote
+            // 'px' on its own, which the browser drops, so the canvas kept
+            // showing the previous width while the page would show 2.
+            const width = this.value === '' || isNaN(parseInt(this.value, 10)) ? 2 : parseInt(this.value, 10);
+            $('#' + this.getAttribute('data-changeborderwidth')).css('border-bottom-width', width + 'px');
+        },
+
+        liveChangeSeparatorSpacing: function () {
+            const spacing = this.value === '' || isNaN(parseInt(this.value, 10)) ? '' : parseInt(this.value, 10) + 'px';
+            $('#' + this.getAttribute('data-changeseparatorspacing')).css({
+                'margin-top': spacing,
+                'margin-bottom': spacing
+            });
         },
 
         // Mirror a `<name>` / `<name>_unit` settings pair onto a CSS custom
@@ -1104,7 +1244,16 @@ var hashFormAdmin = hashFormAdmin || {};
         },
 
         getFieldOptions: function (fieldId) {
-            const listItems = document.getElementById('hf-field-options-' + fieldId).querySelectorAll('.hashform_single_option'),
+            const list = document.getElementById('hf-field-options-' + fieldId);
+
+            // Not every field keeps its options here: a repeater's columns
+            // live in hf-field-options-repeater-<id>. Asking for a list that
+            // is not there used to throw.
+            if (!list) {
+                return [];
+            }
+
+            const listItems = list.querySelectorAll('.hashform_single_option'),
                 options = [];
 
             for (let index = 0; index < listItems.length; index++) {
@@ -1209,7 +1358,18 @@ var hashFormAdmin = hashFormAdmin || {};
 
                 // Re-query: fillDropdownOpts has just rewritten the options.
                 const refreshed = $('[name^="item_meta[' + fieldId + ']"]');
-                if (refreshed.length > 0 && refreshed[0].contains(selectedValDefault)) {
+
+                /*
+                 * Whether the option that was selected is still among them.
+                 * This asked the element whether it contained the value, and
+                 * Node.contains() takes a node, not a string, so deleting an
+                 * option threw and left the rest of this undone.
+                 */
+                const stillOffered = refreshed.length > 0 && $.makeArray(refreshed[0].options || []).some(
+                    option => option.value === selectedValDefault
+                );
+
+                if (stillOffered) {
                     refreshed.val(selectedValDefault);
                 }
 
@@ -1601,9 +1761,28 @@ var hashFormAdmin = hashFormAdmin || {};
          * Conditional logic repeater
          * ---------------------------------------------------------------- */
 
+        /*
+         * The rules are numbered in the markup rather than by CSS counter so
+         * the number is readable to anything that only sees the DOM, and so
+         * it survives a row being deleted from the middle.
+         */
+        refreshConditionList: function ($list) {
+            const $rows = $list.find('.hf-condition-row');
+
+            $rows.each(function (index) {
+                $(this).find('.hf-condition-index').text(index + 1);
+            });
+
+            $list.toggleClass('hf-condition-list-empty', $rows.length === 0);
+        },
+
         addConditionRepeaterBlock: async function (e) {
             e.preventDefault();
-            const parentRepeaterBlock = $(this).closest('.hf-form-row').find('.hf-condition-repeater-blocks');
+
+            const $button = $(this);
+            const $list = $button.closest('.hf-form-row').find('.hf-condition-list');
+
+            $button.prop('disabled', true);
 
             await $.ajax({
                 url: ajaxurl,
@@ -1614,13 +1793,23 @@ var hashFormAdmin = hashFormAdmin || {};
                     backend_nonce: hashform_backend_js.nonce
                 },
                 success: function (msg) {
-                    parentRepeaterBlock.append(msg);
+                    const $row = $(msg);
+                    $list.find('.hf-condition-rows').append($row);
+                    hashFormAdmin.refreshConditionList($list);
+
+                    // Land on the field being shown or hidden: the action
+                    // beside it defaults sensibly, that never does.
+                    $row.find('.hf-condition-cell-target select').trigger('focus');
                 }
             });
+
+            $button.prop('disabled', false);
         },
 
         removeConditionRepeaterBlock: function () {
-            $(this).closest('.hf-condition-repeater-block').remove();
+            const $list = $(this).closest('.hf-condition-list');
+            $(this).closest('.hf-condition-row').remove();
+            hashFormAdmin.refreshConditionList($list);
         },
 
         /* -------------------------------------------------------------------
