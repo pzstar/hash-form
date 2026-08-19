@@ -19,7 +19,7 @@ defined('ABSPATH') || die();
         <div class="hf-field-panel-id">(ID <?php echo esc_html($field_id); ?>)</div>
     </div>
 
-    <div class="hf-form-container hf-grid-container">
+    <div class="hf-form-container">
         <?php
         if ($field_type === 'captcha' && !HashFormFieldCaptcha::should_show_captcha()) {
             ?>

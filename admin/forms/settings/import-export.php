@@ -4,7 +4,7 @@ defined('ABSPATH') || die();
 $field_count = is_array($fields) ? count($fields) : 0;
 ?>
 
-<div class="hf-form-container hf-grid-container">
+<div class="hf-form-container">
     <div class="hf-form-row">
         <div class="hf-imex-card">
             <div class="hf-imex-head">

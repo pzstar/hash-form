@@ -14,6 +14,11 @@ class HashFormStyles {
         add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
         add_action('admin_footer', array($this, 'hf_alert'));
         add_filter('post_row_actions', array($this, 'remove_edit_link'), 10, 2);
+
+        // The style templates list is a core CPT screen. These two put it on
+        // the same shell as the Forms and Entries lists.
+        add_filter('admin_body_class', array($this, 'list_body_class'));
+        add_action('in_admin_header', array($this, 'list_header'));
     }
 
     public function register_post_type() {
@@ -1259,11 +1264,119 @@ class HashFormStyles {
         }
     }
 
+    /**
+     * Is this the style templates list table?
+     */
+    private function is_list_screen() {
+        $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+
+        return $screen && 'edit' === $screen->base && 'hashform-styles' === $screen->post_type;
+    }
+
+    /**
+     * list-screens.css is scoped to .hf-list-screen, which the plugin's own
+     * list pages print around their markup. A core CPT screen owns its own
+     * wrapper, so the class goes on <body> instead and the same rules apply.
+     */
+    public function list_body_class($classes) {
+        if ($this->is_list_screen()) {
+            $classes .= ' hf-content hf-list-screen';
+        }
+
+        return $classes;
+    }
+
+    /**
+     * The bar across the top, matching the Forms and Entries lists.
+     *
+     * Printed on in_admin_header so it lands above .wrap and spans the screen,
+     * which is where the other two put theirs.
+     */
+    public function list_header() {
+        if (!$this->is_list_screen()) {
+            return;
+        }
+
+        $counts = wp_count_posts('hashform-styles');
+        $published = isset($counts->publish) ? (int) $counts->publish : 0;
+        $trashed = isset($counts->trash) ? (int) $counts->trash : 0;
+        $in_use = self::forms_using_a_template();
+        ?>
+        <div class="hf-list-header">
+            <div class="hf-list-header-inner">
+                <h2 class="hf-list-title"><?php esc_html_e('Style Templates', 'hash-form'); ?></h2>
+
+                <div class="hf-add-new-form">
+                    <a href="<?php echo esc_url(admin_url('post-new.php?post_type=hashform-styles')); ?>" class="button"><?php esc_html_e('Add New', 'hash-form'); ?></a>
+                </div>
+            </div>
+        </div>
+
+        <?php
+        // Zeroes above an empty list say nothing, so the tiles wait until
+        // there is something to count — the same rule the Forms screen uses.
+        if (!$published && !$trashed) {
+            return;
+        }
+        ?>
+        <div class="hf-list-stats-wrap">
+            <div class="hf-list-stats">
+                <div class="hf-stat">
+                    <span class="hf-stat-value"><?php echo esc_html(number_format_i18n($published)); ?></span>
+                    <span class="hf-stat-label"><?php echo esc_html(_n('Template', 'Templates', $published, 'hash-form')); ?></span>
+                </div>
+
+                <a class="hf-stat" href="<?php echo esc_url(admin_url('admin.php?page=hashform')); ?>">
+                    <span class="hf-stat-value"><?php echo esc_html(number_format_i18n($in_use)); ?></span>
+                    <span class="hf-stat-label"><?php echo esc_html(_n('Form Styled', 'Forms Styled', $in_use, 'hash-form')); ?></span>
+                </a>
+
+                <?php if ($trashed) { ?>
+                    <a class="hf-stat" href="<?php echo esc_url(admin_url('edit.php?post_status=trash&post_type=hashform-styles')); ?>">
+                        <span class="hf-stat-value"><?php echo esc_html(number_format_i18n($trashed)); ?></span>
+                        <span class="hf-stat-label"><?php esc_html_e('In Trash', 'hash-form'); ?></span>
+                    </a>
+                <?php } ?>
+            </div>
+        </div>
+        <?php
+    }
+
+    /**
+     * How many forms are set to use a style template.
+     *
+     * The styles column is serialised, so the forms are read rather than
+     * matched with a LIKE that would break the moment the shape changed.
+     */
+    private static function forms_using_a_template() {
+        $count = 0;
+
+        foreach (HashFormBuilder::get_all_forms() as $form) {
+            $styles = isset($form->styles) ? $form->styles : '';
+
+            if (is_string($styles) && $styles) {
+                $styles = unserialize($styles, array('allowed_classes' => false));
+            }
+
+            if (is_array($styles) && isset($styles['form_style']) && 'custom-style' === $styles['form_style']) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+
     public function hf_alert() {
         ?>
-        <div class="hf-alert">
+        <?php
+        /*
+         * No close control: nothing was ever bound to the one that used to be
+         * here, so it looked dismissible and was not, and the builder's toast
+         * does not have one either — both clear themselves.
+         */
+        ?>
+        <div class="hf-alert" role="status">
             <span class="hf-alert-message"></span>
-            <i class="icofont-close-line"></i>
         </div>
         <?php
     }

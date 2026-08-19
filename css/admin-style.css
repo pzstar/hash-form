@@ -1122,7 +1122,7 @@ body.hf-dragging #hf-editor-wrap ul.hf-editor-sorting.hf-dropabble:not(:has(.hf-
 .hf-image-preview .button.hf-choose-image:focus {
     background: var(--hf-accent-soft, #f0f6fc);
     border-color: var(--hf-accent, #2271b1);
-    color: var(--hf-accent, #2271b1);
+    color: var(--hf-accent-text, #a3591b);
 }
 
 .hf-image-preview .hf-choose-image .mdi {
@@ -1444,7 +1444,7 @@ body.hf-dragging #hf-editor-wrap ul.hf-editor-sorting.hf-dropabble:not(:has(.hf-
 .hf-bulk-edit-sidebar .hf-default-opts li a:hover,
 .hf-bulk-edit-sidebar .hf-default-opts li a:focus {
     background: var(--hf-accent-soft, #f0f6fc);
-    color: var(--hf-accent, #2271b1);
+    color: var(--hf-accent-text, #a3591b);
 }
 
 .hf-preset-count {
@@ -2188,19 +2188,19 @@ h4.hf-field-heading {
 }
 
 .hf-settings-tab li a:focus-visible {
-    box-shadow: 0 0 0 2px rgba(221, 130, 59, .4);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--hf-accent, #dd823b) 40%, transparent);
 }
 
 /* The accent the Save button and the active top tab already use. */
 .hf-settings-tab li.hf-active a,
 .hf-settings-tab li.hf-active a:hover {
-    background: rgba(221, 130, 59, .1);
-    color: #b4661f;
+    background: var(--hf-accent-soft, #fdf6f0);
+    color: var(--hf-accent-text, #a3591b);
     font-weight: 600;
 }
 
 .hf-settings-tab li.hf-active a i {
-    color: #dd823b;
+    color: var(--hf-accent, #dd823b);
 }
 
 /* =========== Form Page Listing =========== */
@@ -2523,7 +2523,7 @@ body.hf-modal-open {
 .hf-embed-copy:hover {
     background: var(--hf-surface-sunken, #fafbfc);
     border-color: var(--hf-accent, #2271b1);
-    color: var(--hf-accent, #2271b1);
+    color: var(--hf-accent-text, #a3591b);
 }
 
 .hf-embed-copy:focus-visible {
@@ -2747,63 +2747,174 @@ form.hf-error {
     font-size: 14px;
 }
 
+/* -----------------------------------------------------------------------------
+ * Field-tag picker
+ *
+ * The "Tags" control beside Subject, Message and the integration mappings.
+ * Same markup everywhere — a trigger and a <ul> of fields — so it is styled
+ * once here rather than per screen: the email settings, the Pro integration
+ * panels and the calculation field all draw from these rules.
+ * -------------------------------------------------------------------------- */
+
+/* Shrink-wraps the trigger so the list, which is anchored to this element's
+   right edge, lines up under the trigger rather than under whatever width
+   the surrounding label happens to have. In the builder sidebar the label is
+   full width, which left the list floating away from the control that opened
+   it. (As a flex item in the settings label this blockifies, as before.) */
 .hf-attr-field {
+    display: inline-block;
     position: relative;
 }
 
-.hf-attr-field:hover .hf-add-field-attr-to-form {
-    display: grid;
-}
-
+/* The trigger. Reads as a control rather than a stray word beside the label. */
 .hf-attr-field-tags {
-    display: flex;
-    gap: 5px;
     align-items: center;
+    background: var(--hf-surface-sunken, #fafbfc);
+    border: 1px solid var(--hf-border, #e2e5ea);
+    border-radius: var(--hf-radius-pill, 999px);
+    color: var(--hf-text-muted, #646970);
+    cursor: pointer;
+    display: inline-flex;
+    font-size: var(--hf-font-xs, 11px);
+    font-weight: 500;
+    gap: var(--hf-space-1, 4px);
+    line-height: 1;
+    padding: 5px var(--hf-space-2, 8px);
     text-transform: uppercase;
-    font-size: 12px;
+    transition: background-color var(--hf-transition, .15s ease), border-color var(--hf-transition, .15s ease), color var(--hf-transition, .15s ease);
+    user-select: none;
 }
 
+.hf-attr-field-tags .mdi {
+    font-size: 13px;
+    line-height: 1;
+}
+
+.hf-attr-field:hover .hf-attr-field-tags,
+.hf-attr-field:focus-within .hf-attr-field-tags {
+    background: var(--hf-accent-soft, #f0f6fc);
+    border-color: var(--hf-accent, #2271b1);
+    color: var(--hf-accent-text, #a3591b);
+}
+
+.hf-attr-field-tags:focus-visible {
+    outline: 2px solid var(--hf-accent, #2271b1);
+    outline-offset: 2px;
+}
+
+/* The list. Was a three-column grid of fixed 140px cells with no height
+   limit: on a form with 27 fields it opened 400px tall and ran off the
+   bottom of the window, with the last rows unreachable. One column that
+   scrolls instead, and it can open upwards when there is no room below. */
 .hf-add-field-attr-to-form {
+    background: var(--hf-surface, #fff);
+    border: 1px solid var(--hf-border, #e2e5ea);
+    border-radius: var(--hf-radius, 8px);
+    box-shadow: var(--hf-shadow-lg, 0 12px 28px -8px rgba(16, 24, 40, .18), 0 4px 10px -4px rgba(16, 24, 40, .1));
+    display: none;
+    left: auto;
+    margin: 0;
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 0;
     position: absolute;
     right: 0;
     top: 100%;
+    width: 260px;
+    z-index: 20;
+}
+
+/* Opens upward when the trigger sits low in the panel. */
+.hf-attr-field.hf-attr-up .hf-add-field-attr-to-form {
+    bottom: 100%;
+    top: auto;
+}
+
+/* And from its left edge when right-aligning would run it out of the panel —
+   the builder's field editor sidebar is only 300px wide and clips. */
+.hf-attr-field.hf-attr-left .hf-add-field-attr-to-form {
+    left: 0;
+    right: auto;
+}
+
+.hf-attr-field:hover .hf-add-field-attr-to-form,
+.hf-attr-field:focus-within .hf-add-field-attr-to-form {
+    display: block;
+}
+
+/* Search row. Added by the script only when the list is long enough to be
+   worth filtering, and pinned so it stays reachable while scrolling. */
+.hf-add-field-attr-to-form .hf-attr-search {
+    background: var(--hf-surface, #fff);
+    border-bottom: 1px solid var(--hf-border, #e2e5ea);
+    cursor: default;
+    padding: var(--hf-space-2, 8px);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.hf-add-field-attr-to-form .hf-attr-search:hover {
+    background: var(--hf-surface, #fff);
+}
+
+.hf-content .hf-add-field-attr-to-form .hf-attr-search input {
+    border: 1px solid var(--hf-border-strong, #d3d8e0);
+    border-radius: var(--hf-radius-sm, 4px);
+    font-size: var(--hf-font-sm, 12px);
     margin: 0;
-    padding: 0;
-    gap: 8px;
-    background: #FFF;
-    border: 1px solid #EEE;
-    box-shadow: 0 0 12px 0px rgba(0, 0, 0, 0.1);
-    display: none;
-    z-index: 9;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
+    min-height: 30px;
+    padding: 4px var(--hf-space-2, 8px);
+    width: 100%;
 }
 
 .hf-add-field-attr-to-form li {
-    display: block;
-    margin: 0;
-    padding: 8px 16px;
-    border-bottom: 1px solid #EEE;
-    cursor: pointer;
-    font-size: 13px;
-    line-height: 1;
-    width: 140px;
-}
-
-.hf-add-field-attr-to-form li:hover {
-    background: #f8fafc;
-}
-
-.hf-add-field-attr-to-form li:last-child {
     border: 0;
+    color: var(--hf-text, #1e2327);
+    cursor: pointer;
+    display: block;
+    font-size: var(--hf-font-base, 13px);
+    line-height: 1.3;
+    margin: 0;
+    padding: var(--hf-space-2, 8px) var(--hf-space-3, 12px);
+    transition: background-color var(--hf-transition, .15s ease);
+    width: auto;
 }
 
+/* .hf-hidden alone is one class against this block's class-plus-element
+   rules, so it would lose and a filtered-out row would stay on screen. */
+.hf-add-field-attr-to-form li.hf-hidden {
+    display: none;
+}
+
+.hf-add-field-attr-to-form li:hover,
+.hf-add-field-attr-to-form li:focus-visible {
+    background: var(--hf-accent-soft, #f0f6fc);
+    outline: 0;
+}
+
+/* The tag itself, under the field name it stands for. */
 .hf-add-field-attr-to-form li span {
+    color: var(--hf-text-faint, #8c9196);
     display: block;
-    margin-top: 5px;
-    color: #999;
-    font-size: 10px;
+    font-family: Menlo, Consolas, monospace;
+    font-size: var(--hf-font-xs, 11px);
+    margin-top: 2px;
     pointer-events: none;
+}
+
+/* Shown when a search matches nothing, and when a form has no field of the
+   kind this picker offers — which used to open an empty white box. */
+.hf-add-field-attr-to-form .hf-attr-empty {
+    color: var(--hf-text-muted, #646970);
+    cursor: default;
+    font-size: var(--hf-font-sm, 12px);
+    padding: var(--hf-space-3, 12px);
+    text-align: center;
+}
+
+.hf-add-field-attr-to-form .hf-attr-empty:hover {
+    background: transparent;
 }
 
 /* =========== Style Page  =========== */
@@ -2966,88 +3077,6 @@ form.hf-error {
     max-width: 68ch;
 }
 
-/* ---------- Rows ---------- */
-
-/* Descendant rather than direct child: dependent rows sit one level deeper,
-   inside their [data-condition-toggle] group. */
-#hf-settings-form > div > .hf-form-container .hf-form-row {
-    margin: 0 0 var(--hf-space-5, 24px);
-}
-
-#hf-settings-form > div > .hf-form-container .hf-form-row:last-child {
-    margin-bottom: 0;
-}
-
-#hf-settings-form > div > .hf-form-container .hf-form-row label {
-    color: var(--hf-text, #1e2327);
-    display: block;
-    font-size: var(--hf-font-base, 13px);
-    font-weight: 600;
-    margin: 0 0 var(--hf-space-2, 8px);
-}
-
-#hf-settings-form > div > .hf-form-container .description,
-#hf-settings-form > div > .hf-form-container .hf-setting-description {
-    color: var(--hf-text-muted, #646970);
-    font-size: var(--hf-font-sm, 12px);
-    font-style: normal;
-    line-height: 1.5;
-    margin: var(--hf-space-2, 8px) 0 0;
-}
-
-/* ---------- Controls ---------- */
-
-#hf-settings-form > div > .hf-form-container .hf-form-row input[type="text"],
-#hf-settings-form > div > .hf-form-container .hf-form-row input[type="email"],
-#hf-settings-form > div > .hf-form-container .hf-form-row input[type="url"],
-#hf-settings-form > div > .hf-form-container .hf-form-row input[type="number"],
-#hf-settings-form > div > .hf-form-container .hf-form-row select,
-#hf-settings-form > div > .hf-form-container .hf-form-row textarea {
-    /* background-color, not background: the shorthand would drop the arrow
-       wp-admin paints onto <select> as a background-image. */
-    background-color: #fff;
-    border: 1px solid var(--hf-border-strong, #d3d8e0);
-    border-radius: var(--hf-radius-sm, 4px);
-    box-shadow: none;
-    color: var(--hf-text, #1e2327);
-    font-size: var(--hf-font-base, 13px);
-    line-height: 1.5;
-    min-height: 36px;
-    padding: 6px var(--hf-space-3, 12px);
-    transition: border-color var(--hf-transition, .15s ease), box-shadow var(--hf-transition, .15s ease);
-    width: 100%;
-}
-
-#hf-settings-form > div > .hf-form-container .hf-form-row textarea {
-    min-height: 90px;
-}
-
-#hf-settings-form > div > .hf-form-container .hf-form-row input:focus,
-#hf-settings-form > div > .hf-form-container .hf-form-row select:focus,
-#hf-settings-form > div > .hf-form-container .hf-form-row textarea:focus {
-    border-color: var(--hf-accent, #2271b1);
-    box-shadow: 0 0 0 3px rgba(34, 113, 177, .15);
-    outline: 0;
-}
-
-/* Fields that only apply once the control above them is set, stepped in and
-   hung off a rule — the same treatment the Pro panels use. */
-#hf-settings-form > div > .hf-form-container > [data-condition-toggle] {
-    border-left: 2px solid var(--hf-border, #e2e5ea);
-    margin-bottom: var(--hf-space-5, 24px);
-    padding-left: var(--hf-space-4, 16px);
-}
-
-#hf-settings-form > div > .hf-form-container > [data-condition-toggle]:last-child {
-    margin-bottom: 0;
-}
-
-/* A group of dependent rows is stepped in once, not once per row. */
-#hf-settings-form > div > .hf-form-container > [data-condition-toggle] [data-condition-toggle] {
-    border-left: 0;
-    padding-left: 0;
-}
-
 /* ---------- Repeated email rows ---------- */
 
 .hf-multiple-email {
@@ -3113,6 +3142,25 @@ form.hf-error {
 
 /* Sits on the label line: "Subject   [tags]". It was an unstyled uppercase
    word with a loose icon beside it. */
+/* Fields that only apply once the control above them is set, stepped in and
+   hung off a rule, so a group reads as belonging to its switch rather than as
+   rows that happen to come and go. */
+#hf-settings-form > div > .hf-form-container > [data-condition-toggle] {
+    border-left: 2px solid var(--hf-border, #e2e5ea);
+    margin-bottom: var(--hf-space-5, 24px);
+    padding-left: var(--hf-space-4, 16px);
+}
+
+#hf-settings-form > div > .hf-form-container > [data-condition-toggle]:last-child {
+    margin-bottom: 0;
+}
+
+/* A group of dependent rows is stepped in once, not once per row. */
+#hf-settings-form > div > .hf-form-container > [data-condition-toggle] [data-condition-toggle] {
+    border-left: 0;
+    padding-left: 0;
+}
+
 /* Must out-weigh the display:block label rule above, which carries one more
    element in its selector. */
 #hf-settings-form > div > .hf-form-container .hf-form-row label.hf-label-with-attr {
@@ -3124,34 +3172,6 @@ form.hf-error {
 
 #hf-settings-form .hf-attr-field {
     font-weight: 400;
-    position: relative;
-}
-
-#hf-settings-form .hf-attr-field-tags {
-    align-items: center;
-    background: var(--hf-surface-sunken, #fafbfc);
-    border: 1px solid var(--hf-border, #e2e5ea);
-    border-radius: var(--hf-radius-pill, 999px);
-    color: var(--hf-text-muted, #646970);
-    cursor: pointer;
-    display: inline-flex;
-    font-size: var(--hf-font-xs, 11px);
-    font-weight: 500;
-    gap: var(--hf-space-1, 4px);
-    line-height: 1;
-    padding: 5px var(--hf-space-2, 8px);
-    transition: background-color var(--hf-transition, .15s ease), border-color var(--hf-transition, .15s ease), color var(--hf-transition, .15s ease);
-}
-
-#hf-settings-form .hf-attr-field-tags:hover {
-    background: var(--hf-accent-soft, #f0f6fc);
-    border-color: var(--hf-accent, #2271b1);
-    color: var(--hf-accent, #2271b1);
-}
-
-#hf-settings-form .hf-attr-field-tags .mdi {
-    font-size: 13px;
-    line-height: 1;
 }
 
 /* ---------- Toggle rows ---------- */
@@ -3341,7 +3361,7 @@ form.hf-error {
 .hf-dropzone-wrapper.dragover {
     background: var(--hf-accent-soft, #f0f6fc);
     border-color: var(--hf-accent, #2271b1);
-    color: var(--hf-accent, #2271b1);
+    color: var(--hf-accent-text, #a3591b);
 }
 
 .hf-dropzone-wrapper:hover .mdi,
@@ -3495,12 +3515,14 @@ form.hf-error {
 }
 
 .hf-footer {
-    background: #FFF;
-    float: none;
-    padding: 10px;
+    align-items: center;
+    background: var(--hf-surface, #fff);
+    border-top: 1px solid var(--hf-border, #e2e5ea);
     display: flex;
+    float: none;
+    gap: var(--hf-space-2, 8px);
     justify-content: flex-end;
-    border-top: 1px solid #c3c4c7;
+    padding: var(--hf-space-3, 12px) var(--hf-space-4, 16px);
 }
 
 /* =========== All Grid CSS =========== */
@@ -3805,7 +3827,7 @@ form.hf-error {
 .hf-add-more-condition:focus-visible:not(:disabled) {
     background: var(--hf-accent-soft, #f0f6fc);
     border-color: var(--hf-accent, #2271b1);
-    color: var(--hf-accent, #2271b1);
+    color: var(--hf-accent-text, #a3591b);
 }
 
 .hf-add-more-condition:disabled {
@@ -3871,18 +3893,53 @@ form.hf-error {
     border: none;
 }
 
+/* The save bar on the style template editor. It was ALL CAPS bold in the
+   admin colour scheme, which read as neither wp-admin nor as this plugin. */
 .hf-footer .button {
-    padding: 13px 20px;
-    text-transform: uppercase;
-    font-size: 13px;
-    font-weight: bold;
-    line-height: 1;
-    outline: 0 !important;
+    align-items: center;
+    border-radius: var(--hf-radius-sm, 4px);
     box-shadow: none !important;
     display: flex;
-    align-items: center;
-    gap: 6px;
+    font-size: var(--hf-font-base, 13px);
+    font-weight: 500;
+    gap: var(--hf-space-2, 8px);
+    line-height: 1;
+    min-height: 36px;
+    outline: 0 !important;
+    padding: 0 var(--hf-space-4, 16px);
+    text-shadow: none;
+    text-transform: none;
     z-index: 9;
+}
+
+.hf-footer .button:not(.button-primary) {
+    background: var(--hf-surface, #fff);
+    border: 1px solid var(--hf-border-strong, #d3d8e0);
+    color: var(--hf-text, #1e2327);
+}
+
+.hf-footer .button:not(.button-primary):hover {
+    background: var(--hf-surface-sunken, #fafbfc);
+    border-color: var(--hf-text-faint, #8c9196);
+    color: var(--hf-text, #1e2327);
+}
+
+.hf-footer .button-primary {
+    background: var(--hf-accent, #dd823b);
+    border: 1px solid var(--hf-accent, #dd823b);
+    color: var(--hf-text-inverse, #fff);
+}
+
+.hf-footer .button-primary:hover,
+.hf-footer .button-primary:focus {
+    background: var(--hf-accent-hover, #c26f2e);
+    border-color: var(--hf-accent-hover, #c26f2e);
+    color: var(--hf-text-inverse, #fff);
+}
+
+.hf-footer .button:focus-visible {
+    outline: 2px solid var(--hf-accent, #dd823b) !important;
+    outline-offset: 1px;
 }
 
 .hf-footer .button.hf-button-loader:after {
@@ -3900,46 +3957,78 @@ form.hf-error {
 
 
 
-/* Alert */
+/* Alert
+ *
+ * The save toast on the style template editor. It was a 300px block of solid
+ * #42BA96 with white 16px text, sliding in from right:100px — a third design
+ * for the one action, alongside the builder's toast and the redirect notice.
+ * Same card as .hf-updated-info now; the class API the script toggles
+ * (hf-alert-active / -success / -warning) is unchanged.
+ */
 .hf-alert {
-    width: 300px;
-    top: -100px;
-    right: 100px;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #EEE;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .12);
+    color: #1d2327;
+    display: flex;
+    font-size: 14px;
+    gap: 10px;
+    line-height: 1.4;
+    max-width: 380px;
+    opacity: 0;
+    padding: 14px 18px;
     position: fixed;
-    padding: 20px;
-    color: #FFF;
-    border-radius: 4px;
-    font-size: 16px;
-    z-index: 99999;
-    transition: all 0.2s ease;
+    right: 24px;
+    top: 92px;
+    transform: translateY(-8px);
+    transition: opacity .22s ease-out, transform .22s ease-out, visibility .22s;
     visibility: hidden;
-    background: #EEE;
+    width: auto;
+    z-index: 99999;
+}
+
+/* The status icon is drawn here rather than in the markup, because the script
+   replaces the message span's contents with plain text from the server. */
+.hf-alert:before {
+    color: #1a9e5c;
+    content: "\F05E0";
+    flex: 0 0 auto;
+    font-family: "Material Design Icons";
+    font-size: 20px;
+    line-height: 1;
+}
+
+.hf-alert.hf-alert-warning:before {
+    color: var(--hf-danger, #d3383c);
+    content: "\F0028";
 }
 
 .hf-alert .hf-alert-message {
-    padding-right: 30px;
-}
-
-.hf-alert .icofont-close-line {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-    font-size: 16px;
-    cursor: pointer;
+    padding-right: 0;
 }
 
 .hf-alert-active {
-    top: 100px;
+    opacity: 1;
+    top: 92px;
+    transform: none;
     visibility: visible;
 }
 
-.hf-alert-success {
-    background-color: #42BA96;
+/* The card stays white; only the icon carries the state. */
+.hf-alert-success,
+.hf-alert-warning {
+    background: #fff;
 }
 
-.hf-alert-warning {
-    background-color: #DF4759;
+@media (prefers-reduced-motion: reduce) {
+
+    .hf-alert {
+        transition: none;
+    }
 }
+
 /* ---------- Entry workflow ---------- */
 
 /* Unread entries read like an unread inbox row. */

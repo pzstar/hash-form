@@ -789,7 +789,15 @@ class HashFormHelper {
         if ($message) {
             delete_transient($key);
             ?>
-            <div class="hf-settings-updated">
+            <?php
+            /*
+             * The same toast the builder shows after an AJAX save. It used to
+             * be its own component — a plain `green` bar in ALL CAPS — so the
+             * one action looked like two different products depending on
+             * whether the screen saved over AJAX or through a redirect.
+             */
+            ?>
+            <div class="hf-updated-info" role="status">
                 <span class="mdi mdi-check-circle"></span>
                 <?php echo esc_html(sanitize_text_field($message)); ?>
             </div>

@@ -31,10 +31,10 @@
     border: 1px solid var(--hf-border);
     border-radius: var(--hf-radius-lg);
     box-shadow: var(--hf-shadow-md);
-    flex: 0 0 312px;
+    flex: 0 0 360px;
     overflow: hidden auto;
     scrollbar-width: thin;
-    width: 312px;
+    width: 360px;
 }
 
 .hf-content .hf-fields-sidebar::-webkit-scrollbar {
@@ -307,14 +307,10 @@
     padding: 0;
 }
 
+/* Carries .hf-layout-heading for its type; a legend needs the padding reset
+   on top of that. */
 .hf-content .hf-style-modes-legend {
-    color: var(--hf-text-faint);
-    font-size: var(--hf-font-xs);
-    font-weight: 600;
-    letter-spacing: .06em;
-    margin: 0 0 var(--hf-space-2);
     padding: 0;
-    text-transform: uppercase;
 }
 
 .hf-content .hf-style-mode {
@@ -346,6 +342,9 @@
 }
 
 .hf-content .hf-style-mode-input {
+    /* Native radios draw themselves in the admin colour scheme, which is the
+       one thing on this screen that still was not the brand accent. */
+    accent-color: var(--hf-accent);
     flex: 0 0 auto;
     margin: 2px 0 0;
 }
@@ -383,6 +382,61 @@
     font-size: var(--hf-font-sm);
     line-height: 1.5;
     margin: 0 0 var(--hf-space-3);
+}
+
+/* A secondary action, styled like the rest of the sidebar rather than left as
+   a bare wp-admin button in the admin colour scheme. */
+.hf-content .hf-style-template-cta .button {
+    background: var(--hf-surface);
+    border: 1px solid var(--hf-border-strong);
+    border-radius: var(--hf-radius-sm);
+    box-shadow: none;
+    color: var(--hf-text);
+    font-size: var(--hf-font-base);
+    font-weight: 500;
+    line-height: 1;
+    margin: 0;
+    min-height: 34px;
+    padding: 0 var(--hf-space-3);
+    text-shadow: none;
+}
+
+.hf-content .hf-style-template-cta .button:hover,
+.hf-content .hf-style-template-cta .button:focus {
+    background: var(--hf-surface-sunken);
+    border-color: var(--hf-text-faint);
+    color: var(--hf-text);
+}
+
+/* The label above the template select, under its own section heading. */
+.hf-content .hf-style-template-label {
+    color: var(--hf-text);
+    display: block;
+    font-size: var(--hf-font-base);
+    font-weight: 500;
+    margin: 0 0 var(--hf-space-2);
+}
+
+/* ---------- Style tab: preview canvas ---------- */
+
+/* The same canvas header the builder carries, so the two tabs read as one
+   surface. The builder pulls it out over the wrap's 24px padding with
+   negative margins; this panel is deliberately full bleed so the preview
+   reports a true width, so here the header just sits at the top of the card
+   and keeps its own padding. */
+.hf-content .hf-style-form-panel .hf-canvas-header {
+    margin: 0;
+}
+
+.hf-content .hf-style-form-panel .hf-form-preview {
+    min-height: 200px;
+}
+
+/* The style editor's demo form is markup in the page rather than the Style
+   tab's width-accurate iframe, so it can have room to breathe without
+   misrepresenting anything. */
+.hf-content .hf-style-form-panel .hf-template-preview {
+    padding: var(--hf-space-5, 24px);
 }
 
 /* ---------- Payment field preview ---------- */
@@ -487,7 +541,7 @@
     background: var(--hf-accent-soft);
     border: 1px solid var(--hf-accent);
     border-radius: 9px;
-    color: var(--hf-accent);
+    color: var(--hf-accent-text, #a3591b);
     display: inline-flex;
     flex: 0 0 auto;
     font-size: 19px;
@@ -657,7 +711,7 @@
 .hf-content .hf-main-nav li a.hf-active-nav {
     background: var(--hf-surface);
     box-shadow: var(--hf-shadow-sm);
-    color: var(--hf-accent);
+    color: var(--hf-accent-text, #a3591b);
     font-weight: 600;
 }
 /* ---------- Canvas header ---------- */
@@ -1081,7 +1135,7 @@
 .hf-content .hf-format-preset:hover {
     background: var(--hf-surface);
     border-color: var(--hf-accent);
-    color: var(--hf-accent);
+    color: var(--hf-accent-text, #a3591b);
 }
 
 .hf-content .hf-format-preset:focus-visible {
@@ -1169,8 +1223,12 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    /* Not narrower than 330: the WordPress colour picker on the style
+       template editor is a fixed 257px widget, and with the panel padding
+       around it anything under this clips it against the sidebar's
+       overflow. */
     .hf-content .hf-fields-sidebar {
-        flex-basis: 260px;
-        width: 260px;
+        flex-basis: 330px;
+        width: 330px;
     }
 }

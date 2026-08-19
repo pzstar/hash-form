@@ -19,8 +19,51 @@ class HashFormPreview {
             wp_die(esc_html__('Please select a valid form', 'hash-form'));
         }
 
-        require(HASHFORM_PATH . 'admin/forms/preview/preview.php');
+        /*
+         * Two documents behind one URL. The outer one is a plain shell — a
+         * toolbar and an iframe — and the inner one is the form on its own,
+         * rendered with the theme and every front-end asset exactly as a
+         * visitor would get it.
+         *
+         * The width buttons have to change a real viewport to be worth
+         * anything: narrowing a div would leave the form's own media queries
+         * reading the desktop window and reporting a mobile layout that is
+         * not what a phone gets.
+         */
+        if (HashFormHelper::get_var('hf_frame', 'absint')) {
+            require HASHFORM_PATH . 'admin/forms/preview/preview.php';
+        } else {
+            require HASHFORM_PATH . 'admin/forms/preview/shell.php';
+        }
+
         wp_die();
+    }
+
+    /**
+     * The URL of the form on its own, without the surrounding toolbar.
+     */
+    public static function frame_url($id) {
+        return add_query_arg(
+                array(
+                    'action' => 'hashform_preview',
+                    'form' => absint($id),
+                    'hf_frame' => 1,
+                ),
+                admin_url('admin-ajax.php')
+        );
+    }
+
+    /**
+     * Widths the preview can be shown at.
+     *
+     * Values are the iframe width in pixels; 0 means fill the window.
+     */
+    public static function preview_widths() {
+        return array(
+            'desktop' => array('label' => esc_html__('Desktop', 'hash-form'), 'width' => 0, 'icon' => 'monitor'),
+            'tablet' => array('label' => esc_html__('Tablet', 'hash-form'), 'width' => 768, 'icon' => 'tablet'),
+            'mobile' => array('label' => esc_html__('Mobile', 'hash-form'), 'width' => 390, 'icon' => 'mobile'),
+        );
     }
 
     public static function show_form($id) {

@@ -67,6 +67,9 @@ class HashFormLoader {
                 'form_name_required' => esc_html__('Please give the form a name.', 'hash-form'),
                 /* translators: %s: the spacer's height in pixels, filled in by the builder. */
                 'spacer_label' => sprintf(esc_html__('Spacer · %spx', 'hash-form'), '%d'),
+                'search_fields' => esc_html__('Search fields', 'hash-form'),
+                'no_tag_fields' => esc_html__('This form has no field to insert here yet.', 'hash-form'),
+                'no_tag_matches' => esc_html__('No field matches that.', 'hash-form'),
             ));
 
             wp_localize_script('hashform-builder', 'hashform_backend_js', array(

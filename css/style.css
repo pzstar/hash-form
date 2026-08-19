@@ -1342,6 +1342,32 @@ body.hashform_preview_page .hf-form-preview {
 /* -----------------------------------------------------------------------------
  * Date picker
  * -------------------------------------------------------------------------- */
+/* -----------------------------------------------------------------------------
+ * Preview
+ *
+ * The submit button is rendered disabled on the preview page so a look at the
+ * form cannot post an entry. It kept the full button styling though, so it
+ * invited a click and then did nothing at all.
+ * -------------------------------------------------------------------------- */
+.hashform_preview_page .hashform-form button[disabled] {
+    cursor: not-allowed;
+    filter: grayscale(1);
+    opacity: .55;
+}
+
+/* jQuery UI appends this one shared div to <body> as soon as any datepicker
+   is attached, and leaves it to a jQuery UI theme stylesheet to keep it
+   hidden until it is opened. WordPress does not enqueue one, so with only the
+   rules below it rendered as an empty bordered box at the foot of every page
+   carrying a date field. Matched on the id, so an inline datepicker — which
+   is a different element and meant to be visible — is untouched. The script
+   sets display inline when opening and closing, so this only supplies the
+   state before it has ever been opened. */
+#ui-datepicker-div {
+    display: none;
+    position: absolute;
+}
+
 .ui-datepicker {
     background-color: var(--hf-pick-surface);
     border: 1px solid var(--hf-pick-border);
@@ -1851,6 +1877,17 @@ body.wp-admin.rtl .ui-datepicker {
 }
 
 @media screen and (max-width:767px) {
+
+    /* Fields sit on a twelve column grid, and until now nothing collapsed it:
+       two fields sharing a row stayed side by side on a phone, about 145px
+       each on a 390px screen. .hf-grouped-field is the same grid one level
+       down, holding the parts of an address or a name. The attribute
+       selector out-weighs .hf-grid-N whatever order the rules end up in. */
+    .hf-container > [class*="hf-grid-"],
+    .hf-container .hf-grouped-field > [class*="hf-grid-"] {
+        grid-column: span 12 / span 12;
+    }
+
     .hf-form-custom-style .hf-container .hf-field-label {
         font-size: var(--hf-label-typo-font-size-sm, var(--hf-label-typo-font-size-md, var(--hf-label-typo-font-size, 1em)));
         letter-spacing: var(--hf-label-typo-letter-spacing-sm, var(--hf-label-typo-letter-spacing-md, var(--hf-label-typo-letter-spacing, inherit)));

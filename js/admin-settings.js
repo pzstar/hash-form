@@ -201,6 +201,11 @@
         hfDynamicCss(id, css, to);
     });
 
+    $('#hf-template-preview-form-id').on('change', function () {
+        // The canvas header names what is being previewed.
+        $('#hf-style-preview-form').text($(this).find(':selected').text().trim());
+    });
+
     $('#hf-template-preview-form-id').on('change', debounce(function () {
         const formData = new FormData($('form#post')[0]);
         formData.append('action', 'hashform_template_style_preview');
@@ -390,7 +395,7 @@
      * -------------------------------------------------------------------- */
 
     setTimeout(function () {
-        $('.hf-settings-updated').fadeOut('slow', function () {
+        $('.hf-updated-info').fadeOut('slow', function () {
             this.parentNode.removeChild(this);
         });
     }, 3000);

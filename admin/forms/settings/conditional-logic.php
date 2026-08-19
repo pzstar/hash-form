@@ -3,7 +3,7 @@ defined('ABSPATH') || die();
 
 $conditional_logics = HashFormBuilder::get_show_hide_conditions($id);
 ?>
-<div class="hf-form-container hf-grid-container">
+<div class="hf-form-container">
     <div class="hf-form-row">
         <p class="hf-section-help">
             <?php esc_html_e('Show or hide a field based on what the visitor has answered elsewhere in this form. Rules are checked as they type, and again when the form is submitted.', 'hash-form'); ?>

@@ -100,7 +100,11 @@ var hashFormAdmin = hashFormAdmin || {};
             $(document).on('change', 'select[name^="field_options[image_size"]', hashFormAdmin.liveChangeImageSize);
 
             /* Add field attr to form in Settings page */
-            $(document).on('click', '.hf-add-field-attr-to-form li', hashFormAdmin.addFieldAttrToForm);
+            $(document).on('click', '.hf-add-field-attr-to-form li:not(.hf-attr-search, .hf-attr-empty)', hashFormAdmin.addFieldAttrToForm);
+            $(document).on('input', '.hf-attr-search input', hashFormAdmin.filterFieldAttrOptions);
+            $(document).on('mouseenter focusin', '.hf-attr-field', hashFormAdmin.placeFieldAttrList);
+            $(document).on('keydown', '.hf-attr-field', hashFormAdmin.keyFieldAttrPicker);
+            hashFormAdmin.initFieldAttrPickers();
 
             /* Open the embed popup. Closing it — button, backdrop or Escape —
                is handled with the add-form dialog in initNewFormModal. */
@@ -568,10 +572,15 @@ var hashFormAdmin = hashFormAdmin || {};
             // picking a card feeds it and lets its change handler run.
             $('.hf-style-mode-input').on('change', function () {
                 const value = $(this).val();
+                const $card = $(this).closest('.hf-style-mode');
 
                 $('.hf-style-mode').removeClass('hf-selected');
-                $(this).closest('.hf-style-mode').addClass('hf-selected');
+                $card.addClass('hf-selected');
                 $('#hf-form-style-select').val(value).trigger('change');
+
+                // The canvas header names the style in force, where the
+                // builder's counts fields.
+                $('#hf-style-mode-label').text($card.find('.hf-style-mode-name').text());
             });
         },
 
@@ -1816,10 +1825,138 @@ var hashFormAdmin = hashFormAdmin || {};
          * Settings page: field attribute inserter
          * ---------------------------------------------------------------- */
 
+        /* -------------------------------------------------------------------
+         * Field-tag picker
+         *
+         * The list is opened by hover, which leaves it unreachable from the
+         * keyboard, and on a form with a couple of dozen fields it is a long
+         * scroll with nothing to narrow it down. The markup is shared by the
+         * email settings, the Pro integration panels and the calculation
+         * field, so this upgrades whatever is on the page rather than each
+         * template carrying its own copy.
+         * ---------------------------------------------------------------- */
+
+        // Below this many fields the list is short enough to read at a glance.
+        SEARCH_FROM: 8,
+
+        initFieldAttrPickers: function () {
+            $('.hf-attr-field').each(function () {
+                const $field = $(this);
+                const $trigger = $field.find('.hf-attr-field-tags').first();
+                const $list = $field.find('.hf-add-field-attr-to-form').first();
+
+                if (!$trigger.length || !$list.length || $field.data('hfAttrReady')) {
+                    return;
+                }
+
+                $field.data('hfAttrReady', true);
+
+                // The trigger is a <div> in every template. Rather than edit
+                // a dozen of them, it is given the button semantics here.
+                $trigger.attr({ role: 'button', tabindex: 0, 'aria-haspopup': 'listbox' });
+
+                const $options = $list.children('li');
+
+                $options.attr({ role: 'option', tabindex: -1 });
+
+                if (!$options.length) {
+                    $list.append($('<li class="hf-attr-empty"></li>').text(hashform_backend_js.no_tag_fields));
+                    return;
+                }
+
+                $list.append($('<li class="hf-attr-empty hf-hidden"></li>').text(hashform_backend_js.no_tag_matches));
+
+                if ($options.length >= hashFormAdmin.SEARCH_FROM) {
+                    $('<li class="hf-attr-search"><input type="search" autocomplete="off" /></li>')
+                        .prependTo($list)
+                        .find('input')
+                        .attr('placeholder', hashform_backend_js.search_fields);
+                }
+            });
+        },
+
+        keyFieldAttrPicker: function (e) {
+            const $field = $(this);
+
+            if ('Escape' === e.key) {
+                $field.find('.hf-attr-field-tags').trigger('blur');
+                $field.find('.hf-attr-search input').val('').trigger('input');
+                return;
+            }
+
+            // Enter and Space on the trigger open the list, which hover does
+            // for a pointer; on a row they choose it.
+            if ('Enter' !== e.key && ' ' !== e.key) {
+                return;
+            }
+
+            const $target = $(e.target);
+
+            if ($target.is('.hf-add-field-attr-to-form li')) {
+                e.preventDefault();
+                $target.trigger('click');
+                return;
+            }
+
+            if ($target.is('.hf-attr-field-tags')) {
+                e.preventDefault();
+                $field.find('.hf-add-field-attr-to-form li').not('.hf-attr-search, .hf-attr-empty, .hf-hidden').first().trigger('focus');
+            }
+        },
+
+        filterFieldAttrOptions: function () {
+            const term = $(this).val().toLowerCase().trim();
+            const $list = $(this).closest('.hf-add-field-attr-to-form');
+            let matches = 0;
+
+            $list.children('li').not('.hf-attr-search, .hf-attr-empty').each(function () {
+                const hit = '' === term || $(this).text().toLowerCase().indexOf(term) >= 0;
+                $(this).toggleClass('hf-hidden', !hit);
+                matches += hit ? 1 : 0;
+            });
+
+            $list.children('.hf-attr-empty').toggleClass('hf-hidden', 0 !== matches);
+        },
+
+        /*
+         * The trigger for a field near the bottom of the panel would open a
+         * list that ran past the window, with its last rows unreachable.
+         * Measured on open, since the panel scrolls under it.
+         */
+        placeFieldAttrList: function () {
+            const $field = $(this);
+            const $list = $field.find('.hf-add-field-attr-to-form').first();
+
+            if (!$list.length) {
+                return;
+            }
+
+            const box = $field[0].getBoundingClientRect();
+            const bounds = hashFormAdmin.clippingBounds($field[0]);
+
+            $field.toggleClass('hf-attr-up', window.innerHeight - box.bottom < Math.min($list.prop('scrollHeight'), 320) + 16);
+            $field.toggleClass('hf-attr-left', box.right - $list.outerWidth() < bounds.left);
+        },
+
+        /*
+         * The nearest ancestor that would cut the list off. The builder's
+         * field editor sidebar scrolls, so a list wider than the distance
+         * from the trigger to its left edge disappears into the overflow.
+         */
+        clippingBounds: function (el) {
+            for (let node = el.parentElement; node && node !== document.body; node = node.parentElement) {
+                if ('visible' !== getComputedStyle(node).overflowX) {
+                    return node.getBoundingClientRect();
+                }
+            }
+
+            return { left: 0, right: document.documentElement.clientWidth };
+        },
+
         addFieldAttrToForm: function () {
             const fieldId = $(this).attr('data-value');
             const $row = $(this).closest('.hf-form-row');
-            const inputChange = $row.find('input');
+            const inputChange = $row.find('input').not('.hf-attr-search input');
             const textAreaChange = $row.find('textarea');
 
             // Note: .val(x) writes one value to every match, seeded from the
@@ -1831,6 +1968,13 @@ var hashFormAdmin = hashFormAdmin || {};
             if (fieldId && textAreaChange.length > 0) {
                 textAreaChange.val(textAreaChange.val() + ' ' + fieldId);
             }
+
+            // Hover alone would keep the list open over the field just
+            // written to, so it is dismissed and the field takes focus.
+            const $list = $(this).closest('.hf-add-field-attr-to-form');
+            $list.find('.hf-attr-search input').val('').trigger('input');
+            $list.closest('.hf-attr-field').find('.hf-attr-field-tags').trigger('blur');
+            (textAreaChange.length ? textAreaChange : inputChange).first().trigger('focus');
         },
 
         /* -------------------------------------------------------------------

@@ -9,7 +9,7 @@ if (isset($settings['header_image'])) {
     $image = isset($image[0]) ? esc_attr($image[0]) : '';
 }
 ?>
-<div class="hf-form-container hf-grid-container">
+<div class="hf-form-container">
     <div class="hf-settings-row hf-grid-container">
         <label class="hf-setting-label"><?php esc_html_e('Header Image', 'hash-form'); ?></label>
         <div class="hf-grid-3">

@@ -26,7 +26,7 @@ $form_style_template = isset($styles['form_style_template']) ? $styles['form_sty
         <div class="hf-fields-sidebar">
             <form class="ht-fields-panel" method="post" id="hf-style-form">
                 <input type="hidden" name="id" id="hf-form-id" value="<?php echo absint($id); ?>" />
-                <div class="hf-form-container hf-grid-container">
+                <div class="hf-form-container">
                     <?php
                     /*
                      * The three modes are a visual choice, so they are shown as
@@ -50,9 +50,11 @@ $form_style_template = isset($styles['form_style_template']) ? $styles['form_sty
                         ),
                     );
                     ?>
-                    <div class="hf-form-row">
+                    <div class="hf-form-row hf-layout-section">
                         <fieldset class="hf-style-modes">
-                            <legend class="hf-style-modes-legend"><?php esc_html_e('Form Style', 'hash-form'); ?></legend>
+                            <?php // Same heading treatment as the builder's Columns and Fields sections. ?>
+                            <legend class="hf-layout-heading hf-style-modes-legend"><?php esc_html_e('Form Style', 'hash-form'); ?></legend>
+                            <p class="hf-layout-help"><?php esc_html_e('How much of the look comes from the plugin rather than your theme.', 'hash-form'); ?></p>
 
                             <?php foreach ($style_modes as $mode_value => $mode) { ?>
                                 <label class="hf-style-mode<?php echo ($form_style === $mode_value) ? ' hf-selected' : ''; ?>">
@@ -83,8 +85,9 @@ $form_style_template = isset($styles['form_style_template']) ? $styles['form_sty
                         </select>
                     </div>
 
-                    <div class="hf-form-row" data-condition-toggle="hf-form-style-select" data-condition-val="custom-style">
-                        <label><?php esc_html_e('Choose Template Style', 'hash-form'); ?></label>
+                    <div class="hf-form-row hf-layout-section" data-condition-toggle="hf-form-style-select" data-condition-val="custom-style">
+                        <h4 class="hf-layout-heading"><?php esc_html_e('Style Template', 'hash-form'); ?></h4>
+                        <label class="hf-style-template-label"><?php esc_html_e('Choose Template Style', 'hash-form'); ?></label>
                         <select name="form_style_template" id="hf-form-style-template">
                             <option value=""><?php esc_html_e('--Select Style--', 'hash-form'); ?></option>
                             <?php
@@ -128,6 +131,19 @@ $form_style_template = isset($styles['form_style_template']) ? $styles['form_sty
 
         <div id="hf-form-panel" class="hf-style-form-panel">
             <div class="hf-form-wrap">
+                <?php
+                /*
+                 * The same slim header the builder canvas carries, so the two
+                 * screens read as one surface. Where the builder counts fields
+                 * this names the style in force; backend.js keeps it in step
+                 * when a different card is picked.
+                 */
+                ?>
+                <div class="hf-canvas-header">
+                    <span class="hf-canvas-title"><?php echo esc_html($form->name); ?></span>
+                    <span class="hf-canvas-count" id="hf-style-mode-label"><?php echo esc_html(isset($style_modes[$form_style]) ? $style_modes[$form_style]['label'] : $style_modes['default-style']['label']); ?></span>
+                </div>
+
                 <div class="hf-form-preview" data-form="<?php echo esc_attr($id); ?>"></div>
             </div>
         </div>
