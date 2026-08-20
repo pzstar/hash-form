@@ -147,7 +147,20 @@ class HashFormValidate {
                     break;
             }
 
-            if (!$condition) {
+            /*
+             * A rule either shows its field when the comparison matches or
+             * hides it, and only the browser was reading which. The server took
+             * any rule that did not match to mean the field was hidden, so a
+             * hide rule came out backwards: the field the visitor could see was
+             * treated as hidden and skipped, while the one hidden from them was
+             * validated. A required field on a hide rule could then never be
+             * satisfied, and the form refused every submission with an error
+             * against a field nobody could fill in.
+             */
+            $show_on_match = !isset($cond['condition_action']) || 'show' === $cond['condition_action'];
+            $is_visible = $show_on_match ? $condition : !$condition;
+
+            if (!$is_visible) {
                 $hidden_arrays[] = $cond['compare_from'];
             }
         }

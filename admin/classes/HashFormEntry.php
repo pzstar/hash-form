@@ -6,6 +6,13 @@ class HashFormEntry {
     use HashFormListActions;
 
     public function __construct() {
+        // Printed above #wpbody so the bar sits flush under the admin bar and
+        // clear of the Screen Options tab, as on the style templates list.
+        add_action('in_admin_header', array($this, 'list_header'));
+
+        // Notices are moved inside the screen wrapper; see buffer_notices().
+        add_action('admin_notices', array($this, 'buffer_notices'), -PHP_INT_MAX);
+        add_action('all_admin_notices', array($this, 'capture_notices'), PHP_INT_MAX);
         add_action('admin_menu', array($this, 'add_menu'), 10);
         add_filter('set-screen-option', array($this, 'set_screen_option'), 15, 3);
 
@@ -205,18 +212,30 @@ class HashFormEntry {
         include(HASHFORM_PATH . 'admin/entries/entry-detail.php');
     }
 
+    /**
+     * The bar across the top of the Entries list. Same placement as the Forms
+     * and style template lists — see HashFormBuilder::list_header().
+     */
+    public function list_header() {
+        if (!self::is_list_view()) {
+            return;
+        }
+
+        HashFormHelper::render_list_header(array(
+            'title' => esc_html__('Entries', 'hash-form'),
+            'docs' => 'https://hashthemes.com/documentation/hash-form-drag-and-drop-form-builder-documentation/',
+        ));
+    }
+
     public static function display_entry_list($message = '', $class = 'updated') {
         ?>
         <div class="hf-content hf-list-screen">
 
-            <div class="hf-list-header">
-                <div class="hf-list-header-inner">
-                    <h2 class="hf-list-title"><?php esc_html_e('Entries', 'hash-form'); ?></h2>
-                </div>
-            </div>
-
-            <div class="hf-entry-list-wrap wrap">
+            <?php // The header bar is printed on in_admin_header; see list_header(). ?>
+            <div class="hf-list-wrap wrap">
                 <h1></h1>
+
+                <?php self::print_notices(); ?>
 
                 <div id="hf-entry-list">
                     <?php
