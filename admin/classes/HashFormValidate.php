@@ -75,7 +75,18 @@ class HashFormValidate {
             return $errors;
         }
 
-        if (HashFormHelper::is_admin_page() && is_user_logged_in() && (!isset($values['hashform_submit_entry_' . $values['form_id']]) || !wp_verify_nonce($values['hashform_submit_entry_' . $values['form_id']], 'hashform_submit_entry_nonce'))) {
+        /*
+         * Verify the per-form nonce on every submission, not only when an
+         * administrator is logged in. The form already prints this field
+         * (form.php), but the check used to be gated behind is_admin_page()
+         * and is_user_logged_in(), so a wp_ajax_nopriv POST from a guest —
+         * where both are false — skipped it entirely and any crafted payload
+         * was accepted. A stale nonce (e.g. a full-page-cached form older
+         * than the nonce lifetime) now fails here; sites that serve cached
+         * forms should exclude this field from their cache or refresh it.
+         */
+        $nonce_field = 'hashform_submit_entry_' . absint($values['form_id']);
+        if (!isset($values[$nonce_field]) || !wp_verify_nonce($values[$nonce_field], 'hashform_submit_entry_nonce')) {
             $errors['form'] = esc_html__('Nonce Error', 'hash-form');
         }
 

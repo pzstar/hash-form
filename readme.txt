@@ -112,6 +112,10 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 
 == Changelog ==
 = 1.4.2 - 20 Aug, 2026 =
+* PHP object injection: a crafted entry value was deserialized when an administrator opened the Entries list - Fixed (Security)
+* Form submissions are now rejected unless the per-form nonce verifies and the submitted form key matches the stored one - Fixed (Security)
+* Serialized strings are no longer accepted into an entry field's stored value - Fixed (Security)
+* Entry values passed to integrations are now decoded without instantiating objects - Fixed (Security)
 * Settings screen redesigned to match the rest of the admin - shared header bar, and the navigation and panel rebuilt on the plugin's design tokens
 * Saving from any section other than Captcha returned to Captcha instead of the section in use - Fixed
 * Send Test Email showed no message at all when the address was invalid - Fixed

@@ -352,6 +352,16 @@ class HashFormEntry {
             return;
         }
 
+        /*
+         * The submitted form_key must match the one stored for this form.
+         * Presence alone was checked before (isset), which let a request name
+         * one form's id with any key at all. A mismatch means the field was
+         * tampered with, so the submission is dropped.
+         */
+        if (!hash_equals((string) $form->form_key, (string) $data['form_key'])) {
+            return;
+        }
+
         // Checked again here: the form may have closed, filled up or already
         // been submitted since the page was loaded.
         $restriction = HashFormRestrictions::check($form);
@@ -413,6 +423,19 @@ class HashFormEntry {
                 if (!empty($meta_value)) {
                     if (!is_array($meta_value)) {
                         $meta_value = sanitize_textarea_field($meta_value);
+
+                        /*
+                         * A scalar answer must never be a PHP-serialized
+                         * string. sanitize_*_field() leaves such a string
+                         * intact, so without this it would reach the database
+                         * and be unserialized on the Entries screen. Multi
+                         * value fields (arrays) are serialized by us further
+                         * down and are unaffected. The value is stored inert
+                         * rather than instantiated later.
+                         */
+                        if (is_serialized($meta_value)) {
+                            $meta_value = '';
+                        }
                     }
 
                     $meta_values = array(

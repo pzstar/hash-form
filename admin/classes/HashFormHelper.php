@@ -1185,8 +1185,17 @@ class HashFormHelper {
 
     public static function get_field_input_value($value) {
         $entry_val = '';
-        $entry_value = maybe_unserialize($value['value']);
-        $entry_type = maybe_unserialize($value['type']);
+        /*
+         * unserialize_or_decode, not maybe_unserialize: $value['value'] is the
+         * visitor-supplied entry value, and this helper feeds it into the Pro
+         * integrations (WooCommerce orders, mailing-list signups, Google
+         * Sheets rows, Trello cards, post creation). maybe_unserialize() would
+         * instantiate any class named in a crafted payload; this decodes the
+         * multi-value arrays it needs without native object unserialization,
+         * matching how HashFormEmail reads the same column.
+         */
+        $entry_value = self::unserialize_or_decode($value['value']);
+        $entry_type = self::unserialize_or_decode($value['type']);
         if (is_array($entry_value)) {
             if ($entry_type == 'name') {
                 $entry_value = implode(' ', array_filter($entry_value));
