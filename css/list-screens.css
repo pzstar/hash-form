@@ -21,7 +21,7 @@
 }
 
 .hf-list-screen .wrap {
-    margin: 20px auto 0;
+    margin: 40px auto 0;
     max-width: 1400px;
     padding: 0 var(--hf-space-6, 32px);
 }
@@ -342,10 +342,14 @@ body.hf-styles-list .wrap > .wp-header-end {
 /* width is reset from the token sheet, which stretches every field to 100%
    for the stacked settings panels. Here a control shares a line with the
    button that acts on it, so a full-width field pushes that button onto the
-   next row. */
-.hf-list-screen select,
-.hf-list-screen input[type="search"],
-.hf-list-screen input[type="text"] {
+   next row.
+
+   Not on the Settings screen: it borrows this shell for its header and its
+   measure but is a stack of settings panels, which is exactly the case the
+   token sheet's 100% is for. */
+.hf-list-screen:not(.hf-settings-screen) select,
+.hf-list-screen:not(.hf-settings-screen) input[type="search"],
+.hf-list-screen:not(.hf-settings-screen) input[type="text"] {
     border: 1px solid var(--hf-border-strong, #d3d8e0);
     border-radius: var(--hf-radius-sm, 4px);
     box-shadow: none;
@@ -355,9 +359,9 @@ body.hf-styles-list .wrap > .wp-header-end {
     width: auto;
 }
 
-.hf-list-screen select:focus,
-.hf-list-screen input[type="search"]:focus,
-.hf-list-screen input[type="text"]:focus {
+.hf-list-screen:not(.hf-settings-screen) select:focus,
+.hf-list-screen:not(.hf-settings-screen) input[type="search"]:focus,
+.hf-list-screen:not(.hf-settings-screen) input[type="text"]:focus {
     border-color: var(--hf-accent, #2271b1);
     box-shadow: 0 0 0 1px var(--hf-accent, #2271b1);
     outline: 0;
@@ -366,8 +370,10 @@ body.hf-styles-list .wrap > .wp-header-end {
 /* The secondary buttons around the table — Bulk actions, Apply, Search.
    Scoped to .wrap so it cannot reach the header bar's Add New: on the style
    templates list .hf-list-screen is on <body>, which put the header inside
-   its reach and turned that button's label dark on the accent fill. */
-.hf-list-screen .wrap .button:not(.hf-trigger-modal) {
+   its reach and turned that button's label dark on the accent fill. The
+   Settings screen is excluded for the same reason — its only .button is the
+   accent-filled Save. */
+.hf-list-screen:not(.hf-settings-screen) .wrap .button:not(.hf-trigger-modal) {
     border-color: var(--hf-border-strong, #d3d8e0);
     border-radius: var(--hf-radius-sm, 4px);
     color: var(--hf-text, #1e2327);
@@ -375,7 +381,7 @@ body.hf-styles-list .wrap > .wp-header-end {
     min-height: 34px;
 }
 
-.hf-list-screen .wrap .button:not(.hf-trigger-modal):hover {
+.hf-list-screen:not(.hf-settings-screen) .wrap .button:not(.hf-trigger-modal):hover {
     background: var(--hf-surface-sunken, #fafbfc);
     border-color: var(--hf-text-faint, #8c9196);
     color: var(--hf-text, #1e2327);

@@ -3647,27 +3647,184 @@ form.hf-error {
     width: 12px;
 }
 
-/* =========== Setting Main Menu Page  =========== */
-#hf-settings-wrap {
-    background: #FFF;
-    border: 1px solid #c3c4c7;
-}
+/* -----------------------------------------------------------------------------
+ * Settings screen
+ *
+ * The site-wide Settings page. It used to be a bordered white box under a
+ * black bar with the title in uppercase — the one screen in the plugin still
+ * dressed that way, and nothing the header, the lists or the builder shared.
+ *
+ * It is now the shell every other screen uses: the bar from
+ * HashFormHelper::render_list_header() above .hf-list-wrap, and the body on
+ * the same measure as the Forms and Entries lists, with the nav rail and the
+ * panel as two cards on it — the pairing the builder and the per-form
+ * settings tab already use.
+ * -------------------------------------------------------------------------- */
 
-.hf-page-title {
-    border-bottom: none;
-    padding: 20px 30px;
+/* Capped and left-aligned under the title in the header bar. The lists it
+   shares this shell with fill the full 1400px because a table has that much
+   to say; a column of settings does not, and stretched to the same measure it
+   left every control marooned against a third of a screen of white. 900 for
+   the panel is the width the builder gives its canvas. */
+.hf-settings-screen .hf-settings-layout {
+    align-items: flex-start;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #000;
+    gap: var(--hf-space-4, 16px);
+    max-width: calc(900px + 240px + var(--hf-space-4, 16px));
 }
 
-.hf-page-title h3 {
+/* Follows down the page rather than leaving the tabs above the fold on a long
+   section, and stops below the admin bar. */
+.hf-settings-screen .hf-settings-nav {
+    background: var(--hf-surface, #fff);
+    border: 1px solid var(--hf-border, #e2e5ea);
+    border-radius: var(--hf-radius, 8px);
+    box-shadow: var(--hf-shadow, 0 1px 2px rgba(16, 24, 40, .05));
+    flex: 0 0 240px;
+    position: sticky;
+    top: calc(var(--wp-admin--admin-bar--height, 32px) + var(--hf-space-4, 16px));
+    width: 240px;
+}
+
+.hf-settings-screen .hf-settings-panel {
+    background: var(--hf-surface, #fff);
+    border: 1px solid var(--hf-border, #e2e5ea);
+    border-radius: var(--hf-radius, 8px);
+    box-shadow: var(--hf-shadow, 0 1px 2px rgba(16, 24, 40, .05));
+    /* min-width:0 so a wide control inside cannot push the panel past the
+       flex line and out from under the nav rail. */
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.hf-settings-screen .hf-settings-sections {
+    padding: var(--hf-space-5, 24px);
+}
+
+/* The save bar is part of the panel, so it reads as belonging to the section
+   above it rather than floating under the page. Sticky, because the captcha
+   section is long enough to scroll Save off the bottom. */
+.hf-settings-screen .hf-footer {
+    border-radius: 0 0 var(--hf-radius, 8px) var(--hf-radius, 8px);
+    bottom: 0;
+    position: sticky;
+    z-index: 2;
+}
+
+/* ---------- Sections ---------- */
+
+/* The intro copy the captcha section opens with: it was body text at the same
+   weight as a setting's own label, directly above the first control. */
+.hf-settings-screen .hf-settings-section > p {
+    color: var(--hf-text-muted, #646970);
+    font-size: var(--hf-font-base, 13px);
+    line-height: 1.6;
+    margin: 0 0 var(--hf-space-2, 8px);
+    max-width: 68ch;
+}
+
+.hf-settings-screen .hf-settings-section > p:last-of-type {
+    margin-bottom: var(--hf-space-5, 24px);
+}
+
+.hf-settings-screen .hf-settings-row {
+    margin: 0 0 var(--hf-space-5, 24px);
+}
+
+.hf-settings-screen .hf-settings-row:last-child {
+    margin-bottom: 0;
+}
+
+/* The email section lays its rows out on the 6-column grid, where a gap and a
+   bottom margin stack up and leave it spaced twice as far apart as the
+   captcha section beside it. The gap is the one that carries here. */
+.hf-settings-screen .hf-grid-container {
+    gap: var(--hf-space-5, 24px);
+}
+
+.hf-settings-screen .hf-grid-container > .hf-settings-row {
+    margin-bottom: 0;
+}
+
+/* Help text under a control. .hf-desc is only styled where it sits inside
+   .hf-setting-fields — and italic there — while half the rows on this screen
+   put it directly in the row, where nothing answered it at all. One
+   treatment, whichever way a section writes it. */
+.hf-settings-screen .hf-settings-row p.hf-desc {
+    color: var(--hf-text-muted, #646970);
+    font-size: var(--hf-font-sm, 12px);
+    font-style: normal;
+    line-height: 1.5;
+    margin: var(--hf-space-2, 8px) 0 0;
+    max-width: 68ch;
+}
+
+/* The description on the threshold row explains the slider that follows it,
+   so it belongs between the label and the control, not after both. */
+.hf-settings-screen .hf-settings-row > p.hf-desc {
+    margin: 0 0 var(--hf-space-3, 12px);
+}
+
+/* The media picker is a control like any other here, and at the panel's full
+   width it was three times the size of the fields under it. */
+.hf-settings-screen .hf-image-preview {
+    max-width: 480px;
+}
+
+/* A key or a language picker does not need the whole panel; the token sheet
+   stretches every field to 100% for the narrow panels it was written for. */
+.hf-settings-screen .hf-settings-row input[type="text"],
+.hf-settings-screen .hf-settings-row input[type="email"],
+.hf-settings-screen .hf-settings-row input[type="password"],
+.hf-settings-screen .hf-settings-row select {
+    max-width: 480px;
+}
+
+/* Send Test Email: the field and its button on one line. */
+.hf-settings-screen .hf-setting-field {
+    align-items: center;
+    display: flex;
+    gap: var(--hf-space-2, 8px);
+}
+
+.hf-settings-screen .hf-setting-field input[type="email"] {
+    flex: 0 1 320px;
+}
+
+.hf-settings-screen #hf-test-email-button {
+    flex: 0 0 auto;
+}
+
+/* Checkbox rows read as one line, with the switch beside its wording rather
+   than block-level above it. */
+.hf-settings-screen .hf-setting-fields > label {
+    align-items: center;
+    color: var(--hf-text, #1e2327);
+    display: inline-flex;
+    font-size: var(--hf-font-base, 13px);
+    gap: var(--hf-space-2, 8px);
+}
+
+.hf-settings-screen .hf-setting-fields > label input[type="checkbox"] {
     margin: 0;
-    font-size: 18px;
-    color: #FFF;
-    font-weight: normal;
-    text-transform: uppercase;
+}
+
+@media only screen and (max-width: 960px) {
+
+    .hf-settings-screen .hf-settings-layout {
+        display: block;
+    }
+
+    .hf-settings-screen .hf-settings-nav {
+        margin-bottom: var(--hf-space-4, 16px);
+        position: static;
+        width: auto;
+    }
+
+    .hf-settings-screen .hf-settings-tab {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
 }
 
 .hf-footer {
@@ -3790,7 +3947,7 @@ form.hf-error {
 }
 
 #hf-test-email-button {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
 }

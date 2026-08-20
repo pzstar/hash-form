@@ -3,7 +3,7 @@ Contributors: hashthemes
 Tags: form, form builder, drag and drop, contact form
 Requires at least: 6.3
 Tested up to: 7.0
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -111,6 +111,12 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 11. Global Email Settings Page
 
 == Changelog ==
+= 1.4.2 - 20 Aug, 2026 =
+* Settings screen redesigned to match the rest of the admin - shared header bar, and the navigation and panel rebuilt on the plugin's design tokens
+* Saving from any section other than Captcha returned to Captcha instead of the section in use - Fixed
+* Send Test Email showed no message at all when the address was invalid - Fixed
+* Help text under One Entry Per Person never rendered, and the row below it was nested inside that paragraph - Fixed
+
 = 1.4.1 - 19 Aug, 2026 =
 * Missing nonce verification in bulk actions and Empty Trash on the Forms and Entries screens (CSRF) - Fixed
 * Forms and Entries list screens refactored onto a shared action handler

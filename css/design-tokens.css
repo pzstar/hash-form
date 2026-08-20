@@ -13,7 +13,6 @@
 .hf-wrap,
 #hf-wrap,
 .hf-form-entry-details-wrap,
-.hashform-settings-wrap,
 /* Printed into admin_footer, so they sit outside every wrapper above and
    have to declare the tokens themselves. */
 #hf-add-form-modal,

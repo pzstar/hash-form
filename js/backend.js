@@ -624,6 +624,11 @@ var hashFormAdmin = hashFormAdmin || {};
             });
         },
 
+        invalidEmailText: function () {
+            return (typeof hashform_backend_js !== 'undefined' && hashform_backend_js.invalid_email)
+                || 'Enter a valid email address.';
+        },
+
         initOtherSettings: function () {
             $(document).on('click', '#hf-test-email-button', function (e) {
                 e.preventDefault();
@@ -631,14 +636,17 @@ var hashFormAdmin = hashFormAdmin || {};
                 const testEmailButton = $(this);
                 const testEmail = $(document).find('#hf-test-email').val();
 
-                $(document).find('.hf-error').remove();
+                const $notice = testEmailButton.closest('.hf-settings-row').find('.hf-test-email-notice');
+
+                $notice.html('');
                 if (!hashFormAdmin.isEmail(testEmail)) {
-                    testEmailButton.closest('.hf-grid-3').append('<div class="hf-error">Invalid Email</div>');
+                    // Was appended to .hf-grid-3, which this row has never
+                    // contained, so an invalid address reported nothing at all.
+                    $notice.html('<div class="hf-error">' + hashFormAdmin.invalidEmailText() + '</div>');
                     return;
                 }
 
                 testEmailButton.addClass('hf-loading-button');
-                $('.hf-test-email-notice').html('');
 
                 $.ajax({
                     type: 'POST',

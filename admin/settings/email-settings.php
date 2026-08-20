@@ -54,7 +54,7 @@ if (isset($settings['header_image'])) {
         <label class="hf-setting-label"><?php esc_html_e('Send Test Email to', 'hash-form'); ?></label>
         <div class="hf-setting-field">
             <input type="email" id="hf-test-email" />
-            <a href="#" class="button button-secondary" id="hf-test-email-button"><?php esc_attr_e('Send Test Email', 'hash-form'); ?></a>
+            <a href="#" class="hf-btn" id="hf-test-email-button"><?php esc_attr_e('Send Test Email', 'hash-form'); ?></a>
         </div>
         <div class="hf-test-email-notice"></div>
     </div>
