@@ -1696,6 +1696,7 @@ select.ui-timepicker-select.ui-timepicker-select {
     top: 0;
     transition: background-color var(--hf-pick-transition);
     width: var(--hf-pick-tap);
+    text-decoration: none;
 }
 
 #ui-datepicker-div .ui-datepicker-prev {
