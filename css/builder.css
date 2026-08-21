@@ -566,6 +566,7 @@
     text-transform: none;
     white-space: nowrap;
     width: auto;
+    line-height: 1.3;
 }
 
 .hf-content .hf-header-status {
