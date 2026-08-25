@@ -21,6 +21,7 @@ define('HASHFORM_PATH', plugin_dir_path(HASHFORM_FILE));
 define('HASHFORM_URL', plugin_dir_url(HASHFORM_FILE));
 define('HASHFORM_UPLOAD_DIR', '/hashform');
 
+require HASHFORM_PATH . 'admin/classes/HashFormCapabilities.php';
 require HASHFORM_PATH . 'admin/classes/HashFormSerializedStrParser.php';
 require HASHFORM_PATH . 'admin/classes/HashFormStrReader.php';
 require HASHFORM_PATH . 'admin/classes/HashFormBlock.php';
@@ -46,6 +47,7 @@ require HASHFORM_PATH . 'admin/classes/HashFormSettings.php';
 require HASHFORM_PATH . 'admin/classes/HashFormStyles.php';
 require HASHFORM_PATH . 'admin/classes/HashFormGridHelper.php';
 require HASHFORM_PATH . 'admin/classes/HashFormEmail.php';
+require HASHFORM_PATH . 'admin/classes/HashFormPrivacy.php';
 
 /**
  * Bring the schema up to date after a plugin update, not just on activation.

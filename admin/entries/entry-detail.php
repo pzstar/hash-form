@@ -1,11 +1,11 @@
 <?php
 defined('ABSPATH') || die();
-$prev_entry = HashFormEntry::get_prev_entry($entry->id);
+$prev_entry = HashFormEntry::get_prev_entry($entry->id, $entry->form_id);
 $prev_entry = isset($prev_entry[0]) ? $prev_entry[0] : '';
 $prev_entry_id = isset($prev_entry->id) ? $prev_entry->id : '';
 $prev_url = $prev_entry_id ? admin_url('admin.php?page=hashform-entries&hashform_action=view&id=' . $prev_entry_id) : '#';
 
-$next_entry = HashFormEntry::get_next_entry($entry->id);
+$next_entry = HashFormEntry::get_next_entry($entry->id, $entry->form_id);
 $next_entry = isset($next_entry[0]) ? $next_entry[0] : '';
 $next_entry_id = isset($next_entry->id) ? $next_entry->id : '';
 $next_url = $next_entry_id ? admin_url('admin.php?page=hashform-entries&hashform_action=view&id=' . $next_entry_id) : '#';

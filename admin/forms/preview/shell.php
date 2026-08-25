@@ -11,7 +11,7 @@ defined('ABSPATH') || die();
  */
 
 $hf_widths = HashFormPreview::preview_widths();
-$hf_can_edit = current_user_can('manage_options');
+$hf_can_edit = HashFormCapabilities::user_can('hashform_edit_forms');
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>

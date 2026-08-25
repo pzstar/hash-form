@@ -773,6 +773,40 @@ class HashFormHelper {
         return $user_id;
     }
 
+    /**
+     * Record a diagnostic message.
+     *
+     * Silent unless the site has debugging switched on, so a production
+     * install writes nothing and nothing the plugin logs can ever reach a
+     * visitor. Everything the plugin needs to report about a failure that it
+     * handled - a refused mail, an integration that answered badly, output
+     * where there should have been none - goes through here rather than being
+     * echoed or left to a bare error_log() call.
+     *
+     * @param string $message
+     * @param string $context Optional label for the subsystem reporting.
+     */
+    public static function log($message, $context = 'hash-form') {
+        /**
+         * Whether the plugin should write diagnostics at all.
+         *
+         * Defaults to the site's own debug logging setting, so turning
+         * WP_DEBUG_LOG off in production is enough to silence it.
+         */
+        $enabled = apply_filters('hashform_enable_logging', defined('WP_DEBUG') && WP_DEBUG);
+
+        if (!$enabled) {
+            return;
+        }
+
+        if (is_array($message) || is_object($message)) {
+            $message = wp_json_encode($message);
+        }
+
+        // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+        error_log(sprintf('[%s] %s', $context, (string) $message));
+    }
+
     public static function get_ip() {
         $ip = self::get_ip_address();
         return $ip;
