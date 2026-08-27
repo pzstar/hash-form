@@ -121,6 +121,10 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 
 == Changelog ==
 = 1.4.2 - 20 Aug, 2026 =
+* File uploads: a request naming only unrecognised extensions cleared the guard and left the uploader with an empty allowlist, which it read as no restriction - Fixed (Security)
+* An empty upload allowlist is now treated as nothing permitted rather than everything permitted - Fixed (Security)
+* A file's extension is re-checked against the field's allowlist before the temporary upload is made permanent - Fixed (Security)
+* The protective .htaccess is now written whenever it is missing, not only when the upload folder is first created - Fixed (Security)
 * PHP object injection: a crafted entry value was deserialized when an administrator opened the Entries list - Fixed (Security)
 * Form submissions are now rejected unless the per-form nonce verifies and the submitted form key matches the stored one - Fixed (Security)
 * Serialized strings are no longer accepted into an entry field's stored value - Fixed (Security)

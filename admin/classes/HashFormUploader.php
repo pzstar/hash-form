@@ -201,7 +201,17 @@ class HashFormFileUploader {
             return array('error' => esc_html__('This type of file is not allowed.', 'hash-form'));
         }
 
-        if ($this->allowedExtensions && !in_array(strtolower($ext), $this->allowedExtensions)) {
+        /*
+         * An empty list means nothing is permitted, not that everything is.
+         * This class is only ever constructed with a list the caller has
+         * already filtered, so an empty one is a caller that ended up with
+         * no usable extensions rather than one asking for no restriction.
+         */
+        if (!$this->allowedExtensions) {
+            return array('error' => esc_html__('This type of file is not allowed.', 'hash-form'));
+        }
+
+        if (!in_array(strtolower($ext), $this->allowedExtensions, true)) {
             $these = implode(', ', $this->allowedExtensions);
             return array('error' => esc_html__('File has an invalid extension, it should be one of', 'hash-form') . ' ' . $these . '.');
         }
@@ -326,11 +336,23 @@ class HashFormFileUploader {
         // constant is only defined once WP_Filesystem() has run.
         if (!is_dir($path)) {
             $wp_filesystem->mkdir($path, 0755);
-            $wp_filesystem->put_contents($path . '/.htaccess', $htaccess);
         }
 
         if (!is_dir($path . '/temp')) {
             $wp_filesystem->mkdir($path . '/temp', 0755);
+        }
+
+        /*
+         * Written whenever it is absent rather than only alongside a fresh
+         * mkdir. A directory left behind by a version that did not write these
+         * rules would otherwise never receive them, and this file is what stops
+         * the handlers running in here.
+         */
+        if (is_dir($path) && !file_exists($path . '/.htaccess')) {
+            $wp_filesystem->put_contents($path . '/.htaccess', $htaccess);
+        }
+
+        if (is_dir($path . '/temp') && !file_exists($path . '/temp/.htaccess')) {
             $wp_filesystem->put_contents($path . '/temp/.htaccess', $htaccess);
         }
 

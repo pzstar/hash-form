@@ -898,18 +898,27 @@ class HashFormBuilder {
 
         // The request controls the shape of this value; a scalar would emit a
         // warning into the middle of the JSON response below.
-        if (!is_array($allowedExtensions) || !$allowedExtensions) {
-            // Answered rather than dropped: an empty body left the uploader
-            // waiting on a response it could not parse, so the file appeared
-            // to hang instead of failing.
-            wp_send_json(array('error' => esc_html__('This type of file is not allowed.', 'hash-form')));
-        }
+        $allowedExtensions = is_array($allowedExtensions) ? $allowedExtensions : array();
 
         $filtered_allowed_extenstions = array();
         foreach ($allowedExtensions as $ext) {
             if (in_array($ext, $default_allowed_extenstions, true)) {
                 $filtered_allowed_extenstions[] = $ext;
             }
+        }
+
+        /*
+         * Tested after filtering rather than before. A request naming only
+         * extensions this plugin does not recognise used to satisfy a check on
+         * the raw list and then hand the uploader an empty one, which it read
+         * as "no restriction configured".
+         *
+         * Answered rather than dropped: an empty body left the uploader
+         * waiting on a response it could not parse, so the file appeared
+         * to hang instead of failing.
+         */
+        if (!$filtered_allowed_extenstions) {
+            wp_send_json(array('error' => esc_html__('This type of file is not allowed.', 'hash-form')));
         }
 
         // Never trust the request for the size limit beyond what the
