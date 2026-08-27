@@ -27,6 +27,8 @@ require HASHFORM_PATH . 'admin/classes/HashFormStrReader.php';
 require HASHFORM_PATH . 'admin/classes/HashFormBlock.php';
 require HASHFORM_PATH . 'admin/classes/HashFormUploader.php';
 require HASHFORM_PATH . 'admin/classes/HashFormCreateTable.php';
+require HASHFORM_PATH . 'admin/classes/HashFormMigrations.php';
+require HASHFORM_PATH . 'admin/classes/HashFormCron.php';
 // Must load before the classes that compose it.
 require HASHFORM_PATH . 'admin/classes/HashFormListActions.php';
 require HASHFORM_PATH . 'admin/classes/HashFormBuilder.php';
@@ -84,6 +86,20 @@ function hashform_network_create_table($network_wide) {
     } else {
         $db = new HashFormCreateTable();
         $db->upgrade();
+    }
+}
+
+/**
+ * Plugin Deactivation.
+ *
+ * A scheduled event that outlives the plugin keeps firing against a hook
+ * nothing answers, so the event goes when the plugin does.
+ */
+register_deactivation_hook(HASHFORM_FILE, 'hashform_on_deactivate');
+
+function hashform_on_deactivate() {
+    if (class_exists('HashFormCron')) {
+        HashFormCron::unschedule();
     }
 }
 

@@ -186,10 +186,47 @@ class HashFormEntry {
         return esc_html__('No Entries were specified', 'hash-form');
     }
 
+    /**
+     * May the current user read this entry?
+     *
+     * The check lives here rather than only in the callers because this
+     * method renders an entry in full - every answer somebody submitted - and
+     * a caller that forgets to ask is one line away from publishing it.
+     *
+     * @param int $entry_id
+     * @return bool
+     */
+    public static function current_user_can_view($entry_id) {
+        /**
+         * Final say on whether an entry may be read.
+         *
+         * Add-ons that decide access some other way - by form, by ownership,
+         * by a membership plugin - hook this rather than replacing the check.
+         *
+         * @param bool $allowed
+         * @param int  $entry_id
+         */
+        return (bool) apply_filters(
+                        'hashform_user_can_view_entry',
+                        HashFormCapabilities::user_can('hashform_view_entries'),
+                        absint($entry_id)
+        );
+    }
+
     public static function view($id = 0) {
         if (!$id) {
             $id = HashFormHelper::get_var('id', 'absint');
         }
+
+        if (!self::current_user_can_view($id)) {
+            ?>
+            <div id="message" class="error notice is-dismissible">
+                <p><?php esc_html_e('You do not have permission to view this entry.', 'hash-form'); ?></p>
+            </div>
+            <?php
+            return;
+        }
+
         $entry = self::get_entry_vars($id);
 
         if (!$entry) {
@@ -293,6 +330,19 @@ class HashFormEntry {
         if (!$entry) {
             return false;
         }
+
+        /**
+         * An entry is about to be deleted.
+         *
+         * Fires while the entry and its meta can still be read, so an add-on
+         * can clear whatever it stored alongside the entry before the row it
+         * keys on disappears. Without this, anything an add-on wrote against
+         * an entry id outlives the entry with nothing left to identify it.
+         *
+         * @param int    $id
+         * @param object $entry The entry, with its meta loaded.
+         */
+        do_action('hashform_before_destroy_entry', $id, $entry);
 
         // Files first: once the meta rows are gone there is nothing left to
         // say which uploads belonged to this entry, and they would sit in the

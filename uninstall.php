@@ -25,3 +25,12 @@ if (class_exists('HashFormCapabilities')) {
 }
 
 delete_option('hashform_caps_version');
+
+// A scheduled event outlives the plugin file unless it is cleared, and then
+// fires forever against a hook nothing answers.
+wp_clear_scheduled_hook('hashform_daily_maintenance');
+
+// Migration bookkeeping, not data. The tables and everything in them stay.
+delete_option('hashform_schema_version');
+delete_option('hashform_schema_progress');
+delete_transient('hashform_schema_lock');
