@@ -250,7 +250,7 @@ class HashFormMigrations {
             return true;
         }
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is $wpdb->prefix plus a literal; the query carries no values.
         $too_long = (int) $wpdb->get_var("SELECT COUNT(*) FROM `{$table}` WHERE CHAR_LENGTH(ip) > 45");
 
         if ($too_long > 0) {
@@ -261,7 +261,7 @@ class HashFormMigrations {
             return true;
         }
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery.SchemaChange -- $table is $wpdb->prefix plus a literal. A schema change is the whole point of a migration step.
         $wpdb->query("ALTER TABLE `{$table}` MODIFY `ip` VARCHAR(45) DEFAULT NULL");
 
         return 'varchar' === strtolower(substr((string) self::column_type('hashform_entries', 'ip'), 0, 7));
@@ -341,7 +341,7 @@ class HashFormMigrations {
 
         $full = $wpdb->prefix . $table;
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery.SchemaChange -- $name passed valid_identifier(), and every entry in $parts was rebuilt from a matched [A-Za-z0-9_] group with a cast length. A schema change is the whole point of a migration step.
         $wpdb->query("ALTER TABLE `{$full}` ADD INDEX `{$name}` (" . implode(', ', $parts) . ')');
 
         if (!self::index_exists($table, $name)) {
@@ -369,7 +369,7 @@ class HashFormMigrations {
 
         // SHOW INDEX takes the table as an identifier but the key name as a
         // value, so that half is prepared.
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $full is $wpdb->prefix plus a table name already checked by table_exists().
         $found = $wpdb->get_results("SHOW INDEX FROM `{$full}`", ARRAY_A);
 
         foreach ((array) $found as $row) {
@@ -397,7 +397,7 @@ class HashFormMigrations {
 
         $full = $wpdb->prefix . $table;
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $full is $wpdb->prefix plus a table name already checked by table_exists().
         $rows = $wpdb->get_results("SHOW COLUMNS FROM `{$full}`", ARRAY_A);
 
         foreach ((array) $rows as $row) {

@@ -171,6 +171,7 @@ class HashFormImportExport {
      * @param string $file_key Key within $_FILES.
      * @return array|WP_Error
      */
+    // phpcs:disable WordPress.Security.NonceVerification.Missing -- every call site verifies its own nonce immediately before calling this; see import_form(), import_form_submit() and the Pro plugin's run_file_import().
     public static function read_uploaded_export($file_key) {
         $upload_error = isset($_FILES[$file_key]['error']) ? (int) $_FILES[$file_key]['error'] : UPLOAD_ERR_NO_FILE;
 
@@ -197,6 +198,7 @@ class HashFormImportExport {
         if (empty($tmp) || !is_uploaded_file($tmp)) {
             return new WP_Error('hashform_no_file', esc_html__('Please upload a file to import', 'hash-form'));
         }
+        // phpcs:enable
 
         $contents = file_get_contents($tmp);
         $imdat = (false === $contents) ? null : json_decode($contents, true);

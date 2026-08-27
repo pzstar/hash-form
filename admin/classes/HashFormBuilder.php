@@ -1026,11 +1026,11 @@ class HashFormBuilder {
                     <?php
                     printf(
                         /* translators: %1$s is link start tag, %2$s is link end tag. */
-                        esc_html__('Great to see that you have been using Hash Form for some time. We hope you love it, and we would really appreciate it if you would %1$sgive us a 5 stars rating%2$s and spread your words to the world.', 'hash-form'), '<a target="_blank" href="https://wordpress.org/support/plugin/hash-form/reviews/?filter=5">', '</a>'
+                        esc_html__('Great to see that you have been using Hash Form for some time. We hope you love it, and we would really appreciate it if you would %1$sleave a review%2$s and spread your words to the world.', 'hash-form'), '<a target="_blank" href="https://wordpress.org/support/plugin/hash-form/reviews/">', '</a>'
                     );
                     ?>
                 </p>
-                <a target="_blank" class="button button-primary button-large" href="https://wordpress.org/support/plugin/hash-form/reviews/?filter=5"><span class="dashicons dashicons-thumbs-up"></span><?php echo esc_html__('Yes, of course', 'hash-form') ?></a> &nbsp;
+                <a target="_blank" class="button button-primary button-large" href="https://wordpress.org/support/plugin/hash-form/reviews/"><span class="dashicons dashicons-thumbs-up"></span><?php echo esc_html__('Yes, of course', 'hash-form') ?></a> &nbsp;
                 <a class="button button-large" href="<?php echo esc_url(wp_nonce_url(add_query_arg('hashform-hide-notice', 'review'), 'review', 'hashform_notice_nonce')); ?>"><span class="dashicons dashicons-yes"></span><?php echo esc_html__('I have already rated', 'hash-form') ?></a>
             </div>
         </div>
@@ -1090,6 +1090,7 @@ class HashFormBuilder {
 
             foreach ($string_array as $title => $strings) {
                 if (has_action('wpml_register_single_string')) {
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WPML's own hook, not one this plugin owns.
                     do_action('wpml_register_single_string', 'Hash Form', $form_title . ' - ' . $title, $strings);
                 }
             }
@@ -1152,6 +1153,7 @@ class HashFormBuilder {
 
                 foreach ($string_array as $title => $strings) {
                     if (has_action('wpml_register_single_string')) {
+                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WPML's own hook, not one this plugin owns.
                         do_action('wpml_register_single_string', 'Hash Form', $form_title . ' - ' . $field->id . ' - ' . $title, $strings);
                     }
                 }
@@ -1160,6 +1162,7 @@ class HashFormBuilder {
     }
 
     public function translate_string($original_value, $domain, $name = '') {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WPML's own hook, not one this plugin owns.
         $wpml_translation = apply_filters('wpml_translate_single_string', $original_value, $domain, $name);
         if ($wpml_translation === $original_value && function_exists('pll__')) {
             return pll__($original_value);

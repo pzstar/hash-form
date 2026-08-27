@@ -110,12 +110,14 @@ class HashFormEntryListing extends \WP_List_Table {
 
         $ids = implode(',', array_map('absint', $this->page_entry_ids));
 
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $q['join'] and $q['where'] are built in build_query() from literals and placeholders only; the values they refer to are bound through $q['params']. order_clause() returns a whitelisted column. Interpolated entry ids are run through absint() first.
         $rows = $wpdb->get_results(
                 "SELECT m.item_id, m.meta_value, f.type
             FROM {$wpdb->prefix}hashform_entry_meta AS m
             LEFT JOIN {$wpdb->prefix}hashform_fields AS f ON f.id = m.field_id
             WHERE m.item_id IN ({$ids})
-            ORDER BY m.id ASC", ARRAY_A); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+            ORDER BY m.id ASC", ARRAY_A);
+        // phpcs:enable
 
         // Layout only fields hold no answer, so they make a poor preview.
         $skip = array('heading', 'paragraph', 'separator', 'spacer', 'image', 'html', 'captcha', 'hidden', 'user_id');
@@ -363,11 +365,11 @@ class HashFormEntryListing extends \WP_List_Table {
         // DISTINCT because the meta join returns one row per stored answer.
         $sql = "SELECT COUNT(DISTINCT e.id) FROM {$wpdb->prefix}hashform_entries AS e {$q['join']} WHERE {$q['where']}";
 
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $q['join'] and $q['where'] are built in build_query() from literals and placeholders only; the values they refer to are bound through $q['params']. order_clause() returns a whitelisted column. Interpolated entry ids are run through absint() first.
         return (int) ($q['params']
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
                 ? $wpdb->get_var($wpdb->prepare($sql, $q['params']))
-                // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
                 : $wpdb->get_var($sql));
+        // phpcs:enable
     }
 
     /**
@@ -392,8 +394,9 @@ class HashFormEntryListing extends \WP_List_Table {
         $params[] = max(1, (int) $per_page);
         $params[] = max(0, (int) $offset);
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $q['join'] and $q['where'] are built in build_query() from literals and placeholders only; the values they refer to are bound through $q['params']. order_clause() returns a whitelisted column. Interpolated entry ids are run through absint() first.
         return $wpdb->get_results($wpdb->prepare($sql, $params), ARRAY_A);
+        // phpcs:enable
     }
 
     public function get_bulk_actions() {

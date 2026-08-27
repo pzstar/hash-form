@@ -88,6 +88,7 @@ class HashFormPrivacy {
         $args[] = self::PER_PAGE;
         $args[] = $offset;
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $sql is assembled just above from literals and %s/%d placeholders only; every value is bound through $args.
         return array_map('absint', $wpdb->get_col($wpdb->prepare($sql, $args)));
     }
 

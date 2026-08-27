@@ -1,6 +1,13 @@
 <?php
 defined('ABSPATH') || die();
 
+/*
+ * meta_value here is a column in the plugin's own hashform_entry_meta table,
+ * not the WP_Query argument the sniff is looking for. There is no meta query
+ * in this file to be slow.
+ */
+// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+
 class HashFormEntry {
 
     use HashFormListActions;
@@ -811,13 +818,17 @@ class HashFormEntry {
             return array();
         }
 
+        /*
+         * The two queries are written out rather than assembled, because
+         * $wpdb->prepare() has to be handed a literal to be checkable: a
+         * query built in a variable cannot be verified by anything - not the
+         * sniffs, not a reader - as holding only placeholders.
+         */
         if ('prev' === $direction) {
-            $sql = "SELECT id FROM {$wpdb->prefix}hashform_entries WHERE id < %d AND form_id = %d AND status='published' ORDER BY id DESC LIMIT 1";
-        } else {
-            $sql = "SELECT id FROM {$wpdb->prefix}hashform_entries WHERE id > %d AND form_id = %d AND status='published' ORDER BY id ASC LIMIT 1";
+            return $wpdb->get_results($wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_entries WHERE id < %d AND form_id = %d AND status = 'published' ORDER BY id DESC LIMIT 1", $entry_id, $form_id));
         }
 
-        return $wpdb->get_results($wpdb->prepare($sql, $entry_id, $form_id));
+        return $wpdb->get_results($wpdb->prepare("SELECT id FROM {$wpdb->prefix}hashform_entries WHERE id > %d AND form_id = %d AND status = 'published' ORDER BY id ASC LIMIT 1", $entry_id, $form_id));
     }
 
     public static function get_entry_date($entry_id) {

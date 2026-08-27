@@ -1,0 +1,19 @@
+# Files that belong to the source checkout, not to the plugin people install.
+#
+# `wp dist-archive .` reads this when building the zip. Everything listed
+# here exists to develop the plugin - version control, the block build
+# toolchain, the pre-commit lint hook - and Plugin Check rightly objects to
+# any of it turning up in a release.
+#
+# What is NOT listed is deliberate: build/ holds the compiled block editor
+# script and src/ is the JSX it is compiled from, both of which WordPress.org
+# expects to receive so the build can be reproduced.
+
+.git
+.gitignore
+.githooks
+.distignore
+.DS_Store
+node_modules
+package.json
+package-lock.json

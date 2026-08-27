@@ -259,6 +259,7 @@ trait HashFormListActions {
         $placeholders = implode(',', array_fill(0, count($id), '%d'));
         $prepare_args = array_merge(array($status), $id);
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is $wpdb->prefix plus a table name from the subclass's own list_config(), and $placeholders is a string of %d markers whose values are bound through $prepare_args.
         return $wpdb->query($wpdb->prepare("UPDATE {$table} SET status=%s WHERE id IN ({$placeholders})", $prepare_args));
     }
 
@@ -280,6 +281,7 @@ trait HashFormListActions {
 
         $config = static::list_config();
         $table = $wpdb->prefix . $config['table'];
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is $wpdb->prefix plus a table name from the subclass's own list_config(); the one value is bound.
         $trashed = $wpdb->get_col($wpdb->prepare("SELECT id FROM {$table} WHERE status=%s", 'trash'));
 
         if (!$trashed) {
@@ -317,6 +319,7 @@ trait HashFormListActions {
     }
 
     public static function process_bulk_actions() {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- a presence test only; check_admin_referer() runs three lines down, before anything is read.
         if (!$_REQUEST) {
             return;
         }

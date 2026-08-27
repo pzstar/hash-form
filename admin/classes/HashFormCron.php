@@ -160,12 +160,13 @@ class HashFormCron {
          * returns false, which reads as "nothing to do" rather than as an
          * error. Two statements, both valid, and the cap survives.
          */
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $meta and $entries are $wpdb->prefix plus table name literals set above; the batch size is bound.
         $ids = $wpdb->get_col($wpdb->prepare(
                         "SELECT m.id FROM {$meta} AS m
                          LEFT JOIN {$entries} AS e ON e.id = m.item_id
                          WHERE e.id IS NULL
                          LIMIT %d", self::BATCH));
+        // phpcs:enable
 
         if (empty($ids)) {
             return 0;
@@ -173,7 +174,7 @@ class HashFormCron {
 
         $in = implode(',', array_map('absint', $ids));
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $meta is a table name literal and $in is the id list mapped through absint() on the line above.
         $removed = (int) $wpdb->query("DELETE FROM {$meta} WHERE id IN ({$in})");
 
         if ($removed) {

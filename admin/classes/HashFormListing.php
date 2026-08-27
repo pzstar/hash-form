@@ -242,9 +242,10 @@ class HashFormListing extends \WP_List_Table {
 
         $q = $this->build_query();
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $q['where'] is a list of literal placeholder clauses built in build_query() and never holds a value; every value travels in $q['params'] and is bound by prepare(). order_clause() returns a column name looked up in a whitelist. The sniffs cannot follow either, so they are silenced here rather than everywhere.
         return (int) $wpdb->get_var($wpdb->prepare(
                 "SELECT COUNT(*) FROM {$wpdb->prefix}hashform_forms WHERE {$q['where']}", $q['params']));
+        // phpcs:enable
     }
 
     /**
@@ -262,11 +263,12 @@ class HashFormListing extends \WP_List_Table {
         $params[] = max(1, (int) $per_page);
         $params[] = max(0, (int) $offset);
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $q['where'] is a list of literal placeholder clauses built in build_query() and never holds a value; every value travels in $q['params'] and is bound by prepare(). order_clause() returns a column name looked up in a whitelist. The sniffs cannot follow either, so they are silenced here rather than everywhere.
         return $wpdb->get_results($wpdb->prepare(
                 "SELECT * FROM {$wpdb->prefix}hashform_forms WHERE {$q['where']}"
                 . ' ORDER BY ' . $this->order_clause()
                 . ' LIMIT %d OFFSET %d', $params), ARRAY_A);
+        // phpcs:enable
     }
 
     public static function get_published_table_data() {

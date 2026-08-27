@@ -2,8 +2,8 @@
 #
 # Syntax-checks PHP files.
 #
-#   ./bin-lint.sh              every file in the plugin
-#   ./bin-lint.sh a.php b.php  just those
+#   ./.githooks/lint              every file in the plugin
+#   ./.githooks/lint a.php b.php  just those
 #
 # Exists because a typo'd function name (issset) shipped and left a whole
 # admin screen fatal, which php -l catches in under a second.
@@ -27,7 +27,7 @@ if [ "$#" -gt 0 ]; then
         [ -f "$file" ] && lint "$file"
     done
 else
-    cd "$(dirname "$0")"
+    cd "$(dirname "$0")/.."
     while IFS= read -r -d '' file; do
         lint "$file"
     done < <(find . -path ./node_modules -prune -o -path ./vendor -prune -o -name '*.php' -print0)

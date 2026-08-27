@@ -20,4 +20,4 @@ if [ -z "$staged" ]; then
     exit 0
 fi
 
-printf '%s\n' "$staged" | tr '\n' '\0' | xargs -0 ./bin-lint.sh
+printf '%s\n' "$staged" | tr '\n' '\0' | xargs -0 "$root/.githooks/lint"
