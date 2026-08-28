@@ -339,6 +339,34 @@ body.hf-styles-list .wrap > .wp-header-end {
     display: none;
 }
 
+/* Core hides two things in here with display:none, and the flex rules above
+   were quietly outranking both.
+
+   A table with no bulk actions still prints the bulk-actions block and marks
+   it .hidden. Forced back to flex it stayed a flex item - zero wide, but with
+   the row's 8px gap after it - which pushed the filter controls 9px to the
+   right of the table and the status tabs they sit above.
+
+   The pager is marked .no-pages when there is nothing to page through, and was
+   being shown as an item count on a list with no items. */
+.hf-list-screen .tablenav .actions.hidden,
+.hf-list-screen .tablenav .hidden,
+.hf-list-screen .tablenav .no-pages {
+    display: none;
+}
+
+/* The row is a flex line, so its gap is the only thing that should be putting
+   space between these controls. Core gives each one its own margins as well -
+   `select { margin: 0 6px 0 1px }` among them - which both knocked the first
+   control a pixel out of line with the table and made the space between a
+   control and its button 14px where the rest of the row uses 8px. */
+.hf-list-screen .tablenav .actions > select,
+.hf-list-screen .tablenav .actions > input,
+.hf-list-screen .tablenav .actions > .button,
+.hf-list-screen .tablenav .actions > .button-secondary {
+    margin: 0;
+}
+
 /* width is reset from the token sheet, which stretches every field to 100%
    for the stacked settings panels. Here a control shares a line with the
    button that acts on it, so a full-width field pushes that button onto the

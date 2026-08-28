@@ -1223,6 +1223,19 @@ class HashFormStyles {
         ob_start();
         remove_action('wp_head', 'print_emoji_detection_script', 7);
         remove_action('wp_print_styles', 'print_emoji_styles');
+
+        /*
+         * The preview is a whole document assembled here, so nothing has asked
+         * for the frontend form assets yet. A real form picks them up inside
+         * get_form_contents(), but that runs after wp_head() has printed, and
+         * the demo markup below is static so it never reached that call at
+         * all - the default preview rendered with none of the form CSS the
+         * style variables are read by. Hooking the enqueue rather than calling
+         * it here lets the handles register first, and puts the stylesheets in
+         * the head for both branches.
+         */
+        add_action('wp_enqueue_scripts', array('HashFormLoader', 'enqueue_form_assets'), 20);
+
         wp_head();
 
         $form_id = HashFormHelper::get_post('form_id', 'absint');

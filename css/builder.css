@@ -442,12 +442,19 @@
 
 /* ---------- Payment field preview ---------- */
 
-/* Every enabled gateway is a radio, and with twenty of them switched on the
-   field ran the height of the canvas and pushed the rest of the form out of
-   view. Only the builder preview is columned — the live form is untouched. */
+/* Every enabled gateway is a method tile, and with twenty of them switched on
+   the field ran the height of the canvas and pushed the rest of the form out
+   of view. The tiles are what gets columned — putting the grid on the
+   container instead spread the summary card, the tiles and the secure note
+   into three columns of their own, which is not the field the visitor sees. */
 .hf-content .hf-editor-field-elements .hf-payment-container {
-        display: grid;
-    gap: 10px;
+    display: block;
+}
+
+.hf-content .hf-editor-field-elements .hf-payment-options {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
 
 .hf-content .hf-editor-field-elements .hf-payment-option {
