@@ -4404,9 +4404,6 @@ form.hf-error {
     max-width: 320px;
 }
 
-.hf-entry-preview-value {
-}
-
 .hf-entry-preview-value:first-child {
     color: #1d2327;
     font-weight: 600;

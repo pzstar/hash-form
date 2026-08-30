@@ -17,7 +17,12 @@ class HashFormBlock {
     public function register_block() {
         $asset_file = include(HASHFORM_PATH . 'build/index.asset.php');
 
-        wp_register_style('hfb-style', HASHFORM_URL . 'css/form-block.css', array(), HASHFORM_VERSION);
+        /*
+         * No 'style' handle: css/form-block.css was an empty file, and naming
+         * it here had WordPress request an empty stylesheet on every page that
+         * carries the block. The block's own appearance comes from the form
+         * styles, which the shortcode path loads as well.
+         */
         wp_register_style('hfb-editor', HASHFORM_URL . 'css/editor.css', array(), HASHFORM_VERSION);
         wp_register_script('hfb-blocks', HASHFORM_URL . 'build/index.js', $asset_file['dependencies'], $asset_file['version'], false);
 
@@ -26,7 +31,6 @@ class HashFormBlock {
                 'api_version' => 2,
                 'editor_script' => 'hfb-blocks',
                 'editor_style' => 'hfb-editor',
-                'style' => 'hfb-style',
                 'attributes' => [
                     "id" => ["type" => "string"],
                     "hfStyle" => ["type" => "string"],
