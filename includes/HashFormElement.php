@@ -17,7 +17,8 @@ class HashFormElement extends Widget_Base {
     }
 
     public function get_icon() {
-        return 'hfi hfi-form';
+        // Masked svg, not an icon font; see HashFormFieldIcons::elementor_icon_css().
+        return 'hf-elementor-icon';
     }
 
     public function get_categories() {

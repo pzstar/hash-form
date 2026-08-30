@@ -56,18 +56,57 @@ class HashFormFieldIcons {
     }
 
     /**
-     * Icon markup for a field type, or an empty string when none is known.
+     * The mark for the plugin itself: a form with two fields and a button.
+     *
+     * Drawn on the same 24x24 grid as the field icons so the Elementor widget
+     * sits in the same family as everything else, and kept apart from
+     * get_icons() because that map is keyed by field type and add-ons filter it.
+     */
+    public static function widget_icon() {
+        return '<rect x="3.5" y="3.5" width="17" height="17" rx="2.5"/>'
+                . '<path d="M7 8.5h10M7 12h10"/>'
+                . '<rect x="7" y="14.75" width="5" height="2.75" rx="1"/>';
+    }
+
+    /**
+     * Icon markup for a field type. Never empty.
+     *
+     * A type with no icon of its own gets a neutral one rather than nothing:
+     * the sidebar used to fall back to an icon font glyph, and that font has
+     * been removed, so an unknown type would otherwise draw a blank space.
      */
     public static function render($type, $class = 'hf-field-icon') {
         $icons = self::get_icons();
+        $inner = empty($icons[$type])
+                ? '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12h7"/>'
+                : $icons[$type];
 
-        if (empty($icons[$type])) {
-            return '';
-        }
+        return wp_kses(self::wrap($inner, $class), self::allowed_svg());
+    }
 
-        $svg = '<svg class="' . esc_attr($class) . '" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' . $icons[$type] . '</svg>';
+    /**
+     * The shared <svg> wrapper.
+     */
+    private static function wrap($inner, $class = 'hf-field-icon') {
+        return '<svg class="' . esc_attr($class) . '" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' . $inner . '</svg>';
+    }
 
-        return wp_kses($svg, self::allowed_svg());
+    /**
+     * The widget mark as a css rule.
+     *
+     * Elementor's get_icon() takes a class name, not markup, so the only way to
+     * give it an svg is to mask a box with one. Masking rather than a
+     * background image keeps it inheriting currentColor, which is what the icon
+     * font it replaces did.
+     */
+    public static function elementor_icon_css() {
+        $svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' . self::widget_icon() . '</svg>';
+        $uri = 'data:image/svg+xml,' . rawurlencode($svg);
+
+        return '.hf-elementor-icon{display:inline-block;width:1em;height:1em;vertical-align:-.125em;'
+                . 'background-color:currentColor;'
+                . '-webkit-mask:url("' . $uri . '") center/contain no-repeat;'
+                . 'mask:url("' . $uri . '") center/contain no-repeat;}';
     }
 
     /**

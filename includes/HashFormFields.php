@@ -178,111 +178,84 @@ class HashFormFields {
         $hashform_fields = array(
             'name' => array(
                 'name' => esc_html__('Name', 'hash-form'),
-                'icon' => 'hfi hfi-name',
             ),
             'email' => array(
                 'name' => esc_html__('Email', 'hash-form'),
-                'icon' => 'hfi hfi-email',
             ),
             'phone' => array(
                 'name' => esc_html__('Phone', 'hash-form'),
-                'icon' => 'hfi hfi-phone',
             ),
             'url' => array(
                 'name' => esc_html__('Website/URL', 'hash-form'),
-                'icon' => 'hfi hfi-url',
             ),
             'address' => array(
                 'name' => esc_html__('Address', 'hash-form'),
-                'icon' => 'hfi hfi-address',
             ),
             'text' => array(
                 'name' => esc_html__('Text', 'hash-form'),
-                'icon' => 'hfi hfi-text',
             ),
             'textarea' => array(
                 'name' => esc_html__('Text Area', 'hash-form'),
-                'icon' => 'hfi hfi-textarea',
             ),
             'select' => array(
                 'name' => esc_html__('Dropdown', 'hash-form'),
-                'icon' => 'hfi hfi-select',
             ),
             'checkbox' => array(
                 'name' => esc_html__('Checkboxes', 'hash-form'),
-                'icon' => 'hfi hfi-check',
             ),
             'radio' => array(
                 'name' => esc_html__('Radio Buttons', 'hash-form'),
-                'icon' => 'hfi hfi-radio',
             ),
             'image_select' => array(
                 'name' => esc_html__('Image Selector', 'hash-form'),
-                'icon' => 'hfi hfi-image-select',
             ),
             'number' => array(
                 'name' => esc_html__('Number', 'hash-form'),
-                'icon' => 'hfi hfi-number',
             ),
             'range_slider' => array(
                 'name' => esc_html__('Range Slider', 'hash-form'),
-                'icon' => 'hfi hfi-range-slider',
             ),
             'star' => array(
                 'name' => esc_html__('Star', 'hash-form'),
-                'icon' => 'hfi hfi-stars',
             ),
             'spinner' => array(
                 'name' => esc_html__('Spinner', 'hash-form'),
-                'icon' => 'hfi hfi-quantity',
             ),
             'date' => array(
                 'name' => esc_html__('Date', 'hash-form'),
-                'icon' => 'hfi hfi-date',
             ),
             'time' => array(
                 'name' => esc_html__('Time', 'hash-form'),
-                'icon' => 'hfi hfi-time',
             ),
             'upload' => array(
                 'name' => esc_html__('Upload', 'hash-form'),
-                'icon' => 'hfi hfi-upload',
             ),
             'user_id' => array(
                 'name' => esc_html__('User ID', 'hash-form'),
-                'icon' => 'hfi hfi-user-id',
             ),
             'hidden' => array(
                 'name' => esc_html__('Hidden', 'hash-form'),
-                'icon' => 'hfi hfi-hidden',
             ),
             'heading' => array(
                 'name' => esc_html__('Heading', 'hash-form'),
-                'icon' => 'hfi hfi-heading',
             ),
             'paragraph' => array(
                 'name' => esc_html__('Paragraph', 'hash-form'),
-                'icon' => 'hfi hfi-paragraph',
             ),
             'separator' => array(
                 'name' => esc_html__('Separator', 'hash-form'),
-                'icon' => 'hfi hfi-divider-dash',
             ),
             'spacer' => array(
                 'name' => esc_html__('Spacer', 'hash-form'),
-                'icon' => 'hfi hfi-spacer',
             ),
             'image' => array(
                 'name' => esc_html__('Image', 'hash-form'),
-                'icon' => 'hfi hfi-image',
             ),
             'html' => array(
                 'name' => esc_html__('HTML', 'hash-form'),
-                'icon' => 'hfi hfi-html',
             ),
             'captcha' => array(
                 'name' => esc_html__('reCAPTCHA', 'hash-form'),
-                'icon' => 'hfi hfi-recaptcha',
             )
         );
         return apply_filters('hashform_field_selection', $hashform_fields);
@@ -690,10 +663,10 @@ class HashFormFields {
 
     public static function include_field_class() {
         $classes = self::get_field_type_class();
-        include HASHFORM_PATH . 'admin/classes/fields/HashFormFieldType.php';
+        include HASHFORM_PATH . 'includes/fields/HashFormFieldType.php';
         foreach ($classes as $class) {
-            if (file_exists(HASHFORM_PATH . 'admin/classes/fields/' . $class . '.php')) {
-                include HASHFORM_PATH . 'admin/classes/fields/' . $class . '.php';
+            if (file_exists(HASHFORM_PATH . 'includes/fields/' . $class . '.php')) {
+                include HASHFORM_PATH . 'includes/fields/' . $class . '.php';
             }
         }
         do_action('hashform_include_field_class');

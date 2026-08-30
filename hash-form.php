@@ -21,35 +21,35 @@ define('HASHFORM_PATH', plugin_dir_path(HASHFORM_FILE));
 define('HASHFORM_URL', plugin_dir_url(HASHFORM_FILE));
 define('HASHFORM_UPLOAD_DIR', '/hashform');
 
-require HASHFORM_PATH . 'admin/classes/HashFormCapabilities.php';
-require HASHFORM_PATH . 'admin/classes/HashFormSerializedStrParser.php';
-require HASHFORM_PATH . 'admin/classes/HashFormStrReader.php';
-require HASHFORM_PATH . 'admin/classes/HashFormBlock.php';
-require HASHFORM_PATH . 'admin/classes/HashFormUploader.php';
-require HASHFORM_PATH . 'admin/classes/HashFormCreateTable.php';
-require HASHFORM_PATH . 'admin/classes/HashFormMigrations.php';
-require HASHFORM_PATH . 'admin/classes/HashFormCron.php';
+require HASHFORM_PATH . 'includes/HashFormCapabilities.php';
+require HASHFORM_PATH . 'includes/HashFormSerializedStrParser.php';
+require HASHFORM_PATH . 'includes/HashFormStrReader.php';
+require HASHFORM_PATH . 'includes/HashFormBlock.php';
+require HASHFORM_PATH . 'includes/HashFormUploader.php';
+require HASHFORM_PATH . 'includes/HashFormCreateTable.php';
+require HASHFORM_PATH . 'includes/HashFormMigrations.php';
+require HASHFORM_PATH . 'includes/HashFormCron.php';
 // Must load before the classes that compose it.
-require HASHFORM_PATH . 'admin/classes/HashFormListActions.php';
-require HASHFORM_PATH . 'admin/classes/HashFormBuilder.php';
-require HASHFORM_PATH . 'admin/classes/HashFormHelper.php';
-require HASHFORM_PATH . 'admin/classes/HashFormFields.php';
-require HASHFORM_PATH . 'admin/classes/HashFormFieldIcons.php';
-require HASHFORM_PATH . 'admin/classes/HashFormLoader.php';
-require HASHFORM_PATH . 'admin/classes/HashFormSmtp.php';
-require HASHFORM_PATH . 'admin/classes/HashFormEntry.php';
-require HASHFORM_PATH . 'admin/classes/HashFormImportExport.php';
-require HASHFORM_PATH . 'admin/classes/HashFormListing.php';
-require HASHFORM_PATH . 'admin/classes/HashFormEntryListing.php';
-require HASHFORM_PATH . 'admin/classes/HashFormValidate.php';
-require HASHFORM_PATH . 'admin/classes/HashFormRestrictions.php';
-require HASHFORM_PATH . 'admin/classes/HashFormPreview.php';
-require HASHFORM_PATH . 'admin/classes/HashFormShortcode.php';
-require HASHFORM_PATH . 'admin/classes/HashFormSettings.php';
-require HASHFORM_PATH . 'admin/classes/HashFormStyles.php';
-require HASHFORM_PATH . 'admin/classes/HashFormGridHelper.php';
-require HASHFORM_PATH . 'admin/classes/HashFormEmail.php';
-require HASHFORM_PATH . 'admin/classes/HashFormPrivacy.php';
+require HASHFORM_PATH . 'includes/HashFormListActions.php';
+require HASHFORM_PATH . 'includes/HashFormBuilder.php';
+require HASHFORM_PATH . 'includes/HashFormHelper.php';
+require HASHFORM_PATH . 'includes/HashFormFields.php';
+require HASHFORM_PATH . 'includes/HashFormFieldIcons.php';
+require HASHFORM_PATH . 'includes/HashFormLoader.php';
+require HASHFORM_PATH . 'includes/HashFormSmtp.php';
+require HASHFORM_PATH . 'includes/HashFormEntry.php';
+require HASHFORM_PATH . 'includes/HashFormImportExport.php';
+require HASHFORM_PATH . 'includes/HashFormListing.php';
+require HASHFORM_PATH . 'includes/HashFormEntryListing.php';
+require HASHFORM_PATH . 'includes/HashFormValidate.php';
+require HASHFORM_PATH . 'includes/HashFormRestrictions.php';
+require HASHFORM_PATH . 'includes/HashFormPreview.php';
+require HASHFORM_PATH . 'includes/HashFormShortcode.php';
+require HASHFORM_PATH . 'includes/HashFormSettings.php';
+require HASHFORM_PATH . 'includes/HashFormStyles.php';
+require HASHFORM_PATH . 'includes/HashFormGridHelper.php';
+require HASHFORM_PATH . 'includes/HashFormEmail.php';
+require HASHFORM_PATH . 'includes/HashFormPrivacy.php';
 
 /**
  * Bring the schema up to date after a plugin update, not just on activation.
@@ -62,7 +62,7 @@ add_action('plugins_loaded', array('HashFormCreateTable', 'maybe_upgrade'));
 add_action('elementor/widgets/register', 'hashform_elementor_widget_register');
 
 function hashform_elementor_widget_register($widgets_manager) {
-    require HASHFORM_PATH . 'admin/classes/HashFormElement.php';
+    require HASHFORM_PATH . 'includes/HashFormElement.php';
     $widgets_manager->register(new \HashFormElement());
 }
 

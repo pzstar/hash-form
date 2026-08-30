@@ -102,7 +102,6 @@ class HashFormLoader {
         ));
 
         wp_enqueue_style('wp-color-picker');
-        wp_enqueue_style('hashform-icons', HASHFORM_URL . 'fonts/hf-icons.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('materialdesignicons', HASHFORM_URL . 'fonts/materialdesignicons.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-chosen', HASHFORM_URL . 'css/chosen.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-select2', HASHFORM_URL . 'css/select2.min.css', array(), HASHFORM_VERSION);
@@ -131,7 +130,14 @@ class HashFormLoader {
     }
 
     public static function elementor_editor_styles() {
-        wp_enqueue_style('hashform-icons', HASHFORM_URL . 'fonts/hf-icons.css', array(), HASHFORM_VERSION);
+        /*
+         * One rule, built from the same drawing the field icons come from, so
+         * the widget mark cannot drift from the rest of the set. This replaced
+         * a 65 KB icon font that was loaded here to draw exactly one glyph.
+         */
+        wp_register_style('hashform-elementor-icon', false, array(), HASHFORM_VERSION);
+        wp_enqueue_style('hashform-elementor-icon');
+        wp_add_inline_style('hashform-elementor-icon', HashFormFieldIcons::elementor_icon_css());
     }
 
     // Frontend assets are only registered here; they are enqueued by
