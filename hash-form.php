@@ -47,6 +47,7 @@ require HASHFORM_PATH . 'includes/HashFormPreview.php';
 require HASHFORM_PATH . 'includes/HashFormShortcode.php';
 require HASHFORM_PATH . 'includes/HashFormSettings.php';
 require HASHFORM_PATH . 'includes/HashFormStyles.php';
+require HASHFORM_PATH . 'includes/HashFormStyleBuilder.php';
 require HASHFORM_PATH . 'includes/HashFormGridHelper.php';
 require HASHFORM_PATH . 'includes/HashFormEmail.php';
 require HASHFORM_PATH . 'includes/HashFormPrivacy.php';

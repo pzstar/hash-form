@@ -1,96 +1,30 @@
-.post-type-hashform-styles #post-body.columns-2 #postbox-container-1 {
+
+body.hf-style-builder-screen #wpbody-content{
+    padding-bottom: 0;
+}
+
+.hf-style-panel .hf-body {
+    height: calc(100vh - 170px);
+    padding: 0;
+    background: none;
+    margin: 15px 0;
+    max-width: 1400px;
+}
+
+/* The emptied admin footer still reserves its height, which leaves a gap under
+   a screen whose own save bar is pinned to the bottom. */
+.hf-style-builder-screen #wpfooter {
     display: none;
 }
 
-.post-type-hashform-styles .postbox {
-    border: 0;
-    box-shadow: none;
-    margin: 0
-}
-
-.post-type-hashform-styles #major-publishing-actions {
-    background: none;
-    padding: 0;
-    border-top: 0;
-}
-
-.post-type-hashform-styles #publishing-action {
-    float: none;
-}
-
-.post-type-hashform-styles #submitpost {
-    min-width: 0;
-}
-
-.post-type-hashform-styles {
-    height: 100vh;
-    overflow: hidden;
-}
-
-.post-type-hashform-styles #poststuff #post-body.columns-2 {
-    margin: 0;
-}
-
-.post-type-hashform-styles.post-new-php .wrap,
-.post-type-hashform-styles.post-php .wrap {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    margin: 0;
-    padding: 30px 30px 0;
-    overflow: hidden;
-    background: #FFF;
-    z-index: 99999;
-    height: calc(100vh - 30px);
-    overflow-y: scroll;
-}
-
-.post-type-hashform-styles.post-new-php .wrap .wp-heading-inline,
-.post-type-hashform-styles.post-php .wrap .wp-heading-inline,
-.post-type-hashform-styles.post-new-php .page-title-action,
-.post-type-hashform-styles.post-php .wrap .page-title-action {
-    display: none;
-}
-
-.post-type-hashform-styles.post-new-php #poststuff,
-.post-type-hashform-styles.post-php .wrap #poststuff {
-    padding: 0;
-}
-
-.post-type-hashform-styles .hf-body {
-    height: calc(100vh - 190px);
-    padding: 0;
-    background: none;
-}
-
-.post-type-hashform-styles .hf-content,
-.post-type-hashform-styles .hf-fields-sidebar,
-.post-type-hashform-styles #hf-form-panel {
-    background: none;
-}
-
-.post-type-hashform-styles .hf-footer {
+.hf-style-panel .hf-footer {
     position: sticky;
     bottom: 0;
     z-index: 99;
     gap: 20px;
     align-items: center;
-    border: 1px solid var(--hf-border, #e2e5ea);
-    border-radius: var(--hf-radius-lg);
-    margin-top: 10px;
-}
-
-.post-type-hashform-styles.post-new-php #message,
-.post-type-hashform-styles.post-php #message {
-    position: absolute;
-    right: 30px;
-    top: 0px;
-    width: 300px;
-    z-index: 99;
-    text-align: center;
-    left: 50%;
-    transform: translateX(-50%);
+    border-top: 1px solid var(--hf-border, #e2e5ea);
+    margin-left: -20px;
 }
 
 /* Settings Metabox */
@@ -103,31 +37,13 @@
     margin: 0;
 }
 
-/* The post title is the style template's name, and it was a bare wp-admin
-   field with a focus ring in the admin colour scheme sitting above a screen
-   that is otherwise all plugin. */
-.post-type-hashform-styles #titlediv #title {
-    border: 1px solid var(--hf-border-strong, #d3d8e0);
-    border-radius: var(--hf-radius, 8px);
-    box-shadow: none;
-    font-size: var(--hf-font-xl, 20px);
-    font-weight: 600;
-    padding: var(--hf-space-3, 12px) var(--hf-space-4, 16px);
-}
-
-.post-type-hashform-styles #titlediv #title:focus {
-    border-color: var(--hf-accent, #dd823b);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--hf-accent, #dd823b) 18%, transparent);
-    outline: 0;
-}
-
 /* Style groups
  *
  * Fifteen of these stack down the sidebar, and they were pale blue bars with
  * ALL CAPS bold labels — a colour and a treatment used nowhere else in the
  * plugin. Same accordion as the per-form settings panels now, so a style
  * template is built in the same furniture a form is configured in. */
-#hashform-styles-metabox .hf-settings-heading {
+.hf-style-panel .hf-settings-heading {
     align-items: center;
     background: var(--hf-surface, #fff);
     border: 1px solid var(--hf-border, #e2e5ea);
@@ -145,33 +61,33 @@
     transition: background-color var(--hf-transition, .15s ease), border-color var(--hf-transition, .15s ease);
 }
 
-#hashform-styles-metabox .hf-settings-heading:hover {
+.hf-style-panel .hf-settings-heading:hover {
     background: var(--hf-surface-sunken, #fafbfc);
     border-color: var(--hf-border-strong, #d3d8e0);
 }
 
 /* Open: the heading and its panel read as one block, so the seam between
    them is closed up. */
-#hashform-styles-metabox .hf-settings-heading.hf-active {
+.hf-style-panel .hf-settings-heading.hf-active {
     border-bottom-color: transparent;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     margin-bottom: 0;
 }
 
-#hashform-styles-metabox .hf-settings-heading .mdi {
+.hf-style-panel .hf-settings-heading .mdi {
     color: var(--hf-text-faint, #8c9196);
     font-size: 20px;
     line-height: 1;
     transition: transform var(--hf-transition-slow, .25s ease);
 }
 
-#hashform-styles-metabox .hf-settings-heading.hf-active .mdi {
+.hf-style-panel .hf-settings-heading.hf-active .mdi {
     color: var(--hf-accent, #dd823b);
     transform: rotate(180deg);
 }
 
-#hashform-styles-metabox .hf-form-settings {
+.hf-style-panel .hf-form-settings {
     background: var(--hf-surface, #fff);
     border: 1px solid var(--hf-border, #e2e5ea);
     border-radius: 0 0 var(--hf-radius, 8px) var(--hf-radius, 8px);
@@ -925,7 +841,8 @@ ul.hf-shadow-fields {
 }
 
 .hf-unit-fields li {
-    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
     margin: 0;
     min-width: 0;
 }
@@ -934,7 +851,7 @@ ul.hf-shadow-fields {
     padding-left: 2px;
     padding-right: 2px;
     text-align: center;
-    width: 100%;
+    width: 50px;
 }
 
 .hf-unit-fields li > label {
@@ -957,13 +874,16 @@ ul.hf-shadow-fields {
    block with a white chain — the heaviest thing in the panel, for the least
    important control in the row. */
 .hf-unit-fields .hf-link-button {
-    align-self: flex-start;
-    background: var(--hf-surface, #fff);
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid var(--hf-border-strong, #d3d8e0);
     border-radius: var(--hf-radius-sm, 4px);
     color: var(--hf-accent, #dd823b);
     cursor: pointer;
     outline: none;
+    background: var(--hf-border-strong, #d3d8e0);
     transition: background-color var(--hf-transition, .15s ease), border-color var(--hf-transition, .15s ease), color var(--hf-transition, .15s ease);
 }
 
@@ -1050,23 +970,10 @@ ul.hf-shadow-fields {
     position: relative;
 }
 
-/* A colour row is a label and a swatch on one line. It used to be two
-   stacked blocks with the lower one dragged up 35px to sit beside the label,
-   which left the row occupying its old height and the rhythm of the panel
-   uneven. */
-.hf-settings-row:has(> .hf-color-input-field),
-.hf-typography-fields li.hf-typography-color-field:has(> .hf-typography-input-field) {
-    align-items: flex-start;
-    display: flex;
-    gap: var(--hf-space-3, 12px);
-    justify-content: space-between;
-}
 
 .hf-typography-color-field .hf-typography-input-field,
 .hf-color-input-field {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 0;
+    margin-top: -30px;
     min-width: 0;
 }
 
@@ -1114,7 +1021,7 @@ ul.hf-shadow-fields {
     display: flex;
     margin-top: var(--hf-space-2, 8px);
     min-width: 0;
-    width: 100%;
+    width: 258px;
 }
 
 .hf-setting-fields .wp-picker-input-wrap label {

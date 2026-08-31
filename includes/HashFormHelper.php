@@ -915,14 +915,41 @@ class HashFormHelper {
     public static function render_list_header($args) {
         $args = wp_parse_args($args, array(
             'title' => '',
+            /*
+             * An editable title, for a screen that edits one thing and has
+             * nowhere else to name it. Takes name, value and placeholder, and
+             * a form id: this bar is printed on in_admin_header, which is
+             * outside every form on the page, so the field is tied to its form
+             * with the form attribute rather than by sitting inside it.
+             */
+            'title_field' => array(),
             'action' => array(),
+            'actions' => array(),
             'stats' => array(),
             'docs' => '',
         ));
+
+        // One action or several; the singular is what every screen but the
+        // style builder passes.
+        $args['actions'] = array_values(array_filter(array_merge(
+                                (array) $args['actions'],
+                                empty($args['action']) ? array() : array($args['action'])
+        )));
         ?>
         <div class="hf-list-header">
             <div class="hf-list-header-inner">
-                <h2 class="hf-list-title"><?php echo esc_html($args['title']); ?></h2>
+                <?php if (!empty($args['title_field']['name'])) { ?>
+                    <label class="hf-list-title-field">
+                        <span class="screen-reader-text"><?php echo esc_html($args['title']); ?></span>
+                        <input type="text" class="hf-list-title" name="<?php echo esc_attr($args['title_field']['name']); ?>"
+                               value="<?php echo esc_attr(isset($args['title_field']['value']) ? $args['title_field']['value'] : ''); ?>"
+                               placeholder="<?php echo esc_attr(isset($args['title_field']['placeholder']) ? $args['title_field']['placeholder'] : $args['title']); ?>"
+                               <?php echo empty($args['title_field']['form']) ? '' : 'form="' . esc_attr($args['title_field']['form']) . '"'; ?>
+                               required/>
+                    </label>
+                <?php } else { ?>
+                    <h2 class="hf-list-title"><?php echo esc_html($args['title']); ?></h2>
+                <?php } ?>
 
                 <?php if (!empty($args['stats'])) { ?>
                     <div class="hf-list-stats">
@@ -958,9 +985,12 @@ class HashFormHelper {
                 }
                 ?>
 
-                <?php if (!empty($args['action']['label'])) { ?>
+                <?php if (!empty($args['actions'])) { ?>
                     <div class="hf-add-new-form">
-                        <a href="<?php echo esc_url(isset($args['action']['url']) ? $args['action']['url'] : '#'); ?>" class="button <?php echo esc_attr(isset($args['action']['class']) ? $args['action']['class'] : ''); ?>"><?php echo esc_html($args['action']['label']); ?></a>
+                        <?php foreach ($args['actions'] as $hf_action) { ?>
+                            <?php if (empty($hf_action['label'])) { continue; } ?>
+                            <a href="<?php echo esc_url(isset($hf_action['url']) ? $hf_action['url'] : '#'); ?>" class="button <?php echo esc_attr(isset($hf_action['class']) ? $hf_action['class'] : ''); ?>"><?php echo esc_html($hf_action['label']); ?></a>
+                        <?php } ?>
                     </div>
                 <?php } ?>
             </div>
@@ -1132,7 +1162,9 @@ class HashFormHelper {
 
     public static function get_all_forms_list_options() {
         $all_forms = array();
-        $forms = HashFormBuilder::get_all_forms();
+        // Feeds the block and Elementor form pickers: a trashed form
+        // offered there would be rendered on the page.
+        $forms = HashFormBuilder::get_published_forms();
         foreach ($forms as $form) {
             $all_forms[$form->id] = $form->name;
         }

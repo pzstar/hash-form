@@ -544,6 +544,25 @@ class HashFormBuilder {
         return $results;
     }
 
+    /**
+     * The forms a visitor could actually be shown.
+     *
+     * get_all_forms() means all of them, trashed included, which is right for
+     * anything looking back at what exists. It is wrong for a chooser: every
+     * dropdown that offers a form to display was listing forms their owner had
+     * thrown away, and picking one rendered it on the page.
+     *
+     * @return array
+     */
+    public static function get_published_forms() {
+        global $wpdb;
+
+        return $wpdb->get_results($wpdb->prepare(
+                        "SELECT * FROM {$wpdb->prefix}hashform_forms WHERE status = %s ORDER BY name",
+                        'published'
+        ));
+    }
+
     public static function get_form_vars($id) {
         global $wpdb;
         $results = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_forms WHERE id=%d", $id));

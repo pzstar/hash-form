@@ -5,10 +5,8 @@ class HashFormStyles {
 
     public function __construct() {
         add_action('init', array($this, 'register_post_type'));
-        add_action('add_meta_boxes', array($this, 'settings_metabox'));
         add_action('wp_ajax_hashform_save_style_template', array($this, 'save_metabox_settings'));
         add_action('wp_ajax_hashform_get_google_font_variants', array($this, 'get_google_font_variants'));
-        add_action('admin_menu', array($this, 'remove_publish_button'));
         add_action('wp_ajax_hashform_template_style_preview', array($this, 'get_form_preview_html'));
         add_action('admin_init', array($this, 'assign_hashform_style_capabilities'), 9999);
         add_action('admin_enqueue_scripts', array($this, 'enqueue_scripts'));
@@ -103,11 +101,17 @@ class HashFormStyles {
         return $actions;
     }
 
-    public function settings_metabox() {
-        add_meta_box('hashform-styles-metabox', esc_html__('Hash Form Styles', 'hash-form'), array($this, 'settings_metabox_callback'), 'hashform-styles', 'advanced', 'high');
-    }
-
-    public function settings_metabox_callback() {
+    /**
+     * The style settings panel.
+     *
+     * admin/styles/main.php reaches back with self::get_typography_fields()
+     * and self::get_style_vars(), and `self` inside an included file is
+     * whichever class the include ran in - not the file's own. The builder
+     * comes through here so that class is always this one; a builder that
+     * included the template itself got
+     * "undefined method HashFormStyleBuilder::get_typography_fields()".
+     */
+    public static function render_settings_panel() {
         include HASHFORM_PATH . 'admin/styles/settings.php';
     }
 
@@ -131,13 +135,16 @@ class HashFormStyles {
             ]);
             $hashform_styles = HashFormHelper::get_post('hashform_styles', 'sanitize_text_field', '', self::get_styles_sanitize_array());
             update_post_meta($postID, 'hashform_styles', $hashform_styles);
-            wp_send_json_success($newLayout ? array('redirect' => admin_url("post.php?post=$postID&action=edit")) : array('message' => esc_html__('Saved successfully!', 'hash-form')));
+            /*
+             * A template that has just been created has to be reloaded rather
+             * than left in place: the form still carries an id of 0, so saving
+             * again from here would create a second one. An existing template
+             * only needs to be told it saved.
+             */
+            wp_send_json_success($newLayout
+                    ? array('redirect' => HashFormStyleBuilder::url($postID))
+                    : array('message' => esc_html__('Saved successfully!', 'hash-form')));
         }
-    }
-
-    public function remove_publish_button() {
-        remove_meta_box('submitdiv', 'hashform-styles', 'side');
-        remove_meta_box('pageparentdiv', 'hashform-styles', 'side');
     }
 
     public static function default_font_array() {
@@ -1267,14 +1274,23 @@ class HashFormStyles {
     }
 
     public function enqueue_scripts() {
-        global $post_type;
-        if ('hashform-styles' == $post_type) {
-            wp_enqueue_script('hf-style-template', HASHFORM_URL . 'js/style-template.js', array('jquery'), HASHFORM_VERSION, false);
-            wp_localize_script('hf-style-template', 'hf_st_obj', array(
-                'admin_url' => admin_url('post.php'),
-                'ajaxurl' => admin_url('admin-ajax.php'),
-            ));
+        /*
+         * The builder is the only screen that saves a template. It used to load
+         * on any hashform-styles post screen as well, which since the builder
+         * took over the editor meant only the templates list - a screen with
+         * nothing to save.
+         */
+        if (!HashFormStyleBuilder::is_builder()) {
+            return;
         }
+
+        wp_enqueue_script('hf-style-template', HASHFORM_URL . 'js/style-template.js', array('jquery'), HASHFORM_VERSION, false);
+
+        wp_localize_script('hf-style-template', 'hf_st_obj', array(
+            'ajaxurl' => admin_url('admin-ajax.php'),
+            'saved' => esc_html__('Saved successfully!', 'hash-form'),
+            'save_failed' => esc_html__('The style template could not be saved. Please try again.', 'hash-form'),
+        ));
     }
 
     /**
@@ -1414,7 +1430,9 @@ class HashFormStyles {
     private static function forms_using_a_template() {
         $count = 0;
 
-        foreach (HashFormBuilder::get_all_forms() as $form) {
+        // A count of forms a template is styling, so a form in the trash
+        // is not one of them.
+        foreach (HashFormBuilder::get_published_forms() as $form) {
             $styles = isset($form->styles) ? $form->styles : '';
 
             if (is_string($styles) && $styles) {

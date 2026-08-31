@@ -38,7 +38,8 @@ class HashFormLoader {
         // The style-template editor is a regular post screen but is driven by
         // the same admin assets (color picker, chosen, live preview, ...).
         $screen = function_exists('get_current_screen') ? get_current_screen() : null;
-        $is_style_template_screen = $screen && 'hashform-styles' === $screen->post_type;
+        $is_style_template_screen = ($screen && 'hashform-styles' === $screen->post_type)
+                || HashFormStyleBuilder::is_builder();
 
         // Everything below is only useful on the plugin's own screens; do not
         // weigh down the rest of wp-admin with it.
@@ -46,7 +47,12 @@ class HashFormLoader {
             return;
         }
 
-        if (strpos($page, 'hashform') === 0) {
+        /*
+         * The style builder's slug begins with hashform too, but it is a style
+         * screen and not the form builder: loading the form builder's scripts
+         * there would put them somewhere they have never run before.
+         */
+        if (strpos($page, 'hashform') === 0 && !HashFormStyleBuilder::is_builder()) {
             wp_enqueue_script('hashform-builder', HASHFORM_URL . 'js/builder.js', array('jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-i18n', 'wp-hooks', 'jquery-ui-dialog', 'hashform-select2'), HASHFORM_VERSION, true);
             wp_enqueue_script('hashform-backend', HASHFORM_URL . 'js/backend.js', array('jquery', 'jquery-ui-core', 'jquery-ui-draggable', 'jquery-ui-droppable', 'jquery-ui-sortable', 'wp-i18n', 'wp-hooks', 'jquery-ui-dialog', 'jquery-ui-datepicker'), HASHFORM_VERSION, true);
 

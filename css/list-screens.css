@@ -129,6 +129,50 @@ body.hf-styles-list .wrap > .wp-header-end {
     padding: 0;
 }
 
+/* A screen that edits one thing names it here, so the input wears the title's
+   own type and stays quiet until it is reached for. */
+.hf-list-header .hf-list-title-field {
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.hf-list-header input.hf-list-title {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--hf-radius-sm, 4px);
+    box-shadow: none;
+    height: auto;
+    line-height: 1.3;
+    min-height: 0;
+    padding: 2px var(--hf-space-2, 8px);
+    width: 100%;
+}
+
+.hf-list-header input.hf-list-title:hover {
+    border-color: var(--hf-border, #e2e5ea);
+}
+
+.hf-list-header input.hf-list-title:focus {
+    background: var(--hf-surface, #fff);
+    border-color: var(--hf-accent, #2271b1);
+    box-shadow: 0 0 0 1px var(--hf-accent, #2271b1);
+    outline: none;
+}
+
+/* Destructive, so it does not wear the accent the primary action does. */
+.hf-list-header .hf-add-new-form .button.hf-list-action-trash {
+    background: transparent;
+    border-color: var(--hf-border, #e2e5ea);
+    color: var(--hf-text-muted, #646970);
+}
+
+.hf-list-header .hf-add-new-form .button.hf-list-action-trash:hover {
+    background: #fcf0f1;
+    border-color: #b32d2e;
+    color: #b32d2e;
+}
+
 .hf-list-header .hf-add-new-form {
     margin: 0;
 }
