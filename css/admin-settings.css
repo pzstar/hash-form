@@ -1,30 +1,110 @@
+/* Full screen, the way the form builder is.
+ *
+ * Same mechanism: the screen is laid over the whole viewport, which is what
+ * #hf-wrap does for the form builder - fixed, edge to edge, above everything.
+ * The admin menu and toolbar are behind it rather than hidden, which comes to
+ * the same thing on screen.
+ *
+ * The form builder also carries the block editor's is-fullscreen-mode class,
+ * and this screen deliberately does not. That class arrives with wp-edit-post
+ * and the six stylesheets it depends on, and its whole effect here would be to
+ * hide two elements already covered over. The form builder can afford it
+ * because nothing it renders shares a class with the block editor; this panel's
+ * rows, labels and fields have never been under that sheet, and loading it to
+ * hide what is already hidden is not the way to find out. Stopping the page
+ * behind from scrolling is the one thing the class was really doing, and
+ * overflow below does that in a line.
+ *
+ * The layer is #wpcontent rather than a wrapper of the plugin's own: this
+ * screen's bar is printed on in_admin_header, so it lands between #wpcontent
+ * and #wpbody, and those two are only siblings. The form builder has no such
+ * problem - its header is inside #hf-wrap.
+ */
+body.hf-style-builder-screen {
+    overflow: hidden;
+}
 
-body.hf-style-builder-screen #wpbody-content{
-    padding-bottom: 0;
+body.hf-style-builder-screen #wpcontent {
+    /* The ground behind the panel, not a plugin surface: the tokens are scoped
+       to the plugin's own wrappers and this is wp-admin's element. */
+    background: #fff;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 99999;
+}
+
+/* The bar keeps its own height; everything under it takes the rest. */
+body.hf-style-builder-screen .hf-list-header {
+    flex: 0 0 auto;
+}
+
+/* Every wrapper between the screen and the panel passes the height straight
+   through.
+ *
+ * Columns, not rows. #wpbody-content is not ours and does not hold the panel
+ * alone - the screen meta, the screen options tabs and any notice are printed
+ * into it first, and #wpbody closes with a clearing div - so a row would stand
+ * them beside the builder rather than above it.
+ *
+ * min-height:0 on each, because a flex item will not shrink below its content
+ * by default. Without it the sidebar sets the height of the screen and pushes
+ * the save bar off the bottom instead of scrolling inside itself.
+ */
+body.hf-style-builder-screen #wpbody,
+body.hf-style-builder-screen #wpbody-content,
+body.hf-style-builder-screen .hf-style-builder,
+body.hf-style-builder-screen .hf-style-panel {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    margin: 0;
+    min-height: 0;
+    padding: 0;
+    width: auto;
 }
 
 .hf-style-panel .hf-body {
-    height: calc(100vh - 170px);
-    padding: 0;
     background: none;
-    margin: 15px 0;
-    max-width: 1400px;
+    flex: 1 1 auto;
+    height: auto;
+    margin: 0;
+    min-height: 0;
+    padding: 0;
 }
 
-/* The emptied admin footer still reserves its height, which leaves a gap under
-   a screen whose own save bar is pinned to the bottom. */
-.hf-style-builder-screen #wpfooter {
+/* The screen meta and its toggles are the post editor's chrome, which is what
+   this screen was built to get out of the way; left in, they hold a strip of
+   empty height above the panel. */
+body.hf-style-builder-screen #screen-meta,
+body.hf-style-builder-screen #screen-meta-links {
     display: none;
 }
 
+/* The save bar is the last row rather than something stuck over the content,
+   so it needs no sticky positioning and no pulling back out of a padding that
+   is no longer there. */
 .hf-style-panel .hf-footer {
-    position: sticky;
-    bottom: 0;
-    z-index: 99;
-    gap: 20px;
     align-items: center;
-    border-top: 1px solid var(--hf-border, #e2e5ea);
-    margin-left: -20px;
+    flex: 0 0 auto;
+    gap: 20px;
+}
+
+body.hf-style-builder-screen .notice{
+    display: none !important;
+}
+
+/* Nothing of the admin's own chrome is on screen, and a hidden footer that
+   still reserved its height left a gap under the save bar. */
+.hf-style-builder-screen #wpfooter {
+    display: none;
 }
 
 /* Settings Metabox */

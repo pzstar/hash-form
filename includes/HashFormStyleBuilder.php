@@ -55,6 +55,16 @@ class HashFormStyleBuilder {
      * addressing the builder the same way the editor was keeps the panel
      * working untouched.
      *
+     * Deliberately nothing else. A new template used to be addressed with
+     * post_type as well, the way post-new.php was, and that argument is what
+     * wp-admin/admin.php reads into $typenow - so core resolved this screen's
+     * hook against `admin.php?post_type=hashform-styles`, a parent with no
+     * entry in $admin_page_hooks, looked for admin_page_hashform-style-builder
+     * rather than the hash-form_page_ name the submenu is registered under,
+     * found nothing and died with "Cannot load hashform-style-builder". The
+     * panel does not need it: it reads Publish or Update off the template's
+     * own post status.
+     *
      * @param int $post_id
      * @return string
      */
@@ -63,13 +73,6 @@ class HashFormStyleBuilder {
 
         if ($post_id) {
             $args['post'] = absint($post_id);
-        } else {
-            /*
-             * post_type on a new one, because admin/styles/settings.php reads
-             * exactly that to decide it should offer Publish rather than
-             * Update - which is what post-new.php put in the address bar too.
-             */
-            $args['post_type'] = self::POST_TYPE;
         }
 
         return add_query_arg($args, admin_url('admin.php'));
