@@ -1,24 +1,20 @@
 /* Full screen, the way the form builder is.
  *
  * Same mechanism: the screen is laid over the whole viewport, which is what
- * #hf-wrap does for the form builder - fixed, edge to edge, above everything.
- * The admin menu and toolbar are behind it rather than hidden, which comes to
- * the same thing on screen.
+ * #hf-wrap does there. The admin menu and toolbar end up behind it rather than
+ * hidden, which comes to the same thing on screen.
  *
- * The form builder also carries the block editor's is-fullscreen-mode class,
- * and this screen deliberately does not. That class arrives with wp-edit-post
- * and the six stylesheets it depends on, and its whole effect here would be to
- * hide two elements already covered over. The form builder can afford it
- * because nothing it renders shares a class with the block editor; this panel's
- * rows, labels and fields have never been under that sheet, and loading it to
- * hide what is already hidden is not the way to find out. Stopping the page
- * behind from scrolling is the one thing the class was really doing, and
- * overflow below does that in a line.
+ * #wpcontent carries it rather than a wrapper of the plugin's own, because
+ * this screen's bar is printed on in_admin_header and so lands between
+ * #wpcontent and #wpbody - the bar and the panel are only siblings. The form
+ * builder has no such problem: its header is inside #hf-wrap.
  *
- * The layer is #wpcontent rather than a wrapper of the plugin's own: this
- * screen's bar is printed on in_admin_header, so it lands between #wpcontent
- * and #wpbody, and those two are only siblings. The form builder has no such
- * problem - its header is inside #hf-wrap.
+ * The form builder additionally sets the block editor's is-fullscreen-mode.
+ * Not here: that class arrives with wp-edit-post and its dependencies, and all
+ * it would do on this screen is hide two elements already covered over. This
+ * panel's rows and fields have never been under that sheet. Holding the page
+ * behind still is the one thing it was really buying, and the overflow below
+ * does that.
  */
 body.hf-style-builder-screen {
     overflow: hidden;
