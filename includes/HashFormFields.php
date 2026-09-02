@@ -9,6 +9,7 @@ class HashFormFields {
         add_action('wp_ajax_hashform_insert_field', array($this, 'create'));
         add_action('wp_ajax_hashform_delete_field', array($this, 'destroy'));
         add_action('wp_ajax_hashform_import_options', array($this, 'import_options'));
+        add_action('wp_ajax_hashform_match_field_options', array($this, 'match_field_options'));
         add_action('wp_ajax_hashform_duplicate_field', array($this, 'duplicate'));
     }
 
@@ -609,6 +610,85 @@ class HashFormFields {
         $msg = HashFormFields::get_option($field, $error);
         $msg = empty($msg) ? $defaults[$error] : $msg;
         return $msg;
+    }
+
+    /**
+     * The fields a given field could be asked to match.
+     *
+     * Only fields this one could ever equal. Offering an email field the choice
+     * of matching a phone field produced a rule nothing could satisfy: a value
+     * that passes email validation is not one anybody would type into a phone
+     * field, so the form could never be submitted and the error looked like a
+     * bug in the matching itself.
+     *
+     * Two fields are compatible when they are the same type, or when one of
+     * them puts no format constraint on its value.
+     *
+     * @param int    $form_id
+     * @param int    $field_id   The field being configured, which cannot match itself.
+     * @param string $field_type
+     * @param array  $fields     Already-loaded fields, to save a query per panel.
+     * @return array field id => label
+     */
+    public static function get_match_field_options($form_id, $field_id, $field_type, $fields = null) {
+        if (!$form_id) {
+            return array();
+        }
+
+        if (null === $fields) {
+            $fields = self::get_form_fields($form_id);
+        }
+
+        $unconstrained = array('text', 'textarea');
+        $matchable = array_merge($unconstrained, array('email', 'url', 'phone', 'number'));
+        $options = array();
+
+        foreach ((array) $fields as $other_field) {
+            if ($other_field->id == $field_id) {
+                continue;
+            }
+
+            if (!in_array($other_field->type, $matchable, true)) {
+                continue;
+            }
+
+            $compatible = $other_field->type === $field_type
+                    || in_array($other_field->type, $unconstrained, true)
+                    || in_array($field_type, $unconstrained, true);
+
+            if (!$compatible) {
+                continue;
+            }
+
+            $options[$other_field->id] = $other_field->name;
+        }
+
+        return $options;
+    }
+
+    /**
+     * Every field's match options for one form, so the builder can rebuild the
+     * dropdowns after a field is added or deleted without reproducing the rules
+     * above in JavaScript.
+     */
+    public function match_field_options() {
+        HashFormCapabilities::require_cap_ajax('hashform_edit_forms');
+        check_ajax_referer('hashform_backend_ajax', 'nonce');
+
+        $form_id = absint(HashFormHelper::get_post('form_id', 'absint'));
+
+        if (!$form_id) {
+            wp_send_json_error();
+        }
+
+        $fields = self::get_form_fields($form_id);
+        $lists = array();
+
+        foreach ((array) $fields as $field) {
+            $lists[$field->id] = self::get_match_field_options($form_id, $field->id, $field->type, $fields);
+        }
+
+        wp_send_json_success($lists);
     }
 
     public static function get_field_object($field) {

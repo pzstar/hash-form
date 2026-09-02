@@ -35,7 +35,26 @@ class HashFormFieldHTML extends HashFormFieldType {
                     'textarea_rows' => 8,
                 );
                 $html_id = 'hf-field-desc_' . absint($field['id']);
+
+                /*
+                 * wp_editor() gives no way to put an attribute on the textarea
+                 * it prints, and the canvas has to know where to mirror what is
+                 * typed. handleTinyMceChange() already writes the editor back
+                 * to this textarea and fires change on it, so naming a target
+                 * here is all the live preview needs.
+                 */
+                $preview_id = self::preview_id($field['id']);
+                $add_target = function ($editor_html) use ($html_id, $preview_id) {
+                    return str_replace(
+                            '<textarea',
+                            '<textarea data-changeme="' . esc_attr($preview_id) . '"',
+                            $editor_html
+                    );
+                };
+
+                add_filter('the_editor', $add_target);
                 wp_editor($field['description'], $html_id, $args);
+                remove_filter('the_editor', $add_target);
                 ?>
             </div>
             <p class="description">
@@ -43,6 +62,16 @@ class HashFormFieldHTML extends HashFormFieldType {
             </p>
         </div>
         <?php
+    }
+
+    /**
+     * The id of the block this field draws on the canvas.
+     *
+     * @param int $field_id
+     * @return string
+     */
+    public static function preview_id($field_id) {
+        return 'hf-html-preview-' . absint($field_id);
     }
 
     public function input_html() {
@@ -56,7 +85,7 @@ class HashFormFieldHTML extends HashFormFieldType {
          */
         $content = HashFormHelper::sanitize_html_field_content($content);
         ?>
-        <div class="hf-custom-html-field">
+        <div class="hf-custom-html-field"<?php echo is_admin() ? ' id="' . esc_attr(self::preview_id($field['id'])) . '" data-empty-text="' . esc_attr__('Custom HTML - nothing added yet', 'hash-form') . '"' : ''; ?>>
             <?php
             if ('' === trim(wp_strip_all_tags($content)) && is_admin()) {
                 /*

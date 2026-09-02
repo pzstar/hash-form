@@ -15,7 +15,7 @@
 
 defined('ABSPATH') || die();
 
-define('HASHFORM_VERSION', '1.4.3');
+define('HASHFORM_VERSION', '1.4.4');
 define('HASHFORM_FILE', __FILE__);
 define('HASHFORM_PATH', plugin_dir_path(HASHFORM_FILE));
 define('HASHFORM_URL', plugin_dir_url(HASHFORM_FILE));

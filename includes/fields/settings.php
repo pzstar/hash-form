@@ -601,7 +601,7 @@ defined('ABSPATH') || die();
             ?>
             <div class="hf-form-row">
                 <label><?php esc_html_e('Field Description', 'hash-form'); ?></label>
-                <textarea name="field_options[description_<?php echo absint($field_id); ?>]" data-changeme="hf-field-desc-<?php echo absint($field_id); ?>"><?php echo isset($field['description']) ? esc_textarea($field['description']) : ''; ?></textarea>
+                <textarea name="field_options[description_<?php echo absint($field_id); ?>]" data-changeme="hf-desc-<?php echo esc_attr($field['field_key']); ?>"><?php echo isset($field['description']) ? esc_textarea($field['description']) : ''; ?></textarea>
             </div>
             <?php
         }
@@ -756,52 +756,26 @@ defined('ABSPATH') || die();
         }
 
         if (!empty($display['advanced_validation'])) {
-            // Other fields on this form that a confirmation field could match.
-            $match_options = array();
+            /*
+             * Other fields on this form that a confirmation field could match.
+             * The rules live on HashFormFields because the builder rebuilds
+             * this list over ajax when a field is added or removed, and two
+             * copies of them would drift.
+             */
+            static $form_fields_cache = array();
 
-            if (!empty($field['form_id'])) {
+            if (!empty($field['form_id']) && !isset($form_fields_cache[$field['form_id']])) {
                 // The builder renders one settings panel per field, so without
                 // this the same form-fields query runs once for every field.
-                static $form_fields_cache = array();
-
-                if (!isset($form_fields_cache[$field['form_id']])) {
-                    $form_fields_cache[$field['form_id']] = HashFormFields::get_form_fields($field['form_id']);
-                }
-
-                /*
-                 * Only fields this one could ever equal. Offering an email
-                 * field the choice of matching a phone field produced a rule
-                 * nothing could satisfy: a value that passes email validation
-                 * is not one anybody would type into a phone field, so the
-                 * form could never be submitted and the error looked like a
-                 * bug in the matching itself.
-                 *
-                 * Two fields are compatible when they are the same type, or
-                 * when one of them puts no format constraint on its value.
-                 */
-                $unconstrained = array('text', 'textarea');
-                $matchable = array_merge($unconstrained, array('email', 'url', 'phone', 'number'));
-
-                foreach ($form_fields_cache[$field['form_id']] as $other_field) {
-                    if ($other_field->id == $field_id) {
-                        continue;
-                    }
-
-                    if (!in_array($other_field->type, $matchable, true)) {
-                        continue;
-                    }
-
-                    $compatible = $other_field->type === $field_type
-                            || in_array($other_field->type, $unconstrained, true)
-                            || in_array($field_type, $unconstrained, true);
-
-                    if (!$compatible) {
-                        continue;
-                    }
-
-                    $match_options[$other_field->id] = $other_field->name;
-                }
+                $form_fields_cache[$field['form_id']] = HashFormFields::get_form_fields($field['form_id']);
             }
+
+            $match_options = empty($field['form_id']) ? array() : HashFormFields::get_match_field_options(
+                            $field['form_id'],
+                            $field_id,
+                            $field_type,
+                            $form_fields_cache[$field['form_id']]
+            );
             ?>
             <h4><?php esc_html_e('Advanced Validation', 'hash-form'); ?></h4>
 
@@ -824,7 +798,7 @@ defined('ABSPATH') || die();
             <?php if ($match_options) { ?>
                 <div class="hf-form-row">
                     <label><?php esc_html_e('Must Match Field', 'hash-form'); ?></label>
-                    <select name="field_options[match_field_<?php echo esc_attr($field_id); ?>]">
+                    <select class="hf-match-field-select" data-fid="<?php echo esc_attr($field_id); ?>" name="field_options[match_field_<?php echo esc_attr($field_id); ?>]">
                         <option value=""><?php esc_html_e('— None —', 'hash-form'); ?></option>
                         <?php foreach ($match_options as $option_id => $option_label) { ?>
                             <option value="<?php echo esc_attr($option_id); ?>" <?php selected(isset($field['match_field']) ? $field['match_field'] : '', $option_id); ?>>

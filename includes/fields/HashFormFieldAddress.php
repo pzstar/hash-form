@@ -62,7 +62,7 @@ class HashFormFieldAddress extends HashFormFieldType {
             <div class="hf-sub-field-label">
                 <?php echo esc_html($label); ?>
                 <label class="hf-field-show-hide">
-                    <input type="checkbox" name="field_options[disable_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" id="hf-disable-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" data-changeme="hf-subfield-disable-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" value="off" data-disablefield="hf-subfield-container-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" <?php checked(($disable == 'off'), true) ?>>
+                    <input type="checkbox" name="field_options[disable_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" id="hf-disable-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" value="off" data-disablefield="hf-subfield-container-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>" <?php checked(($disable == 'off'), true) ?>>
                     <label for="hf-disable-<?php echo esc_attr($name); ?>-<?php echo esc_attr($field_id); ?>"></label>
                 </label>
             </div>

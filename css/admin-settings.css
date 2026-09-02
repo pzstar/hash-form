@@ -37,9 +37,36 @@ body.hf-style-builder-screen #wpcontent {
     z-index: 99999;
 }
 
+/*
+ * The admin bar goes, because on this screen it cannot be covered.
+ *
+ * The form builder leaves it in place and paints over it: #hf-wrap is fixed
+ * across the viewport with the same z-index the bar has and comes later in the
+ * document, so it wins the tie and the bar is simply never seen.
+ *
+ * That does not transfer here. wp-admin renders the bar on in_admin_header,
+ * which puts it *inside* #wpcontent - and #wpcontent is this screen's fixed
+ * full-viewport element, so it is a stacking context the bar sits within. No
+ * z-index on the parent can lift it over its own child, and the bar drew across
+ * the top of the header: the template name and the actions beside it lost their
+ * first 32 pixels.
+ */
+body.hf-style-builder-screen #wpadminbar {
+    display: none;
+}
+
 /* The bar keeps its own height; everything under it takes the rest. */
 body.hf-style-builder-screen .hf-list-header {
     flex: 0 0 auto;
+}
+
+/* list-screens.css pulls the bar left by 20px and gives it that width back, to
+   cancel the padding wp-admin puts on #wpcontent. This screen takes that padding
+   off, so the correction had nothing left to correct: the bar hung 20px off the
+   left of the viewport and the actions on its right ran off the other edge. */
+body.hf-style-builder-screen #wpcontent > .hf-list-header {
+    margin-left: 0;
+    width: 100%;
 }
 
 /* Every wrapper between the screen and the panel passes the height straight
@@ -67,13 +94,16 @@ body.hf-style-builder-screen .hf-style-panel {
     width: auto;
 }
 
+/* Only the height is this screen's business. The ground behind the columns, the
+   gutter around them and the gap between them are the form builder's, and come
+   from .hf-content .hf-body in builder.css - overriding them here was what left
+   the sidebar and the preview flush against the edges of the screen with no
+   surface under them. */
 .hf-style-panel .hf-body {
-    background: none;
     flex: 1 1 auto;
     height: auto;
     margin: 0;
     min-height: 0;
-    padding: 0;
 }
 
 /* The screen meta and its toggles are the post editor's chrome, which is what

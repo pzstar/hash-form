@@ -18,7 +18,7 @@ class HashFormFieldName extends HashFormFieldType {
         return array(
             'full' => array(
                 'type' => 'text',
-                'label' => '',
+                'label' => esc_html__('Full Name', 'hash-form'),
                 'optional' => $name_layout !== 'full',
             ),
             'first' => array(
@@ -63,16 +63,16 @@ class HashFormFieldName extends HashFormFieldType {
 
             <div class="hf-grid-container">
                 <div class="hf-form-row hf-grid-2">
+                    <label><?php esc_html_e('Default Value', 'hash-form'); ?></label>
                     <input type="text" name="default_value_<?php echo esc_attr($field_id); ?>[<?php echo esc_attr($name); ?>]" value="<?php echo esc_attr($value); ?>" data-changeme="hf-field-<?php echo esc_attr($field_key); ?>-<?php echo esc_attr($name); ?>" data-changeatt="value">
-                    <label class="hf-field-desc"><?php esc_html_e('Default Value', 'hash-form'); ?></label>
                 </div>
                 <div class="hf-form-row hf-grid-2">
+                    <label><?php esc_html_e('Placeholder', 'hash-form'); ?></label>
                     <input type="text" name="field_options[placeholder_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" value="<?php echo esc_attr($placeholder); ?>" data-changeme="hf-field-<?php echo esc_attr($field_key); ?>-<?php echo esc_attr($name); ?>" data-changeatt="placeholder">
-                    <label class="hf-field-desc"><?php esc_html_e('Placeholder', 'hash-form'); ?></label>
                 </div>
                 <div class="hf-form-row hf-grid-2">
+                    <label><?php esc_html_e('Description', 'hash-form'); ?></label>
                     <input type="text" name="field_options[desc_<?php echo esc_attr($field_id); ?>][<?php echo esc_attr($name); ?>]" value="<?php echo esc_attr($desc); ?>" data-changeme="<?php echo esc_attr('hf-subfield-desc-' . $name . '-' . $field_id); ?>">
-                    <label class="hf-field-desc"><?php esc_html_e('Description', 'hash-form'); ?></label>
                 </div>
             </div>
         </div>
