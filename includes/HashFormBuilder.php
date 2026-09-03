@@ -411,7 +411,32 @@ class HashFormBuilder {
         $form_id = 0;
         if ($query_results) {
             $form_id = $wpdb->insert_id;
-            HashFormFields::duplicate_fields($id, $form_id);
+            $map = HashFormFields::duplicate_fields($id, $form_id);
+
+            /*
+             * The rules were written above with the source form's field ids,
+             * which the copy does not have. Rewritten here, once the copy's own
+             * fields exist and the two can be matched up.
+             */
+            self::remap_calculation_formulas($form_id, $map);
+
+            if (!empty($settings['condition_action'])) {
+                $settings = self::remap_conditions($settings, $map, $dropped);
+
+                $wpdb->update(
+                        $wpdb->prefix . 'hashform_forms',
+                        array('settings' => serialize($settings)),
+                        array('id' => $form_id)
+                );
+
+                if ($dropped) {
+                    HashFormHelper::log(sprintf(
+                                    'copying form %d: %d show/hide rule(s) named a field the form no longer has and were not copied',
+                                    absint($id),
+                                    $dropped
+                    ));
+                }
+            }
         }
 
         if ($form_id) {
@@ -565,6 +590,24 @@ class HashFormBuilder {
 
     public static function get_form_vars($id) {
         global $wpdb;
+
+        /**
+         * Supply a form without one being stored.
+         *
+         * Return anything other than null and the query below is skipped. It is
+         * what lets a form be rendered from a definition held in memory - the
+         * template demos read their forms out of a json file rather than
+         * writing one row per template into the database just to look at it.
+         *
+         * @param object|null $form null to load it as usual.
+         * @param int         $id
+         */
+        $pre = apply_filters('hashform_pre_get_form_vars', null, $id);
+
+        if (null !== $pre) {
+            return $pre;
+        }
+
         $results = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_forms WHERE id=%d", $id));
 
         if (!$results) {
@@ -889,6 +932,216 @@ class HashFormBuilder {
             }
         }
         return $conditions;
+    }
+
+    /**
+     * Point a copied form's rules at the copy's own fields.
+     *
+     * A rule stores field ids. Duplicating a form, importing one, or starting
+     * from a template all build fresh fields with fresh ids, and the rules
+     * were carried across untouched - so every one of them named a field that
+     * did not exist on the new form. Nothing was shown or hidden, and the
+     * Conditional Logic panel offered "Select a field" for both ends.
+     *
+     * A rule whose ends cannot both be mapped is dropped rather than kept
+     * pointing at a stranger: the id it holds may since have been handed to an
+     * unrelated field on another form, and a rule that silently governs the
+     * wrong field is worse than no rule.
+     *
+     * @param array $settings The new form's settings, conditions included.
+     * @param array $map      old field id => new field id.
+     * @param int   $dropped  Set to the number of rules that could not be kept.
+     * @return array The settings, with the rules rewritten.
+     */
+    public static function remap_conditions($settings, $map, &$dropped = 0) {
+        $dropped = 0;
+
+        if (empty($settings['condition_action']) || !is_array($settings['condition_action'])) {
+            return $settings;
+        }
+
+        $columns = array('condition_action', 'compare_from', 'compare_to', 'compare_condition', 'compare_value');
+        $kept = array_fill_keys($columns, array());
+
+        foreach (array_keys($settings['condition_action']) as $key) {
+            $from = isset($settings['compare_from'][$key]) ? (int) $settings['compare_from'][$key] : 0;
+            $to = isset($settings['compare_to'][$key]) ? (int) $settings['compare_to'][$key] : 0;
+
+            if (!isset($map[$from], $map[$to])) {
+                $dropped++;
+                continue;
+            }
+
+            foreach ($columns as $column) {
+                $value = isset($settings[$column][$key]) ? $settings[$column][$key] : '';
+
+                if ('compare_from' === $column) {
+                    $value = (string) $map[$from];
+                } else if ('compare_to' === $column) {
+                    $value = (string) $map[$to];
+                }
+
+                $kept[$column][] = $value;
+            }
+        }
+
+        foreach ($columns as $column) {
+            $settings[$column] = $kept[$column];
+        }
+
+        return $settings;
+    }
+
+    /**
+     * Point a copied form's calculation formulas at the copy's own fields.
+     *
+     * A formula refers to its inputs as #field_id_12, and a repeater column as
+     * #repeater_12_0 - field ids again, with the same problem the show and hide
+     * rules had: copy the form and every tag names a field that is not there,
+     * so the total silently stops adding up.
+     *
+     * Runs over the new form's own fields once they exist, so it is given the
+     * form to walk rather than the values to rewrite.
+     *
+     * @param int   $form_id The form that has just been built.
+     * @param array $map     old field id => new field id.
+     * @return int How many formulas were rewritten.
+     */
+    public static function remap_calculation_formulas($form_id, $map) {
+        global $wpdb;
+
+        if (!$map) {
+            return 0;
+        }
+
+        $rewritten = 0;
+
+        foreach (HashFormFields::get_form_fields($form_id) as $field) {
+            $options = $field->field_options;
+
+            if (!is_array($options) || empty($options['formula'])) {
+                continue;
+            }
+
+            $formula = $options['formula'];
+
+            // Both tag shapes in one pass, so a formula that mixes them cannot
+            // half-update. The id is looked up as it is met; anything the map
+            // does not know is left exactly as it was rather than guessed at.
+            $updated = preg_replace_callback(
+                    '/#(field_id|repeater)_(\d+)(_\d+)?/',
+                    function ($m) use ($map) {
+                        $old = (int) $m[2];
+
+                        if (!isset($map[$old])) {
+                            return $m[0];
+                        }
+
+                        return '#' . $m[1] . '_' . $map[$old] . (isset($m[3]) ? $m[3] : '');
+                    },
+                    $formula
+            );
+
+            if ($updated === $formula) {
+                continue;
+            }
+
+            $options['formula'] = $updated;
+            $wpdb->update(
+                    $wpdb->prefix . 'hashform_fields',
+                    array('field_options' => serialize($options)),
+                    array('id' => (int) $field->id)
+            );
+            $rewritten++;
+        }
+
+        return $rewritten;
+    }
+
+    /**
+     * Which fields a form's rules touch, and what each rule says.
+     *
+     * A rule names two fields: compare_from is the one shown or hidden, and
+     * compare_to is the one whose answer decides it. Both ends are worth
+     * marking on the canvas - a field that disappears for some visitors, and a
+     * field that is doing the deciding - so this returns an entry for each,
+     * keyed by field id.
+     *
+     * Read once per form and held for the request, because it is called from
+     * inside the loop that renders every field.
+     *
+     * @param int $form_id
+     * @return array field id => array( 'target' => string[], 'trigger' => string[] )
+     */
+    public static function get_condition_hints($form_id) {
+        static $cache = array();
+
+        $form_id = absint($form_id);
+
+        if (isset($cache[$form_id])) {
+            return $cache[$form_id];
+        }
+
+        $conditions = self::get_show_hide_conditions($form_id);
+
+        if (!$conditions) {
+            $cache[$form_id] = array();
+            return $cache[$form_id];
+        }
+
+        $names = array();
+
+        foreach (HashFormFields::get_form_fields($form_id) as $field) {
+            $names[(int) $field->id] = $field->name;
+        }
+
+        $operators = self::condition_operators();
+        $hints = array();
+
+        foreach ($conditions as $row) {
+            $target = isset($row['compare_from']) ? (int) $row['compare_from'] : 0;
+            $trigger = isset($row['compare_to']) ? (int) $row['compare_to'] : 0;
+
+            // A half-filled rule does nothing on the front end, so it says
+            // nothing here either.
+            if (!$target || !$trigger) {
+                continue;
+            }
+
+            /*
+             * Raw strings here, escaped where they are printed. Building them
+             * with esc_html__() turned the quotes into entities before the
+             * sentence was assembled, which then had to survive a second pass
+             * to come out right.
+             */
+            $is_show = !isset($row['condition_action']) || 'hide' !== $row['condition_action'];
+            $operator = isset($operators[$row['compare_condition']])
+                    ? strtolower($operators[$row['compare_condition']])
+                    : $row['compare_condition'];
+            $unknown = __('a deleted field', 'hash-form');
+            $trigger_name = isset($names[$trigger]) ? $names[$trigger] : $unknown;
+            $target_name = isset($names[$target]) ? $names[$target] : $unknown;
+            $value = isset($row['compare_value']) ? $row['compare_value'] : '';
+
+            // "Show"/"Hide" name the rule on the settings panel, where they are
+            // an instruction. Here they describe a field, so they need the
+            // participle: "Shown when ...", not "Show when ...".
+            $hints[$target]['target'][] = $is_show
+                    /* translators: 1: the field being watched, 2: the comparison, 3: the value compared against. */
+                    ? sprintf(__('Shown when "%1$s" %2$s "%3$s"', 'hash-form'), $trigger_name, $operator, $value)
+                    /* translators: 1: the field being watched, 2: the comparison, 3: the value compared against. */
+                    : sprintf(__('Hidden when "%1$s" %2$s "%3$s"', 'hash-form'), $trigger_name, $operator, $value);
+
+            $hints[$trigger]['trigger'][] = $is_show
+                    /* translators: %s: the field this one decides. */
+                    ? sprintf(__('Decides whether "%s" is shown', 'hash-form'), $target_name)
+                    /* translators: %s: the field this one decides. */
+                    : sprintf(__('Decides whether "%s" is hidden', 'hash-form'), $target_name);
+        }
+
+        $cache[$form_id] = $hints;
+
+        return $cache[$form_id];
     }
 
     public function add_plugin_action_link($links) {

@@ -15,7 +15,27 @@ class HashFormFields {
 
     public static function get_form_fields($form_id) {
         global $wpdb;
+
+        /**
+         * Supply a form's fields without them being stored.
+         *
+         * The companion to hashform_pre_get_form_vars: between them a caller
+         * can render a form it holds in memory. Return anything but null and
+         * the query below is skipped.
+         *
+         * @param array|null $fields null to load them as usual.
+         * @param int        $form_id
+         */
+        $pre = apply_filters('hashform_pre_get_form_fields', null, $form_id);
+
+        if (null !== $pre) {
+            return $pre;
+        }
+
+        // After the filter, so a caller supplying a form in memory is asked
+        // with the id it passed rather than a sanitised version of it.
         $form_id = absint($form_id);
+
         $results = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_fields WHERE form_id=%d ORDER BY field_order", $form_id));
 
         foreach ($results as $value) {
@@ -362,7 +382,7 @@ class HashFormFields {
     }
 
     public static function create_row($values, $return = true) {
-        global $wpdb, $hashform_duplicate_ids;
+        global $wpdb;
 
         $new_values = array();
         $key = isset($values['field_key']) ? sanitize_text_field($values['field_key']) : sanitize_text_field($values['name']);
@@ -406,14 +426,7 @@ class HashFormFields {
             return false;
         }
 
-        if ($query_results) {
-            if (isset($values['id'])) {
-                $hashform_duplicate_ids[$values['id']] = $new_id;
-            }
-            return $new_id;
-        } else {
-            return false;
-        }
+        return $query_results ? $new_id : false;
     }
 
     public static function update_form_fields($id, $values) {
@@ -501,6 +514,15 @@ class HashFormFields {
         return $query_results;
     }
 
+    /**
+     * Copy one form's fields onto another.
+     *
+     * @param int $old_form_id
+     * @param int $form_id
+     * @return array old field id => new field id, for anything that refers to a
+     *               field by id and has to be pointed at the copy - the show
+     *               and hide rules above all.
+     */
     public static function duplicate_fields($old_form_id, $form_id) {
         global $wpdb;
 
@@ -512,11 +534,19 @@ class HashFormFields {
             ORDER BY hfi.field_order", $old_form_id
         ));
 
+        $map = array();
+
         foreach ((array) $fields as $field) {
             $values = array();
             self::fill_field($values, $field, $form_id);
-            self::create_row($values);
+            $new_id = self::create_row($values);
+
+            if ($new_id) {
+                $map[(int) $field->id] = (int) $new_id;
+            }
         }
+
+        return $map;
     }
 
     public static function fill_field(&$values, $field, $form_id) {

@@ -179,6 +179,67 @@ abstract class HashFormFieldType {
 
     /* Form builder AdminEnd each elements */
 
+    /**
+     * Mark a field the form's rules act on.
+     *
+     * Conditional logic is set up on the Settings tab, which means the canvas
+     * gave no sign that a field is only shown to some visitors - or that a
+     * field is the one deciding. Both ends carry a chip, and the rules
+     * themselves are in its tooltip.
+     */
+    protected function condition_hint_html() {
+        $field = $this->get_field();
+
+        // A divider reports the row it opens rather than a field of its own, so
+        // the id here would not be the one a rule names.
+        if (in_array($field['type'], array('divider', 'end_divider'), true)) {
+            return;
+        }
+
+        $hints = HashFormBuilder::get_condition_hints($field['form_id']);
+        $id = (int) $field['id'];
+
+        if (empty($hints[$id])) {
+            return;
+        }
+
+        $is_target = !empty($hints[$id]['target']);
+        $rules = array_merge(
+                isset($hints[$id]['target']) ? $hints[$id]['target'] : array(),
+                isset($hints[$id]['trigger']) ? $hints[$id]['trigger'] : array()
+        );
+
+        /*
+         * The rule itself, not just that there is one.
+         *
+         * "Conditional" alone told you to go and look on the Settings tab,
+         * which is the trip this was meant to save. The first rule is written
+         * on the chip and trimmed by css when the canvas is narrow; the rest,
+         * and the untrimmed text, stay in the tooltip.
+         */
+        $summary = $rules[0];
+        $extra = count($rules) - 1;
+        ?>
+        <span class="hf-editor-condition-hint<?php echo $is_target ? '' : ' hf-editor-condition-hint-trigger'; ?>"
+              title="<?php echo esc_attr(implode("\n", $rules)); ?>">
+            <span class="mdi mdi-directions-fork" aria-hidden="true"></span>
+            <span class="hf-editor-condition-hint-label"><?php echo esc_html($summary); ?></span>
+            <?php if ($extra > 0) { ?>
+                <span class="hf-editor-condition-hint-more">
+                    <?php
+                    printf(
+                            /* translators: %s: how many further rules act on this field. */
+                            esc_html(_n('+%s more', '+%s more', $extra, 'hash-form')),
+                            esc_html(number_format_i18n($extra))
+                    );
+                    ?>
+                </span>
+            <?php } ?>
+            <span class="screen-reader-text"><?php echo esc_html(implode('. ', $rules)); ?></span>
+        </span>
+        <?php
+    }
+
     public function load_single_field() {
         $field = $this->get_field();
         $classes = $this->container_classes_array();
@@ -204,7 +265,10 @@ abstract class HashFormFieldType {
                     <a href="#" class="hf-editor-delete-action" title="<?php esc_attr_e('Delete', 'hash-form'); ?>" data-container="body" aria-label="<?php esc_attr_e('Delete', 'hash-form'); ?>" data-deletefield="<?php echo esc_attr($field['id']); ?>"><span class="mdi mdi-trash-can-outline"></span></a>
                 </div>
 
-                <?php $this->get_builder_html(); ?>
+                <?php
+                $this->condition_hint_html();
+                $this->get_builder_html();
+                ?>
             </div>
 
             <?php

@@ -3,7 +3,7 @@ Contributors: hashthemes
 Tags: form, form builder, drag and drop, contact form
 Requires at least: 6.3
 Tested up to: 7.1
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -139,6 +139,29 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 11. Global Email Settings Page
 
 == Changelog ==
+= 1.4.4 - 3 Sep, 2026 =
+* Conditional logic survived neither duplicating a form nor importing one: the rules store field ids, the copy built fields with new ids, and nothing was rewritten - so every rule pointed at a field the new form did not have and no field was ever shown or hidden. Rules are now pointed at the copy's own fields - Fixed
+* Exported forms carry a reference id for each field, which is what lets an import match a rule to the field it means. A file exported before this has nothing to match on, so its rules are dropped on import rather than kept in a state where they can never fire
+* Calculation formulas refer to their inputs by field id and were left untouched by a copy or an import, so the sum stopped working on the new form. They are rewritten alongside the rules now - Fixed
+* Two filters, hashform_pre_get_form_vars and hashform_pre_get_form_fields, let a form be rendered from a definition held in memory rather than one stored in the database - which is what lets Pro preview a template without importing it first
+* Conditional logic is now visible where the form is built: a field a rule shows or hides is marked "Conditional" on the canvas, the field deciding it is marked "Controls a field", and the rule itself is in the tooltip
+* The preview marks the same fields and says how many are hidden by a rule at that moment, so a field that is simply not there is no longer a mystery
+* The form preview endpoint answered visitors who were not logged in, so any form could be rendered by walking the ids; it now requires a login and permission to view forms - Fixed (Security)
+* Style templates now open in a builder of their own rather than the post editor - full height, the same header bar the other screens carry, the template name editable in that bar, and its own save bar
+* Opening Add New for a style template no longer writes an empty draft into the templates list before anything has been saved
+* Style builder now sits on the same workspace as the form builder, with the panel and the preview as cards on a shaded ground instead of flush to the edges of the screen
+* The admin bar drew across the top of the style builder's header, taking the first 32 pixels off the template name and the actions beside it - Fixed
+* The style builder's header hung 20 pixels off the left of the screen and ran its actions off the right - Fixed
+* Choosing a font style in the style builder applied the weight but not the style itself, because the weight declaration closed the rule before the style was reached - Fixed
+* Changing a style control before the preview had finished loading threw, and that control's change went unapplied - Fixed
+* Field description changes now show on the builder canvas as they are typed, rather than only after saving and reloading - Fixed
+* HTML field content now renders on the builder canvas instead of an empty block
+* Checkbox and radio options could only be reordered after saving the form and reloading the page - Fixed
+* Must Match Field now follows a field's label as it is renamed and picks up fields as they are added or deleted, without a reload - Fixed
+* Icon font dropped in favour of the svg icons already in use, taking a font request and four files out of the install
+* Unused stylesheets and dead code removed
+* Plugin classes moved from admin/classes to includes, since the shortcode, the front-end loader and the public ajax endpoints are not admin code
+
 = 1.4.3 - 27 Aug, 2026 =
 * Readme now sets out the kinds of forms the plugin builds - Updated
 * Unauthenticated file upload: a request naming only unrecognised extensions cleared the guard and left the uploader with an empty allowlist, which it treated as no restriction, allowing a file outside the form's configured types to be stored and served from the uploads folder - Fixed (Security)

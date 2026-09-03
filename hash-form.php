@@ -3,7 +3,7 @@
 /*
  * Plugin Name: Hash Form - Drag & Drop Form Builder
  * Description: Design, Embed, Connect: Your Ultimate Form Companion for WordPress
- * Version: 1.4.3
+ * Version: 1.4.4
  * Author: HashThemes
  * Author URI: https://hashthemes.com/
  * Text Domain: hash-form

@@ -87,6 +87,13 @@ class HashFormImportExport {
             $exfield = array();
             foreach ($fields as $field) {
                 $efield = array();
+                /*
+                 * Carried so the show and hide rules can be pointed at the
+                 * fields they mean once those fields are recreated with ids of
+                 * their own. Nothing restores this id; it is a reference key
+                 * for this file and no more.
+                 */
+                $efield['id'] = absint($field->id);
                 $efield['name'] = $field->name;
                 $efield['description'] = $field->description;
                 $efield['type'] = $field->type;
@@ -272,9 +279,11 @@ class HashFormImportExport {
         $wpdb->update($wpdb->prefix . 'hashform_forms', $form, array('id' => $form_id));
         $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}hashform_fields WHERE form_id=%d", $form_id));
 
+        $map = array();
+
         if (isset($imdat['field']) && is_array($imdat['field']) && !empty($imdat['field'])) {
             foreach ($imdat['field'] as $field) {
-                HashFormFields::create_row(array(
+                $new_id = HashFormFields::create_row(array(
                     'name' => isset($field['name']) ? $field['name'] : '',
                     'description' => isset($field['description']) ? $field['description'] : '',
                     'type' => isset($field['type']) ? $field['type'] : 'text',
@@ -284,6 +293,41 @@ class HashFormImportExport {
                     'form_id' => $form_id,
                     'required' => isset($field['required']) ? $field['required'] : false,
                     'field_options' => isset($field['field_options']) ? $field['field_options'] : array()
+                ));
+
+                if ($new_id && isset($field['id'])) {
+                    $map[absint($field['id'])] = (int) $new_id;
+                }
+            }
+        }
+
+        /*
+         * The rules name fields by id, and the ids in the file belong to the
+         * form it was taken from. Rewritten now that this form's own fields
+         * exist, which is also why the settings are written twice: the form row
+         * has to exist before a field can point at it.
+         *
+         * A file exported before ids were carried has nothing to match on, so
+         * its rules cannot be salvaged - remap_conditions() drops them rather
+         * than leave the form carrying rules that can never fire.
+         */
+        // Calculation formulas name their inputs by field id too.
+        HashFormBuilder::remap_calculation_formulas($form_id, $map);
+
+        if (!empty($settings['condition_action'])) {
+            $settings = HashFormBuilder::remap_conditions($settings, $map, $dropped);
+
+            $wpdb->update(
+                    $wpdb->prefix . 'hashform_forms',
+                    array('settings' => serialize($settings)),
+                    array('id' => $form_id)
+            );
+
+            if ($dropped) {
+                HashFormHelper::log(sprintf(
+                                'importing into form %d: %d show/hide rule(s) could not be matched to a field and were dropped',
+                                $form_id,
+                                $dropped
                 ));
             }
         }
