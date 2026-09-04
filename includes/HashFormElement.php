@@ -8,8 +8,21 @@ use Elementor\Plugin;
 
 class HashFormElement extends Widget_Base {
 
+    /**
+     * The widget's key.
+     *
+     * A slug, because Elementor builds a css class out of it: the old name
+     * carried a space, so every widget came out as
+     * class="... elementor-widget-Hash Form", which a browser reads as two
+     * classes - elementor-widget-Hash, and a stray global Form that could
+     * collide with anything on the page. Nothing could target the widget
+     * either, since the class it advertised did not exist.
+     *
+     * Pages built before this keep working: HashFormElementLegacy below is
+     * registered under the old name and renders exactly the same.
+     */
     public function get_name() {
-        return 'Hash Form';
+        return 'hashform';
     }
 
     public function get_title() {
@@ -53,7 +66,7 @@ class HashFormElement extends Widget_Base {
             'new_form', [
                 'type' => Controls_Manager::RAW_HTML,
                 'raw' => sprintf(
-                    wp_kses(esc_html__('To Create New Form', 'hash-form') . ' <a href="%s" target="_blank">' . esc_html__('Cick Here', 'hash-form') . '</a>', [
+                    wp_kses(esc_html__('To Create New Form', 'hash-form') . ' <a href="%s" target="_blank">' . esc_html__('Click Here', 'hash-form') . '</a>', [
                         'b' => [],
                         'br' => [],
                         'a' => [
@@ -693,7 +706,7 @@ class HashFormElement extends Widget_Base {
                     ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .hf-container .hf-error-msg{' => '--hf-validation-textalign: {{VALUE}}',
+                    '{{WRAPPER}} .hf-container .hf-error-msg' => '--hf-validation-textalign: {{VALUE}}',
                 ],
                 'toggle' => true,
             ]
@@ -1024,8 +1037,13 @@ class HashFormElement extends Widget_Base {
             add_filter('hashform_enable_style', '__return_false');
         }
 
-        if (isset($settings['hf_form_id']) && !empty($settings['hf_form_id']) && (HashFormListing::get_status($settings['hf_form_id']) == 'published')) {
-            echo do_shortcode('[hashform id="' . $settings['hf_form_id'] . '"]');
+        // absint before it is built into a shortcode string: the value comes
+        // from the page's own saved data, which anyone who can edit the page
+        // can put anything into.
+        $form_id = isset($settings['hf_form_id']) ? absint($settings['hf_form_id']) : 0;
+
+        if ($form_id && 'published' === HashFormListing::get_status($form_id)) {
+            echo do_shortcode('[hashform id="' . $form_id . '"]');
         } elseif ($this->elementor()->editor->is_edit_mode()) {
             ?>
             <p><?php echo esc_html__('Please select a Form', 'hash-form'); ?></p>
@@ -1049,6 +1067,26 @@ class HashFormElement extends Widget_Base {
 
     protected function elementor() {
         return Plugin::$instance;
+    }
+
+}
+
+/**
+ * The widget under the name it used to have.
+ *
+ * Elementor stores the widget type in the page's own data, so a page built
+ * before the rename asks for "Hash Form" and would otherwise be told there is
+ * no such widget. This answers to that name and behaves identically; it is kept
+ * out of the panel so nobody adds a new one.
+ */
+class HashFormElementLegacy extends HashFormElement {
+
+    public function get_name() {
+        return 'Hash Form';
+    }
+
+    public function show_in_panel() {
+        return false;
     }
 
 }

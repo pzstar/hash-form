@@ -9,6 +9,7 @@ class HashFormBlock {
     public function __construct() {
         add_action('init', array($this, 'register_block'));
         add_action('enqueue_block_editor_assets', array($this, 'enqueue_block_editor_assets'));
+        add_action('enqueue_block_assets', array($this, 'enqueue_block_canvas_styles'));
 
         // Load translation files
         add_action('enqueue_block_editor_assets', array($this, 'block_localization'));
@@ -402,6 +403,33 @@ class HashFormBlock {
         );
     }
 
+    /**
+     * The form's own stylesheet, where the block is actually drawn.
+     *
+     * This is a dynamic block: the editor asks the server for its markup and
+     * injects what comes back, so nothing on that path enqueues the form's
+     * assets the way a front-end render does.
+     *
+     * It has to be this hook rather than enqueue_block_editor_assets. The
+     * editor canvas is an iframe, and that hook only dresses the editor around
+     * it - the stylesheet went into the outer document and never reached the
+     * block. enqueue_block_assets is the one WordPress carries into the canvas.
+     *
+     * Admin only: on the front end these are enqueued when a form actually
+     * renders, so a page without one still loads none of them.
+     */
+    public function enqueue_block_canvas_styles() {
+        if (!is_admin()) {
+            return;
+        }
+
+        // Registered here as well as enqueued, because the front-end
+        // registration runs on wp_enqueue_scripts, which never fires in the
+        // admin - the handles would otherwise not exist to enqueue.
+        HashFormLoader::enqueue_styles();
+        HashFormLoader::enqueue_form_styles();
+    }
+
     public function enqueue_block_editor_assets() {
         // The forms list is only needed inside the block editor; querying it
         // on every request (init) was wasted work.
@@ -427,7 +455,24 @@ class HashFormBlock {
             add_filter('hashform_form_classes', array($this, 'modify_class'));
             add_filter('hashform_enable_style', '__return_false');
             self::$stylesheet = $this->get_stylesheet($attr);
-            add_action('wp_footer', array($this, 'print_stylesheet'), 11);
+
+            /*
+             * On a page the stylesheet goes out with wp_footer, which keeps it
+             * out of the middle of the content.
+             *
+             * The editor is different: it asks for this block through the
+             * block-renderer endpoint and injects only what comes back, and no
+             * footer ever runs there. The css has to travel with the markup, or
+             * the block sits in the editor stripped of its default styling and
+             * without the custom styling meant to replace it.
+             */
+            if (defined('REST_REQUEST') && REST_REQUEST) {
+                // Already stripped of markup in get_stylesheet(), which is
+                // where the attribute is read, so it cannot close the element.
+                echo '<style>' . $this->strip_whitespace(self::$stylesheet) . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- css, sanitised at source.
+            } else {
+                add_action('wp_footer', array($this, 'print_stylesheet'), 11);
+            }
         }
 
         if (!is_admin()) {

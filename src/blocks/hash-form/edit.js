@@ -399,16 +399,25 @@ export default function Edit(props) {
 
     setAttributes({id: useBlockProps()['id']});
 
-    const stylesCSS = `#${id} {
-        ${enableCustomStyle && getStyleVars(attributes, {
+    const styleVars = enableCustomStyle ? getStyleVars(attributes, {
         responsiveSliderUnits: [],
         normal: ['labelTypoFontColor', 'labelRequiredColor', 'descTypoFontColor', 'fieldBorder', 'fieldColorNormal', 'fieldBgColorNormal', 'fieldBorderColorNormal', 'fieldColorFocus', 'fieldBgColorFocus', 'fieldBorderColorFocus', 'uploadBorder', 'uploadColorNormal', 'uploadBorderColorNormal', 'uploadBgColorNormal', 'uploadColorHover', 'uploadBgColorHover', 'uploadBorderColorHover', 'buttonBorder', 'buttonBorderColorNormal', 'buttonColorNormal', 'buttonBgColorNormal', 'buttonBorderColorHover', 'buttonColorHover', 'buttonBgColorHover', 'validationTypoFontColor', 'validationTextalign', 'formTitleTypoFontColor', 'formDescTypoFontColor', 'headingTypoFontColor', 'paragraphTypoFontColor', 'dividerColor', 'starColor', 'starColorActive', 'rangeColor', 'rangeColorActive', 'rangeHandleColor'],
         normalUnit: ['formColumnGap', 'formRowGap', 'starSize', 'rangeHeight', 'rangeHandleSize'],
         dimension: ['labelSpacing', 'descSpacing', 'fieldBorder', 'fieldBorderRadius', 'fieldPadding', 'uploadBorder', 'uploadBorderRadius', 'uploadPadding', 'buttonBorder', 'buttonBorderRadius', 'buttonPadding', 'formTitleSpacing', 'formDescSpacing'],
         responsiveTypography: ['labelTypo', 'descTypo', 'fieldTypo', 'uploadTypo', 'buttonTypo', 'validationTypo', 'formTitleTypo', 'formDescTypo', 'headingTypo', 'paragraphTypo'],
         boxShadow: ['fieldShadowNormal', 'fieldShadowFocus', 'buttonShadowNormal', 'buttonShadowHover', 'uploadShadowNormal', 'uploadShadowHover']
-    })}
-    }`
+    }) : '';
+
+    /*
+     * Only a real rule, or nothing at all.
+     *
+     * This used to be `${enableCustomStyle && getStyleVars(...)}` inside the
+     * template literal, so with the switch off the && handed back false - or
+     * undefined before it had ever been set - and the template stringified it
+     * straight into the css. Blocks were saved carrying "#block-xxx{undefined}".
+     */
+    const stylesCSS = styleVars ? `#${id} {${styleVars}}` : '';
+
     setAttributes({hfStyle: stylesCSS.replace(/([^0-9a-zA-Z\.#])\s+/g, "$1").replace(/\s([^0-9a-zA-Z\.#]+)/g, "$1").replace(/;}/g, "}").replace(/\/\*.*?\*\//g, "")});
 
     const formOptions = [{label: __('Select a Form', 'hash-form'), value: ''}, ...Object.entries(hash_form_block_data.forms).map(value => ({

@@ -63,8 +63,16 @@ add_action('plugins_loaded', array('HashFormCreateTable', 'maybe_upgrade'));
 add_action('elementor/widgets/register', 'hashform_elementor_widget_register');
 
 function hashform_elementor_widget_register($widgets_manager) {
-    require HASHFORM_PATH . 'includes/HashFormElement.php';
+    // require_once, because this hook can fire more than once in a request -
+    // the editor re-registers widgets, and other plugins trigger it. A plain
+    // require made the second pass a fatal: "Cannot declare class".
+    require_once HASHFORM_PATH . 'includes/HashFormElement.php';
+
     $widgets_manager->register(new \HashFormElement());
+
+    // The same widget under the name it had before, so pages already built with
+    // it keep rendering. Hidden from the panel.
+    $widgets_manager->register(new \HashFormElementLegacy());
 }
 
 /**

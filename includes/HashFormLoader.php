@@ -10,6 +10,7 @@ class HashFormLoader {
         add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'), 11);
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
         add_action('elementor/editor/after_enqueue_styles', array($this, 'elementor_editor_styles'));
+        add_action('elementor/preview/enqueue_styles', array($this, 'elementor_preview_styles'));
     }
 
     public static function add_admin_class($classes) {
@@ -180,12 +181,42 @@ class HashFormLoader {
         ));
     }
 
-    public static function enqueue_form_assets() {
+    /**
+     * Everything a rendered form needs to look right.
+     *
+     * Split out from enqueue_form_assets() because the Elementor editor needs
+     * these without the scripts - see elementor_preview_styles().
+     */
+    public static function enqueue_form_styles() {
         wp_enqueue_style('dashicons');
         wp_enqueue_style('hashform-file-uploader');
         wp_enqueue_style('materialdesignicons');
         wp_enqueue_style('hashform-style');
         wp_enqueue_style('hashform-fonts');
+    }
+
+    /**
+     * The form's stylesheet inside the Elementor editor's preview iframe.
+     *
+     * Elementor builds the widgets client-side there - the preview page arrives
+     * with no element markup at all - so the widget's render(), which is what
+     * enqueues the form assets, never runs. The form was then injected by the
+     * editor with no stylesheet behind it, and every style control looked like
+     * it did nothing: the css variables they set had no rules to act on.
+     *
+     * Styles only. The scripts would bind the submit handler and start hiding
+     * fields by conditional logic inside the editor, which is not something
+     * anyone laying out a page wants to fight with.
+     *
+     * Elementor fires this at wp_enqueue_scripts priority 20, and these handles
+     * are registered at 11, so they are always there to enqueue by now.
+     */
+    public static function elementor_preview_styles() {
+        self::enqueue_form_styles();
+    }
+
+    public static function enqueue_form_assets() {
+        self::enqueue_form_styles();
 
         wp_enqueue_script('jquery-ui-slider');
         wp_enqueue_script('jquery-timepicker');
