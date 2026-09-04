@@ -144,6 +144,7 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 
 == Changelog ==
 = 1.4.4 - 3 Sep, 2026 =
+* An Upgrade to Pro screen, with a feature-by-feature comparison of the two plugins: 40 rows across six sections, covering every one of Pro's eleven module groups as well as what this plugin already does. Every figure on it is what the plugins actually ship - 27 field types here and 50 with Pro, 79 form templates, 20 payment gateways - so it can be checked against the screens rather than taken on trust. The menu entry is only added when Pro is not installed
 * Elementor widget: the widget's key had a space in it, so Elementor built the class "elementor-widget-Hash Form" - which a browser reads as two classes, leaving a stray global "Form" on the element and nothing able to target the widget. It is now elementor-widget-hashform; pages already built keep working through an alias registered under the old name - Fixed
 * Elementor widget: registering the widget used require rather than require_once, so a second pass over the elementor/widgets/register hook was a fatal "Cannot declare class" - Fixed
 * Elementor widget: the selected form id is cast to an integer before it is built into the shortcode
