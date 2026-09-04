@@ -452,10 +452,13 @@ class HashFormEntryListing extends \WP_List_Table {
                 self::forms_dropdown('form_id', $form_id);
                 submit_button(esc_html__('Filter', 'hash-form'), 'filter_action', '', false, array('id' => 'post-query-submit'));
 
-                // Where add-ons hang their own entry tools, such as export.
+                /*
+                 * Where add-ons hang their own entry tools. Export to CSV is
+                 * one of them, and it belongs to Pro - the free plugin used to
+                 * put a button of its own here that only led to a sales page,
+                 * which reads as a broken feature rather than an absent one.
+                 */
                 do_action('hashform_entries_tablenav', $this->status, $form_id);
-
-                $this->export_upsell();
                 ?>
             </div>
             <?php
@@ -466,18 +469,6 @@ class HashFormEntryListing extends \WP_List_Table {
      * Exporting entries lives in the Pro plugin. Point at it only when it is
      * not already installed.
      */
-    private function export_upsell() {
-        if (defined('HASH_FORM_PRO_VERSION') || !$this->has_items()) {
-            return;
-        }
-        ?>
-        <a class="button hf-export-upsell" href="https://hashthemes.com/plugin/hash-form-pro/" target="_blank" rel="noopener">
-            <span class="dashicons dashicons-download"></span>
-            <?php esc_html_e('Export to CSV', 'hash-form'); ?>
-        </a>
-        <?php
-    }
-
     public static function forms_dropdown($field_name, $field_value = '') {
         $forms = HashFormBuilder::get_all_forms();
         ?>

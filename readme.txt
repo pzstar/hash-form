@@ -140,6 +140,7 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 
 == Changelog ==
 = 1.4.4 - 3 Sep, 2026 =
+* The Entries list no longer shows an Export to CSV button that only leads to a sales page. Export belongs to Pro, and a button that does not export reads as a broken feature rather than an absent one - the button now appears only when Pro is there to answer it
 * Conditional logic survived neither duplicating a form nor importing one: the rules store field ids, the copy built fields with new ids, and nothing was rewritten - so every rule pointed at a field the new form did not have and no field was ever shown or hidden. Rules are now pointed at the copy's own fields - Fixed
 * Exported forms carry a reference id for each field, which is what lets an import match a rule to the field it means. A file exported before this has nothing to match on, so its rules are dropped on import rather than kept in a state where they can never fire
 * Calculation formulas refer to their inputs by field id and were left untouched by a copy or an import, so the sum stopped working on the new form. They are rewritten alongside the rules now - Fixed
