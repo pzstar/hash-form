@@ -480,6 +480,20 @@ class HashFormEntry {
             return self::submission_failed(esc_html__('There was a problem with your submission. Please reload the page and try again.', 'hash-form'));
         }
 
+        /*
+         * Posted from a page rendered for a guest, by a request that arrives
+         * logged in. The token is good only as a guest's, so the submission is
+         * taken as a guest's: the user is dropped for the rest of the request.
+         * Done before the restrictions below, so a form that requires a login
+         * still refuses it - a token anyone can get by loading the page never
+         * stands in for the logged-in user's own.
+         */
+        $hf_nonce_field = 'hashform_submit_entry_' . $form_id;
+
+        if (is_user_logged_in() && isset($data[$hf_nonce_field]) && 'guest' === HashFormHelper::verify_public_nonce(wp_unslash($data[$hf_nonce_field]), 'hashform_submit_entry_nonce')) {
+            wp_set_current_user(0);
+        }
+
         // Checked again here: the form may have closed, filled up or already
         // been submitted since the page was loaded.
         $restriction = HashFormRestrictions::check($form);

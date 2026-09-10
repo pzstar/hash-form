@@ -86,8 +86,11 @@ class HashFormValidate {
          * forms should exclude this field from their cache or refresh it.
          */
         $nonce_field = 'hashform_submit_entry_' . absint($values['form_id']);
-        if (!isset($values[$nonce_field]) || !wp_verify_nonce($values[$nonce_field], 'hashform_submit_entry_nonce')) {
-            $errors['form'] = esc_html__('Nonce Error', 'hash-form');
+        // A guest's token is accepted from a logged-in request too, and the
+        // entry is then saved as a guest's: see verify_public_nonce() and
+        // process_entry().
+        if (!isset($values[$nonce_field]) || !HashFormHelper::verify_public_nonce($values[$nonce_field], 'hashform_submit_entry_nonce')) {
+            $errors['form'] = esc_html__('This form has expired. Please reload the page and try again.', 'hash-form');
         }
 
         $fields = HashFormFields::get_form_fields($values['form_id']);

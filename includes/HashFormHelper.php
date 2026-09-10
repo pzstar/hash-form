@@ -21,6 +21,61 @@ class HashFormHelper {
         return array_merge($form_options_defaults, $values);
     }
 
+    /**
+     * Check a token printed into a public form, and say whose it is.
+     *
+     * A form page and the request it sends do not always see the same
+     * visitor. A page reads only the site-wide login cookie; admin-ajax.php
+     * also reads the one scoped to /wp-admin, so someone logged in there over
+     * https loads the page as a guest and then posts from it as themselves.
+     * A page served from a cache, or a session that ends while the form is
+     * being filled in, does the same. WordPress checks a token against
+     * whoever the request is, so the guest's token failed: a bare 403 from
+     * admin-ajax, or a form that would not submit, with nothing to explain it.
+     *
+     * So a token that is not valid for the current user is checked again as
+     * the one every logged-out visitor is given. It is never worth more than
+     * that - the caller acts as a guest - so it grants nothing a visitor
+     * could not already do by loading the page.
+     *
+     * @param string $nonce
+     * @param string $action
+     * @return string 'user' when valid for the current user, 'guest' when
+     *                valid only as a logged-out visitor's, '' when neither.
+     */
+    public static function verify_public_nonce($nonce, $action) {
+        $nonce = (string) $nonce;
+
+        if ('' === $nonce) {
+            return '';
+        }
+
+        if (wp_verify_nonce($nonce, $action)) {
+            return 'user';
+        }
+
+        /*
+         * wp_verify_nonce() for a guest, worked out directly: it can only be
+         * asked about the current user, and it mixes in the login cookie's
+         * session token whether or not that cookie is still valid. A page
+         * rendered for a guest used either no token or that one.
+         */
+        $uid = (int) apply_filters('nonce_user_logged_out', 0, $action);
+        $tick = wp_nonce_tick($action);
+
+        foreach (array_unique(array('', wp_get_session_token())) as $token) {
+            foreach (array($tick, $tick - 1) as $i) {
+                $expected = substr(wp_hash($i . '|' . $action . '|' . $uid . '|' . $token, 'nonce'), -12, 10);
+
+                if (hash_equals($expected, $nonce)) {
+                    return 'guest';
+                }
+            }
+        }
+
+        return '';
+    }
+
     /*
      * The three request accessors. Each one unslashes, then hands the value
      * to sanitize_value() with the callback the caller chose - which is the
