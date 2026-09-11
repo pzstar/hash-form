@@ -96,6 +96,28 @@ class HashFormLoader {
 
         wp_enqueue_script('hashform-chosen', HASHFORM_URL . 'js/chosen.jquery.js', array('jquery'), HASHFORM_VERSION, true);
         wp_enqueue_script('hashform-select2', HASHFORM_URL . 'js/select2.min.js', array('jquery'), HASHFORM_VERSION, true);
+        /*
+         * Long dropdowns on these screens open with a search box - see the
+         * script. No dependencies: it works on the select itself, so it needs
+         * neither jQuery nor either copy of select2 loaded here.
+         */
+        wp_enqueue_script('hashform-searchable-select', HASHFORM_URL . 'js/searchable-select.js', array(), HASHFORM_VERSION, true);
+        wp_localize_script('hashform-searchable-select', 'hashformSearchableSelect', array(
+            /**
+             * How many options a dropdown needs before it opens with a search
+             * box. Shorter ones stay native unless marked data-hf-searchable.
+             *
+             * @param int $threshold
+             */
+            'threshold' => absint(apply_filters('hashform_searchable_select_threshold', 10)),
+            'i18n' => array(
+                'search' => esc_html__('Search', 'hash-form'),
+                'noResults' => esc_html__('No matches', 'hash-form'),
+                'oneResult' => esc_html__('1 result', 'hash-form'),
+                /* translators: %d: number of matching options. */
+                'results' => esc_html__('%d results', 'hash-form'),
+            ),
+        ));
         wp_enqueue_script('jquery-condition', HASHFORM_URL . 'js/jquery-condition.js', array('jquery'), HASHFORM_VERSION, true);
         wp_enqueue_script('wp-color-picker-alpha', HASHFORM_URL . 'js/wp-color-picker-alpha.js', array('wp-color-picker'), HASHFORM_VERSION, true);
         wp_enqueue_script('hashform-admin-settings', HASHFORM_URL . 'js/admin-settings.js', array('jquery'), HASHFORM_VERSION, true);
@@ -112,6 +134,7 @@ class HashFormLoader {
         wp_enqueue_style('materialdesignicons', HASHFORM_URL . 'fonts/materialdesignicons.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-chosen', HASHFORM_URL . 'css/chosen.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-select2', HASHFORM_URL . 'css/select2.min.css', array(), HASHFORM_VERSION);
+        wp_enqueue_style('hashform-searchable-select', HASHFORM_URL . 'css/searchable-select.css', array(), HASHFORM_VERSION);
         // Tokens load first and are a dependency of everything else, so any
         // stylesheet can rely on the custom properties being defined.
         wp_enqueue_style('hashform-tokens', HASHFORM_URL . 'css/design-tokens.css', array(), HASHFORM_VERSION);

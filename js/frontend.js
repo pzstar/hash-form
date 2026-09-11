@@ -15,8 +15,15 @@ jQuery(function ($) {
                 max: parseFloat(input.attr('max')),
                 step: parseFloat(input.attr('step')),
                 range: 'min',
+                // Dragging sets the number from script, which fires no event:
+                // anything built on the field - a calculation, a payment
+                // total - never saw the slider move. Input while dragging,
+                // change once it is let go, as a native range input does.
                 slide: function (e, ui) {
-                    $(this).next().val(ui.value);
+                    $(this).next().val(ui.value).trigger('input');
+                },
+                stop: function (e, ui) {
+                    $(this).next().val(ui.value).trigger('change');
                 }
             });
         });
@@ -374,18 +381,41 @@ jQuery(function ($) {
      * Spinner field
      * -------------------------------------------------------------------- */
 
+    /*
+     * Setting a value from script fires no event, so the buttons used to
+     * change the number without anything else on the form knowing: a
+     * calculation, a condition or a payment total built on the field stayed
+     * at the old figure until some other field was touched. The same events
+     * typing would fire are sent, and only when the value really changed.
+     */
+    function stepSpinner(button, direction) {
+        const input = $(button).closest('.hashform-field-type-spinner').find('input');
+        const min = parseFloat(input.attr('min'));
+        const max = parseFloat(input.attr('max'));
+        const before = input.val();
+        let value = (Number(before) || 0) + direction;
+
+        if (!Number.isNaN(max) && value > max) {
+            value = max;
+        }
+
+        if (!Number.isNaN(min) && value < min) {
+            value = min;
+        }
+
+        input.val(value);
+
+        if (String(value) !== before) {
+            input.trigger('input').trigger('change');
+        }
+    }
+
     $('.hashform-field-type-spinner .hf-quantity .mdi-plus').on('click', function () {
-        const input = $(this).closest('.hashform-field-type-spinner').find('input');
-        const max = input.attr('max');
-        const value = Number(input.val());
-        input.val(value < max ? value + 1 : max);
+        stepSpinner(this, 1);
     });
 
     $('.hashform-field-type-spinner .hf-quantity .mdi-minus').on('click', function () {
-        const input = $(this).closest('.hashform-field-type-spinner').find('input');
-        const min = input.attr('min');
-        const value = Number(input.val());
-        input.val(value > min ? value - 1 : min);
+        stepSpinner(this, -1);
     });
 
     /* -----------------------------------------------------------------------
