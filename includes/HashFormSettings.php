@@ -15,8 +15,8 @@ class HashFormSettings {
     public function menu() {
         // With Pro active, every setting is managed from the per-module
         // popups on the Modules screen, so the Settings page is not added.
-        // (Pro's OAuth callbacks still run on admin_init and exit before the
-        // page would render, so their registered redirect URIs keep working.)
+        // (Pro registers the slug as a hidden page itself, so the OAuth redirect
+        // URIs people registered with Google, Dropbox and Trello keep working.)
         if (!defined('HASH_FORM_PRO_VERSION')) {
             add_submenu_page('hashform', 'Hash Form | ' . esc_html__('Settings', 'hash-form'), esc_html__('Settings', 'hash-form'), 'hashform_manage_settings', 'hashform-settings', array($this, 'route'));
         }
