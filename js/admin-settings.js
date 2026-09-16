@@ -129,8 +129,18 @@
         // stylesheet (re)loaded.
         if (!STANDARD_FONTS.includes(fontFamily)) {
             const fontId = $select.attr('id');
+            const fontHref = 'https://fonts.googleapis.com/css?family=' + fontFamily.replace(/ /g, '+') + ':100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&subset=latin,latin-ext&display=swap';
             $('link#' + fontId).remove();
-            $('head').append('<link rel="stylesheet" id="' + fontId + '" href="https://fonts.googleapis.com/css?family=' + fontFamily + ':100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&subset=latin,latin-ext&display=swap" type="text/css" media="all">');
+            $('head').append('<link rel="stylesheet" id="' + fontId + '" href="' + fontHref + '" type="text/css" media="all">');
+
+            // The style builder's preview is its own document, and a font
+            // loaded into this page never reaches it.
+            const previewFrame = $('#hf-template-preview-iframe')[0];
+            const previewDoc = previewFrame && (previewFrame.contentDocument || (previewFrame.contentWindow && previewFrame.contentWindow.document));
+            if (previewDoc && previewDoc.head) {
+                $(previewDoc).find('link#' + fontId).remove();
+                $(previewDoc.head).append($('<link>', { rel: 'stylesheet', id: fontId, href: fontHref, type: 'text/css', media: 'all' }));
+            }
         }
 
         const $styleField = $select.closest('.hf-typography-font-family-field').next('.hf-typography-font-style-field');

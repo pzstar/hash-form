@@ -371,22 +371,37 @@ class HashFormStyles {
      * made to fonts.googleapis.com and no visitor address reaches Google. Also
      * filterable, for sites that would rather decide this in code.
      */
-    public static function fonts_url() {
+    public static function google_fonts_enabled() {
         $settings = HashFormSettings::get_settings();
         $enabled = !isset($settings['load_google_fonts']) || 'on' === $settings['load_google_fonts'];
 
-        if (!apply_filters('hashform_load_google_fonts', $enabled)) {
+        return (bool) apply_filters('hashform_load_google_fonts', $enabled);
+    }
+
+    public static function fonts_url() {
+        if (!self::google_fonts_enabled()) {
             return '';
         }
 
+        return self::google_fonts_url(self::custom_fonts());
+    }
+
+    /**
+     * The Google Fonts stylesheet for a set of font families.
+     *
+     * Standard fonts and anything the font list does not know are skipped.
+     *
+     * @param array $font_families
+     * @return string '' when there is nothing to load.
+     */
+    public static function google_fonts_url($font_families) {
         $fonts_url = '';
         $subsets = 'latin,latin-ext';
         $fonts = $font_family_array = $variants_array = array();
         $standard_fonts = ['inherit', 'Helvetica', 'Verdana', 'Arial', 'Times', 'Georgia', 'Courier', 'Trebuchet', 'Tahoma', 'Palatino'];
         $all_font = self::font_array();
-        $custom_fonts = self::custom_fonts();
 
-        $font_family_array = array_unique($custom_fonts);
+        $font_family_array = array_unique((array) $font_families);
         $font_family_array = array_diff($font_family_array, $standard_fonts);
 
         foreach ($font_family_array as $font_family) {
@@ -607,6 +622,26 @@ class HashFormStyles {
         <?php
     }
 
+    /**
+     * Style keys whose value is written out in pixels.
+     *
+     * Matched on the key alone, at any depth, so a new section that names its
+     * sizes with one of these words gets a unit without asking. The builder
+     * sends the same unit from each input's data-unit while previewing, so a
+     * key added here needs data-unit="px" on its input as well.
+     *
+     * @return array
+     */
+    public static function px_style_keys() {
+        static $keys = null;
+
+        if (null === $keys) {
+            $keys = (array) apply_filters('hashform_style_px_keys', array('column_gap', 'row_gap', 'top', 'right', 'bottom', 'left', 'font_size', 'letter_spacing', 'spacing', 'x', 'y', 'blur', 'spread', 'height', 'handle_size', 'size'));
+        }
+
+        return $keys;
+    }
+
     public static function get_style_vars($array, $prefix) {
 
         foreach ($array as $key => $value) {
@@ -615,7 +650,7 @@ class HashFormStyles {
             } else {
                 if ($value || is_numeric($value)) {
                     $unit = '';
-                    if (in_array($key, array('column_gap', 'row_gap', 'top', 'right', 'bottom', 'left', 'font_size', 'letter_spacing', 'spacing', 'x', 'y', 'blur', 'spread', 'height', 'handle_size', 'size'))) {
+                    if (in_array($key, self::px_style_keys(), true)) {
                         $unit = 'px';
                     }
 
@@ -1248,6 +1283,28 @@ class HashFormStyles {
         $form_id = HashFormHelper::get_post('form_id', 'absint');
         $template_id = HashFormHelper::get_post('template_id', 'absint');
         $hashform_styles = HashFormHelper::get_post('hashform_styles', 'sanitize_text_field', '', self::get_styles_sanitize_array());
+
+        /*
+         * The fonts wp_head() loads are the ones saved templates use, so a font
+         * chosen here and not saved yet never reached the preview: the builder
+         * loaded it into its own page, not into this document. The fonts the
+         * template being edited uses right now are loaded here as well.
+         */
+        if (is_array($hashform_styles) && self::google_fonts_enabled()) {
+            $families = array();
+
+            foreach ($hashform_styles as $section) {
+                if (is_array($section) && isset($section['typo']['font_family'])) {
+                    $families[] = $section['typo']['font_family'];
+                }
+            }
+
+            $preview_fonts_url = self::google_fonts_url($families);
+
+            if ($preview_fonts_url) {
+                echo '<link rel="stylesheet" id="hf-preview-fonts" href="' . esc_url($preview_fonts_url) . '" media="all">'; // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet -- written into the preview document after wp_head(), which has already printed its styles.
+            }
+        }
 
         add_filter('hashform_form_classes', array($this, 'update_form_class'));
         if (empty($form_id)) {

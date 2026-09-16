@@ -16,8 +16,21 @@ $id = get_the_ID();
         // A chooser, so trashed templates' owners do not get offered
         // forms they threw away.
         $forms = HashFormBuilder::get_published_forms();
+
+        /**
+         * The form previewed when nothing above is picked.
+         *
+         * Empty by default: get_form_preview_html() renders the built-in
+         * static demo whenever the posted form_id is empty. Pro points this
+         * at a virtual form id instead, so the "Default Demo Form" preview
+         * showcases every field type (including its own) rather than the
+         * free plugin's fixed, free-fields-only demo.
+         *
+         * @param int|string $demo_form_id
+         */
+        $demo_form_id = apply_filters('hashform_style_builder_demo_form_id', '');
         ?>
-        <option value=""><?php esc_html_e('Default Demo Form', 'hash-form'); ?></option>
+        <option value="<?php echo esc_attr($demo_form_id); ?>"><?php esc_html_e('Default Demo Form', 'hash-form'); ?></option>
         <?php
         foreach ($forms as $form) {
             ?>
@@ -25,6 +38,34 @@ $id = get_the_ID();
         <?php } ?>
     </select>
 </div>
+
+<?php
+/**
+ * The top of the style builder's sidebar, right after the preview form
+ * picker and before the style sections themselves.
+ *
+ * Hash Form Pro uses this to offer pre-built style templates a user can
+ * import in one click. Free shows a short pointer to it instead of shipping
+ * the feature disabled, the same way admin/forms/settings/restrictions.php
+ * points at Pro's scheduling and entry limits rather than rendering them
+ * greyed out.
+ *
+ * @param array $hashform_styles The template's current (already defaulted) style values.
+ */
+if (defined('HASH_FORM_PRO_VERSION')) {
+    do_action('hashform_style_builder_top', $hashform_styles);
+} else {
+    ?>
+    <div class="hf-settings-row hf-form-row">
+        <p class="hf-desc">
+            <?php esc_html_e('Want to start from a finished look instead of blank?', 'hash-form'); ?>
+            <a href="https://hashthemes.com/plugin/hash-form-pro/" target="_blank" rel="noopener"><?php esc_html_e('Hash Form Pro', 'hash-form'); ?></a>
+            <?php esc_html_e('adds ready-made style templates you can import in one click.', 'hash-form'); ?>
+        </p>
+    </div>
+    <?php
+}
+?>
 
 <h2 class="hf-settings-heading"><?php esc_html_e('Form', 'hash-form'); ?><span class="mdi mdi-chevron-down"></span></h2>
 
