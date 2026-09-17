@@ -18,6 +18,32 @@
         };
     }
 
+    /*
+     * Lets the preview's controls respond - a checkbox ticks, a toggle
+     * slides, a select opens - while nothing in it can leave the preview.
+     * Every click and mousedown used to be cancelled, which killed the
+     * controls along with the side effects. What is stopped now is only what
+     * reaches beyond the frame: submitting would post an entry, and a link
+     * would navigate the frame away. Uploads need nothing here: the upload
+     * field renders its static twin in admin previews, with no file input.
+     */
+    function guardPreview(doc) {
+        doc.addEventListener('submit', (e) => {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+        }, true);
+
+        doc.addEventListener('click', (e) => {
+            const target = e.target.closest ? e.target : e.target.parentElement;
+
+            // Not stopped: scripts that drive links still run, the browser
+            // just does not follow them.
+            if (target && target.closest('a[href]')) {
+                e.preventDefault();
+            }
+        }, true);
+    }
+
     /* -----------------------------------------------------------------------
      * Color picker
      * -------------------------------------------------------------------- */
@@ -267,10 +293,7 @@
                     doc.write(response.data);
                     doc.close();
 
-                    // The preview is display-only: swallow interactions.
-                    doc.addEventListener('click', (e) => e.preventDefault(), true);
-                    doc.addEventListener('mousedown', (e) => e.preventDefault(), true);
-                    doc.addEventListener('mouseup', (e) => e.preventDefault(), true);
+                    guardPreview(doc);
                 }, 0);
 
                 $('.hf-form-wrap').removeClass('hf-content-loading');
