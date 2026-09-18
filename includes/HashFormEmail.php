@@ -37,13 +37,7 @@ class HashFormEmail {
          * Returning false must still let the submission finish normally.
          */
         if (!self::$sending_deferred && !apply_filters('hashform_send_entry_emails', true, $this->form, $this->entry_id, $metas)) {
-            do_action('hashform_after_email', array(
-                'form' => $this->form,
-                'entry_id' => $this->entry_id,
-                'form_settings' => $form_settings,
-                'metas' => $metas,
-                'location' => $this->location
-            ));
+            $this->run_after_email($form_settings, $metas);
 
             return true;
         }
@@ -217,13 +211,7 @@ class HashFormEmail {
                 return true;
             }
 
-            do_action('hashform_after_email', array(
-                'form' => $this->form,
-                'entry_id' => $this->entry_id,
-                'form_settings' => $form_settings,
-                'metas' => $metas,
-                'location' => $this->location
-            ));
+            $this->run_after_email($form_settings, $metas);
 
             if (!empty($redirect_url)) {
                 return wp_send_json(array(
@@ -236,9 +224,45 @@ class HashFormEmail {
                 'status' => 'success',
                 'message' => esc_html(apply_filters('hashform_translate_string', $form_settings['confirmation_message'], 'Hash Form', $form_title . ' - ' . 'Confirmation Message'))
             ));
-        } else {
+        }
+
+        if (self::$sending_deferred) {
             return false;
         }
+
+        /*
+         * The notification was refused, but the entry is already stored, so
+         * the post submission actions still run: they are the payment hand-off
+         * and the integrations, and they used to be skipped whenever the mail
+         * failed - a paid form never reached its gateway and no list, sheet or
+         * CRM heard about the entry, which on a host whose mail is not set up
+         * was every submission.
+         *
+         * Recorded as undelivered first, because a payment hand-off answers
+         * the request itself and never comes back to the caller that would
+         * otherwise record it. The visitor is still answered the way a failed
+         * notification always has been.
+         */
+        global $wpdb;
+        $wpdb->update($wpdb->prefix . 'hashform_entries', array('delivery_status' => 0), array('id' => $this->entry_id));
+
+        $this->run_after_email($form_settings, $metas);
+
+        return false;
+    }
+
+    /**
+     * The post submission actions: the payment hand-off and the integrations
+     * Hash Form Pro hangs off this, and anything else a site adds.
+     */
+    private function run_after_email($form_settings, $metas) {
+        do_action('hashform_after_email', array(
+            'form' => $this->form,
+            'entry_id' => $this->entry_id,
+            'form_settings' => $form_settings,
+            'metas' => $metas,
+            'location' => $this->location
+        ));
     }
 
     public static function template1($title, $entry_value, $count) {
