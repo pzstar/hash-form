@@ -124,6 +124,19 @@ class HashFormStyleBuilder {
             return;
         }
 
+        /*
+         * post.php is also where Trash, Restore and Delete Permanently go -
+         * the list's row actions and the builder's own Trash link - and this
+         * runs on load-post.php, before core reaches any of them. Sending
+         * those here too turned every one into "open the builder", and the
+         * template was never touched. Only opening the editor is redirected.
+         */
+        $action = HashFormHelper::get_var('action', 'sanitize_key');
+
+        if ($action && 'edit' !== $action) {
+            return;
+        }
+
         // Somebody who cannot edit it should meet the editor's own message
         // rather than a builder that will not save.
         if (!current_user_can('edit_post', $post_id)) {

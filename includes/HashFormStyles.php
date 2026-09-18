@@ -118,33 +118,53 @@ class HashFormStyles {
     public static function save_metabox_settings() {
         HashFormCapabilities::require_cap_ajax('hashform_edit_forms');
 
-        if (wp_verify_nonce(HashFormHelper::get_post('hashform_styles_nonce'), 'hf-styles-nonce')) {
-            $postID = HashFormHelper::get_post('post_ID');
-            $newLayout = !get_post($postID);
-
-            if ($newLayout) {
-                $postID = wp_insert_post([
-                    'ID' => $postID
-                ]);
-            }
-            wp_update_post([
-                'ID' => $postID,
-                'post_type' => 'hashform-styles',
-                'post_title' => HashFormHelper::get_post('post_title'),
-                'post_status' => 'publish'
-            ]);
-            $hashform_styles = HashFormHelper::get_post('hashform_styles', 'sanitize_text_field', '', self::get_styles_sanitize_array());
-            update_post_meta($postID, 'hashform_styles', $hashform_styles);
-            /*
-             * A template that has just been created has to be reloaded rather
-             * than left in place: the form still carries an id of 0, so saving
-             * again from here would create a second one. An existing template
-             * only needs to be told it saved.
-             */
-            wp_send_json_success($newLayout
-                    ? array('redirect' => HashFormStyleBuilder::url($postID))
-                    : array('message' => esc_html__('Saved successfully!', 'hash-form')));
+        if (!wp_verify_nonce(HashFormHelper::get_post('hashform_styles_nonce'), 'hf-styles-nonce')) {
+            wp_send_json_error();
         }
+
+        $postID = HashFormHelper::get_post('post_ID', 'absint');
+        $newLayout = !$postID;
+
+        $postarr = array(
+            'post_type' => 'hashform-styles',
+            'post_title' => HashFormHelper::get_post('post_title'),
+            'post_status' => 'publish',
+        );
+
+        if ($newLayout) {
+            /*
+             * One insert, carrying the post type. Inserting a bare post and
+             * converting it afterwards cannot work: with no post type it is
+             * a `post`, which supports the editor and excerpt, so with neither
+             * filled in core refuses it as empty and returns 0 - and the
+             * update that followed then had nothing to update, while this
+             * still answered with success.
+             */
+            $postID = wp_insert_post($postarr, true);
+        } elseif ('hashform-styles' === get_post_type($postID)) {
+            $postarr['ID'] = $postID;
+            $postID = wp_update_post($postarr, true);
+        } else {
+            // post_ID comes from the browser. Updating anything else with
+            // this post type would turn it into a style template.
+            wp_send_json_error();
+        }
+
+        if (is_wp_error($postID) || !$postID) {
+            wp_send_json_error();
+        }
+
+        $hashform_styles = HashFormHelper::get_post('hashform_styles', 'sanitize_text_field', '', self::get_styles_sanitize_array());
+        update_post_meta($postID, 'hashform_styles', $hashform_styles);
+        /*
+         * A template that has just been created has to be reloaded rather
+         * than left in place: the form still carries an id of 0, so saving
+         * again from here would create a second one. An existing template
+         * only needs to be told it saved.
+         */
+        wp_send_json_success($newLayout
+                ? array('redirect' => HashFormStyleBuilder::url($postID))
+                : array('message' => esc_html__('Saved successfully!', 'hash-form')));
     }
 
     public static function default_font_array() {
