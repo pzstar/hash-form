@@ -408,14 +408,7 @@ export default function Edit(props) {
         boxShadow: ['fieldShadowNormal', 'fieldShadowFocus', 'buttonShadowNormal', 'buttonShadowHover', 'uploadShadowNormal', 'uploadShadowHover']
     }) : '';
 
-    /*
-     * Only a real rule, or nothing at all.
-     *
-     * This used to be `${enableCustomStyle && getStyleVars(...)}` inside the
-     * template literal, so with the switch off the && handed back false - or
-     * undefined before it had ever been set - and the template stringified it
-     * straight into the css. Blocks were saved carrying "#block-xxx{undefined}".
-     */
+    // Emit a rule only when there are style vars, so an empty or falsy value never reaches the css.
     const stylesCSS = styleVars ? `#${id} {${styleVars}}` : '';
 
     setAttributes({hfStyle: stylesCSS.replace(/([^0-9a-zA-Z\.#])\s+/g, "$1").replace(/\s([^0-9a-zA-Z\.#]+)/g, "$1").replace(/;}/g, "}").replace(/\/\*.*?\*\//g, "")});

@@ -18,15 +18,8 @@
         };
     }
 
-    /*
-     * Lets the preview's controls respond - a checkbox ticks, a toggle
-     * slides, a select opens - while nothing in it can leave the preview.
-     * Every click and mousedown used to be cancelled, which killed the
-     * controls along with the side effects. What is stopped now is only what
-     * reaches beyond the frame: submitting would post an entry, and a link
-     * would navigate the frame away. Uploads need nothing here: the upload
-     * field renders its static twin in admin previews, with no file input.
-     */
+    // Let the preview's controls respond, but block what leaves the preview:
+    // submitting a form and following a link.
     function guardPreview(doc) {
         doc.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -120,7 +113,6 @@
         });
     });
 
-    // Update the slider when the input loses focus, as it has most likely changed.
     $('.hf-range-input-selector').on('blur', function () {
         const input = $(this);
         let value = isNaN(input.val()) ? '' : input.val();
@@ -184,12 +176,7 @@
             success: function (response) {
                 $styleField.find('select').html(response).trigger('chosen:updated').trigger('change');
             },
-            /*
-             * Clearing the wait belongs here rather than in success alone. The
-             * class had no styling of its own, so a request that failed left
-             * behind a mark nobody could see; now that it draws a spinner, the
-             * same failure would leave the field spinning for good.
-             */
+            // In complete rather than success, so a failed request does not leave the spinner running.
             complete: function () {
                 $styleField.removeClass('hf-typography-loading');
             }
@@ -207,13 +194,8 @@
     function hfDynamicCss(control, style, val) {
         const iframe = $('#hf-template-preview-iframe')[0];
 
-        /*
-         * The preview is fetched over ajax, so for the first second of the
-         * page there is no iframe to write into. Reading .contentDocument off
-         * nothing threw, which killed the handler for the control that was
-         * touched. The value is picked up anyway: the whole form is
-         * serialised when the preview is built.
-         */
+        // The preview loads over ajax, so the iframe may not exist yet; the
+        // value is included when the preview is built.
         if (!iframe) {
             return;
         }
@@ -393,25 +375,11 @@
         }
     });
 
-    /* The embed dialog's copy buttons now go through the shared
-       [data-hf-clipboard] handler in backend.js, which already handles the
-       insecure-context fallback and the copied confirmation. The bespoke
-       #hf-copy-shortcode handler and its copyToClipboard helper that used to
-       live here were the only users of either. */
-
     /* -----------------------------------------------------------------------
      * WP Mail SMTP install/activate
      * -------------------------------------------------------------------- */
 
-    /*
-     * Puts the button back the way it was found.
-     *
-     * Every one of these requests could only ever end well. A stale nonce, a
-     * user without the capability, a download that fails, an activation that
-     * throws — none of them were handled, so the button kept its spinner and
-     * its "Installing…" label for as long as the page stayed open, with no way
-     * to try again short of a reload.
-     */
+    // Show the error, then restore the button label so it can be retried.
     function smtpFailed(button, label) {
         button.removeClass('updating-message').html(hashform_admin_js_obj.error);
 
@@ -433,9 +401,7 @@
         }).done(function (response) {
             var result;
 
-            // A capability failure or a fatal answers with something that is
-            // not JSON, and parsing it threw inside the success path where
-            // nothing was watching.
+            // A capability failure or fatal returns non-JSON, which would throw here.
             try {
                 result = (typeof response === 'string') ? JSON.parse(response) : response;
             } catch (e) {
@@ -456,7 +422,7 @@
         e.preventDefault();
         const button = $(this);
 
-        // Nothing stopped a second click starting a second request.
+        // Ignore a second click while a request is running.
         if (button.hasClass('updating-message')) {
             return;
         }
@@ -505,11 +471,6 @@
 
     /* -----------------------------------------------------------------------
      * Import/Export panel: import over AJAX
-     *
-     * Was a plain POST, so a rejected file replaced the whole screen with a
-     * bare wp_die() page and the panel was lost. The request is reported back
-     * here instead: spinner while it runs, message in place if it fails, and
-     * a reload only once the form has actually been written.
      * -------------------------------------------------------------------- */
 
     $(document).on('submit', '.hf-settings-import-form', function (e) {

@@ -2,11 +2,7 @@
 defined('ABSPATH') || die();
 
 /**
- * The Upgrade to Pro screen.
- *
- * Only registered while Pro is not installed: once it is, the menu entry would
- * be an advert for something the site already has, and the comparison would
- * describe a choice already made.
+ * The Upgrade to Pro screen. Only registered while Pro is not installed.
  */
 class HashFormUpgrade {
 
@@ -20,10 +16,7 @@ class HashFormUpgrade {
     }
 
     /**
-     * Whether Pro is here.
-     *
-     * The constant rather than the plugin file, so a site running Pro from an
-     * unusual path is still recognised.
+     * Whether Pro is active. Checks the constant, not the plugin file, so Pro at an unusual path is recognized.
      */
     public static function pro_active() {
         return defined('HASH_FORM_PRO_VERSION');
@@ -49,7 +42,7 @@ class HashFormUpgrade {
     }
 
     /**
-     * The menu entry is the one thing on this screen meant to catch the eye.
+     * Highlight the menu entry.
      */
     public function menu_style() {
         if (self::pro_active()) {
@@ -66,7 +59,7 @@ class HashFormUpgrade {
     }
 
     /**
-     * The same bar every other screen carries.
+     * Header bar, as on every other screen.
      */
     public function header() {
         if (!self::is_screen()) {

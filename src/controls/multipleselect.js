@@ -12,10 +12,7 @@ function arrayMove(array, from, to) {
 }
 
 const SortableMultiValue = SortableElement((props) => {
-    // this prevents the menu from being opened/closed when the user clicks
-    // on a value to begin dragging it. ideally, detecting a click (instead of
-    // a drag) would still focus the control and toggle the menu, but that
-    // requires some magic with refs that are out of scope for this example
+    // Stop the menu toggling when a value is clicked to start dragging it.
     const onMouseDown = (e) => {
         e.preventDefault();
         e.stopPropagation();

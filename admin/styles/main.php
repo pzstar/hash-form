@@ -1,10 +1,5 @@
 <?php
 defined('ABSPATH') || die();
-/*
- * A template, included from inside a class method - never loaded on its own.
- * The variables below are locals of the method that includes it, not globals,
- * which is what the prefix sniff assumes about a file-scope assignment.
- */
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- included from within a method, so these are function locals.
 $id = get_the_ID();
 ?>
@@ -13,18 +8,11 @@ $id = get_the_ID();
     <label class="hf-setting-label"><?php esc_html_e('Choose Form to Preview', 'hash-form'); ?></label>
     <select id="hf-template-preview-form-id">
         <?php
-        // A chooser, so trashed templates' owners do not get offered
-        // forms they threw away.
+        // Published forms only, so trashed forms are not offered.
         $forms = HashFormBuilder::get_published_forms();
 
         /**
-         * The form previewed when nothing above is picked.
-         *
-         * Empty by default: get_form_preview_html() renders the built-in
-         * static demo whenever the posted form_id is empty. Pro points this
-         * at a virtual form id instead, so the "Default Demo Form" preview
-         * showcases every field type (including its own) rather than the
-         * free plugin's fixed, free-fields-only demo.
+         * Form id for the "Default Demo Form" preview; empty renders the built-in static demo.
          *
          * @param int|string $demo_form_id
          */
@@ -41,16 +29,9 @@ $id = get_the_ID();
 
 <?php
 /**
- * The top of the style builder's sidebar, right after the preview form
- * picker and before the style sections themselves.
+ * Fires at the top of the style builder sidebar, after the preview form picker.
  *
- * Hash Form Pro uses this to offer pre-built style templates a user can
- * import in one click. Free shows a short pointer to it instead of shipping
- * the feature disabled, the same way admin/forms/settings/restrictions.php
- * points at Pro's scheduling and entry limits rather than rendering them
- * greyed out.
- *
- * @param array $hashform_styles The template's current (already defaulted) style values.
+ * @param array $hashform_styles Current style values, already defaulted.
  */
 if (defined('HASH_FORM_PRO_VERSION')) {
     do_action('hashform_style_builder_top', $hashform_styles);
@@ -1054,7 +1035,7 @@ if (defined('HASH_FORM_PRO_VERSION')) {
                     </div>
                     <input type="file" name="hashform_import_file" class="hf-dropzone">
                 </div>
-                <?php // icofont is not among the plugin's icon fonts, so the old <i> rendered nothing. ?>
+                <?php // mdi icon: icofont is not loaded in the admin. ?>
                 <button class="button button-primary" id="hashform_import" type="submit" name="hashform_import"><span class="mdi mdi-tray-arrow-up" aria-hidden="true"></span> <?php esc_html_e("Import", "hash-form") ?></button>
                 <input type="hidden" name="hashform_imex_action" value="import_style" />
                 <input type="hidden" name="hashform_style_id" value="<?php echo esc_attr($id); ?>" />

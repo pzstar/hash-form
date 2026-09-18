@@ -18,8 +18,7 @@ class HashFormEmail {
     }
 
     /**
-     * Set while replaying a deferred send, so the filter that held the email
-     * back does not hold it back a second time.
+     * Set while replaying a deferred send, so hashform_send_entry_emails does not defer it again.
      */
     public static $sending_deferred = false;
 
@@ -30,9 +29,7 @@ class HashFormEmail {
         $metas = $entry->metas;
 
         /**
-         * Lets an add-on postpone the notification and auto responder, which
-         * is what the payment gateways do so an abandoned checkout does not
-         * send an order confirmation.
+         * Whether to send the notification and auto responder now. Payment add-ons return false to defer them.
          *
          * Returning false must still let the submission finish normally.
          */
@@ -112,8 +109,7 @@ class HashFormEmail {
                 }
                 $entry_value = $upload_value;
             }
-            // Shared with the entry screen; the email was still sending the
-            // raw stored string, so the same submission read two ways.
+            // Same date formatting as the entry screen.
             $entry_value = HashFormHelper::format_date_value($entry_value, $entry_type);
 
             /** This filter is documented in admin/entries/entry-detail.php */
@@ -202,11 +198,8 @@ class HashFormEmail {
                 $redirect_url = $form_settings['redirect_url_page'];
             }
 
-            // A replay (resend from the admin, or a deferred payment email)
-            // must not run the post submission actions again: those dispatch
-            // payments and third party integrations, so repeating them would
-            // charge the customer a second time. There is also no ajax caller
-            // waiting for a json response.
+            // A replay (admin resend or deferred payment email) must not rerun the post submission
+            // actions, which would charge the customer again. No ajax caller is waiting either.
             if (self::$sending_deferred) {
                 return true;
             }
@@ -231,17 +224,9 @@ class HashFormEmail {
         }
 
         /*
-         * The notification was refused, but the entry is already stored, so
-         * the post submission actions still run: they are the payment hand-off
-         * and the integrations, and they used to be skipped whenever the mail
-         * failed - a paid form never reached its gateway and no list, sheet or
-         * CRM heard about the entry, which on a host whose mail is not set up
-         * was every submission.
-         *
-         * Recorded as undelivered first, because a payment hand-off answers
-         * the request itself and never comes back to the caller that would
-         * otherwise record it. The visitor is still answered the way a failed
-         * notification always has been.
+         * The entry is stored, so post submission actions (payment hand-off,
+         * integrations) still run when the notification fails. Marked undelivered
+         * first, because a payment hand-off answers the request itself.
          */
         global $wpdb;
         $wpdb->update($wpdb->prefix . 'hashform_entries', array('delivery_status' => 0), array('id' => $this->entry_id));
@@ -252,8 +237,7 @@ class HashFormEmail {
     }
 
     /**
-     * The post submission actions: the payment hand-off and the integrations
-     * Hash Form Pro hangs off this, and anything else a site adds.
+     * Post submission actions: the payment hand-off, Pro integrations and anything a site adds.
      */
     private function run_after_email($form_settings, $metas) {
         do_action('hashform_after_email', array(

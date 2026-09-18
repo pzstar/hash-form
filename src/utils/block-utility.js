@@ -5,21 +5,17 @@ import {dispatch, select} from '@wordpress/data';
 
 
 /**
- * An object that keep tracking of the block instances. Is used for preventing id duplication on action like: create, duplicate, copy on editor page.
+ * Block ids in use, per block name, to prevent duplicates on create, duplicate and copy.
  * @type {Object.<string, Set.<string>>}
  */
 const localIDs = {};
 
 /**
- * Generate an Id based on the client id of the block. If the new id is also already used, create a new one using the `uuid`.
- * This might problem of duplicated new ids can be observed in the `Template Library` of the `Section` block when using Neve
- * Reference: https://github.com/Codeinwp/neve/blob/master/gutenberg/blocks/blog/template.json
- * The created block will share the same client Id at the beggining, after refresh a new will be generated and thus the problem will fix itself
- * by creating new id based on the new uniq `clientId`
+ * Generate an id from the block's client id, falling back to a random uuid when that id is taken.
  * @param {string} idPrefix The prefix used for generating the block id
  * @param {string} clientId The block's client id provided by WordPress
  * @param {Set.<string>} idsList The ids list for the current type of block
- * @returns An uniq id instance
+ * @returns {string} Unique id.
  */
 const generateUniqIdInstance = (idPrefix, clientId, idsList) => {
 	const instanceId = `${idPrefix}${clientId.substr(0, 8)}`;
@@ -43,7 +39,7 @@ const generatePrefix = (name) => {
 };
 
 /**
- * THe args definition for the block id generator
+ * Args for addBlockId().
  * @typedef {Object} AddBlockIdProps
  * @property {Object} attributes The block's attributes provided by WordPress
  * @property {function} setAttributes The block's attributes update function provided by WordPress
@@ -55,10 +51,9 @@ const generatePrefix = (name) => {
 
 
 /**
- * Generate an Id for block so that it will create a conlfict with the others.
- * Prevent the duplicate Id for actions like: duplicate, copy
- * @param {AddBlockIdProps} args Block informatin about clientId, attributes, etc
- * @return {Function} A function that clean up the id from the internal list tracking
+ * Give the block a unique id, regenerating it when the block is a duplicate or copy.
+ * @param {AddBlockIdProps} args Block data.
+ * @return {Function} Removes the id from the tracking list.
  * @external addBlockId
  */
 export const addBlockId = (args) => {
@@ -71,29 +66,21 @@ export const addBlockId = (args) => {
 		};
 	}
 
-	// Initialize with an empty array the id list for the given block
 	localIDs[name] ??= new Set();
 
-	// Auto-generate idPrefix if not provided
 	const prefix = idPrefix || generatePrefix(name);
 
 	const instanceId = generateUniqIdInstance(prefix, clientId, localIDs[name]);
 	const idIsAlreadyUsed = attributes.id && localIDs[name].has(attributes.id);
 
 	if (attributes.id === undefined) {
-
-		// Save the id in all methods
 		setAttributes({id: instanceId});
 		localIDs[name].add(instanceId);
 	} else if (idIsAlreadyUsed) {
-
-		// The block must be a copy and its is already used
-		// Generate a new one and save it to `localIDs` to keep track of it in local mode.
+		// A copy of an existing block: give it a new id.
 		setAttributes({id: instanceId});
 		localIDs[name].add(instanceId);
 	} else {
-
-		// No conflicts, save the current id only to keep track of it both in local and global mode.
 		localIDs[name].add(attributes.id);
 	}
 
@@ -113,7 +100,7 @@ const getBlock = select('core/block-editor').getBlock;
 const updateBlockAttributes = dispatch('core/block-editor').updateBlockAttributes;
 
 /**
- * Create the function that behaves like `setAttributes` using the client id
+ * A `setAttributes` equivalent bound to a client id.
  * @param {*} clientId The block's client id provided by WordPress
  * @returns {Function} Function that mimics `setAttributes`
  */
@@ -122,7 +109,7 @@ const updateAttrs = (clientId) => (attr) => {
 };
 
 /**
- * THe args definition for the block id generator
+ * Block data read from the block editor store.
  * @typedef {Object} BlockData
  * @property {Object} attributes The block's attributes provided by WordPress
  * @property {function} setAttributes The block's attributes update function provided by WordPress
@@ -141,11 +128,10 @@ const extractBlockData = (clientId) => {
 };
 
 /**
- * Generate the id attribute for the given block.
- * This function is a simple wrapper around {@link addBlockId}
+ * Generate the id attribute for the given block. Wrapper around {@link addBlockId}.
  * @param {string} clientId The block's client id provided by WordPress
  * @param {Object} defaultAttributes The default attributes of the block.
- * @return {Function} A function that clean up the id from the internal list tracking
+ * @return {Function} Removes the id from the tracking list.
  * @example
  * import defaultAttributes from './attributes'
  * const Block = ({ cliendId }) => {

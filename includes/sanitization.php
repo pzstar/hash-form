@@ -19,11 +19,9 @@ function hashform_sanitize_number($input) {
 }
 
 /**
- * A heading level, held to the six that exist.
+ * Restrict a heading level to h1-h6, falling back to h3.
  *
- * The stored value is written into the tag name itself, where escaping is no
- * protection: `h2 onmouseover=alert(1)` carries no quotes to escape and lands
- * as an attribute on the element. Anything else falls back to the default.
+ * The value becomes the tag name, where escaping gives no protection.
  */
 function hashform_sanitize_heading_type($input) {
     $tag = strtolower(trim((string) $input));
@@ -44,7 +42,6 @@ function hashform_sanitize_float($input) {
 }
 
 function hashform_sanitize_color($color) {
-    // Is this an rgba color or a hex?
     $mode = (false === strpos($color, 'rgba')) ? 'hex' : 'rgba';
     if ('rgba' === $mode) {
         $color = str_replace(' ', '', $color);
@@ -69,14 +66,9 @@ function hashform_sanitize_checkbox_boolean($input) {
 }
 
 /**
- * File extensions an upload field may be configured with.
+ * File extensions an upload field may be configured with. Single source for the upload handler too.
  *
- * The one list. It used to be written out twice, here and in the upload AJAX
- * handler, and the two drifted: a format present in one and missing from the
- * other left a field that accepted nothing at all.
- *
- * This is only the outer bound. get_allowed_mime_types() is applied on top when
- * the file actually arrives, so a type this site has disabled is still refused.
+ * Outer bound only; get_allowed_mime_types() is still applied when the file arrives.
  */
 function hashform_allowed_file_extensions() {
     return apply_filters('hashform_allowed_file_extensions', array(

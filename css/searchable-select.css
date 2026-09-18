@@ -1,6 +1,4 @@
-/* Searchable dropdowns on the plugin's admin screens - see js/searchable-select.js.
-   Drawn in the admin colour scheme: --wp-admin-theme-color follows whichever
-   scheme the user has chosen. */
+/* Searchable dropdowns on the admin screens (js/searchable-select.js), in the admin colour scheme. */
 
 .hf-ss {
     --hf-ss-accent: var(--wp-admin-theme-color, #2271b1);

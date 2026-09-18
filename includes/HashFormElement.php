@@ -9,17 +9,9 @@ use Elementor\Plugin;
 class HashFormElement extends Widget_Base {
 
     /**
-     * The widget's key.
+     * Widget key. Must be a slug, because Elementor builds a CSS class from it.
      *
-     * A slug, because Elementor builds a css class out of it: the old name
-     * carried a space, so every widget came out as
-     * class="... elementor-widget-Hash Form", which a browser reads as two
-     * classes - elementor-widget-Hash, and a stray global Form that could
-     * collide with anything on the page. Nothing could target the widget
-     * either, since the class it advertised did not exist.
-     *
-     * Pages built before this keep working: HashFormElementLegacy below is
-     * registered under the old name and renders exactly the same.
+     * HashFormElementLegacy below answers to the former name "Hash Form".
      */
     public function get_name() {
         return 'hashform';
@@ -1037,9 +1029,7 @@ class HashFormElement extends Widget_Base {
             add_filter('hashform_enable_style', '__return_false');
         }
 
-        // absint before it is built into a shortcode string: the value comes
-        // from the page's own saved data, which anyone who can edit the page
-        // can put anything into.
+        // absint: the value comes from page data that any page editor controls.
         $form_id = isset($settings['hf_form_id']) ? absint($settings['hf_form_id']) : 0;
 
         if ($form_id && 'published' === HashFormListing::get_status($form_id)) {
@@ -1072,12 +1062,7 @@ class HashFormElement extends Widget_Base {
 }
 
 /**
- * The widget under the name it used to have.
- *
- * Elementor stores the widget type in the page's own data, so a page built
- * before the rename asks for "Hash Form" and would otherwise be told there is
- * no such widget. This answers to that name and behaves identically; it is kept
- * out of the panel so nobody adds a new one.
+ * The widget under its former name "Hash Form", so existing pages keep rendering. Hidden from the panel.
  */
 class HashFormElementLegacy extends HashFormElement {
 

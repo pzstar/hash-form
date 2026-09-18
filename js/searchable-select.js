@@ -1,29 +1,10 @@
 /**
  * Searchable dropdowns for the plugin's admin screens.
  *
- * Long lists - a hundred and forty currencies, every published page, every
- * mailing list - had to be scrolled through by hand. A dropdown with more than
- * a handful of options now opens with a search box above them. A short one -
- * yes or no, a unit, an alignment - stays the browser's own, where a search box
- * would only be in the way.
- *
- * Searchable when it has more options than the threshold (10 unless the
- * hashform_searchable_select_threshold filter says otherwise), or when it or a
- * parent carries data-hf-searchable. Counted when it is opened, so a list that
- * is filled in later - mailing lists fetched from a service - is judged on what
- * it holds by then.
- *
- * The <select> itself is never replaced. It keeps its size, its place in the
- * layout, its name in the form and every listener already attached to it; this
- * only draws a list in place of the browser's own when it is opened, and
- * choosing from that list sets the select's value and fires one ordinary
- * change event - so jQuery handlers and plain addEventListener handlers alike
- * hear it exactly once, as if the browser's list had been used.
- *
- * Left as the browser draws them: multiple and size>1 selects (they are lists,
- * not dropdowns), anything select2 already enhances, anything marked
- * data-hf-native, and every select on a touch-first device, where the native
- * picker is the better control.
+ * Applies to selects with more options than the threshold (filter
+ * hashform_searchable_select_threshold, default 10) or marked data-hf-searchable.
+ * The <select> is never replaced; choosing sets its value and fires one change.
+ * Skipped: multiple/size>1, select2, data-hf-native, touch-first devices.
  */
 (function () {
     'use strict';
@@ -56,14 +37,12 @@
                 && !select.classList.contains('select2-hidden-accessible')
                 && !select.closest('[data-hf-native]')
                 && !select.closest('#screen-meta')
-                // Hidden, or standing in for a control drawn another way (chosen,
-                // segmented buttons): the visible control is the one to use.
+                // Skip hidden selects standing in for another control (chosen, segmented buttons).
                 && 'true' !== select.getAttribute('aria-hidden')
                 && null !== select.offsetParent
                 && needsSearch(select);
     }
 
-    // Only where it earns its place: a long list, or one marked for it.
     function needsSearch(select) {
         if (select.closest('[data-hf-searchable]')) {
             return true;
@@ -390,12 +369,7 @@
 
         item.option.selected = true;
 
-        /*
-         * Native events, which jQuery's own handlers are attached through as
-         * well - so every listener hears one input and one change, the same as
-         * choosing from the browser's list. A jQuery-only trigger would reach
-         * jQuery handlers and nothing else.
-         */
+        // Native events, so jQuery and addEventListener handlers alike hear one input and one change.
         select.dispatchEvent(new Event('input', {bubbles: true}));
         select.dispatchEvent(new Event('change', {bubbles: true}));
     }

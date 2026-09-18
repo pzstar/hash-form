@@ -3,23 +3,20 @@ defined('ABSPATH') || die();
 /*
  * Free vs Pro.
  *
- * Every count here is what the plugins actually ship, so the table can be
- * checked against the screens rather than taken on trust: 27 field types in
- * this plugin and 23 more in Pro (50 together, which is what the builder's
- * field list offers), 79 form templates, 20 payment gateways, 74 modules.
+ * Counts must match what the plugins ship: 27 free field types + 23 Pro (50), 79 templates, 20 gateways, 74 modules.
  */
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- included from within a method, so these are function locals.
 
-/**
- * One row of the comparison.
- *
- * @param string $feature What it is.
- * @param string $desc    One line on why it matters. Optional.
- * @param array  $free    array(text, state) where state is yes|no|plain.
- * @param array  $pro     array(text, state).
- */
 if (!function_exists('hashform_compare_row')) {
 
+    /**
+     * One row of the comparison.
+     *
+     * @param string $feature Feature name.
+     * @param string $desc    Optional one-line description.
+     * @param array  $free    array(text, state) where state is yes|no|plain.
+     * @param array  $pro     array(text, state).
+     */
     function hashform_compare_row($feature, $desc, $free, $pro) {
         $cell = function ($value, $column) {
             list($text, $state) = $value;
@@ -104,11 +101,7 @@ $hf_plain = function ($text) { return array($text, 'plain'); };
 
     <div class="hf-cmp-table">
         <?php
-        /*
-         * The sticky is on this wrapper rather than on the table itself: a
-         * table with border-collapse does not honour position:sticky reliably,
-         * and it ended up sitting over the first section heading.
-         */
+        // Sticky goes on the wrapper: position:sticky is unreliable on border-collapse tables.
         ?>
         <div class="hf-cmp-head-wrap">
             <table class="hf-cmp-head">

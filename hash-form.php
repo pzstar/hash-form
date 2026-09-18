@@ -54,7 +54,7 @@ require HASHFORM_PATH . 'includes/HashFormEmail.php';
 require HASHFORM_PATH . 'includes/HashFormPrivacy.php';
 
 /**
- * Bring the schema up to date after a plugin update, not just on activation.
+ * Run schema upgrades after plugin updates too, not only on activation.
  */
 add_action('plugins_loaded', array('HashFormCreateTable', 'maybe_upgrade'));
 
@@ -64,15 +64,12 @@ add_action('plugins_loaded', array('HashFormCreateTable', 'maybe_upgrade'));
 add_action('elementor/widgets/register', 'hashform_elementor_widget_register');
 
 function hashform_elementor_widget_register($widgets_manager) {
-    // require_once, because this hook can fire more than once in a request -
-    // the editor re-registers widgets, and other plugins trigger it. A plain
-    // require made the second pass a fatal: "Cannot declare class".
+    // require_once: this hook can fire more than once per request.
     require_once HASHFORM_PATH . 'includes/HashFormElement.php';
 
     $widgets_manager->register(new \HashFormElement());
 
-    // The same widget under the name it had before, so pages already built with
-    // it keep rendering. Hidden from the panel.
+    // Legacy widget name, hidden from the panel, so existing pages keep rendering.
     $widgets_manager->register(new \HashFormElementLegacy());
 }
 
@@ -85,7 +82,6 @@ function hashform_network_create_table($network_wide) {
     global $wpdb;
 
     if (is_multisite() && $network_wide) {
-        // Get all blogs in the network and activate plugin on each one
         $blog_ids = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
         foreach ($blog_ids as $blog_id) {
             switch_to_blog($blog_id);
@@ -100,10 +96,7 @@ function hashform_network_create_table($network_wide) {
 }
 
 /**
- * Plugin Deactivation.
- *
- * A scheduled event that outlives the plugin keeps firing against a hook
- * nothing answers, so the event goes when the plugin does.
+ * Plugin deactivation: clear the scheduled maintenance event.
  */
 register_deactivation_hook(HASHFORM_FILE, 'hashform_on_deactivate');
 
