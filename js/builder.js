@@ -1009,25 +1009,8 @@ var hashFormBuilder = hashFormBuilder || {};
                 return;
             }
 
-            const fieldId = currentItem.attr('id').replace('hf-editor-field-id-', '');
-            const {formId, sectionId} = getFieldPlacement(currentItem);
-            const previousFormId = previousSection ? hashFormBuilder.getFormIdForFieldPlacement($(previousSection.parentNode)) : 0;
-
-            jQuery.ajax({
-                type: 'POST',
-                url: ajaxurl,
-                data: {
-                    action: 'hashform_update_field_after_move', /**Check This */
-                    form_id: formId,
-                    field: fieldId,
-                    section_id: sectionId,
-                    previous_form_id: previousFormId,
-                    backend_nonce: hashform_backend_js.nonce
-                },
-                success: function () {
-                    hashFormBuilder.toggleSectionHolder();
-                }
-            });
+            // No server endpoint stores a field's section, so only the section placeholders need refreshing.
+            hashFormBuilder.toggleSectionHolder();
         },
 
         /* -------------------------------------------------------------------

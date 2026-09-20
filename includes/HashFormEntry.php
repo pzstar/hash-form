@@ -307,8 +307,6 @@ class HashFormEntry {
         );
 
         add_screen_option('per_page', $args);
-
-        //new HashFormEntryListing();
     }
 
     public function set_screen_option($status, $option, $value) {

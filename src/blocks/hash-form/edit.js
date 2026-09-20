@@ -24,10 +24,10 @@ import {getStyleVars} from '../../utils/helper';
 import {LayoutIcon, StyleIcon, AdvancedIcon, HashFormIcon} from '../../utils/svgicons';
 import {applyFilters} from '@wordpress/hooks';
 import ServerSideRender from '@wordpress/server-side-render';
-import {useState} from '@wordpress/element';
+import {useState, useEffect} from '@wordpress/element';
 
 export default function Edit(props) {
-    const {attributes, setAttributes} = props;
+    const {attributes, setAttributes, clientId} = props;
     const [activeTab, setActiveTab] = useState('layout');
     const {
         id,
@@ -397,7 +397,14 @@ export default function Edit(props) {
     } = attributes;
 
 
-    setAttributes({id: useBlockProps()['id']});
+    // The wrapper's id as useBlockProps() gives it; the saved css is scoped to it.
+    const blockId = `block-${clientId}`;
+
+    useEffect(() => {
+        if (id !== blockId) {
+            setAttributes({id: blockId});
+        }
+    }, [blockId]);
 
     const styleVars = enableCustomStyle ? getStyleVars(attributes, {
         responsiveSliderUnits: [],
@@ -409,9 +416,15 @@ export default function Edit(props) {
     }) : '';
 
     // Emit a rule only when there are style vars, so an empty or falsy value never reaches the css.
-    const stylesCSS = styleVars ? `#${id} {${styleVars}}` : '';
+    const stylesCSS = styleVars ? `#${blockId} {${styleVars}}` : '';
+    const nextStyle = stylesCSS.replace(/([^0-9a-zA-Z\.#])\s+/g, "$1").replace(/\s([^0-9a-zA-Z\.#]+)/g, "$1").replace(/;}/g, "}").replace(/\/\*.*?\*\//g, "");
 
-    setAttributes({hfStyle: stylesCSS.replace(/([^0-9a-zA-Z\.#])\s+/g, "$1").replace(/\s([^0-9a-zA-Z\.#]+)/g, "$1").replace(/;}/g, "}").replace(/\/\*.*?\*\//g, "")});
+    // Stored only when it changes, not on every render.
+    useEffect(() => {
+        if (hfStyle !== nextStyle) {
+            setAttributes({hfStyle: nextStyle});
+        }
+    }, [nextStyle]);
 
     const formOptions = [{label: __('Select a Form', 'hash-form'), value: ''}, ...Object.entries(hash_form_block_data.forms).map(value => ({
         value: value[0],
@@ -1495,7 +1508,7 @@ export default function Edit(props) {
             </InspectorControls>
             <div {...useBlockProps({
                 className: "wp-block-hash-form",
-                id: id
+                id: blockId
             })}>
                 {formId ? <ServerSideRender
                     key="hash-form-selector-server-side-renderer"

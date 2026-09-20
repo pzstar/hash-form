@@ -427,25 +427,16 @@ const responsiveTypographyVars = (varname, family, weight, textTransform, textDe
     var lgls = '--hf-' + varname + '-letter-spacing';
     var lglh = '--hf-' + varname + '-line-height';
 
-    //console.log('font-size: var(' + lgfs + ', 1em);\n' +
-    //    'letter-spacing: var(' + lgls + ', inherit);\n' +
-    //    'line-height: var(' + lglh + ', inherit);');
 
     var mdfs = '--hf-' + varname + '-font-size-md';
     var mdls = '--hf-' + varname + '-letter-spacing-md';
     var mdlh = '--hf-' + varname + '-line-height-md';
 
-    //console.log('font-size: var(' + mdfs + ', var(' + lgfs + ', 1em));\n' +
-    //    'letter-spacing: var(' + mdls + ', var(' + lgls + ', inherit));\n' +
-    //    'line-height: var(' + mdlh + ', var(' + lglh + ', inherit));');
 
     var smfs = '--hf-' + varname + '-font-size-sm';
     var smls = '--hf-' + varname + '-letter-spacing-sm';
     var smlh = '--hf-' + varname + '-line-height-sm';
 
-    //console.log('font-size: var(' + smfs + ', var(' + mdfs + ', var(' + lgfs + ', 1em)));\n' +
-    //    'letter-spacing: var(' + smls + ', var(' + mdls + ', var(' + lgls + ', inherit)));\n' +
-    //    'line-height: var(' + smlh + ', var(' + mdlh + ', var(' + lglh + ', inherit)));');
 
 
     return `${family ? `--hf-${varname}-font-family: ${checkDefault(family)};` : ''}

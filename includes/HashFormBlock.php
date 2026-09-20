@@ -447,7 +447,7 @@ class HashFormBlock {
 
         if (!is_admin()) {
             // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- get_block_wrapper_attributes() returns a ready-escaped attribute string, and is echoed unescaped by core itself.
-            echo '<div ' . get_block_wrapper_attributes(['class' => 'wp-block-hash-form', 'id' => esc_attr($attr['id'])]) . '>';
+            echo '<div ' . get_block_wrapper_attributes(['class' => 'wp-block-hash-form', 'id' => esc_attr(isset($attr['id']) ? $attr['id'] : '')]) . '>';
         }
 
         echo do_shortcode('[hashform id="' . $form_id . '"]');
@@ -500,7 +500,7 @@ class HashFormBlock {
         // The attribute is post content placed inside a <style> tag, so strip markup to block a "</style><script>" payload.
         if (isset($blockAttrs['hfStyle'])) {
             $block_style = is_array($blockAttrs['hfStyle']) ? '' : $blockAttrs['hfStyle'];
-            $block_css_arr[$blockAttrs['id']] = str_replace('<', '', wp_strip_all_tags($block_style));
+            $block_css_arr[isset($blockAttrs['id']) ? $blockAttrs['id'] : ''] = str_replace('<', '', wp_strip_all_tags($block_style));
         }
 
         foreach ($block_css_arr as $val) {

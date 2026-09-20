@@ -79,7 +79,10 @@ class HashFormFieldHTML extends HashFormFieldType {
         ?>
         <div class="hf-custom-html-field"<?php echo is_admin() ? ' id="' . esc_attr(self::preview_id($field['id'])) . '" data-empty-text="' . esc_attr__('Custom HTML - nothing added yet', 'hash-form') . '"' : ''; ?>>
             <?php
-            if ('' === trim(wp_strip_all_tags($content)) && is_admin()) {
+            // Same test as the builder's live preview (backend.js): text, or an element that shows without any.
+            $is_empty = '' === trim(wp_strip_all_tags($content)) && !preg_match('/<(img|hr|br|input|svg)\b/i', $content);
+
+            if ($is_empty && is_admin()) {
                 ?>
                 <div class="hf-custom-html-preview">
                     <?php esc_html_e('Custom HTML - nothing added yet', 'hash-form'); ?>

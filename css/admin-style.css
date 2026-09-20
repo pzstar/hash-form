@@ -4363,41 +4363,6 @@ form.hf-error {
     color: var(--wp-admin-theme-color, #2271b1);
 }
 
-/*
- * The documentation link in the shared page bar, matching the Modules screen's
- * (.hf-version a in Pro's modules-ui.css). margin-left:auto groups it with the
- * action button on the right.
- */
-.hf-list-header .hf-list-docs {
-    margin: 0 0 0 auto;
-}
-
-.hf-list-header .hf-list-docs a {
-    align-items: center;
-    border: 1px solid var(--hf-border-strong, #d3d8e0);
-    border-radius: var(--hf-radius-sm, 4px);
-    color: var(--hf-text, #1e2327);
-    display: inline-flex;
-    font-size: var(--hf-font-base, 13px);
-    gap: var(--hf-space-2, 8px);
-    min-height: 32px;
-    padding: 0 var(--hf-space-3, 12px);
-    text-decoration: none;
-    transition: background-color var(--hf-transition, .15s ease), border-color var(--hf-transition, .15s ease);
-}
-
-.hf-list-header .hf-list-docs a:hover,
-.hf-list-header .hf-list-docs a:focus {
-    background: var(--hf-surface-sunken, #fafbfc);
-    border-color: var(--hf-text-faint, #8c9196);
-    color: var(--hf-text, #1e2327);
-}
-
-.hf-list-header .hf-list-docs a:focus-visible {
-    outline: 2px solid var(--hf-accent, #dd823b);
-    outline-offset: 1px;
-}
-
 /* ---------- Upgrade to Pro ---------- */
 
 /* Held to a readable measure and centered, so the columns stay together. */

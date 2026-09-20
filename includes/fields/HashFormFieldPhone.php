@@ -20,7 +20,8 @@ class HashFormFieldPhone extends HashFormFieldType {
         $pattern = self::phone_format($this->field);
         $max_length = intval(HashFormFields::get_option($this->field, 'max'));
 
-        if ('' !== $pattern && !preg_match($pattern, $args['value'])) {
+        // An empty optional field must not fail the pattern.
+        if ('' !== $pattern && '' !== (string) $args['value'] && !preg_match($pattern, $args['value'])) {
             $errors['field' . $args['id']] = apply_filters('hashform_translate_string', HashFormFields::get_error_msg($this->field, 'invalid'), 'Hash Form', HashFormBuilder::get_form_title($args['form_id']) . ' - ' . $args['id'] . ' - ' . 'Field Validation Message');
         }
 
@@ -40,7 +41,8 @@ class HashFormFieldPhone extends HashFormFieldType {
             return '';
         }
 
-        return '/' . $pattern . '/';
+        // Escape "/" delimiters as HashFormFieldText::format() does, normalizing already-escaped ones first.
+        return '/' . str_replace('/', '\/', str_replace('\/', '/', $pattern)) . '/';
     }
 
     /**

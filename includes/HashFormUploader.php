@@ -19,8 +19,6 @@ class HashFormUploadedFileXhr {
             require_once(ABSPATH . '/wp-admin/includes/file.php');
             // Attempt direct connection; if it fails, this might prompt for credentials elsewhere
             if (!WP_Filesystem()) {
-                // Log error or handle failure to initialize filesystem
-                // error_log('Failed to initialize WP_Filesystem.');
                 return false;
             }
         }
@@ -71,7 +69,6 @@ class HashFormFileUploader {
 
     function __construct(array $allowedExtensions = array(), $sizeLimit = 10485760) {
         $allowedExtensions = array_map('strtolower', $allowedExtensions);
-        //$unallowed_extensions = array('php', 'exe', 'ini', 'perl');
         $exts = array_keys(get_allowed_mime_types());
 
         $available_exts = array();

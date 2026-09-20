@@ -2036,17 +2036,16 @@ var hashFormAdmin = hashFormAdmin || {};
 
         addFieldAttrToForm: function () {
             const fieldId = $(this).attr('data-value');
-            const $row = $(this).closest('.hf-form-row');
-            const inputChange = $row.find('input').not('.hf-attr-search input');
-            const textAreaChange = $row.find('textarea');
 
-            // .val(x) writes one value to every match, seeded from the first one.
-            if (fieldId && inputChange.length > 0) {
-                inputChange.val(inputChange.val() + ' ' + fieldId);
+            // Only the box right after the picker's label; a row can hold other inputs.
+            let $target = $(this).closest('.hf-label-with-attr').nextAll('input, textarea').first();
+
+            if (!$target.length) {
+                $target = $(this).closest('.hf-form-row').find('input, textarea').not('.hf-attr-search input').first();
             }
 
-            if (fieldId && textAreaChange.length > 0) {
-                textAreaChange.val(textAreaChange.val() + ' ' + fieldId);
+            if (fieldId && $target.length) {
+                $target.val($target.val() + ' ' + fieldId);
             }
 
             // Hover alone would keep the list open over the field just
@@ -2054,7 +2053,7 @@ var hashFormAdmin = hashFormAdmin || {};
             const $list = $(this).closest('.hf-add-field-attr-to-form');
             $list.find('.hf-attr-search input').val('').trigger('input');
             $list.closest('.hf-attr-field').find('.hf-attr-field-tags').trigger('blur');
-            (textAreaChange.length ? textAreaChange : inputChange).first().trigger('focus');
+            $target.trigger('focus');
         },
 
         /* -------------------------------------------------------------------
@@ -2107,35 +2106,12 @@ var hashFormAdmin = hashFormAdmin || {};
 })(jQuery);
 
 
-/**
- * Shadows Node.prototype.contains on <select> elements with an option-value lookup.
- */
-HTMLSelectElement.prototype.contains = function (value) {
-    for (var i = 0, l = this.options.length; i < l; i++) {
-        if (this.options[i].value == value) {
-            return true;
-        }
-    }
-    return false;
-};
-
 
 /**
- * Settings export and the entry workflow: starring, private notes and resending a notification.
+ * Settings export.
  */
 (function ($) {
     'use strict';
-
-    function vars() {
-        return (typeof hashform_backend_js === 'undefined') ? {} : hashform_backend_js;
-    }
-
-    function post(action, data) {
-        return $.post(ajaxurl, $.extend({
-            action: action,
-            nonce: vars().entry_nonce
-        }, data));
-    }
 
     // The export fields sit inside the settings form (forms cannot nest), so they
     // are copied into a temporary form and posted from there.
@@ -2155,6 +2131,25 @@ HTMLSelectElement.prototype.contains = function (value) {
         $form.appendTo('body').trigger('submit');
         $form.remove();
     });
+})(jQuery);
+
+
+/**
+ * Entry workflow: starring, private notes and resending a notification.
+ */
+(function ($) {
+    'use strict';
+
+    function vars() {
+        return (typeof hashform_backend_js === 'undefined') ? {} : hashform_backend_js;
+    }
+
+    function post(action, data) {
+        return $.post(ajaxurl, $.extend({
+            action: action,
+            nonce: vars().entry_nonce
+        }, data));
+    }
 
     $(document).on('click', '.hf-entry-star', function (e) {
         e.preventDefault();

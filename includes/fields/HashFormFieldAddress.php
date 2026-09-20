@@ -30,7 +30,8 @@ class HashFormFieldAddress extends HashFormFieldType {
                 'label' => esc_html__('State/Province', 'hash-form')
             ),
             'postal' => array(
-                'type' => 'number',
+                // Text, not number: many postcodes contain letters (UK, Canada, Netherlands).
+                'type' => 'text',
                 'label' => esc_html__('Zip/Postal', 'hash-form')
             ),
             'country' => array(

@@ -3,7 +3,7 @@
 /*
  * Plugin Name: Hash Form - Drag & Drop Form Builder
  * Description: Design, Embed, Connect: Your Ultimate Form Companion for WordPress
- * Version: 1.4.4
+ * Version: 1.4.5
  * Author: HashThemes
  * Author URI: https://hashthemes.com/
  * Text Domain: hash-form
@@ -15,7 +15,7 @@
 
 defined('ABSPATH') || die();
 
-define('HASHFORM_VERSION', '1.4.4');
+define('HASHFORM_VERSION', '1.4.5');
 define('HASHFORM_FILE', __FILE__);
 define('HASHFORM_PATH', plugin_dir_path(HASHFORM_FILE));
 define('HASHFORM_URL', plugin_dir_url(HASHFORM_FILE));
@@ -112,6 +112,11 @@ function hashform_on_deactivate() {
 add_action('wp_insert_site', 'hashform_on_create_blog');
 
 function hashform_on_create_blog($data) {
+    // wp_insert_site also fires from front-end signups, where this admin helper is not loaded.
+    if (!function_exists('is_plugin_active_for_network')) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+
     if (is_plugin_active_for_network('hash-form/hash-form.php')) {
         switch_to_blog($data->blog_id);
         $db = new HashFormCreateTable();
@@ -123,16 +128,17 @@ function hashform_on_create_blog($data) {
 /**
  * Drop form tables on multisite deletion.
  */
-add_filter('wpmu_drop_tables', 'hashform_on_delete_blog');
+add_filter('wpmu_drop_tables', 'hashform_on_delete_blog', 10, 2);
 
-function hashform_on_delete_blog($tables) {
+function hashform_on_delete_blog($tables, $site_id = 0) {
     global $wpdb;
-    $id = HashFormHelper::get_request('id');
+    // Use the site WordPress is deleting; an empty id would resolve to the main site's prefix.
+    $prefix = $wpdb->get_blog_prefix($site_id ? $site_id : null);
 
-    $tables[] = $wpdb->get_blog_prefix($id) . 'hashform_fields';
-    $tables[] = $wpdb->get_blog_prefix($id) . 'hashform_forms';
-    $tables[] = $wpdb->get_blog_prefix($id) . 'hashform_entries';
-    $tables[] = $wpdb->get_blog_prefix($id) . 'hashform_entry_meta';
+    $tables[] = $prefix . 'hashform_fields';
+    $tables[] = $prefix . 'hashform_forms';
+    $tables[] = $prefix . 'hashform_entries';
+    $tables[] = $prefix . 'hashform_entry_meta';
 
     return $tables;
 }

@@ -3,7 +3,7 @@ Contributors: hashthemes
 Tags: form, form builder, drag and drop, contact form
 Requires at least: 6.3
 Tested up to: 7.1
-Stable tag: 1.4.4
+Stable tag: 1.4.5
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -143,6 +143,18 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 14. Form Style Builder
 
 == Changelog ==
+= 1.4.5 - 19 Sep, 2026 =
+* Multisite: deleting a subsite from WP-CLI or the Network Admin bulk action could delete the main site's forms and entries - Fixed (Data loss)
+* Multisite: creating a subsite from the front-end signup page caused a fatal error - Fixed
+* Phone field: an optional field with a format pattern rejected the form when left empty, and a "/" in the pattern broke the check - Fixed
+* Address field: the postcode box now accepts letters, as UK, Canadian and Dutch postcodes need - Fixed
+* Submit button: the Stretch alignment did not show as selected after saving - Fixed
+* Field tags: choosing a tag wrote it into every box in the row, not just the one beside the picker - Fixed
+* HTML field: content made only of an image showed as empty on the builder canvas - Fixed
+* Gutenberg block: the block no longer rewrites its settings on every editor render
+* Builder: moving a field no longer sends a request to an endpoint that does not exist
+* Code comments shortened throughout, and unused block source files removed
+
 = 1.4.4 - 3 Sep, 2026 =
 * An Upgrade to Pro screen, with a feature-by-feature comparison of the two plugins: 40 rows across six sections, covering every one of Pro's eleven module groups as well as what this plugin already does. Every figure on it is what the plugins actually ship - 27 field types here and 50 with Pro, 79 form templates, 20 payment gateways - so it can be checked against the screens rather than taken on trust. The menu entry is only added when Pro is not installed
 * Elementor widget: the widget's key had a space in it, so Elementor built the class "elementor-widget-Hash Form" - which a browser reads as two classes, leaving a stray global "Form" on the element and nothing able to target the widget. It is now elementor-widget-hashform; pages already built keep working through an alias registered under the old name - Fixed

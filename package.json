@@ -12,8 +12,7 @@
     "react-owl-carousel": "^2.3.3",
     "react-select": "^5.8.0",
     "react-sortable-hoc": "^2.0.0",
-    "styled-jsx": "^5.0.2",
-    "uuid": "^10.0.0"
+    "styled-jsx": "^5.0.2"
   },
   "devDependencies": {
     "@wordpress/scripts": "^23.3.0"
