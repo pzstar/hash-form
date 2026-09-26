@@ -66,7 +66,6 @@ class HashFormEmail {
             $count++;
             $reply_to_email = str_replace('#field_id_' . absint($item), $value['value'], $reply_to_email);
             $email_subject = str_replace('#field_id_' . absint($item), $value['value'], $email_subject);
-            $reply_to_ar = str_replace('#field_id_' . absint($item), $value['value'], $reply_to_ar);
             $entry_value = HashFormHelper::unserialize_or_decode($value['value']);
             $entry_type = HashFormHelper::unserialize_or_decode($value['type']);
             if (is_array($entry_value)) {
@@ -141,8 +140,9 @@ class HashFormEmail {
         // cannot smuggle extra mail headers.
         $reply_to_email = str_replace(array("\r", "\n"), '', $reply_to_email);
         $email_subject = str_replace(array("\r", "\n"), ' ', $email_subject);
-        // Becomes the recipient of the auto responder further down.
-        $reply_to_ar = str_replace(array("\r", "\n"), '', $reply_to_ar);
+        // The auto responder setting stores a bare field ID, so look the address up by ID.
+        $ar_field_id = absint(str_replace('#field_id_', '', $reply_to_ar));
+        $reply_to_ar = ($ar_field_id && isset($metas[$ar_field_id])) ? trim(str_replace(array("\r", "\n"), '', $metas[$ar_field_id]['value'])) : '';
 
         $email_message = empty($form_settings['email_message']) ? '' : wpautop($form_settings['email_message']);
 
@@ -188,7 +188,10 @@ class HashFormEmail {
                 $head = array();
                 $head[] = 'Content-Type: text/html; charset=UTF-8';
                 $head[] = 'From: ' . esc_html($from_ar_name) . ' <' . esc_html($from_ar) . '>';
-                wp_mail($reply_to_ar, $email_subject, $form_html, $head, $attachments);
+                // The field may be optional and left blank.
+                if (is_email($reply_to_ar)) {
+                    wp_mail($reply_to_ar, $email_subject, $form_html, $head, $attachments);
+                }
             }
             $redirect_url = '';
 

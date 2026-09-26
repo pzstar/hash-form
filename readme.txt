@@ -3,7 +3,7 @@ Contributors: hashthemes
 Tags: form, form builder, drag and drop, contact form
 Requires at least: 6.3
 Tested up to: 7.1
-Stable tag: 1.4.5
+Stable tag: 1.4.6
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -143,6 +143,10 @@ The easy way to install the plugin is via WordPress.org plugin directory.
 14. Form Style Builder
 
 == Changelog ==
+= 1.4.6 - 26 Sep, 2026 =
+* Auto responder: the email was sent to the field ID instead of the visitor's address, so it never arrived and SMTP mailers such as Brevo reported "no recipient" - Fixed
+* Auto responder: no longer tries to send when the chosen email field is left blank
+
 = 1.4.5 - 19 Sep, 2026 =
 * Multisite: deleting a subsite from WP-CLI or the Network Admin bulk action could delete the main site's forms and entries - Fixed (Data loss)
 * Multisite: creating a subsite from the front-end signup page caused a fatal error - Fixed
