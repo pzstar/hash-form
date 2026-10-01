@@ -394,9 +394,10 @@ body.hf-styles-list .wrap > .wp-header-end {
 }
 
 /* Undo the token sheet's 100% width so a control stays on a line with its
-   button. Not on the Settings screen, which is a stack of settings panels. */
+   button. Not on the Settings screen, which is a stack of settings panels, and
+   not the Modules sidebar search, which fills its column. */
 .hf-list-screen:not(.hf-settings-screen) select,
-.hf-list-screen:not(.hf-settings-screen) input[type="search"],
+.hf-list-screen:not(.hf-settings-screen) input[type="search"]:not(.hf-modules-search-input),
 .hf-list-screen:not(.hf-settings-screen) input[type="text"] {
     border: 1px solid var(--hf-border-strong, #d3d8e0);
     border-radius: var(--hf-radius-sm, 4px);
