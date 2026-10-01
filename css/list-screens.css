@@ -416,8 +416,10 @@ body.hf-styles-list .wrap > .wp-header-end {
 }
 
 /* The secondary buttons around the table: Bulk actions, Apply, Search. Scoped
-   to .wrap to keep the header's Add New and the Settings Save button out. */
-.hf-list-screen:not(.hf-settings-screen) .wrap .button:not(.hf-trigger-modal) {
+   to .wrap to keep the header's Add New and the Settings Save button out, and
+   primary buttons with them: they are white on the accent colour, and this rule
+   would repaint that label in the body text colour. */
+.hf-list-screen:not(.hf-settings-screen) .wrap .button:not(.hf-trigger-modal):not(.button-primary) {
     border-color: var(--hf-border-strong, #d3d8e0);
     border-radius: var(--hf-radius-sm, 4px);
     color: var(--hf-text, #1e2327);
@@ -425,7 +427,7 @@ body.hf-styles-list .wrap > .wp-header-end {
     min-height: 34px;
 }
 
-.hf-list-screen:not(.hf-settings-screen) .wrap .button:not(.hf-trigger-modal):hover {
+.hf-list-screen:not(.hf-settings-screen) .wrap .button:not(.hf-trigger-modal):not(.button-primary):hover {
     background: var(--hf-surface-sunken, #fafbfc);
     border-color: var(--hf-text-faint, #8c9196);
     color: var(--hf-text, #1e2327);
