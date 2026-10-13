@@ -40,7 +40,7 @@ if (defined('HASH_FORM_PRO_VERSION')) {
     <div class="hf-settings-row hf-form-row">
         <p class="hf-desc">
             <?php esc_html_e('Want to start from a finished look instead of blank?', 'hash-form'); ?>
-            <a href="https://hashthemes.com/plugin/hash-form-pro/" target="_blank" rel="noopener"><?php esc_html_e('Hash Form Pro', 'hash-form'); ?></a>
+            <a href="<?php echo esc_url(HashFormUpgrade::topic_url('templates')); ?>"><?php esc_html_e('Hash Form Pro', 'hash-form'); ?></a>
             <?php esc_html_e('adds ready-made style templates you can import in one click.', 'hash-form'); ?>
         </p>
     </div>

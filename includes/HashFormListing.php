@@ -73,7 +73,7 @@ class HashFormListing extends \WP_List_Table {
                 ?>
                 <p class="hf-empty-upsell">
                     <?php esc_html_e('Prefer to start from a template?', 'hash-form'); ?>
-                    <a href="https://hashthemes.com/plugin/hash-form-pro/" target="_blank" rel="noopener"><?php esc_html_e('Hash Form Pro', 'hash-form'); ?></a>
+                    <a href="<?php echo esc_url(HashFormUpgrade::topic_url('templates')); ?>"><?php esc_html_e('Hash Form Pro', 'hash-form'); ?></a>
                     <?php esc_html_e('adds a form template library and an AI form generator.', 'hash-form'); ?>
                 </p>
                 <?php

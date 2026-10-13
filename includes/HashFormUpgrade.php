@@ -7,12 +7,14 @@ defined('ABSPATH') || die();
 class HashFormUpgrade {
 
     const PAGE_SLUG = 'hashform-upgrade';
-    const PRO_URL = 'https://hashthemes.com/plugin/hash-form-pro/';
+    const PRO_URL = 'https://hashformbuilder.com/';
+    const PRO_DOCS_URL = 'https://hashthemes.com/documentation/hash-form-pro-documentation/';
 
     public function __construct() {
         add_action('admin_menu', array($this, 'menu'), 60);
         add_action('in_admin_header', array($this, 'header'));
         add_action('admin_head', array($this, 'menu_style'));
+        add_action('admin_enqueue_scripts', array($this, 'scripts'));
     }
 
     /**
@@ -20,6 +22,13 @@ class HashFormUpgrade {
      */
     public static function pro_active() {
         return defined('HASH_FORM_PRO_VERSION');
+    }
+
+    /**
+     * The Upgrade screen, opened on one topic of the comparison.
+     */
+    public static function topic_url($topic) {
+        return admin_url('admin.php?page=' . self::PAGE_SLUG) . '#' . sanitize_key($topic);
     }
 
     public static function is_screen() {
@@ -68,6 +77,7 @@ class HashFormUpgrade {
 
         HashFormHelper::render_list_header(array(
             'title' => esc_html__('Upgrade to Pro', 'hash-form'),
+            'docs' => self::PRO_DOCS_URL,
             'actions' => array(
                 array(
                     'label' => esc_html__('Get Hash Form Pro', 'hash-form'),
@@ -76,6 +86,12 @@ class HashFormUpgrade {
                 ),
             ),
         ));
+    }
+
+    public function scripts() {
+        if (self::is_screen()) {
+            wp_enqueue_script('hashform-upgrade', HASHFORM_URL . 'js/upgrade.js', array(), HASHFORM_VERSION, true);
+        }
     }
 
     public function render() {

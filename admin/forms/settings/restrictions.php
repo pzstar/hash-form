@@ -28,7 +28,7 @@ $settings = array_merge(HashFormHelper::get_form_settings_default(), (array) $se
         <div class="hf-form-row">
             <p class="hf-desc">
                 <?php esc_html_e('Looking to schedule this form, cap the number of entries or require visitors to log in?', 'hash-form'); ?>
-                <a href="https://hashthemes.com/plugin/hash-form-pro/" target="_blank" rel="noopener"><?php esc_html_e('Hash Form Pro', 'hash-form'); ?></a>
+                <a href="<?php echo esc_url(HashFormUpgrade::topic_url('entries')); ?>"><?php esc_html_e('Hash Form Pro', 'hash-form'); ?></a>
                 <?php esc_html_e('adds those under Schedule &amp; Restriction.', 'hash-form'); ?>
             </p>
         </div>

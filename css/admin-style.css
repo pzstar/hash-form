@@ -4365,109 +4365,407 @@ form.hf-error {
 
 /* ---------- Upgrade to Pro ---------- */
 
-/* Held to a readable measure and centered, so the columns stay together. */
 .hf-upgrade-screen {
+    margin: 0 auto;
+    max-width: 1120px;
     padding: var(--hf-space-3, 12px);
 }
 
 .hf-upgrade-hero,
-.hf-cmp-table {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 940px;
-}
-
-.hf-upgrade-hero {
+.hf-up-explorer,
+.hf-upgrade-foot {
     background: var(--hf-surface, #fff);
     border: 1px solid var(--hf-border, #e2e5ea);
     border-radius: var(--hf-radius-lg, 12px);
     box-shadow: var(--hf-shadow-md, 0 4px 10px -2px rgba(16, 24, 40, .1));
-    /* auto left and right, or this shorthand would undo the centring set above */
-    margin: 0 auto var(--hf-space-3, 12px);
+    margin-bottom: var(--hf-space-3, 12px);
+}
+
+.hf-upgrade-hero {
     padding: 28px 32px;
 }
 
 .hf-upgrade-hero h2 {
     font-size: 22px;
     letter-spacing: -.01em;
+    line-height: 1.25;
     margin: 0 0 8px;
 }
 
 .hf-upgrade-hero p {
     color: var(--hf-text-muted, #646970);
+    font-size: var(--hf-font-md, 14px);
     margin: 0 0 18px;
     max-width: 78ch;
 }
 
-/* The comparison itself: a fixed header table with the cards below repeating
-   the same colgroup, so every row lines up with the header and with the rows
-   in the other cards. */
-.hf-cmp-table {
+.hf-upgrade-actions,
+.hf-up-links {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--hf-space-2, 8px);
+}
+
+.hf-upgrade-screen .hf-upgrade-button { text-decoration: none; }
+
+.hf-upgrade-screen .hf-upgrade-button:not(.button-primary) {
     background: var(--hf-surface, #fff);
-    border: 1px solid var(--hf-border, #e2e5ea);
-    border-radius: var(--hf-radius-lg, 12px);
-    box-shadow: var(--hf-shadow-md, 0 4px 10px -2px rgba(16, 24, 40, .1));
+    border-color: var(--hf-border-strong, #d3d8e0);
+    color: var(--hf-text, #1e2327);
+}
+
+.hf-upgrade-screen .hf-upgrade-button:not(.button-primary):hover,
+.hf-upgrade-screen .hf-upgrade-button:not(.button-primary):focus {
+    background: var(--hf-surface-sunken, #fafbfc);
+    border-color: var(--hf-text-faint, #8c9196);
+    color: var(--hf-text, #1e2327);
+}
+
+.hf-upgrade-screen .hf-upgrade-button.button-primary {
+    background: var(--hf-accent, #dd823b);
+    border-color: var(--hf-accent, #dd823b);
+    color: #fff;
+}
+
+.hf-upgrade-screen .hf-upgrade-button.button-primary:hover,
+.hf-upgrade-screen .hf-upgrade-button.button-primary:focus {
+    background: var(--hf-accent-hover, #c26f2e);
+    border-color: var(--hf-accent-hover, #c26f2e);
+    color: #fff;
+}
+
+.hf-up-doc-link {
+    color: var(--hf-accent-text, #a3591b);
+    font-weight: 600;
+    margin-left: var(--hf-space-2, 8px);
+}
+
+.hf-up-doc-link:hover { color: var(--hf-accent-hover, #c26f2e); }
+
+/* What Pro ships, as figures. */
+.hf-up-stats {
+    border-top: 1px solid var(--hf-border, #e2e5ea);
+    display: grid;
+    gap: var(--hf-space-3, 12px);
+    grid-template-columns: repeat(5, 1fr);
+    margin: 24px 0 0;
+    padding: 20px 0 0;
+}
+
+.hf-up-stats li {
+    margin: 0;
+}
+
+.hf-up-stats strong {
+    color: var(--hf-accent-text, #a3591b);
+    display: block;
+    font-size: 26px;
+    letter-spacing: -.02em;
+    line-height: 1.1;
+}
+
+.hf-up-stats span {
+    color: var(--hf-text-muted, #646970);
+    font-size: var(--hf-font-base, 13px);
+}
+
+/* Topics on the left, the chosen one on the right. */
+.hf-up-explorer {
     overflow: hidden;
 }
 
-.hf-cmp-table table {
+.hf-up-explorer [hidden] { display: none !important; }
+
+/* Without the script every topic is listed, so the tabs have nothing to do. */
+.hf-up-nav,
+.hf-up-tools { display: none; }
+
+.hf-up-js {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+}
+
+.hf-up-js .hf-up-nav {
+    align-content: start;
+    background: var(--hf-surface-sunken, #fafbfc);
+    border-right: 1px solid var(--hf-border, #e2e5ea);
+    display: grid;
+    gap: 2px;
+    padding: var(--hf-space-4, 16px) var(--hf-space-3, 12px);
+}
+
+.hf-up-nav-title {
+    color: var(--hf-text-faint, #8c9196);
+    font-size: var(--hf-font-xs, 11px);
+    font-weight: 600;
+    letter-spacing: .06em;
+    padding: 4px 12px 8px;
+    text-transform: uppercase;
+}
+
+.hf-up-tab {
+    align-items: center;
+    background: none;
+    border: 0;
+    border-radius: var(--hf-radius, 8px);
+    color: var(--hf-text, #1e2327);
+    cursor: pointer;
+    display: flex;
+    font-size: var(--hf-font-md, 14px);
+    gap: var(--hf-space-2, 8px);
+    justify-content: space-between;
+    padding: 10px 12px;
+    text-align: left;
+    transition: background var(--hf-transition, .15s ease);
+}
+
+.hf-up-tab:hover { background: var(--hf-accent-soft, #fdf6f0); }
+
+.hf-up-tab:focus-visible {
+    outline: 2px solid var(--hf-accent, #dd823b);
+    outline-offset: 1px;
+}
+
+.hf-up-tab.is-active {
+    background: var(--hf-surface, #fff);
+    box-shadow: var(--hf-shadow, 0 1px 2px rgba(16, 24, 40, .05)), inset 3px 0 0 var(--hf-accent, #dd823b);
+    font-weight: 600;
+}
+
+/* How many things the topic adds over the free plugin. */
+.hf-up-tab-count {
+    background: var(--hf-accent-soft, #fdf6f0);
+    border-radius: var(--hf-radius-pill, 999px);
+    color: var(--hf-accent-text, #a3591b);
+    font-size: var(--hf-font-xs, 11px);
+    font-weight: 600;
+    padding: 2px 8px;
+}
+
+.hf-up-tab-all {
+    border-top: 1px solid var(--hf-border, #e2e5ea);
+    border-radius: 0 0 var(--hf-radius, 8px) var(--hf-radius, 8px);
+    margin-top: var(--hf-space-2, 8px);
+    padding-top: 14px;
+}
+
+/* Search and the filter only make sense across every topic. */
+.hf-up-js.hf-up-all .hf-up-tools {
+    align-items: center;
+    border-bottom: 1px solid var(--hf-border, #e2e5ea);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--hf-space-3, 12px);
+    justify-content: space-between;
+    padding: var(--hf-space-3, 12px) var(--hf-space-5, 24px);
+}
+
+.hf-up-tools .hf-up-search {
+    border: 1px solid var(--hf-border-strong, #d3d8e0);
+    border-radius: var(--hf-radius-sm, 4px);
+    min-height: 32px;
+    width: 240px;
+}
+
+.hf-up-only {
+    align-items: center;
+    color: var(--hf-text-muted, #646970);
+    display: inline-flex;
+    gap: 6px;
+}
+
+.hf-up-only input { margin: 0; }
+
+.hf-up-panel-head {
+    padding: var(--hf-space-5, 24px) var(--hf-space-5, 24px) var(--hf-space-4, 16px);
+}
+
+.hf-up-panel-head h3 {
+    font-size: var(--hf-font-xl, 20px);
+    letter-spacing: -.01em;
+    margin: 0 0 6px;
+}
+
+.hf-up-lede {
+    color: var(--hf-text-muted, #646970);
+    font-size: var(--hf-font-md, 14px);
+    margin: 0 0 var(--hf-space-4, 16px);
+    max-width: 72ch;
+}
+
+/* The difference in one line each, before any table. */
+.hf-up-versus {
+    display: grid;
+    gap: var(--hf-space-3, 12px);
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: var(--hf-space-4, 16px);
+}
+
+.hf-up-vs {
+    border: 1px solid var(--hf-border, #e2e5ea);
+    border-radius: var(--hf-radius, 8px);
+    font-size: var(--hf-font-md, 14px);
+    padding: 12px 14px;
+}
+
+.hf-up-vs-label {
+    color: var(--hf-text-faint, #8c9196);
+    display: block;
+    font-size: var(--hf-font-xs, 11px);
+    font-weight: 600;
+    letter-spacing: .06em;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.hf-up-vs-pro {
+    background: var(--hf-accent-soft, #fdf6f0);
+    border-color: color-mix(in srgb, var(--hf-accent, #dd823b) 35%, #fff);
+}
+
+.hf-up-vs-pro .hf-up-vs-label { color: var(--hf-accent-text, #a3591b); }
+
+.hf-up-col { display: none; }
+
+/* In the full comparison the topic is one band over its rows: its name, a link
+   and the column labels, standing in for the table's own header. */
+.hf-up-all .hf-up-lede,
+.hf-up-all .hf-up-versus,
+.hf-up-all .hf-up-links .button:not(.button-primary) { display: none; }
+
+.hf-up-all .hf-up-panel-head {
+    align-items: center;
+    background: var(--hf-surface-sunken, #fafbfc);
+    border-bottom: 1px solid var(--hf-border, #e2e5ea);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) 120px 120px;
+    padding: 0 0 0 var(--hf-space-5, 24px);
+}
+
+.hf-up-all .hf-up-panel-head h3 {
+    font-size: var(--hf-font-md, 14px);
+    letter-spacing: 0;
+    margin: 0;
+    padding: 12px 0;
+}
+
+.hf-up-all .hf-up-links { padding: 0 var(--hf-space-4, 16px); }
+
+.hf-up-all .hf-up-links .hf-upgrade-button.button-primary,
+.hf-up-all .hf-up-links .hf-upgrade-button.button-primary:hover,
+.hf-up-all .hf-up-links .hf-upgrade-button.button-primary:focus {
+    background: none;
+    border: 0;
+    box-shadow: none;
+    color: var(--hf-accent-text, #a3591b);
+    font-size: var(--hf-font-base, 13px);
+    min-height: 0;
+    padding: 0;
+    text-decoration: underline;
+}
+
+.hf-up-all .hf-up-col {
+    color: var(--hf-text-muted, #646970);
+    display: block;
+    font-size: var(--hf-font-xs, 11px);
+    font-weight: 600;
+    letter-spacing: .06em;
+    padding: 0 16px;
+    text-transform: uppercase;
+}
+
+.hf-up-all .hf-up-col-pro { color: var(--hf-accent-text, #a3591b); }
+
+/* Still read out and still sizing the columns, just not drawn a second time. */
+.hf-up-all .hf-cmp thead th {
+    border: 0;
+    font-size: 0;
+    line-height: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.hf-up-panel + .hf-up-panel { border-top: 1px solid var(--hf-border, #e2e5ea); }
+
+.hf-cmp {
     border-collapse: collapse;
     table-layout: fixed;
     width: 100%;
 }
 
-.hf-cmp-col-feature { width: auto; }
-.hf-cmp-col-free,
-.hf-cmp-col-pro { width: 130px; }
-
-/* Not sticky: the card is overflow:hidden, which stops sticking. */
-.hf-cmp-head-wrap {
-    background: var(--hf-surface-sunken, #f1f3f6);
-}
-
-.hf-cmp-head th {
+.hf-cmp th {
+    background: var(--hf-surface-sunken, #fafbfc);
     border-bottom: 1px solid var(--hf-border, #e2e5ea);
+    border-top: 1px solid var(--hf-border, #e2e5ea);
     color: var(--hf-text-muted, #646970);
     font-size: var(--hf-font-xs, 11px);
     letter-spacing: .06em;
-    padding: 12px 16px;
+    padding: 10px 16px;
     text-align: left;
     text-transform: uppercase;
 }
 
-.hf-cmp-head .hf-cmp-head-pro { color: var(--hf-accent, #dd823b); }
+.hf-cmp th:first-child,
+.hf-cmp td:first-child { padding-left: var(--hf-space-5, 24px); }
 
-.hf-cmp-section h3 {
-    background: var(--hf-surface-sunken, #f1f3f6);
-    border-bottom: 1px solid var(--hf-border, #e2e5ea);
-    border-top: 1px solid var(--hf-border, #e2e5ea);
-    font-size: var(--hf-font-xs, 11px);
-    letter-spacing: .06em;
-    margin: 0;
-    padding: 10px 16px;
-    text-transform: uppercase;
-}
+.hf-cmp th:nth-child(n+2),
+.hf-cmp td:nth-child(n+2) { width: 120px; }
 
-.hf-cmp-table td {
+.hf-cmp .hf-cmp-head-pro { color: var(--hf-accent-text, #a3591b); }
+
+.hf-cmp td {
     border-bottom: 1px solid var(--hf-hairline, #f0f0f1);
     padding: 12px 16px;
     vertical-align: top;
 }
+
+.hf-cmp tr:last-child td { border-bottom: 0; }
 
 .hf-cmp-name {
     display: block;
     font-weight: 600;
 }
 
+a.hf-cmp-name {
+    color: var(--hf-text, #1e2327);
+    text-decoration: none;
+}
+
+a.hf-cmp-name:hover,
+a.hf-cmp-name:focus { color: var(--hf-accent-text, #a3591b); }
+
+a.hf-cmp-name::after {
+    content: "\2197";
+    color: var(--hf-text-faint, #8c9196);
+    font-weight: 400;
+    margin-left: 4px;
+}
+
+/* A list of names, one chip each. */
+.hf-cmp-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.hf-cmp-chips span {
+    background: var(--hf-surface-sunken, #fafbfc);
+    border: 1px solid var(--hf-border, #e2e5ea);
+    border-radius: var(--hf-radius-pill, 999px);
+    font-size: var(--hf-font-sm, 12px);
+    padding: 2px 10px;
+}
+
 .hf-cmp-desc {
     color: var(--hf-text-muted, #646970);
     display: block;
-    font-size: var(--hf-font-sm, 13px);
+    font-size: var(--hf-font-base, 13px);
     margin-top: 2px;
 }
 
-/* The tick and the dash carry the answer; the words beside them only qualify
-   it, so a row is readable at a glance down the column. */
+/* The tick and the dash carry the answer; the words beside them only qualify it. */
 .hf-cmp-mark {
     font-weight: 700;
     margin-right: 6px;
@@ -4475,21 +4773,50 @@ form.hf-error {
 
 .hf-cmp-yes .hf-cmp-mark { color: var(--hf-success, #2e9e5b); }
 
-.hf-cmp-no {
-    color: var(--hf-text-faint, #8c9196);
-}
+.hf-cmp-no { color: var(--hf-text-faint, #8c9196); }
+
+.hf-cmp-plain { font-weight: 600; }
 
 .hf-cmp-pro.hf-cmp-plain,
 .hf-cmp-pro.hf-cmp-yes {
     background: color-mix(in srgb, var(--hf-accent, #dd823b) 5%, #fff);
 }
 
-.hf-cmp-foot {
-    padding: 22px 16px;
+.hf-up-empty {
+    color: var(--hf-text-muted, #646970);
+    margin: 0;
+    padding: var(--hf-space-6, 32px) var(--hf-space-5, 24px);
     text-align: center;
 }
 
-.hf-upgrade-button { text-decoration: none; }
+.hf-upgrade-foot {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--hf-space-4, 16px);
+    justify-content: space-between;
+    padding: 22px 32px;
+}
+
+.hf-upgrade-foot h3 {
+    font-size: var(--hf-font-lg, 16px);
+    margin: 0 0 4px;
+}
+
+.hf-upgrade-foot p {
+    color: var(--hf-text-muted, #646970);
+    margin: 0;
+    max-width: 62ch;
+}
+
+.hf-upgrade-foot .hf-upgrade-have {
+    border-top: 1px solid var(--hf-border, #e2e5ea);
+    flex: 1 1 100%;
+    max-width: none;
+    padding-top: var(--hf-space-3, 12px);
+}
+
+.hf-upgrade-have a { color: var(--hf-accent-text, #a3591b); }
 
 /* The bar's own call to action. */
 .hf-list-header .hf-upgrade-cta {
@@ -4498,8 +4825,59 @@ form.hf-error {
     color: #fff;
 }
 
+@media (max-width: 960px) {
+    .hf-up-js { grid-template-columns: minmax(0, 1fr); }
+
+    /* The topics become a strip that scrolls sideways. */
+    .hf-up-js .hf-up-nav {
+        border-bottom: 1px solid var(--hf-border, #e2e5ea);
+        border-right: 0;
+        display: flex;
+        overflow-x: auto;
+        padding: var(--hf-space-2, 8px);
+    }
+
+    .hf-up-nav-title { display: none; }
+
+    .hf-up-tab {
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+
+    .hf-up-tab.is-active { box-shadow: inset 0 -3px 0 var(--hf-accent, #dd823b); }
+
+    .hf-up-tab-all {
+        border-radius: var(--hf-radius, 8px);
+        border-top: 0;
+        margin-top: 0;
+        padding-top: 10px;
+    }
+}
+
 @media (max-width: 782px) {
-    .hf-cmp-col-free,
-    .hf-cmp-col-pro { width: 92px; }
-    .hf-cmp-table td { padding: 10px; }
+    .hf-upgrade-hero,
+    .hf-upgrade-foot { padding: 20px; }
+
+    .hf-up-stats { grid-template-columns: repeat(2, 1fr); }
+    .hf-up-versus { grid-template-columns: 1fr; }
+    .hf-up-tools .hf-up-search { width: 100%; }
+    .hf-up-search-wrap { flex: 1 1 100%; }
+
+    .hf-cmp th:nth-child(n+2),
+    .hf-cmp td:nth-child(n+2) { width: 84px; }
+
+    .hf-up-all .hf-up-panel-head {
+        grid-template-columns: auto minmax(0, 1fr) 84px 84px;
+        padding-left: 16px;
+    }
+
+    .hf-up-all .hf-up-col { padding: 0 6px; }
+    .hf-cmp td,
+    .hf-cmp th { padding: 10px 6px; }
+
+    /* Keeps "Unlimited" inside its column. */
+    .hf-cmp-mark { display: block; }
+
+    .hf-cmp th:first-child,
+    .hf-cmp td:first-child { padding-left: 16px; }
 }
