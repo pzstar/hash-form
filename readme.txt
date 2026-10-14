@@ -3,7 +3,7 @@ Contributors: hashthemes
 Tags: form, form builder, drag and drop, contact form
 Requires at least: 6.3
 Tested up to: 7.1
-Stable tag: 1.4.6
+Stable tag: 1.4.7
 Requires PHP: 7.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -263,6 +263,10 @@ Yes. Add a form with the Elementor widget, the Gutenberg block or a shortcode.
 14. Form Style Builder
 
 == Changelog ==
+= 1.4.7 - 14 Oct, 2026 =
+* Form builder: the field count above the canvas kept its page-load number while fields were added, duplicated or deleted - Fixed
+* Phones: a style with a wide column gap could make a form wider than the screen; the gap between fields is dropped on phones and the gap between sub-fields, such as First and Last name, is capped - Fixed
+
 = 1.4.6 - 12 Oct, 2026 =
 * Hash Form Pro links now go to hashformbuilder.com, the new home of the Pro plugin
 * Upgrade to Pro screen redesigned: the comparison is now split into eight topics, each with a one line summary of what Free and Pro do, links to its page on hashformbuilder.com, a feature search and an "Only show what Pro adds" filter
