@@ -2340,6 +2340,23 @@ select.ui-timepicker-select.ui-timepicker-select:focus-visible {
         grid-column: span 12 / span 12;
     }
 
+    /* With every field spanning all twelve columns, the column gap only adds
+       width; eleven of a style's wider gaps can outgrow a narrow form. */
+    .hf-container,
+    .hf-form-custom-style .hf-container {
+        column-gap: 0;
+    }
+
+    /* Sub-fields (First and Last name, address parts) still sit side by side,
+       so they keep a gap, capped so the eleven gaps cannot outgrow the field. */
+    .hf-grouped-field {
+        column-gap: min(20px, 5%);
+    }
+
+    .hf-form-custom-style .hf-grouped-field {
+        column-gap: min(var(--hf-form-column-gap, 20px), 5%);
+    }
+
     .hf-form-custom-style .hf-container .hf-field-label {
         font-size: var(--hf-label-typo-font-size-sm, var(--hf-label-typo-font-size-md, var(--hf-label-typo-font-size, 1em)));
         letter-spacing: var(--hf-label-typo-letter-spacing-sm, var(--hf-label-typo-letter-spacing-md, var(--hf-label-typo-letter-spacing, inherit)));
