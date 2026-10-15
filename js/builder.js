@@ -141,11 +141,8 @@ var hashFormBuilder = hashFormBuilder || {};
     }
 
     /**
-     * Keep the "N fields" count in the canvas header current.
-     *
-     * PHP prints it once; fields are then added, duplicated and deleted over
-     * ajax, so recount whenever the canvas changes. Only saved fields count:
-     * they carry a numeric id, while one still loading or a drag ghost does not.
+     * Keep the canvas header's "N fields" count current as fields change over ajax.
+     * Only saved fields have a numeric id; loading placeholders and drag ghosts do not.
      */
     function watchFieldCount() {
         const label = document.getElementById('hf-canvas-field-count');

@@ -34,10 +34,8 @@ class HashFormEmail {
          * Returning false must still let the submission finish normally.
          */
         if (!self::$sending_deferred && !apply_filters('hashform_send_entry_emails', true, $this->form, $this->entry_id, $metas)) {
-            // The emails wait, but the actions run now, so fill in their tags (a PDF, a text message) as sending would.
-            $settings = HashFormSettings::get_settings();
-            $template = isset($settings['email_template']) && in_array($settings['email_template'], array('template1', 'template2', 'template3'), true) ? $settings['email_template'] : 'template1';
-            list($entry_values, $frm_table) = $this->entry_display_values($metas, $template);
+            // The emails wait, but the actions (a PDF, a text message) run now, so fill in their tags first.
+            list($entry_values, $frm_table) = $this->entry_display_values($metas, self::email_template(HashFormSettings::get_settings()));
             $this->run_after_email($this->fill_tags($form_settings, $entry_values, $frm_table), $metas);
 
             return true;
@@ -52,14 +50,9 @@ class HashFormEmail {
         $reply_to_ar = isset($form_settings['reply_to_ar']) ? $form_settings['reply_to_ar'] : '';
 
         $settings = HashFormSettings::get_settings();
-        $email_template = $settings['email_template'] ? sanitize_text_field($settings['email_template']) : 'template1';
-        // The value feeds both a callable name and an include path.
-        if (!in_array($email_template, array('template1', 'template2', 'template3'), true)) {
-            $email_template = 'template1';
-        }
+        $email_template = self::email_template($settings);
         $header_image = sanitize_text_field($settings['header_image']);
         $form_title = $this->form->name;
-        $file_img_placeholder = HASHFORM_URL . 'img/attachment.png';
 
         foreach ($metas as $item => $value) {
             $reply_to_email = str_replace('#field_id_' . absint($item), $value['value'], $reply_to_email);
@@ -170,6 +163,14 @@ class HashFormEmail {
         $this->run_after_email($form_settings, $metas);
 
         return false;
+    }
+
+    /**
+     * The chosen email template, limited to the shipped ones: it feeds both a callable name and an include path.
+     */
+    private static function email_template($settings) {
+        $template = isset($settings['email_template']) ? $settings['email_template'] : '';
+        return in_array($template, array('template1', 'template2', 'template3'), true) ? $template : 'template1';
     }
 
     /**
