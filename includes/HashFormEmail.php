@@ -34,7 +34,11 @@ class HashFormEmail {
          * Returning false must still let the submission finish normally.
          */
         if (!self::$sending_deferred && !apply_filters('hashform_send_entry_emails', true, $this->form, $this->entry_id, $metas)) {
-            $this->run_after_email($form_settings, $metas);
+            // The emails wait, but the actions run now, so fill in their tags (a PDF, a text message) as sending would.
+            $settings = HashFormSettings::get_settings();
+            $template = isset($settings['email_template']) && in_array($settings['email_template'], array('template1', 'template2', 'template3'), true) ? $settings['email_template'] : 'template1';
+            list($entry_values, $frm_table) = $this->entry_display_values($metas, $template);
+            $this->run_after_email($this->fill_tags($form_settings, $entry_values, $frm_table), $metas);
 
             return true;
         }
@@ -57,84 +61,13 @@ class HashFormEmail {
         $form_title = $this->form->name;
         $file_img_placeholder = HASHFORM_URL . 'img/attachment.png';
 
-        $replace_keys = apply_filters('hashform_replace_keys_arr', array('email_message'));
-
-        $frm_table = '';
-        $count = 0;
-
         foreach ($metas as $item => $value) {
-            $count++;
             $reply_to_email = str_replace('#field_id_' . absint($item), $value['value'], $reply_to_email);
             $email_subject = str_replace('#field_id_' . absint($item), $value['value'], $email_subject);
-            $entry_value = HashFormHelper::unserialize_or_decode($value['value']);
-            $entry_type = HashFormHelper::unserialize_or_decode($value['type']);
-            if (is_array($entry_value)) {
-                if ($entry_type == 'name') {
-                    $entry_value = implode(' ', array_filter($entry_value));
-                } elseif ($entry_type == 'repeater_field') {
-                    $entry_value = HashFormHelper::render_repeater_table($entry_value);
-                } else {
-                    $entry_value = implode(',<br>', array_filter($entry_value));
-                }
-            }
-            // No profile link here: a recipient may have no access to wp-admin.
-            if ($entry_type == 'user_id') {
-                $entry_value = HashFormFieldUserID::format_value(
-                    $entry_value,
-                    HashFormFieldUserID::capture_from_options(isset($value['options']) ? $value['options'] : array()),
-                    false
-                );
-            }
-
-            if ($entry_type == 'upload' && trim($entry_value)) {
-                $files_arr = explode(',', $entry_value);
-                $upload_value = '';
-                foreach ($files_arr as $file) {
-                    $file_info = pathinfo($file);
-                    $file_name = $file_info['basename'];
-                    $file_extension = $file_info['extension'];
-
-                    $upload_value .= '<div style="margin-bottom: 10px;padding-bottom: 10px;border-bottom: 1px solid #EEE;">';
-                    $upload_value .= '<div><a href="' . esc_url($file) . '" target="_blank">';
-                    if (in_array($file_extension, array('jpg', 'jpeg', 'png', 'gif', 'bmp'))) {
-                        $upload_value .= '<img style="width:150px" src="' . esc_url($file) . '">';
-                    } else {
-                        $upload_value .= '<img style="width: 40px;border: 1px solid #666;border-radius: 6px;padding: 4px;" src="' . esc_url($file_img_placeholder) . '">';
-                    }
-                    $upload_value .= '</a></div>';
-                    $upload_value .= '<label><a href="' . esc_url($file) . '" target="_blank">';
-                    $upload_value .= esc_html($file_name) . '</a></label>';
-                    $upload_value .= '</div>';
-                }
-                $entry_value = $upload_value;
-            }
-            // Same date formatting as the entry screen.
-            $entry_value = HashFormHelper::format_date_value($entry_value, $entry_type);
-
-            /** This filter is documented in admin/entries/entry-detail.php */
-            $entry_value = apply_filters('hashform_entry_display_value', $entry_value, $entry_type, $value, 'email');
-
-            $frm_table .= call_user_func('HashFormEmail::' . $email_template, $value['name'], $entry_value, $count);
-
-            foreach ($replace_keys as $key) {
-                if (isset($form_settings[$key])) {
-                    $form_settings_val = $form_settings[$key];
-                    if ($form_settings_val && is_string($form_settings_val)) {
-                        $form_settings[$key] = str_replace('#field_id_' . $item, $entry_value, $form_settings_val);
-                    }
-                }
-            }
         }
 
-        foreach ($replace_keys as $key) {
-            if (isset($form_settings[$key])) {
-                $form_settings_val = $form_settings[$key];
-                if ($form_settings_val && is_string($form_settings_val)) {
-                    $key_val = str_replace('#form_title', $form_title, $form_settings_val);
-                    $form_settings[$key] = str_replace('#form_details', $frm_table, $key_val);
-                }
-            }
-        }
+        list($entry_values, $frm_table) = $this->entry_display_values($metas, $email_template);
+        $form_settings = $this->fill_tags($form_settings, $entry_values, $frm_table);
 
         // Submitted values were substituted in above; strip line breaks so they
         // cannot smuggle extra mail headers.
@@ -237,6 +170,105 @@ class HashFormEmail {
         $this->run_after_email($form_settings, $metas);
 
         return false;
+    }
+
+    /**
+     * Each answer as the emails show it, and the #form_details table built from them.
+     *
+     * @param array  $metas
+     * @param string $email_template template1, template2 or template3.
+     * @return array array(field id => display value, table html)
+     */
+    private function entry_display_values($metas, $email_template) {
+        $file_img_placeholder = HASHFORM_URL . 'img/attachment.png';
+        $entry_values = array();
+        $frm_table = '';
+        $count = 0;
+
+        foreach ($metas as $item => $value) {
+            $count++;
+            $entry_value = HashFormHelper::unserialize_or_decode($value['value']);
+            $entry_type = HashFormHelper::unserialize_or_decode($value['type']);
+            if (is_array($entry_value)) {
+                if ($entry_type == 'name') {
+                    $entry_value = implode(' ', array_filter($entry_value));
+                } elseif ($entry_type == 'repeater_field') {
+                    $entry_value = HashFormHelper::render_repeater_table($entry_value);
+                } else {
+                    $entry_value = implode(',<br>', array_filter($entry_value));
+                }
+            }
+            // No profile link here: a recipient may have no access to wp-admin.
+            if ($entry_type == 'user_id') {
+                $entry_value = HashFormFieldUserID::format_value(
+                    $entry_value,
+                    HashFormFieldUserID::capture_from_options(isset($value['options']) ? $value['options'] : array()),
+                    false
+                );
+            }
+
+            if ($entry_type == 'upload' && trim($entry_value)) {
+                $files_arr = explode(',', $entry_value);
+                $upload_value = '';
+                foreach ($files_arr as $file) {
+                    $file_info = pathinfo($file);
+                    $file_name = $file_info['basename'];
+                    $file_extension = $file_info['extension'];
+
+                    $upload_value .= '<div style="margin-bottom: 10px;padding-bottom: 10px;border-bottom: 1px solid #EEE;">';
+                    $upload_value .= '<div><a href="' . esc_url($file) . '" target="_blank">';
+                    if (in_array($file_extension, array('jpg', 'jpeg', 'png', 'gif', 'bmp'))) {
+                        $upload_value .= '<img style="width:150px" src="' . esc_url($file) . '">';
+                    } else {
+                        $upload_value .= '<img style="width: 40px;border: 1px solid #666;border-radius: 6px;padding: 4px;" src="' . esc_url($file_img_placeholder) . '">';
+                    }
+                    $upload_value .= '</a></div>';
+                    $upload_value .= '<label><a href="' . esc_url($file) . '" target="_blank">';
+                    $upload_value .= esc_html($file_name) . '</a></label>';
+                    $upload_value .= '</div>';
+                }
+                $entry_value = $upload_value;
+            }
+            // Same date formatting as the entry screen.
+            $entry_value = HashFormHelper::format_date_value($entry_value, $entry_type);
+
+            /** This filter is documented in admin/entries/entry-detail.php */
+            $entry_value = apply_filters('hashform_entry_display_value', $entry_value, $entry_type, $value, 'email');
+
+            $frm_table .= call_user_func('HashFormEmail::' . $email_template, $value['name'], $entry_value, $count);
+            $entry_values[$item] = $entry_value;
+        }
+
+        return array($entry_values, $frm_table);
+    }
+
+    /**
+     * Fill #field_id_N, #form_title and #form_details in the settings that take tags.
+     *
+     * @param array  $form_settings
+     * @param array  $entry_values  field id => display value
+     * @param string $frm_table
+     * @return array
+     */
+    private function fill_tags($form_settings, $entry_values, $frm_table) {
+        $replace_keys = apply_filters('hashform_replace_keys_arr', array('email_message'));
+
+        foreach ($entry_values as $item => $entry_value) {
+            foreach ($replace_keys as $key) {
+                if (isset($form_settings[$key]) && $form_settings[$key] && is_string($form_settings[$key])) {
+                    $form_settings[$key] = str_replace('#field_id_' . $item, $entry_value, $form_settings[$key]);
+                }
+            }
+        }
+
+        foreach ($replace_keys as $key) {
+            if (isset($form_settings[$key]) && $form_settings[$key] && is_string($form_settings[$key])) {
+                $key_val = str_replace('#form_title', $this->form->name, $form_settings[$key]);
+                $form_settings[$key] = str_replace('#form_details', $frm_table, $key_val);
+            }
+        }
+
+        return $form_settings;
     }
 
     /**

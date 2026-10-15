@@ -115,7 +115,7 @@ Export a form to a file and import it on another site, without rebuilding it.
 <h3>Hash Form Pro</h3>
 The free plugin is a complete form builder. <a href="https://hashformbuilder.com/">Hash Form Pro</a> is for what comes after that: taking payments, generating forms with AI, starting from a finished template and sending submissions on to the tools you already use. It extends this plugin on the same canvas, with the same styling and the same entry storage, so nothing you have built needs redoing.
 
-Pro adds 23 field types (50 in all), 20 payment gateways, 79 form templates, 18 pre-built styles, form analytics and 73 modules. A site loads only the modules it switches on.
+Pro adds 23 field types (50 in all), 20 payment gateways, 79 form templates, 18 pre-built styles, form analytics and 72 modules. A site loads only the modules it switches on.
 
 <a href="https://hashformbuilder.com/">See everything in Hash Form Pro</a> | <a href="https://hashformbuilder.com/pricing/">View pricing</a>
 
@@ -160,7 +160,7 @@ Describe the form you want in a sentence and have it built, with fields, labels,
 
 <h3>Pro: Integrations</h3>
 <ul>
-<li><strong>Email marketing: </strong>Mailchimp, ActiveCampaign, Brevo, Campaign Monitor, Constant Contact, ConvertKit, GetResponse, HubSpot, MailerLite, Mailjet, Moosend, Salesflare, Sendfox, Automizy and Airtable.</li>
+<li><strong>Email marketing: </strong>Mailchimp, ActiveCampaign, Brevo, Campaign Monitor, Constant Contact, ConvertKit, GetResponse, HubSpot, MailerLite, Mailjet, Moosend, Salesflare, Sendfox and Airtable.</li>
 <li><strong>CRM: </strong>Zoho CRM, Pipedrive and Freshsales.</li>
 <li><strong>Productivity: </strong>Slack, Discord, Microsoft Teams, Mattermost, Telegram, WhatsApp, Trello, Google Sheets, Google Calendar and a generic Webhook.</li>
 <li><strong>File storage: </strong>Google Drive and Dropbox, with image resizing on upload.</li>
@@ -220,7 +220,7 @@ No. It has 27 field types, unlimited forms and unlimited entries, with condition
 
 = What does Hash Form Pro add? =
 
-Payments through 20 gateways, AI form generation, 79 form templates, 18 pre-built styles, 23 more field types, form analytics and 73 modules of integrations. See the full list at <a href="https://hashformbuilder.com/">hashformbuilder.com</a>.
+Payments through 20 gateways, AI form generation, 79 form templates, 18 pre-built styles, 23 more field types, form analytics and 72 modules of integrations. See the full list at <a href="https://hashformbuilder.com/">hashformbuilder.com</a>.
 
 = Does Hash Form Pro replace this plugin? =
 
@@ -264,6 +264,9 @@ Yes. Add a form with the Elementor widget, the Gutenberg block or a shortcode.
 
 == Changelog ==
 = 1.4.7 - 14 Oct, 2026 =
+* Emails held back (for example until a payment completes): post submission actions now get their tags filled in, as when the email is sent
+* Upgrade to Pro screen: 72 modules, with Automizy removed now that Hash Form Pro retires it
+* Import: form settings that name a field are remapped to the imported fields through the new hashform_import_remap_settings filter
 * Form builder: the field count above the canvas kept its page-load number while fields were added, duplicated or deleted - Fixed
 * Phones: a style with a wide column gap could make a form wider than the screen; the gap between fields is dropped on phones and the gap between sub-fields, such as First and Last name, is capped - Fixed
 

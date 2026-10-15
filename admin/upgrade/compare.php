@@ -3,7 +3,7 @@ defined('ABSPATH') || die();
 /*
  * Free vs Pro, one topic at a time.
  *
- * Counts must match what the plugins ship: 27 free field types + 23 Pro (50), 79 templates, 20 gateways, 73 modules, 18 pre-built styles.
+ * Counts must match what the plugins ship: 27 free field types + 23 Pro (50), 79 templates, 20 gateways, 72 modules, 18 pre-built styles.
  */
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- included from within a method, so these are function locals.
 
@@ -94,13 +94,13 @@ $hf_topics = array(
         'title' => esc_html__('Integrations', 'hash-form'),
         'lede' => esc_html__('Send each submission on to the tools you already use. Every integration below is a module you switch on, so a site loads only what it uses.', 'hash-form'),
         'free' => esc_html__('Submissions are stored on your site and emailed.', 'hash-form'),
-        'pro' => esc_html__('73 modules across email marketing, CRM, productivity, storage, mail delivery, SMS, payments and AI.', 'hash-form'),
+        'pro' => esc_html__('72 modules across email marketing, CRM, productivity, storage, mail delivery, SMS, payments and AI.', 'hash-form'),
         'links' => array(
             array(esc_html__('Browse all integrations', 'hash-form'), $hf_site . 'integrations/'),
         ),
         'rows' => array(
-            array(esc_html__('Modules', 'hash-form'), esc_html__('Switched on one at a time from the Modules screen. The count includes the payment gateways and AI models listed under their own topics.', 'hash-form'), $hf_no(), $hf_plain(esc_html__('73', 'hash-form'))),
-            array(esc_html__('Email marketing', 'hash-form'), array('Mailchimp', 'ActiveCampaign', 'Brevo (Sendinblue)', 'Campaign Monitor', 'Constant Contact', 'ConvertKit', 'GetResponse', 'HubSpot', 'MailerLite', 'Mailjet', 'Moosend', 'Salesflare', 'Sendfox', 'Automizy', 'Airtable'), $hf_no(), $hf_plain('15'), $hf_site . 'integrations/email-marketing/'),
+            array(esc_html__('Modules', 'hash-form'), esc_html__('Switched on one at a time from the Modules screen. The count includes the payment gateways and AI models listed under their own topics.', 'hash-form'), $hf_no(), $hf_plain(esc_html__('72', 'hash-form'))),
+            array(esc_html__('Email marketing', 'hash-form'), array('Mailchimp', 'ActiveCampaign', 'Brevo (Sendinblue)', 'Campaign Monitor', 'Constant Contact', 'ConvertKit', 'GetResponse', 'HubSpot', 'MailerLite', 'Mailjet', 'Moosend', 'Salesflare', 'Sendfox', 'Airtable'), $hf_no(), $hf_plain('14'), $hf_site . 'integrations/email-marketing/'),
             array(esc_html__('CRM', 'hash-form'), array('Zoho CRM', 'Pipedrive', 'Freshsales'), $hf_no(), $hf_plain('3'), $hf_site . 'integrations/crm/'),
             array(esc_html__('Productivity', 'hash-form'), array('Slack', 'Discord', 'Microsoft Teams', 'Mattermost', 'Telegram', 'WhatsApp', 'Trello', 'Google Sheets', 'Google Calendar', 'Webhook', 'CSV Export'), $hf_no(), $hf_plain('11'), $hf_site . 'integrations/productivity/'),
             array(esc_html__('File storage', 'hash-form'), array('Google Drive', 'Dropbox', 'Image Resize'), $hf_no(), $hf_plain('3'), $hf_site . 'integrations/file-storage/'),
@@ -166,7 +166,7 @@ $hf_stats = array(
     array('50', esc_html__('field types', 'hash-form')),
     array('79', esc_html__('form templates', 'hash-form')),
     array('20', esc_html__('payment gateways', 'hash-form')),
-    array('73', esc_html__('modules', 'hash-form')),
+    array('72', esc_html__('modules', 'hash-form')),
     array('18', esc_html__('pre-built styles', 'hash-form')),
 );
 
