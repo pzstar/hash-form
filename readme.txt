@@ -264,6 +264,7 @@ Yes. Add a form with the Elementor widget, the Gutenberg block or a shortcode.
 
 == Changelog ==
 = 1.4.7 - 14 Oct, 2026 =
+* Conditional logic: showing or hiding a field now tells calculations to update, and the new HashFormValidate::hidden_field_ids() reports which fields a form's conditions hide for a set of answers
 * Emails held back (for example until a payment completes): post submission actions now get their tags filled in, as when the email is sent
 * Email templates renamed after how they look: Classic, Striped Rows and Dark Labels
 * Classic, Striped Rows and Dark Labels take on an accent color when one is set, through the new hashform_email_accent_color filter (Hash Form Pro adds the setting); without one they look as before
