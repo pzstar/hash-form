@@ -3,7 +3,7 @@ defined('ABSPATH') || die();
 /*
  * Free vs Pro, one topic at a time.
  *
- * Counts must match what the plugins ship: 27 free field types + 23 Pro (50), 79 templates, 20 gateways, 72 modules, 18 pre-built styles.
+ * Counts must match what the plugins ship: 27 free field types + 23 Pro (50), 79 templates, 20 gateways, 73 modules, 18 pre-built styles, 3 free + 10 Pro email templates.
  */
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- included from within a method, so these are function locals.
 
@@ -94,12 +94,12 @@ $hf_topics = array(
         'title' => esc_html__('Integrations', 'hash-form'),
         'lede' => esc_html__('Send each submission on to the tools you already use. Every integration below is a module you switch on, so a site loads only what it uses.', 'hash-form'),
         'free' => esc_html__('Submissions are stored on your site and emailed.', 'hash-form'),
-        'pro' => esc_html__('72 modules across email marketing, CRM, productivity, storage, mail delivery, SMS, payments and AI.', 'hash-form'),
+        'pro' => esc_html__('73 modules across email marketing, CRM, productivity, storage, mail delivery, SMS, payments and AI.', 'hash-form'),
         'links' => array(
             array(esc_html__('Browse all integrations', 'hash-form'), $hf_site . 'integrations/'),
         ),
         'rows' => array(
-            array(esc_html__('Modules', 'hash-form'), esc_html__('Switched on one at a time from the Modules screen. The count includes the payment gateways and AI models listed under their own topics.', 'hash-form'), $hf_no(), $hf_plain(esc_html__('72', 'hash-form'))),
+            array(esc_html__('Modules', 'hash-form'), esc_html__('Switched on one at a time from the Modules screen. The count includes the payment gateways and AI models listed under their own topics.', 'hash-form'), $hf_no(), $hf_plain(esc_html__('73', 'hash-form'))),
             array(esc_html__('Email marketing', 'hash-form'), array('Mailchimp', 'ActiveCampaign', 'Brevo (Sendinblue)', 'Campaign Monitor', 'Constant Contact', 'ConvertKit', 'GetResponse', 'HubSpot', 'MailerLite', 'Mailjet', 'Moosend', 'Salesflare', 'Sendfox', 'Airtable'), $hf_no(), $hf_plain('14'), $hf_site . 'integrations/email-marketing/'),
             array(esc_html__('CRM', 'hash-form'), array('Zoho CRM', 'Pipedrive', 'Freshsales'), $hf_no(), $hf_plain('3'), $hf_site . 'integrations/crm/'),
             array(esc_html__('Productivity', 'hash-form'), array('Slack', 'Discord', 'Microsoft Teams', 'Mattermost', 'Telegram', 'WhatsApp', 'Trello', 'Google Sheets', 'Google Calendar', 'Webhook', 'CSV Export'), $hf_no(), $hf_plain('11'), $hf_site . 'integrations/productivity/'),
@@ -113,8 +113,8 @@ $hf_topics = array(
     'entries' => array(
         'title' => esc_html__('Entries and notifications', 'hash-form'),
         'lede' => esc_html__('Storing, searching and emailing entries is all in the free plugin. Pro adds ways to get entries out, and to control when a form accepts them.', 'hash-form'),
-        'free' => esc_html__('Entries, notifications, autoresponder, SMTP and privacy tools.', 'hash-form'),
-        'pro' => esc_html__('CSV and PDF, front end entry lists, schedules, limits and post creation.', 'hash-form'),
+        'free' => esc_html__('Entries, notifications, autoresponder, three email templates, SMTP and privacy tools.', 'hash-form'),
+        'pro' => esc_html__('CSV and PDF, front end entry lists, schedules, limits, post creation and ten more email templates.', 'hash-form'),
         'links' => array(
             array(esc_html__('See entries and notifications', 'hash-form'), $hf_site . 'features/entries-and-notifications/'),
         ),
@@ -126,6 +126,7 @@ $hf_topics = array(
             array(esc_html__('Create a post from a submission', 'hash-form'), esc_html__('A post, a page or a custom post type entry.', 'hash-form'), $hf_no(), $hf_yes()),
             array(esc_html__('Entries stored on your site', 'hash-form'), esc_html__('Every submission kept and searchable.', 'hash-form'), $hf_yes(), $hf_yes()),
             array(esc_html__('Email notifications and autoresponder', 'hash-form'), '', $hf_yes(), $hf_yes()),
+            array(esc_html__('Email templates', 'hash-form'), esc_html__('The design of notifications and auto replies, checked with Preview first. Pro adds an accent color that all of them use.', 'hash-form'), $hf_plain('3'), $hf_plain('13')),
             array(esc_html__('SMTP', 'hash-form'), esc_html__('Send through a real mail server rather than the host.', 'hash-form'), $hf_yes(), $hf_yes()),
             array(esc_html__('Duplicate, import and export forms', 'hash-form'), esc_html__('Copy a form, or move one between sites.', 'hash-form'), $hf_yes(), $hf_yes()),
             array(esc_html__('Entry notes and starring', 'hash-form'), esc_html__('Mark and annotate a submission as you work through them.', 'hash-form'), $hf_yes(), $hf_yes()),
@@ -166,7 +167,7 @@ $hf_stats = array(
     array('50', esc_html__('field types', 'hash-form')),
     array('79', esc_html__('form templates', 'hash-form')),
     array('20', esc_html__('payment gateways', 'hash-form')),
-    array('72', esc_html__('modules', 'hash-form')),
+    array('73', esc_html__('modules', 'hash-form')),
     array('18', esc_html__('pre-built styles', 'hash-form')),
 );
 

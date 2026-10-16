@@ -72,8 +72,10 @@ class HashFormEmail {
 
         $email_message = empty($form_settings['email_message']) ? '' : wpautop($form_settings['email_message']);
 
+        $email_context = 'notification';
+        $email_entry_id = $this->entry_id;
         ob_start();
-        include(HASHFORM_PATH . 'admin/settings/email-templates/' . $email_template . '.php');
+        include self::layout_file($email_template);
         $email_message = ob_get_clean();
 
         $head = array();
@@ -106,7 +108,10 @@ class HashFormEmail {
                 $header_image = $settings['header_image'];
 
                 ob_start();
-                include(HASHFORM_PATH . 'admin/settings/email-templates/template1.php');
+                // Same look as the notification; the reply carries only its message, no answers.
+                $email_context = 'auto_responder';
+                $email_entry_id = $this->entry_id;
+                include self::layout_file($email_template);
                 $form_html = ob_get_clean();
 
                 $from_ar = ($from_ar == '[admin_email]') ? get_option('admin_email') : esc_attr($from_ar);
@@ -166,18 +171,101 @@ class HashFormEmail {
     }
 
     /**
-     * The chosen email template, limited to the shipped ones: it feeds both a callable name and an include path.
+     * Email templates by key: a label, the layout file that wraps the message, and the callable that renders one answer.
+     *
+     * @return array
      */
-    private static function email_template($settings) {
-        $template = isset($settings['email_template']) ? $settings['email_template'] : '';
-        return in_array($template, array('template1', 'template2', 'template3'), true) ? $template : 'template1';
+    public static function templates() {
+        $dir = HASHFORM_PATH . 'admin/settings/email-templates/';
+        $templates = array(
+            'template1' => array('label' => esc_html__('Classic', 'hash-form'), 'file' => $dir . 'template1.php', 'row' => array(__CLASS__, 'template1')),
+            'template2' => array('label' => esc_html__('Striped Rows', 'hash-form'), 'file' => $dir . 'template2.php', 'row' => array(__CLASS__, 'template2')),
+            'template3' => array('label' => esc_html__('Dark Labels', 'hash-form'), 'file' => $dir . 'template3.php', 'row' => array(__CLASS__, 'template3')),
+        );
+
+        /**
+         * Add email templates. The layout file gets $email_message (the message, answers included),
+         * $header_image (attachment id), $email_context ('notification', 'auto_responder' or 'test') and
+         * $email_entry_id (0 for a test);
+         * the row callable gets ($title, $entry_value, $count) and returns HTML.
+         *
+         * @param array $templates key => array('label' => string, 'file' => string, 'row' => callable)
+         */
+        $filtered = apply_filters('hashform_email_templates', $templates);
+
+        foreach ((array) $filtered as $key => $template) {
+            if (empty($template['label']) || empty($template['file']) || !is_readable($template['file']) || empty($template['row']) || !is_callable($template['row'])) {
+                unset($filtered[$key]);
+            }
+        }
+
+        return $filtered ? $filtered : $templates;
+    }
+
+    /**
+     * A known template key; anything else (a template whose plugin is gone) falls back to Classic (template1).
+     */
+    public static function email_template($settings) {
+        $template = is_array($settings) && isset($settings['email_template']) ? $settings['email_template'] : (is_string($settings) ? $settings : '');
+        $templates = self::templates();
+
+        return isset($templates[$template]) ? $template : 'template1';
+    }
+
+    /**
+     * The accent color the templates use, or '' for their own colors. Hash Form Pro sets one.
+     */
+    public static function accent_color() {
+        $color = sanitize_hex_color((string) apply_filters('hashform_email_accent_color', ''));
+
+        return $color ? $color : '';
+    }
+
+    /** $color mixed with $with; $weight is how much of $with (0-1). */
+    public static function mix_color($color, $with, $weight) {
+        $a = array_map('hexdec', str_split(self::long_hex($color), 2));
+        $b = array_map('hexdec', str_split(self::long_hex($with), 2));
+        $out = '#';
+
+        for ($i = 0; $i < 3; $i++) {
+            $out .= sprintf('%02x', (int) round($a[$i] + ($b[$i] - $a[$i]) * $weight));
+        }
+
+        return $out;
+    }
+
+    /** White or near-black, whichever reads better on $color. */
+    public static function text_on_color($color) {
+        list($r, $g, $b) = array_map('hexdec', str_split(self::long_hex($color), 2));
+
+        return (0.299 * $r + 0.587 * $g + 0.114 * $b) > 160 ? '#111827' : '#ffffff';
+    }
+
+    private static function long_hex($color) {
+        $hex = ltrim((string) $color, '#');
+
+        return 3 === strlen($hex) ? $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2] : str_pad(substr($hex, 0, 6), 6, '0');
+    }
+
+    /** One answer rendered by the template. */
+    public static function render_row($template, $title, $entry_value, $count) {
+        $templates = self::templates();
+
+        return (string) call_user_func($templates[self::email_template($template)]['row'], $title, $entry_value, $count);
+    }
+
+    /** The template's layout file. */
+    public static function layout_file($template) {
+        $templates = self::templates();
+
+        return $templates[self::email_template($template)]['file'];
     }
 
     /**
      * Each answer as the emails show it, and the #form_details table built from them.
      *
      * @param array  $metas
-     * @param string $email_template template1, template2 or template3.
+     * @param string $email_template A key from templates().
      * @return array array(field id => display value, table html)
      */
     private function entry_display_values($metas, $email_template) {
@@ -236,7 +324,7 @@ class HashFormEmail {
             /** This filter is documented in admin/entries/entry-detail.php */
             $entry_value = apply_filters('hashform_entry_display_value', $entry_value, $entry_type, $value, 'email');
 
-            $frm_table .= call_user_func('HashFormEmail::' . $email_template, $value['name'], $entry_value, $count);
+            $frm_table .= self::render_row($email_template, $value['name'], $entry_value, $count);
             $entry_values[$item] = $entry_value;
         }
 
@@ -307,12 +395,14 @@ class HashFormEmail {
         ob_start();
         $border_style = '';
 
+        $accent = self::accent_color();
+
         if ($count == 1) {
-            $border_style = 'border-top: 5px solid #4183D7;';
+            $border_style = 'border-top: 5px solid ' . ($accent ? $accent : '#4183D7') . ';';
         }
 
         if ($count % 2 == 0) {
-            $style = 'background: #f9f9ff;';
+            $style = 'background: ' . ($accent ? self::mix_color($accent, '#ffffff', 0.94) : '#f9f9ff') . ';';
         } else {
             $style = 'background: #FFFFFF;';
         }
@@ -333,12 +423,16 @@ class HashFormEmail {
     }
 
     public static function template3($title, $entry_value, $count) {
+        // The bars stay dark: the accent deepened, with whichever text color reads on it.
+        $accent = self::accent_color();
+        $bar = $accent ? self::mix_color($accent, '#000000', 0.3) : '#000';
+        $bar_text = $accent ? self::text_on_color($bar) : '#FFF';
         ob_start();
         ?>
         <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; background:#FFF; margin-bottom: 25px">
             <tbody>
                 <tr>
-                    <th style="font-family: sans-serif; font-size: 14px; vertical-align: top;text-align:left; line-height: 18px;background: #000;color: #FFF;text-transform: uppercase;padding: 10px 20px;" valign="top"><?php echo esc_html($title); ?></th>
+                    <th style="font-family: sans-serif; font-size: 14px; vertical-align: top;text-align:left; line-height: 18px;background: <?php echo esc_attr($bar); ?>;color: <?php echo esc_attr($bar_text); ?>;text-transform: uppercase;padding: 10px 20px;" valign="top"><?php echo esc_html($title); ?></th>
                 </tr>
                 <tr>
                     <td style="font-family: sans-serif; font-size: 14px; vertical-align: top; padding: 10px 0 0 0; line-height: 18px;padding: 20px !important;" valign="top"><?php echo wp_kses_post($entry_value); ?></td>
