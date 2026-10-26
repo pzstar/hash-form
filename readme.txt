@@ -264,6 +264,7 @@ Yes. Add a form with the Elementor widget, the Gutenberg block or a shortcode.
 
 == Changelog ==
 = 1.4.7 - 21 Oct, 2026 =
+* A page with a form could stop with a fatal error when an add-on such as Hash Form Pro was loaded after Hash Form (for example after a site migration); a field whose class is missing now asks add-ons to load it, and falls back to a text field instead of breaking the page - Fixed
 * Conditional logic: showing or hiding a field now tells calculations to update, and the new HashFormValidate::hidden_field_ids() reports which fields a form's conditions hide for a set of answers
 * Emails held back (for example until a payment completes): post submission actions now get their tags filled in, as when the email is sent
 * Email templates renamed after how they look: Classic, Striped Rows and Dark Labels
