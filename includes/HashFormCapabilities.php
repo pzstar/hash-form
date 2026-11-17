@@ -4,9 +4,6 @@ defined('ABSPATH') || die();
 
 /**
  * Granular capabilities for the plugin's admin screens and ajax endpoints.
- *
- * Users with manage_options hold all of them through user_has_cap, unless
- * hashform_grant_caps_to_admins returns false.
  */
 class HashFormCapabilities {
 

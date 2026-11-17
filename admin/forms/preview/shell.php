@@ -2,11 +2,7 @@
 defined('ABSPATH') || die();
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- included from within a method, so these are function locals.
 
-/*
- * Preview shell: a toolbar and an iframe holding the form.
- *
- * No wp_head()/wp_footer() here; theme and front-end assets load only inside the frame.
- */
+/* Preview shell: a toolbar and an iframe holding the form. */
 
 $hf_widths = HashFormPreview::preview_widths();
 $hf_can_edit = HashFormCapabilities::user_can('hashform_edit_forms');
@@ -139,8 +135,7 @@ $hf_can_edit = HashFormCapabilities::user_can('hashform_edit_forms');
                 padding: 0;
             }
 
-            /* Padding only once the frame is narrowed, so a desktop preview is
-               edge to edge exactly as the page would be. */
+            /* Padding only once the frame is narrowed. */
             .hfp-stage.is-constrained { padding: 24px; }
 
             .hfp-frame {

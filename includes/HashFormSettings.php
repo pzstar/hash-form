@@ -14,8 +14,7 @@ class HashFormSettings {
     }
 
     public function menu() {
-        // With Pro active, settings live in the Modules screen popups. Pro registers this slug as a
-        // hidden page itself, so OAuth redirect URIs registered with Google, Dropbox and Trello keep working.
+        // With Pro active, settings live in the Modules popups; Pro keeps this slug for OAuth redirects.
         if (!defined('HASH_FORM_PRO_VERSION')) {
             add_submenu_page('hashform', 'Hash Form | ' . esc_html__('Settings', 'hash-form'), esc_html__('Settings', 'hash-form'), 'hashform_manage_settings', 'hashform-settings', array($this, 'route'));
         }
@@ -158,14 +157,12 @@ class HashFormSettings {
         </div>
         <script>
         (function () {
-            // Keep the selected tab in the form action and the address bar so
-            // saving (or reloading) returns to the same section.
+            // Keep the selected tab in the form action and the address bar.
             var form = document.forms['hashform_settings_form'];
             if (!form) {
                 return;
             }
-            // Tell the server which checkboxes this page rendered, so it only
-            // forces those off when they are unchecked (absent from the POST).
+            // Tell the server which checkboxes this page rendered, so only those are turned off.
             form.addEventListener('submit', function () {
                 var keys = [];
                 form.querySelectorAll('input[type="checkbox"]').forEach(function (box) {
@@ -205,8 +202,7 @@ class HashFormSettings {
         $posted = HashFormHelper::get_post('hashform_settings', 'esc_html');
         $posted = is_array($posted) ? $posted : array();
 
-        // Unchecked checkboxes are absent from the POST. Only force off those this page rendered
-        // (listed by its JS), so settings managed elsewhere survive.
+        // Unchecked boxes are absent from the POST: turn off only those this page rendered.
         $rendered = HashFormHelper::get_post('hashform_rendered_checkboxes', 'sanitize_text_field');
         $rendered = $rendered ? array_filter(array_map('sanitize_key', explode(',', $rendered))) : array_keys(self::checkbox_settings());
         foreach ($rendered as $checkbox_key) {
@@ -217,8 +213,7 @@ class HashFormSettings {
 
         $posted = HashFormHelper::sanitize_array($posted, self::sanitize_rules());
 
-        // Merge over the saved options instead of replacing them, so fields
-        // not present on this page are preserved.
+        // Merge over the saved options, so settings from other pages are kept.
         $settings = array_merge(self::get_settings(), $posted);
 
         update_option('hashform_options', $settings);

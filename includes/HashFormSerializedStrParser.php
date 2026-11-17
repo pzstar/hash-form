@@ -73,7 +73,6 @@ class HashFormSerializedStrParser {
 
             default:
                 // Includes case 'N' and case 'O'.
-                // Treat a serialized object or anything unexpected as Null.
                 $val = null;
                 break;
         }//end switch

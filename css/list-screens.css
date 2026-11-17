@@ -1,7 +1,5 @@
 /**
  * Forms and Entries list screens, styled over the WP_List_Table markup.
- *
- * Scoped to .hf-list-screen so nothing here reaches other admin screens.
  */
 
 .hf-list-screen {
@@ -27,8 +25,7 @@
     display: none;
 }
 
-/* A direct child of #wpcontent. clear:none so it does not clear the floated
-   admin menu; the negative margin cancels #wpcontent's 20px offset. */
+/* A direct child of #wpcontent. clear:none so it does not clear the floated admin menu. */
 #wpcontent > .hf-list-header {
     clear: none;
     margin-left: -20px;
@@ -52,8 +49,7 @@ body.hf-styles-list .wrap > .wp-header-end {
 
 /* ---------- Header ---------- */
 
-/* Take the Screen Options tab out of flow so the header bar starts at the top
-   and spans the full width; the tab hangs over its top right corner. */
+/* Take the Screen Options tab out of flow. */
 #wpbody-content:has(.hf-list-screen) {
     position: relative;
 }
@@ -75,8 +71,7 @@ body.hf-styles-list .wrap > .wp-header-end {
     padding: 0;
 }
 
-/* The padding lines the title and Add New up with the table. Everything in the
-   bar is scoped to .hf-list-header: it is printed outside .hf-list-screen. */
+/* The padding lines the title and Add New up with the table. */
 .hf-list-header-inner {
     align-items: center;
     display: flex;
@@ -98,8 +93,7 @@ body.hf-styles-list .wrap > .wp-header-end {
     padding: 0;
 }
 
-/* A screen that edits one thing names it here, so the input wears the title's
-   own type and stays quiet until it is reached for. */
+/* A screen that edits one thing names it here. */
 .hf-list-header .hf-list-title-field {
     display: flex;
     flex: 1 1 auto;
@@ -170,11 +164,7 @@ body.hf-styles-list .wrap > .wp-header-end {
 
 /* ---------- Documentation link ---------- */
 
-/*
- * The documentation link in the shared page bar, matching the Modules screen's
- * (.hf-version a in Pro's modules-ui.css). margin-left:auto groups it with the
- * action button on the right.
- */
+/* The documentation link in the shared page bar, matching the Modules screen's (.hf-version a in Pro's modules-ui.css). margin-left:auto groups it with the action button on the right. */
 .hf-list-header .hf-list-docs {
     margin: 0 0 0 auto;
 }
@@ -265,11 +255,7 @@ body.hf-styles-list .wrap > .wp-header-end {
     }
 }
 
-/* ---------- Status links and filters ----------
- *
- * Selectors are paired for the plugin's .hf-view-tab links and core's
- * <ul class="subsubsub"> markup.
- */
+/* ---------- Status links and filters ---------- */
 
 /* Status tabs and the search box share one row above the table. */
 .hf-list-screen .hf-list-toolbar {
@@ -292,8 +278,7 @@ body.hf-styles-list .wrap > .wp-header-end {
     padding: 0;
 }
 
-/* Core puts a pipe between the links; it is hidden rather than removed so
-   the markup stays as core wrote it. */
+/* Core puts a pipe between the links. */
 .hf-list-screen .subsubsub li {
     color: transparent;
     margin: 0;
@@ -393,9 +378,7 @@ body.hf-styles-list .wrap > .wp-header-end {
     margin: 0;
 }
 
-/* Undo the token sheet's 100% width so a control stays on a line with its
-   button. Not on the Settings screen, which is a stack of settings panels, and
-   not the Modules sidebar search, which fills its column. */
+/* Undo the token sheet's 100% width so a control stays on a line with its button. */
 .hf-list-screen:not(.hf-settings-screen) select,
 .hf-list-screen:not(.hf-settings-screen) input[type="search"]:not(.hf-modules-search-input),
 .hf-list-screen:not(.hf-settings-screen) input[type="text"] {
@@ -416,10 +399,7 @@ body.hf-styles-list .wrap > .wp-header-end {
     outline: 0;
 }
 
-/* The secondary buttons around the table: Bulk actions, Apply, Search. Scoped
-   to .wrap to keep the header's Add New and the Settings Save button out, and
-   primary buttons with them: they are white on the accent colour, and this rule
-   would repaint that label in the body text colour. */
+/* The secondary buttons around the table: Bulk actions, Apply, Search. */
 .hf-list-screen:not(.hf-settings-screen) .wrap .button:not(.hf-trigger-modal):not(.button-primary) {
     border-color: var(--hf-border-strong, #d3d8e0);
     border-radius: var(--hf-radius-sm, 4px);
@@ -632,8 +612,7 @@ body.hf-styles-list .wrap > .wp-header-end {
     color: var(--hf-accent-text, #a3591b);
 }
 
-/* Copy confirmation. The icon becomes a tick rather than moving anything, so
-   the row does not reflow under the pointer. */
+/* Copy confirmation. */
 .hf-list-screen .hf-shortcode-chip.is-copied {
     border-color: var(--hf-success, #2e9e5b);
     color: var(--hf-success, #2e9e5b);
@@ -694,9 +673,7 @@ body.hf-styles-list .wrap > .wp-header-end {
     margin: var(--hf-space-5, 24px) 0 0;
 }
 
-/* ---------- Pagination ----------
- *
- * One flex row, placed after the button rules it ties with on specificity. */
+/* ---------- Pagination ---------- */
 
 .hf-list-screen .tablenav-pages {
     align-items: center;
@@ -719,8 +696,7 @@ body.hf-styles-list .wrap > .wp-header-end {
     gap: var(--hf-space-1, 4px);
 }
 
-/* Arrows and the disabled spans core swaps in for them share one square
-   footprint, so the group keeps its shape on the first and last page. */
+/* Arrows and the disabled spans core swaps in for them share one square footprint. */
 .hf-list-screen .pagination-links .button,
 .hf-list-screen .pagination-links .tablenav-pages-navspan {
     align-items: center;
@@ -797,8 +773,7 @@ body.hf-styles-list .wrap > .wp-header-end {
         padding-right: var(--hf-space-3, 12px);
     }
 
-    /* On a phone there is no width to spare for the tab to hang over, so put
-       it back in the flow and let the bar clear it as WP intends. */
+    /* On a phone there is no width to spare for the tab to hang over. */
     #wpbody-content:has(.hf-list-screen) > #screen-meta-links {
         float: right;
         margin: 0 20px 0 0;

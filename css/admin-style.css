@@ -466,8 +466,7 @@ body.hf-form-has-fields .hf-drag-hint {
     min-width: 0;
 }
 
-/* Flex, not grid, so the span classes the stacked fields still carry (they
-   describe the column's width, for the front end) have no effect in here. */
+/* Flex, not grid, so the span classes the stacked fields still carry have no effect here. */
 #hf-editor-wrap .hf-editor-column-fields {
     display: flex;
     flex-direction: column;
@@ -502,8 +501,7 @@ body.hf-form-has-fields .hf-drag-hint {
     position: relative;
 }
 
-/* Kept together at the top right and lifted clear of the row, so they read as
-   the row's own controls rather than the fields'. */
+/* Kept together at the top right and lifted clear of the row. */
 #hf-editor-wrap .hf-editor-columns-wrapper > .hf-editor-row-actions {
     gap: 4px;
     justify-content: flex-end;
@@ -529,8 +527,7 @@ body.hf-form-has-fields .hf-drag-hint {
     background: #f4f4ff;
 }
 
-/* The row a field is about to join: :has() picks the innermost .hf-dropabble,
-   and only while something is being dragged. */
+/* The row a field is about to join. */
 body.hf-dragging #hf-editor-wrap ul.hf-editor-sorting.hf-dropabble:not(:has(.hf-dropabble)) {
     background: rgba(99, 102, 241, .05);
     border-radius: 8px;
@@ -604,8 +601,7 @@ body.hf-dragging #hf-editor-wrap ul.hf-editor-sorting.hf-dropabble:not(:has(.hf-
     z-index: 99;
 }
 
-/* The field being moved, following the cursor at its own width. Tall fields
-   are cut off rather than trailing half a page behind the pointer. */
+/* The field being moved, following the cursor at its own width. */
 .hf-editor-field-box.hf-drag-ghost {
     background: #fff;
     border-radius: 4px;
@@ -617,8 +613,7 @@ body.hf-dragging #hf-editor-wrap ul.hf-editor-sorting.hf-dropabble:not(:has(.hf-
     z-index: 99;
 }
 
-/* No hover chrome while dragging. The id matches the weight of
-   #hf-editor-wrap .hf-editor-action-buttons, which sets display:flex. */
+/* No hover chrome while dragging. */
 #hf-editor-wrap .hf-drag-ghost .hf-editor-action-buttons {
     display: none;
 }
@@ -899,8 +894,7 @@ body.hf-dragging #hf-editor-wrap ul.hf-editor-sorting.hf-dropabble:not(:has(.hf-
     display: inline-block;
 }
 
-/* Keeps Move at the left edge and groups Duplicate with Delete at the right,
-   rather than letting space-between strand Duplicate in the middle. */
+/* Keeps Move at the left edge and groups Duplicate with Delete at the right. */
 #hf-editor-wrap .hf-editor-action-buttons > .hf-editor-duplicate-action {
     margin-left: auto;
 }
@@ -1057,10 +1051,7 @@ body.hf-dragging #hf-editor-wrap ul.hf-editor-sorting.hf-dropabble:not(:has(.hf-
     margin: 0;
 }
 
-/* =========== Image picker (admin) ===========
- *
- * Shared by the image and image-select field settings and the email header image.
- */
+/* =========== Image picker (admin) =========== */
 
 /* Empty state, drawn like the import dropzone so the two read as the same
    kind of control. */
@@ -1127,8 +1118,7 @@ body.hf-dragging #hf-editor-wrap ul.hf-editor-sorting.hf-dropabble:not(:has(.hf-
     padding: var(--hf-space-2, 8px);
 }
 
-/* contain, not cover: this is a preview of the whole asset, and a logo
-   cropped to fill would misrepresent it. */
+/* contain, not cover: this is a preview of the whole asset. */
 .hf-image-preview-box img {
     display: block;
     height: auto;
@@ -1206,10 +1196,7 @@ body.hf-dragging #hf-editor-wrap ul.hf-editor-sorting.hf-dropabble:not(:has(.hf-
     z-index: 8;
 }
 
-/* =========== Bulk Edit Options dialog ===========
- *
- * A jQuery UI dialog, given the plugin's modal look and stripped of .postbox styling.
- */
+/* =========== Bulk Edit Options dialog =========== */
 
 #hf-bulk-edit-modal {
     display: none;
@@ -1247,8 +1234,7 @@ body.hf-dragging #hf-editor-wrap ul.hf-editor-sorting.hf-dropabble:not(:has(.hf-
     padding: var(--hf-space-4, 16px) var(--hf-space-5, 24px);
 }
 
-/* Anchored on the id so it beats wp-admin's own heading rules outright
-   rather than by loading later than they do. */
+/* Anchored on the id so it beats wp-admin's own heading rules outright. */
 #hf-bulk-edit-modal .hf-bulk-edit-modal-header h2 {
     color: var(--hf-text, #1e2327);
     font-size: var(--hf-font-lg, 16px);
@@ -1284,8 +1270,7 @@ body.hf-dragging #hf-editor-wrap ul.hf-editor-sorting.hf-dropabble:not(:has(.hf-
     outline-offset: 1px;
 }
 
-/* The editor takes the room and the presets a fixed column beside it. The body
-   scrolls, so the header bar and footer buttons stay reachable. */
+/* The editor takes the room and the presets a fixed column beside it. */
 .hf-bulk-edit-body.hf-editor-grid-container {
     display: grid;
     gap: var(--hf-space-5, 24px);
@@ -1480,8 +1465,7 @@ body.hf-dragging #hf-editor-wrap ul.hf-editor-sorting.hf-dropabble:not(:has(.hf-
     margin: 0;
 }
 
-/* The twin of the rule in the front-end sheet, so the canvas spaces several
-   paragraphs the same way the page will. */
+/* The twin of the rule in the front-end sheet. */
 .hf-editor-field-type-paragraph p {
     margin: 0 0 1em;
 }
@@ -2178,8 +2162,7 @@ h4.hf-field-heading {
     display: flex;
 }
 
-/* Centered by the flex parent so a tall panel scrolls. width stays a bare
-   class selector so Pro's 800px rule keeps winning. */
+/* Centered by the flex parent so a tall panel scrolls. width stays a bare class selector so Pro's 800px rule keeps winning. */
 .hf-shortcode-modal-wrap,
 .hf-add-form-modal-wrap {
     animation: hf-modal-in .2s ease;
@@ -2245,8 +2228,7 @@ h4.hf-field-heading {
     padding: var(--hf-space-4, 16px) var(--hf-space-7, 48px) var(--hf-space-4, 16px) var(--hf-space-6, 32px);
 }
 
-/* Everything but the header and close button is the body, which pads and
-   scrolls. An exclusion because Pro's template uses a different body element. */
+/* Everything but the header and close button is the body, which pads and scrolls. */
 .hf-shortcode-modal-wrap > *:not(h3):not(.hf-modal-close),
 .hf-add-form-modal-wrap > *:not(h3):not(.hf-modal-close) {
     flex: 1 1 auto;
@@ -2450,8 +2432,7 @@ body.hf-modal-open {
     outline-offset: 1px;
 }
 
-/* Confirmation swaps the icon for a tick rather than moving anything, so the
-   row does not reflow under the pointer. */
+/* Confirmation swaps the icon for a tick. */
 .hf-embed-copy.is-copied {
     border-color: var(--hf-success, #2e9e5b);
     color: var(--hf-success, #2e9e5b);
@@ -2543,8 +2524,7 @@ body.hf-modal-open {
     animation: hf-spin 0.4s infinite linear;
 }
 
-/* The embed dialog's own footer sits below the last method, with a rule to
-   separate it the way the methods are separated from each other. */
+/* The embed dialog's own footer sits below the last method. */
 .hf-shortcode-footer {
     border-top: 1px solid var(--hf-border, #e2e5ea);
     justify-content: flex-end;
@@ -2591,8 +2571,7 @@ form.hf-error {
     color: var(--hf-danger, #d3383c);
 }
 
-/* Dismissal belongs to the component rather than to whichever script raised it,
-   so the toast leaves the same way wherever it was shown from. */
+/* Dismissal belongs to the component. */
 .hf-updated-info.hf-dismissing {
     opacity: 0;
     pointer-events: none;
@@ -2633,8 +2612,7 @@ form.hf-error {
     }
 }
 
-/* Loading state for a panel (and the typography field while fonts load): dimmed
-   and inert, keeping its size, with a spinner over it. */
+/* Loading state for a panel (and the typography field while fonts load). */
 .hf-content-loading,
 .hf-typography-loading {
     pointer-events: none;
@@ -2775,8 +2753,7 @@ form.hf-error {
     top: auto;
 }
 
-/* And from its left edge when right-aligning would run it out of the panel —
-   the builder's field editor sidebar is only 300px wide and clips. */
+/* And from its left edge when right-aligning would run it out of the panel. */
 .hf-attr-field.hf-attr-left .hf-add-field-attr-to-form {
     left: 0;
     right: auto;
@@ -2787,8 +2764,7 @@ form.hf-error {
     display: block;
 }
 
-/* Search row. Added by the script only when the list is long enough to be
-   worth filtering, and pinned so it stays reachable while scrolling. */
+/* Search row. */
 .hf-add-field-attr-to-form .hf-attr-search {
     background: var(--hf-surface, #fff);
     border-bottom: 1px solid var(--hf-border, #e2e5ea);
@@ -2826,8 +2802,7 @@ form.hf-error {
     width: auto;
 }
 
-/* .hf-hidden alone is one class against this block's class-plus-element
-   rules, so it would lose and a filtered-out row would stay on screen. */
+/* .hf-hidden alone is one class against this block's class-plus-element rules. */
 .hf-add-field-attr-to-form li.hf-hidden {
     display: none;
 }
@@ -2889,10 +2864,7 @@ form.hf-error {
     padding: var(--hf-space-5) var(--hf-space-6);
 }
 
-/*
- * The controls that act on the screen, on one row above the title: back on the
- * left, previous/next on the right.
- */
+/* The controls that act on the screen, on one row above the title. */
 .hf-entry-toolbar {
     align-items: center;
     display: flex;
@@ -2927,11 +2899,7 @@ form.hf-error {
     gap: var(--hf-space-3);
 }
 
-/*
- * Scoped with a child combinator so a table nested in a cell (repeater rows) is
- * not styled as the entry table. Pro's hf_after_entry_detail_view tables are
- * siblings of it and share these rules.
- */
+/* Scoped with a child combinator. */
 #hf-form-entry-details > table {
     border-collapse: collapse;
     margin: 0;
@@ -2964,8 +2932,7 @@ form.hf-error {
     vertical-align: top;
 }
 
-/* Between rows only, so the first answer does not sit under a second line
-   immediately below the header. */
+/* Between rows only, so the first answer does not sit under a second line immediately below the header. */
 #hf-form-entry-details > table > tbody > tr + tr > th,
 #hf-form-entry-details > table > tbody > tr + tr > td {
     border-top: 1px solid var(--hf-border);
@@ -3065,8 +3032,7 @@ form.hf-error {
     pointer-events: none;
 }
 
-/* The large star matches the buttons beside it. Both classes, to outweigh the
-   list's icon-only .hf-entry-star rules further down. */
+/* The large star matches the buttons beside it. */
 .hf-entry-star.hf-entry-star-large {
     align-items: center;
     background: var(--hf-surface);
@@ -3302,8 +3268,7 @@ form.hf-error {
     min-height: 0;
 }
 
-/* Shared by the Import/Export setting and the Import tab of the Create New Form
-   dialog. No max-width: both containers are already the right width. */
+/* Shared by the Import/Export setting and the Import tab of the Create New Form dialog. */
 .hf-dropzone-wrapper {
     background: var(--hf-surface-sunken, #fafbfc);
     border: 2px dashed var(--hf-border-strong, #d3d8e0);
@@ -3315,8 +3280,7 @@ form.hf-error {
     transition: background-color var(--hf-transition, .15s ease), border-color var(--hf-transition, .15s ease), color var(--hf-transition, .15s ease);
 }
 
-/* The style sidebar is narrow, so this one stays compact — the larger icon
-   below would not fit in 90px. */
+/* The style sidebar is narrow. */
 .hf-style-sidebar .hf-dropzone-wrapper {
     min-height: 90px;
 }
@@ -3441,9 +3405,7 @@ form.hf-error {
     color: var(--hf-danger, #d3383c);
 }
 
-/* Nothing to import until a file is chosen. Matched on the button rather
-   than its id so the dialog's Import tab behaves the same as the settings
-   panel, which uses a different id for the same button. */
+/* Nothing to import until a file is chosen. */
 .hf-preview-zone.hidden + .hf-dropzone-wrapper + .button {
     display: none;
 }
@@ -3515,8 +3477,7 @@ form.hf-error {
     max-width: calc(900px + 240px + var(--hf-space-4, 16px));
 }
 
-/* Follows down the page rather than leaving the tabs above the fold on a long
-   section, and stops below the admin bar. */
+/* Follows down the page rather than leaving the tabs above the fold on a long section. */
 .hf-settings-screen .hf-settings-nav {
     background: var(--hf-surface, #fff);
     border: 1px solid var(--hf-border, #e2e5ea);
@@ -3533,8 +3494,7 @@ form.hf-error {
     border: 1px solid var(--hf-border, #e2e5ea);
     border-radius: var(--hf-radius, 8px);
     box-shadow: var(--hf-shadow, 0 1px 2px rgba(16, 24, 40, .05));
-    /* min-width:0 so a wide control inside cannot push the panel past the
-       flex line and out from under the nav rail. */
+    /* min-width:0 so a wide control inside cannot push the panel past the flex line and out from under the nav rail. */
     flex: 1 1 auto;
     min-width: 0;
 }
@@ -3543,8 +3503,7 @@ form.hf-error {
     padding: var(--hf-space-5, 24px);
 }
 
-/* The save bar is part of the panel, and sticky because the captcha section is
-   long enough to scroll Save off screen. */
+/* The save bar is part of the panel. */
 .hf-settings-screen .hf-footer {
     border-radius: 0 0 var(--hf-radius, 8px) var(--hf-radius, 8px);
     bottom: 0;
@@ -3594,8 +3553,7 @@ form.hf-error {
     max-width: 68ch;
 }
 
-/* The description on the threshold row explains the slider that follows it,
-   so it belongs between the label and the control, not after both. */
+/* The description on the threshold row explains the slider that follows it. */
 .hf-settings-screen .hf-settings-row > p.hf-desc {
     margin: 0 0 var(--hf-space-3, 12px);
 }
@@ -3605,8 +3563,7 @@ form.hf-error {
     max-width: 480px;
 }
 
-/* A key or a language picker does not need the whole panel; the token sheet
-   stretches every field to 100% for the narrow panels it was written for. */
+/* A key or a language picker does not need the whole panel. */
 .hf-settings-screen .hf-settings-row input[type="text"],
 .hf-settings-screen .hf-settings-row input[type="email"],
 .hf-settings-screen .hf-settings-row input[type="password"],
@@ -4096,11 +4053,7 @@ form.hf-error {
 
 
 
-/* Alert
- *
- * The save toast on the style template editor, the same card as .hf-updated-info.
- * The script toggles hf-alert-active / -success / -warning.
- */
+/* Alert: the save toast on the style template editor, the same card as .hf-updated-info. */
 .hf-alert {
     align-items: center;
     background: #fff;
@@ -4125,8 +4078,7 @@ form.hf-error {
     z-index: 99999;
 }
 
-/* The status icon is drawn here rather than in the markup, because the script
-   replaces the message span's contents with plain text from the server. */
+/* The status icon is drawn here. */
 .hf-alert:before {
     color: #1a9e5c;
     content: "\F05E0";
@@ -4238,8 +4190,7 @@ form.hf-error {
 }
 
 /* Notes and resend, on the entry detail screen */
-/* The two things that act on the entry rather than describe it, set on a
-   sunken strip so they read as a footer to the record and not as more of it. */
+/* The two things that act on the entry. */
 .hf-entry-tools {
     background: var(--hf-surface-sunken);
     border-top: 1px solid var(--hf-border);
@@ -4271,8 +4222,7 @@ form.hf-error {
     margin: 0 0 var(--hf-space-3);
 }
 
-/* The token control styles are scoped to wrappers this screen does not carry,
-   so the note field states what it needs itself. */
+/* The token control styles are scoped to wrappers this screen does not carry. */
 .hf-entry-note-field {
     border: 1px solid var(--hf-border-strong);
     border-radius: var(--hf-radius-sm);
@@ -4300,8 +4250,7 @@ form.hf-error {
     margin: var(--hf-space-3) 0 0;
 }
 
-/* Both requests disable their button for the duration and say nothing else,
-   so the disabled state is the only thing telling anyone work is in hand. */
+/* Both requests disable their button for the duration and say nothing else. */
 .hf-entry-tools .hf-btn:disabled {
     cursor: default;
     opacity: .6;
@@ -4314,10 +4263,7 @@ form.hf-error {
     margin: 0;
 }
 
-/*
- * Not hidden while empty: both are role="status" live regions, and display:none
- * would drop them from the accessibility tree.
- */
+/* Not hidden while empty: both are role="status" live regions. */
 
 .hf-entry-status-error,
 .hf-entry-delivery-failed {
@@ -4331,8 +4277,7 @@ form.hf-error {
         padding: var(--hf-space-4);
     }
 
-    /* Two columns cannot hold a label and a long answer at this width, so the
-       answer moves under its label. */
+    /* Two columns cannot hold a label and a long answer at this width. */
     #hf-form-entry-details > table > tbody > tr > th,
     #hf-form-entry-details > table > tbody > tr > td {
         display: block;
@@ -4628,8 +4573,7 @@ form.hf-error {
 
 .hf-up-col { display: none; }
 
-/* In the full comparison the topic is one band over its rows: its name, a link
-   and the column labels, standing in for the table's own header. */
+/* In the full comparison the topic is one band over its rows. */
 .hf-up-all .hf-up-lede,
 .hf-up-all .hf-up-versus,
 .hf-up-all .hf-up-links .button:not(.button-primary) { display: none; }

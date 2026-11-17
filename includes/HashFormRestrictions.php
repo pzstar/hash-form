@@ -4,8 +4,6 @@ defined('ABSPATH') || die();
 
 /**
  * Decides whether a form is currently accepting submissions. Checked on render and again on submit.
- *
- * Add-ons, including Pro, add rules through the hashform_form_restrictions filter.
  */
 class HashFormRestrictions {
 

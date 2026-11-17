@@ -75,16 +75,14 @@ class HashFormFields {
     public static function duplicate_field($field_id) {
         global $wpdb;
 
-        // Read the row raw: fill_field() expects the serialized columns, the
-        // same way duplicate_fields() feeds it when copying a whole form.
+        // Read the row raw: fill_field() expects the serialized columns, the same way duplicate_fields() feeds it when copying a whole form.
         $field = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}hashform_fields WHERE id=%d", absint($field_id)));
 
         if (!$field) {
             return false;
         }
 
-        // Sections own the fields nested inside them, so copying one on its own
-        // would leave the copy empty and its end marker orphaned.
+        // Sections own their nested fields, so one can't be copied on its own.
         if (in_array($field->type, array('divider', 'end_divider'), true)) {
             return false;
         }
@@ -371,7 +369,7 @@ class HashFormFields {
         $new_values['field_key'] = sanitize_text_field(HashFormHelper::get_unique_key('hashform_fields', 'field_key'));
         $new_values['name'] = sanitize_text_field($values['name']);
         $new_values['type'] = sanitize_text_field($values['type']);
-        // Sanitized for the field's type, so an HTML field's markup survives duplication, import and templates.
+        // Sanitized for the field's type, so an HTML field keeps its markup.
         $new_values['description'] = HashFormHelper::sanitize_field_description($values['description'], $new_values['type']);
         $new_values['field_order'] = isset($values['field_order']) ? absint($values['field_order']) : '';
         $new_values['required'] = $values['required'] ? true : false;
@@ -468,7 +466,7 @@ class HashFormFields {
 
         $values['options'] = serialize(is_array($values['options']) ? HashFormHelper::sanitize_array($values['options']) : sanitize_text_field($values['options']));
 
-        // get_field_vars() unslashes everything it reads, so a Format regex needs its backslashes doubled first.
+        // get_field_vars() unslashes everything, so Format regex backslashes are doubled first.
         self::preserve_format_option_backslashes($values);
 
         $values['field_options'] = serialize(HashFormHelper::sanitize_array($values['field_options'], HashFormHelper::get_field_options_sanitize_rules()));
@@ -754,8 +752,6 @@ class HashFormFields {
 
     /**
      * Render the form's fields, wrapping fields that share a column_group in one grid cell.
-     *
-     * Empty columns still get their cell so the columns beside them keep their place.
      */
     public static function show_fields($fields) {
         $open_group = '';
@@ -801,8 +797,7 @@ class HashFormFields {
         return false;
     }
 
-    // Lays down the columns of the row that come before this one and were never
-    // filled, then opens this one. Hands back what is left of the row.
+    // Lays down the columns of the row that come before this one and were never filled.
     private static function open_column($row, $group, $field) {
         while (!empty($row)) {
             $column = array_shift($row);
@@ -821,8 +816,7 @@ class HashFormFields {
         return $row;
     }
 
-    // Empties out whatever is left of a row, and hands back a row with nothing
-    // waiting in it.
+    // Empties out whatever is left of a row, and hands back a row with nothing waiting in it.
     private static function show_empty_columns($row) {
         foreach ($row as $column) {
             self::show_empty_column($column['width']);

@@ -33,10 +33,7 @@ $field_count = is_array($fields) ? count($fields) : 0;
                 <input type="hidden" name="hashform_form_id" value="<?php echo esc_attr($id); ?>" />
                 <?php wp_nonce_field('hashform_imex_export_nonce', 'hashform_imex_export_nonce'); ?>
                 <?php
-                /*
-                 * type="button": this <form> is nested in the settings form and dropped by the parser,
-                 * so a submit button here would become the settings form's default. js/backend.js posts the export.
-                 */
+                /* type="button": this nested <form> is dropped, so a submit would save the settings form. */
                 ?>
                 <button type="button" class="button button-primary" id="hashform_export" name="hashform_export">
                     <span class="mdi mdi-tray-arrow-down" aria-hidden="true"></span>

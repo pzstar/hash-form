@@ -4,8 +4,6 @@ defined('ABSPATH') || die();
 
 /**
  * Daily maintenance event. Add-ons hook `hashform_maintenance` rather than scheduling their own.
- *
- * Destructive tasks are opt-in; only reversible work runs by default.
  */
 class HashFormCron {
 

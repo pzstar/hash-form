@@ -30,8 +30,6 @@ class HashFormEmail {
 
         /**
          * Whether to send the notification and auto responder now. Payment add-ons return false to defer them.
-         *
-         * Returning false must still let the submission finish normally.
          */
         if (!self::$sending_deferred && !apply_filters('hashform_send_entry_emails', true, $this->form, $this->entry_id, $metas)) {
             // The emails wait, but the actions (a PDF, a text message) run now, so fill in their tags first.
@@ -62,8 +60,7 @@ class HashFormEmail {
         list($entry_values, $frm_table) = $this->entry_display_values($metas, $email_template);
         $form_settings = $this->fill_tags($form_settings, $entry_values, $frm_table);
 
-        // Submitted values were substituted in above; strip line breaks so they
-        // cannot smuggle extra mail headers.
+        // Strip line breaks so submitted values can't add mail headers.
         $reply_to_email = str_replace(array("\r", "\n"), '', $reply_to_email);
         $email_subject = str_replace(array("\r", "\n"), ' ', $email_subject);
         // The auto responder setting stores a bare field ID, so look the address up by ID.
@@ -132,8 +129,7 @@ class HashFormEmail {
                 $redirect_url = $form_settings['redirect_url_page'];
             }
 
-            // A replay (admin resend or deferred payment email) must not rerun the post submission
-            // actions, which would charge the customer again. No ajax caller is waiting either.
+            // A resend or deferred payment email must not rerun submission actions, which would charge again.
             if (self::$sending_deferred) {
                 return true;
             }
@@ -157,11 +153,7 @@ class HashFormEmail {
             return false;
         }
 
-        /*
-         * The entry is stored, so post submission actions (payment hand-off,
-         * integrations) still run when the notification fails. Marked undelivered
-         * first, because a payment hand-off answers the request itself.
-         */
+        /* The entry is stored, so submission actions (payment, integrations) still run if the mail fails. */
         global $wpdb;
         $wpdb->update($wpdb->prefix . 'hashform_entries', array('delivery_status' => 0), array('id' => $this->entry_id));
 
@@ -184,10 +176,7 @@ class HashFormEmail {
         );
 
         /**
-         * Add email templates. The layout file gets $email_message (the message, answers included),
-         * $header_image (attachment id), $email_context ('notification', 'auto_responder' or 'test') and
-         * $email_entry_id (0 for a test);
-         * the row callable gets ($title, $entry_value, $count) and returns HTML.
+         * Add email templates.
          *
          * @param array $templates key => array('label' => string, 'file' => string, 'row' => callable)
          */

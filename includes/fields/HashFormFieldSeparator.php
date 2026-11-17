@@ -34,8 +34,6 @@ class HashFormFieldSeparator extends HashFormFieldType {
 
     /**
      * The stored style, held to that list.
-     *
-     * It goes into a style attribute, where esc_attr() cannot stop extra declarations.
      */
     private function border_style($field) {
         $style = isset($field['border_style']) ? strtolower(trim($field['border_style'])) : '';

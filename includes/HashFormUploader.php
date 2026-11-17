@@ -53,8 +53,7 @@ class HashFormUploadedFileXhr {
     }
 
     function getSize() {
-        // Callers treat 0 as an empty upload and report it; throwing here would
-        // surface as an uncaught fatal on the AJAX endpoint.
+        // Callers treat 0 as an empty upload and report it.
         return isset($_SERVER['CONTENT_LENGTH']) ? (int) $_SERVER['CONTENT_LENGTH'] : 0;
     }
 
@@ -165,13 +164,12 @@ class HashFormFileUploader {
             return array('error' => esc_html__('File is too large', 'hash-form'));
         }
 
-        // The visitor names the file: sanitize_file_name() strips path parts, metacharacters,
-        // leading dots and double extensions such as "shell.php.jpg".
+        // The visitor names the file: sanitize_file_name() strips paths and double extensions (shell.php.jpg).
         $pathinfo = pathinfo(sanitize_file_name(wp_basename($this->file->getName())));
         $filename = isset($pathinfo['filename']) ? $pathinfo['filename'] : '';
         $ext = isset($pathinfo['extension']) ? $pathinfo['extension'] : '';
 
-        // Nothing usable survived, or the name was only an extension: generate one rather than write a dotfile.
+        // Nothing usable survived, or the name was only an extension: generate one.
         if ('' === trim($filename)) {
             $filename = 'file-' . wp_generate_password(8, false, false);
         }
@@ -250,8 +248,7 @@ class HashFormFileUploader {
             return esc_html__('This file does not match its file type.', 'hash-form');
         }
 
-        // An image extension has to open as an actual image. This is what
-        // stops a php payload wearing a .jpg on the end of its name.
+        // An image extension has to open as an actual image, which stops a PHP file named .jpg.
         $image_exts = array('jpg', 'jpeg', 'jpe', 'png', 'gif', 'bmp', 'webp', 'avif', 'ico');
 
         if (in_array($ext, $image_exts, true) && function_exists('getimagesize')) {
@@ -262,8 +259,7 @@ class HashFormFileUploader {
             }
         }
 
-        // Refuse anything with a PHP open tag, in case the site allows SVG or HTML-like types and the
-        // server ignores the .htaccess.
+        // Refuse anything with a PHP open tag, in case the site allows SVG or HTML-like types and the server ignores the .htaccess.
         $head = file_get_contents($path, false, null, 0, 8192);
 
         if (false !== $head && preg_match('/<\?php|<\?=/i', $head)) {
@@ -294,8 +290,7 @@ class HashFormFileUploader {
         $htaccess = $wp_filesystem->get_contents(HASHFORM_PATH . 'admin/stubs/htaccess.stub');
         $index = $wp_filesystem->get_contents(HASHFORM_PATH . 'admin/stubs/index.stub');
 
-        // Omitting the mode lets WP_Filesystem apply FS_CHMOD_FILE itself; the
-        // constant is only defined once WP_Filesystem() has run.
+        // Omitting the mode lets WP_Filesystem apply FS_CHMOD_FILE itself.
         if (!is_dir($path)) {
             $wp_filesystem->mkdir($path, 0755);
         }

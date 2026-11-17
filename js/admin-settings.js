@@ -18,8 +18,7 @@
         };
     }
 
-    // Let the preview's controls respond, but block what leaves the preview:
-    // submitting a form and following a link.
+    // Let the preview's controls work, but block form submits and links.
     function guardPreview(doc) {
         doc.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -29,8 +28,7 @@
         doc.addEventListener('click', (e) => {
             const target = e.target.closest ? e.target : e.target.parentElement;
 
-            // Not stopped: scripts that drive links still run, the browser
-            // just does not follow them.
+            // Not stopped: scripts that drive links still run, the browser just does not follow them.
             if (target && target.closest('a[href]')) {
                 e.preventDefault();
             }
@@ -41,8 +39,7 @@
      * Color picker
      * -------------------------------------------------------------------- */
 
-    // The picker updates its input silently; re-fire `change` so the live
-    // preview handlers below see the new value.
+    // The picker updates its input silently, so fire change for the live preview.
     function triggerPickerChange(event) {
         const element = $(event.target).closest('.wp-picker-input-wrap').find('.wp-color-picker');
         if (element.length) {
@@ -143,16 +140,14 @@
         const $select = $(this);
         const fontFamily = $select.val();
 
-        // Anything outside the standard set is a Google font and needs its
-        // stylesheet (re)loaded.
+        // Anything outside the standard set is a Google font and needs its stylesheet (re)loaded.
         if (!STANDARD_FONTS.includes(fontFamily)) {
             const fontId = $select.attr('id');
             const fontHref = 'https://fonts.googleapis.com/css?family=' + fontFamily.replace(/ /g, '+') + ':100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&subset=latin,latin-ext&display=swap';
             $('link#' + fontId).remove();
             $('head').append('<link rel="stylesheet" id="' + fontId + '" href="' + fontHref + '" type="text/css" media="all">');
 
-            // The style builder's preview is its own document, and a font
-            // loaded into this page never reaches it.
+            // The style builder's preview is its own document, and a font loaded into this page never reaches it.
             const previewFrame = $('#hf-template-preview-iframe')[0];
             const previewDoc = previewFrame && (previewFrame.contentDocument || (previewFrame.contentWindow && previewFrame.contentWindow.document));
             if (previewDoc && previewDoc.head) {
@@ -189,13 +184,11 @@
      * Style template live preview
      * -------------------------------------------------------------------- */
 
-    // Write one <style> tag per control into the preview iframe so a changed
-    // setting is reflected immediately without a round trip.
+    // Write one <style> tag per control into the preview iframe.
     function hfDynamicCss(control, style, val) {
         const iframe = $('#hf-template-preview-iframe')[0];
 
-        // The preview loads over ajax, so the iframe may not exist yet; the
-        // value is included when the preview is built.
+        // The preview loads over ajax and may not exist yet.
         if (!iframe) {
             return;
         }
@@ -226,8 +219,7 @@
         let css;
 
         if ($(this).attr('data-style')) {
-            // Font style selects hold a combined value like `700italic`:
-            // digits are the weight, the rest is the style.
+            // Font style values like `700italic`: digits are the weight, the rest the style.
             const weight = to.replace(/\D/g, '');
             const style = to.replace(/\d+/g, '') || 'normal';
             css = '--' + id.replace('style', 'weight') + ':' + weight + ';';
@@ -498,8 +490,7 @@
             contentType: false
         }).done(function (res) {
             if (res && res.success) {
-                // The imported fields only show once the page is rebuilt, so
-                // the spinner is left running into the reload.
+                // The imported fields only show after a reload, so the spinner keeps running.
                 window.location.reload();
                 return;
             }

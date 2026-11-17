@@ -4,8 +4,6 @@ defined('ABSPATH') || die();
 
 /**
  * Shared trash, untrash, delete and bulk flows for the Forms and Entries list screens.
- *
- * Message text stays in the using class so every gettext call keeps a literal string.
  */
 trait HashFormListActions {
 
@@ -19,7 +17,6 @@ trait HashFormListActions {
      *     @type string   $nonce_item Infix used by single item nonces, e.g. 'form'.
      *     @type string   $bulk_nonce Nonce action guarding the list table form.
      *     @type string[] $actions    Single item actions this screen dispatches by name.
-     * }
      */
     abstract protected static function list_config();
 
@@ -83,8 +80,7 @@ trait HashFormListActions {
         /* Gets hashform_action value else action value */
         $action = htmlspecialchars_decode(HashFormHelper::get_var('hashform_action', 'sanitize_text_field', HashFormHelper::get_var('action')));
 
-        // The bulk dropdown below the table posts as action2, and core sends -1
-        // for whichever of the two the user did not submit.
+        // The bulk dropdown below the table posts as action2; core sends -1 for the unused one.
         if ('' === $action || '-1' === $action) {
             $action = htmlspecialchars_decode(HashFormHelper::get_var('action2', 'sanitize_text_field'));
         }
@@ -93,8 +89,7 @@ trait HashFormListActions {
             $action = 'delete_all';
         }
 
-        // $action reaches a method name below, so only the values this screen
-        // declares may be dispatched.
+        // $action reaches a method name below, so only the values this screen declares may be dispatched.
         if (in_array($action, $config['actions'], true)) {
             return static::$action();
         }
@@ -109,8 +104,6 @@ trait HashFormListActions {
 
     /**
      * Whether route() would fall through to the list table for this request.
-     *
-     * The header bar prints on in_admin_header, before the page callback, so it mirrors route()'s dispatch.
      */
     public static function is_list_view() {
         $config = static::list_config();
@@ -144,8 +137,7 @@ trait HashFormListActions {
     }
 
     public static function capture_notices() {
-        // Only ever closes a buffer this class opened, so an early exit
-        // somewhere else cannot leave output swallowed.
+        // Only ever closes a buffer this class opened.
         if (!self::$buffering) {
             return;
         }
@@ -246,8 +238,7 @@ trait HashFormListActions {
 
         $config = static::list_config();
 
-        // The "Empty Trash" button submits inside the list table form, which
-        // carries the bulk nonce.
+        // The "Empty Trash" button submits inside the list table form, which carries the bulk nonce.
         check_admin_referer($config['bulk_nonce']);
 
         $count = static::delete();

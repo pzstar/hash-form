@@ -1,5 +1,4 @@
-/* Full screen, the way the form builder is. #wpcontent carries it because this
- * screen's header bar is printed between #wpcontent and #wpbody. */
+/* Full screen, the way the form builder is. #wpcontent carries it. */
 body.hf-style-builder-screen {
     overflow: hidden;
 }
@@ -20,10 +19,7 @@ body.hf-style-builder-screen #wpcontent {
     z-index: 99999;
 }
 
-/*
- * Hidden: the admin bar sits inside #wpcontent, the fixed stacking context
- * here, so it cannot be covered and would overlap the header.
- */
+/* Hidden: the admin bar sits inside #wpcontent, the fixed stacking context here. */
 body.hf-style-builder-screen #wpadminbar {
     display: none;
 }
@@ -39,9 +35,7 @@ body.hf-style-builder-screen #wpcontent > .hf-list-header {
     width: 100%;
 }
 
-/* Every wrapper between the screen and the panel passes the height through as
- * a column (#wpbody-content also holds screen meta and notices). min-height:0
- * lets the sidebar scroll instead of pushing the save bar off screen. */
+/* Every wrapper between the screen and the panel passes the height through as a column (#wpbody-content also holds screen meta and notices). min-height:0 lets the sidebar scroll instead of pushing the save bar off screen. */
 body.hf-style-builder-screen #wpbody,
 body.hf-style-builder-screen #wpbody-content,
 body.hf-style-builder-screen .hf-style-builder,
@@ -252,12 +246,7 @@ body.hf-style-builder-screen .notice{
     color: var(--hf-accent-text, #a3591b);
 }
 
-/* Icon Chooser
- *
- * Structure is fixed by admin-settings.js: .hf-selected-icon, .hf-icon-box, then
- * the hidden .hf-icon input. Icons are inline-flex so jQuery's display changes on
- * the list do not break the layout.
- */
+/* Icon Chooser: structure is fixed by admin-settings.js. */
 .hf-icon-box-wrap {
     max-width: 380px;
     position: relative;
@@ -295,8 +284,7 @@ body.hf-style-builder-screen .notice{
     line-height: 1;
 }
 
-/* Nothing chosen yet: the <i> carries no class, so it occupies no space and
-   the prompt shows in its place. */
+/* Nothing chosen yet: the <i> carries no class. */
 .hf-icon-box-wrap .hf-icon-placeholder {
     color: var(--hf-text-faint, #8c9196);
     font-size: var(--hf-font-base, 13px);
@@ -417,11 +405,7 @@ body.hf-style-builder-screen .notice{
     color: #fff;
 }
 
-/* Image Uploader
- *
- * Used by the Popup Display open/close icons. An image is set when
- * .hf-custom-menu-image-icon contains an <img>.
- */
+/* Image Uploader: used by the Popup Display open/close icons. */
 .hf-icon-image-uploader {
     align-items: center;
     display: flex;
@@ -449,8 +433,7 @@ body.hf-style-builder-screen .notice{
     width: 40px;
 }
 
-/* Placeholder for an empty tile. :not(:has(img)) rather than :empty, because
-   the template leaves whitespace inside the box. */
+/* Placeholder for an empty tile (:has, as the box holds whitespace and is never :empty). */
 .hf-custom-menu-image-icon:not(:has(img)):before {
     color: var(--hf-text-faint, #8c9196);
     content: "\F0976";
@@ -558,8 +541,7 @@ body.hf-style-builder-screen .notice{
     min-height: 34px;
 }
 
-/* Slider rows: the track takes the room that is left; the number box and its
-   unit are fixed and stay inside the panel. */
+/* Slider rows: the track takes the room that is left. */
 .hf-style-sidebar .hf-range-slider-wrap {
     align-items: center;
     display: flex;
@@ -590,9 +572,7 @@ body.hf-style-builder-screen .notice{
     min-height: 32px;
 }
 
-/* Toggle Button
- *
- * Grey for off, accent for on, matching the Pro Modules screen. */
+/* Toggle Button: grey for off, accent for on, matching the Pro Modules screen. */
 .hf-toggle-input-field input[type=checkbox] {
     background: #d5d9df;
     border: 0;
@@ -1001,8 +981,7 @@ ul.hf-shadow-fields {
     padding: 5px 0 !important;
 }
 
-/* The iris is a fixed-size widget sized by its own script; the container spans
-   the row so the picker lays out from the left. */
+/* The iris is a fixed-size widget sized by its own script. */
 .hf-setting-fields .wp-picker-container {
     align-items: flex-end;
     display: flex;

@@ -54,10 +54,7 @@ $form_style_template = isset($styles['form_style_template']) ? $styles['form_sty
                             <?php foreach ($style_modes as $mode_value => $mode) { ?>
                                 <label class="hf-style-mode<?php echo ($form_style === $mode_value) ? ' hf-selected' : ''; ?>">
                                     <?php
-                                    /*
-                                     * Detached from #hf-style-form via a non-existent form id:
-                                     * update_style() saves every posted key, and the select carries the value.
-                                     */
+                                    /* Detached from #hf-style-form via a non-existent form id, so it isn't saved. */
                                     ?>
                                     <input type="radio" name="hf_style_mode" form="hf-style-mode-detached" class="hf-style-mode-input" value="<?php echo esc_attr($mode_value); ?>" <?php checked($form_style, $mode_value); ?> />
                                     <span class="hf-style-mode-text">

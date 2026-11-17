@@ -1,10 +1,6 @@
 <?php
 defined('ABSPATH') || die();
-/*
- * Free vs Pro, one topic at a time.
- *
- * Counts must match what the plugins ship: 27 free field types + 23 Pro (50), 79 templates, 20 gateways, 73 modules, 18 pre-built styles, 3 free + 10 Pro email templates.
- */
+/* Free vs Pro, one topic at a time. */
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- included from within a method, so these are function locals.
 
 $hf_yes = function ($text = '') { return array($text, 'yes'); };

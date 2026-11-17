@@ -142,7 +142,7 @@ class HashFormStyles {
 
         $hashform_styles = HashFormHelper::get_post('hashform_styles', 'sanitize_text_field', '', self::get_styles_sanitize_array());
         update_post_meta($postID, 'hashform_styles', $hashform_styles);
-        // A new template reloads into the builder; its form still has id 0, so saving again would duplicate it.
+        // A new template reloads into the builder, so saving again doesn't duplicate it.
         wp_send_json_success($newLayout
                 ? array('redirect' => HashFormStyleBuilder::url($postID))
                 : array('message' => esc_html__('Saved successfully!', 'hash-form')));

@@ -75,10 +75,9 @@ class HashFormValidate {
             return $errors;
         }
 
-        // Checked on every submission, guests included. Full-page-cached forms must exclude or refresh this field.
+        // Checked on every submission, guests included; cached form pages must exclude this field.
         $nonce_field = 'hashform_submit_entry_' . absint($values['form_id']);
-        // A guest's token from a logged-in request is accepted and the entry saved as a guest's:
-        // see verify_public_nonce() and process_entry().
+        // A guest's token from a logged-in request is accepted and the entry saved as a guest's.
         if (!isset($values[$nonce_field]) || !HashFormHelper::verify_public_nonce($values[$nonce_field], 'hashform_submit_entry_nonce')) {
             $errors['form'] = esc_html__('This form has expired. Please reload the page and try again.', 'hash-form');
         }
@@ -96,8 +95,6 @@ class HashFormValidate {
 
     /**
      * Ids of the fields that conditional logic hides for these answers, as the form shows them.
-     *
-     * A hidden field is not required, and a calculation counts it as zero.
      *
      * @param int   $form_id
      * @param array $item_meta Answers keyed by field id.
@@ -251,8 +248,6 @@ class HashFormValidate {
 
     /**
      * Length, pattern, matching and uniqueness rules for every field type.
-     *
-     * Enforced on the server because the matching HTML attributes can be bypassed.
      */
     public static function validate_advanced_rules(&$errors, $field, $value, $values = array()) {
         $key = 'field' . $field->id;
@@ -314,12 +309,10 @@ class HashFormValidate {
             return false;
         }
 
-        // The pattern is stored without delimiters, the way the html attribute
-        // takes it. Anchor it so it has to match the whole value.
+        // Stored without delimiters, like the HTML attribute; anchored to match the whole value.
         $regex = '/^(?:' . str_replace('/', '\/', trim($pattern)) . ')$/u';
 
-        // An invalid pattern must not block a legitimate submission, so a
-        // broken regex is treated as no pattern at all.
+        // An invalid pattern counts as no pattern, so it can't block a submission.
         $result = @preg_match($regex, $value);
 
         if (false === $result) {
@@ -369,8 +362,7 @@ class HashFormValidate {
             'delivery_status' => 'rest_sanitize_boolean',
             'user_id' => 'absint',
             'status' => 'sanitize_title',
-            // The token must survive intact: sanitize_title would lowercase
-            // and strip it, making verification impossible.
+            // Not sanitize_title(), which would change the token and break verification.
             'g-recaptcha-response' => 'sanitize_text_field',
             'h-captcha-response' => 'sanitize_text_field'
         );

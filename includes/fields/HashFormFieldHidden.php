@@ -24,8 +24,6 @@ class HashFormFieldHidden extends HashFormFieldType {
 
     /**
      * Where a hidden field takes its value from.
-     *
-     * Account and date sources are resolved on the server; page sources come from the browser and are not trustworthy.
      */
     public static function value_sources() {
         return array(

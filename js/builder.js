@@ -58,8 +58,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
                 settings.setup = mceEditor => {
                     if (addFocusEvents) {
-                        // Forward the first focus of each visit to the textarea, then wait
-                        // for a focusout before arming the listener again.
+                        // Forward the first focus of each visit to the textarea.
                         const focusInCallback = () => {
                             $(mceEditor.targetElm).trigger('focusin');
                             mceEditor.off('focusin', '**');
@@ -125,8 +124,6 @@ var hashFormBuilder = hashFormBuilder || {};
 
     /**
      * Mark whether the form has any fields yet.
-     *
-     * Mirrored onto the body so the sidebar's "drag a field in" hint can react in CSS.
      */
     function setHasFields(hasFields) {
         const wrap = editorWrap();
@@ -208,17 +205,14 @@ var hashFormBuilder = hashFormBuilder || {};
         return 'undefined' === typeof hashform_builder_js ? 'Drop a field here' : hashform_builder_js.drop_field_here;
     }
 
-    // Colour inputs arrive with freshly rendered field markup, so re-scan once the
-    // markup has settled.
+    // Colour inputs arrive with freshly rendered field markup, so re-scan once the markup has settled.
     function initColorPickers() {
         setTimeout(function () {
             $(document).find('.hf-color-picker').wpColorPicker();
         }, 1000);
     }
 
-    // Where a field should be stored, based on the section it now sits in.
-    // getFormIdForFieldPlacement also re-parents stray end dividers, so the calls
-    // have to stay in this order.
+    // Where a field should be stored, based on the section it now sits in. getFormIdForFieldPlacement also re-parents stray end dividers, so the calls have to stay in this order.
     function getFieldPlacement(currentItem) {
         const section = hashFormBuilder.getSectionForFieldPlacement(currentItem);
         return {
@@ -262,8 +256,7 @@ var hashFormBuilder = hashFormBuilder || {};
          * ---------------------------------------------------------------- */
 
         init: function () {
-            // The canvas is rendered with the class already set, so the body
-            // has to be told once on load as well as on every change.
+            // The canvas is rendered with the class set, so tell the body on load too.
             setHasFields(!!editorWrap() && editorWrap().classList.contains('hf-editor-has-fields'));
             watchFieldCount();
             hashFormBuilder.initBuild();
@@ -378,8 +371,7 @@ var hashFormBuilder = hashFormBuilder || {};
             document.querySelectorAll(sortableSelector).forEach(list => {
                 hashFormBuilder.makeDroppable(list);
                 Array.from(list.children).forEach(child => {
-                    // A column is placed by the row it belongs to, so it is a
-                    // drop target only, never something to drag around itself.
+                    // A column is a drop target only; its row places it.
                     if (child.classList.contains('hf-editor-column')) {
                         return;
                     }
@@ -388,8 +380,7 @@ var hashFormBuilder = hashFormBuilder || {};
             });
         },
 
-        // A saved form comes back with its columns, but without the markers the
-        // editor stamps on when the row is first built, so restore them here.
+        // A saved form comes back without the column markers, so restore them.
         normalizeColumnRows: function () {
             document.querySelectorAll('#hf-editor-fields ul.hf-editor-sorting').forEach(row => {
                 const columns = Array.from(row.children).filter(
@@ -513,8 +504,7 @@ var hashFormBuilder = hashFormBuilder || {};
                         });
                     }
 
-                    // The top level list, sections and columns stack fields
-                    // vertically; everything else lays them out side by side.
+                    // The top level list, sections and columns stack fields vertically.
                     if ('hf-editor-fields' === droppable.id || droppable.classList.contains('start_divider') || hashFormBuilder.isColumnList(droppable)) {
                         placeholder.style.left = 0;
                         hashFormBuilder.handleDragOverYAxis({droppable, y: event.clientY, placeholder});
@@ -599,7 +589,6 @@ var hashFormBuilder = hashFormBuilder || {};
                 $($children.get(insertAtIndex)).before(placeholder);
 
                 // Offset the placeholder slightly so it appears between two fields.
-                // Offset by 8 in between rows, but only 4 for the first item in a group.
                 left -= 0 === insertAtIndex ? 4 : 8;
             }
             left -= $row.offset().left;
@@ -861,8 +850,7 @@ var hashFormBuilder = hashFormBuilder || {};
         },
 
         maybeUpdateDraggableClassAfterDrop: function (draggable, $previousContainerFields, $previousFieldContainer) {
-            // A field leaving a column still carries that column's width, so it
-            // needs a resync even when it lands alone in a row of its own.
+            // A field leaving a column still carries its width, so resync it.
             const cameOutOfAColumn = hashFormBuilder.isColumnList($previousFieldContainer.get(0));
 
             if (cameOutOfAColumn || 0 !== $previousContainerFields.length || 1 !== hashFormBuilder.getFieldsInRow($(draggable.parentNode)).length) {
@@ -871,8 +859,7 @@ var hashFormBuilder = hashFormBuilder || {};
         },
 
         maybeDeleteAnEmptyFieldGroup: function (previousFieldContainer) {
-            // An emptied column keeps its place. Its closest field box is the whole
-            // columns row, so deleting it would take the other columns too.
+            // An emptied column stays: removing it would take the whole columns row.
             if (hashFormBuilder.isColumnList(previousFieldContainer)) {
                 return;
             }
@@ -960,8 +947,7 @@ var hashFormBuilder = hashFormBuilder || {};
         },
 
         updateFieldOrder: function () {
-            // Every path that reorders fields ends up here, so this is the one
-            // place column membership needs re-deriving.
+            // Every path that reorders fields ends up here, so columns are re-derived here.
             hashFormBuilder.syncColumnGroups();
 
             $('#hf-editor-fields').each(function () {
@@ -1052,8 +1038,7 @@ var hashFormBuilder = hashFormBuilder || {};
          * Adding fields
          * ---------------------------------------------------------------- */
 
-        // Fields are placed by dragging, so a plain click has nothing to do but
-        // point at the hint that says so.
+        // Fields are placed by dragging, so a click only points at the hint.
         hintToDragField: function (event) {
             /*jshint validthis:true */
             event.preventDefault();
@@ -1064,8 +1049,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
         hintTimers: new WeakMap(),
 
-        // Runs the hint from the top on every click, and leaves no styling
-        // behind once it has played.
+        // Runs the hint from the top on every click, and leaves no styling behind once it has played.
         flashHint: function (element, className) {
             if (null === element) {
                 return;
@@ -1102,8 +1086,7 @@ var hashFormBuilder = hashFormBuilder || {};
                 setHasFields(true);
 
                 const $siblings = $placeholder.siblings('li.hf-editor-form-field').not('.hf-editor-field-type-end_divider');
-                // A column already provides the list, so the field goes in
-                // bare; wrapping it would nest a row inside the column.
+                // A column already provides the list, so the field goes in bare.
                 const inColumn = hashFormBuilder.isColumnList($placeholder.get(0).parentNode);
                 const needsRowWrapper = !$siblings.length && !inColumn;
                 let replaceWith;
@@ -1112,8 +1095,7 @@ var hashFormBuilder = hashFormBuilder || {};
                     replaceWith = hashFormBuilder.wrapFieldLi(msg);
                 } else {
                     replaceWith = hashFormBuilder.msgAsObject(msg);
-                    // Inside a column the grandparent is the column itself,
-                    // which must not become draggable by the field's handle.
+                    // Inside a column the grandparent is the column, which must not become draggable.
                     const rowWrapper = $placeholder.get(0).parentNode.parentNode;
                     if (!inColumn && !rowWrapper.classList.contains('ui-draggable')) {
                         hashFormBuilder.makeDraggable(rowWrapper, '.hf-editor-move-action');
@@ -1245,8 +1227,7 @@ var hashFormBuilder = hashFormBuilder || {};
             return hashFormBuilder.getLayoutClassForSize(12 / columns);
         },
 
-        // Lowercase alphanumerics only, so the key survives sanitize_key() on
-        // the way into the database.
+        // Lowercase alphanumerics only, so the key survives sanitize_key() on the way into the database.
         newColumnGroupKey: function (index) {
             return 'cg' + Date.now().toString(36) + index + hashFormBuilder.getAutoId();
         },
@@ -1276,8 +1257,7 @@ var hashFormBuilder = hashFormBuilder || {};
             hashFormBuilder.scrollNewFieldIntoView(wrapper);
         },
 
-        // The column carries hf-editor-form-field so the row's drop machinery
-        // treats it as an occupant and positions the drop marker against it.
+        // The column carries hf-editor-form-field, so drops treat it as an occupant.
         buildColumn: function (widthClass, group) {
             const list = hashFormBuilder.tag('ul', {
                 className: 'hf-editor-column-fields hf-editor-sorting'
@@ -1308,16 +1288,14 @@ var hashFormBuilder = hashFormBuilder || {};
             return (column.className.match(/hf-grid-\d+/) || [''])[0];
         },
 
-        // A column row written out as group:width pairs. Every field of the row
-        // carries the whole thing, so a column nobody used still comes back.
+        // A column row written out as group:width pairs.
         rowSpec: function (columns) {
             return columns.map(
                 column => column.getAttribute('data-column-group') + ':' + (hashFormBuilder.columnWidth(column) || 'hf-grid-12')
             ).join(',');
         },
 
-        // Write a field's column membership (column_group), width (grid_id) and row to
-        // the inputs saved with the form. The front end regroups fields by column_group.
+        // Write a field's column membership (column_group), width (grid_id) and row to the inputs saved with the form.
         setFieldColumn: function (fieldEl, group, widthClass, spec) {
             const fieldId = fieldEl.dataset.fid;
             if ('undefined' === typeof fieldId) {
@@ -1428,8 +1406,7 @@ var hashFormBuilder = hashFormBuilder || {};
             });
         },
 
-        // Mirrors how a dragged field is placed: a field that owns its row gets
-        // a row of its own, one sharing a row gets dropped in beside its source.
+        // Mirrors how a dragged field is placed.
         insertDuplicatedField: function ($source, msg) {
             setHasFields(true);
 
@@ -1731,9 +1708,7 @@ var hashFormBuilder = hashFormBuilder || {};
          * Grid layout classes
          * ---------------------------------------------------------------- */
 
-        // How wide the odd field out is, and how wide the rest are, for a row of
-        // `size` fields with one large field on the left or right. Keyed by number,
-        // so a string size falls through to the default.
+        // Widths of the odd field out and the rest, for a row with one large field.
         largeGridForSize: new Map([[2, 9], [3, 6], [4, 6], [5, 4], [6, 7]]),
         smallGridForSize: new Map([[2, 3], [3, 3], [4, 2], [5, 2], [6, 1]]),
 
@@ -1783,14 +1758,12 @@ var hashFormBuilder = hashFormBuilder || {};
 
         // `type` is either a named layout, 'clear', or an array of explicit widths.
         syncLayoutClasses: function ($item, type = 'even') {
-            // Fields stacked in a column are full width inside it; their saved
-            // grid_id belongs to the column and is set by syncColumnGroups.
+            // Fields in a column are full width; their grid_id is set by syncColumnGroups.
             if (hashFormBuilder.isColumnList($item.parent().get(0))) {
                 return;
             }
 
-            // A columns row lays out columns, not fields: widths come from the column
-            // picked, and resizing here would stack a second grid class onto each.
+            // A columns row lays out columns, not fields, so don't resize here.
             if (hashFormBuilder.isColumnsRow($item.parent().get(0))) {
                 return;
             }
@@ -1820,8 +1793,7 @@ var hashFormBuilder = hashFormBuilder || {};
 
                 const fieldId = this.dataset.fid;
                 if ('undefined' === typeof fieldId) {
-                    // we are syncing the drag/drop placeholder before the actual field has loaded.
-                    // this will get called again afterward and the input will exist then.
+                    // we are syncing the drag/drop placeholder before the actual field has loaded. this will get called again afterward and the input will exist then.
                     this.classList.add(currentClassToAdd);
                     return;
                 }
@@ -1852,8 +1824,7 @@ var hashFormBuilder = hashFormBuilder || {};
         setupTinyMceEventHandlers: function (editor) {
             editor.on('Change', () => hashFormBuilder.handleTinyMceChange(editor));
 
-            // Mirror the Visual tab to the canvas as it is typed, like the Text tab,
-            // debounced so a long paragraph is not re-rendered on every keystroke.
+            // Mirror the Visual tab to the canvas as it is typed, like the Text tab, debounced.
             let typing;
 
             editor.on('input', function () {
@@ -1901,8 +1872,6 @@ var hashFormBuilder = hashFormBuilder || {};
 
         /**
          * Wire up any slider the server has rendered but jQuery UI has not seen yet.
-         *
-         * Already-wired sliders are skipped so a moved field keeps its handle state.
          */
         maybeFixRangeSlider: function () {
             $(document).find('.hf-range-input-selector').each(function () {

@@ -178,8 +178,7 @@ class HashFormImportExport {
 
         $tmp = isset($_FILES[$file_key]['tmp_name']) ? sanitize_text_field($_FILES[$file_key]['tmp_name']) : '';
 
-        // Confirms the path came from this request's upload rather than being
-        // any readable file on the server.
+        // Confirms the path came from this request's upload rather than being any readable file on the server.
         if (empty($tmp) || !is_uploaded_file($tmp)) {
             return new WP_Error('hashform_no_file', esc_html__('Please upload a file to import', 'hash-form'));
         }
@@ -204,8 +203,6 @@ class HashFormImportExport {
 
     /**
      * Write a decoded export onto an existing form, replacing its fields.
-     *
-     * The caller must already have checked capability, nonce and is_valid_export().
      *
      * @param int   $form_id Form to write onto.
      * @param array $imdat   Decoded export.
@@ -237,8 +234,7 @@ class HashFormImportExport {
             $styles['form_style_template'] = $style_id;
         }
 
-        // An export can carry any status string; only these two leave the
-        // form reachable in the list.
+        // An export can carry any status string; only these two leave the form reachable in the list.
         $status = isset($imdat['status']) && in_array($imdat['status'], array('published', 'trash'), true) ? $imdat['status'] : 'published';
 
         $form = array(
@@ -278,8 +274,7 @@ class HashFormImportExport {
             }
         }
 
-        // Point formulas and show/hide rules at the new field ids. Rules from files
-        // exported without field ids cannot be matched and are dropped.
+        // Point formulas and show/hide rules at the new field ids.
         HashFormBuilder::remap_calculation_formulas($form_id, $map);
 
         $remapped = $settings;

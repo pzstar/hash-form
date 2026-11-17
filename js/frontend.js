@@ -68,8 +68,6 @@ jQuery(function ($) {
 
     /**
      * Put a captcha back to its unanswered state.
-     *
-     * The script can be loaded with nothing rendered, in which case reset() throws.
      */
     function resetCaptcha(name) {
         const api = window[name];
@@ -119,8 +117,7 @@ jQuery(function ($) {
 
         inputs.attr('aria-invalid', 'true');
 
-        // Keep any describedby the field already had; the help text is still
-        // relevant when the answer is wrong.
+        // Keep the field's own describedby: the help text still applies.
         inputs.each(function () {
             const input = $(this);
             const described = (input.attr('aria-describedby') || '').split(/\s+/).filter(Boolean);
@@ -162,8 +159,7 @@ jQuery(function ($) {
         $('html, body').animate({
             scrollTop: target.offset().top - 300
         }, 300, function () {
-            // Put the caret where the problem is, so a keyboard user is not
-            // dropped back at the top of the form to hunt for it.
+            // Put the caret where the problem is.
             if (firstInput.length && firstInput.is(':visible')) {
                 firstInput.trigger('focus');
             }
@@ -180,8 +176,7 @@ jQuery(function ($) {
         scope.find('.hashform-error-container').removeClass('hashform-error-container');
         scope.find('[aria-invalid]').removeAttr('aria-invalid');
 
-        // Drop only the ids this script added, leaving the field's own help
-        // text still linked.
+        // Drop only the ids this script added, leaving the field's own help text still linked.
         scope.find('[aria-describedby]').each(function () {
             const input = $(this);
             const kept = (input.attr('aria-describedby') || '')
@@ -218,8 +213,6 @@ jQuery(function ($) {
 
     /**
      * A reCAPTCHA v3 token for this form, or '' when there is nothing to fetch.
-     *
-     * Scoped to this form so two forms on a page do not read each other's captcha.
      */
     function captchaToken(form) {
         const captcha = form.find('.g-recaptcha');
@@ -290,8 +283,7 @@ jQuery(function ($) {
                         return;
                     }
 
-                    // Announce the outcome on the form so add-ons (e.g. payments)
-                    // can follow a submission without replacing this handler.
+                    // Announce the outcome on the form, so add-ons (payments) can follow it.
                     form.trigger('hashform:' + response.status, [response]);
 
                     if (response.status === 'redirect') {
@@ -299,8 +291,7 @@ jQuery(function ($) {
                     } else if (response.status === 'success') {
                         resetForm(form);
 
-                        // An empty confirmation means the server already said
-                        // its piece; do not draw an empty box for it.
+                        // An empty confirmation means the server already said its piece; do not draw an empty box for it.
                         if (typeof response.message === 'string' && response.message.trim()) {
                             appendNotice(form, 'hf-success-msg', response.message, false);
                         }
@@ -312,8 +303,7 @@ jQuery(function ($) {
                         resetRecaptcha();
                         showValidationErrors(response.message);
                     } else {
-                        // Spam checks reject a whole submission with a plain string
-                        // instead of per-field errors.
+                        // Spam checks reject a whole submission with a plain string instead of per-field errors.
                         resetRecaptcha();
                         appendNotice(form, 'hf-failed-msg', failureText(response.message), true);
                     }
@@ -387,9 +377,6 @@ jQuery(function ($) {
 
     /**
      * Carry a form's style tokens onto a picker panel.
-     *
-     * The panel is moved to <body>, so it inherits none of the form's --hf-*
-     * properties. Unset ones are skipped so the stylesheet fallback applies.
      */
     function bridgePickerStyles(input, panel) {
         const container = input.closest('[id^="hf-container-"]');
@@ -439,8 +426,7 @@ jQuery(function ($) {
     $('.hashform-field-type-time .hf-timepicker').each(function () {
         const input = $(this);
 
-        // Step, Min Time and Max Time are printed as data attributes, which the
-        // library does not read itself.
+        // Step, Min Time and Max Time are printed as data attributes, which the library does not read itself.
         const step = parseInt(input.attr('data-step'), 10);
         const minTime = input.attr('data-min-time');
         const maxTime = input.attr('data-max-time');
@@ -450,8 +436,7 @@ jQuery(function ($) {
             timeFormat: 'g:ia'
         };
 
-        // The library reads step as minutes, which is the unit the stored
-        // default of 60 already assumes: one slot per hour.
+        // The library reads step as minutes: the default 60 is one slot per hour.
         if (step > 0) {
             options.step = step;
         }
@@ -464,8 +449,7 @@ jQuery(function ($) {
 
         input.timepicker(options);
 
-        // The library has no beforeShow hook, but it does fire showTimepicker
-        // on the input, and only one list is ever open at a time.
+        // No beforeShow hook, but showTimepicker fires on the input.
         input.on('showTimepicker', function () {
             bridgePickerStyles(input, $('.ui-timepicker-wrapper:visible').first());
         });
@@ -601,8 +585,7 @@ jQuery(function ($) {
      * File uploads
      * -------------------------------------------------------------------- */
 
-    // Which uploads get a thumbnail preview rather than just a filename. Kept
-    // in step with the formats the server accepts.
+    // Which uploads get a thumbnail preview rather than just a filename.
     const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif', 'bmp'];
 
     // Drawn with currentColor so it follows whatever the dropzone text is.
@@ -614,8 +597,7 @@ jQuery(function ($) {
         + '<line x1="12" y1="3" x2="12" y2="15"/>'
         + '</svg>';
 
-    // The label and extension list are author supplied, and they are being
-    // concatenated into a template string rather than set as text.
+    // The label and extension list are author supplied, so escape them.
     function escapeHtml(value) {
         return String(value).replace(/[&<>"']/g, function (char) {
             return {
@@ -728,8 +710,7 @@ jQuery(function ($) {
             uploadButtonText: uploaderLabel,
             multiple: multipleUpload,
 
-            // .qq-upload-button stays a real button inside the card, so the
-            // --hf-upload-* styler settings keep applying to it.
+            // .qq-upload-button stays a real button inside the card.
             template: '<div class="qq-uploader">' +
                 '<div class="hf-upload-dropzone">' +
                     UPLOAD_ICON +
@@ -780,8 +761,7 @@ jQuery(function ($) {
 
             onComplete: function (id, fileName, responseJSON) {
                 if (!responseJSON.success) {
-                    // The server rejected it. Its own message is surfaced by
-                    // showMessage; this only guards against a silent failure.
+                    // The server rejected it; showMessage shows why, this only avoids a silent failure.
                     if (!responseJSON.error) {
                         showUploadError('That file could not be uploaded. Please try again.');
                     }

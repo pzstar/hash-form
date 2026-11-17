@@ -20,8 +20,6 @@ function hashform_sanitize_number($input) {
 
 /**
  * Restrict a heading level to h1-h6, falling back to h3.
- *
- * The value becomes the tag name, where escaping gives no protection.
  */
 function hashform_sanitize_heading_type($input) {
     $tag = strtolower(trim((string) $input));
@@ -67,8 +65,6 @@ function hashform_sanitize_checkbox_boolean($input) {
 
 /**
  * File extensions an upload field may be configured with. Single source for the upload handler too.
- *
- * Outer bound only; get_allowed_mime_types() is still applied when the file arrives.
  */
 function hashform_allowed_file_extensions() {
     return apply_filters('hashform_allowed_file_extensions', array(

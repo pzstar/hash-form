@@ -85,8 +85,7 @@ class HashFormSmtp {
     }
 
     public static function redirect_to_smtp_settings() {
-        // Either edition counts. function_exists() as well: the plugin defines wp_mail_smtp()
-        // only after its own requirement checks pass, and otherwise registers no settings page.
+        // Either edition counts; wp_mail_smtp() exists only once that plugin's requirements pass.
         $plugin_file = self::smtp_plugin_file();
         $is_active = $plugin_file && is_plugin_active($plugin_file);
 

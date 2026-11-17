@@ -132,8 +132,7 @@ class HashFormEntryListing extends \WP_List_Table {
                 continue;
             }
 
-            // unserialize_or_decode, not maybe_unserialize: meta_value is visitor-supplied, and a
-            // crafted object payload must not be instantiated when an admin opens this list.
+            // unserialize_or_decode, not maybe_unserialize: visitor data must never create objects.
             $value = HashFormHelper::unserialize_or_decode($row['meta_value']);
 
             if (is_array($value)) {
@@ -178,8 +177,7 @@ class HashFormEntryListing extends \WP_List_Table {
             'total_pages' => (int) ceil($total_items / max(1, $per_page)),
         ));
 
-        // Collected first so the previews for the whole page load in one
-        // query instead of one per row.
+        // Collected first so the previews for the whole page load in one query instead of one per row.
         $this->page_entry_ids = wp_list_pluck($page_rows, 'id');
 
         $data = array();
@@ -240,13 +238,11 @@ class HashFormEntryListing extends \WP_List_Table {
      *     @type string $join
      *     @type string $where
      *     @type array  $params
-     * }
      */
     private function build_query() {
         global $wpdb;
 
-        // "unread" and "starred" are filters over published entries rather
-        // than real statuses of their own.
+        // "unread" and "starred" are filters over published entries rather than real statuses of their own.
         $where = array('e.status = %s');
         $params = array(in_array($this->status, array('unread', 'starred'), true) ? 'published' : $this->status);
         $join = '';

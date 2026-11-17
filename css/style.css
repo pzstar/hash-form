@@ -45,8 +45,7 @@
     grid-column: span 12 / span 12;
 }
 
-/* One grid cell holding fields stacked under each other. Flex, not grid, so
-   the span classes the fields still carry have no effect inside it. */
+/* One grid cell holding fields stacked under each other. */
 .hf-column-group {
     display: flex;
     flex-direction: column;
@@ -1122,8 +1121,7 @@
     max-width: var(--hf-width);
 }
 
-/* An <hr>, so the break is announced rather than only drawn. Its own borders
-   and margins are cleared, since the field writes the ones it wants inline. */
+/* An <hr>, so the break is announced rather than only drawn. */
 .hf-form-field.hashform-field-type-separator .hf-separator-border {
     border-color: #333;
     border-left: 0;
@@ -1330,34 +1328,21 @@ body.hashform_preview_page .hf-form-preview {
 .ui-timepicker-wrapper.ui-timepicker-wrapper.ui-timepicker-wrapper,
 select.ui-timepicker-select.ui-timepicker-select {
 
-    /*
-     * #a3591b rather than the brand #dd823b, which is only 2.9:1 on white.
-     * Replaced by the form owner's color on the front end.
-     */
+    /* #a3591b rather than the brand #dd823b, which is only 2.9:1 on white. */
     --hf-pick-accent: #a3591b;
 
-    /*
-     * Text and rings use this, never the raw accent: 45% accent in black is at
-     * least 4.74:1 on the panel for any accent. The literal is for engines
-     * without color-mix.
-     */
+    /* Text and rings use this, never the raw accent. */
     --hf-pick-accent-ink: #49280c;
     --hf-pick-accent-ink: color-mix(in srgb, var(--hf-pick-accent) 45%, #000);
 
-    /*
-     * Text on a filled chip: white by default, flipped to black for light
-     * accents (by OKLCh lightness) where relative color syntax is supported.
-     */
+    /* Text on a filled chip: white by default, flipped to black for light accents (by OKLCh lightness) where relative color syntax is supported. */
     --hf-pick-on-accent: #fff;
     --hf-pick-on-accent: oklch(from var(--hf-pick-accent) calc((.62 - l) * infinity) 0 h);
 
     --hf-pick-surface: #fff;
     --hf-pick-text: #1e2327;
 
-    /*
-     * Muted (5.5:1) is for live content such as other-month days; faint (3.2:1)
-     * is reserved for unavailable slots, which are also struck through.
-     */
+    /* Muted (5.5:1) is for live content such as other-month days. */
     --hf-pick-muted: #646970;
     --hf-pick-faint: #8c9196;
     --hf-pick-border: #e2e5ea;
@@ -1365,10 +1350,7 @@ select.ui-timepicker-select.ui-timepicker-select {
     --hf-pick-font: inherit;
     --hf-pick-font-size: 13px;
 
-    /*
-     * One padding and one cell size drive the gutter, chip and min-width. The
-     * 3px gap lets the 2px cursor ring clear its neighbor.
-     */
+    /* One padding and one cell size drive the gutter, chip and min-width. */
     --hf-pick-pad: 12px;
     --hf-pick-cell-gap: 3px;
     --hf-pick-cell: 36px;
@@ -1394,8 +1376,7 @@ select.ui-timepicker-select.ui-timepicker-select {
  * Inline datepickers never render inside #ui-datepicker-div and are left alone.
  * -------------------------------------------------------------------------- */
 
-/* Hidden until first opened, since WordPress enqueues no jQuery UI theme to do
-   it. The script writes display inline from then on. */
+/* Hidden until first opened, since WordPress enqueues no jQuery UI theme to do it. */
 #ui-datepicker-div {
     display: none;
     position: absolute;
@@ -1421,13 +1402,11 @@ select.ui-timepicker-select.ui-timepicker-select {
     padding: var(--hf-pick-pad);
     /* Beats the inline em width jQuery UI writes for multi-month panels. */
     width: auto !important;
-    /* Beats the inline z-index jQuery UI writes, clearing #wpadminbar (99999)
-       and the bulk edit dialog (999999). */
+    /* Beats the inline z-index jQuery UI writes, clearing #wpadminbar (99999) and the bulk edit dialog (999999). */
     z-index: 1000001 !important;
 }
 
-/* Flatten jQuery UI theme sprites, radii and cell colors at (1,0,0), the floor
-   of the block, so every rule below still overrides it. */
+/* Flatten jQuery UI theme sprites, radii and cell colors at (1,0,0), the floor of the block. */
 #ui-datepicker-div * {
     background-color: transparent;
     background-image: none;
@@ -1451,8 +1430,7 @@ select.ui-timepicker-select.ui-timepicker-select {
 
 /* ---------- Header ---------- */
 
-/* Flex order puts jQuery UI's prev, next, title markup into reading order with
-   the arrows paired on the trailing edge. Theme sheets paint .ui-widget-header. */
+/* Flex order puts jQuery UI's prev, next, title markup into reading order with the arrows paired on the trailing edge. */
 #ui-datepicker-div .ui-widget-header,
 #ui-datepicker-div .ui-datepicker-header {
     align-items: center;
@@ -1485,15 +1463,13 @@ select.ui-timepicker-select.ui-timepicker-select {
     gap: 4px;
     line-height: 1.4;
     margin: 0;
-    /* Without this the title refuses to shrink below the width of a long
-       localised month name and pushes the arrows off the panel. */
+    /* Without this the title refuses to shrink below the width of a long localised month name and pushes the arrows off the panel. */
     min-width: 0;
     order: 1;
     text-align: left;
 }
 
-/* Month and year arrive as plain spans when not changeable (and in secondary
-   months) and must read like the select. */
+/* Month and year arrive as plain spans when not changeable, and must look like the select. */
 #ui-datepicker-div .ui-datepicker-title span.ui-datepicker-month,
 #ui-datepicker-div .ui-datepicker-title span.ui-datepicker-year {
     color: inherit;
@@ -1502,8 +1478,7 @@ select.ui-timepicker-select.ui-timepicker-select {
     white-space: nowrap;
 }
 
-/* The plugin's border, radius and chevron. The chevron can be a fixed grey
-   because --hf-pick-surface is never bridged. */
+/* The plugin's border, radius and chevron. */
 #ui-datepicker-div select.ui-datepicker-month,
 #ui-datepicker-div select.ui-datepicker-year {
     -webkit-appearance: none;
@@ -1601,8 +1576,7 @@ select.ui-timepicker-select.ui-timepicker-select {
     content: "\f345";
 }
 
-/* The span is the arrow's accessible name, so it is clipped rather than
-   display:none. The ui-icon sprite is cleared. */
+/* The span is the arrow's accessible name, so it is clipped rather than display:none. */
 #ui-datepicker-div .ui-datepicker-prev span,
 #ui-datepicker-div .ui-datepicker-next span {
     background: none;
@@ -1616,8 +1590,7 @@ select.ui-timepicker-select.ui-timepicker-select {
     width: 1px;
 }
 
-/* Hidden rather than removed so the header keeps its shape when a minDate or
-   maxDate takes one arrow out of play. */
+/* Hidden rather than removed so the header keeps its shape. */
 #ui-datepicker-div .ui-datepicker-next.ui-state-disabled,
 #ui-datepicker-div .ui-datepicker-prev.ui-state-disabled {
     cursor: default;
@@ -1643,8 +1616,7 @@ select.ui-timepicker-select.ui-timepicker-select {
 
 /* ---------- Grid ---------- */
 
-/* Pulled out by one cell gap each side so the chips align with the header. The
-   width comes from the tokens; a percentage gives the panel nothing to size from. */
+/* Pulled out by one cell gap each side so the chips align with the header. */
 #ui-datepicker-div table {
     border-collapse: collapse;
     font-size: var(--hf-pick-font-size);
@@ -1740,16 +1712,14 @@ select.ui-timepicker-select.ui-timepicker-select {
     color: var(--hf-pick-on-accent);
 }
 
-/* The selected day still has to answer the pointer, and the plain hover rule
-   cannot reach it. Compound, so this does not rest on source order either. */
+/* The selected day still has to answer the pointer, and the plain hover rule cannot reach it. */
 #ui-datepicker-div td.ui-datepicker-current-day .ui-state-hover,
 #ui-datepicker-div td .ui-state-active.ui-state-hover {
     background: color-mix(in srgb, var(--hf-pick-accent) 85%, #000);
     color: var(--hf-pick-on-accent);
 }
 
-/* The keyboard cursor: jQuery UI never moves focus into the panel and marks the
-   cell with this class. An outline outside the chip, so it survives forced colors. */
+/* The keyboard cursor: jQuery UI never moves focus into the panel and marks the cell with this class. */
 #ui-datepicker-div td.ui-datepicker-days-cell-over .ui-state-default,
 #ui-datepicker-div td .ui-state-default:focus-visible {
     outline: 2px solid var(--hf-pick-accent-ink);
@@ -1942,14 +1912,12 @@ body.wp-admin.rtl #ui-datepicker-div.ui-datepicker {
     max-height: min(288px, 45vh);
     max-width: calc(100vw - 16px);
     outline: none;
-    /* A dropdown that hands its momentum to the page underneath once it reaches
-       the last slot feels broken. */
+    /* A dropdown that hands its momentum to the page underneath once it reaches the last slot feels broken. */
     overscroll-behavior: contain;
     overflow-x: hidden;
     overflow-y: auto;
     padding: 6px;
-    /* Left as auto so the library's listWidth option, which writes an inline
-       width, still decides when it is used. */
+    /* Left as auto so the library's listWidth option still decides the width. */
     width: auto;
     /* Matches the date panel so both pickers stack the same against dialogs. */
     z-index: 1000001;
@@ -1958,8 +1926,7 @@ body.wp-admin.rtl #ui-datepicker-div.ui-datepicker {
     scrollbar-color: color-mix(in srgb, var(--hf-pick-muted) 45%, transparent) transparent;
 }
 
-/* Opened above the input: the library adds margin-top into the offset in both
-   directions, so only a negative margin puts the gap between list and field. */
+/* Opened above the input: the library adds margin-top into the offset in both directions. */
 .ui-timepicker-wrapper.ui-timepicker-wrapper.ui-timepicker-positioned-top {
     margin: -6px 0 0;
 }
@@ -2007,8 +1974,7 @@ body.wp-admin.rtl #ui-datepicker-div.ui-datepicker {
     margin-top: 1px;
 }
 
-/* A hairline where the morning ends. Positioned rather than a border, which
-   would curve with the row's radius. */
+/* A hairline where the morning ends. */
 .ui-timepicker-wrapper.ui-timepicker-wrapper.ui-timepicker-wrapper .ui-timepicker-list li.ui-timepicker-am + li.ui-timepicker-pm {
     margin-top: 9px;
 }
@@ -2023,15 +1989,13 @@ body.wp-admin.rtl #ui-datepicker-div.ui-datepicker {
     top: -5px;
 }
 
-/* The library keeps ui-timepicker-selected on the chosen row while the pointer
-   is elsewhere in the list, so hover has to win over it to read correctly. */
+/* The library keeps ui-timepicker-selected on the chosen row while the pointer is elsewhere in the list, so hover has to win over it to read correctly. */
 .ui-timepicker-wrapper.ui-timepicker-wrapper.ui-timepicker-wrapper .ui-timepicker-list li:hover {
     background: var(--hf-pick-soft);
     color: var(--hf-pick-text);
 }
 
-/* The committed value and the arrow-key cursor at once, filled, with the same
-   keyline as the selected day. */
+/* The committed value and the arrow-key cursor at once, filled. */
 .ui-timepicker-wrapper.ui-timepicker-wrapper.ui-timepicker-wrapper li.ui-timepicker-selected,
 .ui-timepicker-wrapper.ui-timepicker-wrapper.ui-timepicker-wrapper .ui-timepicker-list .ui-timepicker-selected,
 .ui-timepicker-wrapper.ui-timepicker-wrapper.ui-timepicker-wrapper .ui-timepicker-list:hover .ui-timepicker-selected {
@@ -2041,8 +2005,7 @@ body.wp-admin.rtl #ui-datepicker-div.ui-datepicker {
     font-weight: 600;
 }
 
-/* Hovering the committed row itself. Compound so it wins on weight rather than
-   on its position in the block. */
+/* Hovering the committed row itself. */
 .ui-timepicker-wrapper.ui-timepicker-wrapper.ui-timepicker-wrapper .ui-timepicker-list li.ui-timepicker-selected:hover {
     background: color-mix(in srgb, var(--hf-pick-accent) 85%, #000);
     color: var(--hf-pick-on-accent);
@@ -2071,8 +2034,7 @@ body.wp-admin.rtl #ui-datepicker-div.ui-datepicker {
     opacity: 1;
 }
 
-/* The empty row the noneOption setting prepends carries no am or pm class and
-   no time, so it is marked as the absence of a choice rather than as one. */
+/* The empty row the noneOption setting prepends carries no am or pm class and no time. */
 .ui-timepicker-wrapper.ui-timepicker-wrapper.ui-timepicker-wrapper .ui-timepicker-list li[data-time=""] {
     color: var(--hf-pick-muted);
 }
@@ -2095,8 +2057,7 @@ body.wp-admin.rtl #ui-datepicker-div.ui-datepicker {
     color: var(--hf-pick-faint);
 }
 
-/* The useSelect mode's native select, placed inside the form. Kept at class
-   weight so the form's own styling can still reach it. */
+/* The useSelect mode's native select, placed inside the form. */
 select.ui-timepicker-select.ui-timepicker-select {
     -webkit-appearance: none;
     appearance: none;
@@ -2149,8 +2110,7 @@ select.ui-timepicker-select.ui-timepicker-select:focus-visible {
     }
 }
 
-/* Redefines --hf-pick-transition with the token block's selectors. Not 0s: a zero
-   duration never fires transitionend, which jQuery and the timepicker listen for. */
+/* Redefines --hf-pick-transition with the token block's selectors. */
 @media (prefers-reduced-motion: reduce) {
 
     #ui-datepicker-div.ui-datepicker,
@@ -2160,8 +2120,7 @@ select.ui-timepicker-select.ui-timepicker-select:focus-visible {
     }
 }
 
-/* Forced colors drop backgrounds and box-shadow, so selected, today and disabled
-   are restated in system colors and today becomes an outline. */
+/* Forced colors drop backgrounds and box-shadow. */
 @media (forced-colors: active) {
 
     #ui-datepicker-div.ui-datepicker,
@@ -2185,8 +2144,7 @@ select.ui-timepicker-select.ui-timepicker-select:focus-visible {
         forced-color-adjust: none;
     }
 
-    /* Today and selected at once: the concentric ring is redrawn in the
-       highlight's own text colour so the two states stay separable. */
+    /* Today and selected at once. */
     #ui-datepicker-div td.ui-datepicker-today.ui-datepicker-current-day .ui-state-default,
     #ui-datepicker-div td.ui-datepicker-today .ui-state-active {
         outline: 2px solid HighlightText;
@@ -2333,8 +2291,7 @@ select.ui-timepicker-select.ui-timepicker-select:focus-visible {
 
 @media screen and (max-width:767px) {
 
-    /* Collapse the twelve column grid (and .hf-grouped-field) on phones. The
-       attribute selector outweighs .hf-grid-N regardless of order. */
+    /* Collapse the twelve column grid (and .hf-grouped-field) on phones. */
     .hf-container > [class*="hf-grid-"],
     .hf-container .hf-grouped-field > [class*="hf-grid-"] {
         grid-column: span 12 / span 12;
@@ -2458,8 +2415,7 @@ body > .hf-form-tempate {
  * Accessibility helpers
  * ------------------------------------------------------------------------ */
 
-/* Visible to assistive technology only, e.g. "(required)" beside the aria-hidden
-   asterisk. Not display:none, which would hide it from screen readers too. */
+/* Visible to screen readers only, e.g. "(required)" beside the hidden asterisk. */
 .hf-container .hf-screen-reader-text {
     border: 0;
     clip-path: inset(50%);

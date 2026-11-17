@@ -399,15 +399,13 @@ class HashFormBlock {
 
     /**
      * Form stylesheets for the block editor canvas, admin only.
-     *
-     * Uses enqueue_block_assets because the canvas is an iframe that enqueue_block_editor_assets does not reach.
      */
     public function enqueue_block_canvas_styles() {
         if (!is_admin()) {
             return;
         }
 
-        // Registered here too: the front-end registration runs on wp_enqueue_scripts, which never fires in admin.
+        // Registered here too: the front-end registration runs on wp_enqueue_scripts.
         HashFormLoader::enqueue_styles();
         HashFormLoader::enqueue_form_styles();
     }
@@ -436,7 +434,7 @@ class HashFormBlock {
             add_filter('hashform_enable_style', '__return_false');
             self::$stylesheet = $this->get_stylesheet($attr);
 
-            // The editor renders through the block-renderer endpoint, where wp_footer never runs, so the CSS goes inline.
+            // The editor renders through the block-renderer endpoint, where wp_footer never runs.
             if (defined('REST_REQUEST') && REST_REQUEST) {
                 // Markup is already stripped in get_stylesheet().
                 echo '<style>' . $this->strip_whitespace(self::$stylesheet) . '</style>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- css, sanitised at source.
@@ -497,7 +495,7 @@ class HashFormBlock {
             }
         }
 
-        // The attribute is post content placed inside a <style> tag, so strip markup to block a "</style><script>" payload.
+        // Goes inside a <style> tag, so strip markup to block a "</style><script>" payload.
         if (isset($blockAttrs['hfStyle'])) {
             $block_style = is_array($blockAttrs['hfStyle']) ? '' : $blockAttrs['hfStyle'];
             $block_css_arr[isset($blockAttrs['id']) ? $blockAttrs['id'] : ''] = str_replace('<', '', wp_strip_all_tags($block_style));

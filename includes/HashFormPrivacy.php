@@ -4,8 +4,6 @@ defined('ABSPATH') || die();
 
 /**
  * Hooks form entries into WordPress' personal data export and erasure tools.
- *
- * Entries are matched on the requested email: the submitter's account email, or any email field on the form.
  */
 class HashFormPrivacy {
 
@@ -51,7 +49,7 @@ class HashFormPrivacy {
         $user = get_user_by('email', $email);
         $user_id = $user ? (int) $user->ID : 0;
 
-        // Entries submitted while signed in, or with the address in an email field; the union removes duplicates.
+        // Entries submitted while signed in, or with the address in an email field.
         $sql = "SELECT DISTINCT e.id
                 FROM {$wpdb->prefix}hashform_entries AS e
                 LEFT JOIN {$wpdb->prefix}hashform_entry_meta AS m ON m.item_id = e.id

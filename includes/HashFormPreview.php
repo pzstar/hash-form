@@ -26,8 +26,7 @@ class HashFormPreview {
             wp_die(esc_html__('Please select a valid form', 'hash-form'));
         }
 
-        // The outer document is a toolbar and an iframe; the inner one is the form alone,
-        // so the width buttons resize a real viewport and the form's media queries apply.
+        // A toolbar and an iframe, so the width buttons resize a real viewport.
         if (HashFormHelper::get_var('hf_frame', 'absint')) {
             require HASHFORM_PATH . 'admin/forms/preview/preview.php';
         } else {
@@ -39,8 +38,6 @@ class HashFormPreview {
 
     /**
      * Mark the fields a rule acts on, and list currently hidden ones, for the preview only.
-     *
-     * Must never reach a visitor; only the capability-gated preview screen includes this.
      *
      * @param int $form_id
      */
@@ -151,8 +148,7 @@ class HashFormPreview {
                             return;
                         }
 
-                        // Count fields a rule has hidden. Checks the inline display the rule engine writes,
-                        // not visibility, so fields on other multi-step steps are not counted.
+                        // Count fields a rule has hidden (inline display, so other steps aren't counted).
                         if (box.style.display === 'none') {
                             hidden++;
                             return;
@@ -249,8 +245,7 @@ class HashFormPreview {
     }
 
     public static function get_form_contents($id, $form = null) {
-        // Frontend assets are registered globally but only loaded once a form
-        // actually renders.
+        // Frontend assets are registered globally but only loaded once a form actually renders.
         HashFormLoader::enqueue_form_assets();
 
         $form = $form ? $form : HashFormBuilder::get_form_vars($id);

@@ -593,7 +593,7 @@ defined('ABSPATH') || die();
                 <input type="text" class="hf-format-input" value="<?php echo isset($field['format']) ? esc_attr($field['format']) : ''; ?>" name="field_options[format_<?php echo absint($field_id); ?>]" data-fid="<?php echo absint($field_id); ?>" />
 
                 <?php
-                // Offered, not imposed: the pattern expects a trailing four-digit group, which many countries do not use.
+                // Offered, not imposed: many countries don't use a trailing four-digit group.
                 if ('phone' === $field_type) {
                     ?>
                     <p class="hf-format-presets">
@@ -730,7 +730,7 @@ defined('ABSPATH') || die();
         }
 
         if (!empty($display['advanced_validation'])) {
-            // Fields a confirmation field could match. Rules live in HashFormFields, shared with the builder's ajax refresh.
+            // Fields a confirmation field could match.
             static $form_fields_cache = array();
 
             if (!empty($field['form_id']) && !isset($form_fields_cache[$field['form_id']])) {

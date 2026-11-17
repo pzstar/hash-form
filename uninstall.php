@@ -3,8 +3,6 @@
 /**
  * Fired when Hash Form is deleted from the Plugins screen.
  *
- * Removes options, capabilities and the cron event only; forms, entries and uploads are kept on purpose.
- *
  * @package Hash_Form
  */
 if (!defined('WP_UNINSTALL_PLUGIN')) {

@@ -23,8 +23,7 @@
             }, 3500);
         }
 
-        // Style templates are saved over AJAX instead of the normal post save,
-        // so the page (and the live preview) stays put.
+        // Saved over AJAX instead of the post save, so the page and preview stay put.
         $('form#post').on('submit', function (e) {
             e.preventDefault();
 

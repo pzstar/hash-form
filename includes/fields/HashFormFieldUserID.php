@@ -36,8 +36,6 @@ class HashFormFieldUserID extends HashFormFieldType {
 
     /**
      * Render a stored user id for display. Returns HTML-safe text.
-     *
-     * Only entry detail passes $link; emails do not link into wp-admin.
      */
     public static function format_value($stored, $capture = 'display_name', $link = false) {
         $user_id = absint($stored);

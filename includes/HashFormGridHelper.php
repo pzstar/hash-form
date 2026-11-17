@@ -36,8 +36,7 @@ class HashFormGridHelper {
     public function maybe_begin_field_wrapper() {
         $group = $this->field_group();
 
-        // Leaving a column ends it, and releases a row close that was held
-        // back while that column was still collecting its fields.
+        // Leaving a column ends it, and releases a row close that was held back while that column was still collecting its fields.
         if ('' !== $this->current_group && $group !== $this->current_group) {
             $this->close_column();
             if ($this->pending_close) {
@@ -178,16 +177,14 @@ class HashFormGridHelper {
             return false;
         }
 
-        // Still stacking fields into an open column: the row that holds it stays
-        // open until the column itself ends.
+        // Still stacking fields into an open column.
         if ('' !== $this->current_group) {
             return false;
         }
 
         $group = $this->field_group();
 
-        // A column row holds its own columns and nothing else, so anything that
-        // belongs elsewhere starts a fresh row.
+        // A column row holds its own columns and nothing else.
         if (!empty($this->row_spec)) {
             return false === $this->find_spec_index($group);
         }
@@ -202,8 +199,7 @@ class HashFormGridHelper {
             return true;
         }
 
-        // The row is full once another field of this width would push it past
-        // the twelve columns of the grid.
+        // The row is full once another field of this width would push it past the twelve columns of the grid.
         return $this->current_list_size + $this->active_field_size > 12;
     }
 
@@ -220,8 +216,7 @@ class HashFormGridHelper {
             return;
         }
 
-        // A column takes up its width once, no matter how many fields are
-        // stacked inside it, so only the field that opened it counts.
+        // A column takes up its width once, no matter how many fields are stacked inside it.
         if ('' !== $this->current_group && !$this->column_opened_now) {
             return;
         }

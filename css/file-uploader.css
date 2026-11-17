@@ -73,8 +73,7 @@
     font-size: 0 !important;
 }
 
-/* ---------- Dropzone ----------
-   The card wraps the real .qq-upload-button; the drop area overlays the card. */
+/* ---------- Dropzone ---------- */
 
 .hf-file-uploader .hf-upload-dropzone {
     align-items: center;
@@ -121,8 +120,7 @@
     opacity: .85;
 }
 
-/* The library sets an inline display on this, so it is centered with absolute
-   positioning rather than flex. */
+/* The library sets an inline display on this. */
 .hf-file-uploader .qq-upload-drop-area {
     background: var(--hf-up-soft);
     border-radius: calc(var(--hf-up-radius) + 2px);
@@ -288,8 +286,7 @@
     font-weight: 600;
 }
 
-/* Outcome is shown by the edge stripe and a glyph; the library's failure text
-   stays, so state is never signalled by colour alone. */
+/* Outcome is shown by the edge stripe and a glyph. */
 .hf-file-uploader .qq-upload-list li.qq-upload-success {
     border-left-color: var(--hf-up-success);
 }

@@ -20,8 +20,7 @@ class HashFormBuilder {
         add_action('wp_ajax_hashform_add_more_condition_block', array($this, 'add_more_condition_block'));
         add_action('admin_footer', array($this, 'init_overlay_html'));
 
-        // Printed above #wpbody so the bar sits flush under the admin bar and
-        // clear of the Screen Options tab.
+        // Printed above #wpbody so the bar sits flush under the admin bar and clear of the Screen Options tab.
         add_action('in_admin_header', array($this, 'list_header'));
 
         // Notices are moved inside the screen wrapper; see buffer_notices().
@@ -738,9 +737,6 @@ class HashFormBuilder {
     /**
      * Fields a rule can point at.
      *
-     * Layout fields hold no answer. The trigger side also excludes name and
-     * address, which post several values under one id.
-     *
      * @param object[] $fields Form fields.
      * @param bool     $trigger Whether this is the watched side of a rule.
      * @return object[]
@@ -841,9 +837,7 @@ class HashFormBuilder {
     }
 
     /**
-     * Discard conditional logic rules that name no fields. The panel saves over AJAX, so browser validation never runs.
-     *
-     * The five columns are parallel arrays and must be rebuilt together.
+     * Discard conditional logic rules that name no fields.
      *
      * @param array $vars Posted settings.
      * @return array
@@ -893,8 +887,6 @@ class HashFormBuilder {
 
     /**
      * Point a copied form's rules at the copy's own fields.
-     *
-     * A rule whose ends cannot both be mapped is dropped: the old id may now belong to an unrelated field.
      *
      * @param array $settings The new form's settings, conditions included.
      * @param array $map      old field id => new field id.
@@ -999,8 +991,6 @@ class HashFormBuilder {
     /**
      * Fields a form's rules touch, with a description of each rule. Cached per request.
      *
-     * compare_from is the field shown or hidden; compare_to is the field whose answer decides it.
-     *
      * @param int $form_id
      * @return array field id => array( 'target' => string[], 'trigger' => string[] )
      */
@@ -1084,7 +1074,7 @@ class HashFormBuilder {
         $sizeLimit = HashFormHelper::get_var('sizeLimit');
         $upload_dir = wp_upload_dir();
 
-        // Shared with the field sanitizer (includes/sanitization.php). HashFormFileUploader also applies get_allowed_mime_types().
+        // Shared with the field sanitizer (includes/sanitization.php).
         $default_allowed_extenstions = hashform_allowed_file_extensions();
 
         // A scalar here would emit a warning into the JSON response.

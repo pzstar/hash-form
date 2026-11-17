@@ -3,8 +3,6 @@ defined('ABSPATH') || die();
 
 /**
  * Inline SVG icons for the field sidebar: a stroked 24x24 set that inherits text color.
- *
- * Add-ons register their own through the hashform_field_icons filter.
  */
 class HashFormFieldIcons {
 

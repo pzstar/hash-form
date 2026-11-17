@@ -35,8 +35,7 @@ class HashFormFieldUpload extends HashFormFieldType {
         $new_extensions = isset($field['extensions']) ? hashform_sanitize_allowed_file_extensions($field['extensions']) : 'jpg,jpeg,gif,png';
 
         if (is_admin() && !HashFormHelper::is_preview_page()) {
-            // Static copy of the dropzone frontend.js builds. The id stays on the
-            // button because the label setting live-updates it by id.
+            // Static copy of the dropzone frontend.js builds.
             ?>
             <div class="hf-file-uploader-wrapper">
                 <div class="hf-file-uploader">
@@ -140,10 +139,7 @@ class HashFormFieldUpload extends HashFormFieldType {
         ));
 
         if (apply_filters('hashform_store_local', true)) {
-            /*
-             * Re-check the extension: the posted name and the temp directory are untrusted.
-             * Falls back to the shared list when the field has no setting.
-             */
+            /* Re-check the extension: the posted name and the temp directory are untrusted. */
             $field_extensions = hashform_sanitize_allowed_file_extensions((string) HashFormFields::get_option($field, 'extensions'));
             $allowed_extensions = array_filter(array_map('trim', explode(',', $field_extensions)));
 
@@ -154,8 +150,7 @@ class HashFormFieldUpload extends HashFormFieldType {
             foreach ($files_arr as $file) {
                 $file_info = pathinfo($file);
 
-                // pathinfo() drops any directory part; sanitize_file_name() is
-                // idempotent against the name handleUpload() already stored.
+                // pathinfo() drops any directory part from the untrusted name.
                 $file_name = isset($file_info['basename']) ? sanitize_file_name(wp_basename($file_info['basename'])) : '';
                 $extension = isset($file_info['extension']) ? strtolower($file_info['extension']) : '';
 

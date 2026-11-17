@@ -437,15 +437,13 @@ class HashFormEntry {
         }
 
         // A guest-rendered page posted by a logged-in request is taken as a guest submission.
-        // Done before the restrictions below, so a login-only form still refuses it.
         $hf_nonce_field = 'hashform_submit_entry_' . $form_id;
 
         if (is_user_logged_in() && isset($data[$hf_nonce_field]) && 'guest' === HashFormHelper::verify_public_nonce(wp_unslash($data[$hf_nonce_field]), 'hashform_submit_entry_nonce')) {
             wp_set_current_user(0);
         }
 
-        // Checked again here: the form may have closed, filled up or already
-        // been submitted since the page was loaded.
+        // Checked again here: the form may have closed, filled up or already been submitted since the page was loaded.
         $restriction = HashFormRestrictions::check($form);
 
         if (empty($restriction['allowed'])) {
@@ -480,8 +478,7 @@ class HashFormEntry {
         $send_mail = new HashFormEmail($form, $entry_id, $location);
         $check_mail = $send_mail->send_email();
 
-        // send_email() answers the request itself on success, so reaching
-        // here means the mail was refused.
+        // send_email() answers the request itself on success, so reaching here means the mail was refused.
         if (!$check_mail) {
             $wpdb->update($wpdb->prefix . 'hashform_entries', array('delivery_status' => 0), array('id' => $entry_id));
             return self::submission_failed(self::error_message($form, $form_settings));
@@ -519,8 +516,6 @@ class HashFormEntry {
 
     /**
      * Flood control for public submissions, keyed on form and submitter.
-     *
-     * Off until a site sets a limit through the filter; form editors are exempt.
      *
      * @return string Empty when the submission may proceed, otherwise the message to show.
      */
@@ -581,8 +576,7 @@ class HashFormEntry {
             $who = 'i' . $ip;
         }
 
-        // Hashed to keep the key short and free of characters a transient
-        // name does not allow.
+        // Hashed to keep the key short and free of characters a transient name does not allow.
         return 'hf_rl_' . md5($form->id . '|' . $who);
     }
 
@@ -613,8 +607,7 @@ class HashFormEntry {
                     if (!is_array($meta_value)) {
                         $meta_value = sanitize_textarea_field($meta_value);
 
-                        // A scalar answer must never be stored serialized: sanitize_*_field() leaves it
-                        // intact and the Entries screen would unserialize it.
+                        // Never store a scalar answer serialized: the Entries screen would unserialize it.
                         if (is_serialized($meta_value)) {
                             $meta_value = '';
                         }
@@ -643,8 +636,6 @@ class HashFormEntry {
 
     /**
      * Whether a submitted answer counts as nothing entered. "0" is never blank.
-     *
-     * Must agree with HashFormValidate::is_blank_value().
      *
      * @param mixed $value
      * @return bool

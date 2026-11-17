@@ -10,8 +10,6 @@ class HashFormElement extends Widget_Base {
 
     /**
      * Widget key. Must be a slug, because Elementor builds a CSS class from it.
-     *
-     * HashFormElementLegacy below answers to the former name "Hash Form".
      */
     public function get_name() {
         return 'hashform';

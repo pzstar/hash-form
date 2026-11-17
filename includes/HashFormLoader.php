@@ -36,8 +36,7 @@ class HashFormLoader {
     public static function admin_init() {
         $page = HashFormHelper::get_var('page', 'sanitize_title');
 
-        // The style-template editor is a regular post screen but is driven by
-        // the same admin assets (color picker, chosen, live preview, ...).
+        // The style-template editor is a regular post screen but is driven by the same admin assets (color picker, chosen, live preview, ...).
         $screen = function_exists('get_current_screen') ? get_current_screen() : null;
         $is_style_template_screen = ($screen && 'hashform-styles' === $screen->post_type)
                 || HashFormStyleBuilder::is_builder();
@@ -72,7 +71,7 @@ class HashFormLoader {
                 'nonce' => wp_create_nonce('hashform_backend_ajax'),
             ));
 
-            // Separate from hashform_backend_js: the backend script declares that global later and would overwrite it.
+            // Separate from hashform_backend_js, which would overwrite this global.
             wp_localize_script('hashform-builder', 'hashform_builder_js', array(
                 'drop_field_here' => esc_html__('Drop a field here', 'hash-form'),
                 'move' => esc_html__('Move Row', 'hash-form'),
@@ -123,8 +122,7 @@ class HashFormLoader {
         wp_enqueue_style('hashform-chosen', HASHFORM_URL . 'css/chosen.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-select2', HASHFORM_URL . 'css/select2.min.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-searchable-select', HASHFORM_URL . 'css/searchable-select.css', array(), HASHFORM_VERSION);
-        // Tokens load first and are a dependency of everything else, so any
-        // stylesheet can rely on the custom properties being defined.
+        // Tokens load first and are a dependency of everything else.
         wp_enqueue_style('hashform-tokens', HASHFORM_URL . 'css/design-tokens.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-admin', HASHFORM_URL . 'css/admin-style.css', array('hashform-tokens'), HASHFORM_VERSION);
 
@@ -134,8 +132,7 @@ class HashFormLoader {
         wp_enqueue_style('hashform-admin-settings', HASHFORM_URL . 'css/admin-settings.css', array(), HASHFORM_VERSION);
         wp_enqueue_style('hashform-style', HASHFORM_URL . 'css/style.css', array(), HASHFORM_VERSION);
 
-        // Forms and Entries lists. Scoped to .hf-list-screen, so it is inert
-        // on the screens that do not carry that wrapper.
+        // Forms and Entries lists.
         wp_enqueue_style('hashform-list-screens', HASHFORM_URL . 'css/list-screens.css', array('hashform-admin'), HASHFORM_VERSION);
 
         $fonts_url = HashFormStyles::fonts_url();
@@ -153,8 +150,7 @@ class HashFormLoader {
         wp_add_inline_style('hashform-elementor-icon', HashFormFieldIcons::elementor_icon_css());
     }
 
-    // Frontend assets are only registered here; enqueue_form_assets() enqueues
-    // them when a form is rendered.
+    // Frontend assets are only registered here.
     public static function enqueue_styles() {
         // No stock jquery.timepicker stylesheet: the time picker is styled in style.css with the date picker.
         wp_register_style('hashform-file-uploader', HASHFORM_URL . 'css/file-uploader.css', array(), HASHFORM_VERSION);
@@ -178,8 +174,7 @@ class HashFormLoader {
             'ajaxurl' => admin_url('admin-ajax.php'),
             'ajax_nounce' => wp_create_nonce('hashform-upload-ajax-nonce'),
             'preview_img' => '',
-            // Shown when a submission is refused without a usable message of
-            // its own, so the visitor is never left with a silent form.
+            // Shown when a submission is refused without a usable message of its own.
             'generic_error' => esc_html__('Your submission could not be sent. Please try again.', 'hash-form'),
         ));
     }
@@ -197,9 +192,6 @@ class HashFormLoader {
 
     /**
      * The form stylesheets inside the Elementor editor's preview iframe, where the widget's render() does not enqueue them.
-     *
-     * Styles only, so submit and conditional logic do not run in the editor. Elementor fires this at
-     * wp_enqueue_scripts priority 20, after the handles are registered at 11.
      */
     public static function elementor_preview_styles() {
         self::enqueue_form_styles();

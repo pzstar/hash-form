@@ -1,10 +1,5 @@
 /**
  * Searchable dropdowns for the plugin's admin screens.
- *
- * Applies to selects with more options than the threshold (filter
- * hashform_searchable_select_threshold, default 10) or marked data-hf-searchable.
- * The <select> is never replaced; choosing sets its value and fires one change.
- * Skipped: multiple/size>1, select2, data-hf-native, touch-first devices.
  */
 (function () {
     'use strict';

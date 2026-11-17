@@ -2,9 +2,7 @@
 defined('ABSPATH') || die();
 
 /**
- * The style template builder screen. The post editor is redirected here, and this screen owns the whole page.
- *
- * Addressed with the `post` query argument, which admin/styles/settings.php reads.
+ * The style template builder screen.
  */
 class HashFormStyleBuilder {
 
@@ -34,9 +32,6 @@ class HashFormStyleBuilder {
 
     /**
      * The builder URL for a template.
-     *
-     * Only `post`, which admin/styles/settings.php reads. Adding post_type makes core resolve the page
-     * hook against the wrong parent and fail with "Cannot load hashform-style-builder".
      *
      * @param int $post_id
      * @return string
@@ -97,15 +92,14 @@ class HashFormStyleBuilder {
             return;
         }
 
-        // post.php also handles Trash, Restore and Delete, and this runs first; only opening the editor is redirected.
+        // post.php also handles Trash, Restore and Delete; only opening the editor is redirected.
         $action = HashFormHelper::get_var('action', 'sanitize_key');
 
         if ($action && 'edit' !== $action) {
             return;
         }
 
-        // Somebody who cannot edit it should meet the editor's own message
-        // rather than a builder that will not save.
+        // Somebody who cannot edit it should meet the editor's own message.
         if (!current_user_can('edit_post', $post_id)) {
             return;
         }
@@ -195,7 +189,7 @@ class HashFormStyleBuilder {
         $this->editing = $post;
         ?>
         <?php
-        /* No .wrap: admin/styles/settings.php opens its own .hf-content, and a second frame breaks the sidebar headings. */
+        /* No .wrap: admin/styles/settings.php opens its own .hf-content. */
         ?>
         <form method="post" id="post" class="hf-style-builder">
             <input type="hidden" id="post_ID" name="post_ID" value="<?php echo absint($post->ID); ?>"/>
@@ -247,7 +241,7 @@ class HashFormStyleBuilder {
             'title' => $post->ID
                     ? esc_html__('Style template name', 'hash-form')
                     : esc_html__('Add New Style Template', 'hash-form'),
-            // The name field sits in the bar, outside the builder's form, so it is tied to the form with the form attribute.
+            // The name field sits in the bar, outside the builder's form.
             'title_field' => array(
                 'name' => 'post_title',
                 'value' => $post->post_title,

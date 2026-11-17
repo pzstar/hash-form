@@ -36,8 +36,7 @@ class HashFormFieldHTML extends HashFormFieldType {
                 );
                 $html_id = 'hf-field-desc_' . absint($field['id']);
 
-                // wp_editor() cannot add attributes to its textarea, so the_editor adds
-                // the data-changeme target the live canvas preview mirrors into.
+                // wp_editor() can't add attributes, so the_editor adds the preview's data-changeme target.
                 $preview_id = self::preview_id($field['id']);
                 $add_target = function ($editor_html) use ($html_id, $preview_id) {
                     return str_replace(

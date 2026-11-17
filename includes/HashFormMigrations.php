@@ -3,9 +3,7 @@
 defined('ABSPATH') || die();
 
 /**
- * Ordered, resumable schema migrations. Each step is named, idempotent and recorded as soon as it succeeds.
- *
- * dbDelta (HashFormCreateTable) still creates tables and adds columns; this handles indexes and column types.
+ * Ordered, resumable schema migrations.
  */
 class HashFormMigrations {
 
@@ -125,8 +123,7 @@ class HashFormMigrations {
                 break;
             }
 
-            // Recorded immediately. If the request dies on the next step,
-            // this one is not repeated.
+            // Recorded immediately, so a step that succeeded is never repeated.
             $done[] = $key;
             update_option(self::PROGRESS, $done, false);
         }
@@ -210,8 +207,7 @@ class HashFormMigrations {
         if ($too_long > 0) {
             self::log(sprintf('entries.ip left as %s: %d row(s) longer than 45 characters', $type, $too_long));
 
-            // Deliberately a success: the database is in a shape this step
-            // will not improve, and retrying forever helps nobody.
+            // Deliberately a success: the database is in a shape this step will not improve.
             return true;
         }
 

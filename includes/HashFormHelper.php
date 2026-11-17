@@ -24,10 +24,6 @@ class HashFormHelper {
     /**
      * Check a token printed into a public form, and say whose it is.
      *
-     * A token not valid for the current user is checked again as a logged-out
-     * visitor's, since the page may have been rendered for a guest (cached page,
-     * admin-only login cookie, expired session). It then grants guest rights only.
-     *
      * @param string $nonce
      * @param string $action
      * @return string 'user', 'guest' when valid only as a logged-out visitor's, or '' when neither.
@@ -43,8 +39,6 @@ class HashFormHelper {
             return 'user';
         }
 
-        // wp_verify_nonce() for a guest, computed directly: core only checks the current user and
-        // mixes in the session token, so try both with and without it.
         $uid = (int) apply_filters('nonce_user_logged_out', 0, $action);
         $tick = wp_nonce_tick($action);
 
@@ -93,8 +87,7 @@ class HashFormHelper {
                     $value[$k] = self::sanitize_value($sanitize, $value[$k]);
                 }
             } else {
-                // A strict check keeps legitimate "0" values from collapsing
-                // to an empty string.
+                // A strict check keeps legitimate "0" values from collapsing to an empty string.
                 $value = call_user_func($sanitize, ($value !== '' && $value !== null && $value !== false ? htmlspecialchars_decode($value) : ''));
             }
         }
@@ -120,8 +113,7 @@ class HashFormHelper {
     private static function table_key_exists($table_name, $column_name, $key) {
         global $wpdb;
 
-        // Both identifiers only ever come from internal call sites, but keep
-        // them constrained to identifier characters anyway.
+        // Internal values only, but still limited to identifier characters.
         $tbl_name = $wpdb->prefix . preg_replace('/[^a-z0-9_]/i', '', $table_name);
         $column_name = preg_replace('/[^a-z0-9_]/i', '', $column_name);
 
@@ -320,8 +312,7 @@ class HashFormHelper {
     public static function get_form_settings_checkbox_settings() {
         return array(
             'enable_ar' => 'off',
-            // Unchecked boxes are absent from the post, so they need a default
-            // to fall back to or they would keep their previous value.
+            // Unchecked boxes are absent from the post, so give them a default.
             'one_entry_per_user' => 'off',
         );
     }
@@ -358,8 +349,7 @@ class HashFormHelper {
             'error_message' => esc_html__('Sorry, An error Occurred! Your form cannot be submitted.', 'hash-form'),
             'show_page_id' => '',
             'redirect_url_page' => '',
-            // Restrictions. Scheduling, entry limits and login requirements come from Pro
-            // through the hashform_form_restrictions filter.
+            // Restrictions (Pro adds more through hashform_form_restrictions).
             'one_entry_per_user' => 'off',
             'duplicate_message' => esc_html__('You have already submitted this form.', 'hash-form'),
         );
@@ -875,8 +865,7 @@ class HashFormHelper {
         return strlen($parts[count($parts) - 1]);
     }
 
-    // PHP sessions are never started in WP; a short per-user transient
-    // carries the one-shot notice across the redirect instead.
+    // A short per-user transient carries the notice across the redirect.
     public static function set_message($message) {
         set_transient('hashform_message_' . get_current_user_id(), $message, MINUTE_IN_SECONDS * 5);
     }
@@ -901,23 +890,16 @@ class HashFormHelper {
     /**
      * Header bar for list screens: Forms, Entries, style templates and the Pro screens.
      *
-     * Print it on in_admin_header so it sits above #wpbody. The screen body then goes in:
-     *   <div class="hf-content hf-list-screen">
-     *       <div class="hf-list-wrap wrap"> … </div>
-     *   </div>
-     *
      * @param array $args {
      *     @type string $title  Screen name.
      *     @type array  $action Optional button: label, url, class.
      *     @type array  $stats  Optional chips: value, label, url.
      *     @type string $docs   Optional documentation URL, shown as a link.
-     * }
      */
     public static function render_list_header($args) {
         $args = wp_parse_args($args, array(
             'title' => '',
-            // Editable title: name, value, placeholder and form id. The bar sits outside
-            // every form, so the input is tied to its form with the form attribute.
+            // Editable title: name, value, placeholder and form id.
             'title_field' => array(),
             'action' => array(),
             'actions' => array(),
@@ -925,8 +907,7 @@ class HashFormHelper {
             'docs' => '',
         ));
 
-        // One action or several; the singular is what every screen but the
-        // style builder passes.
+        // One action or several; the singular is what every screen but the style builder passes.
         $args['actions'] = array_values(array_filter(array_merge(
                                 (array) $args['actions'],
                                 empty($args['action']) ? array() : array($args['action'])
@@ -1143,8 +1124,7 @@ class HashFormHelper {
 
     public static function get_all_forms_list_options() {
         $all_forms = array();
-        // Feeds the block and Elementor form pickers: a trashed form
-        // offered there would be rendered on the page.
+        // Feeds the block and Elementor form pickers, so trashed forms are left out.
         $forms = HashFormBuilder::get_published_forms();
         foreach ($forms as $form) {
             $all_forms[$form->id] = $form->name;
@@ -1192,8 +1172,6 @@ class HashFormHelper {
 
     /**
      * A repeater's rows as a table.
-     *
-     * Older entries store cells grouped by column and are transposed here; newer ones carry 'columns' and 'rows'.
      */
     public static function render_repeater_table($value) {
         if (!is_array($value)) {
@@ -1243,8 +1221,7 @@ class HashFormHelper {
 
     public static function get_field_input_value($value) {
         $entry_val = '';
-        // unserialize_or_decode, not maybe_unserialize: the value is visitor-supplied and feeds the
-        // Pro integrations, so a crafted object payload must not be instantiated.
+        // unserialize_or_decode, not maybe_unserialize: visitor data must never create objects.
         $entry_value = self::unserialize_or_decode($value['value']);
         $entry_type = self::unserialize_or_decode($value['type']);
         if (is_array($entry_value)) {

@@ -30,8 +30,7 @@ var hashFormAdmin = hashFormAdmin || {};
         return $('#hf-editor-field-id-' + fieldIdOf(control));
     }
 
-    // Modifier classes are written as `prefix + value`, and only one variant of
-    // a group may be present at a time, so the whole group is cleared first.
+    // Only one class per group may be set, so clear the whole group first.
     const MODIFIER_VARIANTS = {
         'hf-label-position-': ['top', 'left', 'right', 'hide'],
         'hf-label-alignment-': ['left', 'right', 'center'],
@@ -47,8 +46,7 @@ var hashFormAdmin = hashFormAdmin || {};
         return $el.removeClass(group).addClass(prefix + value);
     }
 
-    // Let the style preview's controls respond, but block what leaves the
-    // preview: submitting a form and following a link.
+    // Let the style preview's controls work, but block form submits and links.
     function guardPreview(doc) {
         doc.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -58,8 +56,7 @@ var hashFormAdmin = hashFormAdmin || {};
         doc.addEventListener('click', (e) => {
             const target = e.target.closest ? e.target : e.target.parentElement;
 
-            // Not stopped: scripts that drive links still run, the browser
-            // just does not follow them.
+            // Not stopped: scripts that drive links still run, the browser just does not follow them.
             if (target && target.closest('a[href]')) {
                 e.preventDefault();
             }
@@ -112,8 +109,7 @@ var hashFormAdmin = hashFormAdmin || {};
             $(document).on('click', '.hf-settings-tab a', hashFormAdmin.clickNewTabSettings);
 
             /* Image */
-            // Replace opens the same media frame; it carries its own class so
-            // addImage's "hide the chooser" step does not hide it as well.
+            // Replace opens the same media frame.
             $(document).on('click', '.hf-image-preview .hf-choose-image, .hf-image-preview .hf-replace-image', hashFormAdmin.addImage);
             $(document).on('click', '.hf-image-preview .hf-remove-image', hashFormAdmin.removeImage);
             $(document).on('change', 'select[name^="field_options[image_size"]', hashFormAdmin.liveChangeImageSize);
@@ -152,8 +148,7 @@ var hashFormAdmin = hashFormAdmin || {};
                     });
                 }
 
-                // Make a new choice field's option list sortable. Found by id: updateFieldOrder()
-                // has already moved the settings panel out of the field's li.
+                // Make a new choice field's option list sortable.
                 const hfFieldId = e.hfField ? e.hfField.getAttribute('data-fid') : '';
                 const $options = hfFieldId
                     ? $('#hf-fields-settings-' + hfFieldId).find('.hf-option-list')
@@ -163,8 +158,7 @@ var hashFormAdmin = hashFormAdmin || {};
                     hashFormAdmin.setupFieldOptionSorting($options);
                 }
 
-                // Must Match Field lists the other fields, so a new one has to
-                // appear in the lists the other fields already carry.
+                // Must Match Field lists the other fields.
                 hashFormAdmin.refreshMatchFieldOptions();
             }, false);
         },
@@ -233,21 +227,18 @@ var hashFormAdmin = hashFormAdmin || {};
                 return;
             }
 
-            // Searching opens every group so a match is never hidden behind a
-            // collapsed heading; clearing the box puts them back as they were.
+            // Searching opens every group so a match is never hidden behind a collapsed heading.
             $section.toggleClass('hf-searching', searchText !== '');
 
             $section.find('.hf-field-group').each(function () {
                 const $group = $(this);
 
-                // Count from the match class, not :visible: closed groups re-collapse when
-                // .hf-searching is dropped and would all count as zero.
+                // Count from the match class, not :visible, as closed groups would count zero.
                 const shown = $group.find('.hf-field-box.hf-search-hit').length;
 
                 $group.prop('hidden', shown === 0);
 
-                // While filtering, the badge counts what is actually under the
-                // heading rather than the size of the group.
+                // While filtering, the badge counts what is actually under the heading.
                 const $count = $group.find('.hf-field-group-count');
 
                 if ($count.length) {
@@ -264,8 +255,6 @@ var hashFormAdmin = hashFormAdmin || {};
 
         /**
          * Drops a ready-made regex into the Format box, or empties it.
-         *
-         * Fires change because the unsaved-changes tracking listens for it.
          */
         applyFormatPreset: function (e) {
             e.preventDefault();
@@ -319,14 +308,12 @@ var hashFormAdmin = hashFormAdmin || {};
          * Image pickers
          * ---------------------------------------------------------------- */
 
-        // The canvas preview for an image field, found by the class it shares
-        // with the hidden input's id.
+        // The canvas preview for an image field, found by the class it shares with the hidden input's id.
         canvasImagePreview: function (imagePreview) {
             return $('.' + imagePreview.find('input.hf-image-id').attr('id'));
         },
 
-        // Where each size of a chosen attachment lives, as the media library
-        // reports it. Sizes it has no copy of fall back to the original.
+        // Where each size of a chosen attachment lives, as the media library reports it.
         attachmentSizeUrls: function (attachment) {
             const urls = {};
 
@@ -342,8 +329,7 @@ var hashFormAdmin = hashFormAdmin || {};
             return urls;
         },
 
-        // Point a canvas image at one size of itself. srcset wins over src, so
-        // it has to go, and the dimensions travel with the file.
+        // Point a canvas image at one size of itself. srcset wins over src.
         showImageSize: function (image, size) {
             if (!image.length || !size || !size.url) {
                 return;
@@ -405,8 +391,7 @@ var hashFormAdmin = hashFormAdmin || {};
             e.preventDefault();
             const imagePreview = $(this).closest('.hf-image-preview');
 
-            // Removed rather than blanked: src="" makes the browser request
-            // the current page and try to render it as the image.
+            // Removed rather than blanked: src="" requests the current page.
             imagePreview.find('img').removeAttr('src');
             imagePreview.find('.hf-image-preview-wrap').addClass('hf-hidden');
             imagePreview.find('.hf-choose-image').removeClass('hf-hidden');
@@ -444,9 +429,7 @@ var hashFormAdmin = hashFormAdmin || {};
          * Saving
          * ---------------------------------------------------------------- */
 
-        // Shared tail of every save button: POST, un-busy the button and show
-        // the returned notice. Callers must run preFormSave() first, since it
-        // can flush pending inline edits into the form before serialization.
+        // Shared tail of every save button: POST, un-busy the button and show the returned notice.
         postFormSave: function (button, data) {
             $.ajax({
                 type: 'POST',
@@ -582,9 +565,7 @@ var hashFormAdmin = hashFormAdmin || {};
                 swapModifierClass($(hashFormAdmin.stylePreviewDoc()).find('form.hashform-form'), 'hf-form-', styleClass);
             });
 
-            // The visible choice is a set of cards; the select behind them is
-            // what gets serialised and what the data-condition rules watch, so
-            // picking a card feeds it and lets its change handler run.
+            // The cards feed the hidden select, which is saved and watched by the data-condition rules.
             $('.hf-style-mode-input').on('change', function () {
                 const value = $(this).val();
                 const $card = $(this).closest('.hf-style-mode');
@@ -593,8 +574,7 @@ var hashFormAdmin = hashFormAdmin || {};
                 $card.addClass('hf-selected');
                 $('#hf-form-style-select').val(value).trigger('change');
 
-                // The canvas header names the style in force, where the
-                // builder's counts fields.
+                // The canvas header names the style in force, where the builder's counts fields.
                 $('#hf-style-mode-label').text($card.find('.hf-style-mode-name').text());
             });
         },
@@ -677,8 +657,7 @@ var hashFormAdmin = hashFormAdmin || {};
                 });
             });
 
-            // Opens the chosen template with sample answers. Fields marked data-email-preview (a Pro accent
-            // color, say) go along unsaved, so a change can be seen before saving.
+            // Opens the chosen template with sample answers.
             $(document).on('click', '#hf-preview-email-button', function (e) {
                 e.preventDefault();
                 const params = new URLSearchParams({email_template: $('#hf-settings-email-template').val()});
@@ -788,8 +767,7 @@ var hashFormAdmin = hashFormAdmin || {};
                     changes.innerHTML = '<input type="text" value="" disabled />';
                 }
             } else if (changes.classList.contains('hf-custom-html-field')) {
-                // Scrubbed of script, style and event attributes as the server does on
-                // save, so the preview behaves like the page.
+                // Scrubbed of script, style and event attributes as the server does on save.
                 hashFormAdmin.renderHtmlFieldPreview(changes, newValue);
             } else {
                 // Paragraph fields render with wpautop, so the canvas breaks the text the same way.
@@ -807,8 +785,7 @@ var hashFormAdmin = hashFormAdmin || {};
             }
         },
 
-        // The essentials of wpautop: a blank line starts a paragraph, a single
-        // newline is a break.
+        // The essentials of wpautop: a blank line starts a paragraph, a single newline is a break.
         autoParagraphs: function (text) {
             return String(text)
                 .replace(/\r\n?/g, '\n')
@@ -987,8 +964,7 @@ var hashFormAdmin = hashFormAdmin || {};
             });
         },
 
-        // Mirror a `<name>` / `<name>_unit` settings pair onto a CSS custom
-        // property, clearing it when no positive width is set.
+        // Mirror a `<name>` / `<name>_unit` settings pair onto a CSS custom property, clearing it.
         liveChangeMaxWidth: function (control, name, cssVar) {
             const settings = $(control).closest('.hf-fields-settings');
             const container = $('#hf-editor-field-container-' + settings.data('fid'));
@@ -1116,8 +1092,7 @@ var hashFormAdmin = hashFormAdmin || {};
             });
         },
 
-        // The hidden <li> template carries the placeholder key '000' throughout
-        // its ids, names and attributes; swap every spelling for the real key.
+        // The hidden <li> template carries the placeholder key '000' throughout its ids, names and attributes.
         renderOptionTemplate: function (template, optKey) {
             const oldKey = OPT_TEMPLATE_KEY;
             return template
@@ -1187,9 +1162,6 @@ var hashFormAdmin = hashFormAdmin || {};
 
         /**
          * Draw an HTML field's content on the canvas.
-         *
-         * Mirrors HashFormHelper::sanitize_html_field_content(); an empty field shows
-         * the same note the server prints.
          */
         renderHtmlFieldPreview: function (target, html) {
             const holder = document.createElement('div');
@@ -1244,8 +1216,6 @@ var hashFormAdmin = hashFormAdmin || {};
 
         /**
          * Rebuild the Must Match dropdowns from the server, which owns the eligibility rules.
-         *
-         * Called when a field is added or removed; a rename is handled by syncFieldLabelInLists().
          */
         refreshMatchFieldOptions: function () {
             const $selects = $('.hf-match-field-select');
@@ -1278,8 +1248,7 @@ var hashFormAdmin = hashFormAdmin || {};
                         return;
                     }
 
-                    // Kept across the rebuild: the chosen field is still the
-                    // chosen field unless it has just been deleted.
+                    // Kept across the rebuild: the chosen field is still the chosen field unless it has just been deleted.
                     const chosen = $select.val();
                     const $none = $select.find('option[value=""]').first();
                     const noneText = $none.length ? $none.text() : '';
@@ -1503,8 +1472,7 @@ var hashFormAdmin = hashFormAdmin || {};
                     refreshed.val(selectedValDefault);
                 }
 
-                // Anything attached to this select is now looking at options
-                // that no longer exist and has to be told to re-read them.
+                // Anything attached to this select is now looking at options that no longer exist and has to be told to re-read them.
                 if (typeof hashFormBuilder !== 'undefined' && hashFormBuilder.notifyFieldMarkupChanged) {
                     hashFormBuilder.notifyFieldMarkupChanged(fieldId);
                 }
@@ -1768,8 +1736,7 @@ var hashFormAdmin = hashFormAdmin || {};
                 $('#hf-add-form-modal').addClass('hf-open').attr('aria-hidden', 'false');
                 $('body').addClass('hf-modal-open');
 
-                // Naming the form is the only decision in this dialog, so put
-                // the caret in the field rather than making them click it.
+                // Naming the form is the only decision here, so focus the field.
                 window.setTimeout(() => $('#hf-form-name').trigger('focus'), 50);
             });
 
@@ -1778,8 +1745,7 @@ var hashFormAdmin = hashFormAdmin || {};
                 closeModals();
             });
 
-            // A click on the dimmed area, but not one that bubbled up out of
-            // the panel sitting on top of it.
+            // A click on the dimmed area, but not one that bubbled up out of the panel sitting on top of it.
             $(document).on('click', MODALS, function (e) {
                 if (e.target === this) {
                     closeModals();
@@ -1887,8 +1853,7 @@ var hashFormAdmin = hashFormAdmin || {};
          * Conditional logic repeater
          * ---------------------------------------------------------------- */
 
-        // Rules are numbered in the markup rather than by CSS counter, so the
-        // numbers are in the DOM.
+        // Rules are numbered in the markup rather than by CSS counter, so the numbers are in the DOM.
         refreshConditionList: function ($list) {
             const $rows = $list.find('.hf-condition-row');
 
@@ -1920,8 +1885,7 @@ var hashFormAdmin = hashFormAdmin || {};
                     $list.find('.hf-condition-rows').append($row);
                     hashFormAdmin.refreshConditionList($list);
 
-                    // Land on the field being shown or hidden: the action
-                    // beside it defaults sensibly, that never does.
+                    // Land on the field being shown or hidden: the action beside it defaults sensibly, that never does.
                     $row.find('.hf-condition-cell-target select').trigger('focus');
                 }
             });
@@ -1986,8 +1950,7 @@ var hashFormAdmin = hashFormAdmin || {};
                 return;
             }
 
-            // Enter and Space on the trigger open the list, which hover does
-            // for a pointer; on a row they choose it.
+            // Enter and Space open the list on the trigger, and choose on a row.
             if ('Enter' !== e.key && ' ' !== e.key) {
                 return;
             }
@@ -2061,8 +2024,7 @@ var hashFormAdmin = hashFormAdmin || {};
                 $target.val($target.val() + ' ' + fieldId);
             }
 
-            // Hover alone would keep the list open over the field just
-            // written to, so it is dismissed and the field takes focus.
+            // Close the list and focus the field just written to.
             const $list = $(this).closest('.hf-add-field-attr-to-form');
             $list.find('.hf-attr-search input').val('').trigger('input');
             $list.closest('.hf-attr-field').find('.hf-attr-field-tags').trigger('blur');
@@ -2126,8 +2088,7 @@ var hashFormAdmin = hashFormAdmin || {};
 (function ($) {
     'use strict';
 
-    // The export fields sit inside the settings form (forms cannot nest), so they
-    // are copied into a temporary form and posted from there.
+    // Forms can't nest, so the export fields are posted from a temporary form.
     $(document).on('click', '#hashform_export', function (e) {
         e.preventDefault();
 
@@ -2272,9 +2233,7 @@ var hashFormAdmin = hashFormAdmin || {};
     var RESET_AFTER = 2000;
 
     /**
-     * navigator.clipboard only exists in a secure context, which rules it out
-     * on plain-http admin installs, so fall back to a throwaway textarea.
-     * Returns a promise either way.
+     * navigator.clipboard needs https, so fall back to a textarea. Returns a promise.
      */
     function copyText(text) {
         if (window.isSecureContext && window.navigator && navigator.clipboard) {
@@ -2300,8 +2259,7 @@ var hashFormAdmin = hashFormAdmin || {};
         return copied ? $.Deferred().resolve().promise() : $.Deferred().reject().promise();
     }
 
-    // Read-only embed fields: selecting on focus means the value can still be
-    // taken by hand if the browser refuses clipboard access.
+    // Read-only embed fields: selecting on focus means the value can still be taken by hand if the browser refuses clipboard access.
     $(document).on('focus', '.hf-embed-input', function () {
         this.select();
     });
@@ -2314,15 +2272,13 @@ var hashFormAdmin = hashFormAdmin || {};
         copyText($chip.attr('data-hf-clipboard')).then(function () {
             $chip.addClass('is-copied');
 
-            // Restart the timer on a repeat click rather than letting the
-            // first one clear the state early.
+            // Restart the timer on a repeat click rather than letting the first one clear the state early.
             clearTimeout($chip.data('hfCopyTimer'));
             $chip.data('hfCopyTimer', setTimeout(function () {
                 $chip.removeClass('is-copied');
             }, RESET_AFTER));
         }, function () {
-            // Copying was refused or unsupported. Select the text so the
-            // shortcode can still be copied by hand.
+            // Copying failed: select the text so it can be copied by hand.
             window.getSelection().selectAllChildren($chip.find('code')[0] || $chip[0]);
         });
     });

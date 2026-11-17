@@ -1,13 +1,10 @@
 /**
  * Form builder.
- *
- * Loaded after admin-style.css so these rules win over the legacy ones.
  */
 
 /* ---------- Shell ---------- */
 
-/* A shade darker than the panels, so header, sidebar and canvas read as
-   separate surfaces without borders. */
+/* A shade darker than the panels. */
 .hf-content {
     --hf-workspace: #eef1f6;
     background: var(--hf-workspace);
@@ -184,8 +181,7 @@
 
 /* ---------- Panel controls ---------- */
 
-/* WordPress gives selects their own line-height, which min-height does not
-   override; matching it keeps selects level with the inputs beside them. */
+/* WordPress gives selects their own line-height. */
 .hf-content .hf-form-row select,
 .hf-content .hf-settings-row select,
 .hf-content .hf-fields-settings select {
@@ -200,8 +196,7 @@
 
 /* ---------- Settings tab ---------- */
 
-/* Each field sits alone on its hf-grid-3 row, so the card narrows to a
-   readable measure and the fields fill it. */
+/* Each field sits alone on its hf-grid-3 row. */
 .hf-content .hf-form-wrap:has(#hf-settings-form) {
     max-width: 760px;
 }
@@ -281,8 +276,7 @@
 
 /* ---------- Style tab: mode cards ---------- */
 
-/* The select these replace is still in the markup, hidden: it carries the
-   value on save and the data-condition rules key off it. */
+/* The select these replace is still in the markup, hidden. */
 .hf-content .hf-style-mode-value {
     display: none;
 }
@@ -403,8 +397,7 @@
 
 /* ---------- Style tab: preview canvas ---------- */
 
-/* The builder's canvas header at the top of the card; this panel is full
-   bleed so the preview reports a true width. */
+/* The builder's canvas header at the top of the card. */
 .hf-content .hf-style-form-panel .hf-canvas-header {
     margin: 0;
 }
@@ -456,9 +449,7 @@
 
 /* ---------- Builder header ---------- */
 
-/* Two rows: identity and actions on top, navigation beneath. Resets the
-   single-row rules still in admin-style.css. Not sticky: the sidebar and
-   canvas scroll on their own. */
+/* Two rows: identity and actions on top, navigation beneath. */
 .hf-content .hf-header-nav {
     align-items: stretch;
     background: var(--hf-surface);
@@ -739,8 +730,7 @@
 
 /* ---------- Field group colours ---------- */
 
-/* Each group carries a hue, used only on its heading marker and field icon
-   tiles; labels and surfaces stay neutral. */
+/* Each group carries a hue, used only on its heading marker and field icon tiles. */
 .hf-content .hf-field-group {
     --hf-group: #475569;
     --hf-group-tint: #f1f5f9;
@@ -870,8 +860,7 @@
     display: grid;
 }
 
-/* While a search is running the groups get out of the way: every match shows,
-   whatever group it came from. */
+/* While a search is running the groups get out of the way. */
 .hf-content .hf-fields-section.hf-searching .hf-field-group > .hf-fields-list {
     display: grid;
 }
@@ -967,8 +956,7 @@
     transform: none;
 }
 
-/* Wrapping rather than truncating: at this width "Advanced Select" would
-   otherwise be clipped to an ellipsis on every tile. */
+/* Wrap tile labels rather than truncating them. */
 .hf-content .hf-fields-list .hf-drag-field span {
     font-size: 11px;
     line-height: 1.25;
@@ -1075,8 +1063,7 @@
     margin-top: var(--hf-space-1);
 }
 
-/* Ready-made regexes for the Format box, offered as small quiet chips so they
-   read as shortcuts rather than as the setting itself. */
+/* Ready-made regexes for the Format box, offered as small quiet chips so they read as shortcuts. */
 .hf-content .hf-format-presets {
     display: flex;
     flex-wrap: wrap;
@@ -1124,8 +1111,7 @@
     text-transform: uppercase;
 }
 
-/* Sub-field controls (name parts, address pieces) take a row apiece; three
-   across a 300px sidebar is too narrow. */
+/* Sub-field controls (name parts, address pieces) take a row apiece. */
 .hf-content .hf-fields-settings .hf-grid-container > .hf-form-row.hf-grid-2 {
     grid-column: span 6;
 }
@@ -1183,8 +1169,7 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    /* Not narrower than 330: the style editor's fixed 257px color picker
-       would clip against the sidebar's overflow. */
+    /* Not narrower than 330: the style editor's fixed 257px color picker would clip against the sidebar's overflow. */
     .hf-content .hf-fields-sidebar {
         flex-basis: 330px;
         width: 330px;
@@ -1218,14 +1203,12 @@
 
 /* ---------- Conditional logic hint ---------- */
 
-/* Room at the foot of the field for the condition chip. Carries the
-   #hf-editor-fields id to beat the field padding set in admin-style.css. */
+/* Room at the foot of the field for the condition chip. */
 #hf-editor-fields .hf-editor-form-field:has(> .hf-editor-field-container > .hf-editor-condition-hint) {
     padding-bottom: 28px;
 }
 
-/* Chip on a field a rule shows, hides, or decides on. Positioned because
-   .hf-editor-field-container is a flex row that would push the label across. */
+/* Chip on a field a rule shows, hides, or decides on. */
 .hf-content .hf-editor-condition-hint {
     align-items: center;
     background: var(--hf-surface-sunken);
@@ -1245,8 +1228,7 @@
     z-index: 2;
 }
 
-/* The rule is written out here, so it is the part that gives way when there is
-   not enough room. The whole of it stays in the tooltip. */
+/* The rule is written out here, so it is the part that gives way when there is not enough room. */
 .hf-content .hf-editor-condition-hint-label {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1268,8 +1250,7 @@
     width: 6px;
 }
 
-/* The deciding end of a rule is the quieter of the two: that field is always
-   on screen, it just governs another. */
+/* The deciding end of a rule is the quieter of the two. */
 .hf-content .hf-editor-condition-hint-trigger::before {
     background: var(--hf-text-faint);
 }
