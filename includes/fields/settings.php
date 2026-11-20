@@ -27,7 +27,7 @@ defined('ABSPATH') || die();
             <div class="hf-form-row">
                 <?php
                 /* translators: 1: link open, 2: link close */
-                printf(esc_html__('Captchas will not work untill the Site and Secret Keys are set up. Add Keys %1$shere%2$s.', 'hash-form'), '<a href="?page=hashform-settings" target="_blank">', '</a>');
+                printf(esc_html__('Captchas will not work until the Site and Secret Keys are set up. Add Keys %1$shere%2$s.', 'hash-form'), '<a href="?page=hashform-settings" target="_blank">', '</a>');
                 ?>
                 <label class="hf-field-desc">
                     <?php
